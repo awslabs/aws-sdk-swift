@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EvsClient: ClientRuntime.Client {
     public static let clientName = "EvsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: EvsClient.EvsClientConfiguration
     let serviceName = "evs"
@@ -374,9 +373,9 @@ extension EvsClient {
     ///
     /// Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
     ///
-    /// - Parameter AssociateEipToVlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEipToVlanInput`)
     ///
-    /// - Returns: `AssociateEipToVlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEipToVlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEipToVlanOutput>(AssociateEipToVlanOutput.httpOutput(from:), AssociateEipToVlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEipToVlanOutput>())
@@ -446,9 +444,9 @@ extension EvsClient {
     ///
     /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,7 +479,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -516,9 +513,9 @@ extension EvsClient {
     ///
     /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     ///
-    /// - Parameter CreateEnvironmentHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentHostInput`)
     ///
-    /// - Returns: `CreateEnvironmentHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,7 +549,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentHostOutput>(CreateEnvironmentHostOutput.httpOutput(from:), CreateEnvironmentHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentHostOutput>())
@@ -587,9 +583,9 @@ extension EvsClient {
     ///
     /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,7 +619,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -658,9 +653,9 @@ extension EvsClient {
     ///
     /// Deletes a host from an Amazon EVS environment. Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
     ///
-    /// - Parameter DeleteEnvironmentHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentHostInput`)
     ///
-    /// - Returns: `DeleteEnvironmentHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,7 +689,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentHostOutput>(DeleteEnvironmentHostOutput.httpOutput(from:), DeleteEnvironmentHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentHostOutput>())
@@ -729,9 +723,9 @@ extension EvsClient {
     ///
     /// Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
     ///
-    /// - Parameter DisassociateEipFromVlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEipFromVlanInput`)
     ///
-    /// - Returns: `DisassociateEipFromVlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateEipFromVlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,7 +760,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEipFromVlanOutput>(DisassociateEipFromVlanOutput.httpOutput(from:), DisassociateEipFromVlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEipFromVlanOutput>())
@@ -801,9 +794,9 @@ extension EvsClient {
     ///
     /// Returns a description of the specified environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,7 +829,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentOutput>())
@@ -871,9 +863,9 @@ extension EvsClient {
     ///
     /// List the hosts within an environment.
     ///
-    /// - Parameter ListEnvironmentHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentHostsInput`)
     ///
-    /// - Returns: `ListEnvironmentHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentHostsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,7 +898,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentHostsOutput>(ListEnvironmentHostsOutput.httpOutput(from:), ListEnvironmentHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentHostsOutput>())
@@ -941,9 +932,9 @@ extension EvsClient {
     ///
     /// Lists environment VLANs that are associated with the specified environment.
     ///
-    /// - Parameter ListEnvironmentVlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentVlansInput`)
     ///
-    /// - Returns: `ListEnvironmentVlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentVlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -976,7 +967,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentVlansOutput>(ListEnvironmentVlansOutput.httpOutput(from:), ListEnvironmentVlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentVlansOutput>())
@@ -1011,9 +1001,9 @@ extension EvsClient {
     ///
     /// Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,7 +1035,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -1080,9 +1069,9 @@ extension EvsClient {
     ///
     /// Lists the tags for an Amazon EVS resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,7 +1103,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1149,9 +1137,9 @@ extension EvsClient {
     ///
     /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,7 +1174,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1221,9 +1208,9 @@ extension EvsClient {
     ///
     /// Deletes specified tags from an Amazon EVS resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,7 +1243,6 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

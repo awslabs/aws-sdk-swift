@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChatbotClient: ClientRuntime.Client {
     public static let clientName = "ChatbotClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ChatbotClient.ChatbotClientConfiguration
     let serviceName = "chatbot"
@@ -373,9 +372,9 @@ extension ChatbotClient {
     ///
     /// Links a resource (for example, a custom action) to a channel configuration.
     ///
-    /// - Parameter AssociateToConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateToConfigurationInput`)
     ///
-    /// - Returns: `AssociateToConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateToConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateToConfigurationInput, AssociateToConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateToConfigurationOutput>(AssociateToConfigurationOutput.httpOutput(from:), AssociateToConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateToConfigurationInput, AssociateToConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateToConfigurationOutput>())
@@ -443,9 +441,9 @@ extension ChatbotClient {
     ///
     /// Creates an AWS Chatbot configuration for Amazon Chime.
     ///
-    /// - Parameter CreateChimeWebhookConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChimeWebhookConfigurationInput`)
     ///
-    /// - Returns: `CreateChimeWebhookConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChimeWebhookConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +481,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChimeWebhookConfigurationOutput>(CreateChimeWebhookConfigurationOutput.httpOutput(from:), CreateChimeWebhookConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChimeWebhookConfigurationInput, CreateChimeWebhookConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChimeWebhookConfigurationOutput>())
@@ -515,9 +512,9 @@ extension ChatbotClient {
     ///
     /// Creates a custom action that can be invoked as an alias or as a button on a notification.
     ///
-    /// - Parameter CreateCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomActionInput`)
     ///
-    /// - Returns: `CreateCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,7 +553,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomActionInput, CreateCustomActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomActionOutput>(CreateCustomActionOutput.httpOutput(from:), CreateCustomActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomActionInput, CreateCustomActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomActionOutput>())
@@ -588,9 +584,9 @@ extension ChatbotClient {
     ///
     /// Creates an AWS Chatbot configuration for Microsoft Teams.
     ///
-    /// - Parameter CreateMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `CreateMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,7 +624,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMicrosoftTeamsChannelConfigurationOutput>(CreateMicrosoftTeamsChannelConfigurationOutput.httpOutput(from:), CreateMicrosoftTeamsChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMicrosoftTeamsChannelConfigurationInput, CreateMicrosoftTeamsChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMicrosoftTeamsChannelConfigurationOutput>())
@@ -660,9 +655,9 @@ extension ChatbotClient {
     ///
     /// Creates an AWS Chatbot confugration for Slack.
     ///
-    /// - Parameter CreateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `CreateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,7 +695,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSlackChannelConfigurationOutput>(CreateSlackChannelConfigurationOutput.httpOutput(from:), CreateSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSlackChannelConfigurationOutput>())
@@ -732,9 +726,9 @@ extension ChatbotClient {
     ///
     /// Deletes a Amazon Chime webhook configuration for AWS Chatbot.
     ///
-    /// - Parameter DeleteChimeWebhookConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChimeWebhookConfigurationInput`)
     ///
-    /// - Returns: `DeleteChimeWebhookConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChimeWebhookConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,7 +765,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChimeWebhookConfigurationOutput>(DeleteChimeWebhookConfigurationOutput.httpOutput(from:), DeleteChimeWebhookConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChimeWebhookConfigurationInput, DeleteChimeWebhookConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChimeWebhookConfigurationOutput>())
@@ -803,9 +796,9 @@ extension ChatbotClient {
     ///
     /// Deletes a custom action.
     ///
-    /// - Parameter DeleteCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomActionInput`)
     ///
-    /// - Returns: `DeleteCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,7 +835,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomActionInput, DeleteCustomActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomActionOutput>(DeleteCustomActionOutput.httpOutput(from:), DeleteCustomActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomActionInput, DeleteCustomActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomActionOutput>())
@@ -874,9 +866,9 @@ extension ChatbotClient {
     ///
     /// Deletes a Microsoft Teams channel configuration for AWS Chatbot
     ///
-    /// - Parameter DeleteMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `DeleteMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -913,7 +905,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMicrosoftTeamsChannelConfigurationOutput>(DeleteMicrosoftTeamsChannelConfigurationOutput.httpOutput(from:), DeleteMicrosoftTeamsChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMicrosoftTeamsChannelConfigurationInput, DeleteMicrosoftTeamsChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMicrosoftTeamsChannelConfigurationOutput>())
@@ -945,9 +936,9 @@ extension ChatbotClient {
     ///
     /// Deletes the Microsoft Teams team authorization allowing for channels to be configured in that Microsoft Teams team. Note that the Microsoft Teams team must have no channels configured to remove it.
     ///
-    /// - Parameter DeleteMicrosoftTeamsConfiguredTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMicrosoftTeamsConfiguredTeamInput`)
     ///
-    /// - Returns: `DeleteMicrosoftTeamsConfiguredTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMicrosoftTeamsConfiguredTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,7 +973,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMicrosoftTeamsConfiguredTeamOutput>(DeleteMicrosoftTeamsConfiguredTeamOutput.httpOutput(from:), DeleteMicrosoftTeamsConfiguredTeamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMicrosoftTeamsConfiguredTeamInput, DeleteMicrosoftTeamsConfiguredTeamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMicrosoftTeamsConfiguredTeamOutput>())
@@ -1014,9 +1004,9 @@ extension ChatbotClient {
     ///
     /// Identifes a user level permission for a channel configuration.
     ///
-    /// - Parameter DeleteMicrosoftTeamsUserIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMicrosoftTeamsUserIdentityInput`)
     ///
-    /// - Returns: `DeleteMicrosoftTeamsUserIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMicrosoftTeamsUserIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1052,7 +1042,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMicrosoftTeamsUserIdentityOutput>(DeleteMicrosoftTeamsUserIdentityOutput.httpOutput(from:), DeleteMicrosoftTeamsUserIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMicrosoftTeamsUserIdentityInput, DeleteMicrosoftTeamsUserIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMicrosoftTeamsUserIdentityOutput>())
@@ -1084,9 +1073,9 @@ extension ChatbotClient {
     ///
     /// Deletes a Slack channel configuration for AWS Chatbot
     ///
-    /// - Parameter DeleteSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `DeleteSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1123,7 +1112,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlackChannelConfigurationOutput>(DeleteSlackChannelConfigurationOutput.httpOutput(from:), DeleteSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackChannelConfigurationOutput>())
@@ -1155,9 +1143,9 @@ extension ChatbotClient {
     ///
     /// Deletes a user level permission for a Slack channel configuration.
     ///
-    /// - Parameter DeleteSlackUserIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackUserIdentityInput`)
     ///
-    /// - Returns: `DeleteSlackUserIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackUserIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,7 +1181,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlackUserIdentityOutput>(DeleteSlackUserIdentityOutput.httpOutput(from:), DeleteSlackUserIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlackUserIdentityInput, DeleteSlackUserIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackUserIdentityOutput>())
@@ -1225,9 +1212,9 @@ extension ChatbotClient {
     ///
     /// Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted.
     ///
-    /// - Parameter DeleteSlackWorkspaceAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackWorkspaceAuthorizationInput`)
     ///
-    /// - Returns: `DeleteSlackWorkspaceAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackWorkspaceAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1262,7 +1249,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlackWorkspaceAuthorizationOutput>(DeleteSlackWorkspaceAuthorizationOutput.httpOutput(from:), DeleteSlackWorkspaceAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlackWorkspaceAuthorizationInput, DeleteSlackWorkspaceAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackWorkspaceAuthorizationOutput>())
@@ -1294,9 +1280,9 @@ extension ChatbotClient {
     ///
     /// Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
     ///
-    /// - Parameter DescribeChimeWebhookConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChimeWebhookConfigurationsInput`)
     ///
-    /// - Returns: `DescribeChimeWebhookConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChimeWebhookConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,7 +1318,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChimeWebhookConfigurationsOutput>(DescribeChimeWebhookConfigurationsOutput.httpOutput(from:), DescribeChimeWebhookConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChimeWebhookConfigurationsInput, DescribeChimeWebhookConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChimeWebhookConfigurationsOutput>())
@@ -1364,9 +1349,9 @@ extension ChatbotClient {
     ///
     /// Lists Slack channel configurations optionally filtered by ChatConfigurationArn
     ///
-    /// - Parameter DescribeSlackChannelConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlackChannelConfigurationsInput`)
     ///
-    /// - Returns: `DescribeSlackChannelConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlackChannelConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1402,7 +1387,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSlackChannelConfigurationsOutput>(DescribeSlackChannelConfigurationsOutput.httpOutput(from:), DescribeSlackChannelConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSlackChannelConfigurationsInput, DescribeSlackChannelConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlackChannelConfigurationsOutput>())
@@ -1434,9 +1418,9 @@ extension ChatbotClient {
     ///
     /// Lists all Slack user identities with a mapped role.
     ///
-    /// - Parameter DescribeSlackUserIdentitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlackUserIdentitiesInput`)
     ///
-    /// - Returns: `DescribeSlackUserIdentitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlackUserIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,7 +1456,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSlackUserIdentitiesOutput>(DescribeSlackUserIdentitiesOutput.httpOutput(from:), DescribeSlackUserIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSlackUserIdentitiesInput, DescribeSlackUserIdentitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlackUserIdentitiesOutput>())
@@ -1504,9 +1487,9 @@ extension ChatbotClient {
     ///
     /// List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
     ///
-    /// - Parameter DescribeSlackWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlackWorkspacesInput`)
     ///
-    /// - Returns: `DescribeSlackWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlackWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,7 +1525,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSlackWorkspacesOutput>(DescribeSlackWorkspacesOutput.httpOutput(from:), DescribeSlackWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSlackWorkspacesInput, DescribeSlackWorkspacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlackWorkspacesOutput>())
@@ -1574,9 +1556,9 @@ extension ChatbotClient {
     ///
     /// Unlink a resource, for example a custom action, from a channel configuration.
     ///
-    /// - Parameter DisassociateFromConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromConfigurationInput`)
     ///
-    /// - Returns: `DisassociateFromConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1612,7 +1594,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFromConfigurationInput, DisassociateFromConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromConfigurationOutput>(DisassociateFromConfigurationOutput.httpOutput(from:), DisassociateFromConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromConfigurationInput, DisassociateFromConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromConfigurationOutput>())
@@ -1644,9 +1625,9 @@ extension ChatbotClient {
     ///
     /// Returns AWS Chatbot account preferences.
     ///
-    /// - Parameter GetAccountPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountPreferencesInput`)
     ///
-    /// - Returns: `GetAccountPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1678,7 +1659,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountPreferencesOutput>(GetAccountPreferencesOutput.httpOutput(from:), GetAccountPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountPreferencesInput, GetAccountPreferencesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountPreferencesOutput>())
@@ -1710,9 +1690,9 @@ extension ChatbotClient {
     ///
     /// Returns a custom action.
     ///
-    /// - Parameter GetCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomActionInput`)
     ///
-    /// - Returns: `GetCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,7 +1729,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomActionInput, GetCustomActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomActionOutput>(GetCustomActionOutput.httpOutput(from:), GetCustomActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomActionInput, GetCustomActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomActionOutput>())
@@ -1781,9 +1760,9 @@ extension ChatbotClient {
     ///
     /// Returns a Microsoft Teams channel configuration in an AWS account.
     ///
-    /// - Parameter GetMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `GetMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1819,7 +1798,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMicrosoftTeamsChannelConfigurationOutput>(GetMicrosoftTeamsChannelConfigurationOutput.httpOutput(from:), GetMicrosoftTeamsChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMicrosoftTeamsChannelConfigurationInput, GetMicrosoftTeamsChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMicrosoftTeamsChannelConfigurationOutput>())
@@ -1851,9 +1829,9 @@ extension ChatbotClient {
     ///
     /// Lists resources associated with a channel configuration.
     ///
-    /// - Parameter ListAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociationsInput`)
     ///
-    /// - Returns: `ListAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociationsOutput`)
     public func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1882,7 +1860,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationsInput, ListAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociationsOutput>(ListAssociationsOutput.httpOutput(from:), ListAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationsInput, ListAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociationsOutput>())
@@ -1914,9 +1891,9 @@ extension ChatbotClient {
     ///
     /// Lists custom actions defined in this account.
     ///
-    /// - Parameter ListCustomActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomActionsInput`)
     ///
-    /// - Returns: `ListCustomActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,7 +1929,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomActionsInput, ListCustomActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomActionsOutput>(ListCustomActionsOutput.httpOutput(from:), ListCustomActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomActionsInput, ListCustomActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomActionsOutput>())
@@ -1984,9 +1960,9 @@ extension ChatbotClient {
     ///
     /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
     ///
-    /// - Parameter ListMicrosoftTeamsChannelConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMicrosoftTeamsChannelConfigurationsInput`)
     ///
-    /// - Returns: `ListMicrosoftTeamsChannelConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMicrosoftTeamsChannelConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2022,7 +1998,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMicrosoftTeamsChannelConfigurationsOutput>(ListMicrosoftTeamsChannelConfigurationsOutput.httpOutput(from:), ListMicrosoftTeamsChannelConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMicrosoftTeamsChannelConfigurationsInput, ListMicrosoftTeamsChannelConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMicrosoftTeamsChannelConfigurationsOutput>())
@@ -2054,9 +2029,9 @@ extension ChatbotClient {
     ///
     /// Lists all authorized Microsoft Teams for an AWS Account
     ///
-    /// - Parameter ListMicrosoftTeamsConfiguredTeamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMicrosoftTeamsConfiguredTeamsInput`)
     ///
-    /// - Returns: `ListMicrosoftTeamsConfiguredTeamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMicrosoftTeamsConfiguredTeamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,7 +2067,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMicrosoftTeamsConfiguredTeamsOutput>(ListMicrosoftTeamsConfiguredTeamsOutput.httpOutput(from:), ListMicrosoftTeamsConfiguredTeamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMicrosoftTeamsConfiguredTeamsInput, ListMicrosoftTeamsConfiguredTeamsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMicrosoftTeamsConfiguredTeamsOutput>())
@@ -2124,9 +2098,9 @@ extension ChatbotClient {
     ///
     /// A list all Microsoft Teams user identities with a mapped role.
     ///
-    /// - Parameter ListMicrosoftTeamsUserIdentitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMicrosoftTeamsUserIdentitiesInput`)
     ///
-    /// - Returns: `ListMicrosoftTeamsUserIdentitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMicrosoftTeamsUserIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2162,7 +2136,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMicrosoftTeamsUserIdentitiesOutput>(ListMicrosoftTeamsUserIdentitiesOutput.httpOutput(from:), ListMicrosoftTeamsUserIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMicrosoftTeamsUserIdentitiesInput, ListMicrosoftTeamsUserIdentitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMicrosoftTeamsUserIdentitiesOutput>())
@@ -2194,9 +2167,9 @@ extension ChatbotClient {
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2232,7 +2205,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2264,9 +2236,9 @@ extension ChatbotClient {
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2303,7 +2275,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2335,9 +2306,9 @@ extension ChatbotClient {
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2373,7 +2344,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2405,9 +2375,9 @@ extension ChatbotClient {
     ///
     /// Updates AWS Chatbot account preferences.
     ///
-    /// - Parameter UpdateAccountPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountPreferencesInput`)
     ///
-    /// - Returns: `UpdateAccountPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2443,7 +2413,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountPreferencesOutput>(UpdateAccountPreferencesOutput.httpOutput(from:), UpdateAccountPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountPreferencesInput, UpdateAccountPreferencesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountPreferencesOutput>())
@@ -2475,9 +2444,9 @@ extension ChatbotClient {
     ///
     /// Updates a Amazon Chime webhook configuration.
     ///
-    /// - Parameter UpdateChimeWebhookConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChimeWebhookConfigurationInput`)
     ///
-    /// - Returns: `UpdateChimeWebhookConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChimeWebhookConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2514,7 +2483,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChimeWebhookConfigurationOutput>(UpdateChimeWebhookConfigurationOutput.httpOutput(from:), UpdateChimeWebhookConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChimeWebhookConfigurationInput, UpdateChimeWebhookConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChimeWebhookConfigurationOutput>())
@@ -2546,9 +2514,9 @@ extension ChatbotClient {
     ///
     /// Updates a custom action.
     ///
-    /// - Parameter UpdateCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomActionInput`)
     ///
-    /// - Returns: `UpdateCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2585,7 +2553,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomActionInput, UpdateCustomActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomActionOutput>(UpdateCustomActionOutput.httpOutput(from:), UpdateCustomActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomActionInput, UpdateCustomActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomActionOutput>())
@@ -2617,9 +2584,9 @@ extension ChatbotClient {
     ///
     /// Updates an Microsoft Teams channel configuration.
     ///
-    /// - Parameter UpdateMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `UpdateMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2656,7 +2623,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMicrosoftTeamsChannelConfigurationOutput>(UpdateMicrosoftTeamsChannelConfigurationOutput.httpOutput(from:), UpdateMicrosoftTeamsChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMicrosoftTeamsChannelConfigurationInput, UpdateMicrosoftTeamsChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMicrosoftTeamsChannelConfigurationOutput>())
@@ -2688,9 +2654,9 @@ extension ChatbotClient {
     ///
     /// Updates a Slack channel configuration.
     ///
-    /// - Parameter UpdateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `UpdateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2727,7 +2693,6 @@ extension ChatbotClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSlackChannelConfigurationOutput>(UpdateSlackChannelConfigurationOutput.httpOutput(from:), UpdateSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSlackChannelConfigurationOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -72,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TnbClient: ClientRuntime.Client {
     public static let clientName = "TnbClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: TnbClient.TnbClientConfiguration
     let serviceName = "tnb"
@@ -378,9 +377,9 @@ extension TnbClient {
     ///
     /// Cancels a network operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     ///
-    /// - Parameter CancelSolNetworkOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSolNetworkOperationInput`)
     ///
-    /// - Returns: `CancelSolNetworkOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSolNetworkOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSolNetworkOperationOutput>(CancelSolNetworkOperationOutput.httpOutput(from:), CancelSolNetworkOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSolNetworkOperationOutput>())
@@ -447,9 +445,9 @@ extension TnbClient {
     ///
     /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see [Function packages](https://docs.aws.amazon.com/tnb/latest/ug/function-packages.html) in the Amazon Web Services Telco Network Builder User Guide. Creating a function package is the first step for creating a network in AWS TNB. This request creates an empty container with an ID. The next step is to upload the actual CSAR zip file into that empty container. To upload function package content, see [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html).
     ///
-    /// - Parameter CreateSolFunctionPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSolFunctionPackageInput`)
     ///
-    /// - Returns: `CreateSolFunctionPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSolFunctionPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolFunctionPackageOutput>(CreateSolFunctionPackageOutput.httpOutput(from:), CreateSolFunctionPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolFunctionPackageOutput>())
@@ -519,9 +516,9 @@ extension TnbClient {
     ///
     /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. Once you create a network instance, you can instantiate it. To instantiate a network, see [InstantiateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_InstantiateSolNetworkInstance.html).
     ///
-    /// - Parameter CreateSolNetworkInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSolNetworkInstanceInput`)
     ///
-    /// - Returns: `CreateSolNetworkInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSolNetworkInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,7 +557,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolNetworkInstanceOutput>(CreateSolNetworkInstanceOutput.httpOutput(from:), CreateSolNetworkInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolNetworkInstanceOutput>())
@@ -592,9 +588,9 @@ extension TnbClient {
     ///
     /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if you have multiple function packages in your network package, you can use the NSD to define which network functions should run in certain VPCs, subnets, or EKS clusters. This request creates an empty network package container with an ID. Once you create a network package, you can upload the network package content using [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
     ///
-    /// - Parameter CreateSolNetworkPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSolNetworkPackageInput`)
     ///
-    /// - Returns: `CreateSolNetworkPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSolNetworkPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -632,7 +628,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolNetworkPackageOutput>(CreateSolNetworkPackageOutput.httpOutput(from:), CreateSolNetworkPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolNetworkPackageOutput>())
@@ -664,9 +659,9 @@ extension TnbClient {
     ///
     /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html).
     ///
-    /// - Parameter DeleteSolFunctionPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSolFunctionPackageInput`)
     ///
-    /// - Returns: `DeleteSolFunctionPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSolFunctionPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,7 +696,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolFunctionPackageOutput>(DeleteSolFunctionPackageOutput.httpOutput(from:), DeleteSolFunctionPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSolFunctionPackageOutput>())
@@ -733,9 +727,9 @@ extension TnbClient {
     ///
     /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see [TerminateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_TerminateSolNetworkInstance.html).
     ///
-    /// - Parameter DeleteSolNetworkInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSolNetworkInstanceInput`)
     ///
-    /// - Returns: `DeleteSolNetworkInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSolNetworkInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,7 +764,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolNetworkInstanceOutput>(DeleteSolNetworkInstanceOutput.httpOutput(from:), DeleteSolNetworkInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSolNetworkInstanceOutput>())
@@ -802,9 +795,9 @@ extension TnbClient {
     ///
     /// Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. To delete a network package, the package must be in a disable state. To disable a network package, see [UpdateSolNetworkPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolNetworkPackage.html).
     ///
-    /// - Parameter DeleteSolNetworkPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSolNetworkPackageInput`)
     ///
-    /// - Returns: `DeleteSolNetworkPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSolNetworkPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,7 +832,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolNetworkPackageOutput>(DeleteSolNetworkPackageOutput.httpOutput(from:), DeleteSolNetworkPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSolNetworkPackageOutput>())
@@ -871,9 +863,9 @@ extension TnbClient {
     ///
     /// Gets the details of a network function instance, including the instantiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package .
     ///
-    /// - Parameter GetSolFunctionInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolFunctionInstanceInput`)
     ///
-    /// - Returns: `GetSolFunctionInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolFunctionInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,7 +900,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionInstanceOutput>(GetSolFunctionInstanceOutput.httpOutput(from:), GetSolFunctionInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionInstanceOutput>())
@@ -940,9 +931,9 @@ extension TnbClient {
     ///
     /// Gets the details of an individual function package, such as the operational state and whether the package is in use. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
     ///
-    /// - Parameter GetSolFunctionPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolFunctionPackageInput`)
     ///
-    /// - Returns: `GetSolFunctionPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolFunctionPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,7 +968,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageOutput>(GetSolFunctionPackageOutput.httpOutput(from:), GetSolFunctionPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionPackageOutput>())
@@ -1009,9 +999,9 @@ extension TnbClient {
     ///
     /// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
-    /// - Parameter GetSolFunctionPackageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolFunctionPackageContentInput`)
     ///
-    /// - Returns: `GetSolFunctionPackageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolFunctionPackageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,7 +1037,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageContentOutput>(GetSolFunctionPackageContentOutput.httpOutput(from:), GetSolFunctionPackageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionPackageContentOutput>())
@@ -1079,9 +1068,9 @@ extension TnbClient {
     ///
     /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
-    /// - Parameter GetSolFunctionPackageDescriptorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolFunctionPackageDescriptorInput`)
     ///
-    /// - Returns: `GetSolFunctionPackageDescriptorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolFunctionPackageDescriptorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1117,7 +1106,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageDescriptorOutput>(GetSolFunctionPackageDescriptorOutput.httpOutput(from:), GetSolFunctionPackageDescriptorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolFunctionPackageDescriptorOutput>())
@@ -1149,9 +1137,9 @@ extension TnbClient {
     ///
     /// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
     ///
-    /// - Parameter GetSolNetworkInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolNetworkInstanceInput`)
     ///
-    /// - Returns: `GetSolNetworkInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolNetworkInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,7 +1174,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkInstanceOutput>(GetSolNetworkInstanceOutput.httpOutput(from:), GetSolNetworkInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkInstanceOutput>())
@@ -1218,9 +1205,9 @@ extension TnbClient {
     ///
     /// Gets the details of a network operation, including the tasks involved in the network operation and the status of the tasks. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     ///
-    /// - Parameter GetSolNetworkOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolNetworkOperationInput`)
     ///
-    /// - Returns: `GetSolNetworkOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolNetworkOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1255,7 +1242,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkOperationOutput>(GetSolNetworkOperationOutput.httpOutput(from:), GetSolNetworkOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkOperationOutput>())
@@ -1287,9 +1273,9 @@ extension TnbClient {
     ///
     /// Gets the details of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
-    /// - Parameter GetSolNetworkPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolNetworkPackageInput`)
     ///
-    /// - Returns: `GetSolNetworkPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolNetworkPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1324,7 +1310,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageOutput>(GetSolNetworkPackageOutput.httpOutput(from:), GetSolNetworkPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkPackageOutput>())
@@ -1356,9 +1341,9 @@ extension TnbClient {
     ///
     /// Gets the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
-    /// - Parameter GetSolNetworkPackageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolNetworkPackageContentInput`)
     ///
-    /// - Returns: `GetSolNetworkPackageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolNetworkPackageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,7 +1379,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageContentOutput>(GetSolNetworkPackageContentOutput.httpOutput(from:), GetSolNetworkPackageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkPackageContentOutput>())
@@ -1426,9 +1410,9 @@ extension TnbClient {
     ///
     /// Gets the content of the network service descriptor. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
     ///
-    /// - Parameter GetSolNetworkPackageDescriptorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolNetworkPackageDescriptorInput`)
     ///
-    /// - Returns: `GetSolNetworkPackageDescriptorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolNetworkPackageDescriptorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1463,7 +1447,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageDescriptorOutput>(GetSolNetworkPackageDescriptorOutput.httpOutput(from:), GetSolNetworkPackageDescriptorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolNetworkPackageDescriptorOutput>())
@@ -1495,9 +1478,9 @@ extension TnbClient {
     ///
     /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see [CreateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_CreateSolNetworkInstance.html).
     ///
-    /// - Parameter InstantiateSolNetworkInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InstantiateSolNetworkInstanceInput`)
     ///
-    /// - Returns: `InstantiateSolNetworkInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InstantiateSolNetworkInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1537,7 +1520,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InstantiateSolNetworkInstanceOutput>(InstantiateSolNetworkInstanceOutput.httpOutput(from:), InstantiateSolNetworkInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InstantiateSolNetworkInstanceOutput>())
@@ -1569,9 +1551,9 @@ extension TnbClient {
     ///
     /// Lists network function instances. A network function instance is a function in a function package .
     ///
-    /// - Parameter ListSolFunctionInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolFunctionInstancesInput`)
     ///
-    /// - Returns: `ListSolFunctionInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolFunctionInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1606,7 +1588,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(ListSolFunctionInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolFunctionInstancesOutput>(ListSolFunctionInstancesOutput.httpOutput(from:), ListSolFunctionInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolFunctionInstancesOutput>())
@@ -1638,9 +1619,9 @@ extension TnbClient {
     ///
     /// Lists information about function packages. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
-    /// - Parameter ListSolFunctionPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolFunctionPackagesInput`)
     ///
-    /// - Returns: `ListSolFunctionPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolFunctionPackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1675,7 +1656,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(ListSolFunctionPackagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolFunctionPackagesOutput>(ListSolFunctionPackagesOutput.httpOutput(from:), ListSolFunctionPackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolFunctionPackagesOutput>())
@@ -1707,9 +1687,9 @@ extension TnbClient {
     ///
     /// Lists your network instances. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
     ///
-    /// - Parameter ListSolNetworkInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolNetworkInstancesInput`)
     ///
-    /// - Returns: `ListSolNetworkInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolNetworkInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,7 +1724,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(ListSolNetworkInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolNetworkInstancesOutput>(ListSolNetworkInstancesOutput.httpOutput(from:), ListSolNetworkInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolNetworkInstancesOutput>())
@@ -1776,9 +1755,9 @@ extension TnbClient {
     ///
     /// Lists details for a network operation, including when the operation started and the status of the operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     ///
-    /// - Parameter ListSolNetworkOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolNetworkOperationsInput`)
     ///
-    /// - Returns: `ListSolNetworkOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolNetworkOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1813,7 +1792,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(ListSolNetworkOperationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolNetworkOperationsOutput>(ListSolNetworkOperationsOutput.httpOutput(from:), ListSolNetworkOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolNetworkOperationsOutput>())
@@ -1845,9 +1823,9 @@ extension TnbClient {
     ///
     /// Lists network packages. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
-    /// - Parameter ListSolNetworkPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolNetworkPackagesInput`)
     ///
-    /// - Returns: `ListSolNetworkPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolNetworkPackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1882,7 +1860,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(ListSolNetworkPackagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolNetworkPackagesOutput>(ListSolNetworkPackagesOutput.httpOutput(from:), ListSolNetworkPackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolNetworkPackagesOutput>())
@@ -1914,9 +1891,9 @@ extension TnbClient {
     ///
     /// Lists tags for AWS TNB resources.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,7 +1928,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1983,9 +1959,9 @@ extension TnbClient {
     ///
     /// Uploads the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
-    /// - Parameter PutSolFunctionPackageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSolFunctionPackageContentInput`)
     ///
-    /// - Returns: `PutSolFunctionPackageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSolFunctionPackageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2024,7 +2000,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSolFunctionPackageContentOutput>(PutSolFunctionPackageContentOutput.httpOutput(from:), PutSolFunctionPackageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSolFunctionPackageContentOutput>())
@@ -2056,9 +2031,9 @@ extension TnbClient {
     ///
     /// Uploads the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
-    /// - Parameter PutSolNetworkPackageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSolNetworkPackageContentInput`)
     ///
-    /// - Returns: `PutSolNetworkPackageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSolNetworkPackageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2097,7 +2072,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSolNetworkPackageContentOutput>(PutSolNetworkPackageContentOutput.httpOutput(from:), PutSolNetworkPackageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSolNetworkPackageContentOutput>())
@@ -2129,9 +2103,9 @@ extension TnbClient {
     ///
     /// Tags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2169,7 +2143,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2201,9 +2174,9 @@ extension TnbClient {
     ///
     /// Terminates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. You must terminate a network instance before you can delete it.
     ///
-    /// - Parameter TerminateSolNetworkInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateSolNetworkInstanceInput`)
     ///
-    /// - Returns: `TerminateSolNetworkInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateSolNetworkInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2242,7 +2215,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateSolNetworkInstanceOutput>(TerminateSolNetworkInstanceOutput.httpOutput(from:), TerminateSolNetworkInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateSolNetworkInstanceOutput>())
@@ -2274,9 +2246,9 @@ extension TnbClient {
     ///
     /// Untags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2312,7 +2284,6 @@ extension TnbClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2344,9 +2315,9 @@ extension TnbClient {
     ///
     /// Updates the operational state of function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
-    /// - Parameter UpdateSolFunctionPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSolFunctionPackageInput`)
     ///
-    /// - Returns: `UpdateSolFunctionPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSolFunctionPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2384,7 +2355,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolFunctionPackageOutput>(UpdateSolFunctionPackageOutput.httpOutput(from:), UpdateSolFunctionPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSolFunctionPackageOutput>())
@@ -2416,9 +2386,9 @@ extension TnbClient {
     ///
     /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance.
     ///
-    /// - Parameter UpdateSolNetworkInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSolNetworkInstanceInput`)
     ///
-    /// - Returns: `UpdateSolNetworkInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSolNetworkInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2457,7 +2427,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolNetworkInstanceOutput>(UpdateSolNetworkInstanceOutput.httpOutput(from:), UpdateSolNetworkInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSolNetworkInstanceOutput>())
@@ -2489,9 +2458,9 @@ extension TnbClient {
     ///
     /// Updates the operational state of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
     ///
-    /// - Parameter UpdateSolNetworkPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSolNetworkPackageInput`)
     ///
-    /// - Returns: `UpdateSolNetworkPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSolNetworkPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2529,7 +2498,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolNetworkPackageOutput>(UpdateSolNetworkPackageOutput.httpOutput(from:), UpdateSolNetworkPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSolNetworkPackageOutput>())
@@ -2561,9 +2529,9 @@ extension TnbClient {
     ///
     /// Validates function package content. This can be used as a dry run before uploading function package content with [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html). A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
-    /// - Parameter ValidateSolFunctionPackageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateSolFunctionPackageContentInput`)
     ///
-    /// - Returns: `ValidateSolFunctionPackageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateSolFunctionPackageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2602,7 +2570,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateSolFunctionPackageContentOutput>(ValidateSolFunctionPackageContentOutput.httpOutput(from:), ValidateSolFunctionPackageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateSolFunctionPackageContentOutput>())
@@ -2634,9 +2601,9 @@ extension TnbClient {
     ///
     /// Validates network package content. This can be used as a dry run before uploading network package content with [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html). A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
-    /// - Parameter ValidateSolNetworkPackageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateSolNetworkPackageContentInput`)
     ///
-    /// - Returns: `ValidateSolNetworkPackageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateSolNetworkPackageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2675,7 +2642,6 @@ extension TnbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateSolNetworkPackageContentOutput>(ValidateSolNetworkPackageContentOutput.httpOutput(from:), ValidateSolNetworkPackageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateSolNetworkPackageContentOutput>())

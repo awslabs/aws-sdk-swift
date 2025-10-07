@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKIdentityClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKIdentityClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKIdentityClient.ChimeSDKIdentityClientConfiguration
     let serviceName = "Chime SDK Identity"
@@ -375,9 +374,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
     ///
-    /// - Parameter CreateAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceInput`)
     ///
-    /// - Returns: `CreateAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,7 +418,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppInstanceOutput>(CreateAppInstanceOutput.httpOutput(from:), CreateAppInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppInstanceOutput>())
@@ -458,9 +456,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role.
     ///
-    /// - Parameter CreateAppInstanceAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceAdminInput`)
     ///
-    /// - Returns: `CreateAppInstanceAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -501,7 +499,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppInstanceAdminOutput>(CreateAppInstanceAdminOutput.httpOutput(from:), CreateAppInstanceAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppInstanceAdminOutput>())
@@ -533,9 +530,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Creates a bot under an Amazon Chime AppInstance. The request consists of a unique Configuration and Name for that bot.
     ///
-    /// - Parameter CreateAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceBotInput`)
     ///
-    /// - Returns: `CreateAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,7 +574,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInstanceBotInput, CreateAppInstanceBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppInstanceBotOutput>(CreateAppInstanceBotOutput.httpOutput(from:), CreateAppInstanceBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInstanceBotInput, CreateAppInstanceBotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppInstanceBotOutput>())
@@ -609,9 +605,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
     ///
-    /// - Parameter CreateAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceUserInput`)
     ///
-    /// - Returns: `CreateAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,7 +649,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppInstanceUserOutput>(CreateAppInstanceUserOutput.httpOutput(from:), CreateAppInstanceUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppInstanceUserOutput>())
@@ -685,9 +680,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deletes an AppInstance and all associated data asynchronously.
     ///
-    /// - Parameter DeleteAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceInput`)
     ///
-    /// - Returns: `DeleteAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,7 +719,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppInstanceInput, DeleteAppInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppInstanceOutput>(DeleteAppInstanceOutput.httpOutput(from:), DeleteAppInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInstanceInput, DeleteAppInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppInstanceOutput>())
@@ -756,9 +750,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Demotes an AppInstanceAdmin to an AppInstanceUser or AppInstanceBot. This action does not delete the user.
     ///
-    /// - Parameter DeleteAppInstanceAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceAdminInput`)
     ///
-    /// - Returns: `DeleteAppInstanceAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -796,7 +790,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppInstanceAdminOutput>(DeleteAppInstanceAdminOutput.httpOutput(from:), DeleteAppInstanceAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppInstanceAdminOutput>())
@@ -828,9 +821,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deletes an AppInstanceBot.
     ///
-    /// - Parameter DeleteAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceBotInput`)
     ///
-    /// - Returns: `DeleteAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -868,7 +861,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppInstanceBotInput, DeleteAppInstanceBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppInstanceBotOutput>(DeleteAppInstanceBotOutput.httpOutput(from:), DeleteAppInstanceBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInstanceBotInput, DeleteAppInstanceBotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppInstanceBotOutput>())
@@ -900,9 +892,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deletes an AppInstanceUser.
     ///
-    /// - Parameter DeleteAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceUserInput`)
     ///
-    /// - Returns: `DeleteAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -940,7 +932,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppInstanceUserOutput>(DeleteAppInstanceUserOutput.httpOutput(from:), DeleteAppInstanceUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppInstanceUserOutput>())
@@ -972,9 +963,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deregisters an AppInstanceUserEndpoint.
     ///
-    /// - Parameter DeregisterAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `DeregisterAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,7 +1001,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterAppInstanceUserEndpointInput, DeregisterAppInstanceUserEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterAppInstanceUserEndpointOutput>(DeregisterAppInstanceUserEndpointOutput.httpOutput(from:), DeregisterAppInstanceUserEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterAppInstanceUserEndpointInput, DeregisterAppInstanceUserEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterAppInstanceUserEndpointOutput>())
@@ -1042,9 +1032,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstance.
     ///
-    /// - Parameter DescribeAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceInput`)
     ///
-    /// - Returns: `DescribeAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,7 +1070,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppInstanceInput, DescribeAppInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppInstanceOutput>(DescribeAppInstanceOutput.httpOutput(from:), DescribeAppInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppInstanceInput, DescribeAppInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppInstanceOutput>())
@@ -1112,9 +1101,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstanceAdmin.
     ///
-    /// - Parameter DescribeAppInstanceAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceAdminInput`)
     ///
-    /// - Returns: `DescribeAppInstanceAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,7 +1139,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppInstanceAdminOutput>(DescribeAppInstanceAdminOutput.httpOutput(from:), DescribeAppInstanceAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppInstanceAdminOutput>())
@@ -1182,9 +1170,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// The AppInstanceBot's information.
     ///
-    /// - Parameter DescribeAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceBotInput`)
     ///
-    /// - Returns: `DescribeAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1221,7 +1209,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppInstanceBotInput, DescribeAppInstanceBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppInstanceBotOutput>(DescribeAppInstanceBotOutput.httpOutput(from:), DescribeAppInstanceBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppInstanceBotInput, DescribeAppInstanceBotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppInstanceBotOutput>())
@@ -1253,9 +1240,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstanceUser.
     ///
-    /// - Parameter DescribeAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceUserInput`)
     ///
-    /// - Returns: `DescribeAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,7 +1278,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppInstanceUserOutput>(DescribeAppInstanceUserOutput.httpOutput(from:), DescribeAppInstanceUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppInstanceUserOutput>())
@@ -1323,9 +1309,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstanceUserEndpoint.
     ///
-    /// - Parameter DescribeAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `DescribeAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,7 +1347,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppInstanceUserEndpointInput, DescribeAppInstanceUserEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppInstanceUserEndpointOutput>(DescribeAppInstanceUserEndpointOutput.httpOutput(from:), DescribeAppInstanceUserEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppInstanceUserEndpointInput, DescribeAppInstanceUserEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppInstanceUserEndpointOutput>())
@@ -1393,9 +1378,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Gets the retention settings for an AppInstance.
     ///
-    /// - Parameter GetAppInstanceRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppInstanceRetentionSettingsInput`)
     ///
-    /// - Returns: `GetAppInstanceRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppInstanceRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,7 +1416,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAppInstanceRetentionSettingsOutput>(GetAppInstanceRetentionSettingsOutput.httpOutput(from:), GetAppInstanceRetentionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAppInstanceRetentionSettingsOutput>())
@@ -1463,9 +1447,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns a list of the administrators in the AppInstance.
     ///
-    /// - Parameter ListAppInstanceAdminsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceAdminsInput`)
     ///
-    /// - Returns: `ListAppInstanceAdminsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceAdminsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,7 +1487,6 @@ extension ChimeSDKIdentityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(ListAppInstanceAdminsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppInstanceAdminsOutput>(ListAppInstanceAdminsOutput.httpOutput(from:), ListAppInstanceAdminsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppInstanceAdminsOutput>())
@@ -1535,9 +1518,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists all AppInstanceBots created under a single AppInstance.
     ///
-    /// - Parameter ListAppInstanceBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceBotsInput`)
     ///
-    /// - Returns: `ListAppInstanceBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1575,7 +1558,6 @@ extension ChimeSDKIdentityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppInstanceBotsInput, ListAppInstanceBotsOutput>(ListAppInstanceBotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppInstanceBotsOutput>(ListAppInstanceBotsOutput.httpOutput(from:), ListAppInstanceBotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppInstanceBotsInput, ListAppInstanceBotsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppInstanceBotsOutput>())
@@ -1607,9 +1589,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
     ///
-    /// - Parameter ListAppInstanceUserEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceUserEndpointsInput`)
     ///
-    /// - Returns: `ListAppInstanceUserEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceUserEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,7 +1628,6 @@ extension ChimeSDKIdentityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppInstanceUserEndpointsInput, ListAppInstanceUserEndpointsOutput>(ListAppInstanceUserEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppInstanceUserEndpointsOutput>(ListAppInstanceUserEndpointsOutput.httpOutput(from:), ListAppInstanceUserEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppInstanceUserEndpointsInput, ListAppInstanceUserEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppInstanceUserEndpointsOutput>())
@@ -1678,9 +1659,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// List all AppInstanceUsers created under a single AppInstance.
     ///
-    /// - Parameter ListAppInstanceUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceUsersInput`)
     ///
-    /// - Returns: `ListAppInstanceUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,7 +1698,6 @@ extension ChimeSDKIdentityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(ListAppInstanceUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppInstanceUsersOutput>(ListAppInstanceUsersOutput.httpOutput(from:), ListAppInstanceUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppInstanceUsersOutput>())
@@ -1749,9 +1729,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists all Amazon Chime AppInstances created under a single AWS account.
     ///
-    /// - Parameter ListAppInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstancesInput`)
     ///
-    /// - Returns: `ListAppInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,7 +1768,6 @@ extension ChimeSDKIdentityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppInstancesInput, ListAppInstancesOutput>(ListAppInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppInstancesOutput>(ListAppInstancesOutput.httpOutput(from:), ListAppInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppInstancesInput, ListAppInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppInstancesOutput>())
@@ -1820,9 +1799,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists the tags applied to an Amazon Chime SDK identity resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,7 +1838,6 @@ extension ChimeSDKIdentityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1891,9 +1869,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Sets the amount of time in days that a given AppInstance retains data.
     ///
-    /// - Parameter PutAppInstanceRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAppInstanceRetentionSettingsInput`)
     ///
-    /// - Returns: `PutAppInstanceRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAppInstanceRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1932,7 +1910,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAppInstanceRetentionSettingsOutput>(PutAppInstanceRetentionSettingsOutput.httpOutput(from:), PutAppInstanceRetentionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAppInstanceRetentionSettingsOutput>())
@@ -1964,9 +1941,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Sets the number of days before the AppInstanceUser is automatically deleted. A background process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings.
     ///
-    /// - Parameter PutAppInstanceUserExpirationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAppInstanceUserExpirationSettingsInput`)
     ///
-    /// - Returns: `PutAppInstanceUserExpirationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAppInstanceUserExpirationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2006,7 +1983,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAppInstanceUserExpirationSettingsInput, PutAppInstanceUserExpirationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAppInstanceUserExpirationSettingsOutput>(PutAppInstanceUserExpirationSettingsOutput.httpOutput(from:), PutAppInstanceUserExpirationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAppInstanceUserExpirationSettingsInput, PutAppInstanceUserExpirationSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAppInstanceUserExpirationSettingsOutput>())
@@ -2038,9 +2014,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
     ///
-    /// - Parameter RegisterAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `RegisterAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2082,7 +2058,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterAppInstanceUserEndpointInput, RegisterAppInstanceUserEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterAppInstanceUserEndpointOutput>(RegisterAppInstanceUserEndpointOutput.httpOutput(from:), RegisterAppInstanceUserEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterAppInstanceUserEndpointInput, RegisterAppInstanceUserEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterAppInstanceUserEndpointOutput>())
@@ -2114,9 +2089,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2157,7 +2132,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2189,9 +2163,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Removes the specified tags from the specified Amazon Chime SDK identity resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2231,7 +2205,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2263,9 +2236,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates AppInstance metadata.
     ///
-    /// - Parameter UpdateAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceInput`)
     ///
-    /// - Returns: `UpdateAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2305,7 +2278,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppInstanceOutput>(UpdateAppInstanceOutput.httpOutput(from:), UpdateAppInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppInstanceOutput>())
@@ -2337,9 +2309,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates the name and metadata of an AppInstanceBot.
     ///
-    /// - Parameter UpdateAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceBotInput`)
     ///
-    /// - Returns: `UpdateAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2380,7 +2352,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppInstanceBotInput, UpdateAppInstanceBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppInstanceBotOutput>(UpdateAppInstanceBotOutput.httpOutput(from:), UpdateAppInstanceBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppInstanceBotInput, UpdateAppInstanceBotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppInstanceBotOutput>())
@@ -2412,9 +2383,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
     ///
-    /// - Parameter UpdateAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceUserInput`)
     ///
-    /// - Returns: `UpdateAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2455,7 +2426,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppInstanceUserOutput>(UpdateAppInstanceUserOutput.httpOutput(from:), UpdateAppInstanceUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppInstanceUserOutput>())
@@ -2487,9 +2457,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage values.
     ///
-    /// - Parameter UpdateAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `UpdateAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2529,7 +2499,6 @@ extension ChimeSDKIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppInstanceUserEndpointInput, UpdateAppInstanceUserEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppInstanceUserEndpointOutput>(UpdateAppInstanceUserEndpointOutput.httpOutput(from:), UpdateAppInstanceUserEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppInstanceUserEndpointInput, UpdateAppInstanceUserEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppInstanceUserEndpointOutput>())

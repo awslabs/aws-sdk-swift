@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaStoreClient: ClientRuntime.Client {
     public static let clientName = "MediaStoreClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaStoreClient.MediaStoreClientConfiguration
     let serviceName = "MediaStore"
@@ -373,9 +372,9 @@ extension MediaStoreClient {
     ///
     /// Creates a storage container to hold objects. A container is similar to a bucket in the Amazon S3 service.
     ///
-    /// - Parameter CreateContainerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContainerInput`)
     ///
-    /// - Returns: `CreateContainerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContainerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerInput, CreateContainerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContainerOutput>(CreateContainerOutput.httpOutput(from:), CreateContainerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerInput, CreateContainerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerOutput>())
@@ -444,9 +442,9 @@ extension MediaStoreClient {
     ///
     /// Deletes the specified container. Before you make a DeleteContainer request, delete any objects in the container or in any folders in the container. You can delete only empty containers.
     ///
-    /// - Parameter DeleteContainerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContainerInput`)
     ///
-    /// - Returns: `DeleteContainerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContainerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerInput, DeleteContainerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContainerOutput>(DeleteContainerOutput.httpOutput(from:), DeleteContainerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerInput, DeleteContainerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerOutput>())
@@ -515,9 +512,9 @@ extension MediaStoreClient {
     ///
     /// Deletes the access policy that is associated with the specified container.
     ///
-    /// - Parameter DeleteContainerPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContainerPolicyInput`)
     ///
-    /// - Returns: `DeleteContainerPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContainerPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,7 +549,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContainerPolicyOutput>(DeleteContainerPolicyOutput.httpOutput(from:), DeleteContainerPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerPolicyOutput>())
@@ -587,9 +583,9 @@ extension MediaStoreClient {
     ///
     /// Deletes the cross-origin resource sharing (CORS) configuration information that is set for the container. To use this operation, you must have permission to perform the MediaStore:DeleteCorsPolicy action. The container owner has this permission by default and can grant this permission to others.
     ///
-    /// - Parameter DeleteCorsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCorsPolicyInput`)
     ///
-    /// - Returns: `DeleteCorsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCorsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,7 +620,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCorsPolicyOutput>(DeleteCorsPolicyOutput.httpOutput(from:), DeleteCorsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCorsPolicyOutput>())
@@ -659,9 +654,9 @@ extension MediaStoreClient {
     ///
     /// Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect.
     ///
-    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
-    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,7 +691,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutput>(DeleteLifecyclePolicyOutput.httpOutput(from:), DeleteLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLifecyclePolicyOutput>())
@@ -731,9 +725,9 @@ extension MediaStoreClient {
     ///
     /// Deletes the metric policy that is associated with the specified container. If there is no metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
     ///
-    /// - Parameter DeleteMetricPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMetricPolicyInput`)
     ///
-    /// - Returns: `DeleteMetricPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMetricPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,7 +762,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMetricPolicyOutput>(DeleteMetricPolicyOutput.httpOutput(from:), DeleteMetricPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricPolicyOutput>())
@@ -803,9 +796,9 @@ extension MediaStoreClient {
     ///
     /// Retrieves the properties of the requested container. This request is commonly used to retrieve the endpoint of a container. An endpoint is a value assigned by the service when a new container is created. A container's endpoint does not change after it has been assigned. The DescribeContainer request returns a single Container object based on ContainerName. To return all Container objects that are associated with a specified AWS account, use [ListContainers].
     ///
-    /// - Parameter DescribeContainerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContainerInput`)
     ///
-    /// - Returns: `DescribeContainerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContainerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,7 +831,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerInput, DescribeContainerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerOutput>(DescribeContainerOutput.httpOutput(from:), DescribeContainerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerInput, DescribeContainerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerOutput>())
@@ -873,9 +865,9 @@ extension MediaStoreClient {
     ///
     /// Retrieves the access policy for the specified container. For information about the data that is included in an access policy, see the [AWS Identity and Access Management User Guide](https://aws.amazon.com/documentation/iam/).
     ///
-    /// - Parameter GetContainerPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerPolicyInput`)
     ///
-    /// - Returns: `GetContainerPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,7 +902,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerPolicyOutput>(GetContainerPolicyOutput.httpOutput(from:), GetContainerPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerPolicyOutput>())
@@ -945,9 +936,9 @@ extension MediaStoreClient {
     ///
     /// Returns the cross-origin resource sharing (CORS) configuration information that is set for the container. To use this operation, you must have permission to perform the MediaStore:GetCorsPolicy action. By default, the container owner has this permission and can grant it to others.
     ///
-    /// - Parameter GetCorsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCorsPolicyInput`)
     ///
-    /// - Returns: `GetCorsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCorsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,7 +973,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCorsPolicyOutput>(GetCorsPolicyOutput.httpOutput(from:), GetCorsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCorsPolicyOutput>())
@@ -1017,9 +1007,9 @@ extension MediaStoreClient {
     ///
     /// Retrieves the object lifecycle policy that is assigned to a container.
     ///
-    /// - Parameter GetLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePolicyInput`)
     ///
-    /// - Returns: `GetLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,7 +1044,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyOutput>(GetLifecyclePolicyOutput.httpOutput(from:), GetLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLifecyclePolicyOutput>())
@@ -1089,9 +1078,9 @@ extension MediaStoreClient {
     ///
     /// Returns the metric policy for the specified container.
     ///
-    /// - Parameter GetMetricPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricPolicyInput`)
     ///
-    /// - Returns: `GetMetricPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1126,7 +1115,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricPolicyOutput>(GetMetricPolicyOutput.httpOutput(from:), GetMetricPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricPolicyOutput>())
@@ -1161,9 +1149,9 @@ extension MediaStoreClient {
     ///
     /// Lists the properties of all containers in AWS Elemental MediaStore. You can query to receive all the containers in one response. Or you can include the MaxResults parameter to receive a limited number of containers in each response. In this case, the response includes a token. To get the next set of containers, send the command again, this time with the NextToken parameter (with the returned token as its value). The next set of responses appears, with a token if there are still more containers to receive. See also [DescribeContainer], which gets the properties of one container.
     ///
-    /// - Parameter ListContainersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContainersInput`)
     ///
-    /// - Returns: `ListContainersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContainersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1195,7 +1183,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainersInput, ListContainersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainersOutput>(ListContainersOutput.httpOutput(from:), ListContainersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainersInput, ListContainersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainersOutput>())
@@ -1230,9 +1217,9 @@ extension MediaStoreClient {
     ///
     /// Returns a list of the tags assigned to the specified container.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,7 +1253,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1301,9 +1287,9 @@ extension MediaStoreClient {
     ///
     /// Creates an access policy for the specified container to restrict the users and clients that can access it. For information about the data that is included in an access policy, see the [AWS Identity and Access Management User Guide](https://aws.amazon.com/documentation/iam/). For this release of the REST API, you can create only one policy for a container. If you enter PutContainerPolicy twice, the second command modifies the existing policy.
     ///
-    /// - Parameter PutContainerPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutContainerPolicyInput`)
     ///
-    /// - Returns: `PutContainerPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutContainerPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1337,7 +1323,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutContainerPolicyOutput>(PutContainerPolicyOutput.httpOutput(from:), PutContainerPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutContainerPolicyOutput>())
@@ -1372,9 +1357,9 @@ extension MediaStoreClient {
     ///
     /// Sets the cross-origin resource sharing (CORS) configuration on a container so that the container can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.com to access your AWS Elemental MediaStore container at my.example.container.com by using the browser's XMLHttpRequest capability. To enable CORS on a container, you attach a CORS policy to the container. In the CORS policy, you configure rules that identify origins and the HTTP methods that can be executed on your container. The policy can contain up to 398,000 characters. You can add up to 100 rules to a CORS policy. If more than one rule applies, the service uses the first applicable rule listed. To learn more about CORS, see [Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore](https://docs.aws.amazon.com/mediastore/latest/ug/cors-policy.html).
     ///
-    /// - Parameter PutCorsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCorsPolicyInput`)
     ///
-    /// - Returns: `PutCorsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCorsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1408,7 +1393,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutCorsPolicyOutput>(PutCorsPolicyOutput.httpOutput(from:), PutCorsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCorsPolicyOutput>())
@@ -1443,9 +1427,9 @@ extension MediaStoreClient {
     ///
     /// Writes an object lifecycle policy to a container. If the container already has an object lifecycle policy, the service replaces the existing policy with the new policy. It takes up to 20 minutes for the change to take effect. For information about how to construct an object lifecycle policy, see [Components of an Object Lifecycle Policy](https://docs.aws.amazon.com/mediastore/latest/ug/policies-object-lifecycle-components.html).
     ///
-    /// - Parameter PutLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLifecyclePolicyInput`)
     ///
-    /// - Returns: `PutLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,7 +1463,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLifecyclePolicyOutput>(PutLifecyclePolicyOutput.httpOutput(from:), PutLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLifecyclePolicyOutput>())
@@ -1514,9 +1497,9 @@ extension MediaStoreClient {
     ///
     /// The metric policy that you want to add to the container. A metric policy allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the new policy to take effect.
     ///
-    /// - Parameter PutMetricPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetricPolicyInput`)
     ///
-    /// - Returns: `PutMetricPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetricPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1550,7 +1533,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricPolicyOutput>(PutMetricPolicyOutput.httpOutput(from:), PutMetricPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricPolicyOutput>())
@@ -1585,9 +1567,9 @@ extension MediaStoreClient {
     ///
     /// Starts access logging on the specified container. When you enable access logging on a container, MediaStore delivers access logs for objects stored in that container to Amazon CloudWatch Logs.
     ///
-    /// - Parameter StartAccessLoggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAccessLoggingInput`)
     ///
-    /// - Returns: `StartAccessLoggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAccessLoggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,7 +1603,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAccessLoggingOutput>(StartAccessLoggingOutput.httpOutput(from:), StartAccessLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAccessLoggingOutput>())
@@ -1656,9 +1637,9 @@ extension MediaStoreClient {
     ///
     /// Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retrievable.
     ///
-    /// - Parameter StopAccessLoggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAccessLoggingInput`)
     ///
-    /// - Returns: `StopAccessLoggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAccessLoggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,7 +1673,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAccessLoggingOutput>(StopAccessLoggingOutput.httpOutput(from:), StopAccessLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAccessLoggingOutput>())
@@ -1727,9 +1707,9 @@ extension MediaStoreClient {
     ///
     /// Adds tags to the specified AWS Elemental MediaStore container. Tags are key:value pairs that you can associate with AWS resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see [Tagging Resources in MediaStore](https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1763,7 +1743,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1798,9 +1777,9 @@ extension MediaStoreClient {
     ///
     /// Removes tags from the specified container. You can specify one or more tags to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1834,7 +1813,6 @@ extension MediaStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FisClient: ClientRuntime.Client {
     public static let clientName = "FisClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: FisClient.FisClientConfiguration
     let serviceName = "fis"
@@ -383,9 +382,9 @@ extension FisClient {
     ///
     /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Service User Guide.
     ///
-    /// - Parameter CreateExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExperimentTemplateInput`)
     ///
-    /// - Returns: `CreateExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -423,7 +422,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExperimentTemplateInput, CreateExperimentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExperimentTemplateOutput>(CreateExperimentTemplateOutput.httpOutput(from:), CreateExperimentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExperimentTemplateInput, CreateExperimentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExperimentTemplateOutput>())
@@ -455,9 +453,9 @@ extension FisClient {
     ///
     /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Service User Guide.
     ///
-    /// - Parameter CreateTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `CreateTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -495,7 +493,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTargetAccountConfigurationInput, CreateTargetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTargetAccountConfigurationOutput>(CreateTargetAccountConfigurationOutput.httpOutput(from:), CreateTargetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTargetAccountConfigurationInput, CreateTargetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTargetAccountConfigurationOutput>())
@@ -527,9 +524,9 @@ extension FisClient {
     ///
     /// Deletes the specified experiment template.
     ///
-    /// - Parameter DeleteExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExperimentTemplateInput`)
     ///
-    /// - Returns: `DeleteExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,7 +558,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExperimentTemplateInput, DeleteExperimentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExperimentTemplateOutput>(DeleteExperimentTemplateOutput.httpOutput(from:), DeleteExperimentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExperimentTemplateInput, DeleteExperimentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExperimentTemplateOutput>())
@@ -593,9 +589,9 @@ extension FisClient {
     ///
     /// Deletes the specified target account configuration of the experiment template.
     ///
-    /// - Parameter DeleteTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `DeleteTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,7 +623,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTargetAccountConfigurationInput, DeleteTargetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTargetAccountConfigurationOutput>(DeleteTargetAccountConfigurationOutput.httpOutput(from:), DeleteTargetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTargetAccountConfigurationInput, DeleteTargetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTargetAccountConfigurationOutput>())
@@ -659,9 +654,9 @@ extension FisClient {
     ///
     /// Gets information about the specified FIS action.
     ///
-    /// - Parameter GetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetActionInput`)
     ///
-    /// - Returns: `GetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,7 +688,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetActionInput, GetActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetActionOutput>(GetActionOutput.httpOutput(from:), GetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetActionInput, GetActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetActionOutput>())
@@ -725,9 +719,9 @@ extension FisClient {
     ///
     /// Gets information about the specified experiment.
     ///
-    /// - Parameter GetExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentInput`)
     ///
-    /// - Returns: `GetExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,7 +753,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExperimentInput, GetExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExperimentOutput>(GetExperimentOutput.httpOutput(from:), GetExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExperimentInput, GetExperimentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExperimentOutput>())
@@ -791,9 +784,9 @@ extension FisClient {
     ///
     /// Gets information about the specified target account configuration of the experiment.
     ///
-    /// - Parameter GetExperimentTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `GetExperimentTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,7 +818,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExperimentTargetAccountConfigurationInput, GetExperimentTargetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExperimentTargetAccountConfigurationOutput>(GetExperimentTargetAccountConfigurationOutput.httpOutput(from:), GetExperimentTargetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExperimentTargetAccountConfigurationInput, GetExperimentTargetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExperimentTargetAccountConfigurationOutput>())
@@ -857,9 +849,9 @@ extension FisClient {
     ///
     /// Gets information about the specified experiment template.
     ///
-    /// - Parameter GetExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentTemplateInput`)
     ///
-    /// - Returns: `GetExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -891,7 +883,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExperimentTemplateInput, GetExperimentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExperimentTemplateOutput>(GetExperimentTemplateOutput.httpOutput(from:), GetExperimentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExperimentTemplateInput, GetExperimentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExperimentTemplateOutput>())
@@ -923,9 +914,9 @@ extension FisClient {
     ///
     /// Gets information about the specified safety lever.
     ///
-    /// - Parameter GetSafetyLeverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSafetyLeverInput`)
     ///
-    /// - Returns: `GetSafetyLeverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSafetyLeverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,7 +947,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSafetyLeverInput, GetSafetyLeverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSafetyLeverOutput>(GetSafetyLeverOutput.httpOutput(from:), GetSafetyLeverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSafetyLeverInput, GetSafetyLeverOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSafetyLeverOutput>())
@@ -988,9 +978,9 @@ extension FisClient {
     ///
     /// Gets information about the specified target account configuration of the experiment template.
     ///
-    /// - Parameter GetTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `GetTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,7 +1012,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTargetAccountConfigurationInput, GetTargetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTargetAccountConfigurationOutput>(GetTargetAccountConfigurationOutput.httpOutput(from:), GetTargetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTargetAccountConfigurationInput, GetTargetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTargetAccountConfigurationOutput>())
@@ -1054,9 +1043,9 @@ extension FisClient {
     ///
     /// Gets information about the specified resource type.
     ///
-    /// - Parameter GetTargetResourceTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTargetResourceTypeInput`)
     ///
-    /// - Returns: `GetTargetResourceTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTargetResourceTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,7 +1077,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTargetResourceTypeInput, GetTargetResourceTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTargetResourceTypeOutput>(GetTargetResourceTypeOutput.httpOutput(from:), GetTargetResourceTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTargetResourceTypeInput, GetTargetResourceTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTargetResourceTypeOutput>())
@@ -1120,9 +1108,9 @@ extension FisClient {
     ///
     /// Lists the available FIS actions.
     ///
-    /// - Parameter ListActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActionsInput`)
     ///
-    /// - Returns: `ListActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1154,7 +1142,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListActionsInput, ListActionsOutput>(ListActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActionsOutput>(ListActionsOutput.httpOutput(from:), ListActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActionsInput, ListActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListActionsOutput>())
@@ -1186,9 +1173,9 @@ extension FisClient {
     ///
     /// Lists the resolved targets information of the specified experiment.
     ///
-    /// - Parameter ListExperimentResolvedTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentResolvedTargetsInput`)
     ///
-    /// - Returns: `ListExperimentResolvedTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentResolvedTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1221,7 +1208,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExperimentResolvedTargetsInput, ListExperimentResolvedTargetsOutput>(ListExperimentResolvedTargetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperimentResolvedTargetsOutput>(ListExperimentResolvedTargetsOutput.httpOutput(from:), ListExperimentResolvedTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperimentResolvedTargetsInput, ListExperimentResolvedTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperimentResolvedTargetsOutput>())
@@ -1253,9 +1239,9 @@ extension FisClient {
     ///
     /// Lists the target account configurations of the specified experiment.
     ///
-    /// - Parameter ListExperimentTargetAccountConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentTargetAccountConfigurationsInput`)
     ///
-    /// - Returns: `ListExperimentTargetAccountConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentTargetAccountConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,7 +1274,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExperimentTargetAccountConfigurationsInput, ListExperimentTargetAccountConfigurationsOutput>(ListExperimentTargetAccountConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperimentTargetAccountConfigurationsOutput>(ListExperimentTargetAccountConfigurationsOutput.httpOutput(from:), ListExperimentTargetAccountConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperimentTargetAccountConfigurationsInput, ListExperimentTargetAccountConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperimentTargetAccountConfigurationsOutput>())
@@ -1320,9 +1305,9 @@ extension FisClient {
     ///
     /// Lists your experiment templates.
     ///
-    /// - Parameter ListExperimentTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentTemplatesInput`)
     ///
-    /// - Returns: `ListExperimentTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1354,7 +1339,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExperimentTemplatesInput, ListExperimentTemplatesOutput>(ListExperimentTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperimentTemplatesOutput>(ListExperimentTemplatesOutput.httpOutput(from:), ListExperimentTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperimentTemplatesInput, ListExperimentTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperimentTemplatesOutput>())
@@ -1386,9 +1370,9 @@ extension FisClient {
     ///
     /// Lists your experiments.
     ///
-    /// - Parameter ListExperimentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentsInput`)
     ///
-    /// - Returns: `ListExperimentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1420,7 +1404,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExperimentsInput, ListExperimentsOutput>(ListExperimentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperimentsOutput>(ListExperimentsOutput.httpOutput(from:), ListExperimentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperimentsInput, ListExperimentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperimentsOutput>())
@@ -1452,9 +1435,9 @@ extension FisClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1480,7 +1463,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1512,9 +1494,9 @@ extension FisClient {
     ///
     /// Lists the target account configurations of the specified experiment template.
     ///
-    /// - Parameter ListTargetAccountConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetAccountConfigurationsInput`)
     ///
-    /// - Returns: `ListTargetAccountConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetAccountConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1547,7 +1529,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTargetAccountConfigurationsInput, ListTargetAccountConfigurationsOutput>(ListTargetAccountConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetAccountConfigurationsOutput>(ListTargetAccountConfigurationsOutput.httpOutput(from:), ListTargetAccountConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetAccountConfigurationsInput, ListTargetAccountConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetAccountConfigurationsOutput>())
@@ -1579,9 +1560,9 @@ extension FisClient {
     ///
     /// Lists the target resource types.
     ///
-    /// - Parameter ListTargetResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetResourceTypesInput`)
     ///
-    /// - Returns: `ListTargetResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1613,7 +1594,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTargetResourceTypesInput, ListTargetResourceTypesOutput>(ListTargetResourceTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetResourceTypesOutput>(ListTargetResourceTypesOutput.httpOutput(from:), ListTargetResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetResourceTypesInput, ListTargetResourceTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetResourceTypesOutput>())
@@ -1645,9 +1625,9 @@ extension FisClient {
     ///
     /// Starts running an experiment from the specified experiment template.
     ///
-    /// - Parameter StartExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExperimentInput`)
     ///
-    /// - Returns: `StartExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,7 +1665,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExperimentInput, StartExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExperimentOutput>(StartExperimentOutput.httpOutput(from:), StartExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExperimentInput, StartExperimentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExperimentOutput>())
@@ -1717,9 +1696,9 @@ extension FisClient {
     ///
     /// Stops the specified experiment.
     ///
-    /// - Parameter StopExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopExperimentInput`)
     ///
-    /// - Returns: `StopExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1751,7 +1730,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopExperimentInput, StopExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopExperimentOutput>(StopExperimentOutput.httpOutput(from:), StopExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopExperimentInput, StopExperimentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopExperimentOutput>())
@@ -1783,9 +1761,9 @@ extension FisClient {
     ///
     /// Applies the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1814,7 +1792,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1846,9 +1823,9 @@ extension FisClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1875,7 +1852,6 @@ extension FisClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1907,9 +1883,9 @@ extension FisClient {
     ///
     /// Updates the specified experiment template.
     ///
-    /// - Parameter UpdateExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExperimentTemplateInput`)
     ///
-    /// - Returns: `UpdateExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1945,7 +1921,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExperimentTemplateInput, UpdateExperimentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExperimentTemplateOutput>(UpdateExperimentTemplateOutput.httpOutput(from:), UpdateExperimentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExperimentTemplateInput, UpdateExperimentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExperimentTemplateOutput>())
@@ -1977,9 +1952,9 @@ extension FisClient {
     ///
     /// Updates the specified safety lever state.
     ///
-    /// - Parameter UpdateSafetyLeverStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSafetyLeverStateInput`)
     ///
-    /// - Returns: `UpdateSafetyLeverStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSafetyLeverStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,7 +1990,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSafetyLeverStateInput, UpdateSafetyLeverStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSafetyLeverStateOutput>(UpdateSafetyLeverStateOutput.httpOutput(from:), UpdateSafetyLeverStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSafetyLeverStateInput, UpdateSafetyLeverStateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSafetyLeverStateOutput>())
@@ -2047,9 +2021,9 @@ extension FisClient {
     ///
     /// Updates the target account configuration for the specified experiment template.
     ///
-    /// - Parameter UpdateTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `UpdateTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2084,7 +2058,6 @@ extension FisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTargetAccountConfigurationInput, UpdateTargetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTargetAccountConfigurationOutput>(UpdateTargetAccountConfigurationOutput.httpOutput(from:), UpdateTargetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTargetAccountConfigurationInput, UpdateTargetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTargetAccountConfigurationOutput>())

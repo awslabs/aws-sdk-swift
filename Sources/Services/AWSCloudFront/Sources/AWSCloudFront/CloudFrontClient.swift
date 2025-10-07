@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontClient.CloudFrontClientConfiguration
     let serviceName = "CloudFront"
@@ -376,9 +375,9 @@ extension CloudFrontClient {
     ///
     /// The AssociateAlias API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the [UpdateDomainAssociation](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDomainAssociation.html) API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distribution to a different standard distribution. This prevents the downtime that could occur if you first remove the alias from one standard distribution and then separately add the alias to another standard distribution. To use this operation, specify the alias and the ID of the target standard distribution. For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter AssociateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAliasInput`)
     ///
-    /// - Returns: `AssociateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateAliasInput, AssociateAliasOutput>(AssociateAliasInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAliasOutput>(AssociateAliasOutput.httpOutput(from:), AssociateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAliasInput, AssociateAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAliasOutput>())
@@ -446,9 +444,9 @@ extension CloudFrontClient {
     ///
     /// Associates the WAF web ACL with a distribution tenant.
     ///
-    /// - Parameter AssociateDistributionTenantWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDistributionTenantWebACLInput`)
     ///
-    /// - Returns: `AssociateDistributionTenantWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDistributionTenantWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDistributionTenantWebACLOutput>(AssociateDistributionTenantWebACLOutput.httpOutput(from:), AssociateDistributionTenantWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDistributionTenantWebACLOutput>())
@@ -519,9 +516,9 @@ extension CloudFrontClient {
     ///
     /// Associates the WAF web ACL with a distribution.
     ///
-    /// - Parameter AssociateDistributionWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDistributionWebACLInput`)
     ///
-    /// - Returns: `AssociateDistributionWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDistributionWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,7 +557,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDistributionWebACLOutput>(AssociateDistributionWebACLOutput.httpOutput(from:), AssociateDistributionWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDistributionWebACLOutput>())
@@ -598,9 +594,9 @@ extension CloudFrontClient {
     ///
     /// * [CopyDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CopyDistribution.html)
     ///
-    /// - Parameter CopyDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyDistributionInput`)
     ///
-    /// - Returns: `CopyDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,7 +694,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDistributionInput, CopyDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDistributionOutput>(CopyDistributionOutput.httpOutput(from:), CopyDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDistributionInput, CopyDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDistributionOutput>())
@@ -730,9 +725,9 @@ extension CloudFrontClient {
     ///
     /// Creates an Anycast static IP list.
     ///
-    /// - Parameter CreateAnycastIpListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnycastIpListInput`)
     ///
-    /// - Returns: `CreateAnycastIpListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnycastIpListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,7 +766,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnycastIpListOutput>(CreateAnycastIpListOutput.httpOutput(from:), CreateAnycastIpListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnycastIpListOutput>())
@@ -810,9 +804,9 @@ extension CloudFrontClient {
     ///
     /// The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see [Controlling the cache key](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCachePolicyInput`)
     ///
-    /// - Returns: `CreateCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,7 +847,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCachePolicyOutput>(CreateCachePolicyOutput.httpOutput(from:), CreateCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCachePolicyOutput>())
@@ -885,9 +878,9 @@ extension CloudFrontClient {
     ///
     /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateCloudFrontOriginAccessIdentityInput : The request to create a new origin access identity (OAI). An origin access identity is a special CloudFront user that you can associate with Amazon S3 origins, so that you can secure all or just some of your Amazon S3 content. For more information, see [ Restricting Access to Amazon S3 Content by Using an Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) in the Amazon CloudFront Developer Guide.
+    /// - Parameter input: The request to create a new origin access identity (OAI). An origin access identity is a special CloudFront user that you can associate with Amazon S3 origins, so that you can secure all or just some of your Amazon S3 content. For more information, see [ Restricting Access to Amazon S3 Content by Using an Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) in the Amazon CloudFront Developer Guide. (Type: `CreateCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `CreateCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,7 +918,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudFrontOriginAccessIdentityOutput>(CreateCloudFrontOriginAccessIdentityOutput.httpOutput(from:), CreateCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudFrontOriginAccessIdentityOutput>())
@@ -957,9 +949,9 @@ extension CloudFrontClient {
     ///
     /// Creates a connection group.
     ///
-    /// - Parameter CreateConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionGroupInput`)
     ///
-    /// - Returns: `CreateConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,7 +990,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionGroupOutput>(CreateConnectionGroupOutput.httpOutput(from:), CreateConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionGroupOutput>())
@@ -1030,9 +1021,9 @@ extension CloudFrontClient {
     ///
     /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
     ///
-    /// - Parameter CreateContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `CreateContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1071,7 +1062,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContinuousDeploymentPolicyOutput>(CreateContinuousDeploymentPolicyOutput.httpOutput(from:), CreateContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContinuousDeploymentPolicyOutput>())
@@ -1103,9 +1093,9 @@ extension CloudFrontClient {
     ///
     /// Creates a CloudFront distribution.
     ///
-    /// - Parameter CreateDistributionInput : The request to create a new distribution.
+    /// - Parameter input: The request to create a new distribution. (Type: `CreateDistributionInput`)
     ///
-    /// - Returns: `CreateDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1205,7 +1195,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDistributionInput, CreateDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDistributionOutput>(CreateDistributionOutput.httpOutput(from:), CreateDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDistributionInput, CreateDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDistributionOutput>())
@@ -1237,9 +1226,9 @@ extension CloudFrontClient {
     ///
     /// Creates a distribution tenant.
     ///
-    /// - Parameter CreateDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDistributionTenantInput`)
     ///
-    /// - Returns: `CreateDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,7 +1269,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDistributionTenantOutput>(CreateDistributionTenantOutput.httpOutput(from:), CreateDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDistributionTenantOutput>())
@@ -1316,9 +1304,9 @@ extension CloudFrontClient {
     ///
     /// * [TagResource](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_TagResource.html)
     ///
-    /// - Parameter CreateDistributionWithTagsInput : The request to create a new distribution with tags.
+    /// - Parameter input: The request to create a new distribution with tags. (Type: `CreateDistributionWithTagsInput`)
     ///
-    /// - Returns: `CreateDistributionWithTagsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateDistributionWithTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,7 +1407,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDistributionWithTagsOutput>(CreateDistributionWithTagsOutput.httpOutput(from:), CreateDistributionWithTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDistributionWithTagsOutput>())
@@ -1451,9 +1438,9 @@ extension CloudFrontClient {
     ///
     /// Create a new field-level encryption configuration.
     ///
-    /// - Parameter CreateFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `CreateFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1494,7 +1481,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionConfigOutput>(CreateFieldLevelEncryptionConfigOutput.httpOutput(from:), CreateFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFieldLevelEncryptionConfigOutput>())
@@ -1526,9 +1512,9 @@ extension CloudFrontClient {
     ///
     /// Create a field-level encryption profile.
     ///
-    /// - Parameter CreateFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `CreateFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,7 +1555,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionProfileOutput>(CreateFieldLevelEncryptionProfileOutput.httpOutput(from:), CreateFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFieldLevelEncryptionProfileOutput>())
@@ -1601,9 +1586,9 @@ extension CloudFrontClient {
     ///
     /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
     ///
-    /// - Parameter CreateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionInput`)
     ///
-    /// - Returns: `CreateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1641,7 +1626,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFunctionInput, CreateFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFunctionOutput>(CreateFunctionOutput.httpOutput(from:), CreateFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFunctionInput, CreateFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFunctionOutput>())
@@ -1673,9 +1657,9 @@ extension CloudFrontClient {
     ///
     /// Create a new invalidation. For more information, see [Invalidating files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateInvalidationInput : The request to create an invalidation.
+    /// - Parameter input: The request to create an invalidation. (Type: `CreateInvalidationInput`)
     ///
-    /// - Returns: `CreateInvalidationOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateInvalidationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1715,7 +1699,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvalidationInput, CreateInvalidationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvalidationOutput>(CreateInvalidationOutput.httpOutput(from:), CreateInvalidationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvalidationInput, CreateInvalidationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvalidationOutput>())
@@ -1747,9 +1730,9 @@ extension CloudFrontClient {
     ///
     /// Creates an invalidation for a distribution tenant. For more information, see [Invalidating files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateInvalidationForDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvalidationForDistributionTenantInput`)
     ///
-    /// - Returns: `CreateInvalidationForDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvalidationForDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1789,7 +1772,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvalidationForDistributionTenantOutput>(CreateInvalidationForDistributionTenantOutput.httpOutput(from:), CreateInvalidationForDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvalidationForDistributionTenantOutput>())
@@ -1821,9 +1803,9 @@ extension CloudFrontClient {
     ///
     /// Creates a key group that you can use with [CloudFront signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html). To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyGroupInput`)
     ///
-    /// - Returns: `CreateKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,7 +1842,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyGroupOutput>(CreateKeyGroupOutput.httpOutput(from:), CreateKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeyGroupOutput>())
@@ -1892,9 +1873,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
     ///
-    /// - Parameter CreateKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyValueStoreInput`)
     ///
-    /// - Returns: `CreateKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1933,7 +1914,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyValueStoreOutput>(CreateKeyValueStoreOutput.httpOutput(from:), CreateKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeyValueStoreOutput>())
@@ -1965,9 +1945,9 @@ extension CloudFrontClient {
     ///
     /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see [Viewing additional CloudFront distribution metrics](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/viewing-cloudfront-metrics.html#monitoring-console.distributions-additional) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateMonitoringSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitoringSubscriptionInput`)
     ///
-    /// - Returns: `CreateMonitoringSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitoringSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,7 +1984,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitoringSubscriptionOutput>(CreateMonitoringSubscriptionOutput.httpOutput(from:), CreateMonitoringSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMonitoringSubscriptionOutput>())
@@ -2036,9 +2015,9 @@ extension CloudFrontClient {
     ///
     /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see [Restricting access to an Amazon Web Services origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOriginAccessControlInput`)
     ///
-    /// - Returns: `CreateOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2074,7 +2053,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOriginAccessControlOutput>(CreateOriginAccessControlOutput.httpOutput(from:), CreateOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOriginAccessControlOutput>())
@@ -2115,9 +2093,9 @@ extension CloudFrontClient {
     ///
     /// CloudFront sends a request when it can't find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy. For more information about origin request policies, see [Controlling origin requests](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOriginRequestPolicyInput`)
     ///
-    /// - Returns: `CreateOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2158,7 +2136,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOriginRequestPolicyOutput>(CreateOriginRequestPolicyOutput.httpOutput(from:), CreateOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOriginRequestPolicyOutput>())
@@ -2190,9 +2167,9 @@ extension CloudFrontClient {
     ///
     /// Uploads a public key to CloudFront that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
     ///
-    /// - Parameter CreatePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePublicKeyInput`)
     ///
-    /// - Returns: `CreatePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2228,7 +2205,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePublicKeyOutput>(CreatePublicKeyOutput.httpOutput(from:), CreatePublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublicKeyOutput>())
@@ -2260,9 +2236,9 @@ extension CloudFrontClient {
     ///
     /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see [Real-time logs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRealtimeLogConfigInput`)
     ///
-    /// - Returns: `CreateRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2299,7 +2275,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRealtimeLogConfigOutput>(CreateRealtimeLogConfigOutput.httpOutput(from:), CreateRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRealtimeLogConfigOutput>())
@@ -2331,9 +2306,9 @@ extension CloudFrontClient {
     ///
     /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to requests that match the cache behavior. CloudFront adds or removes response headers according to the configuration of the response headers policy. For more information, see [Adding or removing HTTP headers in CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/modifying-response-headers.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `CreateResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2374,7 +2349,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResponseHeadersPolicyOutput>(CreateResponseHeadersPolicyOutput.httpOutput(from:), CreateResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResponseHeadersPolicyOutput>())
@@ -2406,9 +2380,9 @@ extension CloudFrontClient {
     ///
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356) on the Amazon CloudFront discussion forum.
     ///
-    /// - Parameter CreateStreamingDistributionInput : The request to create a new streaming distribution.
+    /// - Parameter input: The request to create a new streaming distribution. (Type: `CreateStreamingDistributionInput`)
     ///
-    /// - Returns: `CreateStreamingDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2454,7 +2428,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionOutput>(CreateStreamingDistributionOutput.httpOutput(from:), CreateStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamingDistributionOutput>())
@@ -2486,9 +2459,9 @@ extension CloudFrontClient {
     ///
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356) on the Amazon CloudFront discussion forum.
     ///
-    /// - Parameter CreateStreamingDistributionWithTagsInput : The request to create a new streaming distribution with tags.
+    /// - Parameter input: The request to create a new streaming distribution with tags. (Type: `CreateStreamingDistributionWithTagsInput`)
     ///
-    /// - Returns: `CreateStreamingDistributionWithTagsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateStreamingDistributionWithTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2536,7 +2509,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionWithTagsOutput>(CreateStreamingDistributionWithTagsOutput.httpOutput(from:), CreateStreamingDistributionWithTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamingDistributionWithTagsOutput>())
@@ -2568,9 +2540,9 @@ extension CloudFrontClient {
     ///
     /// Create an Amazon CloudFront VPC origin.
     ///
-    /// - Parameter CreateVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcOriginInput`)
     ///
-    /// - Returns: `CreateVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2610,7 +2582,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcOriginOutput>(CreateVpcOriginOutput.httpOutput(from:), CreateVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcOriginOutput>())
@@ -2642,9 +2613,9 @@ extension CloudFrontClient {
     ///
     /// Deletes an Anycast static IP list.
     ///
-    /// - Parameter DeleteAnycastIpListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnycastIpListInput`)
     ///
-    /// - Returns: `DeleteAnycastIpListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnycastIpListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2683,7 +2654,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAnycastIpListInput, DeleteAnycastIpListOutput>(DeleteAnycastIpListInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnycastIpListOutput>(DeleteAnycastIpListOutput.httpOutput(from:), DeleteAnycastIpListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnycastIpListInput, DeleteAnycastIpListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnycastIpListOutput>())
@@ -2715,9 +2685,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
     ///
-    /// - Parameter DeleteCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCachePolicyInput`)
     ///
-    /// - Returns: `DeleteCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2754,7 +2724,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>(DeleteCachePolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCachePolicyOutput>(DeleteCachePolicyOutput.httpOutput(from:), DeleteCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCachePolicyOutput>())
@@ -2786,9 +2755,9 @@ extension CloudFrontClient {
     ///
     /// Delete an origin access identity.
     ///
-    /// - Parameter DeleteCloudFrontOriginAccessIdentityInput : Deletes a origin access identity.
+    /// - Parameter input: Deletes a origin access identity. (Type: `DeleteCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `DeleteCloudFrontOriginAccessIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2824,7 +2793,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>(DeleteCloudFrontOriginAccessIdentityInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudFrontOriginAccessIdentityOutput>(DeleteCloudFrontOriginAccessIdentityOutput.httpOutput(from:), DeleteCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudFrontOriginAccessIdentityOutput>())
@@ -2856,9 +2824,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a connection group.
     ///
-    /// - Parameter DeleteConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionGroupInput`)
     ///
-    /// - Returns: `DeleteConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2895,7 +2863,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteConnectionGroupInput, DeleteConnectionGroupOutput>(DeleteConnectionGroupInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionGroupOutput>(DeleteConnectionGroupOutput.httpOutput(from:), DeleteConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionGroupInput, DeleteConnectionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionGroupOutput>())
@@ -2927,9 +2894,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
     ///
-    /// - Parameter DeleteContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `DeleteContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2966,7 +2933,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>(DeleteContinuousDeploymentPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContinuousDeploymentPolicyOutput>(DeleteContinuousDeploymentPolicyOutput.httpOutput(from:), DeleteContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContinuousDeploymentPolicyOutput>())
@@ -2998,7 +2964,7 @@ extension CloudFrontClient {
     ///
     /// Delete a distribution.
     ///
-    /// - Parameter DeleteDistributionInput : This action deletes a web distribution. To delete a web distribution using the CloudFront API, perform the following steps. To delete a web distribution using the CloudFront API:
+    /// - Parameter input: This action deletes a web distribution. To delete a web distribution using the CloudFront API, perform the following steps. To delete a web distribution using the CloudFront API:
     ///
     /// * Disable the web distribution
     ///
@@ -3017,9 +2983,9 @@ extension CloudFrontClient {
     /// * Review the response to your DELETE Distribution request to confirm that the distribution was successfully deleted.
     ///
     ///
-    /// For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html) in the Amazon CloudFront Developer Guide.
+    /// For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html) in the Amazon CloudFront Developer Guide. (Type: `DeleteDistributionInput`)
     ///
-    /// - Returns: `DeleteDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3056,7 +3022,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(DeleteDistributionInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDistributionOutput>(DeleteDistributionOutput.httpOutput(from:), DeleteDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDistributionOutput>())
@@ -3088,9 +3053,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation.
     ///
-    /// - Parameter DeleteDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDistributionTenantInput`)
     ///
-    /// - Returns: `DeleteDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3126,7 +3091,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteDistributionTenantInput, DeleteDistributionTenantOutput>(DeleteDistributionTenantInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDistributionTenantOutput>(DeleteDistributionTenantOutput.httpOutput(from:), DeleteDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDistributionTenantInput, DeleteDistributionTenantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDistributionTenantOutput>())
@@ -3158,9 +3122,9 @@ extension CloudFrontClient {
     ///
     /// Remove a field-level encryption configuration.
     ///
-    /// - Parameter DeleteFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `DeleteFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3196,7 +3160,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>(DeleteFieldLevelEncryptionConfigInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionConfigOutput>(DeleteFieldLevelEncryptionConfigOutput.httpOutput(from:), DeleteFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFieldLevelEncryptionConfigOutput>())
@@ -3228,9 +3191,9 @@ extension CloudFrontClient {
     ///
     /// Remove a field-level encryption profile.
     ///
-    /// - Parameter DeleteFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `DeleteFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3266,7 +3229,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>(DeleteFieldLevelEncryptionProfileInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionProfileOutput>(DeleteFieldLevelEncryptionProfileOutput.httpOutput(from:), DeleteFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFieldLevelEncryptionProfileOutput>())
@@ -3298,9 +3260,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter DeleteFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionInput`)
     ///
-    /// - Returns: `DeleteFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3336,7 +3298,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(DeleteFunctionInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionOutput>(DeleteFunctionOutput.httpOutput(from:), DeleteFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionOutput>())
@@ -3368,9 +3329,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group's identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
     ///
-    /// - Parameter DeleteKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyGroupInput`)
     ///
-    /// - Returns: `DeleteKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3405,7 +3366,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>(DeleteKeyGroupInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyGroupOutput>(DeleteKeyGroupOutput.httpOutput(from:), DeleteKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyGroupOutput>())
@@ -3437,9 +3397,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store to delete.
     ///
-    /// - Parameter DeleteKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyValueStoreInput`)
     ///
-    /// - Returns: `DeleteKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3476,7 +3436,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteKeyValueStoreInput, DeleteKeyValueStoreOutput>(DeleteKeyValueStoreInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyValueStoreOutput>(DeleteKeyValueStoreOutput.httpOutput(from:), DeleteKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyValueStoreInput, DeleteKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyValueStoreOutput>())
@@ -3508,9 +3467,9 @@ extension CloudFrontClient {
     ///
     /// Disables additional CloudWatch metrics for the specified CloudFront distribution.
     ///
-    /// - Parameter DeleteMonitoringSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitoringSubscriptionInput`)
     ///
-    /// - Returns: `DeleteMonitoringSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitoringSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3544,7 +3503,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitoringSubscriptionOutput>(DeleteMonitoringSubscriptionOutput.httpOutput(from:), DeleteMonitoringSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMonitoringSubscriptionOutput>())
@@ -3576,9 +3534,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
     ///
-    /// - Parameter DeleteOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginAccessControlInput`)
     ///
-    /// - Returns: `DeleteOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3614,7 +3572,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>(DeleteOriginAccessControlInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginAccessControlOutput>(DeleteOriginAccessControlOutput.httpOutput(from:), DeleteOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOriginAccessControlOutput>())
@@ -3646,9 +3603,9 @@ extension CloudFrontClient {
     ///
     /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
     ///
-    /// - Parameter DeleteOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginRequestPolicyInput`)
     ///
-    /// - Returns: `DeleteOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3685,7 +3642,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>(DeleteOriginRequestPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginRequestPolicyOutput>(DeleteOriginRequestPolicyOutput.httpOutput(from:), DeleteOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOriginRequestPolicyOutput>())
@@ -3717,9 +3673,9 @@ extension CloudFrontClient {
     ///
     /// Remove a public key you previously added to CloudFront.
     ///
-    /// - Parameter DeletePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicKeyInput`)
     ///
-    /// - Returns: `DeletePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3755,7 +3711,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>(DeletePublicKeyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicKeyOutput>(DeletePublicKeyOutput.httpOutput(from:), DeletePublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublicKeyOutput>())
@@ -3787,9 +3742,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
     ///
-    /// - Parameter DeleteRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRealtimeLogConfigInput`)
     ///
-    /// - Returns: `DeleteRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3826,7 +3781,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRealtimeLogConfigOutput>(DeleteRealtimeLogConfigOutput.httpOutput(from:), DeleteRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRealtimeLogConfigOutput>())
@@ -3858,9 +3812,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
     ///
-    /// - Parameter DeleteResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `DeleteResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3897,7 +3851,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>(DeleteResponseHeadersPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResponseHeadersPolicyOutput>(DeleteResponseHeadersPolicyOutput.httpOutput(from:), DeleteResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResponseHeadersPolicyOutput>())
@@ -3948,9 +3901,9 @@ extension CloudFrontClient {
     ///
     /// For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter DeleteStreamingDistributionInput : The request to delete a streaming distribution.
+    /// - Parameter input: The request to delete a streaming distribution. (Type: `DeleteStreamingDistributionInput`)
     ///
-    /// - Returns: `DeleteStreamingDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3986,7 +3939,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>(DeleteStreamingDistributionInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamingDistributionOutput>(DeleteStreamingDistributionOutput.httpOutput(from:), DeleteStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamingDistributionOutput>())
@@ -4018,9 +3970,9 @@ extension CloudFrontClient {
     ///
     /// Delete an Amazon CloudFront VPC origin.
     ///
-    /// - Parameter DeleteVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcOriginInput`)
     ///
-    /// - Returns: `DeleteVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4059,7 +4011,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteVpcOriginInput, DeleteVpcOriginOutput>(DeleteVpcOriginInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcOriginOutput>(DeleteVpcOriginOutput.httpOutput(from:), DeleteVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcOriginInput, DeleteVpcOriginOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcOriginOutput>())
@@ -4091,9 +4042,9 @@ extension CloudFrontClient {
     ///
     /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
-    /// - Parameter DescribeFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFunctionInput`)
     ///
-    /// - Returns: `DescribeFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4126,7 +4077,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeFunctionInput, DescribeFunctionOutput>(DescribeFunctionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFunctionOutput>(DescribeFunctionOutput.httpOutput(from:), DescribeFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFunctionInput, DescribeFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFunctionOutput>())
@@ -4158,9 +4108,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store and its configuration.
     ///
-    /// - Parameter DescribeKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyValueStoreInput`)
     ///
-    /// - Returns: `DescribeKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4194,7 +4144,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyValueStoreOutput>(DescribeKeyValueStoreOutput.httpOutput(from:), DescribeKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyValueStoreOutput>())
@@ -4226,9 +4175,9 @@ extension CloudFrontClient {
     ///
     /// Disassociates a distribution tenant from the WAF web ACL.
     ///
-    /// - Parameter DisassociateDistributionTenantWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDistributionTenantWebACLInput`)
     ///
-    /// - Returns: `DisassociateDistributionTenantWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDistributionTenantWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4264,7 +4213,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DisassociateDistributionTenantWebACLInput, DisassociateDistributionTenantWebACLOutput>(DisassociateDistributionTenantWebACLInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDistributionTenantWebACLOutput>(DisassociateDistributionTenantWebACLOutput.httpOutput(from:), DisassociateDistributionTenantWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDistributionTenantWebACLInput, DisassociateDistributionTenantWebACLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDistributionTenantWebACLOutput>())
@@ -4296,9 +4244,9 @@ extension CloudFrontClient {
     ///
     /// Disassociates a distribution from the WAF web ACL.
     ///
-    /// - Parameter DisassociateDistributionWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDistributionWebACLInput`)
     ///
-    /// - Returns: `DisassociateDistributionWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDistributionWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4334,7 +4282,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DisassociateDistributionWebACLInput, DisassociateDistributionWebACLOutput>(DisassociateDistributionWebACLInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDistributionWebACLOutput>(DisassociateDistributionWebACLOutput.httpOutput(from:), DisassociateDistributionWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDistributionWebACLInput, DisassociateDistributionWebACLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDistributionWebACLOutput>())
@@ -4366,9 +4313,9 @@ extension CloudFrontClient {
     ///
     /// Gets an Anycast static IP list.
     ///
-    /// - Parameter GetAnycastIpListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnycastIpListInput`)
     ///
-    /// - Returns: `GetAnycastIpListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnycastIpListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4402,7 +4349,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnycastIpListInput, GetAnycastIpListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnycastIpListOutput>(GetAnycastIpListOutput.httpOutput(from:), GetAnycastIpListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnycastIpListInput, GetAnycastIpListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnycastIpListOutput>())
@@ -4441,9 +4387,9 @@ extension CloudFrontClient {
     ///
     /// To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///
-    /// - Parameter GetCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCachePolicyInput`)
     ///
-    /// - Returns: `GetCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4475,7 +4421,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCachePolicyInput, GetCachePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCachePolicyOutput>(GetCachePolicyOutput.httpOutput(from:), GetCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCachePolicyInput, GetCachePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCachePolicyOutput>())
@@ -4507,9 +4452,9 @@ extension CloudFrontClient {
     ///
     /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///
-    /// - Parameter GetCachePolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCachePolicyConfigInput`)
     ///
-    /// - Returns: `GetCachePolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCachePolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4541,7 +4486,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCachePolicyConfigOutput>(GetCachePolicyConfigOutput.httpOutput(from:), GetCachePolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCachePolicyConfigOutput>())
@@ -4573,9 +4517,9 @@ extension CloudFrontClient {
     ///
     /// Get the information about an origin access identity.
     ///
-    /// - Parameter GetCloudFrontOriginAccessIdentityInput : The request to get an origin access identity's information.
+    /// - Parameter input: The request to get an origin access identity's information. (Type: `GetCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `GetCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4607,7 +4551,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityOutput>(GetCloudFrontOriginAccessIdentityOutput.httpOutput(from:), GetCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudFrontOriginAccessIdentityOutput>())
@@ -4639,9 +4582,9 @@ extension CloudFrontClient {
     ///
     /// Get the configuration information about an origin access identity.
     ///
-    /// - Parameter GetCloudFrontOriginAccessIdentityConfigInput : The origin access identity's configuration information. For more information, see [CloudFrontOriginAccessIdentityConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CloudFrontOriginAccessIdentityConfig.html).
+    /// - Parameter input: The origin access identity's configuration information. For more information, see [CloudFrontOriginAccessIdentityConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CloudFrontOriginAccessIdentityConfig.html). (Type: `GetCloudFrontOriginAccessIdentityConfigInput`)
     ///
-    /// - Returns: `GetCloudFrontOriginAccessIdentityConfigOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetCloudFrontOriginAccessIdentityConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4673,7 +4616,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityConfigOutput>(GetCloudFrontOriginAccessIdentityConfigOutput.httpOutput(from:), GetCloudFrontOriginAccessIdentityConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudFrontOriginAccessIdentityConfigOutput>())
@@ -4705,9 +4647,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a connection group.
     ///
-    /// - Parameter GetConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionGroupInput`)
     ///
-    /// - Returns: `GetConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4739,7 +4681,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectionGroupInput, GetConnectionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionGroupOutput>(GetConnectionGroupOutput.httpOutput(from:), GetConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionGroupInput, GetConnectionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionGroupOutput>())
@@ -4771,9 +4712,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a connection group by using the endpoint that you specify.
     ///
-    /// - Parameter GetConnectionGroupByRoutingEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionGroupByRoutingEndpointInput`)
     ///
-    /// - Returns: `GetConnectionGroupByRoutingEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionGroupByRoutingEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4806,7 +4747,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConnectionGroupByRoutingEndpointInput, GetConnectionGroupByRoutingEndpointOutput>(GetConnectionGroupByRoutingEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionGroupByRoutingEndpointOutput>(GetConnectionGroupByRoutingEndpointOutput.httpOutput(from:), GetConnectionGroupByRoutingEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionGroupByRoutingEndpointInput, GetConnectionGroupByRoutingEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionGroupByRoutingEndpointOutput>())
@@ -4838,9 +4778,9 @@ extension CloudFrontClient {
     ///
     /// Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
     ///
-    /// - Parameter GetContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `GetContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4872,7 +4812,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyOutput>(GetContinuousDeploymentPolicyOutput.httpOutput(from:), GetContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContinuousDeploymentPolicyOutput>())
@@ -4904,9 +4843,9 @@ extension CloudFrontClient {
     ///
     /// Gets configuration information about a continuous deployment policy.
     ///
-    /// - Parameter GetContinuousDeploymentPolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContinuousDeploymentPolicyConfigInput`)
     ///
-    /// - Returns: `GetContinuousDeploymentPolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContinuousDeploymentPolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4938,7 +4877,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyConfigOutput>(GetContinuousDeploymentPolicyConfigOutput.httpOutput(from:), GetContinuousDeploymentPolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContinuousDeploymentPolicyConfigOutput>())
@@ -4970,9 +4908,9 @@ extension CloudFrontClient {
     ///
     /// Get the information about a distribution.
     ///
-    /// - Parameter GetDistributionInput : The request to get a distribution's information.
+    /// - Parameter input: The request to get a distribution's information. (Type: `GetDistributionInput`)
     ///
-    /// - Returns: `GetDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5004,7 +4942,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDistributionInput, GetDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionOutput>(GetDistributionOutput.httpOutput(from:), GetDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionInput, GetDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionOutput>())
@@ -5036,9 +4973,9 @@ extension CloudFrontClient {
     ///
     /// Get the configuration information about a distribution.
     ///
-    /// - Parameter GetDistributionConfigInput : The request to get a distribution configuration.
+    /// - Parameter input: The request to get a distribution configuration. (Type: `GetDistributionConfigInput`)
     ///
-    /// - Returns: `GetDistributionConfigOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetDistributionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5070,7 +5007,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDistributionConfigInput, GetDistributionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionConfigOutput>(GetDistributionConfigOutput.httpOutput(from:), GetDistributionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionConfigInput, GetDistributionConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionConfigOutput>())
@@ -5102,9 +5038,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a distribution tenant.
     ///
-    /// - Parameter GetDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionTenantInput`)
     ///
-    /// - Returns: `GetDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5136,7 +5072,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDistributionTenantInput, GetDistributionTenantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionTenantOutput>(GetDistributionTenantOutput.httpOutput(from:), GetDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionTenantInput, GetDistributionTenantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionTenantOutput>())
@@ -5168,9 +5103,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a distribution tenant by the associated domain.
     ///
-    /// - Parameter GetDistributionTenantByDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionTenantByDomainInput`)
     ///
-    /// - Returns: `GetDistributionTenantByDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionTenantByDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5203,7 +5138,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDistributionTenantByDomainInput, GetDistributionTenantByDomainOutput>(GetDistributionTenantByDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionTenantByDomainOutput>(GetDistributionTenantByDomainOutput.httpOutput(from:), GetDistributionTenantByDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionTenantByDomainInput, GetDistributionTenantByDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionTenantByDomainOutput>())
@@ -5235,9 +5169,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption configuration information.
     ///
-    /// - Parameter GetFieldLevelEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5269,7 +5203,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionOutput>(GetFieldLevelEncryptionOutput.httpOutput(from:), GetFieldLevelEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFieldLevelEncryptionOutput>())
@@ -5301,9 +5234,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption configuration information.
     ///
-    /// - Parameter GetFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5335,7 +5268,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionConfigOutput>(GetFieldLevelEncryptionConfigOutput.httpOutput(from:), GetFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFieldLevelEncryptionConfigOutput>())
@@ -5367,9 +5299,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption profile information.
     ///
-    /// - Parameter GetFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5401,7 +5333,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileOutput>(GetFieldLevelEncryptionProfileOutput.httpOutput(from:), GetFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFieldLevelEncryptionProfileOutput>())
@@ -5433,9 +5364,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption profile configuration information.
     ///
-    /// - Parameter GetFieldLevelEncryptionProfileConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionProfileConfigInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionProfileConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionProfileConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5467,7 +5398,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileConfigOutput>(GetFieldLevelEncryptionProfileConfigOutput.httpOutput(from:), GetFieldLevelEncryptionProfileConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFieldLevelEncryptionProfileConfigOutput>())
@@ -5499,9 +5429,9 @@ extension CloudFrontClient {
     ///
     /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
-    /// - Parameter GetFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionInput`)
     ///
-    /// - Returns: `GetFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5534,7 +5464,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionInput, GetFunctionOutput>(GetFunctionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionOutput>(GetFunctionOutput.httpOutput(from:), GetFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionInput, GetFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionOutput>())
@@ -5566,9 +5495,9 @@ extension CloudFrontClient {
     ///
     /// Get the information about an invalidation.
     ///
-    /// - Parameter GetInvalidationInput : The request to get an invalidation's information.
+    /// - Parameter input: The request to get an invalidation's information. (Type: `GetInvalidationInput`)
     ///
-    /// - Returns: `GetInvalidationOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetInvalidationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5601,7 +5530,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvalidationInput, GetInvalidationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvalidationOutput>(GetInvalidationOutput.httpOutput(from:), GetInvalidationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvalidationInput, GetInvalidationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvalidationOutput>())
@@ -5633,9 +5561,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a specific invalidation for a distribution tenant.
     ///
-    /// - Parameter GetInvalidationForDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvalidationForDistributionTenantInput`)
     ///
-    /// - Returns: `GetInvalidationForDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvalidationForDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5668,7 +5596,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvalidationForDistributionTenantOutput>(GetInvalidationForDistributionTenantOutput.httpOutput(from:), GetInvalidationForDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvalidationForDistributionTenantOutput>())
@@ -5700,9 +5627,9 @@ extension CloudFrontClient {
     ///
     /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
-    /// - Parameter GetKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyGroupInput`)
     ///
-    /// - Returns: `GetKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5733,7 +5660,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKeyGroupInput, GetKeyGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyGroupOutput>(GetKeyGroupOutput.httpOutput(from:), GetKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyGroupInput, GetKeyGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyGroupOutput>())
@@ -5765,9 +5691,9 @@ extension CloudFrontClient {
     ///
     /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
-    /// - Parameter GetKeyGroupConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyGroupConfigInput`)
     ///
-    /// - Returns: `GetKeyGroupConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyGroupConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5798,7 +5724,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyGroupConfigOutput>(GetKeyGroupConfigOutput.httpOutput(from:), GetKeyGroupConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyGroupConfigOutput>())
@@ -5830,9 +5755,9 @@ extension CloudFrontClient {
     ///
     /// Gets details about the CloudFront managed ACM certificate.
     ///
-    /// - Parameter GetManagedCertificateDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedCertificateDetailsInput`)
     ///
-    /// - Returns: `GetManagedCertificateDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedCertificateDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5864,7 +5789,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedCertificateDetailsInput, GetManagedCertificateDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedCertificateDetailsOutput>(GetManagedCertificateDetailsOutput.httpOutput(from:), GetManagedCertificateDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedCertificateDetailsInput, GetManagedCertificateDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedCertificateDetailsOutput>())
@@ -5896,9 +5820,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
     ///
-    /// - Parameter GetMonitoringSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitoringSubscriptionInput`)
     ///
-    /// - Returns: `GetMonitoringSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitoringSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5932,7 +5856,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMonitoringSubscriptionOutput>(GetMonitoringSubscriptionOutput.httpOutput(from:), GetMonitoringSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMonitoringSubscriptionOutput>())
@@ -5964,9 +5887,9 @@ extension CloudFrontClient {
     ///
     /// Gets a CloudFront origin access control, including its unique identifier.
     ///
-    /// - Parameter GetOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginAccessControlInput`)
     ///
-    /// - Returns: `GetOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5998,7 +5921,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginAccessControlOutput>(GetOriginAccessControlOutput.httpOutput(from:), GetOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOriginAccessControlOutput>())
@@ -6030,9 +5952,9 @@ extension CloudFrontClient {
     ///
     /// Gets a CloudFront origin access control configuration.
     ///
-    /// - Parameter GetOriginAccessControlConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginAccessControlConfigInput`)
     ///
-    /// - Returns: `GetOriginAccessControlConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginAccessControlConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6064,7 +5986,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginAccessControlConfigOutput>(GetOriginAccessControlConfigOutput.httpOutput(from:), GetOriginAccessControlConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOriginAccessControlConfigOutput>())
@@ -6103,9 +6024,9 @@ extension CloudFrontClient {
     ///
     /// To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///
-    /// - Parameter GetOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginRequestPolicyInput`)
     ///
-    /// - Returns: `GetOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6137,7 +6058,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyOutput>(GetOriginRequestPolicyOutput.httpOutput(from:), GetOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOriginRequestPolicyOutput>())
@@ -6169,9 +6089,9 @@ extension CloudFrontClient {
     ///
     /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///
-    /// - Parameter GetOriginRequestPolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginRequestPolicyConfigInput`)
     ///
-    /// - Returns: `GetOriginRequestPolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginRequestPolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6203,7 +6123,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyConfigOutput>(GetOriginRequestPolicyConfigOutput.httpOutput(from:), GetOriginRequestPolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOriginRequestPolicyConfigOutput>())
@@ -6235,9 +6154,9 @@ extension CloudFrontClient {
     ///
     /// Gets a public key.
     ///
-    /// - Parameter GetPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyInput`)
     ///
-    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6269,7 +6188,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublicKeyInput, GetPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicKeyOutput>(GetPublicKeyOutput.httpOutput(from:), GetPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPublicKeyOutput>())
@@ -6301,9 +6219,9 @@ extension CloudFrontClient {
     ///
     /// Gets a public key configuration.
     ///
-    /// - Parameter GetPublicKeyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyConfigInput`)
     ///
-    /// - Returns: `GetPublicKeyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6335,7 +6253,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicKeyConfigOutput>(GetPublicKeyConfigOutput.httpOutput(from:), GetPublicKeyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPublicKeyConfigOutput>())
@@ -6367,9 +6284,9 @@ extension CloudFrontClient {
     ///
     /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
     ///
-    /// - Parameter GetRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRealtimeLogConfigInput`)
     ///
-    /// - Returns: `GetRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6405,7 +6322,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRealtimeLogConfigOutput>(GetRealtimeLogConfigOutput.httpOutput(from:), GetRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRealtimeLogConfigOutput>())
@@ -6437,9 +6353,9 @@ extension CloudFrontClient {
     ///
     /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
-    /// - Parameter GetResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `GetResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6471,7 +6387,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyOutput>(GetResponseHeadersPolicyOutput.httpOutput(from:), GetResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResponseHeadersPolicyOutput>())
@@ -6503,9 +6418,9 @@ extension CloudFrontClient {
     ///
     /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
-    /// - Parameter GetResponseHeadersPolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResponseHeadersPolicyConfigInput`)
     ///
-    /// - Returns: `GetResponseHeadersPolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResponseHeadersPolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6537,7 +6452,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyConfigOutput>(GetResponseHeadersPolicyConfigOutput.httpOutput(from:), GetResponseHeadersPolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResponseHeadersPolicyConfigOutput>())
@@ -6569,9 +6483,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a specified RTMP distribution, including the distribution configuration.
     ///
-    /// - Parameter GetStreamingDistributionInput : The request to get a streaming distribution's information.
+    /// - Parameter input: The request to get a streaming distribution's information. (Type: `GetStreamingDistributionInput`)
     ///
-    /// - Returns: `GetStreamingDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6603,7 +6517,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamingDistributionOutput>(GetStreamingDistributionOutput.httpOutput(from:), GetStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamingDistributionOutput>())
@@ -6635,9 +6548,9 @@ extension CloudFrontClient {
     ///
     /// Get the configuration information about a streaming distribution.
     ///
-    /// - Parameter GetStreamingDistributionConfigInput : To request to get a streaming distribution configuration.
+    /// - Parameter input: To request to get a streaming distribution configuration. (Type: `GetStreamingDistributionConfigInput`)
     ///
-    /// - Returns: `GetStreamingDistributionConfigOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetStreamingDistributionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6669,7 +6582,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamingDistributionConfigOutput>(GetStreamingDistributionConfigOutput.httpOutput(from:), GetStreamingDistributionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamingDistributionConfigOutput>())
@@ -6701,9 +6613,9 @@ extension CloudFrontClient {
     ///
     /// Get the details of an Amazon CloudFront VPC origin.
     ///
-    /// - Parameter GetVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcOriginInput`)
     ///
-    /// - Returns: `GetVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6737,7 +6649,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVpcOriginInput, GetVpcOriginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpcOriginOutput>(GetVpcOriginOutput.httpOutput(from:), GetVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpcOriginInput, GetVpcOriginOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpcOriginOutput>())
@@ -6769,9 +6680,9 @@ extension CloudFrontClient {
     ///
     /// Lists your Anycast static IP lists.
     ///
-    /// - Parameter ListAnycastIpListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnycastIpListsInput`)
     ///
-    /// - Returns: `ListAnycastIpListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnycastIpListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6806,7 +6717,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnycastIpListsInput, ListAnycastIpListsOutput>(ListAnycastIpListsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnycastIpListsOutput>(ListAnycastIpListsOutput.httpOutput(from:), ListAnycastIpListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnycastIpListsInput, ListAnycastIpListsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnycastIpListsOutput>())
@@ -6838,9 +6748,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListCachePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCachePoliciesInput`)
     ///
-    /// - Returns: `ListCachePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCachePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6874,7 +6784,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>(ListCachePoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCachePoliciesOutput>(ListCachePoliciesOutput.httpOutput(from:), ListCachePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCachePoliciesOutput>())
@@ -6906,9 +6815,9 @@ extension CloudFrontClient {
     ///
     /// Lists origin access identities.
     ///
-    /// - Parameter ListCloudFrontOriginAccessIdentitiesInput : The request to list origin access identities.
+    /// - Parameter input: The request to list origin access identities. (Type: `ListCloudFrontOriginAccessIdentitiesInput`)
     ///
-    /// - Returns: `ListCloudFrontOriginAccessIdentitiesOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListCloudFrontOriginAccessIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6940,7 +6849,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>(ListCloudFrontOriginAccessIdentitiesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudFrontOriginAccessIdentitiesOutput>(ListCloudFrontOriginAccessIdentitiesOutput.httpOutput(from:), ListCloudFrontOriginAccessIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudFrontOriginAccessIdentitiesOutput>())
@@ -6972,9 +6880,9 @@ extension CloudFrontClient {
     ///
     /// The ListConflictingAliases API operation only supports standard distributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the [ListDomainConflicts](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDomainConflicts.html) API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. In the returned list, the standard distribution and account IDs are partially hidden, which allows you to identify the standard distribution and accounts that you own, and helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (.example.com), if they exist. If you provide .example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, specify the alias to search and the ID of a standard distribution in your account that has an attached TLS certificate that includes the provided alias. For more information, including how to set up the standard distribution and certificate, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListConflictingAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConflictingAliasesInput`)
     ///
-    /// - Returns: `ListConflictingAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConflictingAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7007,7 +6915,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>(ListConflictingAliasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConflictingAliasesOutput>(ListConflictingAliasesOutput.httpOutput(from:), ListConflictingAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConflictingAliasesOutput>())
@@ -7039,9 +6946,9 @@ extension CloudFrontClient {
     ///
     /// Lists the connection groups in your Amazon Web Services account.
     ///
-    /// - Parameter ListConnectionGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectionGroupsInput`)
     ///
-    /// - Returns: `ListConnectionGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectionGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7077,7 +6984,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionGroupsOutput>(ListConnectionGroupsOutput.httpOutput(from:), ListConnectionGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectionGroupsOutput>())
@@ -7109,9 +7015,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListContinuousDeploymentPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContinuousDeploymentPoliciesInput`)
     ///
-    /// - Returns: `ListContinuousDeploymentPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContinuousDeploymentPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7145,7 +7051,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>(ListContinuousDeploymentPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContinuousDeploymentPoliciesOutput>(ListContinuousDeploymentPoliciesOutput.httpOutput(from:), ListContinuousDeploymentPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContinuousDeploymentPoliciesOutput>())
@@ -7177,9 +7082,9 @@ extension CloudFrontClient {
     ///
     /// Lists the distribution tenants in your Amazon Web Services account.
     ///
-    /// - Parameter ListDistributionTenantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionTenantsInput`)
     ///
-    /// - Returns: `ListDistributionTenantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionTenantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7215,7 +7120,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionTenantsOutput>(ListDistributionTenantsOutput.httpOutput(from:), ListDistributionTenantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionTenantsOutput>())
@@ -7247,9 +7151,9 @@ extension CloudFrontClient {
     ///
     /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request.
     ///
-    /// - Parameter ListDistributionTenantsByCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionTenantsByCustomizationInput`)
     ///
-    /// - Returns: `ListDistributionTenantsByCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionTenantsByCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7285,7 +7189,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionTenantsByCustomizationOutput>(ListDistributionTenantsByCustomizationOutput.httpOutput(from:), ListDistributionTenantsByCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionTenantsByCustomizationOutput>())
@@ -7317,9 +7220,9 @@ extension CloudFrontClient {
     ///
     /// List CloudFront distributions.
     ///
-    /// - Parameter ListDistributionsInput : The request to list your distributions.
+    /// - Parameter input: The request to list your distributions. (Type: `ListDistributionsInput`)
     ///
-    /// - Returns: `ListDistributionsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListDistributionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7351,7 +7254,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsInput, ListDistributionsOutput>(ListDistributionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsOutput>(ListDistributionsOutput.httpOutput(from:), ListDistributionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsInput, ListDistributionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsOutput>())
@@ -7383,9 +7285,9 @@ extension CloudFrontClient {
     ///
     /// Lists the distributions in your account that are associated with the specified AnycastIpListId.
     ///
-    /// - Parameter ListDistributionsByAnycastIpListIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByAnycastIpListIdInput`)
     ///
-    /// - Returns: `ListDistributionsByAnycastIpListIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByAnycastIpListIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7420,7 +7322,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByAnycastIpListIdInput, ListDistributionsByAnycastIpListIdOutput>(ListDistributionsByAnycastIpListIdInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByAnycastIpListIdOutput>(ListDistributionsByAnycastIpListIdOutput.httpOutput(from:), ListDistributionsByAnycastIpListIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByAnycastIpListIdInput, ListDistributionsByAnycastIpListIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByAnycastIpListIdOutput>())
@@ -7452,9 +7353,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByCachePolicyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByCachePolicyIdInput`)
     ///
-    /// - Returns: `ListDistributionsByCachePolicyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByCachePolicyIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7488,7 +7389,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>(ListDistributionsByCachePolicyIdInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByCachePolicyIdOutput>(ListDistributionsByCachePolicyIdOutput.httpOutput(from:), ListDistributionsByCachePolicyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByCachePolicyIdOutput>())
@@ -7520,9 +7420,9 @@ extension CloudFrontClient {
     ///
     /// Lists the distributions by the connection mode that you specify.
     ///
-    /// - Parameter ListDistributionsByConnectionModeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByConnectionModeInput`)
     ///
-    /// - Returns: `ListDistributionsByConnectionModeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByConnectionModeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7555,7 +7455,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput>(ListDistributionsByConnectionModeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByConnectionModeOutput>(ListDistributionsByConnectionModeOutput.httpOutput(from:), ListDistributionsByConnectionModeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByConnectionModeOutput>())
@@ -7587,9 +7486,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByKeyGroupInput`)
     ///
-    /// - Returns: `ListDistributionsByKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7622,7 +7521,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>(ListDistributionsByKeyGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByKeyGroupOutput>(ListDistributionsByKeyGroupOutput.httpOutput(from:), ListDistributionsByKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByKeyGroupOutput>())
@@ -7654,9 +7552,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByOriginRequestPolicyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByOriginRequestPolicyIdInput`)
     ///
-    /// - Returns: `ListDistributionsByOriginRequestPolicyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByOriginRequestPolicyIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7690,7 +7588,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>(ListDistributionsByOriginRequestPolicyIdInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByOriginRequestPolicyIdOutput>(ListDistributionsByOriginRequestPolicyIdOutput.httpOutput(from:), ListDistributionsByOriginRequestPolicyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByOriginRequestPolicyIdOutput>())
@@ -7722,9 +7619,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByRealtimeLogConfigInput`)
     ///
-    /// - Returns: `ListDistributionsByRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7758,7 +7655,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByRealtimeLogConfigOutput>(ListDistributionsByRealtimeLogConfigOutput.httpOutput(from:), ListDistributionsByRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByRealtimeLogConfigOutput>())
@@ -7790,9 +7686,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByResponseHeadersPolicyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByResponseHeadersPolicyIdInput`)
     ///
-    /// - Returns: `ListDistributionsByResponseHeadersPolicyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByResponseHeadersPolicyIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7826,7 +7722,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>(ListDistributionsByResponseHeadersPolicyIdInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByResponseHeadersPolicyIdOutput>(ListDistributionsByResponseHeadersPolicyIdOutput.httpOutput(from:), ListDistributionsByResponseHeadersPolicyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByResponseHeadersPolicyIdOutput>())
@@ -7858,9 +7753,9 @@ extension CloudFrontClient {
     ///
     /// List CloudFront distributions by their VPC origin ID.
     ///
-    /// - Parameter ListDistributionsByVpcOriginIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByVpcOriginIdInput`)
     ///
-    /// - Returns: `ListDistributionsByVpcOriginIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByVpcOriginIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7895,7 +7790,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByVpcOriginIdInput, ListDistributionsByVpcOriginIdOutput>(ListDistributionsByVpcOriginIdInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByVpcOriginIdOutput>(ListDistributionsByVpcOriginIdOutput.httpOutput(from:), ListDistributionsByVpcOriginIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByVpcOriginIdInput, ListDistributionsByVpcOriginIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByVpcOriginIdOutput>())
@@ -7927,9 +7821,9 @@ extension CloudFrontClient {
     ///
     /// List the distributions that are associated with a specified WAF web ACL.
     ///
-    /// - Parameter ListDistributionsByWebACLIdInput : The request to list distributions that are associated with a specified WAF web ACL.
+    /// - Parameter input: The request to list distributions that are associated with a specified WAF web ACL. (Type: `ListDistributionsByWebACLIdInput`)
     ///
-    /// - Returns: `ListDistributionsByWebACLIdOutput` : The response to a request to list the distributions that are associated with a specified WAF web ACL.
+    /// - Returns: The response to a request to list the distributions that are associated with a specified WAF web ACL. (Type: `ListDistributionsByWebACLIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7962,7 +7856,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>(ListDistributionsByWebACLIdInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByWebACLIdOutput>(ListDistributionsByWebACLIdOutput.httpOutput(from:), ListDistributionsByWebACLIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributionsByWebACLIdOutput>())
@@ -8001,9 +7894,9 @@ extension CloudFrontClient {
     ///
     /// For more information, including how to set up the standard distribution or distribution tenant, and the certificate, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDomainConflictsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainConflictsInput`)
     ///
-    /// - Returns: `ListDomainConflictsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainConflictsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8039,7 +7932,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainConflictsOutput>(ListDomainConflictsOutput.httpOutput(from:), ListDomainConflictsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainConflictsOutput>())
@@ -8071,9 +7963,9 @@ extension CloudFrontClient {
     ///
     /// List all field-level encryption configurations that have been created in CloudFront for this account.
     ///
-    /// - Parameter ListFieldLevelEncryptionConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldLevelEncryptionConfigsInput`)
     ///
-    /// - Returns: `ListFieldLevelEncryptionConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldLevelEncryptionConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8105,7 +7997,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>(ListFieldLevelEncryptionConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionConfigsOutput>(ListFieldLevelEncryptionConfigsOutput.httpOutput(from:), ListFieldLevelEncryptionConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFieldLevelEncryptionConfigsOutput>())
@@ -8137,9 +8028,9 @@ extension CloudFrontClient {
     ///
     /// Request a list of field-level encryption profiles that have been created in CloudFront for this account.
     ///
-    /// - Parameter ListFieldLevelEncryptionProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldLevelEncryptionProfilesInput`)
     ///
-    /// - Returns: `ListFieldLevelEncryptionProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldLevelEncryptionProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8171,7 +8062,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>(ListFieldLevelEncryptionProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionProfilesOutput>(ListFieldLevelEncryptionProfilesOutput.httpOutput(from:), ListFieldLevelEncryptionProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFieldLevelEncryptionProfilesOutput>())
@@ -8203,9 +8093,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListFunctionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionsInput`)
     ///
-    /// - Returns: `ListFunctionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8238,7 +8128,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutput>(ListFunctionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionsOutput>(ListFunctionsOutput.httpOutput(from:), ListFunctionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionsInput, ListFunctionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionsOutput>())
@@ -8270,9 +8159,9 @@ extension CloudFrontClient {
     ///
     /// Lists invalidation batches.
     ///
-    /// - Parameter ListInvalidationsInput : The request to list invalidations.
+    /// - Parameter input: The request to list invalidations. (Type: `ListInvalidationsInput`)
     ///
-    /// - Returns: `ListInvalidationsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListInvalidationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8306,7 +8195,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvalidationsInput, ListInvalidationsOutput>(ListInvalidationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvalidationsOutput>(ListInvalidationsOutput.httpOutput(from:), ListInvalidationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvalidationsInput, ListInvalidationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvalidationsOutput>())
@@ -8338,9 +8226,9 @@ extension CloudFrontClient {
     ///
     /// Lists the invalidations for a distribution tenant.
     ///
-    /// - Parameter ListInvalidationsForDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvalidationsForDistributionTenantInput`)
     ///
-    /// - Returns: `ListInvalidationsForDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvalidationsForDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8374,7 +8262,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput>(ListInvalidationsForDistributionTenantInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvalidationsForDistributionTenantOutput>(ListInvalidationsForDistributionTenantOutput.httpOutput(from:), ListInvalidationsForDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvalidationsForDistributionTenantOutput>())
@@ -8406,9 +8293,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListKeyGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyGroupsInput`)
     ///
-    /// - Returns: `ListKeyGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8440,7 +8327,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>(ListKeyGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyGroupsOutput>(ListKeyGroupsOutput.httpOutput(from:), ListKeyGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeyGroupsOutput>())
@@ -8472,9 +8358,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value stores to list.
     ///
-    /// - Parameter ListKeyValueStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyValueStoresInput`)
     ///
-    /// - Returns: `ListKeyValueStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyValueStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8508,7 +8394,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKeyValueStoresInput, ListKeyValueStoresOutput>(ListKeyValueStoresInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyValueStoresOutput>(ListKeyValueStoresOutput.httpOutput(from:), ListKeyValueStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyValueStoresInput, ListKeyValueStoresOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeyValueStoresOutput>())
@@ -8540,9 +8425,9 @@ extension CloudFrontClient {
     ///
     /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send another request that specifies the NextMarker value from the current response as the Marker value in the next request. If you're not using origin access controls for your Amazon Web Services account, the ListOriginAccessControls operation doesn't return the Items element in the response.
     ///
-    /// - Parameter ListOriginAccessControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOriginAccessControlsInput`)
     ///
-    /// - Returns: `ListOriginAccessControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOriginAccessControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8574,7 +8459,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>(ListOriginAccessControlsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOriginAccessControlsOutput>(ListOriginAccessControlsOutput.httpOutput(from:), ListOriginAccessControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOriginAccessControlsOutput>())
@@ -8606,9 +8490,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListOriginRequestPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOriginRequestPoliciesInput`)
     ///
-    /// - Returns: `ListOriginRequestPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOriginRequestPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8642,7 +8526,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>(ListOriginRequestPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOriginRequestPoliciesOutput>(ListOriginRequestPoliciesOutput.httpOutput(from:), ListOriginRequestPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOriginRequestPoliciesOutput>())
@@ -8674,9 +8557,9 @@ extension CloudFrontClient {
     ///
     /// List all public keys that have been added to CloudFront for this account.
     ///
-    /// - Parameter ListPublicKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublicKeysInput`)
     ///
-    /// - Returns: `ListPublicKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublicKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8708,7 +8591,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(ListPublicKeysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublicKeysOutput>(ListPublicKeysOutput.httpOutput(from:), ListPublicKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPublicKeysOutput>())
@@ -8740,9 +8622,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListRealtimeLogConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRealtimeLogConfigsInput`)
     ///
-    /// - Returns: `ListRealtimeLogConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRealtimeLogConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8776,7 +8658,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>(ListRealtimeLogConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRealtimeLogConfigsOutput>(ListRealtimeLogConfigsOutput.httpOutput(from:), ListRealtimeLogConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRealtimeLogConfigsOutput>())
@@ -8808,9 +8689,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListResponseHeadersPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResponseHeadersPoliciesInput`)
     ///
-    /// - Returns: `ListResponseHeadersPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResponseHeadersPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8844,7 +8725,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>(ListResponseHeadersPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResponseHeadersPoliciesOutput>(ListResponseHeadersPoliciesOutput.httpOutput(from:), ListResponseHeadersPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResponseHeadersPoliciesOutput>())
@@ -8876,9 +8756,9 @@ extension CloudFrontClient {
     ///
     /// List streaming distributions.
     ///
-    /// - Parameter ListStreamingDistributionsInput : The request to list your streaming distributions.
+    /// - Parameter input: The request to list your streaming distributions. (Type: `ListStreamingDistributionsInput`)
     ///
-    /// - Returns: `ListStreamingDistributionsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListStreamingDistributionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8910,7 +8790,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>(ListStreamingDistributionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamingDistributionsOutput>(ListStreamingDistributionsOutput.httpOutput(from:), ListStreamingDistributionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamingDistributionsOutput>())
@@ -8942,9 +8821,9 @@ extension CloudFrontClient {
     ///
     /// List tags for a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : The request to list tags for a CloudFront resource.
+    /// - Parameter input: The request to list tags for a CloudFront resource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8979,7 +8858,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -9011,9 +8889,9 @@ extension CloudFrontClient {
     ///
     /// List the CloudFront VPC origins in your account.
     ///
-    /// - Parameter ListVpcOriginsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcOriginsInput`)
     ///
-    /// - Returns: `ListVpcOriginsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcOriginsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9048,7 +8926,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcOriginsInput, ListVpcOriginsOutput>(ListVpcOriginsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcOriginsOutput>(ListVpcOriginsOutput.httpOutput(from:), ListVpcOriginsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcOriginsInput, ListVpcOriginsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcOriginsOutput>())
@@ -9080,9 +8957,9 @@ extension CloudFrontClient {
     ///
     /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter PublishFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishFunctionInput`)
     ///
-    /// - Returns: `PublishFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9118,7 +8995,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<PublishFunctionInput, PublishFunctionOutput>(PublishFunctionInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishFunctionOutput>(PublishFunctionOutput.httpOutput(from:), PublishFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishFunctionInput, PublishFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishFunctionOutput>())
@@ -9150,9 +9026,9 @@ extension CloudFrontClient {
     ///
     /// Add tags to a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter TagResourceInput : The request to add tags to a CloudFront resource.
+    /// - Parameter input: The request to add tags to a CloudFront resource. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9190,7 +9066,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -9222,9 +9097,9 @@ extension CloudFrontClient {
     ///
     /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see [Testing functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function) in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag value) along with the event object. To get the function's name and version, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter TestFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestFunctionInput`)
     ///
-    /// - Returns: `TestFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9263,7 +9138,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestFunctionInput, TestFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestFunctionOutput>(TestFunctionOutput.httpOutput(from:), TestFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestFunctionInput, TestFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestFunctionOutput>())
@@ -9295,9 +9169,9 @@ extension CloudFrontClient {
     ///
     /// Remove tags from a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter UntagResourceInput : The request to remove tags from a CloudFront resource.
+    /// - Parameter input: The request to remove tags from a CloudFront resource. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9335,7 +9209,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -9376,9 +9249,9 @@ extension CloudFrontClient {
     ///
     /// If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     ///
-    /// - Parameter UpdateCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCachePolicyInput`)
     ///
-    /// - Returns: `UpdateCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9423,7 +9296,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCachePolicyOutput>(UpdateCachePolicyOutput.httpOutput(from:), UpdateCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCachePolicyOutput>())
@@ -9455,9 +9327,9 @@ extension CloudFrontClient {
     ///
     /// Update an origin access identity.
     ///
-    /// - Parameter UpdateCloudFrontOriginAccessIdentityInput : The request to update an origin access identity.
+    /// - Parameter input: The request to update an origin access identity. (Type: `UpdateCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `UpdateCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `UpdateCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9499,7 +9371,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloudFrontOriginAccessIdentityOutput>(UpdateCloudFrontOriginAccessIdentityOutput.httpOutput(from:), UpdateCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudFrontOriginAccessIdentityOutput>())
@@ -9531,9 +9402,9 @@ extension CloudFrontClient {
     ///
     /// Updates a connection group.
     ///
-    /// - Parameter UpdateConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionGroupInput`)
     ///
-    /// - Returns: `UpdateConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9575,7 +9446,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionGroupOutput>(UpdateConnectionGroupOutput.httpOutput(from:), UpdateConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionGroupOutput>())
@@ -9613,9 +9483,9 @@ extension CloudFrontClient {
     ///
     /// * Use UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `UpdateContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9656,7 +9526,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContinuousDeploymentPolicyOutput>(UpdateContinuousDeploymentPolicyOutput.httpOutput(from:), UpdateContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContinuousDeploymentPolicyOutput>())
@@ -9701,9 +9570,9 @@ extension CloudFrontClient {
     ///
     /// * Submit an UpdateDistribution request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
     ///
-    /// - Parameter UpdateDistributionInput : The request to update a distribution.
+    /// - Parameter input: The request to update a distribution. (Type: `UpdateDistributionInput`)
     ///
-    /// - Returns: `UpdateDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `UpdateDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9804,7 +9673,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDistributionInput, UpdateDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionOutput>(UpdateDistributionOutput.httpOutput(from:), UpdateDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDistributionOutput>())
@@ -9836,9 +9704,9 @@ extension CloudFrontClient {
     ///
     /// Updates a distribution tenant.
     ///
-    /// - Parameter UpdateDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDistributionTenantInput`)
     ///
-    /// - Returns: `UpdateDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9881,7 +9749,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionTenantOutput>(UpdateDistributionTenantOutput.httpOutput(from:), UpdateDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDistributionTenantOutput>())
@@ -9917,9 +9784,9 @@ extension CloudFrontClient {
     ///
     /// * [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
     ///
-    /// - Parameter UpdateDistributionWithStagingConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDistributionWithStagingConfigInput`)
     ///
-    /// - Returns: `UpdateDistributionWithStagingConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDistributionWithStagingConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10013,7 +9880,6 @@ extension CloudFrontClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>(UpdateDistributionWithStagingConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionWithStagingConfigOutput>(UpdateDistributionWithStagingConfigOutput.httpOutput(from:), UpdateDistributionWithStagingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDistributionWithStagingConfigOutput>())
@@ -10045,9 +9911,9 @@ extension CloudFrontClient {
     ///
     /// We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distributions and distribution tenants. [AssociateAlias](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_AssociateAlias.html) performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain to another target distribution (standard distribution or distribution tenant). To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter UpdateDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainAssociationInput`)
     ///
-    /// - Returns: `UpdateDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10087,7 +9953,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainAssociationOutput>(UpdateDomainAssociationOutput.httpOutput(from:), UpdateDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainAssociationOutput>())
@@ -10119,9 +9984,9 @@ extension CloudFrontClient {
     ///
     /// Update a field-level encryption configuration.
     ///
-    /// - Parameter UpdateFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `UpdateFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10166,7 +10031,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionConfigOutput>(UpdateFieldLevelEncryptionConfigOutput.httpOutput(from:), UpdateFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFieldLevelEncryptionConfigOutput>())
@@ -10198,9 +10062,9 @@ extension CloudFrontClient {
     ///
     /// Update a field-level encryption profile.
     ///
-    /// - Parameter UpdateFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `UpdateFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10246,7 +10110,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionProfileOutput>(UpdateFieldLevelEncryptionProfileOutput.httpOutput(from:), UpdateFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFieldLevelEncryptionProfileOutput>())
@@ -10278,9 +10141,9 @@ extension CloudFrontClient {
     ///
     /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter UpdateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionInput`)
     ///
-    /// - Returns: `UpdateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10320,7 +10183,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionInput, UpdateFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionOutput>(UpdateFunctionOutput.httpOutput(from:), UpdateFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionInput, UpdateFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFunctionOutput>())
@@ -10358,9 +10220,9 @@ extension CloudFrontClient {
     ///
     /// * Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyGroupInput`)
     ///
-    /// - Returns: `UpdateKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10400,7 +10262,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyGroupOutput>(UpdateKeyGroupOutput.httpOutput(from:), UpdateKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeyGroupOutput>())
@@ -10432,9 +10293,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store to update.
     ///
-    /// - Parameter UpdateKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyValueStoreInput`)
     ///
-    /// - Returns: `UpdateKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10474,7 +10335,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyValueStoreOutput>(UpdateKeyValueStoreOutput.httpOutput(from:), UpdateKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeyValueStoreOutput>())
@@ -10506,9 +10366,9 @@ extension CloudFrontClient {
     ///
     /// Updates a CloudFront origin access control.
     ///
-    /// - Parameter UpdateOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOriginAccessControlInput`)
     ///
-    /// - Returns: `UpdateOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10549,7 +10409,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOriginAccessControlOutput>(UpdateOriginAccessControlOutput.httpOutput(from:), UpdateOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOriginAccessControlOutput>())
@@ -10587,9 +10446,9 @@ extension CloudFrontClient {
     ///
     /// * Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOriginRequestPolicyInput`)
     ///
-    /// - Returns: `UpdateOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10634,7 +10493,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOriginRequestPolicyOutput>(UpdateOriginRequestPolicyOutput.httpOutput(from:), UpdateOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOriginRequestPolicyOutput>())
@@ -10666,9 +10524,9 @@ extension CloudFrontClient {
     ///
     /// Update public key information. Note that the only value you can change is the comment.
     ///
-    /// - Parameter UpdatePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublicKeyInput`)
     ///
-    /// - Returns: `UpdatePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10709,7 +10567,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePublicKeyOutput>(UpdatePublicKeyOutput.httpOutput(from:), UpdatePublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePublicKeyOutput>())
@@ -10750,9 +10607,9 @@ extension CloudFrontClient {
     ///
     /// You cannot update a real-time log configuration's Name or ARN.
     ///
-    /// - Parameter UpdateRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRealtimeLogConfigInput`)
     ///
-    /// - Returns: `UpdateRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10788,7 +10645,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRealtimeLogConfigOutput>(UpdateRealtimeLogConfigOutput.httpOutput(from:), UpdateRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRealtimeLogConfigOutput>())
@@ -10826,9 +10682,9 @@ extension CloudFrontClient {
     ///
     /// * Call UpdateResponseHeadersPolicy, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `UpdateResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10873,7 +10729,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResponseHeadersPolicyOutput>(UpdateResponseHeadersPolicyOutput.httpOutput(from:), UpdateResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResponseHeadersPolicyOutput>())
@@ -10905,9 +10760,9 @@ extension CloudFrontClient {
     ///
     /// Update a streaming distribution.
     ///
-    /// - Parameter UpdateStreamingDistributionInput : The request to update a streaming distribution.
+    /// - Parameter input: The request to update a streaming distribution. (Type: `UpdateStreamingDistributionInput`)
     ///
-    /// - Returns: `UpdateStreamingDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `UpdateStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10955,7 +10810,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamingDistributionOutput>(UpdateStreamingDistributionOutput.httpOutput(from:), UpdateStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamingDistributionOutput>())
@@ -10987,9 +10841,9 @@ extension CloudFrontClient {
     ///
     /// Update an Amazon CloudFront VPC origin in your account.
     ///
-    /// - Parameter UpdateVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVpcOriginInput`)
     ///
-    /// - Returns: `UpdateVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11034,7 +10888,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcOriginOutput>(UpdateVpcOriginOutput.httpOutput(from:), UpdateVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcOriginOutput>())
@@ -11066,9 +10919,9 @@ extension CloudFrontClient {
     ///
     /// Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
     ///
-    /// - Parameter VerifyDnsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyDnsConfigurationInput`)
     ///
-    /// - Returns: `VerifyDnsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyDnsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11104,7 +10957,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyDnsConfigurationOutput>(VerifyDnsConfigurationOutput.httpOutput(from:), VerifyDnsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyDnsConfigurationOutput>())

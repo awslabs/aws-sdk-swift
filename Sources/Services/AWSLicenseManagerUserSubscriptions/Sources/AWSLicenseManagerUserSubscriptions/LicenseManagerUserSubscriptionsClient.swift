@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerUserSubscriptionsClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerUserSubscriptionsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfiguration
     let serviceName = "License Manager User Subscriptions"
@@ -373,9 +372,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Associates the user to an EC2 instance to utilize user-based subscriptions. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     ///
-    /// - Parameter AssociateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserInput`)
     ///
-    /// - Returns: `AssociateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateUserInput, AssociateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateUserOutput>(AssociateUserOutput.httpOutput(from:), AssociateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateUserInput, AssociateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateUserOutput>())
@@ -447,9 +445,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Creates a network endpoint for the Remote Desktop Services (RDS) license server.
     ///
-    /// - Parameter CreateLicenseServerEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseServerEndpointInput`)
     ///
-    /// - Returns: `CreateLicenseServerEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseServerEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,7 +487,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseServerEndpointInput, CreateLicenseServerEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseServerEndpointOutput>(CreateLicenseServerEndpointOutput.httpOutput(from:), CreateLicenseServerEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseServerEndpointInput, CreateLicenseServerEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseServerEndpointOutput>())
@@ -521,9 +518,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Deletes a LicenseServerEndpoint resource.
     ///
-    /// - Parameter DeleteLicenseServerEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseServerEndpointInput`)
     ///
-    /// - Returns: `DeleteLicenseServerEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseServerEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,7 +560,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseServerEndpointInput, DeleteLicenseServerEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseServerEndpointOutput>(DeleteLicenseServerEndpointOutput.httpOutput(from:), DeleteLicenseServerEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseServerEndpointInput, DeleteLicenseServerEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseServerEndpointOutput>())
@@ -595,9 +591,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Deregisters the Active Directory identity provider from License Manager user-based subscriptions.
     ///
-    /// - Parameter DeregisterIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterIdentityProviderInput`)
     ///
-    /// - Returns: `DeregisterIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -637,7 +633,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterIdentityProviderOutput>(DeregisterIdentityProviderOutput.httpOutput(from:), DeregisterIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterIdentityProviderOutput>())
@@ -669,9 +664,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Disassociates the user from an EC2 instance providing user-based subscriptions.
     ///
-    /// - Parameter DisassociateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserInput`)
     ///
-    /// - Returns: `DisassociateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,7 +706,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateUserInput, DisassociateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateUserOutput>(DisassociateUserOutput.httpOutput(from:), DisassociateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateUserInput, DisassociateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateUserOutput>())
@@ -743,9 +737,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Lists the Active Directory identity providers for user-based subscriptions.
     ///
-    /// - Parameter ListIdentityProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityProvidersInput`)
     ///
-    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,7 +779,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput>(ListIdentityProvidersOutput.httpOutput(from:), ListIdentityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityProvidersOutput>())
@@ -817,9 +810,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Lists the EC2 instances providing user-based subscriptions.
     ///
-    /// - Parameter ListInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstancesInput`)
     ///
-    /// - Returns: `ListInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,7 +852,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstancesInput, ListInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(ListInstancesOutput.httpOutput(from:), ListInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstancesInput, ListInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstancesOutput>())
@@ -891,9 +883,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// List the Remote Desktop Services (RDS) License Server endpoints
     ///
-    /// - Parameter ListLicenseServerEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseServerEndpointsInput`)
     ///
-    /// - Returns: `ListLicenseServerEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseServerEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,7 +924,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseServerEndpointsInput, ListLicenseServerEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseServerEndpointsOutput>(ListLicenseServerEndpointsOutput.httpOutput(from:), ListLicenseServerEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseServerEndpointsInput, ListLicenseServerEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseServerEndpointsOutput>())
@@ -964,9 +955,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Lists the user-based subscription products available from an identity provider.
     ///
-    /// - Parameter ListProductSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProductSubscriptionsInput`)
     ///
-    /// - Returns: `ListProductSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProductSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,7 +997,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProductSubscriptionsOutput>(ListProductSubscriptionsOutput.httpOutput(from:), ListProductSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProductSubscriptionsOutput>())
@@ -1038,9 +1028,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Returns the list of tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,7 +1063,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1105,9 +1094,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Lists user associations for an identity provider.
     ///
-    /// - Parameter ListUserAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserAssociationsInput`)
     ///
-    /// - Returns: `ListUserAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,7 +1136,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserAssociationsOutput>(ListUserAssociationsOutput.httpOutput(from:), ListUserAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserAssociationsOutput>())
@@ -1179,9 +1167,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Registers an identity provider for user-based subscriptions.
     ///
-    /// - Parameter RegisterIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterIdentityProviderInput`)
     ///
-    /// - Returns: `RegisterIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1221,7 +1209,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterIdentityProviderOutput>(RegisterIdentityProviderOutput.httpOutput(from:), RegisterIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterIdentityProviderOutput>())
@@ -1253,9 +1240,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Starts a product subscription for a user with the specified identity provider. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     ///
-    /// - Parameter StartProductSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProductSubscriptionInput`)
     ///
-    /// - Returns: `StartProductSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProductSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1295,7 +1282,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProductSubscriptionOutput>(StartProductSubscriptionOutput.httpOutput(from:), StartProductSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProductSubscriptionOutput>())
@@ -1327,9 +1313,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Stops a product subscription for a user with the specified identity provider.
     ///
-    /// - Parameter StopProductSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopProductSubscriptionInput`)
     ///
-    /// - Returns: `StopProductSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopProductSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,7 +1355,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopProductSubscriptionOutput>(StopProductSubscriptionOutput.httpOutput(from:), StopProductSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopProductSubscriptionOutput>())
@@ -1401,9 +1386,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,7 +1424,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1471,9 +1455,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1506,7 +1490,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1538,9 +1521,9 @@ extension LicenseManagerUserSubscriptionsClient {
     ///
     /// Updates additional product configuration settings for the registered identity provider.
     ///
-    /// - Parameter UpdateIdentityProviderSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdentityProviderSettingsInput`)
     ///
-    /// - Returns: `UpdateIdentityProviderSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdentityProviderSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,7 +1560,6 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderSettingsOutput>(UpdateIdentityProviderSettingsOutput.httpOutput(from:), UpdateIdentityProviderSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdentityProviderSettingsOutput>())

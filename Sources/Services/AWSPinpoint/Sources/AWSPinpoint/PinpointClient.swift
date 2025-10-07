@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointClient: ClientRuntime.Client {
     public static let clientName = "PinpointClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointClient.PinpointClientConfiguration
     let serviceName = "Pinpoint"
@@ -374,9 +373,9 @@ extension PinpointClient {
     ///
     /// Creates an application.
     ///
-    /// - Parameter CreateAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInput`)
     ///
-    /// - Returns: `CreateAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInput, CreateAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppOutput>(CreateAppOutput.httpOutput(from:), CreateAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInput, CreateAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppOutput>())
@@ -448,9 +446,9 @@ extension PinpointClient {
     ///
     /// Creates a new campaign for an application or updates the settings of an existing campaign for an application.
     ///
-    /// - Parameter CreateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,7 +488,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCampaignInput, CreateCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCampaignOutput>(CreateCampaignOutput.httpOutput(from:), CreateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCampaignInput, CreateCampaignOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCampaignOutput>())
@@ -522,9 +519,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through the email channel.
     ///
-    /// - Parameter CreateEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEmailTemplateInput`)
     ///
-    /// - Returns: `CreateEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,7 +559,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEmailTemplateInput, CreateEmailTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEmailTemplateOutput>(CreateEmailTemplateOutput.httpOutput(from:), CreateEmailTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEmailTemplateInput, CreateEmailTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEmailTemplateOutput>())
@@ -594,9 +590,9 @@ extension PinpointClient {
     ///
     /// Creates an export job for an application.
     ///
-    /// - Parameter CreateExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExportJobInput`)
     ///
-    /// - Returns: `CreateExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,7 +632,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportJobInput, CreateExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExportJobOutput>(CreateExportJobOutput.httpOutput(from:), CreateExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExportJobInput, CreateExportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExportJobOutput>())
@@ -668,9 +663,9 @@ extension PinpointClient {
     ///
     /// Creates an import job for an application.
     ///
-    /// - Parameter CreateImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImportJobInput`)
     ///
-    /// - Returns: `CreateImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -710,7 +705,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImportJobInput, CreateImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImportJobOutput>(CreateImportJobOutput.httpOutput(from:), CreateImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImportJobInput, CreateImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImportJobOutput>())
@@ -742,9 +736,9 @@ extension PinpointClient {
     ///
     /// Creates a new message template for messages using the in-app message channel.
     ///
-    /// - Parameter CreateInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInAppTemplateInput`)
     ///
-    /// - Returns: `CreateInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,7 +776,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInAppTemplateInput, CreateInAppTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInAppTemplateOutput>(CreateInAppTemplateOutput.httpOutput(from:), CreateInAppTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInAppTemplateInput, CreateInAppTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInAppTemplateOutput>())
@@ -814,9 +807,9 @@ extension PinpointClient {
     ///
     /// Creates a journey for an application.
     ///
-    /// - Parameter CreateJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJourneyInput`)
     ///
-    /// - Returns: `CreateJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,7 +849,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJourneyInput, CreateJourneyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJourneyOutput>(CreateJourneyOutput.httpOutput(from:), CreateJourneyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJourneyInput, CreateJourneyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJourneyOutput>())
@@ -888,9 +880,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through a push notification channel.
     ///
-    /// - Parameter CreatePushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePushTemplateInput`)
     ///
-    /// - Returns: `CreatePushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -928,7 +920,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePushTemplateInput, CreatePushTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePushTemplateOutput>(CreatePushTemplateOutput.httpOutput(from:), CreatePushTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePushTemplateInput, CreatePushTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePushTemplateOutput>())
@@ -960,9 +951,9 @@ extension PinpointClient {
     ///
     /// Creates an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter CreateRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecommenderConfigurationInput`)
     ///
-    /// - Returns: `CreateRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,7 +993,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecommenderConfigurationInput, CreateRecommenderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecommenderConfigurationOutput>(CreateRecommenderConfigurationOutput.httpOutput(from:), CreateRecommenderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecommenderConfigurationInput, CreateRecommenderConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecommenderConfigurationOutput>())
@@ -1034,9 +1024,9 @@ extension PinpointClient {
     ///
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     ///
-    /// - Parameter CreateSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentInput`)
     ///
-    /// - Returns: `CreateSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,7 +1066,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSegmentInput, CreateSegmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSegmentOutput>(CreateSegmentOutput.httpOutput(from:), CreateSegmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSegmentInput, CreateSegmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSegmentOutput>())
@@ -1108,9 +1097,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through the SMS channel.
     ///
-    /// - Parameter CreateSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSmsTemplateInput`)
     ///
-    /// - Returns: `CreateSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,7 +1137,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSmsTemplateInput, CreateSmsTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSmsTemplateOutput>(CreateSmsTemplateOutput.httpOutput(from:), CreateSmsTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSmsTemplateInput, CreateSmsTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSmsTemplateOutput>())
@@ -1180,9 +1168,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through the voice channel.
     ///
-    /// - Parameter CreateVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceTemplateInput`)
     ///
-    /// - Returns: `CreateVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1220,7 +1208,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVoiceTemplateInput, CreateVoiceTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVoiceTemplateOutput>(CreateVoiceTemplateOutput.httpOutput(from:), CreateVoiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVoiceTemplateInput, CreateVoiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVoiceTemplateOutput>())
@@ -1252,9 +1239,9 @@ extension PinpointClient {
     ///
     /// Disables the ADM channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteAdmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAdmChannelInput`)
     ///
-    /// - Returns: `DeleteAdmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAdmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,7 +1278,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAdmChannelInput, DeleteAdmChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAdmChannelOutput>(DeleteAdmChannelOutput.httpOutput(from:), DeleteAdmChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAdmChannelInput, DeleteAdmChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAdmChannelOutput>())
@@ -1323,9 +1309,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsChannelInput`)
     ///
-    /// - Returns: `DeleteApnsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1362,7 +1348,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApnsChannelInput, DeleteApnsChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApnsChannelOutput>(DeleteApnsChannelOutput.httpOutput(from:), DeleteApnsChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApnsChannelInput, DeleteApnsChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApnsChannelOutput>())
@@ -1394,9 +1379,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsSandboxChannelInput`)
     ///
-    /// - Returns: `DeleteApnsSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,7 +1418,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApnsSandboxChannelInput, DeleteApnsSandboxChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApnsSandboxChannelOutput>(DeleteApnsSandboxChannelOutput.httpOutput(from:), DeleteApnsSandboxChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApnsSandboxChannelInput, DeleteApnsSandboxChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApnsSandboxChannelOutput>())
@@ -1465,9 +1449,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsVoipChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsVoipChannelInput`)
     ///
-    /// - Returns: `DeleteApnsVoipChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsVoipChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,7 +1488,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApnsVoipChannelInput, DeleteApnsVoipChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApnsVoipChannelOutput>(DeleteApnsVoipChannelOutput.httpOutput(from:), DeleteApnsVoipChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApnsVoipChannelInput, DeleteApnsVoipChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApnsVoipChannelOutput>())
@@ -1536,9 +1519,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsVoipSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsVoipSandboxChannelInput`)
     ///
-    /// - Returns: `DeleteApnsVoipSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsVoipSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1575,7 +1558,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApnsVoipSandboxChannelInput, DeleteApnsVoipSandboxChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApnsVoipSandboxChannelOutput>(DeleteApnsVoipSandboxChannelOutput.httpOutput(from:), DeleteApnsVoipSandboxChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApnsVoipSandboxChannelInput, DeleteApnsVoipSandboxChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApnsVoipSandboxChannelOutput>())
@@ -1607,9 +1589,9 @@ extension PinpointClient {
     ///
     /// Deletes an application.
     ///
-    /// - Parameter DeleteAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInput`)
     ///
-    /// - Returns: `DeleteAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,7 +1628,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppInput, DeleteAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppOutput>(DeleteAppOutput.httpOutput(from:), DeleteAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInput, DeleteAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppOutput>())
@@ -1678,9 +1659,9 @@ extension PinpointClient {
     ///
     /// Disables the Baidu channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteBaiduChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBaiduChannelInput`)
     ///
-    /// - Returns: `DeleteBaiduChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBaiduChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,7 +1698,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBaiduChannelInput, DeleteBaiduChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBaiduChannelOutput>(DeleteBaiduChannelOutput.httpOutput(from:), DeleteBaiduChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBaiduChannelInput, DeleteBaiduChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBaiduChannelOutput>())
@@ -1749,9 +1729,9 @@ extension PinpointClient {
     ///
     /// Deletes a campaign from an application.
     ///
-    /// - Parameter DeleteCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,7 +1768,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCampaignInput, DeleteCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCampaignOutput>(DeleteCampaignOutput.httpOutput(from:), DeleteCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCampaignOutput>())
@@ -1820,9 +1799,9 @@ extension PinpointClient {
     ///
     /// Disables the email channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteEmailChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailChannelInput`)
     ///
-    /// - Returns: `DeleteEmailChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,7 +1838,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEmailChannelInput, DeleteEmailChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEmailChannelOutput>(DeleteEmailChannelOutput.httpOutput(from:), DeleteEmailChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEmailChannelInput, DeleteEmailChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEmailChannelOutput>())
@@ -1891,9 +1869,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through the email channel.
     ///
-    /// - Parameter DeleteEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailTemplateInput`)
     ///
-    /// - Returns: `DeleteEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1931,7 +1909,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteEmailTemplateInput, DeleteEmailTemplateOutput>(DeleteEmailTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEmailTemplateOutput>(DeleteEmailTemplateOutput.httpOutput(from:), DeleteEmailTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEmailTemplateInput, DeleteEmailTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEmailTemplateOutput>())
@@ -1963,9 +1940,9 @@ extension PinpointClient {
     ///
     /// Deletes an endpoint from an application.
     ///
-    /// - Parameter DeleteEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointInput`)
     ///
-    /// - Returns: `DeleteEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,7 +1979,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput>(DeleteEndpointOutput.httpOutput(from:), DeleteEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointOutput>())
@@ -2034,9 +2010,9 @@ extension PinpointClient {
     ///
     /// Deletes the event stream for an application.
     ///
-    /// - Parameter DeleteEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventStreamInput`)
     ///
-    /// - Returns: `DeleteEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2073,7 +2049,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventStreamInput, DeleteEventStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventStreamOutput>(DeleteEventStreamOutput.httpOutput(from:), DeleteEventStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventStreamInput, DeleteEventStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventStreamOutput>())
@@ -2105,9 +2080,9 @@ extension PinpointClient {
     ///
     /// Disables the GCM channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteGcmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGcmChannelInput`)
     ///
-    /// - Returns: `DeleteGcmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGcmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,7 +2119,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGcmChannelInput, DeleteGcmChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGcmChannelOutput>(DeleteGcmChannelOutput.httpOutput(from:), DeleteGcmChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGcmChannelInput, DeleteGcmChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGcmChannelOutput>())
@@ -2176,9 +2150,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages sent using the in-app message channel.
     ///
-    /// - Parameter DeleteInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInAppTemplateInput`)
     ///
-    /// - Returns: `DeleteInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2216,7 +2190,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteInAppTemplateInput, DeleteInAppTemplateOutput>(DeleteInAppTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInAppTemplateOutput>(DeleteInAppTemplateOutput.httpOutput(from:), DeleteInAppTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInAppTemplateInput, DeleteInAppTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInAppTemplateOutput>())
@@ -2248,9 +2221,9 @@ extension PinpointClient {
     ///
     /// Deletes a journey from an application.
     ///
-    /// - Parameter DeleteJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJourneyInput`)
     ///
-    /// - Returns: `DeleteJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2287,7 +2260,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJourneyInput, DeleteJourneyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJourneyOutput>(DeleteJourneyOutput.httpOutput(from:), DeleteJourneyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJourneyInput, DeleteJourneyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJourneyOutput>())
@@ -2319,9 +2291,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through a push notification channel.
     ///
-    /// - Parameter DeletePushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePushTemplateInput`)
     ///
-    /// - Returns: `DeletePushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2359,7 +2331,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePushTemplateInput, DeletePushTemplateOutput>(DeletePushTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePushTemplateOutput>(DeletePushTemplateOutput.httpOutput(from:), DeletePushTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePushTemplateInput, DeletePushTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePushTemplateOutput>())
@@ -2391,9 +2362,9 @@ extension PinpointClient {
     ///
     /// Deletes an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter DeleteRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecommenderConfigurationInput`)
     ///
-    /// - Returns: `DeleteRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,7 +2401,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecommenderConfigurationInput, DeleteRecommenderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecommenderConfigurationOutput>(DeleteRecommenderConfigurationOutput.httpOutput(from:), DeleteRecommenderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecommenderConfigurationInput, DeleteRecommenderConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecommenderConfigurationOutput>())
@@ -2462,9 +2432,9 @@ extension PinpointClient {
     ///
     /// Deletes a segment from an application.
     ///
-    /// - Parameter DeleteSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSegmentInput`)
     ///
-    /// - Returns: `DeleteSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2501,7 +2471,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSegmentInput, DeleteSegmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSegmentOutput>(DeleteSegmentOutput.httpOutput(from:), DeleteSegmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSegmentInput, DeleteSegmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSegmentOutput>())
@@ -2533,9 +2502,9 @@ extension PinpointClient {
     ///
     /// Disables the SMS channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteSmsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSmsChannelInput`)
     ///
-    /// - Returns: `DeleteSmsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSmsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2572,7 +2541,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSmsChannelInput, DeleteSmsChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSmsChannelOutput>(DeleteSmsChannelOutput.httpOutput(from:), DeleteSmsChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSmsChannelInput, DeleteSmsChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSmsChannelOutput>())
@@ -2604,9 +2572,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through the SMS channel.
     ///
-    /// - Parameter DeleteSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSmsTemplateInput`)
     ///
-    /// - Returns: `DeleteSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2644,7 +2612,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteSmsTemplateInput, DeleteSmsTemplateOutput>(DeleteSmsTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSmsTemplateOutput>(DeleteSmsTemplateOutput.httpOutput(from:), DeleteSmsTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSmsTemplateInput, DeleteSmsTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSmsTemplateOutput>())
@@ -2676,9 +2643,9 @@ extension PinpointClient {
     ///
     /// Deletes all the endpoints that are associated with a specific user ID.
     ///
-    /// - Parameter DeleteUserEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserEndpointsInput`)
     ///
-    /// - Returns: `DeleteUserEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2715,7 +2682,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserEndpointsInput, DeleteUserEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserEndpointsOutput>(DeleteUserEndpointsOutput.httpOutput(from:), DeleteUserEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserEndpointsInput, DeleteUserEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserEndpointsOutput>())
@@ -2747,9 +2713,9 @@ extension PinpointClient {
     ///
     /// Disables the voice channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteVoiceChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceChannelInput`)
     ///
-    /// - Returns: `DeleteVoiceChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2786,7 +2752,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceChannelInput, DeleteVoiceChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceChannelOutput>(DeleteVoiceChannelOutput.httpOutput(from:), DeleteVoiceChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceChannelInput, DeleteVoiceChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceChannelOutput>())
@@ -2818,9 +2783,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through the voice channel.
     ///
-    /// - Parameter DeleteVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceTemplateInput`)
     ///
-    /// - Returns: `DeleteVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2858,7 +2823,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteVoiceTemplateInput, DeleteVoiceTemplateOutput>(DeleteVoiceTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceTemplateOutput>(DeleteVoiceTemplateOutput.httpOutput(from:), DeleteVoiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceTemplateInput, DeleteVoiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceTemplateOutput>())
@@ -2890,9 +2854,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the ADM channel for an application.
     ///
-    /// - Parameter GetAdmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdmChannelInput`)
     ///
-    /// - Returns: `GetAdmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2929,7 +2893,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAdmChannelInput, GetAdmChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdmChannelOutput>(GetAdmChannelOutput.httpOutput(from:), GetAdmChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdmChannelInput, GetAdmChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdmChannelOutput>())
@@ -2961,9 +2924,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs channel for an application.
     ///
-    /// - Parameter GetApnsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsChannelInput`)
     ///
-    /// - Returns: `GetApnsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3000,7 +2963,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApnsChannelInput, GetApnsChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApnsChannelOutput>(GetApnsChannelOutput.httpOutput(from:), GetApnsChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApnsChannelInput, GetApnsChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApnsChannelOutput>())
@@ -3032,9 +2994,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs sandbox channel for an application.
     ///
-    /// - Parameter GetApnsSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsSandboxChannelInput`)
     ///
-    /// - Returns: `GetApnsSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3071,7 +3033,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApnsSandboxChannelInput, GetApnsSandboxChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApnsSandboxChannelOutput>(GetApnsSandboxChannelOutput.httpOutput(from:), GetApnsSandboxChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApnsSandboxChannelInput, GetApnsSandboxChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApnsSandboxChannelOutput>())
@@ -3103,9 +3064,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs VoIP channel for an application.
     ///
-    /// - Parameter GetApnsVoipChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsVoipChannelInput`)
     ///
-    /// - Returns: `GetApnsVoipChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsVoipChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3142,7 +3103,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApnsVoipChannelInput, GetApnsVoipChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApnsVoipChannelOutput>(GetApnsVoipChannelOutput.httpOutput(from:), GetApnsVoipChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApnsVoipChannelInput, GetApnsVoipChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApnsVoipChannelOutput>())
@@ -3174,9 +3134,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
     ///
-    /// - Parameter GetApnsVoipSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsVoipSandboxChannelInput`)
     ///
-    /// - Returns: `GetApnsVoipSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsVoipSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3213,7 +3173,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApnsVoipSandboxChannelInput, GetApnsVoipSandboxChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApnsVoipSandboxChannelOutput>(GetApnsVoipSandboxChannelOutput.httpOutput(from:), GetApnsVoipSandboxChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApnsVoipSandboxChannelInput, GetApnsVoipSandboxChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApnsVoipSandboxChannelOutput>())
@@ -3245,9 +3204,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about an application.
     ///
-    /// - Parameter GetAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppInput`)
     ///
-    /// - Returns: `GetAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3284,7 +3243,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAppInput, GetAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAppOutput>(GetAppOutput.httpOutput(from:), GetAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAppInput, GetAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAppOutput>())
@@ -3316,9 +3274,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
     ///
-    /// - Parameter GetApplicationDateRangeKpiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationDateRangeKpiInput`)
     ///
-    /// - Returns: `GetApplicationDateRangeKpiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationDateRangeKpiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3356,7 +3314,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetApplicationDateRangeKpiInput, GetApplicationDateRangeKpiOutput>(GetApplicationDateRangeKpiInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationDateRangeKpiOutput>(GetApplicationDateRangeKpiOutput.httpOutput(from:), GetApplicationDateRangeKpiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationDateRangeKpiInput, GetApplicationDateRangeKpiOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationDateRangeKpiOutput>())
@@ -3388,9 +3345,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the settings for an application.
     ///
-    /// - Parameter GetApplicationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationSettingsInput`)
     ///
-    /// - Returns: `GetApplicationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3427,7 +3384,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationSettingsInput, GetApplicationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationSettingsOutput>(GetApplicationSettingsOutput.httpOutput(from:), GetApplicationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationSettingsInput, GetApplicationSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationSettingsOutput>())
@@ -3459,9 +3415,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
     ///
-    /// - Parameter GetAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppsInput`)
     ///
-    /// - Returns: `GetAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3499,7 +3455,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAppsInput, GetAppsOutput>(GetAppsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAppsOutput>(GetAppsOutput.httpOutput(from:), GetAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAppsInput, GetAppsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAppsOutput>())
@@ -3531,9 +3486,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the Baidu channel for an application.
     ///
-    /// - Parameter GetBaiduChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBaiduChannelInput`)
     ///
-    /// - Returns: `GetBaiduChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBaiduChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3570,7 +3525,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBaiduChannelInput, GetBaiduChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBaiduChannelOutput>(GetBaiduChannelOutput.httpOutput(from:), GetBaiduChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBaiduChannelInput, GetBaiduChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBaiduChannelOutput>())
@@ -3602,9 +3556,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for a campaign.
     ///
-    /// - Parameter GetCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignInput`)
     ///
-    /// - Returns: `GetCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3641,7 +3595,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCampaignInput, GetCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignOutput>(GetCampaignOutput.httpOutput(from:), GetCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignInput, GetCampaignOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignOutput>())
@@ -3673,9 +3626,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the activities for a campaign.
     ///
-    /// - Parameter GetCampaignActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignActivitiesInput`)
     ///
-    /// - Returns: `GetCampaignActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3713,7 +3666,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCampaignActivitiesInput, GetCampaignActivitiesOutput>(GetCampaignActivitiesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignActivitiesOutput>(GetCampaignActivitiesOutput.httpOutput(from:), GetCampaignActivitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignActivitiesInput, GetCampaignActivitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignActivitiesOutput>())
@@ -3745,9 +3697,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
     ///
-    /// - Parameter GetCampaignDateRangeKpiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignDateRangeKpiInput`)
     ///
-    /// - Returns: `GetCampaignDateRangeKpiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignDateRangeKpiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3785,7 +3737,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCampaignDateRangeKpiInput, GetCampaignDateRangeKpiOutput>(GetCampaignDateRangeKpiInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignDateRangeKpiOutput>(GetCampaignDateRangeKpiOutput.httpOutput(from:), GetCampaignDateRangeKpiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignDateRangeKpiInput, GetCampaignDateRangeKpiOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignDateRangeKpiOutput>())
@@ -3817,9 +3768,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
     ///
-    /// - Parameter GetCampaignVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignVersionInput`)
     ///
-    /// - Returns: `GetCampaignVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3856,7 +3807,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCampaignVersionInput, GetCampaignVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignVersionOutput>(GetCampaignVersionOutput.httpOutput(from:), GetCampaignVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignVersionInput, GetCampaignVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignVersionOutput>())
@@ -3888,9 +3838,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for all versions of a campaign.
     ///
-    /// - Parameter GetCampaignVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignVersionsInput`)
     ///
-    /// - Returns: `GetCampaignVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3928,7 +3878,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCampaignVersionsInput, GetCampaignVersionsOutput>(GetCampaignVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignVersionsOutput>(GetCampaignVersionsOutput.httpOutput(from:), GetCampaignVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignVersionsInput, GetCampaignVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignVersionsOutput>())
@@ -3960,9 +3909,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
     ///
-    /// - Parameter GetCampaignsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignsInput`)
     ///
-    /// - Returns: `GetCampaignsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4000,7 +3949,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCampaignsInput, GetCampaignsOutput>(GetCampaignsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignsOutput>(GetCampaignsOutput.httpOutput(from:), GetCampaignsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignsInput, GetCampaignsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignsOutput>())
@@ -4032,9 +3980,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the history and status of each channel for an application.
     ///
-    /// - Parameter GetChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelsInput`)
     ///
-    /// - Returns: `GetChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4071,7 +4019,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelsInput, GetChannelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelsOutput>(GetChannelsOutput.httpOutput(from:), GetChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelsInput, GetChannelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelsOutput>())
@@ -4103,9 +4050,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the email channel for an application.
     ///
-    /// - Parameter GetEmailChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEmailChannelInput`)
     ///
-    /// - Returns: `GetEmailChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEmailChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4142,7 +4089,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEmailChannelInput, GetEmailChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEmailChannelOutput>(GetEmailChannelOutput.httpOutput(from:), GetEmailChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEmailChannelInput, GetEmailChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEmailChannelOutput>())
@@ -4174,9 +4120,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through the email channel.
     ///
-    /// - Parameter GetEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEmailTemplateInput`)
     ///
-    /// - Returns: `GetEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4214,7 +4160,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetEmailTemplateInput, GetEmailTemplateOutput>(GetEmailTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEmailTemplateOutput>(GetEmailTemplateOutput.httpOutput(from:), GetEmailTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEmailTemplateInput, GetEmailTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEmailTemplateOutput>())
@@ -4246,9 +4191,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the settings and attributes of a specific endpoint for an application.
     ///
-    /// - Parameter GetEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEndpointInput`)
     ///
-    /// - Returns: `GetEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4285,7 +4230,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEndpointInput, GetEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEndpointOutput>(GetEndpointOutput.httpOutput(from:), GetEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEndpointInput, GetEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEndpointOutput>())
@@ -4317,9 +4261,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the event stream settings for an application.
     ///
-    /// - Parameter GetEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventStreamInput`)
     ///
-    /// - Returns: `GetEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4356,7 +4300,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventStreamInput, GetEventStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventStreamOutput>(GetEventStreamOutput.httpOutput(from:), GetEventStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventStreamInput, GetEventStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventStreamOutput>())
@@ -4388,9 +4331,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of a specific export job for an application.
     ///
-    /// - Parameter GetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportJobInput`)
     ///
-    /// - Returns: `GetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4427,7 +4370,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExportJobInput, GetExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportJobOutput>(GetExportJobOutput.httpOutput(from:), GetExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportJobInput, GetExportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExportJobOutput>())
@@ -4459,9 +4401,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of all the export jobs for an application.
     ///
-    /// - Parameter GetExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportJobsInput`)
     ///
-    /// - Returns: `GetExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4499,7 +4441,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetExportJobsInput, GetExportJobsOutput>(GetExportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportJobsOutput>(GetExportJobsOutput.httpOutput(from:), GetExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportJobsInput, GetExportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExportJobsOutput>())
@@ -4531,9 +4472,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the GCM channel for an application.
     ///
-    /// - Parameter GetGcmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGcmChannelInput`)
     ///
-    /// - Returns: `GetGcmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGcmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4570,7 +4511,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGcmChannelInput, GetGcmChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGcmChannelOutput>(GetGcmChannelOutput.httpOutput(from:), GetGcmChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGcmChannelInput, GetGcmChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGcmChannelOutput>())
@@ -4602,9 +4542,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of a specific import job for an application.
     ///
-    /// - Parameter GetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobInput`)
     ///
-    /// - Returns: `GetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4641,7 +4581,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportJobInput, GetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportJobOutput>(GetImportJobOutput.httpOutput(from:), GetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportJobInput, GetImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportJobOutput>())
@@ -4673,9 +4612,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of all the import jobs for an application.
     ///
-    /// - Parameter GetImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobsInput`)
     ///
-    /// - Returns: `GetImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4713,7 +4652,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetImportJobsInput, GetImportJobsOutput>(GetImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportJobsOutput>(GetImportJobsOutput.httpOutput(from:), GetImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportJobsInput, GetImportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportJobsOutput>())
@@ -4745,9 +4683,9 @@ extension PinpointClient {
     ///
     /// Retrieves the in-app messages targeted for the provided endpoint ID.
     ///
-    /// - Parameter GetInAppMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInAppMessagesInput`)
     ///
-    /// - Returns: `GetInAppMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInAppMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4784,7 +4722,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInAppMessagesInput, GetInAppMessagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInAppMessagesOutput>(GetInAppMessagesOutput.httpOutput(from:), GetInAppMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInAppMessagesInput, GetInAppMessagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInAppMessagesOutput>())
@@ -4816,9 +4753,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages sent through the in-app channel.
     ///
-    /// - Parameter GetInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInAppTemplateInput`)
     ///
-    /// - Returns: `GetInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4856,7 +4793,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetInAppTemplateInput, GetInAppTemplateOutput>(GetInAppTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInAppTemplateOutput>(GetInAppTemplateOutput.httpOutput(from:), GetInAppTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInAppTemplateInput, GetInAppTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInAppTemplateOutput>())
@@ -4888,9 +4824,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for a journey.
     ///
-    /// - Parameter GetJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyInput`)
     ///
-    /// - Returns: `GetJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4927,7 +4863,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJourneyInput, GetJourneyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJourneyOutput>(GetJourneyOutput.httpOutput(from:), GetJourneyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJourneyInput, GetJourneyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJourneyOutput>())
@@ -4959,9 +4894,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
     ///
-    /// - Parameter GetJourneyDateRangeKpiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyDateRangeKpiInput`)
     ///
-    /// - Returns: `GetJourneyDateRangeKpiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyDateRangeKpiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4999,7 +4934,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJourneyDateRangeKpiInput, GetJourneyDateRangeKpiOutput>(GetJourneyDateRangeKpiInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJourneyDateRangeKpiOutput>(GetJourneyDateRangeKpiOutput.httpOutput(from:), GetJourneyDateRangeKpiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJourneyDateRangeKpiInput, GetJourneyDateRangeKpiOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJourneyDateRangeKpiOutput>())
@@ -5031,9 +4965,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
     ///
-    /// - Parameter GetJourneyExecutionActivityMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyExecutionActivityMetricsInput`)
     ///
-    /// - Returns: `GetJourneyExecutionActivityMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyExecutionActivityMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5071,7 +5005,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJourneyExecutionActivityMetricsInput, GetJourneyExecutionActivityMetricsOutput>(GetJourneyExecutionActivityMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJourneyExecutionActivityMetricsOutput>(GetJourneyExecutionActivityMetricsOutput.httpOutput(from:), GetJourneyExecutionActivityMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJourneyExecutionActivityMetricsInput, GetJourneyExecutionActivityMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJourneyExecutionActivityMetricsOutput>())
@@ -5103,9 +5036,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
     ///
-    /// - Parameter GetJourneyExecutionMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyExecutionMetricsInput`)
     ///
-    /// - Returns: `GetJourneyExecutionMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyExecutionMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5143,7 +5076,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJourneyExecutionMetricsInput, GetJourneyExecutionMetricsOutput>(GetJourneyExecutionMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJourneyExecutionMetricsOutput>(GetJourneyExecutionMetricsOutput.httpOutput(from:), GetJourneyExecutionMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJourneyExecutionMetricsInput, GetJourneyExecutionMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJourneyExecutionMetricsOutput>())
@@ -5175,9 +5107,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
     ///
-    /// - Parameter GetJourneyRunExecutionActivityMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyRunExecutionActivityMetricsInput`)
     ///
-    /// - Returns: `GetJourneyRunExecutionActivityMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyRunExecutionActivityMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5215,7 +5147,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJourneyRunExecutionActivityMetricsInput, GetJourneyRunExecutionActivityMetricsOutput>(GetJourneyRunExecutionActivityMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJourneyRunExecutionActivityMetricsOutput>(GetJourneyRunExecutionActivityMetricsOutput.httpOutput(from:), GetJourneyRunExecutionActivityMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJourneyRunExecutionActivityMetricsInput, GetJourneyRunExecutionActivityMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJourneyRunExecutionActivityMetricsOutput>())
@@ -5247,9 +5178,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
     ///
-    /// - Parameter GetJourneyRunExecutionMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyRunExecutionMetricsInput`)
     ///
-    /// - Returns: `GetJourneyRunExecutionMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyRunExecutionMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5287,7 +5218,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJourneyRunExecutionMetricsInput, GetJourneyRunExecutionMetricsOutput>(GetJourneyRunExecutionMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJourneyRunExecutionMetricsOutput>(GetJourneyRunExecutionMetricsOutput.httpOutput(from:), GetJourneyRunExecutionMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJourneyRunExecutionMetricsInput, GetJourneyRunExecutionMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJourneyRunExecutionMetricsOutput>())
@@ -5319,9 +5249,9 @@ extension PinpointClient {
     ///
     /// Provides information about the runs of a journey.
     ///
-    /// - Parameter GetJourneyRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyRunsInput`)
     ///
-    /// - Returns: `GetJourneyRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5359,7 +5289,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJourneyRunsInput, GetJourneyRunsOutput>(GetJourneyRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJourneyRunsOutput>(GetJourneyRunsOutput.httpOutput(from:), GetJourneyRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJourneyRunsInput, GetJourneyRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJourneyRunsOutput>())
@@ -5391,9 +5320,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
     ///
-    /// - Parameter GetPushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPushTemplateInput`)
     ///
-    /// - Returns: `GetPushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5431,7 +5360,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPushTemplateInput, GetPushTemplateOutput>(GetPushTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPushTemplateOutput>(GetPushTemplateOutput.httpOutput(from:), GetPushTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPushTemplateInput, GetPushTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPushTemplateOutput>())
@@ -5463,9 +5391,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter GetRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommenderConfigurationInput`)
     ///
-    /// - Returns: `GetRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5502,7 +5430,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecommenderConfigurationInput, GetRecommenderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommenderConfigurationOutput>(GetRecommenderConfigurationOutput.httpOutput(from:), GetRecommenderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommenderConfigurationInput, GetRecommenderConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommenderConfigurationOutput>())
@@ -5534,9 +5461,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
     ///
-    /// - Parameter GetRecommenderConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommenderConfigurationsInput`)
     ///
-    /// - Returns: `GetRecommenderConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommenderConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5574,7 +5501,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecommenderConfigurationsInput, GetRecommenderConfigurationsOutput>(GetRecommenderConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommenderConfigurationsOutput>(GetRecommenderConfigurationsOutput.httpOutput(from:), GetRecommenderConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommenderConfigurationsInput, GetRecommenderConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommenderConfigurationsOutput>())
@@ -5606,9 +5532,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
     ///
-    /// - Parameter GetSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentInput`)
     ///
-    /// - Returns: `GetSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5645,7 +5571,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentInput, GetSegmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentOutput>(GetSegmentOutput.httpOutput(from:), GetSegmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentInput, GetSegmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentOutput>())
@@ -5677,9 +5602,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the export jobs for a segment.
     ///
-    /// - Parameter GetSegmentExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentExportJobsInput`)
     ///
-    /// - Returns: `GetSegmentExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5717,7 +5642,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSegmentExportJobsInput, GetSegmentExportJobsOutput>(GetSegmentExportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentExportJobsOutput>(GetSegmentExportJobsOutput.httpOutput(from:), GetSegmentExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentExportJobsInput, GetSegmentExportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentExportJobsOutput>())
@@ -5749,9 +5673,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the import jobs for a segment.
     ///
-    /// - Parameter GetSegmentImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentImportJobsInput`)
     ///
-    /// - Returns: `GetSegmentImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5789,7 +5713,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSegmentImportJobsInput, GetSegmentImportJobsOutput>(GetSegmentImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentImportJobsOutput>(GetSegmentImportJobsOutput.httpOutput(from:), GetSegmentImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentImportJobsInput, GetSegmentImportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentImportJobsOutput>())
@@ -5821,9 +5744,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
     ///
-    /// - Parameter GetSegmentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentVersionInput`)
     ///
-    /// - Returns: `GetSegmentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5860,7 +5783,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentVersionInput, GetSegmentVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentVersionOutput>(GetSegmentVersionOutput.httpOutput(from:), GetSegmentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentVersionInput, GetSegmentVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentVersionOutput>())
@@ -5892,9 +5814,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
     ///
-    /// - Parameter GetSegmentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentVersionsInput`)
     ///
-    /// - Returns: `GetSegmentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5932,7 +5854,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSegmentVersionsInput, GetSegmentVersionsOutput>(GetSegmentVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentVersionsOutput>(GetSegmentVersionsOutput.httpOutput(from:), GetSegmentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentVersionsInput, GetSegmentVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentVersionsOutput>())
@@ -5964,9 +5885,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
     ///
-    /// - Parameter GetSegmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentsInput`)
     ///
-    /// - Returns: `GetSegmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6004,7 +5925,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSegmentsInput, GetSegmentsOutput>(GetSegmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentsOutput>(GetSegmentsOutput.httpOutput(from:), GetSegmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentsInput, GetSegmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentsOutput>())
@@ -6036,9 +5956,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the SMS channel for an application.
     ///
-    /// - Parameter GetSmsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSmsChannelInput`)
     ///
-    /// - Returns: `GetSmsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSmsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6075,7 +5995,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSmsChannelInput, GetSmsChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSmsChannelOutput>(GetSmsChannelOutput.httpOutput(from:), GetSmsChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSmsChannelInput, GetSmsChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSmsChannelOutput>())
@@ -6107,9 +6026,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
     ///
-    /// - Parameter GetSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSmsTemplateInput`)
     ///
-    /// - Returns: `GetSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6147,7 +6066,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSmsTemplateInput, GetSmsTemplateOutput>(GetSmsTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSmsTemplateOutput>(GetSmsTemplateOutput.httpOutput(from:), GetSmsTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSmsTemplateInput, GetSmsTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSmsTemplateOutput>())
@@ -6179,9 +6097,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the endpoints that are associated with a specific user ID.
     ///
-    /// - Parameter GetUserEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserEndpointsInput`)
     ///
-    /// - Returns: `GetUserEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6218,7 +6136,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUserEndpointsInput, GetUserEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserEndpointsOutput>(GetUserEndpointsOutput.httpOutput(from:), GetUserEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserEndpointsInput, GetUserEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserEndpointsOutput>())
@@ -6250,9 +6167,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the voice channel for an application.
     ///
-    /// - Parameter GetVoiceChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceChannelInput`)
     ///
-    /// - Returns: `GetVoiceChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6289,7 +6206,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceChannelInput, GetVoiceChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceChannelOutput>(GetVoiceChannelOutput.httpOutput(from:), GetVoiceChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceChannelInput, GetVoiceChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceChannelOutput>())
@@ -6321,9 +6237,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through the voice channel.
     ///
-    /// - Parameter GetVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceTemplateInput`)
     ///
-    /// - Returns: `GetVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6361,7 +6277,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetVoiceTemplateInput, GetVoiceTemplateOutput>(GetVoiceTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceTemplateOutput>(GetVoiceTemplateOutput.httpOutput(from:), GetVoiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceTemplateInput, GetVoiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceTemplateOutput>())
@@ -6393,9 +6308,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
     ///
-    /// - Parameter ListJourneysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJourneysInput`)
     ///
-    /// - Returns: `ListJourneysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJourneysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6433,7 +6348,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJourneysInput, ListJourneysOutput>(ListJourneysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJourneysOutput>(ListJourneysOutput.httpOutput(from:), ListJourneysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJourneysInput, ListJourneysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJourneysOutput>())
@@ -6465,9 +6379,9 @@ extension PinpointClient {
     ///
     /// Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6493,7 +6407,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -6525,9 +6438,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the versions of a specific message template.
     ///
-    /// - Parameter ListTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateVersionsInput`)
     ///
-    /// - Returns: `ListTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6565,7 +6478,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplateVersionsInput, ListTemplateVersionsOutput>(ListTemplateVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplateVersionsOutput>(ListTemplateVersionsOutput.httpOutput(from:), ListTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplateVersionsInput, ListTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplateVersionsOutput>())
@@ -6597,9 +6509,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6635,7 +6547,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplatesInput, ListTemplatesOutput>(ListTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplatesOutput>(ListTemplatesOutput.httpOutput(from:), ListTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplatesInput, ListTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplatesOutput>())
@@ -6667,9 +6578,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about a phone number.
     ///
-    /// - Parameter PhoneNumberValidateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PhoneNumberValidateInput`)
     ///
-    /// - Returns: `PhoneNumberValidateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PhoneNumberValidateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6709,7 +6620,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PhoneNumberValidateInput, PhoneNumberValidateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PhoneNumberValidateOutput>(PhoneNumberValidateOutput.httpOutput(from:), PhoneNumberValidateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PhoneNumberValidateInput, PhoneNumberValidateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PhoneNumberValidateOutput>())
@@ -6741,9 +6651,9 @@ extension PinpointClient {
     ///
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application.
     ///
-    /// - Parameter PutEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventStreamInput`)
     ///
-    /// - Returns: `PutEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6783,7 +6693,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventStreamInput, PutEventStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventStreamOutput>(PutEventStreamOutput.httpOutput(from:), PutEventStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventStreamInput, PutEventStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventStreamOutput>())
@@ -6815,9 +6724,9 @@ extension PinpointClient {
     ///
     /// Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
     ///
-    /// - Parameter PutEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventsInput`)
     ///
-    /// - Returns: `PutEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6857,7 +6766,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventsInput, PutEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventsOutput>(PutEventsOutput.httpOutput(from:), PutEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventsInput, PutEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventsOutput>())
@@ -6889,9 +6797,9 @@ extension PinpointClient {
     ///
     /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
     ///
-    /// - Parameter RemoveAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAttributesInput`)
     ///
-    /// - Returns: `RemoveAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6931,7 +6839,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveAttributesInput, RemoveAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveAttributesOutput>(RemoveAttributesOutput.httpOutput(from:), RemoveAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveAttributesInput, RemoveAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAttributesOutput>())
@@ -6963,9 +6870,9 @@ extension PinpointClient {
     ///
     /// Creates and sends a direct message.
     ///
-    /// - Parameter SendMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendMessagesInput`)
     ///
-    /// - Returns: `SendMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7005,7 +6912,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessagesInput, SendMessagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessagesOutput>(SendMessagesOutput.httpOutput(from:), SendMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessagesInput, SendMessagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessagesOutput>())
@@ -7037,9 +6943,9 @@ extension PinpointClient {
     ///
     /// Send an OTP message
     ///
-    /// - Parameter SendOTPMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendOTPMessageInput`)
     ///
-    /// - Returns: `SendOTPMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendOTPMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7079,7 +6985,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendOTPMessageInput, SendOTPMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendOTPMessageOutput>(SendOTPMessageOutput.httpOutput(from:), SendOTPMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendOTPMessageInput, SendOTPMessageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendOTPMessageOutput>())
@@ -7111,9 +7016,9 @@ extension PinpointClient {
     ///
     /// Creates and sends a message to a list of users.
     ///
-    /// - Parameter SendUsersMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendUsersMessagesInput`)
     ///
-    /// - Returns: `SendUsersMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendUsersMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7153,7 +7058,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendUsersMessagesInput, SendUsersMessagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendUsersMessagesOutput>(SendUsersMessagesOutput.httpOutput(from:), SendUsersMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendUsersMessagesInput, SendUsersMessagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendUsersMessagesOutput>())
@@ -7185,9 +7089,9 @@ extension PinpointClient {
     ///
     /// Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7216,7 +7120,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -7248,9 +7151,9 @@ extension PinpointClient {
     ///
     /// Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -7277,7 +7180,6 @@ extension PinpointClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -7309,9 +7211,9 @@ extension PinpointClient {
     ///
     /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
     ///
-    /// - Parameter UpdateAdmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAdmChannelInput`)
     ///
-    /// - Returns: `UpdateAdmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAdmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7351,7 +7253,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAdmChannelInput, UpdateAdmChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAdmChannelOutput>(UpdateAdmChannelOutput.httpOutput(from:), UpdateAdmChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAdmChannelInput, UpdateAdmChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAdmChannelOutput>())
@@ -7383,9 +7284,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
     ///
-    /// - Parameter UpdateApnsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsChannelInput`)
     ///
-    /// - Returns: `UpdateApnsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7425,7 +7326,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApnsChannelInput, UpdateApnsChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApnsChannelOutput>(UpdateApnsChannelOutput.httpOutput(from:), UpdateApnsChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApnsChannelInput, UpdateApnsChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApnsChannelOutput>())
@@ -7457,9 +7357,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
     ///
-    /// - Parameter UpdateApnsSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsSandboxChannelInput`)
     ///
-    /// - Returns: `UpdateApnsSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7499,7 +7399,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApnsSandboxChannelInput, UpdateApnsSandboxChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApnsSandboxChannelOutput>(UpdateApnsSandboxChannelOutput.httpOutput(from:), UpdateApnsSandboxChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApnsSandboxChannelInput, UpdateApnsSandboxChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApnsSandboxChannelOutput>())
@@ -7531,9 +7430,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
     ///
-    /// - Parameter UpdateApnsVoipChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsVoipChannelInput`)
     ///
-    /// - Returns: `UpdateApnsVoipChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsVoipChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7573,7 +7472,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApnsVoipChannelInput, UpdateApnsVoipChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApnsVoipChannelOutput>(UpdateApnsVoipChannelOutput.httpOutput(from:), UpdateApnsVoipChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApnsVoipChannelInput, UpdateApnsVoipChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApnsVoipChannelOutput>())
@@ -7605,9 +7503,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
     ///
-    /// - Parameter UpdateApnsVoipSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsVoipSandboxChannelInput`)
     ///
-    /// - Returns: `UpdateApnsVoipSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsVoipSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7647,7 +7545,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApnsVoipSandboxChannelInput, UpdateApnsVoipSandboxChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApnsVoipSandboxChannelOutput>(UpdateApnsVoipSandboxChannelOutput.httpOutput(from:), UpdateApnsVoipSandboxChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApnsVoipSandboxChannelInput, UpdateApnsVoipSandboxChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApnsVoipSandboxChannelOutput>())
@@ -7679,9 +7576,9 @@ extension PinpointClient {
     ///
     /// Updates the settings for an application.
     ///
-    /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationSettingsInput`)
     ///
-    /// - Returns: `UpdateApplicationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7721,7 +7618,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationSettingsInput, UpdateApplicationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationSettingsOutput>(UpdateApplicationSettingsOutput.httpOutput(from:), UpdateApplicationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationSettingsInput, UpdateApplicationSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationSettingsOutput>())
@@ -7753,9 +7649,9 @@ extension PinpointClient {
     ///
     /// Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
     ///
-    /// - Parameter UpdateBaiduChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBaiduChannelInput`)
     ///
-    /// - Returns: `UpdateBaiduChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBaiduChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7795,7 +7691,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBaiduChannelInput, UpdateBaiduChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBaiduChannelOutput>(UpdateBaiduChannelOutput.httpOutput(from:), UpdateBaiduChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBaiduChannelInput, UpdateBaiduChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBaiduChannelOutput>())
@@ -7827,9 +7722,9 @@ extension PinpointClient {
     ///
     /// Updates the configuration and other settings for a campaign.
     ///
-    /// - Parameter UpdateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCampaignInput`)
     ///
-    /// - Returns: `UpdateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7869,7 +7764,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCampaignInput, UpdateCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCampaignOutput>(UpdateCampaignOutput.httpOutput(from:), UpdateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCampaignOutput>())
@@ -7901,9 +7795,9 @@ extension PinpointClient {
     ///
     /// Enables the email channel for an application or updates the status and settings of the email channel for an application.
     ///
-    /// - Parameter UpdateEmailChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEmailChannelInput`)
     ///
-    /// - Returns: `UpdateEmailChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEmailChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7943,7 +7837,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEmailChannelInput, UpdateEmailChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEmailChannelOutput>(UpdateEmailChannelOutput.httpOutput(from:), UpdateEmailChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEmailChannelInput, UpdateEmailChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEmailChannelOutput>())
@@ -7975,9 +7868,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through the email channel.
     ///
-    /// - Parameter UpdateEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEmailTemplateInput`)
     ///
-    /// - Returns: `UpdateEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8018,7 +7911,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEmailTemplateInput, UpdateEmailTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEmailTemplateOutput>(UpdateEmailTemplateOutput.httpOutput(from:), UpdateEmailTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEmailTemplateInput, UpdateEmailTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEmailTemplateOutput>())
@@ -8050,9 +7942,9 @@ extension PinpointClient {
     ///
     /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     ///
-    /// - Parameter UpdateEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointInput`)
     ///
-    /// - Returns: `UpdateEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8092,7 +7984,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointInput, UpdateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointOutput>(UpdateEndpointOutput.httpOutput(from:), UpdateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointOutput>())
@@ -8124,9 +8015,9 @@ extension PinpointClient {
     ///
     /// Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     ///
-    /// - Parameter UpdateEndpointsBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointsBatchInput`)
     ///
-    /// - Returns: `UpdateEndpointsBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointsBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8166,7 +8057,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointsBatchInput, UpdateEndpointsBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointsBatchOutput>(UpdateEndpointsBatchOutput.httpOutput(from:), UpdateEndpointsBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointsBatchInput, UpdateEndpointsBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointsBatchOutput>())
@@ -8198,9 +8088,9 @@ extension PinpointClient {
     ///
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
     ///
-    /// - Parameter UpdateGcmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGcmChannelInput`)
     ///
-    /// - Returns: `UpdateGcmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGcmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8240,7 +8130,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGcmChannelInput, UpdateGcmChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGcmChannelOutput>(UpdateGcmChannelOutput.httpOutput(from:), UpdateGcmChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGcmChannelInput, UpdateGcmChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGcmChannelOutput>())
@@ -8272,9 +8161,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages sent through the in-app message channel.
     ///
-    /// - Parameter UpdateInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInAppTemplateInput`)
     ///
-    /// - Returns: `UpdateInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8315,7 +8204,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInAppTemplateInput, UpdateInAppTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInAppTemplateOutput>(UpdateInAppTemplateOutput.httpOutput(from:), UpdateInAppTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInAppTemplateInput, UpdateInAppTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInAppTemplateOutput>())
@@ -8347,9 +8235,9 @@ extension PinpointClient {
     ///
     /// Updates the configuration and other settings for a journey.
     ///
-    /// - Parameter UpdateJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJourneyInput`)
     ///
-    /// - Returns: `UpdateJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8390,7 +8278,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJourneyInput, UpdateJourneyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJourneyOutput>(UpdateJourneyOutput.httpOutput(from:), UpdateJourneyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJourneyInput, UpdateJourneyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJourneyOutput>())
@@ -8422,9 +8309,9 @@ extension PinpointClient {
     ///
     /// Cancels (stops) an active journey.
     ///
-    /// - Parameter UpdateJourneyStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJourneyStateInput`)
     ///
-    /// - Returns: `UpdateJourneyStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJourneyStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8464,7 +8351,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJourneyStateInput, UpdateJourneyStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJourneyStateOutput>(UpdateJourneyStateOutput.httpOutput(from:), UpdateJourneyStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJourneyStateInput, UpdateJourneyStateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJourneyStateOutput>())
@@ -8496,9 +8382,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through a push notification channel.
     ///
-    /// - Parameter UpdatePushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePushTemplateInput`)
     ///
-    /// - Returns: `UpdatePushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8539,7 +8425,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePushTemplateInput, UpdatePushTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePushTemplateOutput>(UpdatePushTemplateOutput.httpOutput(from:), UpdatePushTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePushTemplateInput, UpdatePushTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePushTemplateOutput>())
@@ -8571,9 +8456,9 @@ extension PinpointClient {
     ///
     /// Updates an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter UpdateRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecommenderConfigurationInput`)
     ///
-    /// - Returns: `UpdateRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8613,7 +8498,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecommenderConfigurationInput, UpdateRecommenderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecommenderConfigurationOutput>(UpdateRecommenderConfigurationOutput.httpOutput(from:), UpdateRecommenderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecommenderConfigurationInput, UpdateRecommenderConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecommenderConfigurationOutput>())
@@ -8645,9 +8529,9 @@ extension PinpointClient {
     ///
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     ///
-    /// - Parameter UpdateSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSegmentInput`)
     ///
-    /// - Returns: `UpdateSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8687,7 +8571,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSegmentInput, UpdateSegmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSegmentOutput>(UpdateSegmentOutput.httpOutput(from:), UpdateSegmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSegmentInput, UpdateSegmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSegmentOutput>())
@@ -8719,9 +8602,9 @@ extension PinpointClient {
     ///
     /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
     ///
-    /// - Parameter UpdateSmsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSmsChannelInput`)
     ///
-    /// - Returns: `UpdateSmsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSmsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8761,7 +8644,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSmsChannelInput, UpdateSmsChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSmsChannelOutput>(UpdateSmsChannelOutput.httpOutput(from:), UpdateSmsChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSmsChannelInput, UpdateSmsChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSmsChannelOutput>())
@@ -8793,9 +8675,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through the SMS channel.
     ///
-    /// - Parameter UpdateSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSmsTemplateInput`)
     ///
-    /// - Returns: `UpdateSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8836,7 +8718,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSmsTemplateInput, UpdateSmsTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSmsTemplateOutput>(UpdateSmsTemplateOutput.httpOutput(from:), UpdateSmsTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSmsTemplateInput, UpdateSmsTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSmsTemplateOutput>())
@@ -8868,9 +8749,9 @@ extension PinpointClient {
     ///
     /// Changes the status of a specific version of a message template to active.
     ///
-    /// - Parameter UpdateTemplateActiveVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateActiveVersionInput`)
     ///
-    /// - Returns: `UpdateTemplateActiveVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateActiveVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8910,7 +8791,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateActiveVersionInput, UpdateTemplateActiveVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateActiveVersionOutput>(UpdateTemplateActiveVersionOutput.httpOutput(from:), UpdateTemplateActiveVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateActiveVersionInput, UpdateTemplateActiveVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateActiveVersionOutput>())
@@ -8942,9 +8822,9 @@ extension PinpointClient {
     ///
     /// Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
     ///
-    /// - Parameter UpdateVoiceChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceChannelInput`)
     ///
-    /// - Returns: `UpdateVoiceChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8984,7 +8864,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVoiceChannelInput, UpdateVoiceChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVoiceChannelOutput>(UpdateVoiceChannelOutput.httpOutput(from:), UpdateVoiceChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVoiceChannelInput, UpdateVoiceChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVoiceChannelOutput>())
@@ -9016,9 +8895,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through the voice channel.
     ///
-    /// - Parameter UpdateVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceTemplateInput`)
     ///
-    /// - Returns: `UpdateVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9059,7 +8938,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVoiceTemplateInput, UpdateVoiceTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVoiceTemplateOutput>(UpdateVoiceTemplateOutput.httpOutput(from:), UpdateVoiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVoiceTemplateInput, UpdateVoiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVoiceTemplateOutput>())
@@ -9091,9 +8969,9 @@ extension PinpointClient {
     ///
     /// Verify an OTP
     ///
-    /// - Parameter VerifyOTPMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyOTPMessageInput`)
     ///
-    /// - Returns: `VerifyOTPMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyOTPMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9133,7 +9011,6 @@ extension PinpointClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyOTPMessageInput, VerifyOTPMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyOTPMessageOutput>(VerifyOTPMessageOutput.httpOutput(from:), VerifyOTPMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyOTPMessageInput, VerifyOTPMessageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyOTPMessageOutput>())

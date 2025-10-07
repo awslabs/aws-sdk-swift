@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeEventsClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeEventsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeEventsClient.PersonalizeEventsClientConfiguration
     let serviceName = "Personalize Events"
@@ -372,9 +371,9 @@ extension PersonalizeEventsClient {
     ///
     /// Records action interaction event data. An action interaction event is an interaction between a user and an action. For example, a user taking an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see [Recording action interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-action-interaction-events.html). For more information about actions in an Actions dataset, see [Actions dataset](https://docs.aws.amazon.com/personalize/latest/dg/actions-datasets.html).
     ///
-    /// - Parameter PutActionInteractionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutActionInteractionsInput`)
     ///
-    /// - Returns: `PutActionInteractionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutActionInteractionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,7 +409,6 @@ extension PersonalizeEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutActionInteractionsInput, PutActionInteractionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutActionInteractionsOutput>(PutActionInteractionsOutput.httpOutput(from:), PutActionInteractionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutActionInteractionsInput, PutActionInteractionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutActionInteractionsOutput>())
@@ -442,9 +440,9 @@ extension PersonalizeEventsClient {
     ///
     /// Adds one or more actions to an Actions dataset. For more information see [Importing actions individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-actions.html).
     ///
-    /// - Parameter PutActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutActionsInput`)
     ///
-    /// - Returns: `PutActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension PersonalizeEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutActionsInput, PutActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutActionsOutput>(PutActionsOutput.httpOutput(from:), PutActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutActionsInput, PutActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutActionsOutput>())
@@ -512,9 +509,9 @@ extension PersonalizeEventsClient {
     ///
     /// Records item interaction event data. For more information see [Recording item interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-item-interaction-events.html).
     ///
-    /// - Parameter PutEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventsInput`)
     ///
-    /// - Returns: `PutEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -548,7 +545,6 @@ extension PersonalizeEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventsInput, PutEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventsOutput>(PutEventsOutput.httpOutput(from:), PutEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventsInput, PutEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventsOutput>())
@@ -580,9 +576,9 @@ extension PersonalizeEventsClient {
     ///
     /// Adds one or more items to an Items dataset. For more information see [Importing items individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
     ///
-    /// - Parameter PutItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutItemsInput`)
     ///
-    /// - Returns: `PutItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -618,7 +614,6 @@ extension PersonalizeEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutItemsInput, PutItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutItemsOutput>(PutItemsOutput.httpOutput(from:), PutItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutItemsInput, PutItemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutItemsOutput>())
@@ -650,9 +645,9 @@ extension PersonalizeEventsClient {
     ///
     /// Adds one or more users to a Users dataset. For more information see [Importing users individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
     ///
-    /// - Parameter PutUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutUsersInput`)
     ///
-    /// - Returns: `PutUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -688,7 +683,6 @@ extension PersonalizeEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutUsersInput, PutUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutUsersOutput>(PutUsersOutput.httpOutput(from:), PutUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutUsersInput, PutUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutUsersOutput>())

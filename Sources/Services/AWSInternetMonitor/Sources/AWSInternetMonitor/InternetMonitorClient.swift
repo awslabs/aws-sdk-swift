@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class InternetMonitorClient: ClientRuntime.Client {
     public static let clientName = "InternetMonitorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: InternetMonitorClient.InternetMonitorClientConfiguration
     let serviceName = "InternetMonitor"
@@ -375,9 +374,9 @@ extension InternetMonitorClient {
     ///
     /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs, Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services that are specific to the city-networks. That is, the locations and ASNs (typically internet service providers or ISPs), where clients access your application. For more information, see [Using Amazon CloudWatch Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-InternetMonitor.html) in the Amazon CloudWatch User Guide. When you create a monitor, you choose the percentage of traffic that you want to monitor. You can also set a maximum limit for the number of city-networks where client traffic is monitored, that caps the total traffic that Internet Monitor monitors. A city-network maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,7 +416,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitorInput, CreateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitorOutput>(CreateMonitorOutput.httpOutput(from:), CreateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitorInput, CreateMonitorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMonitorOutput>())
@@ -449,9 +447,9 @@ extension InternetMonitorClient {
     ///
     /// Deletes a monitor in Amazon CloudWatch Internet Monitor.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMonitorInput, DeleteMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitorOutput>(DeleteMonitorOutput.httpOutput(from:), DeleteMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitorInput, DeleteMonitorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMonitorOutput>())
@@ -517,9 +514,9 @@ extension InternetMonitorClient {
     ///
     /// Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     ///
-    /// - Parameter GetHealthEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHealthEventInput`)
     ///
-    /// - Returns: `GetHealthEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHealthEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension InternetMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetHealthEventInput, GetHealthEventOutput>(GetHealthEventInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthEventOutput>(GetHealthEventOutput.httpOutput(from:), GetHealthEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthEventInput, GetHealthEventOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthEventOutput>())
@@ -586,9 +582,9 @@ extension InternetMonitorClient {
     ///
     /// Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers. The information returned here includes the impacted location, when the event started and (if the event is over) ended, the type of event (PERFORMANCE or AVAILABILITY), and the status (ACTIVE or RESOLVED).
     ///
-    /// - Parameter GetInternetEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInternetEventInput`)
     ///
-    /// - Returns: `GetInternetEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInternetEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,7 +618,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInternetEventInput, GetInternetEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInternetEventOutput>(GetInternetEventOutput.httpOutput(from:), GetInternetEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInternetEventInput, GetInternetEventOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInternetEventOutput>())
@@ -654,9 +649,9 @@ extension InternetMonitorClient {
     ///
     /// Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     ///
-    /// - Parameter GetMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: `GetMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,7 +686,6 @@ extension InternetMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMonitorInput, GetMonitorOutput>(GetMonitorInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMonitorOutput>(GetMonitorOutput.httpOutput(from:), GetMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMonitorInput, GetMonitorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMonitorOutput>())
@@ -723,9 +717,9 @@ extension InternetMonitorClient {
     ///
     /// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
     ///
-    /// - Parameter GetQueryResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsInput`)
     ///
-    /// - Returns: `GetQueryResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,7 +755,6 @@ extension InternetMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(GetQueryResultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryResultsOutput>(GetQueryResultsOutput.httpOutput(from:), GetQueryResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsOutput>())
@@ -803,9 +796,9 @@ extension InternetMonitorClient {
     ///
     /// * CANCELED: The query was canceled.
     ///
-    /// - Parameter GetQueryStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatusInput`)
     ///
-    /// - Returns: `GetQueryStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,7 +833,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueryStatusInput, GetQueryStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryStatusOutput>(GetQueryStatusOutput.httpOutput(from:), GetQueryStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryStatusInput, GetQueryStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryStatusOutput>())
@@ -872,9 +864,9 @@ extension InternetMonitorClient {
     ///
     /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and the status. Health events that have start times during the time frame that is requested are not included in the list of health events.
     ///
-    /// - Parameter ListHealthEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHealthEventsInput`)
     ///
-    /// - Returns: `ListHealthEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHealthEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,7 +901,6 @@ extension InternetMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHealthEventsInput, ListHealthEventsOutput>(ListHealthEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHealthEventsOutput>(ListHealthEventsOutput.httpOutput(from:), ListHealthEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHealthEventsInput, ListHealthEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHealthEventsOutput>())
@@ -941,9 +932,9 @@ extension InternetMonitorClient {
     ///
     /// Lists internet events that cause performance or availability issues for client locations. Amazon CloudWatch Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers. You can constrain the list of internet events returned by providing a start time and end time to define a total time frame for events you want to list. Both start time and end time specify the time when an event started. End time is optional. If you don't include it, the default end time is the current time. You can also limit the events returned to a specific status (ACTIVE or RESOLVED) or type (PERFORMANCE or AVAILABILITY).
     ///
-    /// - Parameter ListInternetEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInternetEventsInput`)
     ///
-    /// - Returns: `ListInternetEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInternetEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,7 +969,6 @@ extension InternetMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInternetEventsInput, ListInternetEventsOutput>(ListInternetEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInternetEventsOutput>(ListInternetEventsOutput.httpOutput(from:), ListInternetEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInternetEventsInput, ListInternetEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInternetEventsOutput>())
@@ -1010,9 +1000,9 @@ extension InternetMonitorClient {
     ///
     /// Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,7 +1037,6 @@ extension InternetMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMonitorsInput, ListMonitorsOutput>(ListMonitorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitorsOutput>(ListMonitorsOutput.httpOutput(from:), ListMonitorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitorsInput, ListMonitorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitorsOutput>())
@@ -1079,9 +1068,9 @@ extension InternetMonitorClient {
     ///
     /// Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,7 +1105,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1148,9 +1136,9 @@ extension InternetMonitorClient {
     ///
     /// Start a query to return data for a specific query type for the Amazon CloudWatch Internet Monitor query interface. Specify a time period for the data that you want returned by using StartTime and EndTime. You filter the query results to return by providing parameters that you specify with FilterParameters. For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
     ///
-    /// - Parameter StartQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryInput`)
     ///
-    /// - Returns: `StartQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,7 +1176,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryInput, StartQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryOutput>(StartQueryOutput.httpOutput(from:), StartQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryInput, StartQueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryOutput>())
@@ -1220,9 +1207,9 @@ extension InternetMonitorClient {
     ///
     /// Stop a query that is progress for a specific monitor.
     ///
-    /// - Parameter StopQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryInput`)
     ///
-    /// - Returns: `StopQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1257,7 +1244,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopQueryInput, StopQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopQueryOutput>(StopQueryOutput.httpOutput(from:), StopQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQueryInput, StopQueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQueryOutput>())
@@ -1289,9 +1275,9 @@ extension InternetMonitorClient {
     ///
     /// Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. You can add a maximum of 50 tags in Internet Monitor. A minimum of one tag is required for this call. It returns an error if you use the TagResource request with 0 tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,7 +1315,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1361,9 +1346,9 @@ extension InternetMonitorClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1399,7 +1384,6 @@ extension InternetMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1431,9 +1415,9 @@ extension InternetMonitorClient {
     ///
     /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks (locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     ///
-    /// - Parameter UpdateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitorInput`)
     ///
-    /// - Returns: `UpdateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1473,7 +1457,6 @@ extension InternetMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitorInput, UpdateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitorOutput>(UpdateMonitorOutput.httpOutput(from:), UpdateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitorInput, UpdateMonitorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitorOutput>())

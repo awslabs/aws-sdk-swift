@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class InvoicingClient: ClientRuntime.Client {
     public static let clientName = "InvoicingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: InvoicingClient.InvoicingClientConfiguration
     let serviceName = "Invoicing"
@@ -374,9 +373,9 @@ extension InvoicingClient {
     ///
     /// This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
     ///
-    /// - Parameter BatchGetInvoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetInvoiceProfileInput`)
     ///
-    /// - Returns: `BatchGetInvoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetInvoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +411,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetInvoiceProfileOutput>(BatchGetInvoiceProfileOutput.httpOutput(from:), BatchGetInvoiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetInvoiceProfileOutput>())
@@ -447,9 +445,9 @@ extension InvoicingClient {
     ///
     /// This creates a new invoice unit with the provided definition.
     ///
-    /// - Parameter CreateInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvoiceUnitInput`)
     ///
-    /// - Returns: `CreateInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,7 +482,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvoiceUnitOutput>(CreateInvoiceUnitOutput.httpOutput(from:), CreateInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvoiceUnitOutput>())
@@ -519,9 +516,9 @@ extension InvoicingClient {
     ///
     /// This deletes an invoice unit with the provided invoice unit ARN.
     ///
-    /// - Parameter DeleteInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvoiceUnitInput`)
     ///
-    /// - Returns: `DeleteInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,7 +554,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvoiceUnitOutput>(DeleteInvoiceUnitOutput.httpOutput(from:), DeleteInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvoiceUnitOutput>())
@@ -592,9 +588,9 @@ extension InvoicingClient {
     ///
     /// This retrieves the invoice unit definition.
     ///
-    /// - Parameter GetInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvoiceUnitInput`)
     ///
-    /// - Returns: `GetInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,7 +626,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvoiceUnitOutput>(GetInvoiceUnitOutput.httpOutput(from:), GetInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvoiceUnitOutput>())
@@ -665,9 +660,9 @@ extension InvoicingClient {
     ///
     /// Retrieves your invoice details programmatically, without line item details.
     ///
-    /// - Parameter ListInvoiceSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvoiceSummariesInput`)
     ///
-    /// - Returns: `ListInvoiceSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvoiceSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,7 +698,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvoiceSummariesOutput>(ListInvoiceSummariesOutput.httpOutput(from:), ListInvoiceSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvoiceSummariesOutput>())
@@ -738,9 +732,9 @@ extension InvoicingClient {
     ///
     /// This fetches a list of all invoice unit definitions for a given account, as of the provided AsOf date.
     ///
-    /// - Parameter ListInvoiceUnitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvoiceUnitsInput`)
     ///
-    /// - Returns: `ListInvoiceUnitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvoiceUnitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -775,7 +769,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvoiceUnitsOutput>(ListInvoiceUnitsOutput.httpOutput(from:), ListInvoiceUnitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvoiceUnitsOutput>())
@@ -810,9 +803,9 @@ extension InvoicingClient {
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,7 +841,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -883,9 +875,9 @@ extension InvoicingClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,7 +914,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -957,9 +948,9 @@ extension InvoicingClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -995,7 +986,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1030,9 +1020,9 @@ extension InvoicingClient {
     ///
     /// You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
     ///
-    /// - Parameter UpdateInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInvoiceUnitInput`)
     ///
-    /// - Returns: `UpdateInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,7 +1058,6 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInvoiceUnitOutput>(UpdateInvoiceUnitOutput.httpOutput(from:), UpdateInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInvoiceUnitOutput>())

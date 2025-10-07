@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PaymentCryptographyDataClient: ClientRuntime.Client {
     public static let clientName = "PaymentCryptographyDataClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration
     let serviceName = "Payment Cryptography Data"
@@ -378,9 +377,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
     ///
-    /// - Parameter DecryptDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DecryptDataInput`)
     ///
-    /// - Returns: `DecryptDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DecryptDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,7 +417,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DecryptDataInput, DecryptDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecryptDataOutput>(DecryptDataOutput.httpOutput(from:), DecryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecryptDataInput, DecryptDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecryptDataOutput>())
@@ -458,9 +456,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [ReEncryptData]
     ///
-    /// - Parameter EncryptDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EncryptDataInput`)
     ///
-    /// - Returns: `EncryptDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EncryptDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -498,7 +496,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EncryptDataInput, EncryptDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EncryptDataOutput>(EncryptDataOutput.httpOutput(from:), EncryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EncryptDataInput, EncryptDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EncryptDataOutput>())
@@ -534,9 +531,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [VerifyCardValidationData]
     ///
-    /// - Parameter GenerateCardValidationDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateCardValidationDataInput`)
     ///
-    /// - Returns: `GenerateCardValidationDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateCardValidationDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -574,7 +571,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateCardValidationDataOutput>(GenerateCardValidationDataOutput.httpOutput(from:), GenerateCardValidationDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateCardValidationDataOutput>())
@@ -604,13 +600,13 @@ extension PaymentCryptographyDataClient {
 
     /// Performs the `GenerateMac` operation on the `PaymentCryptographyData` service.
     ///
-    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography. You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the sending and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorithm to reproduce another MAC value for comparision. You can use this operation to generate a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and they key must have KeyModesOfUse set to Generate and Verify. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography. You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the sending and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorithm to reproduce another MAC value for comparision. You can use this operation to generate a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and the key must have KeyModesOfUse set to Generate and Verify. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [VerifyMac]
     ///
-    /// - Parameter GenerateMacInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMacInput`)
     ///
-    /// - Returns: `GenerateMacOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMacOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -648,7 +644,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMacInput, GenerateMacOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMacOutput>(GenerateMacOutput.httpOutput(from:), GenerateMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMacInput, GenerateMacOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMacOutput>())
@@ -684,9 +679,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [GenerateMac]
     ///
-    /// - Parameter GenerateMacEmvPinChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMacEmvPinChangeInput`)
     ///
-    /// - Returns: `GenerateMacEmvPinChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMacEmvPinChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,7 +719,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMacEmvPinChangeOutput>(GenerateMacEmvPinChangeOutput.httpOutput(from:), GenerateMacEmvPinChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMacEmvPinChangeOutput>())
@@ -762,9 +756,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [VerifyPinData]
     ///
-    /// - Parameter GeneratePinDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GeneratePinDataInput`)
     ///
-    /// - Returns: `GeneratePinDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GeneratePinDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,7 +796,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GeneratePinDataInput, GeneratePinDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GeneratePinDataOutput>(GeneratePinDataOutput.httpOutput(from:), GeneratePinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GeneratePinDataInput, GeneratePinDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GeneratePinDataOutput>())
@@ -842,9 +835,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
     ///
-    /// - Parameter ReEncryptDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReEncryptDataInput`)
     ///
-    /// - Returns: `ReEncryptDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReEncryptDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,7 +875,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReEncryptDataInput, ReEncryptDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReEncryptDataOutput>(ReEncryptDataOutput.httpOutput(from:), ReEncryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReEncryptDataInput, ReEncryptDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReEncryptDataOutput>())
@@ -910,17 +902,94 @@ extension PaymentCryptographyDataClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `TranslateKeyMaterial` operation on the `PaymentCryptographyData` service.
+    ///
+    /// Translates an encryption key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as Pin Encryption Key (PEK) generated for each transaction and wrapped with an ECDH (Elliptic Curve Diffie-Hellman) derived wrapping key to another KEK (Key Encryption Key) wrapping key. Before using this operation, you must first request the public key certificate of the ECC key pair generated within Amazon Web Services Payment Cryptography to establish an ECDH key agreement. In TranslateKeyData, the service uses its own ECC key pair, public certificate of receiving ECC key pair, and the key derivation parameters to generate a derived key. The service uses this derived key to unwrap the incoming transaction key received as a TR31WrappedKeyBlock and re-wrap using a user provided KEK to generate an outgoing Tr31WrappedKeyBlock. For more information on establishing ECDH derived keys, see the [Creating keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/create-keys.html) in the Amazon Web Services Payment Cryptography User Guide. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    ///
+    /// * [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
+    ///
+    /// * [GetPublicCertificate](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetPublicKeyCertificate.html)
+    ///
+    /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TranslateKeyMaterialInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TranslateKeyMaterialOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
+    public func translateKeyMaterial(input: TranslateKeyMaterialInput) async throws -> TranslateKeyMaterialOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "translateKeyMaterial")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "payment-cryptography")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TranslateKeyMaterialInput, TranslateKeyMaterialOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(TranslateKeyMaterialInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TranslateKeyMaterialInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslateKeyMaterialOutput>(TranslateKeyMaterialOutput.httpOutput(from:), TranslateKeyMaterialOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TranslateKeyMaterialOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography Data", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TranslateKeyMaterialOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TranslateKeyMaterialOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(serviceID: serviceName, version: PaymentCryptographyDataClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptographyData")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TranslateKeyMaterial")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TranslatePinData` operation on the `PaymentCryptographyData` service.
     ///
-    /// Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see [Translate PIN data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/translate-pin-data.html) in the Amazon Web Services Payment Cryptography User Guide. PIN block translation involves changing a PIN block from one encryption key to another and optionally change its format. PIN block translation occurs entirely within the HSM boundary and PIN data never enters or leaves Amazon Web Services Payment Cryptography in clear text. The encryption key transformation can be from PEK (Pin Encryption Key) to BDK (Base Derivation Key) for DUKPT or from BDK for DUKPT to PEK. Amazon Web Services Payment Cryptography also supports use of dynamic keys and ECDH (Elliptic Curve Diffie-Hellman) based key exchange for this operation. Dynamic keys allow you to pass a PEK as a TR-31 WrappedKeyBlock. They can be used when key material is frequently rotated, such as during every card transaction, and there is need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. To translate PIN block using dynamic keys, the keyARN is the Key Encryption Key (KEK) of the TR-31 wrapped PEK. The incoming wrapped key shall have a key purpose of P0 with a mode of use of B or D. For more information, see [Using Dynamic Keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/use-cases-acquirers-dynamickeys.html) in the Amazon Web Services Payment Cryptography User Guide. Using ECDH key exchange, you can receive cardholder selectable PINs into Amazon Web Services Payment Cryptography. The ECDH derived key protects the incoming PIN block, which is translated to a PEK encrypted PIN block for use within the service. You can also use ECDH for reveal PIN, wherein the service translates the PIN block from PEK to a ECDH derived encryption key. For more information on establishing ECDH derived keys, see the [Generating keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/create-keys.html) in the Amazon Web Services Payment Cryptography User Guide. The allowed combinations of PIN block format translations are guided by PCI. It is important to note that not all encrypted PIN block formats (example, format 1) require PAN (Primary Account Number) as input. And as such, PIN block format that requires PAN (example, formats 0,3,4) cannot be translated to a format (format 1) that does not require a PAN for generation. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Amazon Web Services Payment Cryptography currently supports ISO PIN block 4 translation for PIN block built using legacy PAN length. That is, PAN is the right most 12 digits excluding the check digits. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    /// Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see [Translate PIN data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/translate-pin-data.html) in the Amazon Web Services Payment Cryptography User Guide. PIN block translation involves changing a PIN block from one encryption key to another and optionally change its format. PIN block translation occurs entirely within the HSM boundary and PIN data never enters or leaves Amazon Web Services Payment Cryptography in clear text. The encryption key transformation can be from PEK (Pin Encryption Key) to BDK (Base Derivation Key) for DUKPT or from BDK for DUKPT to PEK. Amazon Web Services Payment Cryptography also supports use of dynamic keys and ECDH (Elliptic Curve Diffie-Hellman) based key exchange for this operation. Dynamic keys allow you to pass a PEK as a TR-31 WrappedKeyBlock. They can be used when key material is frequently rotated, such as during every card transaction, and there is need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. To translate PIN block using dynamic keys, the keyARN is the Key Encryption Key (KEK) of the TR-31 wrapped PEK. The incoming wrapped key shall have a key purpose of P0 with a mode of use of B or D. For more information, see [Using Dynamic Keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/use-cases-acquirers-dynamickeys.html) in the Amazon Web Services Payment Cryptography User Guide. Using ECDH key exchange, you can receive cardholder selectable PINs into Amazon Web Services Payment Cryptography. The ECDH derived key protects the incoming PIN block, which is translated to a PEK encrypted PIN block for use within the service. You can also use ECDH for reveal PIN, wherein the service translates the PIN block from PEK to a ECDH derived encryption key. For more information on establishing ECDH derived keys, see the [Creating keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/create-keys.html) in the Amazon Web Services Payment Cryptography User Guide. The allowed combinations of PIN block format translations are guided by PCI. It is important to note that not all encrypted PIN block formats (example, format 1) require PAN (Primary Account Number) as input. And as such, PIN block format that requires PAN (example, formats 0,3,4) cannot be translated to a format (format 1) that does not require a PAN for generation. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Amazon Web Services Payment Cryptography currently supports ISO PIN block 4 translation for PIN block built using legacy PAN length. That is, PAN is the right most 12 digits excluding the check digits. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GeneratePinData]
     ///
     /// * [VerifyPinData]
     ///
-    /// - Parameter TranslatePinDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TranslatePinDataInput`)
     ///
-    /// - Returns: `TranslatePinDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TranslatePinDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,7 +1027,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranslatePinDataInput, TranslatePinDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslatePinDataOutput>(TranslatePinDataOutput.httpOutput(from:), TranslatePinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslatePinDataInput, TranslatePinDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TranslatePinDataOutput>())
@@ -994,9 +1062,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [VerifyPinData]
     ///
-    /// - Parameter VerifyAuthRequestCryptogramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyAuthRequestCryptogramInput`)
     ///
-    /// - Returns: `VerifyAuthRequestCryptogramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyAuthRequestCryptogramOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,7 +1103,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyAuthRequestCryptogramOutput>(VerifyAuthRequestCryptogramOutput.httpOutput(from:), VerifyAuthRequestCryptogramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyAuthRequestCryptogramOutput>())
@@ -1073,9 +1140,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [VerifyPinData]
     ///
-    /// - Parameter VerifyCardValidationDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyCardValidationDataInput`)
     ///
-    /// - Returns: `VerifyCardValidationDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyCardValidationDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,7 +1181,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyCardValidationDataOutput>(VerifyCardValidationDataOutput.httpOutput(from:), VerifyCardValidationDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyCardValidationDataOutput>())
@@ -1148,9 +1214,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [GenerateMac]
     ///
-    /// - Parameter VerifyMacInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyMacInput`)
     ///
-    /// - Returns: `VerifyMacOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyMacOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,7 +1255,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyMacInput, VerifyMacOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyMacOutput>(VerifyMacOutput.httpOutput(from:), VerifyMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyMacInput, VerifyMacOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyMacOutput>())
@@ -1225,9 +1290,9 @@ extension PaymentCryptographyDataClient {
     ///
     /// * [TranslatePinData]
     ///
-    /// - Parameter VerifyPinDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyPinDataInput`)
     ///
-    /// - Returns: `VerifyPinDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyPinDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,7 +1331,6 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyPinDataInput, VerifyPinDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyPinDataOutput>(VerifyPinDataOutput.httpOutput(from:), VerifyPinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyPinDataInput, VerifyPinDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyPinDataOutput>())

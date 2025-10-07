@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoSignalingClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoSignalingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoSignalingClient.KinesisVideoSignalingClientConfiguration
     let serviceName = "Kinesis Video Signaling"
@@ -372,9 +371,9 @@ extension KinesisVideoSignalingClient {
     ///
     /// Gets the Interactive Connectivity Establishment (ICE) server configuration information, including URIs, username, and password which can be used to configure the WebRTC connection. The ICE component uses this configuration information to setup the WebRTC connection, including authenticating with the Traversal Using Relays around NAT (TURN) relay server. TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By providing a cloud-based relay service, TURN ensures that a connection can be established even when one or more peers are incapable of a direct peer-to-peer connection. For more information, see [A REST API For Access To TURN Services](https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00). You can invoke this API to establish a fallback mechanism in case either of the peers is unable to establish a direct peer-to-peer connection over a signaling channel. You must specify either a signaling channel ARN or the client ID in order to invoke this API.
     ///
-    /// - Parameter GetIceServerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIceServerConfigInput`)
     ///
-    /// - Returns: `GetIceServerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIceServerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension KinesisVideoSignalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIceServerConfigInput, GetIceServerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIceServerConfigOutput>(GetIceServerConfigOutput.httpOutput(from:), GetIceServerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIceServerConfigInput, GetIceServerConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIceServerConfigOutput>())
@@ -445,9 +443,9 @@ extension KinesisVideoSignalingClient {
     ///
     /// This API allows you to connect WebRTC-enabled devices with Alexa display devices. When invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires.
     ///
-    /// - Parameter SendAlexaOfferToMasterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendAlexaOfferToMasterInput`)
     ///
-    /// - Returns: `SendAlexaOfferToMasterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendAlexaOfferToMasterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,7 +482,6 @@ extension KinesisVideoSignalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAlexaOfferToMasterInput, SendAlexaOfferToMasterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendAlexaOfferToMasterOutput>(SendAlexaOfferToMasterOutput.httpOutput(from:), SendAlexaOfferToMasterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAlexaOfferToMasterInput, SendAlexaOfferToMasterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAlexaOfferToMasterOutput>())

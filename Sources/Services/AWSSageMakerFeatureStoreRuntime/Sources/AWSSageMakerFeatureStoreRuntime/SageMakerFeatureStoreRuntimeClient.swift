@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerFeatureStoreRuntimeClient: ClientRuntime.Client {
     public static let clientName = "SageMakerFeatureStoreRuntimeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfiguration
     let serviceName = "SageMaker FeatureStore Runtime"
@@ -373,9 +372,9 @@ extension SageMakerFeatureStoreRuntimeClient {
     ///
     /// Retrieves a batch of Records from a FeatureGroup.
     ///
-    /// - Parameter BatchGetRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetRecordInput`)
     ///
-    /// - Returns: `BatchGetRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +411,6 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetRecordInput, BatchGetRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetRecordOutput>(BatchGetRecordOutput.httpOutput(from:), BatchGetRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetRecordInput, BatchGetRecordOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetRecordOutput>())
@@ -451,9 +449,9 @@ extension SageMakerFeatureStoreRuntimeClient {
     ///
     /// When a record is deleted from the OnlineStore, the deleted record marker is appended to the OfflineStore. If you have the Iceberg table format enabled for your OfflineStore, you can remove all history of a record from the OfflineStore using Amazon Athena or Apache Spark. For information on how to hard delete a record from the OfflineStore with the Iceberg table format enabled, see [Delete records from the offline store](https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-delete-records-offline-store.html#feature-store-delete-records-offline-store).
     ///
-    /// - Parameter DeleteRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecordInput`)
     ///
-    /// - Returns: `DeleteRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,7 +486,6 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRecordInput, DeleteRecordOutput>(DeleteRecordInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecordOutput>(DeleteRecordOutput.httpOutput(from:), DeleteRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecordInput, DeleteRecordOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecordOutput>())
@@ -520,9 +517,9 @@ extension SageMakerFeatureStoreRuntimeClient {
     ///
     /// Use for OnlineStore serving from a FeatureStore. Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned.
     ///
-    /// - Parameter GetRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecordInput`)
     ///
-    /// - Returns: `GetRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,7 +555,6 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecordInput, GetRecordOutput>(GetRecordInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordOutput>(GetRecordOutput.httpOutput(from:), GetRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordInput, GetRecordOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordOutput>())
@@ -590,9 +586,9 @@ extension SageMakerFeatureStoreRuntimeClient {
     ///
     /// The PutRecord API is used to ingest a list of Records into your feature group. If a new record’s EventTime is greater, the new record is written to both the OnlineStore and OfflineStore. Otherwise, the record is a historic record and it is written only to the OfflineStore. You can specify the ingestion to be applied to the OnlineStore, OfflineStore, or both by using the TargetStores request parameter. You can set the ingested record to expire at a given time to live (TTL) duration after the record’s event time, ExpiresAt = EventTime + TtlDuration, by specifying the TtlDuration parameter. A record level TtlDuration is set when specifying the TtlDuration parameter using the PutRecord API call. If the input TtlDuration is null or unspecified, TtlDuration is set to the default feature group level TtlDuration. A record level TtlDuration supersedes the group level TtlDuration.
     ///
-    /// - Parameter PutRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRecordInput`)
     ///
-    /// - Returns: `PutRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,7 +625,6 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordInput, PutRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordOutput>(PutRecordOutput.httpOutput(from:), PutRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordInput, PutRecordOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordOutput>())

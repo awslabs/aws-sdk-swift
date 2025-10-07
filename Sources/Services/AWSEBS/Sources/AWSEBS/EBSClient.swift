@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -73,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EBSClient: ClientRuntime.Client {
     public static let clientName = "EBSClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: EBSClient.EBSClientConfiguration
     let serviceName = "EBS"
@@ -379,9 +378,9 @@ extension EBSClient {
     ///
     /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter CompleteSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteSnapshotInput`)
     ///
-    /// - Returns: `CompleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,7 +417,6 @@ extension EBSClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<CompleteSnapshotInput, CompleteSnapshotOutput>(CompleteSnapshotInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteSnapshotOutput>(CompleteSnapshotOutput.httpOutput(from:), CompleteSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteSnapshotInput, CompleteSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteSnapshotOutput>())
@@ -450,9 +448,9 @@ extension EBSClient {
     ///
     /// Returns the data in a block in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter GetSnapshotBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSnapshotBlockInput`)
     ///
-    /// - Returns: `GetSnapshotBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSnapshotBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,7 +487,6 @@ extension EBSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutput>(GetSnapshotBlockInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSnapshotBlockOutput>(GetSnapshotBlockOutput.httpOutput(from:), GetSnapshotBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSnapshotBlockInput, GetSnapshotBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSnapshotBlockOutput>())
@@ -521,9 +518,9 @@ extension EBSClient {
     ///
     /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter ListChangedBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChangedBlocksInput`)
     ///
-    /// - Returns: `ListChangedBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChangedBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,7 +557,6 @@ extension EBSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChangedBlocksInput, ListChangedBlocksOutput>(ListChangedBlocksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChangedBlocksOutput>(ListChangedBlocksOutput.httpOutput(from:), ListChangedBlocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChangedBlocksInput, ListChangedBlocksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChangedBlocksOutput>())
@@ -592,9 +588,9 @@ extension EBSClient {
     ///
     /// Returns information about the blocks in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter ListSnapshotBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSnapshotBlocksInput`)
     ///
-    /// - Returns: `ListSnapshotBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSnapshotBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,7 +627,6 @@ extension EBSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutput>(ListSnapshotBlocksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSnapshotBlocksOutput>(ListSnapshotBlocksOutput.httpOutput(from:), ListSnapshotBlocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSnapshotBlocksInput, ListSnapshotBlocksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSnapshotBlocksOutput>())
@@ -663,9 +658,9 @@ extension EBSClient {
     ///
     /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter PutSnapshotBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSnapshotBlockInput`)
     ///
-    /// - Returns: `PutSnapshotBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSnapshotBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,7 +700,6 @@ extension EBSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutput>(requiresLength: false, unsignedPayload: true))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSnapshotBlockOutput>(PutSnapshotBlockOutput.httpOutput(from:), PutSnapshotBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSnapshotBlockInput, PutSnapshotBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSnapshotBlockOutput>())
@@ -737,9 +731,9 @@ extension EBSClient {
     ///
     /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html) to write blocks of data to the snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter StartSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSnapshotInput`)
     ///
-    /// - Returns: `StartSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,7 +775,6 @@ extension EBSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSnapshotInput, StartSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSnapshotOutput>(StartSnapshotOutput.httpOutput(from:), StartSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSnapshotInput, StartSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSnapshotOutput>())

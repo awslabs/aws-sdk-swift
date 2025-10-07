@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticsearchClient: ClientRuntime.Client {
     public static let clientName = "ElasticsearchClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticsearchClient.ElasticsearchClientConfiguration
     let serviceName = "Elasticsearch"
@@ -373,9 +372,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the destination domain owner to accept an inbound cross-cluster search connection request.
     ///
-    /// - Parameter AcceptInboundCrossClusterSearchConnectionInput : Container for the parameters to the [AcceptInboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [AcceptInboundCrossClusterSearchConnection] operation. (Type: `AcceptInboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `AcceptInboundCrossClusterSearchConnectionOutput` : The result of a [AcceptInboundCrossClusterSearchConnection] operation. Contains details of accepted inbound connection.
+    /// - Returns: The result of a [AcceptInboundCrossClusterSearchConnection] operation. Contains details of accepted inbound connection. (Type: `AcceptInboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,7 +407,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptInboundCrossClusterSearchConnectionInput, AcceptInboundCrossClusterSearchConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInboundCrossClusterSearchConnectionOutput>(AcceptInboundCrossClusterSearchConnectionOutput.httpOutput(from:), AcceptInboundCrossClusterSearchConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInboundCrossClusterSearchConnectionInput, AcceptInboundCrossClusterSearchConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInboundCrossClusterSearchConnectionOutput>())
@@ -440,9 +438,9 @@ extension ElasticsearchClient {
     ///
     /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See [ Tagging Amazon Elasticsearch Service Domains for more information.](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-awsresorcetagging)
     ///
-    /// - Parameter AddTagsInput : Container for the parameters to the [AddTags] operation. Specify the tags that you want to attach to the Elasticsearch domain.
+    /// - Parameter input: Container for the parameters to the [AddTags] operation. Specify the tags that you want to attach to the Elasticsearch domain. (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,7 +477,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -511,9 +508,9 @@ extension ElasticsearchClient {
     ///
     /// Associates a package with an Amazon ES domain.
     ///
-    /// - Parameter AssociatePackageInput : Container for request parameters to [AssociatePackage] operation.
+    /// - Parameter input: Container for request parameters to [AssociatePackage] operation. (Type: `AssociatePackageInput`)
     ///
-    /// - Returns: `AssociatePackageOutput` : Container for response returned by [AssociatePackage] operation.
+    /// - Returns: Container for response returned by [AssociatePackage] operation. (Type: `AssociatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -549,7 +546,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociatePackageInput, AssociatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePackageOutput>(AssociatePackageOutput.httpOutput(from:), AssociatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePackageInput, AssociatePackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePackageOutput>())
@@ -581,9 +577,9 @@ extension ElasticsearchClient {
     ///
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
-    /// - Parameter AuthorizeVpcEndpointAccessInput : Container for request parameters to the [AuthorizeVpcEndpointAccess] operation. Specifies the account to be permitted to manage VPC endpoints against the domain.
+    /// - Parameter input: Container for request parameters to the [AuthorizeVpcEndpointAccess] operation. Specifies the account to be permitted to manage VPC endpoints against the domain. (Type: `AuthorizeVpcEndpointAccessInput`)
     ///
-    /// - Returns: `AuthorizeVpcEndpointAccessOutput` : Container for response parameters to the [AuthorizeVpcEndpointAccess] operation. Contains the account ID and the type of the account being authorized to access the VPC endpoint.
+    /// - Returns: Container for response parameters to the [AuthorizeVpcEndpointAccess] operation. Contains the account ID and the type of the account being authorized to access the VPC endpoint. (Type: `AuthorizeVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,7 +618,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeVpcEndpointAccessInput, AuthorizeVpcEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeVpcEndpointAccessOutput>(AuthorizeVpcEndpointAccessOutput.httpOutput(from:), AuthorizeVpcEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeVpcEndpointAccessInput, AuthorizeVpcEndpointAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeVpcEndpointAccessOutput>())
@@ -654,9 +649,9 @@ extension ElasticsearchClient {
     ///
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain.
     ///
-    /// - Parameter CancelDomainConfigChangeInput : Container for parameters of the CancelDomainConfigChange operation.
+    /// - Parameter input: Container for parameters of the CancelDomainConfigChange operation. (Type: `CancelDomainConfigChangeInput`)
     ///
-    /// - Returns: `CancelDomainConfigChangeOutput` : Contains the details of the cancelled domain config change.
+    /// - Returns: Contains the details of the cancelled domain config change. (Type: `CancelDomainConfigChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,7 +689,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDomainConfigChangeInput, CancelDomainConfigChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDomainConfigChangeOutput>(CancelDomainConfigChangeOutput.httpOutput(from:), CancelDomainConfigChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDomainConfigChangeInput, CancelDomainConfigChangeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDomainConfigChangeOutput>())
@@ -726,9 +720,9 @@ extension ElasticsearchClient {
     ///
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     ///
-    /// - Parameter CancelElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [CancelElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to cancel a service software update on.
+    /// - Parameter input: Container for the parameters to the [CancelElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to cancel a service software update on. (Type: `CancelElasticsearchServiceSoftwareUpdateInput`)
     ///
-    /// - Returns: `CancelElasticsearchServiceSoftwareUpdateOutput` : The result of a CancelElasticsearchServiceSoftwareUpdate operation. Contains the status of the update.
+    /// - Returns: The result of a CancelElasticsearchServiceSoftwareUpdate operation. Contains the status of the update. (Type: `CancelElasticsearchServiceSoftwareUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,7 +759,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelElasticsearchServiceSoftwareUpdateInput, CancelElasticsearchServiceSoftwareUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelElasticsearchServiceSoftwareUpdateOutput>(CancelElasticsearchServiceSoftwareUpdateOutput.httpOutput(from:), CancelElasticsearchServiceSoftwareUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelElasticsearchServiceSoftwareUpdateInput, CancelElasticsearchServiceSoftwareUpdateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelElasticsearchServiceSoftwareUpdateOutput>())
@@ -797,9 +790,9 @@ extension ElasticsearchClient {
     ///
     /// Creates a new Elasticsearch domain. For more information, see [Creating Elasticsearch Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains) in the Amazon Elasticsearch Service Developer Guide.
     ///
-    /// - Parameter CreateElasticsearchDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateElasticsearchDomainInput`)
     ///
-    /// - Returns: `CreateElasticsearchDomainOutput` : The result of a CreateElasticsearchDomain operation. Contains the status of the newly created Elasticsearch domain.
+    /// - Returns: The result of a CreateElasticsearchDomain operation. Contains the status of the newly created Elasticsearch domain. (Type: `CreateElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,7 +832,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateElasticsearchDomainInput, CreateElasticsearchDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateElasticsearchDomainOutput>(CreateElasticsearchDomainOutput.httpOutput(from:), CreateElasticsearchDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateElasticsearchDomainInput, CreateElasticsearchDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateElasticsearchDomainOutput>())
@@ -871,9 +863,9 @@ extension ElasticsearchClient {
     ///
     /// Creates a new cross-cluster search connection from a source domain to a destination domain.
     ///
-    /// - Parameter CreateOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [CreateOutboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [CreateOutboundCrossClusterSearchConnection] operation. (Type: `CreateOutboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `CreateOutboundCrossClusterSearchConnectionOutput` : The result of a [CreateOutboundCrossClusterSearchConnection] request. Contains the details of the newly created cross-cluster search connection.
+    /// - Returns: The result of a [CreateOutboundCrossClusterSearchConnection] request. Contains the details of the newly created cross-cluster search connection. (Type: `CreateOutboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,7 +902,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOutboundCrossClusterSearchConnectionInput, CreateOutboundCrossClusterSearchConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOutboundCrossClusterSearchConnectionOutput>(CreateOutboundCrossClusterSearchConnectionOutput.httpOutput(from:), CreateOutboundCrossClusterSearchConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOutboundCrossClusterSearchConnectionInput, CreateOutboundCrossClusterSearchConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOutboundCrossClusterSearchConnectionOutput>())
@@ -942,9 +933,9 @@ extension ElasticsearchClient {
     ///
     /// Create a package for use with Amazon ES domains.
     ///
-    /// - Parameter CreatePackageInput : Container for request parameters to [CreatePackage] operation.
+    /// - Parameter input: Container for request parameters to [CreatePackage] operation. (Type: `CreatePackageInput`)
     ///
-    /// - Returns: `CreatePackageOutput` : Container for response returned by [CreatePackage] operation.
+    /// - Returns: Container for response returned by [CreatePackage] operation. (Type: `CreatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,7 +975,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackageInput, CreatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackageOutput>(CreatePackageOutput.httpOutput(from:), CreatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackageInput, CreatePackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackageOutput>())
@@ -1016,9 +1006,9 @@ extension ElasticsearchClient {
     ///
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     ///
-    /// - Parameter CreateVpcEndpointInput : Container for the parameters to the [CreateVpcEndpointRequest] operation.
+    /// - Parameter input: Container for the parameters to the [CreateVpcEndpointRequest] operation. (Type: `CreateVpcEndpointInput`)
     ///
-    /// - Returns: `CreateVpcEndpointOutput` : Container for response parameters to the [CreateVpcEndpoint] operation. Contains the configuration and status of the VPC Endpoint being created.
+    /// - Returns: Container for response parameters to the [CreateVpcEndpoint] operation. Contains the configuration and status of the VPC Endpoint being created. (Type: `CreateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,7 +1047,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcEndpointOutput>(CreateVpcEndpointOutput.httpOutput(from:), CreateVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointOutput>())
@@ -1089,9 +1078,9 @@ extension ElasticsearchClient {
     ///
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     ///
-    /// - Parameter DeleteElasticsearchDomainInput : Container for the parameters to the [DeleteElasticsearchDomain] operation. Specifies the name of the Elasticsearch domain that you want to delete.
+    /// - Parameter input: Container for the parameters to the [DeleteElasticsearchDomain] operation. Specifies the name of the Elasticsearch domain that you want to delete. (Type: `DeleteElasticsearchDomainInput`)
     ///
-    /// - Returns: `DeleteElasticsearchDomainOutput` : The result of a DeleteElasticsearchDomain request. Contains the status of the pending deletion, or no status if the domain and all of its resources have been deleted.
+    /// - Returns: The result of a DeleteElasticsearchDomain request. Contains the status of the pending deletion, or no status if the domain and all of its resources have been deleted. (Type: `DeleteElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,7 +1114,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteElasticsearchDomainInput, DeleteElasticsearchDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteElasticsearchDomainOutput>(DeleteElasticsearchDomainOutput.httpOutput(from:), DeleteElasticsearchDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteElasticsearchDomainInput, DeleteElasticsearchDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteElasticsearchDomainOutput>())
@@ -1157,9 +1145,9 @@ extension ElasticsearchClient {
     ///
     /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See [Deleting Elasticsearch Service Role](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr) in VPC Endpoints for Amazon Elasticsearch Service Domains.
     ///
-    /// - Parameter DeleteElasticsearchServiceRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteElasticsearchServiceRoleInput`)
     ///
-    /// - Returns: `DeleteElasticsearchServiceRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteElasticsearchServiceRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1192,7 +1180,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteElasticsearchServiceRoleInput, DeleteElasticsearchServiceRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteElasticsearchServiceRoleOutput>(DeleteElasticsearchServiceRoleOutput.httpOutput(from:), DeleteElasticsearchServiceRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteElasticsearchServiceRoleInput, DeleteElasticsearchServiceRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteElasticsearchServiceRoleOutput>())
@@ -1224,9 +1211,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
     ///
-    /// - Parameter DeleteInboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteInboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [DeleteInboundCrossClusterSearchConnection] operation. (Type: `DeleteInboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `DeleteInboundCrossClusterSearchConnectionOutput` : The result of a [DeleteInboundCrossClusterSearchConnection] operation. Contains details of deleted inbound connection.
+    /// - Returns: The result of a [DeleteInboundCrossClusterSearchConnection] operation. Contains details of deleted inbound connection. (Type: `DeleteInboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1258,7 +1245,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInboundCrossClusterSearchConnectionInput, DeleteInboundCrossClusterSearchConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInboundCrossClusterSearchConnectionOutput>(DeleteInboundCrossClusterSearchConnectionOutput.httpOutput(from:), DeleteInboundCrossClusterSearchConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInboundCrossClusterSearchConnectionInput, DeleteInboundCrossClusterSearchConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInboundCrossClusterSearchConnectionOutput>())
@@ -1290,9 +1276,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the source domain owner to delete an existing outbound cross-cluster search connection.
     ///
-    /// - Parameter DeleteOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteOutboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [DeleteOutboundCrossClusterSearchConnection] operation. (Type: `DeleteOutboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `DeleteOutboundCrossClusterSearchConnectionOutput` : The result of a [DeleteOutboundCrossClusterSearchConnection] operation. Contains details of deleted outbound connection.
+    /// - Returns: The result of a [DeleteOutboundCrossClusterSearchConnection] operation. Contains details of deleted outbound connection. (Type: `DeleteOutboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1324,7 +1310,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOutboundCrossClusterSearchConnectionInput, DeleteOutboundCrossClusterSearchConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOutboundCrossClusterSearchConnectionOutput>(DeleteOutboundCrossClusterSearchConnectionOutput.httpOutput(from:), DeleteOutboundCrossClusterSearchConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOutboundCrossClusterSearchConnectionInput, DeleteOutboundCrossClusterSearchConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOutboundCrossClusterSearchConnectionOutput>())
@@ -1356,9 +1341,9 @@ extension ElasticsearchClient {
     ///
     /// Delete the package.
     ///
-    /// - Parameter DeletePackageInput : Container for request parameters to [DeletePackage] operation.
+    /// - Parameter input: Container for request parameters to [DeletePackage] operation. (Type: `DeletePackageInput`)
     ///
-    /// - Returns: `DeletePackageOutput` : Container for response parameters to [DeletePackage] operation.
+    /// - Returns: Container for response parameters to [DeletePackage] operation. (Type: `DeletePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,7 +1379,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePackageInput, DeletePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageOutput>(DeletePackageOutput.httpOutput(from:), DeletePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageInput, DeletePackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageOutput>())
@@ -1426,9 +1410,9 @@ extension ElasticsearchClient {
     ///
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
-    /// - Parameter DeleteVpcEndpointInput : Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    /// - Parameter input: Deletes an Amazon OpenSearch Service-managed interface VPC endpoint. (Type: `DeleteVpcEndpointInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointOutput` : Container for response parameters to the [DeleteVpcEndpoint] operation. Contains the summarized detail of the VPC Endpoint being deleted.
+    /// - Returns: Container for response parameters to the [DeleteVpcEndpoint] operation. Contains the summarized detail of the VPC Endpoint being deleted. (Type: `DeleteVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1462,7 +1446,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointOutput>(DeleteVpcEndpointOutput.httpOutput(from:), DeleteVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointOutput>())
@@ -1494,9 +1477,9 @@ extension ElasticsearchClient {
     ///
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
     ///
-    /// - Parameter DescribeDomainAutoTunesInput : Container for the parameters to the DescribeDomainAutoTunes operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomainAutoTunes operation. (Type: `DescribeDomainAutoTunesInput`)
     ///
-    /// - Returns: `DescribeDomainAutoTunesOutput` : The result of DescribeDomainAutoTunes request. See the [Developer Guide](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html) for more information.
+    /// - Returns: The result of DescribeDomainAutoTunes request. See the [Developer Guide](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html) for more information. (Type: `DescribeDomainAutoTunesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1533,7 +1516,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesOutput.httpOutput(from:), DescribeDomainAutoTunesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainAutoTunesOutput>())
@@ -1565,9 +1547,9 @@ extension ElasticsearchClient {
     ///
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
     ///
-    /// - Parameter DescribeDomainChangeProgressInput : Container for the parameters to the DescribeDomainChangeProgress operation. Specifies the domain name and optional change specific identity for which you want progress information.
+    /// - Parameter input: Container for the parameters to the DescribeDomainChangeProgress operation. Specifies the domain name and optional change specific identity for which you want progress information. (Type: `DescribeDomainChangeProgressInput`)
     ///
-    /// - Returns: `DescribeDomainChangeProgressOutput` : The result of a DescribeDomainChangeProgress request. Contains the progress information of the requested domain change.
+    /// - Returns: The result of a DescribeDomainChangeProgress request. Contains the progress information of the requested domain change. (Type: `DescribeDomainChangeProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1602,7 +1584,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDomainChangeProgressInput, DescribeDomainChangeProgressOutput>(DescribeDomainChangeProgressInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainChangeProgressOutput>(DescribeDomainChangeProgressOutput.httpOutput(from:), DescribeDomainChangeProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainChangeProgressInput, DescribeDomainChangeProgressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainChangeProgressOutput>())
@@ -1634,9 +1615,9 @@ extension ElasticsearchClient {
     ///
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     ///
-    /// - Parameter DescribeElasticsearchDomainInput : Container for the parameters to the [DescribeElasticsearchDomain] operation.
+    /// - Parameter input: Container for the parameters to the [DescribeElasticsearchDomain] operation. (Type: `DescribeElasticsearchDomainInput`)
     ///
-    /// - Returns: `DescribeElasticsearchDomainOutput` : The result of a DescribeElasticsearchDomain request. Contains the status of the domain specified in the request.
+    /// - Returns: The result of a DescribeElasticsearchDomain request. Contains the status of the domain specified in the request. (Type: `DescribeElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1670,7 +1651,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeElasticsearchDomainInput, DescribeElasticsearchDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeElasticsearchDomainOutput>(DescribeElasticsearchDomainOutput.httpOutput(from:), DescribeElasticsearchDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeElasticsearchDomainInput, DescribeElasticsearchDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeElasticsearchDomainOutput>())
@@ -1702,9 +1682,9 @@ extension ElasticsearchClient {
     ///
     /// Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
     ///
-    /// - Parameter DescribeElasticsearchDomainConfigInput : Container for the parameters to the DescribeElasticsearchDomainConfig operation. Specifies the domain name for which you want configuration information.
+    /// - Parameter input: Container for the parameters to the DescribeElasticsearchDomainConfig operation. Specifies the domain name for which you want configuration information. (Type: `DescribeElasticsearchDomainConfigInput`)
     ///
-    /// - Returns: `DescribeElasticsearchDomainConfigOutput` : The result of a DescribeElasticsearchDomainConfig request. Contains the configuration information of the requested domain.
+    /// - Returns: The result of a DescribeElasticsearchDomainConfig request. Contains the configuration information of the requested domain. (Type: `DescribeElasticsearchDomainConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1738,7 +1718,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeElasticsearchDomainConfigInput, DescribeElasticsearchDomainConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeElasticsearchDomainConfigOutput>(DescribeElasticsearchDomainConfigOutput.httpOutput(from:), DescribeElasticsearchDomainConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeElasticsearchDomainConfigInput, DescribeElasticsearchDomainConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeElasticsearchDomainConfigOutput>())
@@ -1770,9 +1749,9 @@ extension ElasticsearchClient {
     ///
     /// Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
     ///
-    /// - Parameter DescribeElasticsearchDomainsInput : Container for the parameters to the [DescribeElasticsearchDomains] operation. By default, the API returns the status of all Elasticsearch domains.
+    /// - Parameter input: Container for the parameters to the [DescribeElasticsearchDomains] operation. By default, the API returns the status of all Elasticsearch domains. (Type: `DescribeElasticsearchDomainsInput`)
     ///
-    /// - Returns: `DescribeElasticsearchDomainsOutput` : The result of a DescribeElasticsearchDomains request. Contains the status of the specified domains or all domains owned by the account.
+    /// - Returns: The result of a DescribeElasticsearchDomains request. Contains the status of the specified domains or all domains owned by the account. (Type: `DescribeElasticsearchDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1808,7 +1787,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeElasticsearchDomainsInput, DescribeElasticsearchDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeElasticsearchDomainsOutput>(DescribeElasticsearchDomainsOutput.httpOutput(from:), DescribeElasticsearchDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeElasticsearchDomainsInput, DescribeElasticsearchDomainsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeElasticsearchDomainsOutput>())
@@ -1840,9 +1818,9 @@ extension ElasticsearchClient {
     ///
     /// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the [DomainName] to know what Limits are supported for modifying.
     ///
-    /// - Parameter DescribeElasticsearchInstanceTypeLimitsInput : Container for the parameters to [DescribeElasticsearchInstanceTypeLimits] operation.
+    /// - Parameter input: Container for the parameters to [DescribeElasticsearchInstanceTypeLimits] operation. (Type: `DescribeElasticsearchInstanceTypeLimitsInput`)
     ///
-    /// - Returns: `DescribeElasticsearchInstanceTypeLimitsOutput` : Container for the parameters received from [DescribeElasticsearchInstanceTypeLimits] operation.
+    /// - Returns: Container for the parameters received from [DescribeElasticsearchInstanceTypeLimits] operation. (Type: `DescribeElasticsearchInstanceTypeLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1879,7 +1857,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeElasticsearchInstanceTypeLimitsInput, DescribeElasticsearchInstanceTypeLimitsOutput>(DescribeElasticsearchInstanceTypeLimitsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeElasticsearchInstanceTypeLimitsOutput>(DescribeElasticsearchInstanceTypeLimitsOutput.httpOutput(from:), DescribeElasticsearchInstanceTypeLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeElasticsearchInstanceTypeLimitsInput, DescribeElasticsearchInstanceTypeLimitsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeElasticsearchInstanceTypeLimitsOutput>())
@@ -1911,9 +1888,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all the inbound cross-cluster search connections for a destination domain.
     ///
-    /// - Parameter DescribeInboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeInboundCrossClusterSearchConnections] operation.
+    /// - Parameter input: Container for the parameters to the [DescribeInboundCrossClusterSearchConnections] operation. (Type: `DescribeInboundCrossClusterSearchConnectionsInput`)
     ///
-    /// - Returns: `DescribeInboundCrossClusterSearchConnectionsOutput` : The result of a [DescribeInboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria.
+    /// - Returns: The result of a [DescribeInboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria. (Type: `DescribeInboundCrossClusterSearchConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1948,7 +1925,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInboundCrossClusterSearchConnectionsOutput>(DescribeInboundCrossClusterSearchConnectionsOutput.httpOutput(from:), DescribeInboundCrossClusterSearchConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInboundCrossClusterSearchConnectionsOutput>())
@@ -1980,9 +1956,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all the outbound cross-cluster search connections for a source domain.
     ///
-    /// - Parameter DescribeOutboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeOutboundCrossClusterSearchConnections] operation.
+    /// - Parameter input: Container for the parameters to the [DescribeOutboundCrossClusterSearchConnections] operation. (Type: `DescribeOutboundCrossClusterSearchConnectionsInput`)
     ///
-    /// - Returns: `DescribeOutboundCrossClusterSearchConnectionsOutput` : The result of a [DescribeOutboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria.
+    /// - Returns: The result of a [DescribeOutboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria. (Type: `DescribeOutboundCrossClusterSearchConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,7 +1993,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOutboundCrossClusterSearchConnectionsOutput>(DescribeOutboundCrossClusterSearchConnectionsOutput.httpOutput(from:), DescribeOutboundCrossClusterSearchConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOutboundCrossClusterSearchConnectionsOutput>())
@@ -2049,9 +2024,9 @@ extension ElasticsearchClient {
     ///
     /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     ///
-    /// - Parameter DescribePackagesInput : Container for request parameters to [DescribePackage] operation.
+    /// - Parameter input: Container for request parameters to [DescribePackage] operation. (Type: `DescribePackagesInput`)
     ///
-    /// - Returns: `DescribePackagesOutput` : Container for response returned by [DescribePackages] operation.
+    /// - Returns: Container for response returned by [DescribePackages] operation. (Type: `DescribePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2089,7 +2064,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePackagesInput, DescribePackagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackagesOutput>(DescribePackagesOutput.httpOutput(from:), DescribePackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackagesInput, DescribePackagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackagesOutput>())
@@ -2121,9 +2095,9 @@ extension ElasticsearchClient {
     ///
     /// Lists available reserved Elasticsearch instance offerings.
     ///
-    /// - Parameter DescribeReservedElasticsearchInstanceOfferingsInput : Container for parameters to DescribeReservedElasticsearchInstanceOfferings
+    /// - Parameter input: Container for parameters to DescribeReservedElasticsearchInstanceOfferings (Type: `DescribeReservedElasticsearchInstanceOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedElasticsearchInstanceOfferingsOutput` : Container for results from DescribeReservedElasticsearchInstanceOfferings
+    /// - Returns: Container for results from DescribeReservedElasticsearchInstanceOfferings (Type: `DescribeReservedElasticsearchInstanceOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2158,7 +2132,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutput>(DescribeReservedElasticsearchInstanceOfferingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedElasticsearchInstanceOfferingsOutput>(DescribeReservedElasticsearchInstanceOfferingsOutput.httpOutput(from:), DescribeReservedElasticsearchInstanceOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedElasticsearchInstanceOfferingsOutput>())
@@ -2190,9 +2163,9 @@ extension ElasticsearchClient {
     ///
     /// Returns information about reserved Elasticsearch instances for this account.
     ///
-    /// - Parameter DescribeReservedElasticsearchInstancesInput : Container for parameters to DescribeReservedElasticsearchInstances
+    /// - Parameter input: Container for parameters to DescribeReservedElasticsearchInstances (Type: `DescribeReservedElasticsearchInstancesInput`)
     ///
-    /// - Returns: `DescribeReservedElasticsearchInstancesOutput` : Container for results from DescribeReservedElasticsearchInstances
+    /// - Returns: Container for results from DescribeReservedElasticsearchInstances (Type: `DescribeReservedElasticsearchInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,7 +2200,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutput>(DescribeReservedElasticsearchInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedElasticsearchInstancesOutput>(DescribeReservedElasticsearchInstancesOutput.httpOutput(from:), DescribeReservedElasticsearchInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedElasticsearchInstancesOutput>())
@@ -2259,9 +2231,9 @@ extension ElasticsearchClient {
     ///
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     ///
-    /// - Parameter DescribeVpcEndpointsInput : Container for request parameters to the [DescribeVpcEndpoints] operation. Specifies the list of VPC endpoints to be described.
+    /// - Parameter input: Container for request parameters to the [DescribeVpcEndpoints] operation. Specifies the list of VPC endpoints to be described. (Type: `DescribeVpcEndpointsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointsOutput` : Container for response parameters to the [DescribeVpcEndpoints] operation. Returns a list containing configuration details and status of the VPC Endpoints as well as a list containing error responses of the endpoints that could not be described
+    /// - Returns: Container for response parameters to the [DescribeVpcEndpoints] operation. Returns a list containing configuration details and status of the VPC Endpoints as well as a list containing error responses of the endpoints that could not be described (Type: `DescribeVpcEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,7 +2270,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointsOutput>(DescribeVpcEndpointsOutput.httpOutput(from:), DescribeVpcEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointsOutput>())
@@ -2330,9 +2301,9 @@ extension ElasticsearchClient {
     ///
     /// Dissociates a package from the Amazon ES domain.
     ///
-    /// - Parameter DissociatePackageInput : Container for request parameters to [DissociatePackage] operation.
+    /// - Parameter input: Container for request parameters to [DissociatePackage] operation. (Type: `DissociatePackageInput`)
     ///
-    /// - Returns: `DissociatePackageOutput` : Container for response returned by [DissociatePackage] operation.
+    /// - Returns: Container for response returned by [DissociatePackage] operation. (Type: `DissociatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,7 +2339,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DissociatePackageInput, DissociatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DissociatePackageOutput>(DissociatePackageOutput.httpOutput(from:), DissociatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DissociatePackageInput, DissociatePackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DissociatePackageOutput>())
@@ -2400,9 +2370,9 @@ extension ElasticsearchClient {
     ///
     /// Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a [DomainName] to get all upgrade compatible Elasticsearch versions for that specific domain.
     ///
-    /// - Parameter GetCompatibleElasticsearchVersionsInput : Container for request parameters to [GetCompatibleElasticsearchVersions] operation.
+    /// - Parameter input: Container for request parameters to [GetCompatibleElasticsearchVersions] operation. (Type: `GetCompatibleElasticsearchVersionsInput`)
     ///
-    /// - Returns: `GetCompatibleElasticsearchVersionsOutput` : Container for response returned by [GetCompatibleElasticsearchVersions] operation.
+    /// - Returns: Container for response returned by [GetCompatibleElasticsearchVersions] operation. (Type: `GetCompatibleElasticsearchVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2438,7 +2408,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCompatibleElasticsearchVersionsInput, GetCompatibleElasticsearchVersionsOutput>(GetCompatibleElasticsearchVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCompatibleElasticsearchVersionsOutput>(GetCompatibleElasticsearchVersionsOutput.httpOutput(from:), GetCompatibleElasticsearchVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCompatibleElasticsearchVersionsInput, GetCompatibleElasticsearchVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCompatibleElasticsearchVersionsOutput>())
@@ -2470,9 +2439,9 @@ extension ElasticsearchClient {
     ///
     /// Returns a list of versions of the package, along with their creation time and commit message.
     ///
-    /// - Parameter GetPackageVersionHistoryInput : Container for request parameters to [GetPackageVersionHistory] operation.
+    /// - Parameter input: Container for request parameters to [GetPackageVersionHistory] operation. (Type: `GetPackageVersionHistoryInput`)
     ///
-    /// - Returns: `GetPackageVersionHistoryOutput` : Container for response returned by [GetPackageVersionHistory] operation.
+    /// - Returns: Container for response returned by [GetPackageVersionHistory] operation. (Type: `GetPackageVersionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2508,7 +2477,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(GetPackageVersionHistoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPackageVersionHistoryOutput>(GetPackageVersionHistoryOutput.httpOutput(from:), GetPackageVersionHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPackageVersionHistoryOutput>())
@@ -2540,9 +2508,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     ///
-    /// - Parameter GetUpgradeHistoryInput : Container for request parameters to [GetUpgradeHistory] operation.
+    /// - Parameter input: Container for request parameters to [GetUpgradeHistory] operation. (Type: `GetUpgradeHistoryInput`)
     ///
-    /// - Returns: `GetUpgradeHistoryOutput` : Container for response returned by [GetUpgradeHistory] operation.
+    /// - Returns: Container for response returned by [GetUpgradeHistory] operation. (Type: `GetUpgradeHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,7 +2546,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(GetUpgradeHistoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUpgradeHistoryOutput>(GetUpgradeHistoryOutput.httpOutput(from:), GetUpgradeHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUpgradeHistoryOutput>())
@@ -2610,9 +2577,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
     ///
-    /// - Parameter GetUpgradeStatusInput : Container for request parameters to [GetUpgradeStatus] operation.
+    /// - Parameter input: Container for request parameters to [GetUpgradeStatus] operation. (Type: `GetUpgradeStatusInput`)
     ///
-    /// - Returns: `GetUpgradeStatusOutput` : Container for response returned by [GetUpgradeStatus] operation.
+    /// - Returns: Container for response returned by [GetUpgradeStatus] operation. (Type: `GetUpgradeStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,7 +2614,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUpgradeStatusInput, GetUpgradeStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUpgradeStatusOutput>(GetUpgradeStatusOutput.httpOutput(from:), GetUpgradeStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUpgradeStatusInput, GetUpgradeStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUpgradeStatusOutput>())
@@ -2679,9 +2645,9 @@ extension ElasticsearchClient {
     ///
     /// Returns the name of all Elasticsearch domains owned by the current user's account.
     ///
-    /// - Parameter ListDomainNamesInput : Container for the parameters to the [ListDomainNames] operation.
+    /// - Parameter input: Container for the parameters to the [ListDomainNames] operation. (Type: `ListDomainNamesInput`)
     ///
-    /// - Returns: `ListDomainNamesOutput` : The result of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types.
+    /// - Returns: The result of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types. (Type: `ListDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2714,7 +2680,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(ListDomainNamesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainNamesOutput>(ListDomainNamesOutput.httpOutput(from:), ListDomainNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainNamesOutput>())
@@ -2746,9 +2711,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all Amazon ES domains associated with the package.
     ///
-    /// - Parameter ListDomainsForPackageInput : Container for request parameters to [ListDomainsForPackage] operation.
+    /// - Parameter input: Container for request parameters to [ListDomainsForPackage] operation. (Type: `ListDomainsForPackageInput`)
     ///
-    /// - Returns: `ListDomainsForPackageOutput` : Container for response parameters to [ListDomainsForPackage] operation.
+    /// - Returns: Container for response parameters to [ListDomainsForPackage] operation. (Type: `ListDomainsForPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2784,7 +2749,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainsForPackageInput, ListDomainsForPackageOutput>(ListDomainsForPackageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsForPackageOutput>(ListDomainsForPackageOutput.httpOutput(from:), ListDomainsForPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsForPackageInput, ListDomainsForPackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsForPackageOutput>())
@@ -2816,9 +2780,9 @@ extension ElasticsearchClient {
     ///
     /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     ///
-    /// - Parameter ListElasticsearchInstanceTypesInput : Container for the parameters to the [ListElasticsearchInstanceTypes] operation.
+    /// - Parameter input: Container for the parameters to the [ListElasticsearchInstanceTypes] operation. (Type: `ListElasticsearchInstanceTypesInput`)
     ///
-    /// - Returns: `ListElasticsearchInstanceTypesOutput` : Container for the parameters returned by [ListElasticsearchInstanceTypes] operation.
+    /// - Returns: Container for the parameters returned by [ListElasticsearchInstanceTypes] operation. (Type: `ListElasticsearchInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2853,7 +2817,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutput>(ListElasticsearchInstanceTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListElasticsearchInstanceTypesOutput>(ListElasticsearchInstanceTypesOutput.httpOutput(from:), ListElasticsearchInstanceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListElasticsearchInstanceTypesOutput>())
@@ -2885,9 +2848,9 @@ extension ElasticsearchClient {
     ///
     /// List all supported Elasticsearch versions
     ///
-    /// - Parameter ListElasticsearchVersionsInput : Container for the parameters to the [ListElasticsearchVersions] operation. Use [MaxResults] to control the maximum number of results to retrieve in a single call. Use [NextToken] in response to retrieve more results. If the received response does not contain a NextToken, then there are no more results to retrieve.
+    /// - Parameter input: Container for the parameters to the [ListElasticsearchVersions] operation. Use [MaxResults] to control the maximum number of results to retrieve in a single call. Use [NextToken] in response to retrieve more results. If the received response does not contain a NextToken, then there are no more results to retrieve. (Type: `ListElasticsearchVersionsInput`)
     ///
-    /// - Returns: `ListElasticsearchVersionsOutput` : Container for the parameters for response received from [ListElasticsearchVersions] operation.
+    /// - Returns: Container for the parameters for response received from [ListElasticsearchVersions] operation. (Type: `ListElasticsearchVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2922,7 +2885,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutput>(ListElasticsearchVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListElasticsearchVersionsOutput>(ListElasticsearchVersionsOutput.httpOutput(from:), ListElasticsearchVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListElasticsearchVersionsOutput>())
@@ -2954,9 +2916,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all packages associated with the Amazon ES domain.
     ///
-    /// - Parameter ListPackagesForDomainInput : Container for request parameters to [ListPackagesForDomain] operation.
+    /// - Parameter input: Container for request parameters to [ListPackagesForDomain] operation. (Type: `ListPackagesForDomainInput`)
     ///
-    /// - Returns: `ListPackagesForDomainOutput` : Container for response parameters to [ListPackagesForDomain] operation.
+    /// - Returns: Container for response parameters to [ListPackagesForDomain] operation. (Type: `ListPackagesForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2992,7 +2954,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackagesForDomainInput, ListPackagesForDomainOutput>(ListPackagesForDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackagesForDomainOutput>(ListPackagesForDomainOutput.httpOutput(from:), ListPackagesForDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackagesForDomainInput, ListPackagesForDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackagesForDomainOutput>())
@@ -3024,9 +2985,9 @@ extension ElasticsearchClient {
     ///
     /// Returns all tags for the given Elasticsearch domain.
     ///
-    /// - Parameter ListTagsInput : Container for the parameters to the [ListTags] operation. Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view are attached.
+    /// - Parameter input: Container for the parameters to the [ListTags] operation. Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view are attached. (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : The result of a ListTags operation. Contains tags for all requested Elasticsearch domains.
+    /// - Returns: The result of a ListTags operation. Contains tags for all requested Elasticsearch domains. (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3061,7 +3022,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsInput, ListTagsOutput>(ListTagsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -3093,9 +3053,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
-    /// - Parameter ListVpcEndpointAccessInput : Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint
+    /// - Parameter input: Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint (Type: `ListVpcEndpointAccessInput`)
     ///
-    /// - Returns: `ListVpcEndpointAccessOutput` : Container for response parameters to the [ListVpcEndpointAccess] operation. Returns a list of accounts id and account type authorized to manage VPC endpoints.
+    /// - Returns: Container for response parameters to the [ListVpcEndpointAccess] operation. Returns a list of accounts id and account type authorized to manage VPC endpoints. (Type: `ListVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3130,7 +3090,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcEndpointAccessInput, ListVpcEndpointAccessOutput>(ListVpcEndpointAccessInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointAccessOutput>(ListVpcEndpointAccessOutput.httpOutput(from:), ListVpcEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointAccessInput, ListVpcEndpointAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointAccessOutput>())
@@ -3162,9 +3121,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
     ///
-    /// - Parameter ListVpcEndpointsInput : Container for request parameters to the [ListVpcEndpoints] operation.
+    /// - Parameter input: Container for request parameters to the [ListVpcEndpoints] operation. (Type: `ListVpcEndpointsInput`)
     ///
-    /// - Returns: `ListVpcEndpointsOutput` : Container for response parameters to the [ListVpcEndpoints] operation. Returns a list containing summarized details of the VPC endpoints.
+    /// - Returns: Container for response parameters to the [ListVpcEndpoints] operation. Returns a list containing summarized details of the VPC endpoints. (Type: `ListVpcEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3198,7 +3157,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutput>(ListVpcEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointsOutput>(ListVpcEndpointsOutput.httpOutput(from:), ListVpcEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointsOutput>())
@@ -3230,9 +3188,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     ///
-    /// - Parameter ListVpcEndpointsForDomainInput : Container for request parameters to the [ListVpcEndpointsForDomain] operation. Specifies the domain whose VPC endpoints will be listed.
+    /// - Parameter input: Container for request parameters to the [ListVpcEndpointsForDomain] operation. Specifies the domain whose VPC endpoints will be listed. (Type: `ListVpcEndpointsForDomainInput`)
     ///
-    /// - Returns: `ListVpcEndpointsForDomainOutput` : Container for response parameters to the [ListVpcEndpointsForDomain] operation. Returns a list containing summarized details of the VPC endpoints.
+    /// - Returns: Container for response parameters to the [ListVpcEndpointsForDomain] operation. Returns a list containing summarized details of the VPC endpoints. (Type: `ListVpcEndpointsForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3267,7 +3225,6 @@ extension ElasticsearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcEndpointsForDomainInput, ListVpcEndpointsForDomainOutput>(ListVpcEndpointsForDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointsForDomainOutput>(ListVpcEndpointsForDomainOutput.httpOutput(from:), ListVpcEndpointsForDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointsForDomainInput, ListVpcEndpointsForDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointsForDomainOutput>())
@@ -3299,9 +3256,9 @@ extension ElasticsearchClient {
     ///
     /// Allows you to purchase reserved Elasticsearch instances.
     ///
-    /// - Parameter PurchaseReservedElasticsearchInstanceOfferingInput : Container for parameters to PurchaseReservedElasticsearchInstanceOffering
+    /// - Parameter input: Container for parameters to PurchaseReservedElasticsearchInstanceOffering (Type: `PurchaseReservedElasticsearchInstanceOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedElasticsearchInstanceOfferingOutput` : Represents the output of a PurchaseReservedElasticsearchInstanceOffering operation.
+    /// - Returns: Represents the output of a PurchaseReservedElasticsearchInstanceOffering operation. (Type: `PurchaseReservedElasticsearchInstanceOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3340,7 +3297,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseReservedElasticsearchInstanceOfferingInput, PurchaseReservedElasticsearchInstanceOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseReservedElasticsearchInstanceOfferingOutput>(PurchaseReservedElasticsearchInstanceOfferingOutput.httpOutput(from:), PurchaseReservedElasticsearchInstanceOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseReservedElasticsearchInstanceOfferingInput, PurchaseReservedElasticsearchInstanceOfferingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseReservedElasticsearchInstanceOfferingOutput>())
@@ -3372,9 +3328,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request.
     ///
-    /// - Parameter RejectInboundCrossClusterSearchConnectionInput : Container for the parameters to the [RejectInboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [RejectInboundCrossClusterSearchConnection] operation. (Type: `RejectInboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `RejectInboundCrossClusterSearchConnectionOutput` : The result of a [RejectInboundCrossClusterSearchConnection] operation. Contains details of rejected inbound connection.
+    /// - Returns: The result of a [RejectInboundCrossClusterSearchConnection] operation. Contains details of rejected inbound connection. (Type: `RejectInboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3406,7 +3362,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectInboundCrossClusterSearchConnectionInput, RejectInboundCrossClusterSearchConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectInboundCrossClusterSearchConnectionOutput>(RejectInboundCrossClusterSearchConnectionOutput.httpOutput(from:), RejectInboundCrossClusterSearchConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectInboundCrossClusterSearchConnectionInput, RejectInboundCrossClusterSearchConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectInboundCrossClusterSearchConnectionOutput>())
@@ -3438,9 +3393,9 @@ extension ElasticsearchClient {
     ///
     /// Removes the specified set of tags from the specified Elasticsearch domain.
     ///
-    /// - Parameter RemoveTagsInput : Container for the parameters to the [RemoveTags] operation. Specify the ARN for the Elasticsearch domain from which you want to remove the specified TagKey.
+    /// - Parameter input: Container for the parameters to the [RemoveTags] operation. Specify the ARN for the Elasticsearch domain from which you want to remove the specified TagKey. (Type: `RemoveTagsInput`)
     ///
-    /// - Returns: `RemoveTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3476,7 +3431,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsOutput>())
@@ -3508,9 +3462,9 @@ extension ElasticsearchClient {
     ///
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     ///
-    /// - Parameter RevokeVpcEndpointAccessInput : Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    /// - Parameter input: Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint. (Type: `RevokeVpcEndpointAccessInput`)
     ///
-    /// - Returns: `RevokeVpcEndpointAccessOutput` : Container for response parameters to the [RevokeVpcEndpointAccess] operation. The response body for this operation is empty.
+    /// - Returns: Container for response parameters to the [RevokeVpcEndpointAccess] operation. The response body for this operation is empty. (Type: `RevokeVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3548,7 +3502,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeVpcEndpointAccessInput, RevokeVpcEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeVpcEndpointAccessOutput>(RevokeVpcEndpointAccessOutput.httpOutput(from:), RevokeVpcEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeVpcEndpointAccessInput, RevokeVpcEndpointAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeVpcEndpointAccessOutput>())
@@ -3580,9 +3533,9 @@ extension ElasticsearchClient {
     ///
     /// Schedules a service software update for an Amazon ES domain.
     ///
-    /// - Parameter StartElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [StartElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to schedule a service software update on.
+    /// - Parameter input: Container for the parameters to the [StartElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to schedule a service software update on. (Type: `StartElasticsearchServiceSoftwareUpdateInput`)
     ///
-    /// - Returns: `StartElasticsearchServiceSoftwareUpdateOutput` : The result of a StartElasticsearchServiceSoftwareUpdate operation. Contains the status of the update.
+    /// - Returns: The result of a StartElasticsearchServiceSoftwareUpdate operation. Contains the status of the update. (Type: `StartElasticsearchServiceSoftwareUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3619,7 +3572,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartElasticsearchServiceSoftwareUpdateInput, StartElasticsearchServiceSoftwareUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartElasticsearchServiceSoftwareUpdateOutput>(StartElasticsearchServiceSoftwareUpdateOutput.httpOutput(from:), StartElasticsearchServiceSoftwareUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartElasticsearchServiceSoftwareUpdateInput, StartElasticsearchServiceSoftwareUpdateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartElasticsearchServiceSoftwareUpdateOutput>())
@@ -3651,9 +3603,9 @@ extension ElasticsearchClient {
     ///
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
     ///
-    /// - Parameter UpdateElasticsearchDomainConfigInput : Container for the parameters to the [UpdateElasticsearchDomain] operation. Specifies the type and number of instances in the domain cluster.
+    /// - Parameter input: Container for the parameters to the [UpdateElasticsearchDomain] operation. Specifies the type and number of instances in the domain cluster. (Type: `UpdateElasticsearchDomainConfigInput`)
     ///
-    /// - Returns: `UpdateElasticsearchDomainConfigOutput` : The result of an UpdateElasticsearchDomain request. Contains the status of the Elasticsearch domain being updated.
+    /// - Returns: The result of an UpdateElasticsearchDomain request. Contains the status of the Elasticsearch domain being updated. (Type: `UpdateElasticsearchDomainConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3692,7 +3644,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateElasticsearchDomainConfigInput, UpdateElasticsearchDomainConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateElasticsearchDomainConfigOutput>(UpdateElasticsearchDomainConfigOutput.httpOutput(from:), UpdateElasticsearchDomainConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateElasticsearchDomainConfigInput, UpdateElasticsearchDomainConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateElasticsearchDomainConfigOutput>())
@@ -3724,9 +3675,9 @@ extension ElasticsearchClient {
     ///
     /// Updates a package for use with Amazon ES domains.
     ///
-    /// - Parameter UpdatePackageInput : Container for request parameters to [UpdatePackage] operation.
+    /// - Parameter input: Container for request parameters to [UpdatePackage] operation. (Type: `UpdatePackageInput`)
     ///
-    /// - Returns: `UpdatePackageOutput` : Container for response returned by [UpdatePackage] operation.
+    /// - Returns: Container for response returned by [UpdatePackage] operation. (Type: `UpdatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3765,7 +3716,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageInput, UpdatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageOutput>(UpdatePackageOutput.httpOutput(from:), UpdatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageInput, UpdatePackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageOutput>())
@@ -3797,9 +3747,9 @@ extension ElasticsearchClient {
     ///
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
-    /// - Parameter UpdateVpcEndpointInput : Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    /// - Parameter input: Modifies an Amazon OpenSearch Service-managed interface VPC endpoint. (Type: `UpdateVpcEndpointInput`)
     ///
-    /// - Returns: `UpdateVpcEndpointOutput` : Contains the configuration and status of the VPC endpoint being updated.
+    /// - Returns: Contains the configuration and status of the VPC endpoint being updated. (Type: `UpdateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3838,7 +3788,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcEndpointOutput>(UpdateVpcEndpointOutput.httpOutput(from:), UpdateVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcEndpointOutput>())
@@ -3870,9 +3819,9 @@ extension ElasticsearchClient {
     ///
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
     ///
-    /// - Parameter UpgradeElasticsearchDomainInput : Container for request parameters to [UpgradeElasticsearchDomain] operation.
+    /// - Parameter input: Container for request parameters to [UpgradeElasticsearchDomain] operation. (Type: `UpgradeElasticsearchDomainInput`)
     ///
-    /// - Returns: `UpgradeElasticsearchDomainOutput` : Container for response returned by [UpgradeElasticsearchDomain] operation.
+    /// - Returns: Container for response returned by [UpgradeElasticsearchDomain] operation. (Type: `UpgradeElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3911,7 +3860,6 @@ extension ElasticsearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpgradeElasticsearchDomainInput, UpgradeElasticsearchDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpgradeElasticsearchDomainOutput>(UpgradeElasticsearchDomainOutput.httpOutput(from:), UpgradeElasticsearchDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpgradeElasticsearchDomainInput, UpgradeElasticsearchDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpgradeElasticsearchDomainOutput>())

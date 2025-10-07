@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceReportingClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceReportingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceReportingClient.MarketplaceReportingClientConfiguration
     let serviceName = "Marketplace Reporting"
@@ -376,9 +375,9 @@ extension MarketplaceReportingClient {
     ///
     /// * It has a session lifetime of one hour. The 5-minute validity period runs separately from the session lifetime.
     ///
-    /// - Parameter GetBuyerDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBuyerDashboardInput`)
     ///
-    /// - Returns: `GetBuyerDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBuyerDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension MarketplaceReportingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBuyerDashboardInput, GetBuyerDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBuyerDashboardOutput>(GetBuyerDashboardOutput.httpOutput(from:), GetBuyerDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBuyerDashboardInput, GetBuyerDashboardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBuyerDashboardOutput>())

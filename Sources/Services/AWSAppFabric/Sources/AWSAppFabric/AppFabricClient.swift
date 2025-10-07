@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppFabricClient: ClientRuntime.Client {
     public static let clientName = "AppFabricClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: AppFabricClient.AppFabricClientConfiguration
     let serviceName = "AppFabric"
@@ -374,9 +373,9 @@ extension AppFabricClient {
     ///
     /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action.
     ///
-    /// - Parameter BatchGetUserAccessTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetUserAccessTasksInput`)
     ///
-    /// - Returns: `BatchGetUserAccessTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetUserAccessTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetUserAccessTasksInput, BatchGetUserAccessTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetUserAccessTasksOutput>(BatchGetUserAccessTasksOutput.httpOutput(from:), BatchGetUserAccessTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetUserAccessTasksInput, BatchGetUserAccessTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetUserAccessTasksOutput>())
@@ -446,9 +444,9 @@ extension AppFabricClient {
     ///
     /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application.
     ///
-    /// - Parameter ConnectAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConnectAppAuthorizationInput`)
     ///
-    /// - Returns: `ConnectAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConnectAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConnectAppAuthorizationInput, ConnectAppAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConnectAppAuthorizationOutput>(ConnectAppAuthorizationOutput.httpOutput(from:), ConnectAppAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConnectAppAuthorizationInput, ConnectAppAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConnectAppAuthorizationOutput>())
@@ -518,9 +515,9 @@ extension AppFabricClient {
     ///
     /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application.
     ///
-    /// - Parameter CreateAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppAuthorizationInput`)
     ///
-    /// - Returns: `CreateAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,7 +558,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppAuthorizationInput, CreateAppAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppAuthorizationOutput>(CreateAppAuthorizationOutput.httpOutput(from:), CreateAppAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppAuthorizationInput, CreateAppAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppAuthorizationOutput>())
@@ -593,9 +589,9 @@ extension AppFabricClient {
     ///
     /// Creates an app bundle to collect data from an application using AppFabric.
     ///
-    /// - Parameter CreateAppBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBundleInput`)
     ///
-    /// - Returns: `CreateAppBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,7 +631,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBundleInput, CreateAppBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppBundleOutput>(CreateAppBundleOutput.httpOutput(from:), CreateAppBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppBundleInput, CreateAppBundleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppBundleOutput>())
@@ -667,9 +662,9 @@ extension AppFabricClient {
     ///
     /// Creates a data ingestion for an application.
     ///
-    /// - Parameter CreateIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestionInput`)
     ///
-    /// - Returns: `CreateIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -709,7 +704,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIngestionInput, CreateIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIngestionOutput>(CreateIngestionOutput.httpOutput(from:), CreateIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIngestionInput, CreateIngestionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIngestionOutput>())
@@ -741,9 +735,9 @@ extension AppFabricClient {
     ///
     /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///
-    /// - Parameter CreateIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestionDestinationInput`)
     ///
-    /// - Returns: `CreateIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,7 +777,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIngestionDestinationInput, CreateIngestionDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIngestionDestinationOutput>(CreateIngestionDestinationOutput.httpOutput(from:), CreateIngestionDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIngestionDestinationInput, CreateIngestionDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIngestionDestinationOutput>())
@@ -815,9 +808,9 @@ extension AppFabricClient {
     ///
     /// Deletes an app authorization. You must delete the associated ingestion before you can delete an app authorization.
     ///
-    /// - Parameter DeleteAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppAuthorizationInput`)
     ///
-    /// - Returns: `DeleteAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -852,7 +845,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppAuthorizationInput, DeleteAppAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppAuthorizationOutput>(DeleteAppAuthorizationOutput.httpOutput(from:), DeleteAppAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppAuthorizationInput, DeleteAppAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppAuthorizationOutput>())
@@ -884,9 +876,9 @@ extension AppFabricClient {
     ///
     /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle.
     ///
-    /// - Parameter DeleteAppBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppBundleInput`)
     ///
-    /// - Returns: `DeleteAppBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,7 +913,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppBundleInput, DeleteAppBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppBundleOutput>(DeleteAppBundleOutput.httpOutput(from:), DeleteAppBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppBundleInput, DeleteAppBundleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppBundleOutput>())
@@ -953,9 +944,9 @@ extension AppFabricClient {
     ///
     /// Deletes an ingestion. You must stop (disable) the ingestion and you must delete all associated ingestion destinations before you can delete an app ingestion.
     ///
-    /// - Parameter DeleteIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngestionInput`)
     ///
-    /// - Returns: `DeleteIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,7 +981,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIngestionInput, DeleteIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIngestionOutput>(DeleteIngestionOutput.httpOutput(from:), DeleteIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIngestionInput, DeleteIngestionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIngestionOutput>())
@@ -1022,9 +1012,9 @@ extension AppFabricClient {
     ///
     /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled.
     ///
-    /// - Parameter DeleteIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngestionDestinationInput`)
     ///
-    /// - Returns: `DeleteIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1059,7 +1049,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIngestionDestinationInput, DeleteIngestionDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIngestionDestinationOutput>(DeleteIngestionDestinationOutput.httpOutput(from:), DeleteIngestionDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIngestionDestinationInput, DeleteIngestionDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIngestionDestinationOutput>())
@@ -1091,9 +1080,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an app authorization.
     ///
-    /// - Parameter GetAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppAuthorizationInput`)
     ///
-    /// - Returns: `GetAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1128,7 +1117,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAppAuthorizationInput, GetAppAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAppAuthorizationOutput>(GetAppAuthorizationOutput.httpOutput(from:), GetAppAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAppAuthorizationInput, GetAppAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAppAuthorizationOutput>())
@@ -1160,9 +1148,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an app bundle.
     ///
-    /// - Parameter GetAppBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppBundleInput`)
     ///
-    /// - Returns: `GetAppBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,7 +1185,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAppBundleInput, GetAppBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAppBundleOutput>(GetAppBundleOutput.httpOutput(from:), GetAppBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAppBundleInput, GetAppBundleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAppBundleOutput>())
@@ -1229,9 +1216,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an ingestion.
     ///
-    /// - Parameter GetIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngestionInput`)
     ///
-    /// - Returns: `GetIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,7 +1253,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIngestionInput, GetIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIngestionOutput>(GetIngestionOutput.httpOutput(from:), GetIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIngestionInput, GetIngestionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIngestionOutput>())
@@ -1298,9 +1284,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an ingestion destination.
     ///
-    /// - Parameter GetIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngestionDestinationInput`)
     ///
-    /// - Returns: `GetIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1335,7 +1321,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIngestionDestinationInput, GetIngestionDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIngestionDestinationOutput>(GetIngestionDestinationOutput.httpOutput(from:), GetIngestionDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIngestionDestinationInput, GetIngestionDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIngestionDestinationOutput>())
@@ -1367,9 +1352,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of all app authorizations configured for an app bundle.
     ///
-    /// - Parameter ListAppAuthorizationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppAuthorizationsInput`)
     ///
-    /// - Returns: `ListAppAuthorizationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppAuthorizationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1405,7 +1390,6 @@ extension AppFabricClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppAuthorizationsInput, ListAppAuthorizationsOutput>(ListAppAuthorizationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppAuthorizationsOutput>(ListAppAuthorizationsOutput.httpOutput(from:), ListAppAuthorizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppAuthorizationsInput, ListAppAuthorizationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppAuthorizationsOutput>())
@@ -1437,9 +1421,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of app bundles.
     ///
-    /// - Parameter ListAppBundlesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppBundlesInput`)
     ///
-    /// - Returns: `ListAppBundlesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppBundlesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,7 +1458,6 @@ extension AppFabricClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppBundlesInput, ListAppBundlesOutput>(ListAppBundlesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppBundlesOutput>(ListAppBundlesOutput.httpOutput(from:), ListAppBundlesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppBundlesInput, ListAppBundlesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppBundlesOutput>())
@@ -1506,9 +1489,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of all ingestion destinations configured for an ingestion.
     ///
-    /// - Parameter ListIngestionDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestionDestinationsInput`)
     ///
-    /// - Returns: `ListIngestionDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestionDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1544,7 +1527,6 @@ extension AppFabricClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIngestionDestinationsInput, ListIngestionDestinationsOutput>(ListIngestionDestinationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIngestionDestinationsOutput>(ListIngestionDestinationsOutput.httpOutput(from:), ListIngestionDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIngestionDestinationsInput, ListIngestionDestinationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIngestionDestinationsOutput>())
@@ -1576,9 +1558,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of all ingestions configured for an app bundle.
     ///
-    /// - Parameter ListIngestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestionsInput`)
     ///
-    /// - Returns: `ListIngestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1614,7 +1596,6 @@ extension AppFabricClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIngestionsInput, ListIngestionsOutput>(ListIngestionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIngestionsOutput>(ListIngestionsOutput.httpOutput(from:), ListIngestionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIngestionsInput, ListIngestionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIngestionsOutput>())
@@ -1646,9 +1627,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,7 +1664,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1715,9 +1695,9 @@ extension AppFabricClient {
     ///
     /// Starts (enables) an ingestion, which collects data from an application.
     ///
-    /// - Parameter StartIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartIngestionInput`)
     ///
-    /// - Returns: `StartIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,7 +1733,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartIngestionInput, StartIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartIngestionOutput>(StartIngestionOutput.httpOutput(from:), StartIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartIngestionInput, StartIngestionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartIngestionOutput>())
@@ -1785,9 +1764,9 @@ extension AppFabricClient {
     ///
     /// Starts the tasks to search user access status for a specific email address. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out.
     ///
-    /// - Parameter StartUserAccessTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartUserAccessTasksInput`)
     ///
-    /// - Returns: `StartUserAccessTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartUserAccessTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1825,7 +1804,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartUserAccessTasksInput, StartUserAccessTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartUserAccessTasksOutput>(StartUserAccessTasksOutput.httpOutput(from:), StartUserAccessTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartUserAccessTasksInput, StartUserAccessTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartUserAccessTasksOutput>())
@@ -1857,9 +1835,9 @@ extension AppFabricClient {
     ///
     /// Stops (disables) an ingestion.
     ///
-    /// - Parameter StopIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopIngestionInput`)
     ///
-    /// - Returns: `StopIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1895,7 +1873,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopIngestionInput, StopIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopIngestionOutput>(StopIngestionOutput.httpOutput(from:), StopIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopIngestionInput, StopIngestionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopIngestionOutput>())
@@ -1927,9 +1904,9 @@ extension AppFabricClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,7 +1944,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1999,9 +1975,9 @@ extension AppFabricClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2037,7 +2013,6 @@ extension AppFabricClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2069,9 +2044,9 @@ extension AppFabricClient {
     ///
     /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state.
     ///
-    /// - Parameter UpdateAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppAuthorizationInput`)
     ///
-    /// - Returns: `UpdateAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2109,7 +2084,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppAuthorizationInput, UpdateAppAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppAuthorizationOutput>(UpdateAppAuthorizationOutput.httpOutput(from:), UpdateAppAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppAuthorizationInput, UpdateAppAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppAuthorizationOutput>())
@@ -2141,9 +2115,9 @@ extension AppFabricClient {
     ///
     /// Updates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///
-    /// - Parameter UpdateIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIngestionDestinationInput`)
     ///
-    /// - Returns: `UpdateIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2183,7 +2157,6 @@ extension AppFabricClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIngestionDestinationInput, UpdateIngestionDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIngestionDestinationOutput>(UpdateIngestionDestinationOutput.httpOutput(from:), UpdateIngestionDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIngestionDestinationInput, UpdateIngestionDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIngestionDestinationOutput>())

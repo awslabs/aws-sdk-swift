@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisClient: ClientRuntime.Client {
     public static let clientName = "KinesisClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisClient.KinesisClientConfiguration
     let serviceName = "Kinesis"
@@ -374,9 +373,9 @@ extension KinesisClient {
     ///
     /// Adds or updates tags for the specified Kinesis data stream. You can assign up to 50 tags to a data stream. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If tags have already been assigned to the stream, AddTagsToStream overwrites any existing tags that correspond to the specified tag keys. [AddTagsToStream] has a limit of five transactions per second per account.
     ///
-    /// - Parameter AddTagsToStreamInput : Represents the input for AddTagsToStream.
+    /// - Parameter input: Represents the input for AddTagsToStream. (Type: `AddTagsToStreamInput`)
     ///
-    /// - Returns: `AddTagsToStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +411,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToStreamOutput>(AddTagsToStreamOutput.httpOutput(from:), AddTagsToStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToStreamOutput>())
@@ -454,9 +452,9 @@ extension KinesisClient {
     ///
     /// For the default shard limit for an Amazon Web Services account, see [Amazon Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. To increase this limit, [contact Amazon Web Services Support](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html). You can use [DescribeStreamSummary] to check the stream status, which is returned in StreamStatus. [CreateStream] has a limit of five transactions per second per account. You can add tags to the stream when making a CreateStream request by setting the Tags parameter. If you pass the Tags parameter, in addition to having the kinesis:CreateStream permission, you must also have the kinesis:AddTagsToStream permission for the stream that will be created. The kinesis:TagResource permission won’t work to tag streams on creation. Tags will take effect from the CREATING status of the stream, but you can't make any updates to the tags until the stream is in ACTIVE state.
     ///
-    /// - Parameter CreateStreamInput : Represents the input for CreateStream.
+    /// - Parameter input: Represents the input for CreateStream. (Type: `CreateStreamInput`)
     ///
-    /// - Returns: `CreateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,7 +488,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamInput, CreateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamOutput>(CreateStreamOutput.httpOutput(from:), CreateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamInput, CreateStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamOutput>())
@@ -525,9 +522,9 @@ extension KinesisClient {
     ///
     /// Decreases the Kinesis data stream's retention period, which is the length of time data records are accessible after they are added to the stream. The minimum value of a stream's retention period is 24 hours. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. This operation may result in lost data. For example, if the stream's retention period is 48 hours and is decreased to 24 hours, any data already in the stream that is older than 24 hours is inaccessible.
     ///
-    /// - Parameter DecreaseStreamRetentionPeriodInput : Represents the input for [DecreaseStreamRetentionPeriod].
+    /// - Parameter input: Represents the input for [DecreaseStreamRetentionPeriod]. (Type: `DecreaseStreamRetentionPeriodInput`)
     ///
-    /// - Returns: `DecreaseStreamRetentionPeriodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DecreaseStreamRetentionPeriodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,7 +560,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecreaseStreamRetentionPeriodOutput>(DecreaseStreamRetentionPeriodOutput.httpOutput(from:), DecreaseStreamRetentionPeriodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecreaseStreamRetentionPeriodOutput>())
@@ -602,9 +598,9 @@ extension KinesisClient {
     ///
     /// * Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,7 +636,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -675,9 +670,9 @@ extension KinesisClient {
     ///
     /// Deletes a Kinesis data stream and all its shards and data. You must shut down any applications that are operating on the stream before you delete the stream. If an application attempts to operate on a deleted stream, it receives the exception ResourceNotFoundException. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If the stream is in the ACTIVE state, you can delete it. After a DeleteStream request, the specified stream is in the DELETING state until Kinesis Data Streams completes the deletion. Note: Kinesis Data Streams might continue to accept data read and write operations, such as [PutRecord], [PutRecords], and [GetRecords], on a stream in the DELETING state until the stream deletion is complete. When you delete a stream, any shards in that stream are also deleted, and any tags are dissociated from the stream. You can use the [DescribeStreamSummary] operation to check the state of the stream, which is returned in StreamStatus. [DeleteStream] has a limit of five transactions per second per account.
     ///
-    /// - Parameter DeleteStreamInput : Represents the input for [DeleteStream].
+    /// - Parameter input: Represents the input for [DeleteStream]. (Type: `DeleteStreamInput`)
     ///
-    /// - Returns: `DeleteStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,7 +708,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStreamInput, DeleteStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamOutput>(DeleteStreamOutput.httpOutput(from:), DeleteStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamInput, DeleteStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamOutput>())
@@ -748,9 +742,9 @@ extension KinesisClient {
     ///
     /// To deregister a consumer, provide its ARN. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to deregister, you can use the [ListStreamConsumers] operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The description of a consumer contains its name and ARN. This operation has a limit of five transactions per second per stream.
     ///
-    /// - Parameter DeregisterStreamConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterStreamConsumerInput`)
     ///
-    /// - Returns: `DeregisterStreamConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterStreamConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,7 +778,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterStreamConsumerOutput>(DeregisterStreamConsumerOutput.httpOutput(from:), DeregisterStreamConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterStreamConsumerOutput>())
@@ -819,9 +812,9 @@ extension KinesisClient {
     ///
     /// Describes the shard limits and usage for the account. If you update your account limits, the old limits might be returned for a few minutes. This operation has a limit of one transaction per second per account.
     ///
-    /// - Parameter DescribeLimitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLimitsInput`)
     ///
-    /// - Returns: `DescribeLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,7 +846,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLimitsInput, DescribeLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLimitsOutput>(DescribeLimitsOutput.httpOutput(from:), DescribeLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLimitsOutput>())
@@ -888,9 +880,9 @@ extension KinesisClient {
     ///
     /// Describes the specified Kinesis data stream. This API has been revised. It's highly recommended that you use the [DescribeStreamSummary] API to get a summarized description of the specified Kinesis data stream and the [ListShards] API to list the shards in a specified data stream and obtain information about each shard. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. The information returned includes the stream name, Amazon Resource Name (ARN), creation time, enhanced metric configuration, and shard map. The shard map is an array of shard objects. For each shard object, there is the hash key and sequence number ranges that the shard spans, and the IDs of any earlier shards that played in a role in creating the shard. Every record ingested in the stream is identified by a sequence number, which is assigned when the record is put into the stream. You can limit the number of shards returned by each call. For more information, see [Retrieving Shards from a Stream](https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-retrieve-shards.html) in the Amazon Kinesis Data Streams Developer Guide. There are no guarantees about the chronological order shards returned. To process shards in chronological order, use the ID of the parent shard to track the lineage to the oldest shard. This operation has a limit of 10 transactions per second per account.
     ///
-    /// - Parameter DescribeStreamInput : Represents the input for DescribeStream.
+    /// - Parameter input: Represents the input for DescribeStream. (Type: `DescribeStreamInput`)
     ///
-    /// - Returns: `DescribeStreamOutput` : Represents the output for DescribeStream.
+    /// - Returns: Represents the output for DescribeStream. (Type: `DescribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,7 +917,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamInput, DescribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamOutput>(DescribeStreamOutput.httpOutput(from:), DescribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamInput, DescribeStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamOutput>())
@@ -960,9 +951,9 @@ extension KinesisClient {
     ///
     /// To get the description of a registered consumer, provide the ARN of the consumer. Alternatively, you can provide the ARN of the data stream and the name you gave the consumer when you registered it. You may also provide all three parameters, as long as they don't conflict with each other. If you don't know the name or ARN of the consumer that you want to describe, you can use the [ListStreamConsumers] operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. This operation has a limit of 20 transactions per second per stream. When making a cross-account call with DescribeStreamConsumer, make sure to provide the ARN of the consumer.
     ///
-    /// - Parameter DescribeStreamConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStreamConsumerInput`)
     ///
-    /// - Returns: `DescribeStreamConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStreamConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,7 +987,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamConsumerOutput>(DescribeStreamConsumerOutput.httpOutput(from:), DescribeStreamConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamConsumerOutput>())
@@ -1031,9 +1021,9 @@ extension KinesisClient {
     ///
     /// Provides a summarized description of the specified Kinesis data stream without the shard list. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. The information returned includes the stream name, Amazon Resource Name (ARN), status, record retention period, approximate creation time, monitoring, encryption details, and open shard count. [DescribeStreamSummary] has a limit of 20 transactions per second per account.
     ///
-    /// - Parameter DescribeStreamSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStreamSummaryInput`)
     ///
-    /// - Returns: `DescribeStreamSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStreamSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,7 +1058,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamSummaryOutput>(DescribeStreamSummaryOutput.httpOutput(from:), DescribeStreamSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamSummaryOutput>())
@@ -1103,9 +1092,9 @@ extension KinesisClient {
     ///
     /// Disables enhanced monitoring. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.
     ///
-    /// - Parameter DisableEnhancedMonitoringInput : Represents the input for [DisableEnhancedMonitoring].
+    /// - Parameter input: Represents the input for [DisableEnhancedMonitoring]. (Type: `DisableEnhancedMonitoringInput`)
     ///
-    /// - Returns: `DisableEnhancedMonitoringOutput` : Represents the output for [EnableEnhancedMonitoring] and [DisableEnhancedMonitoring].
+    /// - Returns: Represents the output for [EnableEnhancedMonitoring] and [DisableEnhancedMonitoring]. (Type: `DisableEnhancedMonitoringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1141,7 +1130,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableEnhancedMonitoringOutput>(DisableEnhancedMonitoringOutput.httpOutput(from:), DisableEnhancedMonitoringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableEnhancedMonitoringOutput>())
@@ -1176,9 +1164,9 @@ extension KinesisClient {
     ///
     /// Enables enhanced Kinesis data stream monitoring for shard-level metrics. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.
     ///
-    /// - Parameter EnableEnhancedMonitoringInput : Represents the input for [EnableEnhancedMonitoring].
+    /// - Parameter input: Represents the input for [EnableEnhancedMonitoring]. (Type: `EnableEnhancedMonitoringInput`)
     ///
-    /// - Returns: `EnableEnhancedMonitoringOutput` : Represents the output for [EnableEnhancedMonitoring] and [DisableEnhancedMonitoring].
+    /// - Returns: Represents the output for [EnableEnhancedMonitoring] and [DisableEnhancedMonitoring]. (Type: `EnableEnhancedMonitoringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,7 +1202,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableEnhancedMonitoringOutput>(EnableEnhancedMonitoringOutput.httpOutput(from:), EnableEnhancedMonitoringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableEnhancedMonitoringOutput>())
@@ -1249,9 +1236,9 @@ extension KinesisClient {
     ///
     /// Gets data records from a Kinesis data stream's shard. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records available in the portion of the shard that the iterator points to, [GetRecords] returns an empty list. It might take multiple calls to get to a portion of the shard that contains records. You can scale by provisioning multiple shards per stream while considering service limits (for more information, see [Amazon Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide). Your application should have one thread per shard, each reading continuously from its stream. To read from a stream continually, call [GetRecords] in a loop. Use [GetShardIterator] to get the shard iterator to specify in the first [GetRecords] call. [GetRecords] returns a new shard iterator in NextShardIterator. Specify the shard iterator returned in NextShardIterator in subsequent calls to [GetRecords]. If the shard has been closed, the shard iterator can't return more data and [GetRecords] returns null in NextShardIterator. You can terminate the loop when the shard is closed, or when the shard iterator reaches the record with the sequence number or other attribute that marks it as the last record to process. Each data record can be up to 1 MiB in size, and each shard can read up to 2 MiB per second. You can ensure that your calls don't exceed the maximum supported size or throughput by using the Limit parameter to specify the maximum number of records that [GetRecords] can return. Consider your average record size when determining this limit. The maximum number of records that can be returned per call is 10,000. The size of the data returned by [GetRecords] varies depending on the utilization of the shard. It is recommended that consumer applications retrieve records via the GetRecords command using the 5 TPS limit to remain caught up. Retrieving records less frequently can lead to consumer applications falling behind. The maximum size of data that [GetRecords] can return is 10 MiB. If a call returns this amount of data, subsequent calls made within the next 5 seconds throw ProvisionedThroughputExceededException. If there is insufficient provisioned throughput on the stream, subsequent calls made within the next 1 second throw ProvisionedThroughputExceededException. [GetRecords] doesn't return any data when it throws an exception. For this reason, we recommend that you wait 1 second between calls to [GetRecords]. However, it's possible that the application will get exceptions for longer than 1 second. To detect whether the application is falling behind in processing, you can use the MillisBehindLatest response attribute. You can also monitor the stream using CloudWatch metrics and other mechanisms (see [Monitoring](https://docs.aws.amazon.com/kinesis/latest/dev/monitoring.html) in the Amazon Kinesis Data Streams Developer Guide). Each Amazon Kinesis record includes a value, ApproximateArrivalTimestamp, that is set when a stream successfully receives and stores a record. This is commonly referred to as a server-side time stamp, whereas a client-side time stamp is set when a data producer creates or sends the record to a stream (a data producer is any data source putting data records into a stream, for example with [PutRecords]). The time stamp has millisecond precision. There are no guarantees about the time stamp accuracy, or that the time stamp is always increasing. For example, records in a shard or across a stream might have time stamps that are out of order. This operation has a limit of five transactions per second per shard.
     ///
-    /// - Parameter GetRecordsInput : Represents the input for [GetRecords].
+    /// - Parameter input: Represents the input for [GetRecords]. (Type: `GetRecordsInput`)
     ///
-    /// - Returns: `GetRecordsOutput` : Represents the output for [GetRecords].
+    /// - Returns: Represents the output for [GetRecords]. (Type: `GetRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,7 +1281,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecordsInput, GetRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordsOutput>(GetRecordsOutput.httpOutput(from:), GetRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordsInput, GetRecordsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordsOutput>())
@@ -1333,9 +1319,9 @@ extension KinesisClient {
     ///
     /// * Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1371,7 +1357,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -1406,9 +1391,9 @@ extension KinesisClient {
     ///
     /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is returned to the requester. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. A shard iterator specifies the shard position from which to start reading data records sequentially. The position is specified using the sequence number of a data record in a shard. A sequence number is the identifier associated with every record ingested in the stream, and is assigned when a record is put into the stream. Each stream has one or more shards. You must specify the shard iterator type. For example, you can set the ShardIteratorType parameter to read exactly from the position denoted by a specific sequence number by using the AT_SEQUENCE_NUMBER shard iterator type. Alternatively, the parameter can read right after the sequence number by using the AFTER_SEQUENCE_NUMBER shard iterator type, using sequence numbers returned by earlier calls to [PutRecord], [PutRecords], [GetRecords], or [DescribeStream]. In the request, you can specify the shard iterator type AT_TIMESTAMP to read records from an arbitrary point in time, TRIM_HORIZON to cause ShardIterator to point to the last untrimmed record in the shard in the system (the oldest data record in the shard), or LATEST so that you always read the most recent data in the shard. When you read repeatedly from a stream, use a [GetShardIterator] request to get the first shard iterator for use in your first [GetRecords] request and for subsequent reads use the shard iterator returned by the [GetRecords] request in NextShardIterator. A new shard iterator is returned by every [GetRecords] request in NextShardIterator, which you use in the ShardIterator parameter of the next [GetRecords] request. If a [GetShardIterator] request is made too often, you receive a ProvisionedThroughputExceededException. For more information about throughput limits, see [GetRecords], and [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. If the shard is closed, [GetShardIterator] returns a valid iterator for the last sequence number of the shard. A shard can be closed as a result of using [SplitShard] or [MergeShards]. [GetShardIterator] has a limit of five transactions per second per account per open shard.
     ///
-    /// - Parameter GetShardIteratorInput : Represents the input for GetShardIterator.
+    /// - Parameter input: Represents the input for GetShardIterator. (Type: `GetShardIteratorInput`)
     ///
-    /// - Returns: `GetShardIteratorOutput` : Represents the output for GetShardIterator.
+    /// - Returns: Represents the output for GetShardIterator. (Type: `GetShardIteratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1444,7 +1429,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetShardIteratorInput, GetShardIteratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShardIteratorOutput>(GetShardIteratorOutput.httpOutput(from:), GetShardIteratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShardIteratorOutput>())
@@ -1479,9 +1463,9 @@ extension KinesisClient {
     ///
     /// Increases the Kinesis data stream's retention period, which is the length of time data records are accessible after they are added to the stream. The maximum value of a stream's retention period is 8760 hours (365 days). When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you choose a longer stream retention period, this operation increases the time period during which records that have not yet expired are accessible. However, it does not make previous, expired data (older than the stream's previous retention period) accessible after the operation has been called. For example, if a stream's retention period is set to 24 hours and is increased to 168 hours, any data that is older than 24 hours remains inaccessible to consumer applications.
     ///
-    /// - Parameter IncreaseStreamRetentionPeriodInput : Represents the input for [IncreaseStreamRetentionPeriod].
+    /// - Parameter input: Represents the input for [IncreaseStreamRetentionPeriod]. (Type: `IncreaseStreamRetentionPeriodInput`)
     ///
-    /// - Returns: `IncreaseStreamRetentionPeriodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IncreaseStreamRetentionPeriodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,7 +1501,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<IncreaseStreamRetentionPeriodOutput>(IncreaseStreamRetentionPeriodOutput.httpOutput(from:), IncreaseStreamRetentionPeriodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IncreaseStreamRetentionPeriodOutput>())
@@ -1552,9 +1535,9 @@ extension KinesisClient {
     ///
     /// Lists the shards in a stream and provides information about each shard. This operation has a limit of 1000 transactions per second per data stream. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. This action does not list expired shards. For information about expired shards, see [Data Routing, Data Persistence, and Shard State after a Reshard](https://docs.aws.amazon.com/streams/latest/dev/kinesis-using-sdk-java-after-resharding.html#kinesis-using-sdk-java-resharding-data-routing). This API is a new operation that is used by the Amazon Kinesis Client Library (KCL). If you have a fine-grained IAM policy that only allows specific operations, you must update your policy to allow calls to this API. For more information, see [Controlling Access to Amazon Kinesis Data Streams Resources Using IAM](https://docs.aws.amazon.com/streams/latest/dev/controlling-access.html).
     ///
-    /// - Parameter ListShardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListShardsInput`)
     ///
-    /// - Returns: `ListShardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListShardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1591,7 +1574,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListShardsInput, ListShardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListShardsOutput>(ListShardsOutput.httpOutput(from:), ListShardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListShardsInput, ListShardsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListShardsOutput>())
@@ -1626,9 +1608,9 @@ extension KinesisClient {
     ///
     /// Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 5 transactions per second per stream.
     ///
-    /// - Parameter ListStreamConsumersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamConsumersInput`)
     ///
-    /// - Returns: `ListStreamConsumersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamConsumersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1664,7 +1646,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamConsumersOutput>(ListStreamConsumersOutput.httpOutput(from:), ListStreamConsumersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamConsumersOutput>())
@@ -1699,9 +1680,9 @@ extension KinesisClient {
     ///
     /// Lists your Kinesis data streams. The number of streams may be too large to return from a single call to ListStreams. You can limit the number of returned streams using the Limit parameter. If you do not specify a value for the Limit parameter, Kinesis Data Streams uses the default limit, which is currently 100. You can detect if there are more streams available to list by using the HasMoreStreams flag from the returned output. If there are more streams available, you can request more streams by using the name of the last stream returned by the ListStreams request in the ExclusiveStartStreamName parameter in a subsequent request to ListStreams. The group of stream names returned by the subsequent request is then added to the list. You can continue this process until all the stream names have been collected in the list. [ListStreams] has a limit of five transactions per second per account.
     ///
-    /// - Parameter ListStreamsInput : Represents the input for ListStreams.
+    /// - Parameter input: Represents the input for ListStreams. (Type: `ListStreamsInput`)
     ///
-    /// - Returns: `ListStreamsOutput` : Represents the output for ListStreams.
+    /// - Returns: Represents the output for ListStreams. (Type: `ListStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1735,7 +1716,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamsInput, ListStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())
@@ -1770,9 +1750,9 @@ extension KinesisClient {
     ///
     /// List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. For more information about tagging Kinesis resources, see [Tag your Amazon Kinesis Data Streams resources](https://docs.aws.amazon.com/streams/latest/dev/tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1808,7 +1788,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1843,9 +1822,9 @@ extension KinesisClient {
     ///
     /// Lists the tags for the specified Kinesis data stream. This operation has a limit of five transactions per second per account. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.
     ///
-    /// - Parameter ListTagsForStreamInput : Represents the input for ListTagsForStream.
+    /// - Parameter input: Represents the input for ListTagsForStream. (Type: `ListTagsForStreamInput`)
     ///
-    /// - Returns: `ListTagsForStreamOutput` : Represents the output for ListTagsForStream.
+    /// - Returns: Represents the output for ListTagsForStream. (Type: `ListTagsForStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1880,7 +1859,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForStreamOutput>(ListTagsForStreamOutput.httpOutput(from:), ListTagsForStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForStreamOutput>())
@@ -1915,9 +1893,9 @@ extension KinesisClient {
     ///
     /// Merges two adjacent shards in a Kinesis data stream and combines them into a single shard to reduce the stream's capacity to ingest and transport data. This API is only supported for the data streams with the provisioned capacity mode. Two shards are considered adjacent if the union of the hash key ranges for the two shards form a contiguous set with no gaps. For example, if you have two shards, one with a hash key range of 276...381 and the other with a hash key range of 382...454, then you could merge these two shards into a single shard that would have a hash key range of 276...454. After the merge, the single child shard receives data for all hash key values covered by the two parent shards. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. MergeShards is called when there is a need to reduce the overall capacity of a stream because of excess capacity that is not being used. You must specify the shard to be merged and the adjacent shard for a stream. For more information about merging shards, see [Merge Two Shards](https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-merge.html) in the Amazon Kinesis Data Streams Developer Guide. If the stream is in the ACTIVE state, you can call MergeShards. If a stream is in the CREATING, UPDATING, or DELETING state, MergeShards returns a ResourceInUseException. If the specified stream does not exist, MergeShards returns a ResourceNotFoundException. You can use [DescribeStreamSummary] to check the state of the stream, which is returned in StreamStatus. MergeShards is an asynchronous operation. Upon receiving a MergeShards request, Amazon Kinesis Data Streams immediately returns a response and sets the StreamStatus to UPDATING. After the operation is completed, Kinesis Data Streams sets the StreamStatus to ACTIVE. Read and write operations continue to work while the stream is in the UPDATING state. You use [DescribeStreamSummary] and the [ListShards] APIs to determine the shard IDs that are specified in the MergeShards request. If you try to operate on too many streams in parallel using [CreateStream], [DeleteStream], MergeShards, or [SplitShard], you receive a LimitExceededException. MergeShards has a limit of five transactions per second per account.
     ///
-    /// - Parameter MergeShardsInput : Represents the input for MergeShards.
+    /// - Parameter input: Represents the input for MergeShards. (Type: `MergeShardsInput`)
     ///
-    /// - Returns: `MergeShardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergeShardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1954,7 +1932,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MergeShardsInput, MergeShardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MergeShardsOutput>(MergeShardsOutput.httpOutput(from:), MergeShardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MergeShardsInput, MergeShardsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MergeShardsOutput>())
@@ -1989,9 +1966,9 @@ extension KinesisClient {
     ///
     /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and subsequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must specify the name of the stream that captures, stores, and transports the data; a partition key; and the data blob itself. The data blob can be any type of data; for example, a segment from a log file, geographic/location data, website clickstream data, and so on. The partition key is used by Kinesis Data Streams to distribute data across shards. Kinesis Data Streams segregates the data records that belong to a stream into multiple shards, using the partition key associated with each data record to determine the shard to which a given data record belongs. Partition keys are Unicode strings, with a maximum length limit of 256 characters for each key. An MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards using the hash key ranges of the shards. You can override hashing the partition key to determine the shard by explicitly specifying a hash value using the ExplicitHashKey parameter. For more information, see [Adding Data to a Stream](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream) in the Amazon Kinesis Data Streams Developer Guide. PutRecord returns the shard ID of where the data record was placed and the sequence number that was assigned to the data record. Sequence numbers increase over time and are specific to a shard within a stream, not across all shards within a stream. To guarantee strictly increasing ordering, write serially to a shard and use the SequenceNumberForOrdering parameter. For more information, see [Adding Data to a Stream](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream) in the Amazon Kinesis Data Streams Developer Guide. After you write a record to a stream, you cannot modify that record or its order within the stream. If a PutRecord request cannot be processed because of insufficient provisioned throughput on the shard involved in the request, PutRecord throws ProvisionedThroughputExceededException. By default, data records are accessible for 24 hours from the time that they are added to a stream. You can use [IncreaseStreamRetentionPeriod] or [DecreaseStreamRetentionPeriod] to modify this retention period.
     ///
-    /// - Parameter PutRecordInput : Represents the input for PutRecord.
+    /// - Parameter input: Represents the input for PutRecord. (Type: `PutRecordInput`)
     ///
-    /// - Returns: `PutRecordOutput` : Represents the output for PutRecord.
+    /// - Returns: Represents the output for PutRecord. (Type: `PutRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2033,7 +2010,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordInput, PutRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordOutput>(PutRecordOutput.httpOutput(from:), PutRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordInput, PutRecordOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordOutput>())
@@ -2068,9 +2044,9 @@ extension KinesisClient {
     ///
     /// Writes multiple data records into a Kinesis data stream in a single call (also referred to as a PutRecords request). Use this operation to send data into the stream for data ingestion and processing. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Each PutRecords request can support up to 500 records. Each record in the request can be as large as 1 MiB, up to a limit of 5 MiB for the entire request, including partition keys. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. You must specify the name of the stream that captures, stores, and transports the data; and an array of request Records, with each record in the array requiring a partition key and data blob. The record size limit applies to the total size of the partition key and data blob. The data blob can be any type of data; for example, a segment from a log file, geographic/location data, website clickstream data, and so on. The partition key is used by Kinesis Data Streams as input to a hash function that maps the partition key and associated data to a specific shard. An MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. For more information, see [Adding Data to a Stream](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream) in the Amazon Kinesis Data Streams Developer Guide. Each record in the Records array may include an optional parameter, ExplicitHashKey, which overrides the partition key to shard mapping. This parameter allows a data producer to determine explicitly the shard where the record is stored. For more information, see [Adding Multiple Records with PutRecords](https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-putrecords) in the Amazon Kinesis Data Streams Developer Guide. The PutRecords response includes an array of response Records. Each record in the response array directly correlates with a record in the request array using natural ordering, from the top to the bottom of the request and response. The response Records array always includes the same number of records as the request array. The response Records array includes both successfully and unsuccessfully processed records. Kinesis Data Streams attempts to process all records in each PutRecords request. A single record failure does not stop the processing of subsequent records. As a result, PutRecords doesn't guarantee the ordering of records. If you need to read records in the same order they are written to the stream, use [PutRecord] instead of PutRecords, and write to the same shard. A successfully processed record includes ShardId and SequenceNumber values. The ShardId parameter identifies the shard in the stream where the record is stored. The SequenceNumber parameter is an identifier assigned to the put record, unique to all records in the stream. An unsuccessfully processed record includes ErrorCode and ErrorMessage values. ErrorCode reflects the type of error and can be one of the following values: ProvisionedThroughputExceededException or InternalFailure. ErrorMessage provides more detailed information about the ProvisionedThroughputExceededException exception including the account ID, stream name, and shard ID of the record that was throttled. For more information about partially successful responses, see [Adding Multiple Records with PutRecords](https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-add-data-to-stream.html#kinesis-using-sdk-java-putrecords) in the Amazon Kinesis Data Streams Developer Guide. After you write a record to a stream, you cannot modify that record or its order within the stream. By default, data records are accessible for 24 hours from the time that they are added to a stream. You can use [IncreaseStreamRetentionPeriod] or [DecreaseStreamRetentionPeriod] to modify this retention period.
     ///
-    /// - Parameter PutRecordsInput : A PutRecords request.
+    /// - Parameter input: A PutRecords request. (Type: `PutRecordsInput`)
     ///
-    /// - Returns: `PutRecordsOutput` : PutRecords results.
+    /// - Returns: PutRecords results. (Type: `PutRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2112,7 +2088,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordsInput, PutRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordsOutput>(PutRecordsOutput.httpOutput(from:), PutRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordsInput, PutRecordsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordsOutput>())
@@ -2154,9 +2129,9 @@ extension KinesisClient {
     ///
     /// For more information, see [Controlling Access to Amazon Kinesis Data Streams Resources Using IAM](https://docs.aws.amazon.com/streams/latest/dev/controlling-access.html).
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2192,7 +2167,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -2227,9 +2201,9 @@ extension KinesisClient {
     ///
     /// Registers a consumer with a Kinesis data stream. When you use this operation, the consumer you register can then call [SubscribeToShard] to receive data from the stream using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is unaffected by the total number of consumers that read from the same stream. You can add tags to the registered consumer when making a RegisterStreamConsumer request by setting the Tags parameter. If you pass the Tags parameter, in addition to having the kinesis:RegisterStreamConsumer permission, you must also have the kinesis:TagResource permission for the consumer that will be registered. Tags will take effect from the CREATING status of the consumer. You can register up to 20 consumers per stream. A given consumer can only be registered with one stream at a time. For an example of how to use this operation, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html). The use of this operation has a limit of five transactions per second per account. Also, only 5 consumers can be created simultaneously. In other words, you cannot have more than 5 consumers in a CREATING status at the same time. Registering a 6th consumer while there are 5 in a CREATING status results in a LimitExceededException.
     ///
-    /// - Parameter RegisterStreamConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterStreamConsumerInput`)
     ///
-    /// - Returns: `RegisterStreamConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterStreamConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,7 +2238,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterStreamConsumerOutput>(RegisterStreamConsumerOutput.httpOutput(from:), RegisterStreamConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterStreamConsumerOutput>())
@@ -2299,9 +2272,9 @@ extension KinesisClient {
     ///
     /// Removes tags from the specified Kinesis data stream. Removed tags are deleted and cannot be recovered after this operation successfully completes. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. If you specify a tag that does not exist, it is ignored. [RemoveTagsFromStream] has a limit of five transactions per second per account.
     ///
-    /// - Parameter RemoveTagsFromStreamInput : Represents the input for RemoveTagsFromStream.
+    /// - Parameter input: Represents the input for RemoveTagsFromStream. (Type: `RemoveTagsFromStreamInput`)
     ///
-    /// - Returns: `RemoveTagsFromStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2337,7 +2310,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromStreamOutput>(RemoveTagsFromStreamOutput.httpOutput(from:), RemoveTagsFromStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromStreamOutput>())
@@ -2372,9 +2344,9 @@ extension KinesisClient {
     ///
     /// Splits a shard into two new shards in the Kinesis data stream, to increase the stream's capacity to ingest and transport data. SplitShard is called when there is a need to increase the overall capacity of a stream because of an expected increase in the volume of data records being ingested. This API is only supported for the data streams with the provisioned capacity mode. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You can also use SplitShard when a shard appears to be approaching its maximum utilization; for example, the producers sending data into the specific shard are suddenly sending more than previously anticipated. You can also call SplitShard to increase stream capacity, so that more Kinesis Data Streams applications can simultaneously read data from the stream for real-time processing. You must specify the shard to be split and the new hash key, which is the position in the shard where the shard gets split in two. In many cases, the new hash key might be the average of the beginning and ending hash key, but it can be any hash key value in the range being mapped into the shard. For more information, see [Split a Shard](https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-split.html) in the Amazon Kinesis Data Streams Developer Guide. You can use [DescribeStreamSummary] and the [ListShards] APIs to determine the shard ID and hash key values for the ShardToSplit and NewStartingHashKey parameters that are specified in the SplitShard request. SplitShard is an asynchronous operation. Upon receiving a SplitShard request, Kinesis Data Streams immediately returns a response and sets the stream status to UPDATING. After the operation is completed, Kinesis Data Streams sets the stream status to ACTIVE. Read and write operations continue to work while the stream is in the UPDATING state. You can use [DescribeStreamSummary] to check the status of the stream, which is returned in StreamStatus. If the stream is in the ACTIVE state, you can call SplitShard. If the specified stream does not exist, [DescribeStreamSummary] returns a ResourceNotFoundException. If you try to create more shards than are authorized for your account, you receive a LimitExceededException. For the default shard limit for an Amazon Web Services account, see [Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. To increase this limit, [contact Amazon Web Services Support](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html). If you try to operate on too many streams simultaneously using [CreateStream], [DeleteStream], [MergeShards], and/or [SplitShard], you receive a LimitExceededException. SplitShard has a limit of five transactions per second per account.
     ///
-    /// - Parameter SplitShardInput : Represents the input for SplitShard.
+    /// - Parameter input: Represents the input for SplitShard. (Type: `SplitShardInput`)
     ///
-    /// - Returns: `SplitShardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SplitShardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2411,7 +2383,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SplitShardInput, SplitShardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SplitShardOutput>(SplitShardOutput.httpOutput(from:), SplitShardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SplitShardInput, SplitShardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SplitShardOutput>())
@@ -2446,9 +2417,9 @@ extension KinesisClient {
     ///
     /// Enables or updates server-side encryption using an Amazon Web Services KMS key for a specified stream. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Starting encryption is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Updating or applying encryption normally takes a few seconds to complete, but it can take minutes. You can continue to read and write data to your stream while its status is UPDATING. Once the status of the stream is ACTIVE, encryption begins for records written to the stream. API Limits: You can successfully apply a new Amazon Web Services KMS key for server-side encryption 25 times in a rolling 24-hour period. Note: It can take up to 5 seconds after the stream is in an ACTIVE status before all records written to the stream are encrypted. After you enable encryption, you can verify that encryption is applied by inspecting the API response from PutRecord or PutRecords.
     ///
-    /// - Parameter StartStreamEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartStreamEncryptionInput`)
     ///
-    /// - Returns: `StartStreamEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartStreamEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,7 +2461,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamEncryptionOutput>(StartStreamEncryptionOutput.httpOutput(from:), StartStreamEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamEncryptionOutput>())
@@ -2525,9 +2495,9 @@ extension KinesisClient {
     ///
     /// Disables server-side encryption for a specified stream. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Stopping encryption is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Stopping encryption normally takes a few seconds to complete, but it can take minutes. You can continue to read and write data to your stream while its status is UPDATING. Once the status of the stream is ACTIVE, records written to the stream are no longer encrypted by Kinesis Data Streams. API Limits: You can successfully disable server-side encryption 25 times in a rolling 24-hour period. Note: It can take up to 5 seconds after the stream is in an ACTIVE status before all records written to the stream are no longer subject to encryption. After you disabled encryption, you can verify that encryption is not applied by inspecting the API response from PutRecord or PutRecords.
     ///
-    /// - Parameter StopStreamEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopStreamEncryptionInput`)
     ///
-    /// - Returns: `StopStreamEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopStreamEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2563,7 +2533,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamEncryptionOutput>(StopStreamEncryptionOutput.httpOutput(from:), StopStreamEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopStreamEncryptionOutput>())
@@ -2598,9 +2567,9 @@ extension KinesisClient {
     ///
     /// This operation establishes an HTTP/2 connection between the consumer you specify in the ConsumerARN parameter and the shard you specify in the ShardId parameter. After the connection is successfully established, Kinesis Data Streams pushes records from the shard to the consumer over this connection. Before you call this operation, call [RegisterStreamConsumer] to register the consumer with Kinesis Data Streams. When the SubscribeToShard call succeeds, your consumer starts receiving events of type [SubscribeToShardEvent] over the HTTP/2 connection for up to 5 minutes, after which time you need to call SubscribeToShard again to renew the subscription if you want to continue to receive records. You can make one call to SubscribeToShard per second per registered consumer per shard. For example, if you have a 4000 shard stream and two registered stream consumers, you can make one SubscribeToShard request per second for each combination of shard and registered consumer, allowing you to subscribe both consumers to all 4000 shards in one second. If you call SubscribeToShard again with the same ConsumerARN and ShardId within 5 seconds of a successful call, you'll get a ResourceInUseException. If you call SubscribeToShard 5 seconds or more after a successful call, the second call takes over the subscription and the previous connection expires or fails with a ResourceInUseException. For an example of how to use this operation, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
     ///
-    /// - Parameter SubscribeToShardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubscribeToShardInput`)
     ///
-    /// - Returns: `SubscribeToShardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubscribeToShardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2636,7 +2605,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubscribeToShardInput, SubscribeToShardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubscribeToShardOutput>(SubscribeToShardOutput.httpOutput(from:), SubscribeToShardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubscribeToShardOutput>())
@@ -2671,9 +2639,9 @@ extension KinesisClient {
     ///
     /// Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2709,7 +2677,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2744,9 +2711,9 @@ extension KinesisClient {
     ///
     /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2782,7 +2749,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2834,9 +2800,9 @@ extension KinesisClient {
     ///
     /// For the default limits for an Amazon Web Services account, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the [limits form](https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&limitType=service-code-kinesis).
     ///
-    /// - Parameter UpdateShardCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateShardCountInput`)
     ///
-    /// - Returns: `UpdateShardCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateShardCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2873,7 +2839,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateShardCountInput, UpdateShardCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateShardCountOutput>(UpdateShardCountOutput.httpOutput(from:), UpdateShardCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateShardCountOutput>())
@@ -2908,9 +2873,9 @@ extension KinesisClient {
     ///
     /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream.
     ///
-    /// - Parameter UpdateStreamModeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamModeInput`)
     ///
-    /// - Returns: `UpdateStreamModeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStreamModeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2945,7 +2910,6 @@ extension KinesisClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamModeOutput>(UpdateStreamModeOutput.httpOutput(from:), UpdateStreamModeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamModeOutput>())

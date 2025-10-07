@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataPipelineClient: ClientRuntime.Client {
     public static let clientName = "DataPipelineClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: DataPipelineClient.DataPipelineClientConfiguration
     let serviceName = "Data Pipeline"
@@ -374,9 +373,9 @@ extension DataPipelineClient {
     ///
     /// Validates the specified pipeline and starts processing pipeline tasks. If the pipeline does not pass validation, activation fails. If you need to pause the pipeline to investigate an issue with a component, such as a data source or script, call [DeactivatePipeline]. To activate a finished pipeline, modify the end date for the pipeline and then activate it. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ActivatePipeline Content-Length: 39 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE"} HTTP/1.1 200 x-amzn-RequestId: ee19d5bf-074e-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 2 Date: Mon, 12 Nov 2012 17:50:53 GMT {}
     ///
-    /// - Parameter ActivatePipelineInput : Contains the parameters for ActivatePipeline.
+    /// - Parameter input: Contains the parameters for ActivatePipeline. (Type: `ActivatePipelineInput`)
     ///
-    /// - Returns: `ActivatePipelineOutput` : Contains the output of ActivatePipeline.
+    /// - Returns: Contains the output of ActivatePipeline. (Type: `ActivatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivatePipelineInput, ActivatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivatePipelineOutput>(ActivatePipelineOutput.httpOutput(from:), ActivatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivatePipelineInput, ActivatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivatePipelineOutput>())
@@ -446,9 +444,9 @@ extension DataPipelineClient {
     ///
     /// Adds or modifies tags for the specified pipeline.
     ///
-    /// - Parameter AddTagsInput : Contains the parameters for AddTags.
+    /// - Parameter input: Contains the parameters for AddTags. (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : Contains the output of AddTags.
+    /// - Returns: Contains the output of AddTags. (Type: `AddTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +481,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -518,9 +515,9 @@ extension DataPipelineClient {
     ///
     /// Creates a new, empty pipeline. Use [PutPipelineDefinition] to populate the pipeline. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.CreatePipeline Content-Length: 91 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"name": "myPipeline", "uniqueId": "123456789", "description": "This is my first pipeline"} HTTP/1.1 200 x-amzn-RequestId: b16911ce-0774-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 40 Date: Mon, 12 Nov 2012 17:50:53 GMT {"pipelineId": "df-06372391ZG65EXAMPLE"}
     ///
-    /// - Parameter CreatePipelineInput : Contains the parameters for CreatePipeline.
+    /// - Parameter input: Contains the parameters for CreatePipeline. (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : Contains the output of CreatePipeline.
+    /// - Returns: Contains the output of CreatePipeline. (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,7 +550,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(CreatePipelineOutput.httpOutput(from:), CreatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineInput, CreatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipelineOutput>())
@@ -588,9 +584,9 @@ extension DataPipelineClient {
     ///
     /// Deactivates the specified running pipeline. The pipeline is set to the DEACTIVATING state until the deactivation process completes. To resume a deactivated pipeline, use [ActivatePipeline]. By default, the pipeline resumes from the last completed execution. Optionally, you can specify the date and time to resume the pipeline.
     ///
-    /// - Parameter DeactivatePipelineInput : Contains the parameters for DeactivatePipeline.
+    /// - Parameter input: Contains the parameters for DeactivatePipeline. (Type: `DeactivatePipelineInput`)
     ///
-    /// - Returns: `DeactivatePipelineOutput` : Contains the output of DeactivatePipeline.
+    /// - Returns: Contains the output of DeactivatePipeline. (Type: `DeactivatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,7 +621,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivatePipelineOutput>(DeactivatePipelineOutput.httpOutput(from:), DeactivatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivatePipelineOutput>())
@@ -660,9 +655,9 @@ extension DataPipelineClient {
     ///
     /// Deletes a pipeline, its pipeline definition, and its run history. AWS Data Pipeline attempts to cancel instances associated with the pipeline that are currently being processed by task runners. Deleting a pipeline cannot be undone. You cannot query or restore a deleted pipeline. To temporarily pause a pipeline instead of deleting it, call [SetStatus] with the status set to PAUSE on individual components. Components that are paused by [SetStatus] can be resumed. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DeletePipeline Content-Length: 50 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE"} x-amzn-RequestId: b7a88c81-0754-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 0 Date: Mon, 12 Nov 2012 17:50:53 GMT Unexpected response: 200, OK, undefined
     ///
-    /// - Parameter DeletePipelineInput : Contains the parameters for DeletePipeline.
+    /// - Parameter input: Contains the parameters for DeletePipeline. (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,7 +691,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(DeletePipelineOutput.httpOutput(from:), DeletePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineInput, DeletePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipelineOutput>())
@@ -731,9 +725,9 @@ extension DataPipelineClient {
     ///
     /// Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of a set of fields that define the properties of the object. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribeObjects Content-Length: 98 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE", "objectIds": ["Schedule"], "evaluateExpressions": true} x-amzn-RequestId: 4c18ea5d-0777-11e2-8a14-21bb8a1f50ef Content-Type: application/x-amz-json-1.1 Content-Length: 1488 Date: Mon, 12 Nov 2012 17:50:53 GMT {"hasMoreResults": false, "pipelineObjects": [ {"fields": [ {"key": "startDateTime", "stringValue": "2012-12-12T00:00:00"}, {"key": "parent", "refValue": "Default"}, {"key": "@sphere", "stringValue": "COMPONENT"}, {"key": "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue": "2012-12-21T18:00:00"}, {"key": "@version", "stringValue": "1"}, {"key": "@status", "stringValue": "PENDING"}, {"key": "@pipelineId", "stringValue": "df-06372391ZG65EXAMPLE"} ], "id": "Schedule", "name": "Schedule"} ] }
     ///
-    /// - Parameter DescribeObjectsInput : Contains the parameters for DescribeObjects.
+    /// - Parameter input: Contains the parameters for DescribeObjects. (Type: `DescribeObjectsInput`)
     ///
-    /// - Returns: `DescribeObjectsOutput` : Contains the output of DescribeObjects.
+    /// - Returns: Contains the output of DescribeObjects. (Type: `DescribeObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,7 +762,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeObjectsInput, DescribeObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeObjectsOutput>(DescribeObjectsOutput.httpOutput(from:), DescribeObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeObjectsInput, DescribeObjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeObjectsOutput>())
@@ -803,9 +796,9 @@ extension DataPipelineClient {
     ///
     /// Retrieves metadata about one or more pipelines. The information retrieved includes the name of the pipeline, the pipeline identifier, its current state, and the user account that owns the pipeline. Using account credentials, you can retrieve metadata about pipelines that you or your IAM users have created. If you are using an IAM user account, you can retrieve metadata about only those pipelines for which you have read permissions. To retrieve the full pipeline definition instead of metadata about the pipeline, call [GetPipelineDefinition]. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribePipelines Content-Length: 70 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineIds": ["df-08785951KAKJEXAMPLE"] } x-amzn-RequestId: 02870eb7-0736-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 767 Date: Mon, 12 Nov 2012 17:50:53 GMT {"pipelineDescriptionList": [ {"description": "This is my first pipeline", "fields": [ {"key": "@pipelineState", "stringValue": "SCHEDULED"}, {"key": "description", "stringValue": "This is my first pipeline"}, {"key": "name", "stringValue": "myPipeline"}, {"key": "@creationTime", "stringValue": "2012-12-13T01:24:06"}, {"key": "@id", "stringValue": "df-0937003356ZJEXAMPLE"}, {"key": "@sphere", "stringValue": "PIPELINE"}, {"key": "@version", "stringValue": "1"}, {"key": "@userId", "stringValue": "924374875933"}, {"key": "@accountId", "stringValue": "924374875933"}, {"key": "uniqueId", "stringValue": "1234567890"} ], "name": "myPipeline", "pipelineId": "df-0937003356ZJEXAMPLE"} ] }
     ///
-    /// - Parameter DescribePipelinesInput : Contains the parameters for DescribePipelines.
+    /// - Parameter input: Contains the parameters for DescribePipelines. (Type: `DescribePipelinesInput`)
     ///
-    /// - Returns: `DescribePipelinesOutput` : Contains the output of DescribePipelines.
+    /// - Returns: Contains the output of DescribePipelines. (Type: `DescribePipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,7 +833,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePipelinesInput, DescribePipelinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipelinesOutput>(DescribePipelinesOutput.httpOutput(from:), DescribePipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipelinesInput, DescribePipelinesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePipelinesOutput>())
@@ -875,9 +867,9 @@ extension DataPipelineClient {
     ///
     /// Task runners call EvaluateExpression to evaluate a string in the context of the specified object. For example, a task runner can evaluate SQL queries stored in Amazon S3. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribePipelines Content-Length: 164 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-08785951KAKJEXAMPLE", "objectId": "Schedule", "expression": "Transform started at #{startDateTime} and finished at #{endDateTime}"} x-amzn-RequestId: 02870eb7-0736-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 103 Date: Mon, 12 Nov 2012 17:50:53 GMT {"evaluatedExpression": "Transform started at 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"}
     ///
-    /// - Parameter EvaluateExpressionInput : Contains the parameters for EvaluateExpression.
+    /// - Parameter input: Contains the parameters for EvaluateExpression. (Type: `EvaluateExpressionInput`)
     ///
-    /// - Returns: `EvaluateExpressionOutput` : Contains the output of EvaluateExpression.
+    /// - Returns: Contains the output of EvaluateExpression. (Type: `EvaluateExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -913,7 +905,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateExpressionOutput>(EvaluateExpressionOutput.httpOutput(from:), EvaluateExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateExpressionOutput>())
@@ -948,9 +939,9 @@ extension DataPipelineClient {
     ///
     /// Gets the definition of the specified pipeline. You can call GetPipelineDefinition to retrieve the pipeline definition that you provided using [PutPipelineDefinition]. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.GetPipelineDefinition Content-Length: 40 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE"} x-amzn-RequestId: e28309e5-0776-11e2-8a14-21bb8a1f50ef Content-Type: application/x-amz-json-1.1 Content-Length: 890 Date: Mon, 12 Nov 2012 17:50:53 GMT {"pipelineObjects": [ {"fields": [ {"key": "workerGroup", "stringValue": "workerGroup"} ], "id": "Default", "name": "Default"}, {"fields": [ {"key": "startDateTime", "stringValue": "2012-09-25T17:00:00"}, {"key": "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue": "2012-09-25T18:00:00"} ], "id": "Schedule", "name": "Schedule"}, {"fields": [ {"key": "schedule", "refValue": "Schedule"}, {"key": "command", "stringValue": "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key": "type", "stringValue": "ShellCommandActivity"} ], "id": "SayHello", "name": "SayHello"} ] }
     ///
-    /// - Parameter GetPipelineDefinitionInput : Contains the parameters for GetPipelineDefinition.
+    /// - Parameter input: Contains the parameters for GetPipelineDefinition. (Type: `GetPipelineDefinitionInput`)
     ///
-    /// - Returns: `GetPipelineDefinitionOutput` : Contains the output of GetPipelineDefinition.
+    /// - Returns: Contains the output of GetPipelineDefinition. (Type: `GetPipelineDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,7 +976,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPipelineDefinitionOutput>(GetPipelineDefinitionOutput.httpOutput(from:), GetPipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPipelineDefinitionOutput>())
@@ -1020,9 +1010,9 @@ extension DataPipelineClient {
     ///
     /// Lists the pipeline identifiers for all active pipelines that you have permission to access. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ListPipelines Content-Length: 14 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {} Status: x-amzn-RequestId: b3104dc5-0734-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 39 Date: Mon, 12 Nov 2012 17:50:53 GMT {"PipelineIdList": [ {"id": "df-08785951KAKJEXAMPLE", "name": "MyPipeline"}, {"id": "df-08662578ISYEXAMPLE", "name": "MySecondPipeline"} ] }
     ///
-    /// - Parameter ListPipelinesInput : Contains the parameters for ListPipelines.
+    /// - Parameter input: Contains the parameters for ListPipelines. (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : Contains the output of ListPipelines.
+    /// - Returns: Contains the output of ListPipelines. (Type: `ListPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1055,7 +1045,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelinesInput, ListPipelinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(ListPipelinesOutput.httpOutput(from:), ListPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelinesInput, ListPipelinesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelinesOutput>())
@@ -1090,9 +1079,9 @@ extension DataPipelineClient {
     ///
     /// Task runners call PollForTask to receive a task to perform from AWS Data Pipeline. The task runner specifies which tasks it can perform by setting a value for the workerGroup parameter. The task returned can come from any of the pipelines that match the workerGroup value passed in by the task runner and that was launched using the IAM user credentials specified by the task runner. If tasks are ready in the work queue, PollForTask returns a response immediately. If no tasks are available in the queue, PollForTask uses long-polling and holds on to a poll connection for up to a 90 seconds, during which time the first newly scheduled task is handed to the task runner. To accomodate this, set the socket timeout in your task runner to 90 seconds. The task runner should not call PollForTask again on the same workerGroup until it receives a response, and this can take up to 90 seconds. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.PollForTask Content-Length: 59 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"workerGroup": "MyworkerGroup", "hostname": "example.com"} x-amzn-RequestId: 41c713d2-0775-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 39 Date: Mon, 12 Nov 2012 17:50:53 GMT {"taskObject": {"attemptId": "@SayHello_2012-12-12T00:00:00_Attempt=1", "objects": {"@SayHello_2012-12-12T00:00:00_Attempt=1": {"fields": [ {"key": "@componentParent", "refValue": "SayHello"}, {"key": "@scheduledStartTime", "stringValue": "2012-12-12T00:00:00"}, {"key": "parent", "refValue": "SayHello"}, {"key": "@sphere", "stringValue": "ATTEMPT"}, {"key": "workerGroup", "stringValue": "workerGroup"}, {"key": "@instanceParent", "refValue": "@SayHello_2012-12-12T00:00:00"}, {"key": "type", "stringValue": "ShellCommandActivity"}, {"key": "@status", "stringValue": "WAITING_FOR_RUNNER"}, {"key": "@version", "stringValue": "1"}, {"key": "schedule", "refValue": "Schedule"}, {"key": "@actualStartTime", "stringValue": "2012-12-13T01:40:50"}, {"key": "command", "stringValue": "echo hello"}, {"key": "@scheduledEndTime", "stringValue": "2012-12-12T01:00:00"}, {"key": "@activeInstances", "refValue": "@SayHello_2012-12-12T00:00:00"}, {"key": "@pipelineId", "stringValue": "df-0937003356ZJEXAMPLE"} ], "id": "@SayHello_2012-12-12T00:00:00_Attempt=1", "name": "@SayHello_2012-12-12T00:00:00_Attempt=1"} }, "pipelineId": "df-0937003356ZJEXAMPLE", "taskId": "2xaM4wRs5zOsIH+g9U3oVHfAgAlbSqU6XduncB0HhZ3xMnmvfePZPn4dIbYXHyWyRK+cU15MqDHwdrvftx/4wv+sNS4w34vJfv7QA9aOoOazW28l1GYSb2ZRR0N0paiQp+d1MhSKo10hOTWOsVK5S5Lnx9Qm6omFgXHyIvZRIvTlrQMpr1xuUrflyGOfbFOGpOLpvPE172MYdqpZKnbSS4TcuqgQKSWV2833fEubI57DPOP7ghWa2TcYeSIv4pdLYG53fTuwfbnbdc98g2LNUQzSVhSnt7BoqyNwht2aQ6b/UHg9A80+KVpuXuqmz3m1MXwHFgxjdmuesXNOrrlGpeLCcRWD+aGo0RN1NqhQRzNAig8V4GlaPTQzMsRCljKqvrIyAoP3Tt2XEGsHkkQo12rEX8Z90957XX2qKRwhruwYzqGkSLWjINoLdAxUJdpRXRc5DJTrBd3D5mdzn7kY1l7NEh4kFHJDt3Cx4Z3Mk8MYCACyCk/CEyy9DwuPi66cLz0NBcgbCM5LKjTBOwo1m+am+pvM1kSposE9FPP1+RFGb8k6jQBTJx3TRz1yKilnGXQTZ5xvdOFpJrklIT0OXP1MG3+auM9FlJA+1dX90QoNJE5z7axmK//MOGXUdkqFe2kiDkorqjxwDvc0Js9pVKfKvAmW8YqUbmI9l0ERpWCXXnLVHNmPWz3jaPY+OBAmuJWDmxB/Z8p94aEDg4BVXQ7LvsKQ3DLYhaB7yJ390CJT+i0mm+EBqY60V6YikPSWDFrYQ/NPi2b1DgE19mX8zHqw8qprIl4yh1Ckx2Iige4En/N5ktOoIxnASxAw/TzcE2skxdw5KlHDF+UTj71m16CR/dIaKlXijlfNlNzUBo/bNSadCQn3G5NoO501wPKI:XO50TgDNyo8EXAMPLE/g==:1"} }
     ///
-    /// - Parameter PollForTaskInput : Contains the parameters for PollForTask.
+    /// - Parameter input: Contains the parameters for PollForTask. (Type: `PollForTaskInput`)
     ///
-    /// - Returns: `PollForTaskOutput` : Contains the output of PollForTask.
+    /// - Returns: Contains the output of PollForTask. (Type: `PollForTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1126,7 +1115,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PollForTaskInput, PollForTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PollForTaskOutput>(PollForTaskOutput.httpOutput(from:), PollForTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PollForTaskInput, PollForTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PollForTaskOutput>())
@@ -1172,9 +1160,9 @@ extension DataPipelineClient {
     ///
     /// Pipeline object definitions are passed to the PutPipelineDefinition action and returned by the [GetPipelineDefinition] action. Example 1 This example sets an valid pipeline configuration and returns success. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.PutPipelineDefinition Content-Length: 914 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-0937003356ZJEXAMPLE", "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [ {"key": "workerGroup", "stringValue": "workerGroup"} ] }, {"id": "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime", "stringValue": "2012-12-12T00:00:00"}, {"key": "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue": "2012-12-21T18:00:00"} ] }, {"id": "SayHello", "name": "SayHello", "fields": [ {"key": "type", "stringValue": "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue": "Schedule"} ] } ] } HTTP/1.1 200 x-amzn-RequestId: f74afc14-0754-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012 17:50:53 GMT {"errored": false} Example 2 This example sets an invalid pipeline configuration (the value for workerGroup is an empty string) and returns an error message. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.PutPipelineDefinition Content-Length: 903 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE", "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [ {"key": "workerGroup", "stringValue": ""} ] }, {"id": "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime", "stringValue": "2012-09-25T17:00:00"}, {"key": "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue": "2012-09-25T18:00:00"} ] }, {"id": "SayHello", "name": "SayHello", "fields": [ {"key": "type", "stringValue": "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue": "Schedule"} ] } ] } HTTP/1.1 200 x-amzn-RequestId: f74afc14-0754-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012 17:50:53 GMT {"__type": "com.amazon.setl.webservice#InvalidRequestException", "message": "Pipeline definition has errors: Could not save the pipeline definition due to FATAL errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call Validate to validate your pipeline"}
     ///
-    /// - Parameter PutPipelineDefinitionInput : Contains the parameters for PutPipelineDefinition.
+    /// - Parameter input: Contains the parameters for PutPipelineDefinition. (Type: `PutPipelineDefinitionInput`)
     ///
-    /// - Returns: `PutPipelineDefinitionOutput` : Contains the output of PutPipelineDefinition.
+    /// - Returns: Contains the output of PutPipelineDefinition. (Type: `PutPipelineDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1209,7 +1197,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPipelineDefinitionOutput>(PutPipelineDefinitionOutput.httpOutput(from:), PutPipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPipelineDefinitionOutput>())
@@ -1244,9 +1231,9 @@ extension DataPipelineClient {
     ///
     /// Queries the specified pipeline for the names of objects that match the specified set of conditions. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.QueryObjects Content-Length: 123 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE", "query": {"selectors": [ ] }, "sphere": "INSTANCE", "marker": "", "limit": 10} x-amzn-RequestId: 14d704c1-0775-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 72 Date: Mon, 12 Nov 2012 17:50:53 GMT {"hasMoreResults": false, "ids": ["@SayHello_1_2012-09-25T17:00:00"] }
     ///
-    /// - Parameter QueryObjectsInput : Contains the parameters for QueryObjects.
+    /// - Parameter input: Contains the parameters for QueryObjects. (Type: `QueryObjectsInput`)
     ///
-    /// - Returns: `QueryObjectsOutput` : Contains the output of QueryObjects.
+    /// - Returns: Contains the output of QueryObjects. (Type: `QueryObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,7 +1268,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryObjectsInput, QueryObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryObjectsOutput>(QueryObjectsOutput.httpOutput(from:), QueryObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryObjectsInput, QueryObjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryObjectsOutput>())
@@ -1316,9 +1302,9 @@ extension DataPipelineClient {
     ///
     /// Removes existing tags from the specified pipeline.
     ///
-    /// - Parameter RemoveTagsInput : Contains the parameters for RemoveTags.
+    /// - Parameter input: Contains the parameters for RemoveTags. (Type: `RemoveTagsInput`)
     ///
-    /// - Returns: `RemoveTagsOutput` : Contains the output of RemoveTags.
+    /// - Returns: Contains the output of RemoveTags. (Type: `RemoveTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1353,7 +1339,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsOutput>())
@@ -1388,9 +1373,9 @@ extension DataPipelineClient {
     ///
     /// Task runners call ReportTaskProgress when assigned a task to acknowledge that it has the task. If the web service does not receive this acknowledgement within 2 minutes, it assigns the task in a subsequent [PollForTask] call. After this initial acknowledgement, the task runner only needs to report progress every 15 minutes to maintain its ownership of the task. You can change this reporting time from 15 minutes by specifying a reportProgressTimeout field in your pipeline. If a task runner does not report its status after 5 minutes, AWS Data Pipeline assumes that the task runner is unable to process the task and reassigns the task in a subsequent response to [PollForTask]. Task runners should call ReportTaskProgress every 60 seconds. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ReportTaskProgress Content-Length: 832 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"taskId": "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE", "fields": [ {"key": "percentComplete", "stringValue": "50"} ] } x-amzn-RequestId: 640bd023-0775-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012 17:50:53 GMT {"canceled": false}
     ///
-    /// - Parameter ReportTaskProgressInput : Contains the parameters for ReportTaskProgress.
+    /// - Parameter input: Contains the parameters for ReportTaskProgress. (Type: `ReportTaskProgressInput`)
     ///
-    /// - Returns: `ReportTaskProgressOutput` : Contains the output of ReportTaskProgress.
+    /// - Returns: Contains the output of ReportTaskProgress. (Type: `ReportTaskProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1426,7 +1411,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReportTaskProgressOutput>(ReportTaskProgressOutput.httpOutput(from:), ReportTaskProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReportTaskProgressOutput>())
@@ -1461,9 +1445,9 @@ extension DataPipelineClient {
     ///
     /// Task runners call ReportTaskRunnerHeartbeat every 15 minutes to indicate that they are operational. If the AWS Data Pipeline Task Runner is launched on a resource managed by AWS Data Pipeline, the web service can use this call to detect when the task runner application has failed and restart a new instance. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ReportTaskRunnerHeartbeat Content-Length: 84 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"taskrunnerId": "1234567890", "workerGroup": "wg-12345", "hostname": "example.com"} Status: x-amzn-RequestId: b3104dc5-0734-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 20 Date: Mon, 12 Nov 2012 17:50:53 GMT {"terminate": false}
     ///
-    /// - Parameter ReportTaskRunnerHeartbeatInput : Contains the parameters for ReportTaskRunnerHeartbeat.
+    /// - Parameter input: Contains the parameters for ReportTaskRunnerHeartbeat. (Type: `ReportTaskRunnerHeartbeatInput`)
     ///
-    /// - Returns: `ReportTaskRunnerHeartbeatOutput` : Contains the output of ReportTaskRunnerHeartbeat.
+    /// - Returns: Contains the output of ReportTaskRunnerHeartbeat. (Type: `ReportTaskRunnerHeartbeatOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1496,7 +1480,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReportTaskRunnerHeartbeatOutput>(ReportTaskRunnerHeartbeatOutput.httpOutput(from:), ReportTaskRunnerHeartbeatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReportTaskRunnerHeartbeatOutput>())
@@ -1531,9 +1514,9 @@ extension DataPipelineClient {
     ///
     /// Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline. This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity). You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.SetStatus Content-Length: 100 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-0634701J7KEXAMPLE", "objectIds": ["o-08600941GHJWMBR9E2"], "status": "pause"} x-amzn-RequestId: e83b8ab7-076a-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 0 Date: Mon, 12 Nov 2012 17:50:53 GMT Unexpected response: 200, OK, undefined
     ///
-    /// - Parameter SetStatusInput : Contains the parameters for SetStatus.
+    /// - Parameter input: Contains the parameters for SetStatus. (Type: `SetStatusInput`)
     ///
-    /// - Returns: `SetStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1568,7 +1551,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetStatusInput, SetStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetStatusOutput>(SetStatusOutput.httpOutput(from:), SetStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetStatusInput, SetStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetStatusOutput>())
@@ -1603,9 +1585,9 @@ extension DataPipelineClient {
     ///
     /// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status. A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for tasks that are canceled by the web service during a call to [ReportTaskProgress]. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.SetTaskStatus Content-Length: 847 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"taskId": "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE", "taskStatus": "FINISHED"} x-amzn-RequestId: 8c8deb53-0788-11e2-af9c-6bc7a6be6qr8 Content-Type: application/x-amz-json-1.1 Content-Length: 0 Date: Mon, 12 Nov 2012 17:50:53 GMT {}
     ///
-    /// - Parameter SetTaskStatusInput : Contains the parameters for SetTaskStatus.
+    /// - Parameter input: Contains the parameters for SetTaskStatus. (Type: `SetTaskStatusInput`)
     ///
-    /// - Returns: `SetTaskStatusOutput` : Contains the output of SetTaskStatus.
+    /// - Returns: Contains the output of SetTaskStatus. (Type: `SetTaskStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1641,7 +1623,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTaskStatusInput, SetTaskStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTaskStatusOutput>(SetTaskStatusOutput.httpOutput(from:), SetTaskStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTaskStatusInput, SetTaskStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetTaskStatusOutput>())
@@ -1676,9 +1657,9 @@ extension DataPipelineClient {
     ///
     /// Validates the specified pipeline definition to ensure that it is well formed and can be run without error. Example 1 This example sets an valid pipeline configuration and returns success. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ValidatePipelineDefinition Content-Length: 936 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE", "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [ {"key": "workerGroup", "stringValue": "MyworkerGroup"} ] }, {"id": "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime", "stringValue": "2012-09-25T17:00:00"}, {"key": "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue": "2012-09-25T18:00:00"} ] }, {"id": "SayHello", "name": "SayHello", "fields": [ {"key": "type", "stringValue": "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue": "Schedule"} ] } ] } x-amzn-RequestId: 92c9f347-0776-11e2-8a14-21bb8a1f50ef Content-Type: application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012 17:50:53 GMT {"errored": false} Example 2 This example sets an invalid pipeline configuration and returns the associated set of validation errors. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ValidatePipelineDefinition Content-Length: 903 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE", "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [ {"key": "workerGroup", "stringValue": "MyworkerGroup"} ] }, {"id": "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime", "stringValue": "bad-time"}, {"key": "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue": "2012-09-25T18:00:00"} ] }, {"id": "SayHello", "name": "SayHello", "fields": [ {"key": "type", "stringValue": "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue": "Schedule"} ] } ] } x-amzn-RequestId: 496a1f5a-0e6a-11e2-a61c-bd6312c92ddd Content-Type: application/x-amz-json-1.1 Content-Length: 278 Date: Mon, 12 Nov 2012 17:50:53 GMT {"errored": true, "validationErrors": [ {"errors": ["INVALID_FIELD_VALUE: 'startDateTime' value must be a literal datetime value."], "id": "Schedule"} ] }
     ///
-    /// - Parameter ValidatePipelineDefinitionInput : Contains the parameters for ValidatePipelineDefinition.
+    /// - Parameter input: Contains the parameters for ValidatePipelineDefinition. (Type: `ValidatePipelineDefinitionInput`)
     ///
-    /// - Returns: `ValidatePipelineDefinitionOutput` : Contains the output of ValidatePipelineDefinition.
+    /// - Returns: Contains the output of ValidatePipelineDefinition. (Type: `ValidatePipelineDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,7 +1694,6 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePipelineDefinitionOutput>(ValidatePipelineDefinitionOutput.httpOutput(from:), ValidatePipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidatePipelineDefinitionOutput>())

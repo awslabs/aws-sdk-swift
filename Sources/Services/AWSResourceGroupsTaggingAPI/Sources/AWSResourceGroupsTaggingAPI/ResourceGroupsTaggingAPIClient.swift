@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceGroupsTaggingAPIClient: ClientRuntime.Client {
     public static let clientName = "ResourceGroupsTaggingAPIClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfiguration
     let serviceName = "Resource Groups Tagging API"
@@ -373,9 +372,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// Describes the status of the StartReportCreation operation. You can call this operation only from the organization's management account and from the us-east-1 Region.
     ///
-    /// - Parameter DescribeReportCreationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReportCreationInput`)
     ///
-    /// - Returns: `DescribeReportCreationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReportCreationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -426,7 +425,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReportCreationOutput>(DescribeReportCreationOutput.httpOutput(from:), DescribeReportCreationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReportCreationOutput>())
@@ -461,9 +459,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see [Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html) in the Organizations User Guide. You can call this operation only from the organization's management account and from the us-east-1 Region. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
-    /// - Parameter GetComplianceSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComplianceSummaryInput`)
     ///
-    /// - Returns: `GetComplianceSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComplianceSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,7 +512,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComplianceSummaryOutput>(GetComplianceSummaryOutput.httpOutput(from:), GetComplianceSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceSummaryOutput>())
@@ -556,9 +553,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
-    /// - Parameter GetResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesInput`)
     ///
-    /// - Returns: `GetResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -603,7 +600,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcesInput, GetResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesOutput>(GetResourcesOutput.httpOutput(from:), GetResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesInput, GetResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesOutput>())
@@ -638,9 +634,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// Returns all tag keys currently in use in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
-    /// - Parameter GetTagKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagKeysInput`)
     ///
-    /// - Returns: `GetTagKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,7 +681,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagKeysInput, GetTagKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagKeysOutput>(GetTagKeysOutput.httpOutput(from:), GetTagKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagKeysInput, GetTagKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagKeysOutput>())
@@ -720,9 +715,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// Returns all tag values for the specified key that are used in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
-    /// - Parameter GetTagValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagValuesInput`)
     ///
-    /// - Returns: `GetTagValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,7 +762,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagValuesInput, GetTagValuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagValuesOutput>(GetTagValuesOutput.httpOutput(from:), GetTagValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagValuesInput, GetTagValuesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagValuesOutput>())
@@ -802,9 +796,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv You can call this operation only from the organization's management account and from the us-east-1 Region.
     ///
-    /// - Parameter StartReportCreationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReportCreationInput`)
     ///
-    /// - Returns: `StartReportCreationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReportCreationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,7 +850,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReportCreationInput, StartReportCreationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReportCreationOutput>(StartReportCreationOutput.httpOutput(from:), StartReportCreationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReportCreationInput, StartReportCreationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReportCreationOutput>())
@@ -906,9 +899,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// * ec2:CreateTags
     ///
-    /// - Parameter TagResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourcesInput`)
     ///
-    /// - Returns: `TagResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -952,7 +945,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourcesInput, TagResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourcesOutput>(TagResourcesOutput.httpOutput(from:), TagResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourcesInput, TagResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourcesOutput>())
@@ -998,9 +990,9 @@ extension ResourceGroupsTaggingAPIClient {
     ///
     /// * ec2:DeleteTags
     ///
-    /// - Parameter UntagResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourcesInput`)
     ///
-    /// - Returns: `UntagResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,7 +1036,6 @@ extension ResourceGroupsTaggingAPIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourcesInput, UntagResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourcesOutput>(UntagResourcesOutput.httpOutput(from:), UntagResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourcesInput, UntagResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourcesOutput>())

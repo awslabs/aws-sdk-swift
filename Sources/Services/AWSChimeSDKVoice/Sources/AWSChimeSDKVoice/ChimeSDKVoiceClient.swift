@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKVoiceClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKVoiceClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration
     let serviceName = "Chime SDK Voice"
@@ -374,9 +373,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter AssociatePhoneNumbersWithVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorInput`)
     ///
-    /// - Returns: `AssociatePhoneNumbersWithVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,7 +417,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput>(AssociatePhoneNumbersWithVoiceConnectorOutput.httpOutput(from:), AssociatePhoneNumbersWithVoiceConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput>())
@@ -450,9 +448,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter AssociatePhoneNumbersWithVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `AssociatePhoneNumbersWithVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,7 +492,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(AssociatePhoneNumbersWithVoiceConnectorGroupOutput.httpOutput(from:), AssociatePhoneNumbersWithVoiceConnectorGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput>())
@@ -526,9 +523,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeletePhoneNumberInput`)
     ///
-    /// - Returns: `BatchDeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,7 +566,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeletePhoneNumberOutput>(BatchDeletePhoneNumberOutput.httpOutput(from:), BatchDeletePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeletePhoneNumberOutput>())
@@ -601,9 +597,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type, the calling name, or phone name. You cannot have a duplicate phoneNumberId in a request.
     ///
-    /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdatePhoneNumberInput`)
     ///
-    /// - Returns: `BatchUpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -644,7 +640,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdatePhoneNumberOutput>(BatchUpdatePhoneNumberOutput.httpOutput(from:), BatchUpdatePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdatePhoneNumberOutput>())
@@ -676,9 +671,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
     ///
-    /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePhoneNumberOrderInput`)
     ///
-    /// - Returns: `CreatePhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -719,7 +714,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePhoneNumberOrderOutput>(CreatePhoneNumberOrderOutput.httpOutput(from:), CreatePhoneNumberOrderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePhoneNumberOrderOutput>())
@@ -751,9 +745,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified participant phone numbers.
     ///
-    /// - Parameter CreateProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProxySessionInput`)
     ///
-    /// - Returns: `CreateProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -793,7 +787,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxySessionInput, CreateProxySessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProxySessionOutput>(CreateProxySessionOutput.httpOutput(from:), CreateProxySessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxySessionInput, CreateProxySessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxySessionOutput>())
@@ -825,9 +818,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a SIP media application. For more information about SIP media applications, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
-    /// - Parameter CreateSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSipMediaApplicationInput`)
     ///
-    /// - Returns: `CreateSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -869,7 +862,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationOutput>(CreateSipMediaApplicationOutput.httpOutput(from:), CreateSipMediaApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSipMediaApplicationOutput>())
@@ -901,9 +893,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
     ///
-    /// - Parameter CreateSipMediaApplicationCallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSipMediaApplicationCallInput`)
     ///
-    /// - Returns: `CreateSipMediaApplicationCallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSipMediaApplicationCallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,7 +936,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationCallOutput>(CreateSipMediaApplicationCallOutput.httpOutput(from:), CreateSipMediaApplicationCallOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSipMediaApplicationCallOutput>())
@@ -976,9 +967,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
-    /// - Parameter CreateSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSipRuleInput`)
     ///
-    /// - Returns: `CreateSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1020,7 +1011,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSipRuleInput, CreateSipRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSipRuleOutput>(CreateSipRuleOutput.httpOutput(from:), CreateSipRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSipRuleInput, CreateSipRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSipRuleOutput>())
@@ -1052,9 +1042,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see [Managing Amazon Chime SDK Voice Connector groups](https://docs.aws.amazon.com/chime-sdk/latest/ag/voice-connector-groups.html) in the Amazon Chime SDK Administrator Guide.
     ///
-    /// - Parameter CreateVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceConnectorInput`)
     ///
-    /// - Returns: `CreateVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,7 +1085,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorOutput>(CreateVoiceConnectorOutput.httpOutput(from:), CreateVoiceConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVoiceConnectorOutput>())
@@ -1127,9 +1116,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
     ///
-    /// - Parameter CreateVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `CreateVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,7 +1159,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorGroupOutput>(CreateVoiceConnectorGroupOutput.httpOutput(from:), CreateVoiceConnectorGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVoiceConnectorGroupOutput>())
@@ -1202,9 +1190,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a voice profile, which consists of an enrolled user and their latest voice print. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
-    /// - Parameter CreateVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceProfileInput`)
     ///
-    /// - Returns: `CreateVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,7 +1236,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVoiceProfileInput, CreateVoiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVoiceProfileOutput>(CreateVoiceProfileOutput.httpOutput(from:), CreateVoiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVoiceProfileInput, CreateVoiceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVoiceProfileOutput>())
@@ -1280,9 +1267,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
-    /// - Parameter CreateVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceProfileDomainInput`)
     ///
-    /// - Returns: `CreateVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1324,7 +1311,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVoiceProfileDomainInput, CreateVoiceProfileDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVoiceProfileDomainOutput>(CreateVoiceProfileDomainOutput.httpOutput(from:), CreateVoiceProfileDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVoiceProfileDomainInput, CreateVoiceProfileDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVoiceProfileDomainOutput>())
@@ -1356,9 +1342,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter DeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePhoneNumberInput`)
     ///
-    /// - Returns: `DeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1395,7 +1381,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePhoneNumberOutput>(DeletePhoneNumberOutput.httpOutput(from:), DeletePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePhoneNumberOutput>())
@@ -1427,9 +1412,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DeleteProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProxySessionInput`)
     ///
-    /// - Returns: `DeleteProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1466,7 +1451,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxySessionInput, DeleteProxySessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProxySessionOutput>(DeleteProxySessionOutput.httpOutput(from:), DeleteProxySessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxySessionInput, DeleteProxySessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxySessionOutput>())
@@ -1498,9 +1482,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a SIP media application.
     ///
-    /// - Parameter DeleteSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSipMediaApplicationInput`)
     ///
-    /// - Returns: `DeleteSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,7 +1522,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSipMediaApplicationOutput>(DeleteSipMediaApplicationOutput.httpOutput(from:), DeleteSipMediaApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSipMediaApplicationOutput>())
@@ -1570,9 +1553,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a SIP rule.
     ///
-    /// - Parameter DeleteSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSipRuleInput`)
     ///
-    /// - Returns: `DeleteSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,7 +1593,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSipRuleInput, DeleteSipRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSipRuleOutput>(DeleteSipRuleOutput.httpOutput(from:), DeleteSipRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSipRuleInput, DeleteSipRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSipRuleOutput>())
@@ -1642,9 +1624,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted.
     ///
-    /// - Parameter DeleteVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,7 +1664,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOutput>(DeleteVoiceConnectorOutput.httpOutput(from:), DeleteVoiceConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorOutput>())
@@ -1714,9 +1695,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the emergency calling details from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DeleteVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorEmergencyCallingConfigurationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorEmergencyCallingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,7 +1734,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(DeleteVoiceConnectorEmergencyCallingConfigurationOutput.httpOutput(from:), DeleteVoiceConnectorEmergencyCallingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput>())
@@ -1785,9 +1765,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the external systems configuration for a Voice Connector.
     ///
-    /// - Parameter DeleteVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorExternalSystemsConfigurationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorExternalSystemsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1824,7 +1804,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationOutput>(DeleteVoiceConnectorExternalSystemsConfigurationOutput.httpOutput(from:), DeleteVoiceConnectorExternalSystemsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationOutput>())
@@ -1856,9 +1835,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
     ///
-    /// - Parameter DeleteVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1896,7 +1875,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorGroupOutput>(DeleteVoiceConnectorGroupOutput.httpOutput(from:), DeleteVoiceConnectorGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorGroupOutput>())
@@ -1928,9 +1906,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the origination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the origination settings.
     ///
-    /// - Parameter DeleteVoiceConnectorOriginationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorOriginationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorOriginationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorOriginationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,7 +1945,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOriginationOutput>(DeleteVoiceConnectorOriginationOutput.httpOutput(from:), DeleteVoiceConnectorOriginationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorOriginationOutput>())
@@ -1999,9 +1976,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DeleteVoiceConnectorProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorProxyInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2038,7 +2015,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorProxyOutput>(DeleteVoiceConnectorProxyOutput.httpOutput(from:), DeleteVoiceConnectorProxyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorProxyOutput>())
@@ -2070,9 +2046,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a Voice Connector's streaming configuration.
     ///
-    /// - Parameter DeleteVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorStreamingConfigurationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorStreamingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2109,7 +2085,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput>(DeleteVoiceConnectorStreamingConfigurationOutput.httpOutput(from:), DeleteVoiceConnectorStreamingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput>())
@@ -2141,9 +2116,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the termination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the termination settings.
     ///
-    /// - Parameter DeleteVoiceConnectorTerminationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorTerminationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorTerminationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorTerminationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2180,7 +2155,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationOutput>(DeleteVoiceConnectorTerminationOutput.httpOutput(from:), DeleteVoiceConnectorTerminationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorTerminationOutput>())
@@ -2212,9 +2186,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
     ///
-    /// - Parameter DeleteVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorTerminationCredentialsInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorTerminationCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2255,7 +2229,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput>(DeleteVoiceConnectorTerminationCredentialsOutput.httpOutput(from:), DeleteVoiceConnectorTerminationCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput>())
@@ -2287,9 +2260,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
     ///
-    /// - Parameter DeleteVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceProfileInput`)
     ///
-    /// - Returns: `DeleteVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2328,7 +2301,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceProfileInput, DeleteVoiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceProfileOutput>(DeleteVoiceProfileOutput.httpOutput(from:), DeleteVoiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceProfileInput, DeleteVoiceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceProfileOutput>())
@@ -2360,9 +2332,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes all voice profiles in the domain. WARNING: This action is not reversible.
     ///
-    /// - Parameter DeleteVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceProfileDomainInput`)
     ///
-    /// - Returns: `DeleteVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2401,7 +2373,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceProfileDomainInput, DeleteVoiceProfileDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceProfileDomainOutput>(DeleteVoiceProfileDomainOutput.httpOutput(from:), DeleteVoiceProfileDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceProfileDomainInput, DeleteVoiceProfileDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceProfileDomainOutput>())
@@ -2433,9 +2404,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorInput`)
     ///
-    /// - Returns: `DisassociatePhoneNumbersFromVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2476,7 +2447,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput>(DisassociatePhoneNumbersFromVoiceConnectorOutput.httpOutput(from:), DisassociatePhoneNumbersFromVoiceConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput>())
@@ -2508,9 +2478,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `DisassociatePhoneNumbersFromVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2551,7 +2521,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(DisassociatePhoneNumbersFromVoiceConnectorGroupOutput.httpOutput(from:), DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>())
@@ -2583,9 +2552,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
-    /// - Parameter GetGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlobalSettingsInput`)
     ///
-    /// - Returns: `GetGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2621,7 +2590,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlobalSettingsOutput>(GetGlobalSettingsOutput.httpOutput(from:), GetGlobalSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlobalSettingsOutput>())
@@ -2653,9 +2621,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
-    /// - Parameter GetPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberInput`)
     ///
-    /// - Returns: `GetPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2692,7 +2660,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPhoneNumberInput, GetPhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPhoneNumberOutput>(GetPhoneNumberOutput.httpOutput(from:), GetPhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPhoneNumberInput, GetPhoneNumberOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPhoneNumberOutput>())
@@ -2724,9 +2691,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
-    /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberOrderInput`)
     ///
-    /// - Returns: `GetPhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2763,7 +2730,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPhoneNumberOrderOutput>(GetPhoneNumberOrderOutput.httpOutput(from:), GetPhoneNumberOrderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPhoneNumberOrderOutput>())
@@ -2795,9 +2761,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
-    /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberSettingsInput`)
     ///
-    /// - Returns: `GetPhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,7 +2799,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPhoneNumberSettingsOutput>(GetPhoneNumberSettingsOutput.httpOutput(from:), GetPhoneNumberSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPhoneNumberSettingsOutput>())
@@ -2865,9 +2830,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter GetProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProxySessionInput`)
     ///
-    /// - Returns: `GetProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2904,7 +2869,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProxySessionInput, GetProxySessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProxySessionOutput>(GetProxySessionOutput.httpOutput(from:), GetProxySessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProxySessionInput, GetProxySessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProxySessionOutput>())
@@ -2936,9 +2900,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
     ///
-    /// - Parameter GetSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipMediaApplicationInput`)
     ///
-    /// - Returns: `GetSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2975,7 +2939,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSipMediaApplicationInput, GetSipMediaApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationOutput>(GetSipMediaApplicationOutput.httpOutput(from:), GetSipMediaApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSipMediaApplicationInput, GetSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSipMediaApplicationOutput>())
@@ -3008,9 +2971,9 @@ extension ChimeSDKVoiceClient {
     /// Gets the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
     @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
     ///
-    /// - Parameter GetSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipMediaApplicationAlexaSkillConfigurationInput`)
     ///
-    /// - Returns: `GetSipMediaApplicationAlexaSkillConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipMediaApplicationAlexaSkillConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3047,7 +3010,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSipMediaApplicationAlexaSkillConfigurationInput, GetSipMediaApplicationAlexaSkillConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationAlexaSkillConfigurationOutput>(GetSipMediaApplicationAlexaSkillConfigurationOutput.httpOutput(from:), GetSipMediaApplicationAlexaSkillConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSipMediaApplicationAlexaSkillConfigurationInput, GetSipMediaApplicationAlexaSkillConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSipMediaApplicationAlexaSkillConfigurationOutput>())
@@ -3079,9 +3041,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the logging configuration for the specified SIP media application.
     ///
-    /// - Parameter GetSipMediaApplicationLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipMediaApplicationLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetSipMediaApplicationLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipMediaApplicationLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3118,7 +3080,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationLoggingConfigurationOutput>(GetSipMediaApplicationLoggingConfigurationOutput.httpOutput(from:), GetSipMediaApplicationLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSipMediaApplicationLoggingConfigurationOutput>())
@@ -3150,9 +3111,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
     ///
-    /// - Parameter GetSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipRuleInput`)
     ///
-    /// - Returns: `GetSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3189,7 +3150,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSipRuleInput, GetSipRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSipRuleOutput>(GetSipRuleOutput.httpOutput(from:), GetSipRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSipRuleInput, GetSipRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSipRuleOutput>())
@@ -3221,9 +3181,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of the specified speaker search task.
     ///
-    /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `GetSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3262,7 +3222,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSpeakerSearchTaskInput, GetSpeakerSearchTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpeakerSearchTaskOutput>(GetSpeakerSearchTaskOutput.httpOutput(from:), GetSpeakerSearchTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpeakerSearchTaskInput, GetSpeakerSearchTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpeakerSearchTaskOutput>())
@@ -3294,9 +3253,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
     ///
-    /// - Parameter GetVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorInput`)
     ///
-    /// - Returns: `GetVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3333,7 +3292,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorInput, GetVoiceConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOutput>(GetVoiceConnectorOutput.httpOutput(from:), GetVoiceConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorInput, GetVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorOutput>())
@@ -3365,9 +3323,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the emergency calling configuration details for the specified Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorEmergencyCallingConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorEmergencyCallingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3404,7 +3362,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput>(GetVoiceConnectorEmergencyCallingConfigurationOutput.httpOutput(from:), GetVoiceConnectorEmergencyCallingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput>())
@@ -3436,9 +3393,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Gets information about an external systems configuration for a Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorExternalSystemsConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorExternalSystemsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3475,7 +3432,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorExternalSystemsConfigurationOutput>(GetVoiceConnectorExternalSystemsConfigurationOutput.httpOutput(from:), GetVoiceConnectorExternalSystemsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorExternalSystemsConfigurationOutput>())
@@ -3507,9 +3463,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
     ///
-    /// - Parameter GetVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `GetVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3546,7 +3502,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorGroupOutput>(GetVoiceConnectorGroupOutput.httpOutput(from:), GetVoiceConnectorGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorGroupOutput>())
@@ -3578,9 +3533,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the logging configuration settings for the specified Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     ///
-    /// - Parameter GetVoiceConnectorLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3617,7 +3572,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorLoggingConfigurationOutput>(GetVoiceConnectorLoggingConfigurationOutput.httpOutput(from:), GetVoiceConnectorLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorLoggingConfigurationOutput>())
@@ -3649,9 +3603,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the origination settings for the specified Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorOriginationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorOriginationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorOriginationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorOriginationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3688,7 +3642,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOriginationOutput>(GetVoiceConnectorOriginationOutput.httpOutput(from:), GetVoiceConnectorOriginationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorOriginationOutput>())
@@ -3720,9 +3673,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorProxyInput`)
     ///
-    /// - Returns: `GetVoiceConnectorProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3759,7 +3712,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorProxyOutput>(GetVoiceConnectorProxyOutput.httpOutput(from:), GetVoiceConnectorProxyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorProxyOutput>())
@@ -3791,9 +3743,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
     ///
-    /// - Parameter GetVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorStreamingConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorStreamingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3830,7 +3782,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorStreamingConfigurationOutput>(GetVoiceConnectorStreamingConfigurationOutput.httpOutput(from:), GetVoiceConnectorStreamingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorStreamingConfigurationOutput>())
@@ -3862,9 +3813,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the termination setting details for the specified Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorTerminationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorTerminationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorTerminationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorTerminationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3901,7 +3852,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationOutput>(GetVoiceConnectorTerminationOutput.httpOutput(from:), GetVoiceConnectorTerminationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorTerminationOutput>())
@@ -3933,9 +3883,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorTerminationHealthInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorTerminationHealthInput`)
     ///
-    /// - Returns: `GetVoiceConnectorTerminationHealthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorTerminationHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3972,7 +3922,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationHealthOutput>(GetVoiceConnectorTerminationHealthOutput.httpOutput(from:), GetVoiceConnectorTerminationHealthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorTerminationHealthOutput>())
@@ -4004,9 +3953,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of the specified voice profile.
     ///
-    /// - Parameter GetVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceProfileInput`)
     ///
-    /// - Returns: `GetVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4044,7 +3993,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceProfileInput, GetVoiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceProfileOutput>(GetVoiceProfileOutput.httpOutput(from:), GetVoiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceProfileInput, GetVoiceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceProfileOutput>())
@@ -4076,9 +4024,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of the specified voice profile domain.
     ///
-    /// - Parameter GetVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceProfileDomainInput`)
     ///
-    /// - Returns: `GetVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4116,7 +4064,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceProfileDomainInput, GetVoiceProfileDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceProfileDomainOutput>(GetVoiceProfileDomainOutput.httpOutput(from:), GetVoiceProfileDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceProfileDomainInput, GetVoiceProfileDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceProfileDomainOutput>())
@@ -4148,9 +4095,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of a voice tone analysis task.
     ///
-    /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `GetVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4190,7 +4137,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetVoiceToneAnalysisTaskInput, GetVoiceToneAnalysisTaskOutput>(GetVoiceToneAnalysisTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceToneAnalysisTaskOutput>(GetVoiceToneAnalysisTaskOutput.httpOutput(from:), GetVoiceToneAnalysisTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceToneAnalysisTaskInput, GetVoiceToneAnalysisTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceToneAnalysisTaskOutput>())
@@ -4222,9 +4168,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter ListAvailableVoiceConnectorRegionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableVoiceConnectorRegionsInput`)
     ///
-    /// - Returns: `ListAvailableVoiceConnectorRegionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableVoiceConnectorRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4260,7 +4206,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAvailableVoiceConnectorRegionsInput, ListAvailableVoiceConnectorRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableVoiceConnectorRegionsOutput>(ListAvailableVoiceConnectorRegionsOutput.httpOutput(from:), ListAvailableVoiceConnectorRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableVoiceConnectorRegionsInput, ListAvailableVoiceConnectorRegionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableVoiceConnectorRegionsOutput>())
@@ -4292,9 +4237,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the phone numbers for an administrator's Amazon Chime SDK account.
     ///
-    /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumberOrdersInput`)
     ///
-    /// - Returns: `ListPhoneNumberOrdersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumberOrdersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4331,7 +4276,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(ListPhoneNumberOrdersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPhoneNumberOrdersOutput>(ListPhoneNumberOrdersOutput.httpOutput(from:), ListPhoneNumberOrdersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPhoneNumberOrdersOutput>())
@@ -4363,9 +4307,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the phone numbers for the specified Amazon Chime SDK account, Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter ListPhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumbersInput`)
     ///
-    /// - Returns: `ListPhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4403,7 +4347,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>(ListPhoneNumbersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOutput>(ListPhoneNumbersOutput.httpOutput(from:), ListPhoneNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPhoneNumbersOutput>())
@@ -4435,9 +4378,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter ListProxySessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProxySessionsInput`)
     ///
-    /// - Returns: `ListProxySessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProxySessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4475,7 +4418,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProxySessionsInput, ListProxySessionsOutput>(ListProxySessionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProxySessionsOutput>(ListProxySessionsOutput.httpOutput(from:), ListProxySessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxySessionsInput, ListProxySessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProxySessionsOutput>())
@@ -4507,9 +4449,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the SIP media applications under the administrator's AWS account.
     ///
-    /// - Parameter ListSipMediaApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSipMediaApplicationsInput`)
     ///
-    /// - Returns: `ListSipMediaApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSipMediaApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4546,7 +4488,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(ListSipMediaApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSipMediaApplicationsOutput>(ListSipMediaApplicationsOutput.httpOutput(from:), ListSipMediaApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSipMediaApplicationsOutput>())
@@ -4578,9 +4519,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the SIP rules under the administrator's AWS account.
     ///
-    /// - Parameter ListSipRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSipRulesInput`)
     ///
-    /// - Returns: `ListSipRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSipRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4617,7 +4558,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSipRulesInput, ListSipRulesOutput>(ListSipRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSipRulesOutput>(ListSipRulesOutput.httpOutput(from:), ListSipRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSipRulesInput, ListSipRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSipRulesOutput>())
@@ -4649,9 +4589,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the countries that you can order phone numbers from.
     ///
-    /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesInput`)
     ///
-    /// - Returns: `ListSupportedPhoneNumberCountriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4689,7 +4629,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>(ListSupportedPhoneNumberCountriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSupportedPhoneNumberCountriesOutput>(ListSupportedPhoneNumberCountriesOutput.httpOutput(from:), ListSupportedPhoneNumberCountriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSupportedPhoneNumberCountriesOutput>())
@@ -4721,9 +4660,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Returns a list of the tags in a given resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4760,7 +4699,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4792,9 +4730,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS account.
     ///
-    /// - Parameter ListVoiceConnectorGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceConnectorGroupsInput`)
     ///
-    /// - Returns: `ListVoiceConnectorGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceConnectorGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4831,7 +4769,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(ListVoiceConnectorGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVoiceConnectorGroupsOutput>(ListVoiceConnectorGroupsOutput.httpOutput(from:), ListVoiceConnectorGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVoiceConnectorGroupsOutput>())
@@ -4863,9 +4800,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter ListVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceConnectorTerminationCredentialsInput`)
     ///
-    /// - Returns: `ListVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceConnectorTerminationCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4902,7 +4839,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVoiceConnectorTerminationCredentialsOutput>(ListVoiceConnectorTerminationCredentialsOutput.httpOutput(from:), ListVoiceConnectorTerminationCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVoiceConnectorTerminationCredentialsOutput>())
@@ -4934,9 +4870,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account.
     ///
-    /// - Parameter ListVoiceConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceConnectorsInput`)
     ///
-    /// - Returns: `ListVoiceConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4973,7 +4909,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(ListVoiceConnectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVoiceConnectorsOutput>(ListVoiceConnectorsOutput.httpOutput(from:), ListVoiceConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVoiceConnectorsOutput>())
@@ -5005,9 +4940,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the specified voice profile domains in the administrator's AWS account.
     ///
-    /// - Parameter ListVoiceProfileDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceProfileDomainsInput`)
     ///
-    /// - Returns: `ListVoiceProfileDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceProfileDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5045,7 +4980,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput>(ListVoiceProfileDomainsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVoiceProfileDomainsOutput>(ListVoiceProfileDomainsOutput.httpOutput(from:), ListVoiceProfileDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVoiceProfileDomainsOutput>())
@@ -5077,9 +5011,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the voice profiles in a voice profile domain.
     ///
-    /// - Parameter ListVoiceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceProfilesInput`)
     ///
-    /// - Returns: `ListVoiceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5117,7 +5051,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVoiceProfilesInput, ListVoiceProfilesOutput>(ListVoiceProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVoiceProfilesOutput>(ListVoiceProfilesOutput.httpOutput(from:), ListVoiceProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVoiceProfilesInput, ListVoiceProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVoiceProfilesOutput>())
@@ -5150,9 +5083,9 @@ extension ChimeSDKVoiceClient {
     /// Updates the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
     @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
     ///
-    /// - Parameter PutSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSipMediaApplicationAlexaSkillConfigurationInput`)
     ///
-    /// - Returns: `PutSipMediaApplicationAlexaSkillConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSipMediaApplicationAlexaSkillConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5192,7 +5125,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSipMediaApplicationAlexaSkillConfigurationInput, PutSipMediaApplicationAlexaSkillConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSipMediaApplicationAlexaSkillConfigurationOutput>(PutSipMediaApplicationAlexaSkillConfigurationOutput.httpOutput(from:), PutSipMediaApplicationAlexaSkillConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSipMediaApplicationAlexaSkillConfigurationInput, PutSipMediaApplicationAlexaSkillConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSipMediaApplicationAlexaSkillConfigurationOutput>())
@@ -5224,9 +5156,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the logging configuration for the specified SIP media application.
     ///
-    /// - Parameter PutSipMediaApplicationLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSipMediaApplicationLoggingConfigurationInput`)
     ///
-    /// - Returns: `PutSipMediaApplicationLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSipMediaApplicationLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5266,7 +5198,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSipMediaApplicationLoggingConfigurationOutput>(PutSipMediaApplicationLoggingConfigurationOutput.httpOutput(from:), PutSipMediaApplicationLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSipMediaApplicationLoggingConfigurationOutput>())
@@ -5298,9 +5229,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's emergency calling configuration.
     ///
-    /// - Parameter PutVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorEmergencyCallingConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorEmergencyCallingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5340,7 +5271,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput>(PutVoiceConnectorEmergencyCallingConfigurationOutput.httpOutput(from:), PutVoiceConnectorEmergencyCallingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput>())
@@ -5372,9 +5302,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Adds an external systems configuration to a Voice Connector.
     ///
-    /// - Parameter PutVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorExternalSystemsConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorExternalSystemsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5415,7 +5345,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorExternalSystemsConfigurationOutput>(PutVoiceConnectorExternalSystemsConfigurationOutput.httpOutput(from:), PutVoiceConnectorExternalSystemsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorExternalSystemsConfigurationOutput>())
@@ -5447,9 +5376,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's logging configuration.
     ///
-    /// - Parameter PutVoiceConnectorLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorLoggingConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5489,7 +5418,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorLoggingConfigurationOutput>(PutVoiceConnectorLoggingConfigurationOutput.httpOutput(from:), PutVoiceConnectorLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorLoggingConfigurationOutput>())
@@ -5521,9 +5449,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's origination settings.
     ///
-    /// - Parameter PutVoiceConnectorOriginationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorOriginationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorOriginationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorOriginationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5563,7 +5491,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorOriginationOutput>(PutVoiceConnectorOriginationOutput.httpOutput(from:), PutVoiceConnectorOriginationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorOriginationOutput>())
@@ -5595,9 +5522,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter PutVoiceConnectorProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorProxyInput`)
     ///
-    /// - Returns: `PutVoiceConnectorProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5638,7 +5565,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorProxyOutput>(PutVoiceConnectorProxyOutput.httpOutput(from:), PutVoiceConnectorProxyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorProxyOutput>())
@@ -5670,9 +5596,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's streaming configuration settings.
     ///
-    /// - Parameter PutVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorStreamingConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorStreamingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5712,7 +5638,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorStreamingConfigurationOutput>(PutVoiceConnectorStreamingConfigurationOutput.httpOutput(from:), PutVoiceConnectorStreamingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorStreamingConfigurationOutput>())
@@ -5744,9 +5669,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's termination settings.
     ///
-    /// - Parameter PutVoiceConnectorTerminationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorTerminationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorTerminationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorTerminationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5787,7 +5712,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationOutput>(PutVoiceConnectorTerminationOutput.httpOutput(from:), PutVoiceConnectorTerminationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorTerminationOutput>())
@@ -5819,9 +5743,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's termination credentials.
     ///
-    /// - Parameter PutVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorTerminationCredentialsInput`)
     ///
-    /// - Returns: `PutVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorTerminationCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5862,7 +5786,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationCredentialsOutput>(PutVoiceConnectorTerminationCredentialsOutput.httpOutput(from:), PutVoiceConnectorTerminationCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorTerminationCredentialsOutput>())
@@ -5894,9 +5817,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Restores a deleted phone number.
     ///
-    /// - Parameter RestorePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestorePhoneNumberInput`)
     ///
-    /// - Returns: `RestorePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestorePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5935,7 +5858,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput>(RestorePhoneNumberInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestorePhoneNumberOutput>(RestorePhoneNumberOutput.httpOutput(from:), RestorePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestorePhoneNumberOutput>())
@@ -5967,9 +5889,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Searches the provisioned phone numbers in an organization.
     ///
-    /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAvailablePhoneNumbersInput`)
     ///
-    /// - Returns: `SearchAvailablePhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAvailablePhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6007,7 +5929,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(SearchAvailablePhoneNumbersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAvailablePhoneNumbersOutput>(SearchAvailablePhoneNumbersOutput.httpOutput(from:), SearchAvailablePhoneNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAvailablePhoneNumbersOutput>())
@@ -6039,9 +5960,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
-    /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `StartSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6086,7 +6007,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSpeakerSearchTaskOutput>(StartSpeakerSearchTaskOutput.httpOutput(from:), StartSpeakerSearchTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSpeakerSearchTaskOutput>())
@@ -6118,9 +6038,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
-    /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `StartVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6165,7 +6085,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartVoiceToneAnalysisTaskOutput>(StartVoiceToneAnalysisTaskOutput.httpOutput(from:), StartVoiceToneAnalysisTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVoiceToneAnalysisTaskOutput>())
@@ -6197,9 +6116,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Stops a speaker search task.
     ///
-    /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `StopSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6240,7 +6159,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutput>(StopSpeakerSearchTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSpeakerSearchTaskOutput>(StopSpeakerSearchTaskOutput.httpOutput(from:), StopSpeakerSearchTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSpeakerSearchTaskOutput>())
@@ -6272,9 +6190,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Stops a voice tone analysis task.
     ///
-    /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `StopVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6315,7 +6233,6 @@ extension ChimeSDKVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutput>(StopVoiceToneAnalysisTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopVoiceToneAnalysisTaskOutput>(StopVoiceToneAnalysisTaskOutput.httpOutput(from:), StopVoiceToneAnalysisTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopVoiceToneAnalysisTaskOutput>())
@@ -6347,9 +6264,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Adds a tag to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6390,7 +6307,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6422,9 +6338,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6464,7 +6380,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6496,9 +6411,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
-    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalSettingsInput`)
     ///
-    /// - Returns: `UpdateGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6537,7 +6452,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutput>(UpdateGlobalSettingsOutput.httpOutput(from:), UpdateGlobalSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalSettingsOutput>())
@@ -6569,9 +6483,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
-    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6612,7 +6526,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutput>(UpdatePhoneNumberOutput.httpOutput(from:), UpdatePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePhoneNumberOutput>())
@@ -6644,9 +6557,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
-    /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberSettingsInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6685,7 +6598,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberSettingsOutput>(UpdatePhoneNumberSettingsOutput.httpOutput(from:), UpdatePhoneNumberSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePhoneNumberSettingsOutput>())
@@ -6717,9 +6629,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the specified proxy session details, such as voice or SMS capabilities.
     ///
-    /// - Parameter UpdateProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxySessionInput`)
     ///
-    /// - Returns: `UpdateProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6759,7 +6671,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProxySessionOutput>(UpdateProxySessionOutput.httpOutput(from:), UpdateProxySessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxySessionOutput>())
@@ -6791,9 +6702,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the details of the specified SIP media application.
     ///
-    /// - Parameter UpdateSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSipMediaApplicationInput`)
     ///
-    /// - Returns: `UpdateSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6834,7 +6745,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationOutput>(UpdateSipMediaApplicationOutput.httpOutput(from:), UpdateSipMediaApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSipMediaApplicationOutput>())
@@ -6866,9 +6776,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
     ///
-    /// - Parameter UpdateSipMediaApplicationCallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSipMediaApplicationCallInput`)
     ///
-    /// - Returns: `UpdateSipMediaApplicationCallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSipMediaApplicationCallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6909,7 +6819,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationCallOutput>(UpdateSipMediaApplicationCallOutput.httpOutput(from:), UpdateSipMediaApplicationCallOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSipMediaApplicationCallOutput>())
@@ -6941,9 +6850,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the details of the specified SIP rule.
     ///
-    /// - Parameter UpdateSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSipRuleInput`)
     ///
-    /// - Returns: `UpdateSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6985,7 +6894,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSipRuleOutput>(UpdateSipRuleOutput.httpOutput(from:), UpdateSipRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSipRuleOutput>())
@@ -7017,9 +6925,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the details for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter UpdateVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceConnectorInput`)
     ///
-    /// - Returns: `UpdateVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7059,7 +6967,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorOutput>(UpdateVoiceConnectorOutput.httpOutput(from:), UpdateVoiceConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVoiceConnectorOutput>())
@@ -7091,9 +6998,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter UpdateVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `UpdateVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7134,7 +7041,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorGroupOutput>(UpdateVoiceConnectorGroupOutput.httpOutput(from:), UpdateVoiceConnectorGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVoiceConnectorGroupOutput>())
@@ -7166,9 +7072,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the specified voice profile’s voice print and refreshes its expiration timestamp. As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your caller’s biometric identifiers and biometric information (“biometric data”) in the form of a digital voiceprint requires the caller’s informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other state privacy laws. You must provide a written release to each caller through a process that clearly reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights service, as required under the terms of your agreement with AWS governing your use of the service.
     ///
-    /// - Parameter UpdateVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceProfileInput`)
     ///
-    /// - Returns: `UpdateVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7211,7 +7117,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVoiceProfileInput, UpdateVoiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVoiceProfileOutput>(UpdateVoiceProfileOutput.httpOutput(from:), UpdateVoiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVoiceProfileInput, UpdateVoiceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVoiceProfileOutput>())
@@ -7243,9 +7148,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the settings for the specified voice profile domain.
     ///
-    /// - Parameter UpdateVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceProfileDomainInput`)
     ///
-    /// - Returns: `UpdateVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7286,7 +7191,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVoiceProfileDomainInput, UpdateVoiceProfileDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVoiceProfileDomainOutput>(UpdateVoiceProfileDomainOutput.httpOutput(from:), UpdateVoiceProfileDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVoiceProfileDomainInput, UpdateVoiceProfileDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVoiceProfileDomainOutput>())
@@ -7318,9 +7222,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
     ///
-    /// - Parameter ValidateE911AddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateE911AddressInput`)
     ///
-    /// - Returns: `ValidateE911AddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateE911AddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7361,7 +7265,6 @@ extension ChimeSDKVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateE911AddressOutput>(ValidateE911AddressOutput.httpOutput(from:), ValidateE911AddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateE911AddressOutput>())

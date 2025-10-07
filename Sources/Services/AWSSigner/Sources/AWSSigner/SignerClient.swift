@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SignerClient: ClientRuntime.Client {
     public static let clientName = "SignerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: SignerClient.SignerClientConfiguration
     let serviceName = "signer"
@@ -375,9 +374,9 @@ extension SignerClient {
     ///
     /// Adds cross-account permissions to a signing profile.
     ///
-    /// - Parameter AddProfilePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddProfilePermissionInput`)
     ///
-    /// - Returns: `AddProfilePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddProfilePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,7 +416,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddProfilePermissionOutput>(AddProfilePermissionOutput.httpOutput(from:), AddProfilePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddProfilePermissionOutput>())
@@ -449,9 +447,9 @@ extension SignerClient {
     ///
     /// Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs, and is deleted two years after cancelation.
     ///
-    /// - Parameter CancelSigningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSigningProfileInput`)
     ///
-    /// - Returns: `CancelSigningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSigningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelSigningProfileInput, CancelSigningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSigningProfileOutput>(CancelSigningProfileOutput.httpOutput(from:), CancelSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSigningProfileInput, CancelSigningProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSigningProfileOutput>())
@@ -517,9 +514,9 @@ extension SignerClient {
     ///
     /// Returns information about a specific code signing job. You specify the job by using the jobId value that is returned by the [StartSigningJob] operation.
     ///
-    /// - Parameter DescribeSigningJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSigningJobInput`)
     ///
-    /// - Returns: `DescribeSigningJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSigningJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,7 +550,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSigningJobInput, DescribeSigningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSigningJobOutput>(DescribeSigningJobOutput.httpOutput(from:), DescribeSigningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSigningJobInput, DescribeSigningJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSigningJobOutput>())
@@ -585,9 +581,9 @@ extension SignerClient {
     ///
     /// Retrieves the revocation status of one or more of the signing profile, signing job, and signing certificate.
     ///
-    /// - Parameter GetRevocationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRevocationStatusInput`)
     ///
-    /// - Returns: `GetRevocationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRevocationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,7 +618,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(GetRevocationStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRevocationStatusOutput>(GetRevocationStatusOutput.httpOutput(from:), GetRevocationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRevocationStatusOutput>())
@@ -654,9 +649,9 @@ extension SignerClient {
     ///
     /// Returns information on a specific signing platform.
     ///
-    /// - Parameter GetSigningPlatformInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSigningPlatformInput`)
     ///
-    /// - Returns: `GetSigningPlatformOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSigningPlatformOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -690,7 +685,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSigningPlatformInput, GetSigningPlatformOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSigningPlatformOutput>(GetSigningPlatformOutput.httpOutput(from:), GetSigningPlatformOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSigningPlatformInput, GetSigningPlatformOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSigningPlatformOutput>())
@@ -722,9 +716,9 @@ extension SignerClient {
     ///
     /// Returns information on a specific signing profile.
     ///
-    /// - Parameter GetSigningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSigningProfileInput`)
     ///
-    /// - Returns: `GetSigningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSigningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,7 +753,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSigningProfileInput, GetSigningProfileOutput>(GetSigningProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSigningProfileOutput>(GetSigningProfileOutput.httpOutput(from:), GetSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSigningProfileInput, GetSigningProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSigningProfileOutput>())
@@ -791,9 +784,9 @@ extension SignerClient {
     ///
     /// Lists the cross-account permissions associated with a signing profile.
     ///
-    /// - Parameter ListProfilePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilePermissionsInput`)
     ///
-    /// - Returns: `ListProfilePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -829,7 +822,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutput>(ListProfilePermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfilePermissionsOutput>(ListProfilePermissionsOutput.httpOutput(from:), ListProfilePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfilePermissionsOutput>())
@@ -861,9 +853,9 @@ extension SignerClient {
     ///
     /// Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned.
     ///
-    /// - Parameter ListSigningJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSigningJobsInput`)
     ///
-    /// - Returns: `ListSigningJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSigningJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,7 +890,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSigningJobsInput, ListSigningJobsOutput>(ListSigningJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSigningJobsOutput>(ListSigningJobsOutput.httpOutput(from:), ListSigningJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSigningJobsInput, ListSigningJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSigningJobsOutput>())
@@ -930,9 +921,9 @@ extension SignerClient {
     ///
     /// Lists all signing platforms available in AWS Signer that match the request parameters. If additional jobs remain to be listed, Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned.
     ///
-    /// - Parameter ListSigningPlatformsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSigningPlatformsInput`)
     ///
-    /// - Returns: `ListSigningPlatformsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSigningPlatformsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,7 +958,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutput>(ListSigningPlatformsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSigningPlatformsOutput>(ListSigningPlatformsOutput.httpOutput(from:), ListSigningPlatformsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSigningPlatformsOutput>())
@@ -999,9 +989,9 @@ extension SignerClient {
     ///
     /// Lists all available signing profiles in your AWS account. Returns only profiles with an ACTIVE status unless the includeCanceled request field is set to true. If additional jobs remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned.
     ///
-    /// - Parameter ListSigningProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSigningProfilesInput`)
     ///
-    /// - Returns: `ListSigningProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSigningProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,7 +1025,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSigningProfilesInput, ListSigningProfilesOutput>(ListSigningProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSigningProfilesOutput>(ListSigningProfilesOutput.httpOutput(from:), ListSigningProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSigningProfilesInput, ListSigningProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSigningProfilesOutput>())
@@ -1067,9 +1056,9 @@ extension SignerClient {
     ///
     /// Returns a list of the tags associated with a signing profile resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1103,7 +1092,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1135,9 +1123,9 @@ extension SignerClient {
     ///
     /// Creates a signing profile. A signing profile is a code-signing template that can be used to carry out a pre-defined signing job.
     ///
-    /// - Parameter PutSigningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSigningProfileInput`)
     ///
-    /// - Returns: `PutSigningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSigningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1175,7 +1163,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSigningProfileInput, PutSigningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSigningProfileOutput>(PutSigningProfileOutput.httpOutput(from:), PutSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSigningProfileInput, PutSigningProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSigningProfileOutput>())
@@ -1207,9 +1194,9 @@ extension SignerClient {
     ///
     /// Removes cross-account permissions from a signing profile.
     ///
-    /// - Parameter RemoveProfilePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveProfilePermissionInput`)
     ///
-    /// - Returns: `RemoveProfilePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveProfilePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1246,7 +1233,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutput>(RemoveProfilePermissionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveProfilePermissionOutput>(RemoveProfilePermissionOutput.httpOutput(from:), RemoveProfilePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveProfilePermissionOutput>())
@@ -1278,9 +1264,9 @@ extension SignerClient {
     ///
     /// Changes the state of a signing job to REVOKED. This indicates that the signature is no longer valid.
     ///
-    /// - Parameter RevokeSignatureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeSignatureInput`)
     ///
-    /// - Returns: `RevokeSignatureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeSignatureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1318,7 +1304,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeSignatureInput, RevokeSignatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSignatureOutput>(RevokeSignatureOutput.httpOutput(from:), RevokeSignatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSignatureInput, RevokeSignatureOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSignatureOutput>())
@@ -1350,9 +1335,9 @@ extension SignerClient {
     ///
     /// Changes the state of a signing profile to REVOKED. This indicates that signatures generated using the signing profile after an effective start date are no longer valid.
     ///
-    /// - Parameter RevokeSigningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeSigningProfileInput`)
     ///
-    /// - Returns: `RevokeSigningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeSigningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1390,7 +1375,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSigningProfileOutput>(RevokeSigningProfileOutput.httpOutput(from:), RevokeSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSigningProfileOutput>())
@@ -1422,9 +1406,9 @@ extension SignerClient {
     ///
     /// Signs a binary payload and returns a signature envelope.
     ///
-    /// - Parameter SignPayloadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SignPayloadInput`)
     ///
-    /// - Returns: `SignPayloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignPayloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1462,7 +1446,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignPayloadInput, SignPayloadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SignPayloadOutput>(SignPayloadOutput.httpOutput(from:), SignPayloadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignPayloadInput, SignPayloadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignPayloadOutput>())
@@ -1509,9 +1492,9 @@ extension SignerClient {
     ///
     /// You can call the [DescribeSigningJob] and the [ListSigningJobs] actions after you call StartSigningJob. For a Java example that shows how to use this action, see [StartSigningJob](https://docs.aws.amazon.com/signer/latest/developerguide/api-startsigningjob.html).
     ///
-    /// - Parameter StartSigningJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSigningJobInput`)
     ///
-    /// - Returns: `StartSigningJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSigningJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,7 +1534,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSigningJobInput, StartSigningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSigningJobOutput>(StartSigningJobOutput.httpOutput(from:), StartSigningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSigningJobInput, StartSigningJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSigningJobOutput>())
@@ -1583,9 +1565,9 @@ extension SignerClient {
     ///
     /// Adds one or more tags to a signing profile. Tags are labels that you can use to identify and organize your AWS resources. Each tag consists of a key and an optional value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify the tag, use a key-value pair.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,7 +1604,6 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1654,9 +1635,9 @@ extension SignerClient {
     ///
     /// Removes one or more tags from a signing profile. To remove the tags, specify a list of tag keys.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,7 +1672,6 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

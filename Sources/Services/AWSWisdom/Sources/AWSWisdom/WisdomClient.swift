@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WisdomClient: ClientRuntime.Client {
     public static let clientName = "WisdomClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: WisdomClient.WisdomClientConfiguration
     let serviceName = "Wisdom"
@@ -375,9 +374,9 @@ extension WisdomClient {
     ///
     /// Creates an Amazon Connect Wisdom assistant.
     ///
-    /// - Parameter CreateAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantInput`)
     ///
-    /// - Returns: `CreateAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssistantInput, CreateAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssistantOutput>(CreateAssistantOutput.httpOutput(from:), CreateAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssistantInput, CreateAssistantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssistantOutput>())
@@ -447,9 +445,9 @@ extension WisdomClient {
     ///
     /// Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     ///
-    /// - Parameter CreateAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantAssociationInput`)
     ///
-    /// - Returns: `CreateAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,7 +486,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssistantAssociationInput, CreateAssistantAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssistantAssociationOutput>(CreateAssistantAssociationOutput.httpOutput(from:), CreateAssistantAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssistantAssociationInput, CreateAssistantAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssistantAssociationOutput>())
@@ -520,9 +517,9 @@ extension WisdomClient {
     ///
     /// Creates Wisdom content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
-    /// - Parameter CreateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContentInput`)
     ///
-    /// - Returns: `CreateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,7 +558,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContentInput, CreateContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContentOutput>(CreateContentOutput.httpOutput(from:), CreateContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContentInput, CreateContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContentOutput>())
@@ -601,9 +597,9 @@ extension WisdomClient {
     ///
     /// * Call CreateKnowledgeBase.
     ///
-    /// - Parameter CreateKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKnowledgeBaseInput`)
     ///
-    /// - Returns: `CreateKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,7 +637,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKnowledgeBaseOutput>(CreateKnowledgeBaseOutput.httpOutput(from:), CreateKnowledgeBaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKnowledgeBaseOutput>())
@@ -673,9 +668,9 @@ extension WisdomClient {
     ///
     /// Creates a Wisdom quick response.
     ///
-    /// - Parameter CreateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuickResponseInput`)
     ///
-    /// - Returns: `CreateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,7 +709,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQuickResponseInput, CreateQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQuickResponseOutput>(CreateQuickResponseOutput.httpOutput(from:), CreateQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQuickResponseInput, CreateQuickResponseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQuickResponseOutput>())
@@ -746,9 +740,9 @@ extension WisdomClient {
     ///
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
     ///
-    /// - Parameter CreateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,7 +779,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSessionInput, CreateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(CreateSessionOutput.httpOutput(from:), CreateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionInput, CreateSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSessionOutput>())
@@ -817,9 +810,9 @@ extension WisdomClient {
     ///
     /// Deletes an assistant.
     ///
-    /// - Parameter DeleteAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantInput`)
     ///
-    /// - Returns: `DeleteAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -852,7 +845,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssistantInput, DeleteAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssistantOutput>(DeleteAssistantOutput.httpOutput(from:), DeleteAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssistantInput, DeleteAssistantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssistantOutput>())
@@ -884,9 +876,9 @@ extension WisdomClient {
     ///
     /// Deletes an assistant association.
     ///
-    /// - Parameter DeleteAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantAssociationInput`)
     ///
-    /// - Returns: `DeleteAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,7 +911,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssistantAssociationInput, DeleteAssistantAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssistantAssociationOutput>(DeleteAssistantAssociationOutput.httpOutput(from:), DeleteAssistantAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssistantAssociationInput, DeleteAssistantAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssistantAssociationOutput>())
@@ -951,9 +942,9 @@ extension WisdomClient {
     ///
     /// Deletes the content.
     ///
-    /// - Parameter DeleteContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContentInput`)
     ///
-    /// - Returns: `DeleteContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -986,7 +977,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContentInput, DeleteContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContentOutput>(DeleteContentOutput.httpOutput(from:), DeleteContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContentInput, DeleteContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContentOutput>())
@@ -1018,9 +1008,9 @@ extension WisdomClient {
     ///
     /// Deletes the quick response import job.
     ///
-    /// - Parameter DeleteImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportJobInput`)
     ///
-    /// - Returns: `DeleteImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,7 +1044,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImportJobInput, DeleteImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImportJobOutput>(DeleteImportJobOutput.httpOutput(from:), DeleteImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImportJobInput, DeleteImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImportJobOutput>())
@@ -1086,9 +1075,9 @@ extension WisdomClient {
     ///
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
     ///
-    /// - Parameter DeleteKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKnowledgeBaseInput`)
     ///
-    /// - Returns: `DeleteKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1122,7 +1111,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKnowledgeBaseInput, DeleteKnowledgeBaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKnowledgeBaseOutput>(DeleteKnowledgeBaseOutput.httpOutput(from:), DeleteKnowledgeBaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKnowledgeBaseInput, DeleteKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKnowledgeBaseOutput>())
@@ -1154,9 +1142,9 @@ extension WisdomClient {
     ///
     /// Deletes a quick response.
     ///
-    /// - Parameter DeleteQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQuickResponseInput`)
     ///
-    /// - Returns: `DeleteQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,7 +1177,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQuickResponseInput, DeleteQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQuickResponseOutput>(DeleteQuickResponseOutput.httpOutput(from:), DeleteQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQuickResponseInput, DeleteQuickResponseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQuickResponseOutput>())
@@ -1221,9 +1208,9 @@ extension WisdomClient {
     ///
     /// Retrieves information about an assistant.
     ///
-    /// - Parameter GetAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantInput`)
     ///
-    /// - Returns: `GetAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,7 +1243,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssistantInput, GetAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssistantOutput>(GetAssistantOutput.httpOutput(from:), GetAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssistantInput, GetAssistantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssistantOutput>())
@@ -1288,9 +1274,9 @@ extension WisdomClient {
     ///
     /// Retrieves information about an assistant association.
     ///
-    /// - Parameter GetAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantAssociationInput`)
     ///
-    /// - Returns: `GetAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,7 +1309,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssistantAssociationInput, GetAssistantAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssistantAssociationOutput>(GetAssistantAssociationOutput.httpOutput(from:), GetAssistantAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssistantAssociationInput, GetAssistantAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssistantAssociationOutput>())
@@ -1355,9 +1340,9 @@ extension WisdomClient {
     ///
     /// Retrieves content, including a pre-signed URL to download the content.
     ///
-    /// - Parameter GetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentInput`)
     ///
-    /// - Returns: `GetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1390,7 +1375,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContentInput, GetContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentOutput>(GetContentOutput.httpOutput(from:), GetContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentInput, GetContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContentOutput>())
@@ -1422,9 +1406,9 @@ extension WisdomClient {
     ///
     /// Retrieves summary information about the content.
     ///
-    /// - Parameter GetContentSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentSummaryInput`)
     ///
-    /// - Returns: `GetContentSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1457,7 +1441,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContentSummaryInput, GetContentSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentSummaryOutput>(GetContentSummaryOutput.httpOutput(from:), GetContentSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentSummaryInput, GetContentSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContentSummaryOutput>())
@@ -1489,9 +1472,9 @@ extension WisdomClient {
     ///
     /// Retrieves the started import job.
     ///
-    /// - Parameter GetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobInput`)
     ///
-    /// - Returns: `GetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1524,7 +1507,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportJobInput, GetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportJobOutput>(GetImportJobOutput.httpOutput(from:), GetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportJobInput, GetImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportJobOutput>())
@@ -1556,9 +1538,9 @@ extension WisdomClient {
     ///
     /// Retrieves information about the knowledge base.
     ///
-    /// - Parameter GetKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKnowledgeBaseInput`)
     ///
-    /// - Returns: `GetKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1591,7 +1573,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKnowledgeBaseInput, GetKnowledgeBaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKnowledgeBaseOutput>(GetKnowledgeBaseOutput.httpOutput(from:), GetKnowledgeBaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKnowledgeBaseInput, GetKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKnowledgeBaseOutput>())
@@ -1623,9 +1604,9 @@ extension WisdomClient {
     ///
     /// Retrieves the quick response.
     ///
-    /// - Parameter GetQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuickResponseInput`)
     ///
-    /// - Returns: `GetQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,7 +1639,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQuickResponseInput, GetQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQuickResponseOutput>(GetQuickResponseOutput.httpOutput(from:), GetQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQuickResponseInput, GetQuickResponseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQuickResponseOutput>())
@@ -1691,9 +1671,9 @@ extension WisdomClient {
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter GetRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationsInput`)
     ///
-    /// - Returns: `GetRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1727,7 +1707,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecommendationsInput, GetRecommendationsOutput>(GetRecommendationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationsOutput>(GetRecommendationsOutput.httpOutput(from:), GetRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationsInput, GetRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationsOutput>())
@@ -1759,9 +1738,9 @@ extension WisdomClient {
     ///
     /// Retrieves information for a specified session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1794,7 +1773,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -1826,9 +1804,9 @@ extension WisdomClient {
     ///
     /// Lists information about assistant associations.
     ///
-    /// - Parameter ListAssistantAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantAssociationsInput`)
     ///
-    /// - Returns: `ListAssistantAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1862,7 +1840,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssistantAssociationsInput, ListAssistantAssociationsOutput>(ListAssistantAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssistantAssociationsOutput>(ListAssistantAssociationsOutput.httpOutput(from:), ListAssistantAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssistantAssociationsInput, ListAssistantAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssistantAssociationsOutput>())
@@ -1894,9 +1871,9 @@ extension WisdomClient {
     ///
     /// Lists information about assistants.
     ///
-    /// - Parameter ListAssistantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantsInput`)
     ///
-    /// - Returns: `ListAssistantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1929,7 +1906,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssistantsInput, ListAssistantsOutput>(ListAssistantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssistantsOutput>(ListAssistantsOutput.httpOutput(from:), ListAssistantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssistantsInput, ListAssistantsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssistantsOutput>())
@@ -1961,9 +1937,9 @@ extension WisdomClient {
     ///
     /// Lists the content.
     ///
-    /// - Parameter ListContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContentsInput`)
     ///
-    /// - Returns: `ListContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1997,7 +1973,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContentsInput, ListContentsOutput>(ListContentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContentsOutput>(ListContentsOutput.httpOutput(from:), ListContentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContentsInput, ListContentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContentsOutput>())
@@ -2029,9 +2004,9 @@ extension WisdomClient {
     ///
     /// Lists information about import jobs.
     ///
-    /// - Parameter ListImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportJobsInput`)
     ///
-    /// - Returns: `ListImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2064,7 +2039,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListImportJobsInput, ListImportJobsOutput>(ListImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportJobsOutput>(ListImportJobsOutput.httpOutput(from:), ListImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportJobsInput, ListImportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportJobsOutput>())
@@ -2096,9 +2070,9 @@ extension WisdomClient {
     ///
     /// Lists the knowledge bases.
     ///
-    /// - Parameter ListKnowledgeBasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKnowledgeBasesInput`)
     ///
-    /// - Returns: `ListKnowledgeBasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKnowledgeBasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2131,7 +2105,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKnowledgeBasesInput, ListKnowledgeBasesOutput>(ListKnowledgeBasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKnowledgeBasesOutput>(ListKnowledgeBasesOutput.httpOutput(from:), ListKnowledgeBasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKnowledgeBasesInput, ListKnowledgeBasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKnowledgeBasesOutput>())
@@ -2163,9 +2136,9 @@ extension WisdomClient {
     ///
     /// Lists information about quick response.
     ///
-    /// - Parameter ListQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuickResponsesInput`)
     ///
-    /// - Returns: `ListQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2199,7 +2172,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQuickResponsesInput, ListQuickResponsesOutput>(ListQuickResponsesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQuickResponsesOutput>(ListQuickResponsesOutput.httpOutput(from:), ListQuickResponsesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQuickResponsesInput, ListQuickResponsesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQuickResponsesOutput>())
@@ -2231,9 +2203,9 @@ extension WisdomClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,7 +2236,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2296,9 +2267,9 @@ extension WisdomClient {
     ///
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     ///
-    /// - Parameter NotifyRecommendationsReceivedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyRecommendationsReceivedInput`)
     ///
-    /// - Returns: `NotifyRecommendationsReceivedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyRecommendationsReceivedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2334,7 +2305,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyRecommendationsReceivedInput, NotifyRecommendationsReceivedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyRecommendationsReceivedOutput>(NotifyRecommendationsReceivedOutput.httpOutput(from:), NotifyRecommendationsReceivedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyRecommendationsReceivedInput, NotifyRecommendationsReceivedOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyRecommendationsReceivedOutput>())
@@ -2367,9 +2337,9 @@ extension WisdomClient {
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter QueryAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryAssistantInput`)
     ///
-    /// - Returns: `QueryAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2406,7 +2376,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryAssistantInput, QueryAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryAssistantOutput>(QueryAssistantOutput.httpOutput(from:), QueryAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryAssistantInput, QueryAssistantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryAssistantOutput>())
@@ -2438,9 +2407,9 @@ extension WisdomClient {
     ///
     /// Removes a URI template from a knowledge base.
     ///
-    /// - Parameter RemoveKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `RemoveKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2473,7 +2442,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveKnowledgeBaseTemplateUriInput, RemoveKnowledgeBaseTemplateUriOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveKnowledgeBaseTemplateUriOutput>(RemoveKnowledgeBaseTemplateUriOutput.httpOutput(from:), RemoveKnowledgeBaseTemplateUriOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveKnowledgeBaseTemplateUriInput, RemoveKnowledgeBaseTemplateUriOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveKnowledgeBaseTemplateUriOutput>())
@@ -2505,9 +2473,9 @@ extension WisdomClient {
     ///
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
-    /// - Parameter SearchContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchContentInput`)
     ///
-    /// - Returns: `SearchContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2544,7 +2512,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchContentInput, SearchContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchContentOutput>(SearchContentOutput.httpOutput(from:), SearchContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchContentInput, SearchContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchContentOutput>())
@@ -2576,9 +2543,9 @@ extension WisdomClient {
     ///
     /// Searches existing Wisdom quick responses in a Wisdom knowledge base.
     ///
-    /// - Parameter SearchQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuickResponsesInput`)
     ///
-    /// - Returns: `SearchQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2616,7 +2583,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchQuickResponsesInput, SearchQuickResponsesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchQuickResponsesOutput>(SearchQuickResponsesOutput.httpOutput(from:), SearchQuickResponsesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchQuickResponsesInput, SearchQuickResponsesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchQuickResponsesOutput>())
@@ -2648,9 +2614,9 @@ extension WisdomClient {
     ///
     /// Searches for sessions.
     ///
-    /// - Parameter SearchSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSessionsInput`)
     ///
-    /// - Returns: `SearchSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2687,7 +2653,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchSessionsInput, SearchSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchSessionsOutput>(SearchSessionsOutput.httpOutput(from:), SearchSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchSessionsInput, SearchSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchSessionsOutput>())
@@ -2719,9 +2684,9 @@ extension WisdomClient {
     ///
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     ///
-    /// - Parameter StartContentUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContentUploadInput`)
     ///
-    /// - Returns: `StartContentUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContentUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2757,7 +2722,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContentUploadInput, StartContentUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContentUploadOutput>(StartContentUploadOutput.httpOutput(from:), StartContentUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContentUploadInput, StartContentUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartContentUploadOutput>())
@@ -2791,9 +2755,9 @@ extension WisdomClient {
     ///
     /// * For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
     ///
-    /// - Parameter StartImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportJobInput`)
     ///
-    /// - Returns: `StartImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2832,7 +2796,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportJobInput, StartImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportJobOutput>(StartImportJobOutput.httpOutput(from:), StartImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportJobInput, StartImportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportJobOutput>())
@@ -2864,9 +2827,9 @@ extension WisdomClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2901,7 +2864,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2933,9 +2895,9 @@ extension WisdomClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2967,7 +2929,6 @@ extension WisdomClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2999,9 +2960,9 @@ extension WisdomClient {
     ///
     /// Updates information about the content.
     ///
-    /// - Parameter UpdateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContentInput`)
     ///
-    /// - Returns: `UpdateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3038,7 +2999,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContentInput, UpdateContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContentOutput>(UpdateContentOutput.httpOutput(from:), UpdateContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContentInput, UpdateContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContentOutput>())
@@ -3070,9 +3030,9 @@ extension WisdomClient {
     ///
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
-    /// - Parameter UpdateKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `UpdateKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3108,7 +3068,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKnowledgeBaseTemplateUriInput, UpdateKnowledgeBaseTemplateUriOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKnowledgeBaseTemplateUriOutput>(UpdateKnowledgeBaseTemplateUriOutput.httpOutput(from:), UpdateKnowledgeBaseTemplateUriOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKnowledgeBaseTemplateUriInput, UpdateKnowledgeBaseTemplateUriOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKnowledgeBaseTemplateUriOutput>())
@@ -3140,9 +3099,9 @@ extension WisdomClient {
     ///
     /// Updates an existing Wisdom quick response.
     ///
-    /// - Parameter UpdateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickResponseInput`)
     ///
-    /// - Returns: `UpdateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3180,7 +3139,6 @@ extension WisdomClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuickResponseInput, UpdateQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuickResponseOutput>(UpdateQuickResponseOutput.httpOutput(from:), UpdateQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuickResponseInput, UpdateQuickResponseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuickResponseOutput>())

@@ -20,7 +20,6 @@ import class SmithyHTTPAPI.HTTPRequestBuilder
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -2562,7 +2561,6 @@ extension SynthesizeSpeechInput {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(SynthesizeSpeechOutput.httpOutput(from:), SynthesizeSpeechOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
@@ -2678,7 +2676,6 @@ extension SynthesizeSpeechInput {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(SynthesizeSpeechOutput.httpOutput(from:), SynthesizeSpeechOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())

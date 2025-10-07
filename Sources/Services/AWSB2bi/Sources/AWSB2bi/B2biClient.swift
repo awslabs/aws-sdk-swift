@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class B2biClient: ClientRuntime.Client {
     public static let clientName = "B2biClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: B2biClient.B2biClientConfiguration
     let serviceName = "b2bi"
@@ -376,9 +375,9 @@ extension B2biClient {
     ///
     /// Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
-    /// - Parameter CreateCapabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCapabilityInput`)
     ///
-    /// - Returns: `CreateCapabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCapabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,7 +416,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapabilityInput, CreateCapabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapabilityOutput>(CreateCapabilityOutput.httpOutput(from:), CreateCapabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapabilityInput, CreateCapabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapabilityOutput>())
@@ -452,9 +450,9 @@ extension B2biClient {
     ///
     /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
-    /// - Parameter CreatePartnershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePartnershipInput`)
     ///
-    /// - Returns: `CreatePartnershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePartnershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,7 +491,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartnershipInput, CreatePartnershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartnershipOutput>(CreatePartnershipOutput.httpOutput(from:), CreatePartnershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartnershipInput, CreatePartnershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartnershipOutput>())
@@ -528,9 +525,9 @@ extension B2biClient {
     ///
     /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,7 +566,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProfileInput, CreateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProfileOutput>(CreateProfileOutput.httpOutput(from:), CreateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProfileInput, CreateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProfileOutput>())
@@ -604,9 +600,9 @@ extension B2biClient {
     ///
     /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI. If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the templateDetails parameter. Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
     ///
-    /// - Parameter CreateStarterMappingTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStarterMappingTemplateInput`)
     ///
-    /// - Returns: `CreateStarterMappingTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStarterMappingTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,7 +637,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStarterMappingTemplateInput, CreateStarterMappingTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStarterMappingTemplateOutput>(CreateStarterMappingTemplateOutput.httpOutput(from:), CreateStarterMappingTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStarterMappingTemplateInput, CreateStarterMappingTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStarterMappingTemplateOutput>())
@@ -689,9 +684,9 @@ extension B2biClient {
     ///
     /// * Use either the inputConversion or outputConversion in place of ediType
     ///
-    /// - Parameter CreateTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransformerInput`)
     ///
-    /// - Returns: `CreateTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,7 +725,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransformerInput, CreateTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransformerOutput>(CreateTransformerOutput.httpOutput(from:), CreateTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransformerInput, CreateTransformerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransformerOutput>())
@@ -765,9 +759,9 @@ extension B2biClient {
     ///
     /// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
-    /// - Parameter DeleteCapabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCapabilityInput`)
     ///
-    /// - Returns: `DeleteCapabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCapabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,7 +798,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCapabilityInput, DeleteCapabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapabilityOutput>(DeleteCapabilityOutput.httpOutput(from:), DeleteCapabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapabilityInput, DeleteCapabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCapabilityOutput>())
@@ -839,9 +832,9 @@ extension B2biClient {
     ///
     /// Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
-    /// - Parameter DeletePartnershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePartnershipInput`)
     ///
-    /// - Returns: `DeletePartnershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePartnershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,7 +871,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartnershipInput, DeletePartnershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePartnershipOutput>(DeletePartnershipOutput.httpOutput(from:), DeletePartnershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartnershipInput, DeletePartnershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartnershipOutput>())
@@ -913,9 +905,9 @@ extension B2biClient {
     ///
     /// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -952,7 +944,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProfileInput, DeleteProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileOutput>(DeleteProfileOutput.httpOutput(from:), DeleteProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileInput, DeleteProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileOutput>())
@@ -987,9 +978,9 @@ extension B2biClient {
     ///
     /// Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///
-    /// - Parameter DeleteTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransformerInput`)
     ///
-    /// - Returns: `DeleteTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,7 +1017,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTransformerInput, DeleteTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransformerOutput>(DeleteTransformerOutput.httpOutput(from:), DeleteTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransformerInput, DeleteTransformerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransformerOutput>())
@@ -1067,9 +1057,9 @@ extension B2biClient {
     ///
     /// * Use the output from the TestMapping operation as either input or output for your GenerateMapping call, along with your sample file.
     ///
-    /// - Parameter GenerateMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMappingInput`)
     ///
-    /// - Returns: `GenerateMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1104,7 +1094,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMappingInput, GenerateMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMappingOutput>(GenerateMappingOutput.httpOutput(from:), GenerateMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMappingInput, GenerateMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMappingOutput>())
@@ -1139,9 +1128,9 @@ extension B2biClient {
     ///
     /// Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
-    /// - Parameter GetCapabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCapabilityInput`)
     ///
-    /// - Returns: `GetCapabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCapabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,7 +1166,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapabilityInput, GetCapabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapabilityOutput>(GetCapabilityOutput.httpOutput(from:), GetCapabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapabilityInput, GetCapabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCapabilityOutput>())
@@ -1212,9 +1200,9 @@ extension B2biClient {
     ///
     /// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
-    /// - Parameter GetPartnershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPartnershipInput`)
     ///
-    /// - Returns: `GetPartnershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPartnershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1250,7 +1238,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPartnershipInput, GetPartnershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPartnershipOutput>(GetPartnershipOutput.httpOutput(from:), GetPartnershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartnershipInput, GetPartnershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartnershipOutput>())
@@ -1285,9 +1272,9 @@ extension B2biClient {
     ///
     /// Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
     ///
-    /// - Parameter GetProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileInput`)
     ///
-    /// - Returns: `GetProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,7 +1310,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetProfileInput, GetProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileOutput>(GetProfileOutput.httpOutput(from:), GetProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileInput, GetProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileOutput>())
@@ -1358,9 +1344,9 @@ extension B2biClient {
     ///
     /// Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///
-    /// - Parameter GetTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransformerInput`)
     ///
-    /// - Returns: `GetTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,7 +1382,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTransformerInput, GetTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransformerOutput>(GetTransformerOutput.httpOutput(from:), GetTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransformerInput, GetTransformerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransformerOutput>())
@@ -1431,9 +1416,9 @@ extension B2biClient {
     ///
     /// Returns the details of the transformer run, based on the Transformer job ID. If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run GetTransformerJob and supply a transformerId and transformerJobId for a job that was started more than 30 days previously, you receive a 404 response.
     ///
-    /// - Parameter GetTransformerJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransformerJobInput`)
     ///
-    /// - Returns: `GetTransformerJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransformerJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1470,7 +1455,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTransformerJobInput, GetTransformerJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransformerJobOutput>(GetTransformerJobOutput.httpOutput(from:), GetTransformerJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransformerJobInput, GetTransformerJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransformerJobOutput>())
@@ -1505,9 +1489,9 @@ extension B2biClient {
     ///
     /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
-    /// - Parameter ListCapabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCapabilitiesInput`)
     ///
-    /// - Returns: `ListCapabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCapabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1543,7 +1527,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCapabilitiesInput, ListCapabilitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCapabilitiesOutput>(ListCapabilitiesOutput.httpOutput(from:), ListCapabilitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCapabilitiesInput, ListCapabilitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCapabilitiesOutput>())
@@ -1578,9 +1561,9 @@ extension B2biClient {
     ///
     /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
-    /// - Parameter ListPartnershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPartnershipsInput`)
     ///
-    /// - Returns: `ListPartnershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPartnershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,7 +1600,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPartnershipsInput, ListPartnershipsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartnershipsOutput>(ListPartnershipsOutput.httpOutput(from:), ListPartnershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartnershipsInput, ListPartnershipsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPartnershipsOutput>())
@@ -1652,9 +1634,9 @@ extension B2biClient {
     ///
     /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
     ///
-    /// - Parameter ListProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilesInput`)
     ///
-    /// - Returns: `ListProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,7 +1672,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProfilesInput, ListProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfilesOutput>(ListProfilesOutput.httpOutput(from:), ListProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfilesInput, ListProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfilesOutput>())
@@ -1725,9 +1706,9 @@ extension B2biClient {
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,7 +1742,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1796,9 +1776,9 @@ extension B2biClient {
     ///
     /// Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///
-    /// - Parameter ListTransformersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTransformersInput`)
     ///
-    /// - Returns: `ListTransformersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTransformersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1834,7 +1814,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTransformersInput, ListTransformersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTransformersOutput>(ListTransformersOutput.httpOutput(from:), ListTransformersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTransformersInput, ListTransformersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTransformersOutput>())
@@ -1869,9 +1848,9 @@ extension B2biClient {
     ///
     /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files. The system stores transformer jobs for 30 days. During that period, you can run [GetTransformerJob](https://docs.aws.amazon.com/b2bi/latest/APIReference/API_GetTransformerJob.html) and supply its transformerId and transformerJobId to return details of the job.
     ///
-    /// - Parameter StartTransformerJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTransformerJobInput`)
     ///
-    /// - Returns: `StartTransformerJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTransformerJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,7 +1888,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTransformerJobInput, StartTransformerJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTransformerJobOutput>(StartTransformerJobOutput.httpOutput(from:), StartTransformerJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTransformerJobInput, StartTransformerJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTransformerJobOutput>())
@@ -1944,9 +1922,9 @@ extension B2biClient {
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities. There is no response returned from this call.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,7 +1959,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2016,9 +1993,9 @@ extension B2biClient {
     ///
     /// This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
     ///
-    /// - Parameter TestConversionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestConversionInput`)
     ///
-    /// - Returns: `TestConversionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestConversionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2054,7 +2031,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestConversionInput, TestConversionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestConversionOutput>(TestConversionOutput.httpOutput(from:), TestConversionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestConversionInput, TestConversionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestConversionOutput>())
@@ -2089,9 +2065,9 @@ extension B2biClient {
     ///
     /// Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the inputFileContent parameter.
     ///
-    /// - Parameter TestMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestMappingInput`)
     ///
-    /// - Returns: `TestMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2127,7 +2103,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestMappingInput, TestMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestMappingOutput>(TestMappingOutput.httpOutput(from:), TestMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestMappingInput, TestMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestMappingOutput>())
@@ -2162,9 +2137,9 @@ extension B2biClient {
     ///
     /// Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
     ///
-    /// - Parameter TestParsingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestParsingInput`)
     ///
-    /// - Returns: `TestParsingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestParsingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2200,7 +2175,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestParsingInput, TestParsingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestParsingOutput>(TestParsingOutput.httpOutput(from:), TestParsingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestParsingInput, TestParsingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestParsingOutput>())
@@ -2235,9 +2209,9 @@ extension B2biClient {
     ///
     /// Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2272,7 +2246,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2307,9 +2280,9 @@ extension B2biClient {
     ///
     /// Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
-    /// - Parameter UpdateCapabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCapabilityInput`)
     ///
-    /// - Returns: `UpdateCapabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCapabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2347,7 +2320,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCapabilityInput, UpdateCapabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapabilityOutput>(UpdateCapabilityOutput.httpOutput(from:), UpdateCapabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapabilityInput, UpdateCapabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCapabilityOutput>())
@@ -2382,9 +2354,9 @@ extension B2biClient {
     ///
     /// Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
-    /// - Parameter UpdatePartnershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePartnershipInput`)
     ///
-    /// - Returns: `UpdatePartnershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePartnershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2422,7 +2394,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePartnershipInput, UpdatePartnershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePartnershipOutput>(UpdatePartnershipOutput.httpOutput(from:), UpdatePartnershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePartnershipInput, UpdatePartnershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePartnershipOutput>())
@@ -2457,9 +2428,9 @@ extension B2biClient {
     ///
     /// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
     ///
-    /// - Parameter UpdateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileInput`)
     ///
-    /// - Returns: `UpdateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2497,7 +2468,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileInput, UpdateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileOutput>(UpdateProfileOutput.httpOutput(from:), UpdateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileInput, UpdateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileOutput>())
@@ -2532,9 +2502,9 @@ extension B2biClient {
     ///
     /// Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///
-    /// - Parameter UpdateTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTransformerInput`)
     ///
-    /// - Returns: `UpdateTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2572,7 +2542,6 @@ extension B2biClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTransformerInput, UpdateTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTransformerOutput>(UpdateTransformerOutput.httpOutput(from:), UpdateTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTransformerInput, UpdateTransformerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTransformerOutput>())

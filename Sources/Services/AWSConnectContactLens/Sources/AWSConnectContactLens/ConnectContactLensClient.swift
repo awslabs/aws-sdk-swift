@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectContactLensClient: ClientRuntime.Client {
     public static let clientName = "ConnectContactLensClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectContactLensClient.ConnectContactLensClientConfiguration
     let serviceName = "Connect Contact Lens"
@@ -372,9 +371,9 @@ extension ConnectContactLensClient {
     ///
     /// Provides a list of analysis segments for a real-time analysis session.
     ///
-    /// - Parameter ListRealtimeContactAnalysisSegmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRealtimeContactAnalysisSegmentsInput`)
     ///
-    /// - Returns: `ListRealtimeContactAnalysisSegmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRealtimeContactAnalysisSegmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +411,6 @@ extension ConnectContactLensClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRealtimeContactAnalysisSegmentsOutput>(ListRealtimeContactAnalysisSegmentsOutput.httpOutput(from:), ListRealtimeContactAnalysisSegmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRealtimeContactAnalysisSegmentsOutput>())

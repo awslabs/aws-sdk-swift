@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSAuthClient: ClientRuntime.Client {
     public static let clientName = "EKSAuthClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSAuthClient.EKSAuthClientConfiguration
     let serviceName = "EKS Auth"
@@ -372,9 +371,9 @@ extension EKSAuthClient {
     ///
     /// The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically.
     ///
-    /// - Parameter AssumeRoleForPodIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeRoleForPodIdentityInput`)
     ///
-    /// - Returns: `AssumeRoleForPodIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeRoleForPodIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension EKSAuthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleForPodIdentityOutput>(AssumeRoleForPodIdentityOutput.httpOutput(from:), AssumeRoleForPodIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleForPodIdentityOutput>())

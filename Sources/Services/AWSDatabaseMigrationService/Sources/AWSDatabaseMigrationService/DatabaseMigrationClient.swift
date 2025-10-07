@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DatabaseMigrationClient: ClientRuntime.Client {
     public static let clientName = "DatabaseMigrationClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: DatabaseMigrationClient.DatabaseMigrationClientConfiguration
     let serviceName = "Database Migration"
@@ -374,9 +373,9 @@ extension DatabaseMigrationClient {
     ///
     /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
-    /// - Parameter AddTagsToResourceInput : Associates a set of tags with an DMS resource.
+    /// - Parameter input: Associates a set of tags with an DMS resource. (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` :
+    /// - Returns: (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
@@ -444,9 +442,9 @@ extension DatabaseMigrationClient {
     ///
     /// Applies a pending maintenance action to a resource (for example, to a replication instance).
     ///
-    /// - Parameter ApplyPendingMaintenanceActionInput :
+    /// - Parameter input: (Type: `ApplyPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutput` :
+    /// - Returns: (Type: `ApplyPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,7 +476,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutput>(ApplyPendingMaintenanceActionOutput.httpOutput(from:), ApplyPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyPendingMaintenanceActionOutput>())
@@ -513,9 +510,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of [StartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html). The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
-    /// - Parameter BatchStartRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchStartRecommendationsInput`)
     ///
-    /// - Returns: `BatchStartRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchStartRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -549,7 +546,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchStartRecommendationsInput, BatchStartRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchStartRecommendationsOutput>(BatchStartRecommendationsOutput.httpOutput(from:), BatchStartRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchStartRecommendationsInput, BatchStartRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchStartRecommendationsOutput>())
@@ -584,9 +580,9 @@ extension DatabaseMigrationClient {
     ///
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running.
     ///
-    /// - Parameter CancelReplicationTaskAssessmentRunInput :
+    /// - Parameter input: (Type: `CancelReplicationTaskAssessmentRunInput`)
     ///
-    /// - Returns: `CancelReplicationTaskAssessmentRunOutput` :
+    /// - Returns: (Type: `CancelReplicationTaskAssessmentRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,7 +616,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelReplicationTaskAssessmentRunInput, CancelReplicationTaskAssessmentRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelReplicationTaskAssessmentRunOutput>(CancelReplicationTaskAssessmentRunOutput.httpOutput(from:), CancelReplicationTaskAssessmentRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelReplicationTaskAssessmentRunInput, CancelReplicationTaskAssessmentRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelReplicationTaskAssessmentRunOutput>())
@@ -655,9 +650,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates a data migration using the provided settings.
     ///
-    /// - Parameter CreateDataMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataMigrationInput`)
     ///
-    /// - Returns: `CreateDataMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,7 +688,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataMigrationInput, CreateDataMigrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataMigrationOutput>(CreateDataMigrationOutput.httpOutput(from:), CreateDataMigrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataMigrationInput, CreateDataMigrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataMigrationOutput>())
@@ -728,9 +722,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
     ///
-    /// - Parameter CreateDataProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataProviderInput`)
     ///
-    /// - Returns: `CreateDataProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,7 +759,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataProviderInput, CreateDataProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataProviderOutput>(CreateDataProviderOutput.httpOutput(from:), CreateDataProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataProviderInput, CreateDataProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataProviderOutput>())
@@ -800,9 +793,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates an endpoint using the provided settings. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     ///
-    /// - Parameter CreateEndpointInput :
+    /// - Parameter input: (Type: `CreateEndpointInput`)
     ///
-    /// - Returns: `CreateEndpointOutput` :
+    /// - Returns: (Type: `CreateEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,7 +833,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointInput, CreateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointOutput>(CreateEndpointOutput.httpOutput(from:), CreateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointInput, CreateEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointOutput>())
@@ -875,9 +867,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates an DMS event notification subscription. You can specify the type of source (SourceType) you want to be notified of, provide a list of DMS source IDs (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. If you specify both the SourceType and SourceIds, such as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier, you receive notice of the events for that source type for all your DMS sources. If you don't specify either SourceType nor SourceIdentifier, you will be notified of events generated from all DMS sources belonging to your customer account. For more information about DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
-    /// - Parameter CreateEventSubscriptionInput :
+    /// - Parameter input: (Type: `CreateEventSubscriptionInput`)
     ///
-    /// - Returns: `CreateEventSubscriptionOutput` :
+    /// - Returns: (Type: `CreateEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -918,7 +910,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutput>(CreateEventSubscriptionOutput.httpOutput(from:), CreateEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventSubscriptionOutput>())
@@ -953,9 +944,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Creates a Fleet Advisor collector using the specified parameters.
     ///
-    /// - Parameter CreateFleetAdvisorCollectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetAdvisorCollectorInput`)
     ///
-    /// - Returns: `CreateFleetAdvisorCollectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetAdvisorCollectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,7 +982,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetAdvisorCollectorInput, CreateFleetAdvisorCollectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetAdvisorCollectorOutput>(CreateFleetAdvisorCollectorOutput.httpOutput(from:), CreateFleetAdvisorCollectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetAdvisorCollectorInput, CreateFleetAdvisorCollectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetAdvisorCollectorOutput>())
@@ -1026,9 +1016,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates the instance profile using the specified parameters.
     ///
-    /// - Parameter CreateInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceProfileInput`)
     ///
-    /// - Returns: `CreateInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,7 +1058,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput>(CreateInstanceProfileOutput.httpOutput(from:), CreateInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceProfileOutput>())
@@ -1103,9 +1092,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using [CreateInstanceProfile](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html) and [CreateDataProvider](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html).
     ///
-    /// - Parameter CreateMigrationProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMigrationProjectInput`)
     ///
-    /// - Returns: `CreateMigrationProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMigrationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,7 +1132,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMigrationProjectInput, CreateMigrationProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMigrationProjectOutput>(CreateMigrationProjectOutput.httpOutput(from:), CreateMigrationProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMigrationProjectInput, CreateMigrationProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMigrationProjectOutput>())
@@ -1178,9 +1166,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication.
     ///
-    /// - Parameter CreateReplicationConfigInput :
+    /// - Parameter input: (Type: `CreateReplicationConfigInput`)
     ///
-    /// - Returns: `CreateReplicationConfigOutput` :
+    /// - Returns: (Type: `CreateReplicationConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,7 +1207,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReplicationConfigInput, CreateReplicationConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplicationConfigOutput>(CreateReplicationConfigOutput.httpOutput(from:), CreateReplicationConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplicationConfigInput, CreateReplicationConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplicationConfigOutput>())
@@ -1254,9 +1241,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see [Creating the IAM Roles to Use With the CLI and DMS API](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.APIRole). For information on the required permissions, see [IAM Permissions Needed to Use DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.IAMPermissions). If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see [Release Notes](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReleaseNotes.html).
     ///
-    /// - Parameter CreateReplicationInstanceInput :
+    /// - Parameter input: (Type: `CreateReplicationInstanceInput`)
     ///
-    /// - Returns: `CreateReplicationInstanceOutput` :
+    /// - Returns: (Type: `CreateReplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1297,7 +1284,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReplicationInstanceInput, CreateReplicationInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplicationInstanceOutput>(CreateReplicationInstanceOutput.httpOutput(from:), CreateReplicationInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplicationInstanceInput, CreateReplicationInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplicationInstanceOutput>())
@@ -1332,9 +1318,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the existing replication subnet group. To do so, use the [DeleteReplicationSubnetGroup](https://docs.aws.amazon.com/en_us/dms/latest/APIReference/API_DeleteReplicationSubnetGroup.html) action. Optionally, choose Subnet groups in the DMS console, then choose your subnet group. Next, choose Delete from Actions.
     ///
-    /// - Parameter CreateReplicationSubnetGroupInput :
+    /// - Parameter input: (Type: `CreateReplicationSubnetGroupInput`)
     ///
-    /// - Returns: `CreateReplicationSubnetGroupOutput` :
+    /// - Returns: (Type: `CreateReplicationSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1371,7 +1357,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReplicationSubnetGroupInput, CreateReplicationSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplicationSubnetGroupOutput>(CreateReplicationSubnetGroupOutput.httpOutput(from:), CreateReplicationSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplicationSubnetGroupInput, CreateReplicationSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplicationSubnetGroupOutput>())
@@ -1406,9 +1391,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates a replication task using the specified parameters.
     ///
-    /// - Parameter CreateReplicationTaskInput :
+    /// - Parameter input: (Type: `CreateReplicationTaskInput`)
     ///
-    /// - Returns: `CreateReplicationTaskOutput` :
+    /// - Returns: (Type: `CreateReplicationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,7 +1430,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReplicationTaskInput, CreateReplicationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplicationTaskOutput>(CreateReplicationTaskOutput.httpOutput(from:), CreateReplicationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplicationTaskInput, CreateReplicationTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplicationTaskOutput>())
@@ -1480,9 +1464,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified certificate.
     ///
-    /// - Parameter DeleteCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCertificateInput`)
     ///
-    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1515,7 +1499,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateOutput>(DeleteCertificateOutput.httpOutput(from:), DeleteCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateOutput>())
@@ -1550,9 +1533,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the connection between a replication instance and an endpoint.
     ///
-    /// - Parameter DeleteConnectionInput :
+    /// - Parameter input: (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` :
+    /// - Returns: (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,7 +1569,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
@@ -1621,9 +1603,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified data migration.
     ///
-    /// - Parameter DeleteDataMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataMigrationInput`)
     ///
-    /// - Returns: `DeleteDataMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1657,7 +1639,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataMigrationInput, DeleteDataMigrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataMigrationOutput>(DeleteDataMigrationOutput.httpOutput(from:), DeleteDataMigrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataMigrationInput, DeleteDataMigrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataMigrationOutput>())
@@ -1692,9 +1673,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified data provider. All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     ///
-    /// - Parameter DeleteDataProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataProviderInput`)
     ///
-    /// - Returns: `DeleteDataProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1729,7 +1710,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataProviderInput, DeleteDataProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataProviderOutput>(DeleteDataProviderOutput.httpOutput(from:), DeleteDataProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataProviderInput, DeleteDataProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataProviderOutput>())
@@ -1764,9 +1744,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified endpoint. All tasks associated with the endpoint must be deleted before you can delete the endpoint.
     ///
-    /// - Parameter DeleteEndpointInput :
+    /// - Parameter input: (Type: `DeleteEndpointInput`)
     ///
-    /// - Returns: `DeleteEndpointOutput` :
+    /// - Returns: (Type: `DeleteEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,7 +1779,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput>(DeleteEndpointOutput.httpOutput(from:), DeleteEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointOutput>())
@@ -1834,9 +1813,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes an DMS event subscription.
     ///
-    /// - Parameter DeleteEventSubscriptionInput :
+    /// - Parameter input: (Type: `DeleteEventSubscriptionInput`)
     ///
-    /// - Returns: `DeleteEventSubscriptionOutput` :
+    /// - Returns: (Type: `DeleteEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1870,7 +1849,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutput>(DeleteEventSubscriptionOutput.httpOutput(from:), DeleteEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventSubscriptionOutput>())
@@ -1905,9 +1883,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Deletes the specified Fleet Advisor collector.
     ///
-    /// - Parameter DeleteFleetAdvisorCollectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetAdvisorCollectorInput`)
     ///
-    /// - Returns: `DeleteFleetAdvisorCollectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetAdvisorCollectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1941,7 +1919,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetAdvisorCollectorInput, DeleteFleetAdvisorCollectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetAdvisorCollectorOutput>(DeleteFleetAdvisorCollectorOutput.httpOutput(from:), DeleteFleetAdvisorCollectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetAdvisorCollectorInput, DeleteFleetAdvisorCollectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetAdvisorCollectorOutput>())
@@ -1976,9 +1953,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Deletes the specified Fleet Advisor collector databases.
     ///
-    /// - Parameter DeleteFleetAdvisorDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetAdvisorDatabasesInput`)
     ///
-    /// - Returns: `DeleteFleetAdvisorDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetAdvisorDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2012,7 +1989,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetAdvisorDatabasesInput, DeleteFleetAdvisorDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetAdvisorDatabasesOutput>(DeleteFleetAdvisorDatabasesOutput.httpOutput(from:), DeleteFleetAdvisorDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetAdvisorDatabasesInput, DeleteFleetAdvisorDatabasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetAdvisorDatabasesOutput>())
@@ -2047,9 +2023,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified instance profile. All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     ///
-    /// - Parameter DeleteInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceProfileInput`)
     ///
-    /// - Returns: `DeleteInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2084,7 +2060,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput>(DeleteInstanceProfileOutput.httpOutput(from:), DeleteInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceProfileOutput>())
@@ -2119,9 +2094,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified migration project. The migration project must be closed before you can delete it.
     ///
-    /// - Parameter DeleteMigrationProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMigrationProjectInput`)
     ///
-    /// - Returns: `DeleteMigrationProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMigrationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2156,7 +2131,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMigrationProjectInput, DeleteMigrationProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMigrationProjectOutput>(DeleteMigrationProjectOutput.httpOutput(from:), DeleteMigrationProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMigrationProjectInput, DeleteMigrationProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMigrationProjectOutput>())
@@ -2191,9 +2165,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes an DMS Serverless replication configuration. This effectively deprovisions any and all replications that use this configuration. You can't delete the configuration for an DMS Serverless replication that is ongoing. You can delete the configuration when the replication is in a non-RUNNING and non-STARTING state.
     ///
-    /// - Parameter DeleteReplicationConfigInput :
+    /// - Parameter input: (Type: `DeleteReplicationConfigInput`)
     ///
-    /// - Returns: `DeleteReplicationConfigOutput` :
+    /// - Returns: (Type: `DeleteReplicationConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,7 +2201,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReplicationConfigInput, DeleteReplicationConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicationConfigOutput>(DeleteReplicationConfigOutput.httpOutput(from:), DeleteReplicationConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicationConfigInput, DeleteReplicationConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicationConfigOutput>())
@@ -2262,9 +2235,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified replication instance. You must delete any migration tasks that are associated with the replication instance before you can delete it.
     ///
-    /// - Parameter DeleteReplicationInstanceInput :
+    /// - Parameter input: (Type: `DeleteReplicationInstanceInput`)
     ///
-    /// - Returns: `DeleteReplicationInstanceOutput` :
+    /// - Returns: (Type: `DeleteReplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2297,7 +2270,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReplicationInstanceInput, DeleteReplicationInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicationInstanceOutput>(DeleteReplicationInstanceOutput.httpOutput(from:), DeleteReplicationInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicationInstanceInput, DeleteReplicationInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicationInstanceOutput>())
@@ -2332,9 +2304,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes a subnet group.
     ///
-    /// - Parameter DeleteReplicationSubnetGroupInput :
+    /// - Parameter input: (Type: `DeleteReplicationSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteReplicationSubnetGroupOutput` :
+    /// - Returns: (Type: `DeleteReplicationSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,7 +2340,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReplicationSubnetGroupInput, DeleteReplicationSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicationSubnetGroupOutput>(DeleteReplicationSubnetGroupOutput.httpOutput(from:), DeleteReplicationSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicationSubnetGroupInput, DeleteReplicationSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicationSubnetGroupOutput>())
@@ -2403,9 +2374,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the specified replication task.
     ///
-    /// - Parameter DeleteReplicationTaskInput :
+    /// - Parameter input: (Type: `DeleteReplicationTaskInput`)
     ///
-    /// - Returns: `DeleteReplicationTaskOutput` :
+    /// - Returns: (Type: `DeleteReplicationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2438,7 +2409,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReplicationTaskInput, DeleteReplicationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicationTaskOutput>(DeleteReplicationTaskOutput.httpOutput(from:), DeleteReplicationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicationTaskInput, DeleteReplicationTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicationTaskOutput>())
@@ -2473,9 +2443,9 @@ extension DatabaseMigrationClient {
     ///
     /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this assessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket.
     ///
-    /// - Parameter DeleteReplicationTaskAssessmentRunInput :
+    /// - Parameter input: (Type: `DeleteReplicationTaskAssessmentRunInput`)
     ///
-    /// - Returns: `DeleteReplicationTaskAssessmentRunOutput` :
+    /// - Returns: (Type: `DeleteReplicationTaskAssessmentRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2509,7 +2479,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReplicationTaskAssessmentRunInput, DeleteReplicationTaskAssessmentRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicationTaskAssessmentRunOutput>(DeleteReplicationTaskAssessmentRunOutput.httpOutput(from:), DeleteReplicationTaskAssessmentRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicationTaskAssessmentRunInput, DeleteReplicationTaskAssessmentRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicationTaskAssessmentRunOutput>())
@@ -2544,9 +2513,9 @@ extension DatabaseMigrationClient {
     ///
     /// Lists all of the DMS attributes for a customer account. These attributes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
     ///
-    /// - Parameter DescribeAccountAttributesInput :
+    /// - Parameter input: (Type: `DescribeAccountAttributesInput`)
     ///
-    /// - Returns: `DescribeAccountAttributesOutput` :
+    /// - Returns: (Type: `DescribeAccountAttributesOutput`)
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2573,7 +2542,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
@@ -2608,9 +2576,9 @@ extension DatabaseMigrationClient {
     ///
     /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.
     ///
-    /// - Parameter DescribeApplicableIndividualAssessmentsInput :
+    /// - Parameter input: (Type: `DescribeApplicableIndividualAssessmentsInput`)
     ///
-    /// - Returns: `DescribeApplicableIndividualAssessmentsOutput` :
+    /// - Returns: (Type: `DescribeApplicableIndividualAssessmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2644,7 +2612,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicableIndividualAssessmentsOutput>(DescribeApplicableIndividualAssessmentsOutput.httpOutput(from:), DescribeApplicableIndividualAssessmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicableIndividualAssessmentsOutput>())
@@ -2679,9 +2646,9 @@ extension DatabaseMigrationClient {
     ///
     /// Provides a description of the certificate.
     ///
-    /// - Parameter DescribeCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificatesInput`)
     ///
-    /// - Returns: `DescribeCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2713,7 +2680,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificatesInput, DescribeCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificatesOutput>(DescribeCertificatesOutput.httpOutput(from:), DescribeCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificatesInput, DescribeCertificatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificatesOutput>())
@@ -2748,9 +2714,9 @@ extension DatabaseMigrationClient {
     ///
     /// Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
     ///
-    /// - Parameter DescribeConnectionsInput :
+    /// - Parameter input: (Type: `DescribeConnectionsInput`)
     ///
-    /// - Returns: `DescribeConnectionsOutput` :
+    /// - Returns: (Type: `DescribeConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2782,7 +2748,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionsOutput>(DescribeConnectionsOutput.httpOutput(from:), DescribeConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionsOutput>())
@@ -2817,9 +2782,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns configuration parameters for a schema conversion project.
     ///
-    /// - Parameter DescribeConversionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConversionConfigurationInput`)
     ///
-    /// - Returns: `DescribeConversionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConversionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2851,7 +2816,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConversionConfigurationInput, DescribeConversionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConversionConfigurationOutput>(DescribeConversionConfigurationOutput.httpOutput(from:), DescribeConversionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConversionConfigurationInput, DescribeConversionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConversionConfigurationOutput>())
@@ -2886,9 +2850,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about data migrations.
     ///
-    /// - Parameter DescribeDataMigrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataMigrationsInput`)
     ///
-    /// - Returns: `DescribeDataMigrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataMigrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2922,7 +2886,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataMigrationsInput, DescribeDataMigrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataMigrationsOutput>(DescribeDataMigrationsOutput.httpOutput(from:), DescribeDataMigrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataMigrationsInput, DescribeDataMigrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataMigrationsOutput>())
@@ -2957,9 +2920,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of data providers for your account in the current region.
     ///
-    /// - Parameter DescribeDataProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataProvidersInput`)
     ///
-    /// - Returns: `DescribeDataProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2993,7 +2956,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataProvidersInput, DescribeDataProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataProvidersOutput>(DescribeDataProvidersOutput.httpOutput(from:), DescribeDataProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataProvidersInput, DescribeDataProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataProvidersOutput>())
@@ -3028,9 +2990,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine.
     ///
-    /// - Parameter DescribeEndpointSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointSettingsInput`)
     ///
-    /// - Returns: `DescribeEndpointSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointSettingsOutput`)
     public func describeEndpointSettings(input: DescribeEndpointSettingsInput) async throws -> DescribeEndpointSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3057,7 +3019,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointSettingsOutput>(DescribeEndpointSettingsOutput.httpOutput(from:), DescribeEndpointSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointSettingsOutput>())
@@ -3092,9 +3053,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the type of endpoints available.
     ///
-    /// - Parameter DescribeEndpointTypesInput :
+    /// - Parameter input: (Type: `DescribeEndpointTypesInput`)
     ///
-    /// - Returns: `DescribeEndpointTypesOutput` :
+    /// - Returns: (Type: `DescribeEndpointTypesOutput`)
     public func describeEndpointTypes(input: DescribeEndpointTypesInput) async throws -> DescribeEndpointTypesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3121,7 +3082,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointTypesInput, DescribeEndpointTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointTypesOutput>(DescribeEndpointTypesOutput.httpOutput(from:), DescribeEndpointTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointTypesInput, DescribeEndpointTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointTypesOutput>())
@@ -3156,9 +3116,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the endpoints for your account in the current region.
     ///
-    /// - Parameter DescribeEndpointsInput :
+    /// - Parameter input: (Type: `DescribeEndpointsInput`)
     ///
-    /// - Returns: `DescribeEndpointsOutput` :
+    /// - Returns: (Type: `DescribeEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3190,7 +3150,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointsOutput>(DescribeEndpointsOutput.httpOutput(from:), DescribeEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointsOutput>())
@@ -3225,9 +3184,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the replication instance versions used in the project.
     ///
-    /// - Parameter DescribeEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeEngineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineVersionsOutput`)
     public func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3254,7 +3213,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngineVersionsOutput>(DescribeEngineVersionsOutput.httpOutput(from:), DescribeEngineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngineVersionsOutput>())
@@ -3289,9 +3247,9 @@ extension DatabaseMigrationClient {
     ///
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
-    /// - Parameter DescribeEventCategoriesInput :
+    /// - Parameter input: (Type: `DescribeEventCategoriesInput`)
     ///
-    /// - Returns: `DescribeEventCategoriesOutput` :
+    /// - Returns: (Type: `DescribeEventCategoriesOutput`)
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3318,7 +3276,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutput>(DescribeEventCategoriesOutput.httpOutput(from:), DescribeEventCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventCategoriesOutput>())
@@ -3353,9 +3310,9 @@ extension DatabaseMigrationClient {
     ///
     /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify SubscriptionName, this action lists the description for that subscription.
     ///
-    /// - Parameter DescribeEventSubscriptionsInput :
+    /// - Parameter input: (Type: `DescribeEventSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeEventSubscriptionsOutput` :
+    /// - Returns: (Type: `DescribeEventSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3387,7 +3344,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutput>(DescribeEventSubscriptionsOutput.httpOutput(from:), DescribeEventSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventSubscriptionsOutput>())
@@ -3422,9 +3378,9 @@ extension DatabaseMigrationClient {
     ///
     /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
-    /// - Parameter DescribeEventsInput :
+    /// - Parameter input: (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` :
+    /// - Returns: (Type: `DescribeEventsOutput`)
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3451,7 +3407,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -3486,9 +3441,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
-    /// - Parameter DescribeExtensionPackAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExtensionPackAssociationsInput`)
     ///
-    /// - Returns: `DescribeExtensionPackAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExtensionPackAssociationsOutput`)
     public func describeExtensionPackAssociations(input: DescribeExtensionPackAssociationsInput) async throws -> DescribeExtensionPackAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3515,7 +3470,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExtensionPackAssociationsOutput>(DescribeExtensionPackAssociationsOutput.httpOutput(from:), DescribeExtensionPackAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExtensionPackAssociationsOutput>())
@@ -3550,9 +3504,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Returns a list of the Fleet Advisor collectors in your account.
     ///
-    /// - Parameter DescribeFleetAdvisorCollectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetAdvisorCollectorsInput`)
     ///
-    /// - Returns: `DescribeFleetAdvisorCollectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetAdvisorCollectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3584,7 +3538,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorCollectorsOutput>(DescribeFleetAdvisorCollectorsOutput.httpOutput(from:), DescribeFleetAdvisorCollectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetAdvisorCollectorsOutput>())
@@ -3619,9 +3572,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Returns a list of Fleet Advisor databases in your account.
     ///
-    /// - Parameter DescribeFleetAdvisorDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetAdvisorDatabasesInput`)
     ///
-    /// - Returns: `DescribeFleetAdvisorDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetAdvisorDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3653,7 +3606,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorDatabasesOutput>(DescribeFleetAdvisorDatabasesOutput.httpOutput(from:), DescribeFleetAdvisorDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetAdvisorDatabasesOutput>())
@@ -3688,9 +3640,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
     ///
-    /// - Parameter DescribeFleetAdvisorLsaAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetAdvisorLsaAnalysisInput`)
     ///
-    /// - Returns: `DescribeFleetAdvisorLsaAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetAdvisorLsaAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3722,7 +3674,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorLsaAnalysisOutput>(DescribeFleetAdvisorLsaAnalysisOutput.httpOutput(from:), DescribeFleetAdvisorLsaAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetAdvisorLsaAnalysisOutput>())
@@ -3757,9 +3708,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
     ///
-    /// - Parameter DescribeFleetAdvisorSchemaObjectSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetAdvisorSchemaObjectSummaryInput`)
     ///
-    /// - Returns: `DescribeFleetAdvisorSchemaObjectSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetAdvisorSchemaObjectSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3791,7 +3742,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorSchemaObjectSummaryOutput>(DescribeFleetAdvisorSchemaObjectSummaryOutput.httpOutput(from:), DescribeFleetAdvisorSchemaObjectSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetAdvisorSchemaObjectSummaryOutput>())
@@ -3826,9 +3776,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Returns a list of schemas detected by Fleet Advisor Collectors in your account.
     ///
-    /// - Parameter DescribeFleetAdvisorSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetAdvisorSchemasInput`)
     ///
-    /// - Returns: `DescribeFleetAdvisorSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetAdvisorSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3860,7 +3810,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorSchemasOutput>(DescribeFleetAdvisorSchemasOutput.httpOutput(from:), DescribeFleetAdvisorSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetAdvisorSchemasOutput>())
@@ -3895,9 +3844,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of instance profiles for your account in the current region.
     ///
-    /// - Parameter DescribeInstanceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceProfilesInput`)
     ///
-    /// - Returns: `DescribeInstanceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3931,7 +3880,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceProfilesOutput>(DescribeInstanceProfilesOutput.httpOutput(from:), DescribeInstanceProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceProfilesOutput>())
@@ -3966,9 +3914,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of metadata model assessments for your account in the current region.
     ///
-    /// - Parameter DescribeMetadataModelAssessmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelAssessmentsInput`)
     ///
-    /// - Returns: `DescribeMetadataModelAssessmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelAssessmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4000,7 +3948,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelAssessmentsOutput>(DescribeMetadataModelAssessmentsOutput.httpOutput(from:), DescribeMetadataModelAssessmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelAssessmentsOutput>())
@@ -4035,9 +3982,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of metadata model conversions for a migration project.
     ///
-    /// - Parameter DescribeMetadataModelConversionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelConversionsInput`)
     ///
-    /// - Returns: `DescribeMetadataModelConversionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelConversionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4069,7 +4016,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelConversionsOutput>(DescribeMetadataModelConversionsOutput.httpOutput(from:), DescribeMetadataModelConversionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelConversionsOutput>())
@@ -4104,9 +4050,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of metadata model exports.
     ///
-    /// - Parameter DescribeMetadataModelExportsAsScriptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelExportsAsScriptInput`)
     ///
-    /// - Returns: `DescribeMetadataModelExportsAsScriptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelExportsAsScriptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4138,7 +4084,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelExportsAsScriptOutput>(DescribeMetadataModelExportsAsScriptOutput.httpOutput(from:), DescribeMetadataModelExportsAsScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelExportsAsScriptOutput>())
@@ -4173,9 +4118,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of metadata model exports.
     ///
-    /// - Parameter DescribeMetadataModelExportsToTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelExportsToTargetInput`)
     ///
-    /// - Returns: `DescribeMetadataModelExportsToTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelExportsToTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4207,7 +4152,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelExportsToTargetOutput>(DescribeMetadataModelExportsToTargetOutput.httpOutput(from:), DescribeMetadataModelExportsToTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelExportsToTargetOutput>())
@@ -4242,9 +4186,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of metadata model imports.
     ///
-    /// - Parameter DescribeMetadataModelImportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelImportsInput`)
     ///
-    /// - Returns: `DescribeMetadataModelImportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelImportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4276,7 +4220,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelImportsOutput>(DescribeMetadataModelImportsOutput.httpOutput(from:), DescribeMetadataModelImportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelImportsOutput>())
@@ -4311,9 +4254,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of migration projects for your account in the current region.
     ///
-    /// - Parameter DescribeMigrationProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMigrationProjectsInput`)
     ///
-    /// - Returns: `DescribeMigrationProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMigrationProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4347,7 +4290,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMigrationProjectsOutput>(DescribeMigrationProjectsOutput.httpOutput(from:), DescribeMigrationProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMigrationProjectsOutput>())
@@ -4382,9 +4324,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the replication instance types that can be created in the specified region.
     ///
-    /// - Parameter DescribeOrderableReplicationInstancesInput :
+    /// - Parameter input: (Type: `DescribeOrderableReplicationInstancesInput`)
     ///
-    /// - Returns: `DescribeOrderableReplicationInstancesOutput` :
+    /// - Returns: (Type: `DescribeOrderableReplicationInstancesOutput`)
     public func describeOrderableReplicationInstances(input: DescribeOrderableReplicationInstancesInput) async throws -> DescribeOrderableReplicationInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4411,7 +4353,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrderableReplicationInstancesOutput>(DescribeOrderableReplicationInstancesOutput.httpOutput(from:), DescribeOrderableReplicationInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrderableReplicationInstancesOutput>())
@@ -4446,9 +4387,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a list of upcoming maintenance events for replication instances in your account in the current Region.
     ///
-    /// - Parameter DescribePendingMaintenanceActionsInput :
+    /// - Parameter input: (Type: `DescribePendingMaintenanceActionsInput`)
     ///
-    /// - Returns: `DescribePendingMaintenanceActionsOutput` :
+    /// - Returns: (Type: `DescribePendingMaintenanceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4480,7 +4421,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutput>(DescribePendingMaintenanceActionsOutput.httpOutput(from:), DescribePendingMaintenanceActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePendingMaintenanceActionsOutput>())
@@ -4515,9 +4455,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
     ///
-    /// - Parameter DescribeRecommendationLimitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecommendationLimitationsInput`)
     ///
-    /// - Returns: `DescribeRecommendationLimitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecommendationLimitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4550,7 +4490,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecommendationLimitationsOutput>(DescribeRecommendationLimitationsOutput.httpOutput(from:), DescribeRecommendationLimitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRecommendationLimitationsOutput>())
@@ -4585,9 +4524,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Returns a paginated list of target engine recommendations for your source databases.
     ///
-    /// - Parameter DescribeRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecommendationsInput`)
     ///
-    /// - Returns: `DescribeRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4620,7 +4559,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRecommendationsInput, DescribeRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecommendationsOutput>(DescribeRecommendationsOutput.httpOutput(from:), DescribeRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecommendationsInput, DescribeRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRecommendationsOutput>())
@@ -4655,9 +4593,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns the status of the RefreshSchemas operation.
     ///
-    /// - Parameter DescribeRefreshSchemasStatusInput :
+    /// - Parameter input: (Type: `DescribeRefreshSchemasStatusInput`)
     ///
-    /// - Returns: `DescribeRefreshSchemasStatusOutput` :
+    /// - Returns: (Type: `DescribeRefreshSchemasStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4690,7 +4628,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRefreshSchemasStatusInput, DescribeRefreshSchemasStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRefreshSchemasStatusOutput>(DescribeRefreshSchemasStatusOutput.httpOutput(from:), DescribeRefreshSchemasStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRefreshSchemasStatusInput, DescribeRefreshSchemasStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRefreshSchemasStatusOutput>())
@@ -4725,9 +4662,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
     ///
-    /// - Parameter DescribeReplicationConfigsInput :
+    /// - Parameter input: (Type: `DescribeReplicationConfigsInput`)
     ///
-    /// - Returns: `DescribeReplicationConfigsOutput` :
+    /// - Returns: (Type: `DescribeReplicationConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4759,7 +4696,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationConfigsInput, DescribeReplicationConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationConfigsOutput>(DescribeReplicationConfigsOutput.httpOutput(from:), DescribeReplicationConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationConfigsInput, DescribeReplicationConfigsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationConfigsOutput>())
@@ -4794,9 +4730,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the task logs for the specified task.
     ///
-    /// - Parameter DescribeReplicationInstanceTaskLogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReplicationInstanceTaskLogsInput`)
     ///
-    /// - Returns: `DescribeReplicationInstanceTaskLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReplicationInstanceTaskLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4829,7 +4765,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationInstanceTaskLogsOutput>(DescribeReplicationInstanceTaskLogsOutput.httpOutput(from:), DescribeReplicationInstanceTaskLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationInstanceTaskLogsOutput>())
@@ -4864,9 +4799,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about replication instances for your account in the current region.
     ///
-    /// - Parameter DescribeReplicationInstancesInput :
+    /// - Parameter input: (Type: `DescribeReplicationInstancesInput`)
     ///
-    /// - Returns: `DescribeReplicationInstancesOutput` :
+    /// - Returns: (Type: `DescribeReplicationInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4898,7 +4833,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationInstancesOutput>(DescribeReplicationInstancesOutput.httpOutput(from:), DescribeReplicationInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationInstancesOutput>())
@@ -4933,9 +4867,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the replication subnet groups.
     ///
-    /// - Parameter DescribeReplicationSubnetGroupsInput :
+    /// - Parameter input: (Type: `DescribeReplicationSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeReplicationSubnetGroupsOutput` :
+    /// - Returns: (Type: `DescribeReplicationSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4967,7 +4901,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationSubnetGroupsOutput>(DescribeReplicationSubnetGroupsOutput.httpOutput(from:), DescribeReplicationSubnetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationSubnetGroupsOutput>())
@@ -5002,9 +4935,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
     ///
-    /// - Parameter DescribeReplicationTableStatisticsInput :
+    /// - Parameter input: (Type: `DescribeReplicationTableStatisticsInput`)
     ///
-    /// - Returns: `DescribeReplicationTableStatisticsOutput` :
+    /// - Returns: (Type: `DescribeReplicationTableStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5037,7 +4970,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationTableStatisticsInput, DescribeReplicationTableStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationTableStatisticsOutput>(DescribeReplicationTableStatisticsOutput.httpOutput(from:), DescribeReplicationTableStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationTableStatisticsInput, DescribeReplicationTableStatisticsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationTableStatisticsOutput>())
@@ -5072,9 +5004,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see [Creating a task assessment report](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html) in the Database Migration Service User Guide.
     ///
-    /// - Parameter DescribeReplicationTaskAssessmentResultsInput :
+    /// - Parameter input: (Type: `DescribeReplicationTaskAssessmentResultsInput`)
     ///
-    /// - Returns: `DescribeReplicationTaskAssessmentResultsOutput` :
+    /// - Returns: (Type: `DescribeReplicationTaskAssessmentResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5106,7 +5038,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationTaskAssessmentResultsOutput>(DescribeReplicationTaskAssessmentResultsOutput.httpOutput(from:), DescribeReplicationTaskAssessmentResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationTaskAssessmentResultsOutput>())
@@ -5141,9 +5072,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values. This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
     ///
-    /// - Parameter DescribeReplicationTaskAssessmentRunsInput :
+    /// - Parameter input: (Type: `DescribeReplicationTaskAssessmentRunsInput`)
     ///
-    /// - Returns: `DescribeReplicationTaskAssessmentRunsOutput` :
+    /// - Returns: (Type: `DescribeReplicationTaskAssessmentRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5175,7 +5106,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationTaskAssessmentRunsOutput>(DescribeReplicationTaskAssessmentRunsOutput.httpOutput(from:), DescribeReplicationTaskAssessmentRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationTaskAssessmentRunsOutput>())
@@ -5210,9 +5140,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
     ///
-    /// - Parameter DescribeReplicationTaskIndividualAssessmentsInput :
+    /// - Parameter input: (Type: `DescribeReplicationTaskIndividualAssessmentsInput`)
     ///
-    /// - Returns: `DescribeReplicationTaskIndividualAssessmentsOutput` :
+    /// - Returns: (Type: `DescribeReplicationTaskIndividualAssessmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5244,7 +5174,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationTaskIndividualAssessmentsOutput>(DescribeReplicationTaskIndividualAssessmentsOutput.httpOutput(from:), DescribeReplicationTaskIndividualAssessmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationTaskIndividualAssessmentsOutput>())
@@ -5279,9 +5208,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about replication tasks for your account in the current region.
     ///
-    /// - Parameter DescribeReplicationTasksInput :
+    /// - Parameter input: (Type: `DescribeReplicationTasksInput`)
     ///
-    /// - Returns: `DescribeReplicationTasksOutput` :
+    /// - Returns: (Type: `DescribeReplicationTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5313,7 +5242,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationTasksOutput>(DescribeReplicationTasksOutput.httpOutput(from:), DescribeReplicationTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationTasksOutput>())
@@ -5348,9 +5276,9 @@ extension DatabaseMigrationClient {
     ///
     /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
     ///
-    /// - Parameter DescribeReplicationsInput :
+    /// - Parameter input: (Type: `DescribeReplicationsInput`)
     ///
-    /// - Returns: `DescribeReplicationsOutput` :
+    /// - Returns: (Type: `DescribeReplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5382,7 +5310,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationsInput, DescribeReplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationsOutput>(DescribeReplicationsOutput.httpOutput(from:), DescribeReplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationsInput, DescribeReplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationsOutput>())
@@ -5417,9 +5344,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns information about the schema for the specified endpoint.
     ///
-    /// - Parameter DescribeSchemasInput :
+    /// - Parameter input: (Type: `DescribeSchemasInput`)
     ///
-    /// - Returns: `DescribeSchemasOutput` :
+    /// - Returns: (Type: `DescribeSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5452,7 +5379,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSchemasInput, DescribeSchemasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSchemasOutput>(DescribeSchemasOutput.httpOutput(from:), DescribeSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSchemasInput, DescribeSchemasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSchemasOutput>())
@@ -5487,9 +5413,9 @@ extension DatabaseMigrationClient {
     ///
     /// Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     ///
-    /// - Parameter DescribeTableStatisticsInput :
+    /// - Parameter input: (Type: `DescribeTableStatisticsInput`)
     ///
-    /// - Returns: `DescribeTableStatisticsOutput` :
+    /// - Returns: (Type: `DescribeTableStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5523,7 +5449,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTableStatisticsInput, DescribeTableStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTableStatisticsOutput>(DescribeTableStatisticsOutput.httpOutput(from:), DescribeTableStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTableStatisticsInput, DescribeTableStatisticsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableStatisticsOutput>())
@@ -5558,9 +5483,9 @@ extension DatabaseMigrationClient {
     ///
     /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
     ///
-    /// - Parameter ExportMetadataModelAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportMetadataModelAssessmentInput`)
     ///
-    /// - Returns: `ExportMetadataModelAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportMetadataModelAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5592,7 +5517,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportMetadataModelAssessmentInput, ExportMetadataModelAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportMetadataModelAssessmentOutput>(ExportMetadataModelAssessmentOutput.httpOutput(from:), ExportMetadataModelAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportMetadataModelAssessmentInput, ExportMetadataModelAssessmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportMetadataModelAssessmentOutput>())
@@ -5627,9 +5551,9 @@ extension DatabaseMigrationClient {
     ///
     /// Uploads the specified certificate.
     ///
-    /// - Parameter ImportCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCertificateInput`)
     ///
-    /// - Returns: `ImportCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5663,7 +5587,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateInput, ImportCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCertificateOutput>(ImportCertificateOutput.httpOutput(from:), ImportCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateInput, ImportCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCertificateOutput>())
@@ -5698,9 +5621,9 @@ extension DatabaseMigrationClient {
     ///
     /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
-    /// - Parameter ListTagsForResourceInput :
+    /// - Parameter input: (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` :
+    /// - Returns: (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5733,7 +5656,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5768,9 +5690,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the specified schema conversion configuration using the provided parameters.
     ///
-    /// - Parameter ModifyConversionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyConversionConfigurationInput`)
     ///
-    /// - Returns: `ModifyConversionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyConversionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5803,7 +5725,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyConversionConfigurationInput, ModifyConversionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyConversionConfigurationOutput>(ModifyConversionConfigurationOutput.httpOutput(from:), ModifyConversionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyConversionConfigurationInput, ModifyConversionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyConversionConfigurationOutput>())
@@ -5838,9 +5759,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies an existing DMS data migration.
     ///
-    /// - Parameter ModifyDataMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDataMigrationInput`)
     ///
-    /// - Returns: `ModifyDataMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDataMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5874,7 +5795,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDataMigrationInput, ModifyDataMigrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDataMigrationOutput>(ModifyDataMigrationOutput.httpOutput(from:), ModifyDataMigrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDataMigrationInput, ModifyDataMigrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDataMigrationOutput>())
@@ -5909,9 +5829,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the specified data provider using the provided settings. You must remove the data provider from all migration projects before you can modify it.
     ///
-    /// - Parameter ModifyDataProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDataProviderInput`)
     ///
-    /// - Returns: `ModifyDataProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDataProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5946,7 +5866,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDataProviderInput, ModifyDataProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDataProviderOutput>(ModifyDataProviderOutput.httpOutput(from:), ModifyDataProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDataProviderInput, ModifyDataProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDataProviderOutput>())
@@ -5981,9 +5900,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the specified endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEndpoint API call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     ///
-    /// - Parameter ModifyEndpointInput :
+    /// - Parameter input: (Type: `ModifyEndpointInput`)
     ///
-    /// - Returns: `ModifyEndpointOutput` :
+    /// - Returns: (Type: `ModifyEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6019,7 +5938,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEndpointInput, ModifyEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEndpointOutput>(ModifyEndpointOutput.httpOutput(from:), ModifyEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEndpointInput, ModifyEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEndpointOutput>())
@@ -6054,9 +5972,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies an existing DMS event notification subscription.
     ///
-    /// - Parameter ModifyEventSubscriptionInput :
+    /// - Parameter input: (Type: `ModifyEventSubscriptionInput`)
     ///
-    /// - Returns: `ModifyEventSubscriptionOutput` :
+    /// - Returns: (Type: `ModifyEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6097,7 +6015,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutput>(ModifyEventSubscriptionOutput.httpOutput(from:), ModifyEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEventSubscriptionOutput>())
@@ -6132,9 +6049,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the specified instance profile using the provided parameters. All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     ///
-    /// - Parameter ModifyInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceProfileInput`)
     ///
-    /// - Returns: `ModifyInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6172,7 +6089,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyInstanceProfileInput, ModifyInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceProfileOutput>(ModifyInstanceProfileOutput.httpOutput(from:), ModifyInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceProfileInput, ModifyInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceProfileOutput>())
@@ -6207,9 +6123,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the specified migration project using the provided parameters. The migration project must be closed before you can modify it.
     ///
-    /// - Parameter ModifyMigrationProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyMigrationProjectInput`)
     ///
-    /// - Returns: `ModifyMigrationProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyMigrationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6246,7 +6162,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyMigrationProjectInput, ModifyMigrationProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyMigrationProjectOutput>(ModifyMigrationProjectOutput.httpOutput(from:), ModifyMigrationProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyMigrationProjectInput, ModifyMigrationProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyMigrationProjectOutput>())
@@ -6281,9 +6196,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configuration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run this command include FAILED and CREATED. A provisioning state that allows you to run this command is FAILED_PROVISION.
     ///
-    /// - Parameter ModifyReplicationConfigInput :
+    /// - Parameter input: (Type: `ModifyReplicationConfigInput`)
     ///
-    /// - Returns: `ModifyReplicationConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyReplicationConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6320,7 +6235,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyReplicationConfigInput, ModifyReplicationConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyReplicationConfigOutput>(ModifyReplicationConfigOutput.httpOutput(from:), ModifyReplicationConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyReplicationConfigInput, ModifyReplicationConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyReplicationConfigOutput>())
@@ -6355,9 +6269,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
     ///
-    /// - Parameter ModifyReplicationInstanceInput :
+    /// - Parameter input: (Type: `ModifyReplicationInstanceInput`)
     ///
-    /// - Returns: `ModifyReplicationInstanceOutput` :
+    /// - Returns: (Type: `ModifyReplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6395,7 +6309,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyReplicationInstanceInput, ModifyReplicationInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyReplicationInstanceOutput>(ModifyReplicationInstanceOutput.httpOutput(from:), ModifyReplicationInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyReplicationInstanceInput, ModifyReplicationInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyReplicationInstanceOutput>())
@@ -6430,9 +6343,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the settings for the specified replication subnet group.
     ///
-    /// - Parameter ModifyReplicationSubnetGroupInput :
+    /// - Parameter input: (Type: `ModifyReplicationSubnetGroupInput`)
     ///
-    /// - Returns: `ModifyReplicationSubnetGroupOutput` :
+    /// - Returns: (Type: `ModifyReplicationSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6469,7 +6382,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyReplicationSubnetGroupInput, ModifyReplicationSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyReplicationSubnetGroupOutput>(ModifyReplicationSubnetGroupOutput.httpOutput(from:), ModifyReplicationSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyReplicationSubnetGroupInput, ModifyReplicationSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyReplicationSubnetGroupOutput>())
@@ -6504,9 +6416,9 @@ extension DatabaseMigrationClient {
     ///
     /// Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it. For more information about DMS tasks, see [Working with Migration Tasks](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.html) in the Database Migration Service User Guide.
     ///
-    /// - Parameter ModifyReplicationTaskInput :
+    /// - Parameter input: (Type: `ModifyReplicationTaskInput`)
     ///
-    /// - Returns: `ModifyReplicationTaskOutput` :
+    /// - Returns: (Type: `ModifyReplicationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6541,7 +6453,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyReplicationTaskInput, ModifyReplicationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyReplicationTaskOutput>(ModifyReplicationTaskOutput.httpOutput(from:), ModifyReplicationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyReplicationTaskInput, ModifyReplicationTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyReplicationTaskOutput>())
@@ -6576,9 +6487,9 @@ extension DatabaseMigrationClient {
     ///
     /// Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later DMS version as the current replication instance.
     ///
-    /// - Parameter MoveReplicationTaskInput :
+    /// - Parameter input: (Type: `MoveReplicationTaskInput`)
     ///
-    /// - Returns: `MoveReplicationTaskOutput` :
+    /// - Returns: (Type: `MoveReplicationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6614,7 +6525,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MoveReplicationTaskInput, MoveReplicationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MoveReplicationTaskOutput>(MoveReplicationTaskOutput.httpOutput(from:), MoveReplicationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MoveReplicationTaskInput, MoveReplicationTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MoveReplicationTaskOutput>())
@@ -6649,9 +6559,9 @@ extension DatabaseMigrationClient {
     ///
     /// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
     ///
-    /// - Parameter RebootReplicationInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootReplicationInstanceInput`)
     ///
-    /// - Returns: `RebootReplicationInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootReplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6684,7 +6594,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootReplicationInstanceInput, RebootReplicationInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootReplicationInstanceOutput>(RebootReplicationInstanceOutput.httpOutput(from:), RebootReplicationInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootReplicationInstanceInput, RebootReplicationInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootReplicationInstanceOutput>())
@@ -6719,9 +6628,9 @@ extension DatabaseMigrationClient {
     ///
     /// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation.
     ///
-    /// - Parameter RefreshSchemasInput :
+    /// - Parameter input: (Type: `RefreshSchemasInput`)
     ///
-    /// - Returns: `RefreshSchemasOutput` :
+    /// - Returns: (Type: `RefreshSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6756,7 +6665,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RefreshSchemasInput, RefreshSchemasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RefreshSchemasOutput>(RefreshSchemasOutput.httpOutput(from:), RefreshSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RefreshSchemasInput, RefreshSchemasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RefreshSchemasOutput>())
@@ -6791,9 +6699,9 @@ extension DatabaseMigrationClient {
     ///
     /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     ///
-    /// - Parameter ReloadReplicationTablesInput :
+    /// - Parameter input: (Type: `ReloadReplicationTablesInput`)
     ///
-    /// - Returns: `ReloadReplicationTablesOutput` :
+    /// - Returns: (Type: `ReloadReplicationTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6826,7 +6734,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReloadReplicationTablesInput, ReloadReplicationTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReloadReplicationTablesOutput>(ReloadReplicationTablesOutput.httpOutput(from:), ReloadReplicationTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReloadReplicationTablesInput, ReloadReplicationTablesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReloadReplicationTablesOutput>())
@@ -6861,9 +6768,9 @@ extension DatabaseMigrationClient {
     ///
     /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     ///
-    /// - Parameter ReloadTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReloadTablesInput`)
     ///
-    /// - Returns: `ReloadTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReloadTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6896,7 +6803,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReloadTablesInput, ReloadTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReloadTablesOutput>(ReloadTablesOutput.httpOutput(from:), ReloadTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReloadTablesInput, ReloadTablesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReloadTablesOutput>())
@@ -6931,9 +6837,9 @@ extension DatabaseMigrationClient {
     ///
     /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
-    /// - Parameter RemoveTagsFromResourceInput : Removes one or more tags from an DMS resource.
+    /// - Parameter input: Removes one or more tags from an DMS resource. (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` :
+    /// - Returns: (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6966,7 +6872,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())
@@ -7001,9 +6906,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
     ///
-    /// - Parameter RunFleetAdvisorLsaAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RunFleetAdvisorLsaAnalysisInput`)
     ///
-    /// - Returns: `RunFleetAdvisorLsaAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RunFleetAdvisorLsaAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7036,7 +6941,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RunFleetAdvisorLsaAnalysisInput, RunFleetAdvisorLsaAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunFleetAdvisorLsaAnalysisOutput>(RunFleetAdvisorLsaAnalysisOutput.httpOutput(from:), RunFleetAdvisorLsaAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunFleetAdvisorLsaAnalysisInput, RunFleetAdvisorLsaAnalysisOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RunFleetAdvisorLsaAnalysisOutput>())
@@ -7071,9 +6975,9 @@ extension DatabaseMigrationClient {
     ///
     /// Starts the specified data migration.
     ///
-    /// - Parameter StartDataMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataMigrationInput`)
     ///
-    /// - Returns: `StartDataMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7109,7 +7013,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataMigrationInput, StartDataMigrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataMigrationOutput>(StartDataMigrationOutput.httpOutput(from:), StartDataMigrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataMigrationInput, StartDataMigrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataMigrationOutput>())
@@ -7144,9 +7047,9 @@ extension DatabaseMigrationClient {
     ///
     /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
-    /// - Parameter StartExtensionPackAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExtensionPackAssociationInput`)
     ///
-    /// - Returns: `StartExtensionPackAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExtensionPackAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7185,7 +7088,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExtensionPackAssociationInput, StartExtensionPackAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExtensionPackAssociationOutput>(StartExtensionPackAssociationOutput.httpOutput(from:), StartExtensionPackAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExtensionPackAssociationInput, StartExtensionPackAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExtensionPackAssociationOutput>())
@@ -7220,9 +7122,9 @@ extension DatabaseMigrationClient {
     ///
     /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
     ///
-    /// - Parameter StartMetadataModelAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetadataModelAssessmentInput`)
     ///
-    /// - Returns: `StartMetadataModelAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetadataModelAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7261,7 +7163,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetadataModelAssessmentInput, StartMetadataModelAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetadataModelAssessmentOutput>(StartMetadataModelAssessmentOutput.httpOutput(from:), StartMetadataModelAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetadataModelAssessmentInput, StartMetadataModelAssessmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetadataModelAssessmentOutput>())
@@ -7296,9 +7197,9 @@ extension DatabaseMigrationClient {
     ///
     /// Converts your source database objects to a format compatible with the target database.
     ///
-    /// - Parameter StartMetadataModelConversionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetadataModelConversionInput`)
     ///
-    /// - Returns: `StartMetadataModelConversionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetadataModelConversionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7337,7 +7238,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetadataModelConversionInput, StartMetadataModelConversionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetadataModelConversionOutput>(StartMetadataModelConversionOutput.httpOutput(from:), StartMetadataModelConversionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetadataModelConversionInput, StartMetadataModelConversionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetadataModelConversionOutput>())
@@ -7372,9 +7272,9 @@ extension DatabaseMigrationClient {
     ///
     /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
     ///
-    /// - Parameter StartMetadataModelExportAsScriptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetadataModelExportAsScriptInput`)
     ///
-    /// - Returns: `StartMetadataModelExportAsScriptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetadataModelExportAsScriptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7413,7 +7313,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetadataModelExportAsScriptInput, StartMetadataModelExportAsScriptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetadataModelExportAsScriptOutput>(StartMetadataModelExportAsScriptOutput.httpOutput(from:), StartMetadataModelExportAsScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetadataModelExportAsScriptInput, StartMetadataModelExportAsScriptOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetadataModelExportAsScriptOutput>())
@@ -7448,9 +7347,9 @@ extension DatabaseMigrationClient {
     ///
     /// Applies converted database objects to your target database.
     ///
-    /// - Parameter StartMetadataModelExportToTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetadataModelExportToTargetInput`)
     ///
-    /// - Returns: `StartMetadataModelExportToTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetadataModelExportToTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7489,7 +7388,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetadataModelExportToTargetInput, StartMetadataModelExportToTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetadataModelExportToTargetOutput>(StartMetadataModelExportToTargetOutput.httpOutput(from:), StartMetadataModelExportToTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetadataModelExportToTargetInput, StartMetadataModelExportToTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetadataModelExportToTargetOutput>())
@@ -7524,9 +7422,9 @@ extension DatabaseMigrationClient {
     ///
     /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
     ///
-    /// - Parameter StartMetadataModelImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetadataModelImportInput`)
     ///
-    /// - Returns: `StartMetadataModelImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetadataModelImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7565,7 +7463,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetadataModelImportInput, StartMetadataModelImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetadataModelImportOutput>(StartMetadataModelImportOutput.httpOutput(from:), StartMetadataModelImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetadataModelImportInput, StartMetadataModelImportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetadataModelImportOutput>())
@@ -7600,9 +7497,9 @@ extension DatabaseMigrationClient {
     ///
     /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using [BatchStartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_BatchStartRecommendations.html).
     ///
-    /// - Parameter StartRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRecommendationsInput`)
     ///
-    /// - Returns: `StartRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7636,7 +7533,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRecommendationsInput, StartRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRecommendationsOutput>(StartRecommendationsOutput.httpOutput(from:), StartRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRecommendationsInput, StartRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRecommendationsOutput>())
@@ -7671,9 +7567,9 @@ extension DatabaseMigrationClient {
     ///
     /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication.
     ///
-    /// - Parameter StartReplicationInput :
+    /// - Parameter input: (Type: `StartReplicationInput`)
     ///
-    /// - Returns: `StartReplicationOutput` :
+    /// - Returns: (Type: `StartReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7707,7 +7603,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReplicationInput, StartReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReplicationOutput>(StartReplicationOutput.httpOutput(from:), StartReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplicationInput, StartReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReplicationOutput>())
@@ -7742,9 +7637,9 @@ extension DatabaseMigrationClient {
     ///
     /// Starts the replication task. For more information about DMS tasks, see [Working with Migration Tasks ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.html) in the Database Migration Service User Guide.
     ///
-    /// - Parameter StartReplicationTaskInput :
+    /// - Parameter input: (Type: `StartReplicationTaskInput`)
     ///
-    /// - Returns: `StartReplicationTaskOutput` :
+    /// - Returns: (Type: `StartReplicationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7778,7 +7673,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReplicationTaskInput, StartReplicationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReplicationTaskOutput>(StartReplicationTaskOutput.httpOutput(from:), StartReplicationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplicationTaskInput, StartReplicationTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReplicationTaskOutput>())
@@ -7820,9 +7714,9 @@ extension DatabaseMigrationClient {
     ///
     /// If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see [Creating a task assessment report](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html) in the Database Migration Service User Guide.
     ///
-    /// - Parameter StartReplicationTaskAssessmentInput :
+    /// - Parameter input: (Type: `StartReplicationTaskAssessmentInput`)
     ///
-    /// - Returns: `StartReplicationTaskAssessmentOutput` :
+    /// - Returns: (Type: `StartReplicationTaskAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7855,7 +7749,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReplicationTaskAssessmentInput, StartReplicationTaskAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReplicationTaskAssessmentOutput>(StartReplicationTaskAssessmentOutput.httpOutput(from:), StartReplicationTaskAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplicationTaskAssessmentInput, StartReplicationTaskAssessmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReplicationTaskAssessmentOutput>())
@@ -7890,9 +7783,9 @@ extension DatabaseMigrationClient {
     ///
     /// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complete.
     ///
-    /// - Parameter StartReplicationTaskAssessmentRunInput :
+    /// - Parameter input: (Type: `StartReplicationTaskAssessmentRunInput`)
     ///
-    /// - Returns: `StartReplicationTaskAssessmentRunOutput` :
+    /// - Returns: (Type: `StartReplicationTaskAssessmentRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7935,7 +7828,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReplicationTaskAssessmentRunInput, StartReplicationTaskAssessmentRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReplicationTaskAssessmentRunOutput>(StartReplicationTaskAssessmentRunOutput.httpOutput(from:), StartReplicationTaskAssessmentRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplicationTaskAssessmentRunInput, StartReplicationTaskAssessmentRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReplicationTaskAssessmentRunOutput>())
@@ -7970,9 +7862,9 @@ extension DatabaseMigrationClient {
     ///
     /// Stops the specified data migration.
     ///
-    /// - Parameter StopDataMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDataMigrationInput`)
     ///
-    /// - Returns: `StopDataMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDataMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8006,7 +7898,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDataMigrationInput, StopDataMigrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDataMigrationOutput>(StopDataMigrationOutput.httpOutput(from:), StopDataMigrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDataMigrationInput, StopDataMigrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDataMigrationOutput>())
@@ -8041,9 +7932,9 @@ extension DatabaseMigrationClient {
     ///
     /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications.
     ///
-    /// - Parameter StopReplicationInput :
+    /// - Parameter input: (Type: `StopReplicationInput`)
     ///
-    /// - Returns: `StopReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8077,7 +7968,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopReplicationInput, StopReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopReplicationOutput>(StopReplicationOutput.httpOutput(from:), StopReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopReplicationInput, StopReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopReplicationOutput>())
@@ -8112,9 +8002,9 @@ extension DatabaseMigrationClient {
     ///
     /// Stops the replication task.
     ///
-    /// - Parameter StopReplicationTaskInput :
+    /// - Parameter input: (Type: `StopReplicationTaskInput`)
     ///
-    /// - Returns: `StopReplicationTaskOutput` :
+    /// - Returns: (Type: `StopReplicationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8147,7 +8037,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopReplicationTaskInput, StopReplicationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopReplicationTaskOutput>(StopReplicationTaskOutput.httpOutput(from:), StopReplicationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopReplicationTaskInput, StopReplicationTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopReplicationTaskOutput>())
@@ -8182,9 +8071,9 @@ extension DatabaseMigrationClient {
     ///
     /// Tests the connection between the replication instance and the endpoint.
     ///
-    /// - Parameter TestConnectionInput :
+    /// - Parameter input: (Type: `TestConnectionInput`)
     ///
-    /// - Returns: `TestConnectionOutput` :
+    /// - Returns: (Type: `TestConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8220,7 +8109,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestConnectionInput, TestConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestConnectionOutput>(TestConnectionOutput.httpOutput(from:), TestConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestConnectionInput, TestConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestConnectionOutput>())
@@ -8255,9 +8143,9 @@ extension DatabaseMigrationClient {
     ///
     /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.5, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see [Migrating event subscriptions to Amazon EventBridge](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html#CHAP_Events-migrate-to-eventbridge) in the Amazon Web Services Database Migration Service User Guide.
     ///
-    /// - Parameter UpdateSubscriptionsToEventBridgeInput :
+    /// - Parameter input: (Type: `UpdateSubscriptionsToEventBridgeInput`)
     ///
-    /// - Returns: `UpdateSubscriptionsToEventBridgeOutput` :
+    /// - Returns: (Type: `UpdateSubscriptionsToEventBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8290,7 +8178,6 @@ extension DatabaseMigrationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriptionsToEventBridgeInput, UpdateSubscriptionsToEventBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriptionsToEventBridgeOutput>(UpdateSubscriptionsToEventBridgeOutput.httpOutput(from:), UpdateSubscriptionsToEventBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriptionsToEventBridgeInput, UpdateSubscriptionsToEventBridgeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubscriptionsToEventBridgeOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceAgreementClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceAgreementClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceAgreementClient.MarketplaceAgreementClientConfiguration
     let serviceName = "Marketplace Agreement"
@@ -374,9 +373,9 @@ extension MarketplaceAgreementClient {
     ///
     /// Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
     ///
-    /// - Parameter DescribeAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgreementInput`)
     ///
-    /// - Returns: `DescribeAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +411,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAgreementOutput>(DescribeAgreementOutput.httpOutput(from:), DescribeAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAgreementOutput>())
@@ -458,9 +456,9 @@ extension MarketplaceAgreementClient {
     ///
     /// * Configuration – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the EnableAutoRenew flag.
     ///
-    /// - Parameter GetAgreementTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementTermsInput`)
     ///
-    /// - Returns: `GetAgreementTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgreementTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -496,7 +494,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgreementTermsOutput>(GetAgreementTermsOutput.httpOutput(from:), GetAgreementTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementTermsOutput>())
@@ -559,9 +556,9 @@ extension MarketplaceAgreementClient {
     ///
     /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceType
     ///
-    /// - Parameter SearchAgreementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAgreementsInput`)
     ///
-    /// - Returns: `SearchAgreementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAgreementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,7 +593,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAgreementsOutput>(SearchAgreementsOutput.httpOutput(from:), SearchAgreementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAgreementsOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RedshiftDataClient: ClientRuntime.Client {
     public static let clientName = "RedshiftDataClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: RedshiftDataClient.RedshiftDataClientConfiguration
     let serviceName = "Redshift Data"
@@ -391,9 +390,9 @@ extension RedshiftDataClient {
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter BatchExecuteStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchExecuteStatementInput`)
     ///
-    /// - Returns: `BatchExecuteStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchExecuteStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -430,7 +429,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchExecuteStatementOutput>(BatchExecuteStatementOutput.httpOutput(from:), BatchExecuteStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchExecuteStatementOutput>())
@@ -465,9 +463,9 @@ extension RedshiftDataClient {
     ///
     /// Cancels a running query. To be canceled, a query must be running. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter CancelStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelStatementInput`)
     ///
-    /// - Returns: `CancelStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,7 +500,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelStatementInput, CancelStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelStatementOutput>(CancelStatementOutput.httpOutput(from:), CancelStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelStatementInput, CancelStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelStatementOutput>())
@@ -537,9 +534,9 @@ extension RedshiftDataClient {
     ///
     /// Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows returned, and the SQL statement. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter DescribeStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStatementInput`)
     ///
-    /// - Returns: `DescribeStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -573,7 +570,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStatementInput, DescribeStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStatementOutput>(DescribeStatementOutput.httpOutput(from:), DescribeStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStatementInput, DescribeStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStatementOutput>())
@@ -624,9 +620,9 @@ extension RedshiftDataClient {
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter DescribeTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTableInput`)
     ///
-    /// - Returns: `DescribeTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,7 +657,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTableInput, DescribeTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTableOutput>(DescribeTableOutput.httpOutput(from:), DescribeTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTableInput, DescribeTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableOutput>())
@@ -712,9 +707,9 @@ extension RedshiftDataClient {
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter ExecuteStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteStatementInput`)
     ///
-    /// - Returns: `ExecuteStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,7 +746,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteStatementInput, ExecuteStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteStatementOutput>(ExecuteStatementOutput.httpOutput(from:), ExecuteStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteStatementOutput>())
@@ -786,9 +780,9 @@ extension RedshiftDataClient {
     ///
     /// Fetches the temporarily cached result of an SQL statement in JSON format. The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as JSON , or let the format default to JSON. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter GetStatementResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStatementResultInput`)
     ///
-    /// - Returns: `GetStatementResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStatementResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -822,7 +816,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStatementResultInput, GetStatementResultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStatementResultOutput>(GetStatementResultOutput.httpOutput(from:), GetStatementResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStatementResultInput, GetStatementResultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStatementResultOutput>())
@@ -857,9 +850,9 @@ extension RedshiftDataClient {
     ///
     /// Fetches the temporarily cached result of an SQL statement in CSV format. The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as CSV. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter GetStatementResultV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStatementResultV2Input`)
     ///
-    /// - Returns: `GetStatementResultV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStatementResultV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,7 +886,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStatementResultV2Input, GetStatementResultV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStatementResultV2Output>(GetStatementResultV2Output.httpOutput(from:), GetStatementResultV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStatementResultV2Input, GetStatementResultV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStatementResultV2Output>())
@@ -944,9 +936,9 @@ extension RedshiftDataClient {
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter ListDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatabasesInput`)
     ///
-    /// - Returns: `ListDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,7 +973,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatabasesInput, ListDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatabasesOutput>(ListDatabasesOutput.httpOutput(from:), ListDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatabasesInput, ListDatabasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatabasesOutput>())
@@ -1032,9 +1023,9 @@ extension RedshiftDataClient {
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter ListSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemasInput`)
     ///
-    /// - Returns: `ListSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,7 +1060,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemasInput, ListSchemasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemasOutput>(ListSchemasOutput.httpOutput(from:), ListSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemasInput, ListSchemasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemasOutput>())
@@ -1104,9 +1094,9 @@ extension RedshiftDataClient {
     ///
     /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. When you use identity-enhanced role sessions to list statements, you must provide either the cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see [ Trusted identity propagation overview](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html). For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter ListStatementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStatementsInput`)
     ///
-    /// - Returns: `ListStatementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStatementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,7 +1129,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStatementsInput, ListStatementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStatementsOutput>(ListStatementsOutput.httpOutput(from:), ListStatementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStatementsInput, ListStatementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStatementsOutput>())
@@ -1190,9 +1179,9 @@ extension RedshiftDataClient {
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
-    /// - Parameter ListTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTablesInput`)
     ///
-    /// - Returns: `ListTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,7 +1216,6 @@ extension RedshiftDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTablesInput, ListTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTablesOutput>(ListTablesOutput.httpOutput(from:), ListTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTablesInput, ListTablesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())

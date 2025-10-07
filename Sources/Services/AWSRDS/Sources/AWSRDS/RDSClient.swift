@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSClient: ClientRuntime.Client {
     public static let clientName = "RDSClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
     let serviceName = "RDS"
@@ -373,9 +372,9 @@ extension RDSClient {
     ///
     /// Associates an Identity and Access Management (IAM) role with a DB cluster.
     ///
-    /// - Parameter AddRoleToDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddRoleToDBClusterInput`)
     ///
-    /// - Returns: `AddRoleToDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddRoleToDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,7 +409,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddRoleToDBClusterOutput>(AddRoleToDBClusterOutput.httpOutput(from:), AddRoleToDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddRoleToDBClusterOutput>())
@@ -444,9 +442,9 @@ extension RDSClient {
     ///
     /// Associates an Amazon Web Services Identity and Access Management (IAM) role with a DB instance. To add a role to a DB instance, the status of the DB instance must be available. This command doesn't apply to RDS Custom.
     ///
-    /// - Parameter AddRoleToDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddRoleToDBInstanceInput`)
     ///
-    /// - Returns: `AddRoleToDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddRoleToDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,7 +479,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddRoleToDBInstanceInput, AddRoleToDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddRoleToDBInstanceOutput>(AddRoleToDBInstanceOutput.httpOutput(from:), AddRoleToDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddRoleToDBInstanceInput, AddRoleToDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddRoleToDBInstanceOutput>())
@@ -515,9 +512,9 @@ extension RDSClient {
     ///
     /// Adds a source identifier to an existing RDS event notification subscription.
     ///
-    /// - Parameter AddSourceIdentifierToSubscriptionInput :
+    /// - Parameter input: (Type: `AddSourceIdentifierToSubscriptionInput`)
     ///
-    /// - Returns: `AddSourceIdentifierToSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddSourceIdentifierToSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,7 +547,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddSourceIdentifierToSubscriptionOutput>(AddSourceIdentifierToSubscriptionOutput.httpOutput(from:), AddSourceIdentifierToSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddSourceIdentifierToSubscriptionOutput>())
@@ -584,9 +580,9 @@ extension RDSClient {
     ///
     /// Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS. For an overview on tagging your relational database resources, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) or [Tagging Amazon Aurora and Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html).
     ///
-    /// - Parameter AddTagsToResourceInput :
+    /// - Parameter input: (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,7 +627,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
@@ -665,9 +660,9 @@ extension RDSClient {
     ///
     /// Applies a pending maintenance action to a resource (for example, to a DB instance).
     ///
-    /// - Parameter ApplyPendingMaintenanceActionInput :
+    /// - Parameter input: (Type: `ApplyPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,7 +696,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutput>(ApplyPendingMaintenanceActionOutput.httpOutput(from:), ApplyPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyPendingMaintenanceActionOutput>())
@@ -735,9 +729,9 @@ extension RDSClient {
     ///
     /// Enables ingress to a DBSecurityGroup using one of two forms of authorization. First, EC2 or VPC security groups can be added to the DBSecurityGroup if the application using the database is running on EC2 or VPC instances. Second, IP ranges are available if the application accessing your database is running on the internet. Required parameters for this API are one of CIDR range, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId for non-VPC). You can't authorize ingress from an EC2 security group in one Amazon Web Services Region to an Amazon RDS DB instance in another. You can't authorize ingress from a VPC security group in one VPC to an Amazon RDS DB instance in another. For an overview of CIDR ranges, go to the [Wikipedia Tutorial](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter AuthorizeDBSecurityGroupIngressInput :
+    /// - Parameter input: (Type: `AuthorizeDBSecurityGroupIngressInput`)
     ///
-    /// - Returns: `AuthorizeDBSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeDBSecurityGroupIngressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,7 +766,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeDBSecurityGroupIngressInput, AuthorizeDBSecurityGroupIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeDBSecurityGroupIngressOutput>(AuthorizeDBSecurityGroupIngressOutput.httpOutput(from:), AuthorizeDBSecurityGroupIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeDBSecurityGroupIngressInput, AuthorizeDBSecurityGroupIngressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeDBSecurityGroupIngressOutput>())
@@ -806,9 +799,9 @@ extension RDSClient {
     ///
     /// Backtracks a DB cluster to a specific time, without creating a new DB cluster. For more information on backtracking, see [ Backtracking an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.Backtrack.html) in the Amazon Aurora User Guide. This action applies only to Aurora MySQL DB clusters.
     ///
-    /// - Parameter BacktrackDBClusterInput :
+    /// - Parameter input: (Type: `BacktrackDBClusterInput`)
     ///
-    /// - Returns: `BacktrackDBClusterOutput` : This data type is used as a response element in the DescribeDBClusterBacktracks action.
+    /// - Returns: This data type is used as a response element in the DescribeDBClusterBacktracks action. (Type: `BacktrackDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -841,7 +834,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BacktrackDBClusterInput, BacktrackDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BacktrackDBClusterOutput>(BacktrackDBClusterOutput.httpOutput(from:), BacktrackDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BacktrackDBClusterInput, BacktrackDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BacktrackDBClusterOutput>())
@@ -875,9 +867,9 @@ extension RDSClient {
     ///
     /// Cancels an export task in progress that is exporting a snapshot or cluster to Amazon S3. Any data that has already been written to the S3 bucket isn't removed.
     ///
-    /// - Parameter CancelExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelExportTaskInput`)
     ///
-    /// - Returns: `CancelExportTaskOutput` : Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks operation.
+    /// - Returns: Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks operation. (Type: `CancelExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,7 +902,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelExportTaskInput, CancelExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelExportTaskOutput>(CancelExportTaskOutput.httpOutput(from:), CancelExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelExportTaskInput, CancelExportTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelExportTaskOutput>())
@@ -944,9 +935,9 @@ extension RDSClient {
     ///
     /// Copies the specified DB cluster parameter group. You can't copy a default DB cluster parameter group. Instead, create a new custom DB cluster parameter group, which copies the default parameters and values for the specified DB cluster parameter group family.
     ///
-    /// - Parameter CopyDBClusterParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CopyDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -980,7 +971,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBClusterParameterGroupOutput>(CopyDBClusterParameterGroupOutput.httpOutput(from:), CopyDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBClusterParameterGroupOutput>())
@@ -1023,9 +1013,9 @@ extension RDSClient {
     ///
     /// To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status. For more information on copying encrypted Amazon Aurora DB cluster snapshots from one Amazon Web Services Region to another, see [ Copying a Snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html) in the Amazon Aurora User Guide. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter CopyDBClusterSnapshotInput :
+    /// - Parameter input: (Type: `CopyDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CopyDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,7 +1052,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBClusterSnapshotOutput>(CopyDBClusterSnapshotOutput.httpOutput(from:), CopyDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBClusterSnapshotOutput>())
@@ -1096,9 +1085,9 @@ extension RDSClient {
     ///
     /// Copies the specified DB parameter group. You can't copy a default DB parameter group. Instead, create a new custom DB parameter group, which copies the default parameters and values for the specified DB parameter group family.
     ///
-    /// - Parameter CopyDBParameterGroupInput :
+    /// - Parameter input: (Type: `CopyDBParameterGroupInput`)
     ///
-    /// - Returns: `CopyDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1132,7 +1121,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBParameterGroupOutput>(CopyDBParameterGroupOutput.httpOutput(from:), CopyDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBParameterGroupOutput>())
@@ -1166,9 +1154,9 @@ extension RDSClient {
     ///
     /// Copies the specified DB snapshot. The source DB snapshot must be in the available state. You can copy a snapshot from one Amazon Web Services Region to another. In that case, the Amazon Web Services Region where you call the CopyDBSnapshot operation is the destination Amazon Web Services Region for the DB snapshot copy. This command doesn't apply to RDS Custom. For more information about copying snapshots, see [Copying a DB Snapshot](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopyDBSnapshot) in the Amazon RDS User Guide.
     ///
-    /// - Parameter CopyDBSnapshotInput :
+    /// - Parameter input: (Type: `CopyDBSnapshotInput`)
     ///
-    /// - Returns: `CopyDBSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1205,7 +1193,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBSnapshotInput, CopyDBSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBSnapshotOutput>(CopyDBSnapshotOutput.httpOutput(from:), CopyDBSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBSnapshotInput, CopyDBSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBSnapshotOutput>())
@@ -1239,9 +1226,9 @@ extension RDSClient {
     ///
     /// Copies the specified option group.
     ///
-    /// - Parameter CopyOptionGroupInput :
+    /// - Parameter input: (Type: `CopyOptionGroupInput`)
     ///
-    /// - Returns: `CopyOptionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyOptionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,7 +1262,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyOptionGroupInput, CopyOptionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyOptionGroupOutput>(CopyOptionGroupOutput.httpOutput(from:), CopyOptionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyOptionGroupInput, CopyOptionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyOptionGroupOutput>())
@@ -1309,9 +1295,9 @@ extension RDSClient {
     ///
     /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment, and it stays in sync with the current production environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, change database parameters, or make schema changes in the staging environment. You can thoroughly test changes in the green environment. When ready, you can switch over the environments to promote the green environment to be the new production environment. The switchover typically takes under a minute. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter CreateBlueGreenDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBlueGreenDeploymentInput`)
     ///
-    /// - Returns: `CreateBlueGreenDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBlueGreenDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1354,7 +1340,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBlueGreenDeploymentInput, CreateBlueGreenDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBlueGreenDeploymentOutput>(CreateBlueGreenDeploymentOutput.httpOutput(from:), CreateBlueGreenDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBlueGreenDeploymentInput, CreateBlueGreenDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBlueGreenDeploymentOutput>())
@@ -1388,9 +1373,9 @@ extension RDSClient {
     ///
     /// Creates a custom DB engine version (CEV).
     ///
-    /// - Parameter CreateCustomDBEngineVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomDBEngineVersionInput`)
     ///
-    /// - Returns: `CreateCustomDBEngineVersionOutput` : This data type is used as a response element in the action DescribeDBEngineVersions.
+    /// - Returns: This data type is used as a response element in the action DescribeDBEngineVersions. (Type: `CreateCustomDBEngineVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1428,7 +1413,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomDBEngineVersionInput, CreateCustomDBEngineVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomDBEngineVersionOutput>(CreateCustomDBEngineVersionOutput.httpOutput(from:), CreateCustomDBEngineVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomDBEngineVersionInput, CreateCustomDBEngineVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomDBEngineVersionOutput>())
@@ -1462,9 +1446,9 @@ extension RDSClient {
     ///
     /// Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. If you create an Aurora DB cluster, the request creates an empty cluster. You must explicitly create the writer instance for your DB cluster using the [CreateDBInstance](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html) operation. If you create a Multi-AZ DB cluster, the request creates a writer and two reader DB instances for you, each in a different Availability Zone. You can use the ReplicationSourceIdentifier parameter to create an Amazon Aurora DB cluster as a read replica of another DB cluster or Amazon RDS for MySQL or PostgreSQL DB instance. For more information about Amazon Aurora, see [What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. You can also use the ReplicationSourceIdentifier parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see [Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter CreateDBClusterInput :
+    /// - Parameter input: (Type: `CreateDBClusterInput`)
     ///
-    /// - Returns: `CreateDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,7 +1502,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterInput, CreateDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterOutput>(CreateDBClusterOutput.httpOutput(from:), CreateDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterInput, CreateDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterOutput>())
@@ -1552,9 +1535,9 @@ extension RDSClient {
     ///
     /// Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster. This action applies only to Aurora DB clusters.
     ///
-    /// - Parameter CreateDBClusterEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBClusterEndpointInput`)
     ///
-    /// - Returns: `CreateDBClusterEndpointOutput` : This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
+    /// - Returns: This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
     ///
     /// * CreateDBClusterEndpoint
     ///
@@ -1565,7 +1548,7 @@ extension RDSClient {
     /// * DeleteDBClusterEndpoint
     ///
     ///
-    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint. (Type: `CreateDBClusterEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1602,7 +1585,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterEndpointOutput>(CreateDBClusterEndpointOutput.httpOutput(from:), CreateDBClusterEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterEndpointOutput>())
@@ -1636,9 +1618,9 @@ extension RDSClient {
     ///
     /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using ModifyDBCluster. When you associate a new DB cluster parameter group with a running Aurora DB cluster, reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect. When you associate a new DB cluster parameter group with a running Multi-AZ DB cluster, reboot the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon RDS console](https://console.aws.amazon.com/rds/) or the DescribeDBClusterParameters operation to verify that your DB cluster parameter group has been created or modified. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter CreateDBClusterParameterGroupInput :
+    /// - Parameter input: (Type: `CreateDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CreateDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1671,7 +1653,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterParameterGroupOutput>(CreateDBClusterParameterGroupOutput.httpOutput(from:), CreateDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterParameterGroupOutput>())
@@ -1705,9 +1686,9 @@ extension RDSClient {
     ///
     /// Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter CreateDBClusterSnapshotInput :
+    /// - Parameter input: (Type: `CreateDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CreateDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1743,7 +1724,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterSnapshotOutput>(CreateDBClusterSnapshotOutput.httpOutput(from:), CreateDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterSnapshotOutput>())
@@ -1777,9 +1757,9 @@ extension RDSClient {
     ///
     /// Creates a new DB instance. The new DB instance can be an RDS DB instance, or it can be a DB instance in an Aurora DB cluster. For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance to the cluster. For more information about creating an RDS DB instance, see [ Creating an Amazon RDS DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateDBInstance.html) in the Amazon RDS User Guide. For more information about creating a DB instance in an Aurora DB cluster, see [ Creating an Amazon Aurora DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.CreateInstance.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter CreateDBInstanceInput :
+    /// - Parameter input: (Type: `CreateDBInstanceInput`)
     ///
-    /// - Returns: `CreateDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1832,7 +1812,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBInstanceInput, CreateDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBInstanceOutput>(CreateDBInstanceOutput.httpOutput(from:), CreateDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBInstanceInput, CreateDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBInstanceOutput>())
@@ -1866,9 +1845,9 @@ extension RDSClient {
     ///
     /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see [Working with read replicas](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html) and [Migrating from a Multi-AZ DB cluster to a DB instance using a read replica](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html#multi-az-db-clusters-migrating-to-instance-with-read-replica) in the Amazon RDS User Guide. Amazon Aurora doesn't support this operation. To create a DB instance for an Aurora DB cluster, use the CreateDBInstance operation. RDS creates read replicas with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified. Your source DB instance or cluster must have backup retention enabled.
     ///
-    /// - Parameter CreateDBInstanceReadReplicaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBInstanceReadReplicaInput`)
     ///
-    /// - Returns: `CreateDBInstanceReadReplicaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBInstanceReadReplicaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1923,7 +1902,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBInstanceReadReplicaInput, CreateDBInstanceReadReplicaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBInstanceReadReplicaOutput>(CreateDBInstanceReadReplicaOutput.httpOutput(from:), CreateDBInstanceReadReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBInstanceReadReplicaInput, CreateDBInstanceReadReplicaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBInstanceReadReplicaOutput>())
@@ -1957,9 +1935,9 @@ extension RDSClient {
     ///
     /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup. Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance. When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance without failover for the new DB parameter group and associated settings to take effect. This command doesn't apply to RDS Custom.
     ///
-    /// - Parameter CreateDBParameterGroupInput :
+    /// - Parameter input: (Type: `CreateDBParameterGroupInput`)
     ///
-    /// - Returns: `CreateDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1992,7 +1970,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBParameterGroupOutput>(CreateDBParameterGroupOutput.httpOutput(from:), CreateDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBParameterGroupOutput>())
@@ -2026,9 +2003,9 @@ extension RDSClient {
     ///
     /// Creates a new DB proxy.
     ///
-    /// - Parameter CreateDBProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBProxyInput`)
     ///
-    /// - Returns: `CreateDBProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2062,7 +2039,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBProxyInput, CreateDBProxyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBProxyOutput>(CreateDBProxyOutput.httpOutput(from:), CreateDBProxyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBProxyInput, CreateDBProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBProxyOutput>())
@@ -2096,9 +2072,9 @@ extension RDSClient {
     ///
     /// Creates a DBProxyEndpoint. Only applies to proxies that are associated with Aurora DB clusters. You can use DB proxy endpoints to specify read/write or read-only access to the DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different VPC than the proxy's default VPC.
     ///
-    /// - Parameter CreateDBProxyEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBProxyEndpointInput`)
     ///
-    /// - Returns: `CreateDBProxyEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBProxyEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2134,7 +2110,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBProxyEndpointInput, CreateDBProxyEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBProxyEndpointOutput>(CreateDBProxyEndpointOutput.httpOutput(from:), CreateDBProxyEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBProxyEndpointInput, CreateDBProxyEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBProxyEndpointOutput>())
@@ -2168,9 +2143,9 @@ extension RDSClient {
     ///
     /// Creates a new DB security group. DB security groups control access to a DB instance. A DB security group controls access to EC2-Classic DB instances that are not in a VPC. EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter CreateDBSecurityGroupInput :
+    /// - Parameter input: (Type: `CreateDBSecurityGroupInput`)
     ///
-    /// - Returns: `CreateDBSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2204,7 +2179,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBSecurityGroupInput, CreateDBSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBSecurityGroupOutput>(CreateDBSecurityGroupOutput.httpOutput(from:), CreateDBSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBSecurityGroupInput, CreateDBSecurityGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBSecurityGroupOutput>())
@@ -2238,9 +2212,9 @@ extension RDSClient {
     ///
     /// Creates a new DB shard group for Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
     ///
-    /// - Parameter CreateDBShardGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBShardGroupInput`)
     ///
-    /// - Returns: `CreateDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
+    /// - Returns: Contains the details for an Amazon RDS DB shard group. (Type: `CreateDBShardGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2278,7 +2252,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBShardGroupInput, CreateDBShardGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBShardGroupOutput>(CreateDBShardGroupOutput.httpOutput(from:), CreateDBShardGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBShardGroupInput, CreateDBShardGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBShardGroupOutput>())
@@ -2312,9 +2285,9 @@ extension RDSClient {
     ///
     /// Creates a snapshot of a DB instance. The source DB instance must be in the available or storage-optimization state.
     ///
-    /// - Parameter CreateDBSnapshotInput :
+    /// - Parameter input: (Type: `CreateDBSnapshotInput`)
     ///
-    /// - Returns: `CreateDBSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2349,7 +2322,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBSnapshotInput, CreateDBSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBSnapshotOutput>(CreateDBSnapshotOutput.httpOutput(from:), CreateDBSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBSnapshotInput, CreateDBSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBSnapshotOutput>())
@@ -2383,9 +2355,9 @@ extension RDSClient {
     ///
     /// Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
     ///
-    /// - Parameter CreateDBSubnetGroupInput :
+    /// - Parameter input: (Type: `CreateDBSubnetGroupInput`)
     ///
-    /// - Returns: `CreateDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2421,7 +2393,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBSubnetGroupOutput>(CreateDBSubnetGroupOutput.httpOutput(from:), CreateDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBSubnetGroupOutput>())
@@ -2455,9 +2426,9 @@ extension RDSClient {
     ///
     /// Creates an RDS event notification subscription. This operation requires a topic Amazon Resource Name (ARN) created by either the RDS console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) that you want to be notified of and provide a list of RDS sources (SourceIds) that triggers the events. You can also provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIds = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify SourceIds, you receive notice of the events for that source type for all your RDS sources. If you don't specify either the SourceType or the SourceIds, you are notified of events generated from all RDS sources belonging to your customer account. For more information about subscribing to an event for RDS DB engines, see [ Subscribing to Amazon RDS event notification](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Subscribing.html) in the Amazon RDS User Guide. For more information about subscribing to an event for Aurora DB engines, see [ Subscribing to Amazon RDS event notification](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Subscribing.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter CreateEventSubscriptionInput :
+    /// - Parameter input: (Type: `CreateEventSubscriptionInput`)
     ///
-    /// - Returns: `CreateEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2495,7 +2466,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutput>(CreateEventSubscriptionOutput.httpOutput(from:), CreateEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventSubscriptionOutput>())
@@ -2529,9 +2499,9 @@ extension RDSClient {
     ///
     /// Creates an Aurora global database spread across multiple Amazon Web Services Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem. You can create a global database that is initially empty, and then create the primary and secondary DB clusters in the global database. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database. This operation applies only to Aurora DB clusters.
     ///
-    /// - Parameter CreateGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGlobalClusterInput`)
     ///
-    /// - Returns: `CreateGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2568,7 +2538,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlobalClusterOutput>(CreateGlobalClusterOutput.httpOutput(from:), CreateGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlobalClusterOutput>())
@@ -2602,9 +2571,9 @@ extension RDSClient {
     ///
     /// Creates a zero-ETL integration with Amazon Redshift.
     ///
-    /// - Parameter CreateIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationInput`)
     ///
-    /// - Returns: `CreateIntegrationOutput` : A zero-ETL integration with Amazon Redshift.
+    /// - Returns: A zero-ETL integration with Amazon Redshift. (Type: `CreateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2641,7 +2610,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationInput, CreateIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationOutput>(CreateIntegrationOutput.httpOutput(from:), CreateIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationOutput>())
@@ -2675,9 +2643,9 @@ extension RDSClient {
     ///
     /// Creates a new option group. You can create up to 20 option groups. This command doesn't apply to RDS Custom.
     ///
-    /// - Parameter CreateOptionGroupInput :
+    /// - Parameter input: (Type: `CreateOptionGroupInput`)
     ///
-    /// - Returns: `CreateOptionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOptionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2710,7 +2678,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOptionGroupInput, CreateOptionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOptionGroupOutput>(CreateOptionGroupOutput.httpOutput(from:), CreateOptionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOptionGroupInput, CreateOptionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOptionGroupOutput>())
@@ -2744,9 +2711,9 @@ extension RDSClient {
     ///
     /// Creates a tenant database in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle container database (CDB) instances are supported.
     ///
-    /// - Parameter CreateTenantDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTenantDatabaseInput`)
     ///
-    /// - Returns: `CreateTenantDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTenantDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2785,7 +2752,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTenantDatabaseInput, CreateTenantDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTenantDatabaseOutput>(CreateTenantDatabaseOutput.httpOutput(from:), CreateTenantDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTenantDatabaseInput, CreateTenantDatabaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTenantDatabaseOutput>())
@@ -2819,9 +2785,9 @@ extension RDSClient {
     ///
     /// Deletes a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter DeleteBlueGreenDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBlueGreenDeploymentInput`)
     ///
-    /// - Returns: `DeleteBlueGreenDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBlueGreenDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2854,7 +2820,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBlueGreenDeploymentInput, DeleteBlueGreenDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBlueGreenDeploymentOutput>(DeleteBlueGreenDeploymentOutput.httpOutput(from:), DeleteBlueGreenDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBlueGreenDeploymentInput, DeleteBlueGreenDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBlueGreenDeploymentOutput>())
@@ -2895,9 +2860,9 @@ extension RDSClient {
     ///
     /// Typically, deletion takes a few minutes. The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the DeleteCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for the DeleteCustomDbEngineVersion event. For more information, see [Deleting a CEV](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.delete) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DeleteCustomDBEngineVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomDBEngineVersionInput`)
     ///
-    /// - Returns: `DeleteCustomDBEngineVersionOutput` : This data type is used as a response element in the action DescribeDBEngineVersions.
+    /// - Returns: This data type is used as a response element in the action DescribeDBEngineVersions. (Type: `DeleteCustomDBEngineVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2930,7 +2895,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomDBEngineVersionInput, DeleteCustomDBEngineVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomDBEngineVersionOutput>(DeleteCustomDBEngineVersionOutput.httpOutput(from:), DeleteCustomDBEngineVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomDBEngineVersionInput, DeleteCustomDBEngineVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomDBEngineVersionOutput>())
@@ -2964,9 +2928,9 @@ extension RDSClient {
     ///
     /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. If you're deleting a Multi-AZ DB cluster with read replicas, all cluster members are terminated and read replicas are promoted to standalone instances. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DeleteDBClusterInput :
+    /// - Parameter input: (Type: `DeleteDBClusterInput`)
     ///
-    /// - Returns: `DeleteDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3005,7 +2969,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterInput, DeleteDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterOutput>(DeleteDBClusterOutput.httpOutput(from:), DeleteDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterInput, DeleteDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterOutput>())
@@ -3039,9 +3002,9 @@ extension RDSClient {
     ///
     /// Deletes automated backups using the DbClusterResourceId value of the source DB cluster or the Amazon Resource Name (ARN) of the automated backups.
     ///
-    /// - Parameter DeleteDBClusterAutomatedBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBClusterAutomatedBackupInput`)
     ///
-    /// - Returns: `DeleteDBClusterAutomatedBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterAutomatedBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3074,7 +3037,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterAutomatedBackupOutput>(DeleteDBClusterAutomatedBackupOutput.httpOutput(from:), DeleteDBClusterAutomatedBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterAutomatedBackupInput, DeleteDBClusterAutomatedBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterAutomatedBackupOutput>())
@@ -3108,9 +3070,9 @@ extension RDSClient {
     ///
     /// Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster. This action only applies to Aurora DB clusters.
     ///
-    /// - Parameter DeleteDBClusterEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBClusterEndpointInput`)
     ///
-    /// - Returns: `DeleteDBClusterEndpointOutput` : This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
+    /// - Returns: This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
     ///
     /// * CreateDBClusterEndpoint
     ///
@@ -3121,7 +3083,7 @@ extension RDSClient {
     /// * DeleteDBClusterEndpoint
     ///
     ///
-    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint. (Type: `DeleteDBClusterEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3155,7 +3117,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterEndpointOutput>(DeleteDBClusterEndpointOutput.httpOutput(from:), DeleteDBClusterEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterEndpointOutput>())
@@ -3189,9 +3150,9 @@ extension RDSClient {
     ///
     /// Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DeleteDBClusterParameterGroupInput :
+    /// - Parameter input: (Type: `DeleteDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `DeleteDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3224,7 +3185,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterParameterGroupOutput>(DeleteDBClusterParameterGroupOutput.httpOutput(from:), DeleteDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterParameterGroupOutput>())
@@ -3258,9 +3218,9 @@ extension RDSClient {
     ///
     /// Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The DB cluster snapshot must be in the available state to be deleted. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DeleteDBClusterSnapshotInput :
+    /// - Parameter input: (Type: `DeleteDBClusterSnapshotInput`)
     ///
-    /// - Returns: `DeleteDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3293,7 +3253,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterSnapshotOutput>(DeleteDBClusterSnapshotOutput.httpOutput(from:), DeleteDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterSnapshotOutput>())
@@ -3334,9 +3293,9 @@ extension RDSClient {
     ///
     /// To delete a DB instance in this case, first use the PromoteReadReplicaDBCluster operation to promote the DB cluster so that it's no longer a read replica. After the promotion completes, use the DeleteDBInstance operation to delete the final instance in the DB cluster. For RDS Custom DB instances, deleting the DB instance permanently deletes the EC2 instance and the associated EBS volumes. Make sure that you don't terminate or delete these resources before you delete the DB instance. Otherwise, deleting the DB instance and creation of the final snapshot might fail.
     ///
-    /// - Parameter DeleteDBInstanceInput :
+    /// - Parameter input: (Type: `DeleteDBInstanceInput`)
     ///
-    /// - Returns: `DeleteDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3374,7 +3333,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBInstanceOutput>(DeleteDBInstanceOutput.httpOutput(from:), DeleteDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBInstanceOutput>())
@@ -3408,9 +3366,9 @@ extension RDSClient {
     ///
     /// Deletes automated backups using the DbiResourceId value of the source DB instance or the Amazon Resource Name (ARN) of the automated backups.
     ///
-    /// - Parameter DeleteDBInstanceAutomatedBackupInput : Parameter input for the DeleteDBInstanceAutomatedBackup operation.
+    /// - Parameter input: Parameter input for the DeleteDBInstanceAutomatedBackup operation. (Type: `DeleteDBInstanceAutomatedBackupInput`)
     ///
-    /// - Returns: `DeleteDBInstanceAutomatedBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBInstanceAutomatedBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3443,7 +3401,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBInstanceAutomatedBackupInput, DeleteDBInstanceAutomatedBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBInstanceAutomatedBackupOutput>(DeleteDBInstanceAutomatedBackupOutput.httpOutput(from:), DeleteDBInstanceAutomatedBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBInstanceAutomatedBackupInput, DeleteDBInstanceAutomatedBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBInstanceAutomatedBackupOutput>())
@@ -3477,9 +3434,9 @@ extension RDSClient {
     ///
     /// Deletes a specified DB parameter group. The DB parameter group to be deleted can't be associated with any DB instances.
     ///
-    /// - Parameter DeleteDBParameterGroupInput :
+    /// - Parameter input: (Type: `DeleteDBParameterGroupInput`)
     ///
-    /// - Returns: `DeleteDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3512,7 +3469,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBParameterGroupOutput>(DeleteDBParameterGroupOutput.httpOutput(from:), DeleteDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBParameterGroupOutput>())
@@ -3546,9 +3502,9 @@ extension RDSClient {
     ///
     /// Deletes an existing DB proxy.
     ///
-    /// - Parameter DeleteDBProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBProxyInput`)
     ///
-    /// - Returns: `DeleteDBProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3581,7 +3537,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBProxyInput, DeleteDBProxyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBProxyOutput>(DeleteDBProxyOutput.httpOutput(from:), DeleteDBProxyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBProxyInput, DeleteDBProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBProxyOutput>())
@@ -3615,9 +3570,9 @@ extension RDSClient {
     ///
     /// Deletes a DBProxyEndpoint. Doing so removes the ability to access the DB proxy using the endpoint that you defined. The endpoint that you delete might have provided capabilities such as read/write or read-only operations, or using a different VPC than the DB proxy's default VPC.
     ///
-    /// - Parameter DeleteDBProxyEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBProxyEndpointInput`)
     ///
-    /// - Returns: `DeleteDBProxyEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBProxyEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3650,7 +3605,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBProxyEndpointInput, DeleteDBProxyEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBProxyEndpointOutput>(DeleteDBProxyEndpointOutput.httpOutput(from:), DeleteDBProxyEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBProxyEndpointInput, DeleteDBProxyEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBProxyEndpointOutput>())
@@ -3684,9 +3638,9 @@ extension RDSClient {
     ///
     /// Deletes a DB security group. The specified DB security group must not be associated with any DB instances. EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DeleteDBSecurityGroupInput :
+    /// - Parameter input: (Type: `DeleteDBSecurityGroupInput`)
     ///
-    /// - Returns: `DeleteDBSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3719,7 +3673,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBSecurityGroupInput, DeleteDBSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBSecurityGroupOutput>(DeleteDBSecurityGroupOutput.httpOutput(from:), DeleteDBSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBSecurityGroupInput, DeleteDBSecurityGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBSecurityGroupOutput>())
@@ -3753,9 +3706,9 @@ extension RDSClient {
     ///
     /// Deletes an Aurora Limitless Database DB shard group.
     ///
-    /// - Parameter DeleteDBShardGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBShardGroupInput`)
     ///
-    /// - Returns: `DeleteDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
+    /// - Returns: Contains the details for an Amazon RDS DB shard group. (Type: `DeleteDBShardGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3789,7 +3742,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBShardGroupInput, DeleteDBShardGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBShardGroupOutput>(DeleteDBShardGroupOutput.httpOutput(from:), DeleteDBShardGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBShardGroupInput, DeleteDBShardGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBShardGroupOutput>())
@@ -3823,9 +3775,9 @@ extension RDSClient {
     ///
     /// Deletes a DB snapshot. If the snapshot is being copied, the copy operation is terminated. The DB snapshot must be in the available state to be deleted.
     ///
-    /// - Parameter DeleteDBSnapshotInput :
+    /// - Parameter input: (Type: `DeleteDBSnapshotInput`)
     ///
-    /// - Returns: `DeleteDBSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3858,7 +3810,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBSnapshotInput, DeleteDBSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBSnapshotOutput>(DeleteDBSnapshotOutput.httpOutput(from:), DeleteDBSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBSnapshotInput, DeleteDBSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBSnapshotOutput>())
@@ -3892,9 +3843,9 @@ extension RDSClient {
     ///
     /// Deletes a DB subnet group. The specified database subnet group must not be associated with any DB instances.
     ///
-    /// - Parameter DeleteDBSubnetGroupInput :
+    /// - Parameter input: (Type: `DeleteDBSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3928,7 +3879,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBSubnetGroupOutput>(DeleteDBSubnetGroupOutput.httpOutput(from:), DeleteDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBSubnetGroupOutput>())
@@ -3962,9 +3912,9 @@ extension RDSClient {
     ///
     /// Deletes an RDS event notification subscription.
     ///
-    /// - Parameter DeleteEventSubscriptionInput :
+    /// - Parameter input: (Type: `DeleteEventSubscriptionInput`)
     ///
-    /// - Returns: `DeleteEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3997,7 +3947,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutput>(DeleteEventSubscriptionOutput.httpOutput(from:), DeleteEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventSubscriptionOutput>())
@@ -4031,9 +3980,9 @@ extension RDSClient {
     ///
     /// Deletes a global database cluster. The primary and secondary clusters must already be detached or destroyed first. This action only applies to Aurora DB clusters.
     ///
-    /// - Parameter DeleteGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlobalClusterInput`)
     ///
-    /// - Returns: `DeleteGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4066,7 +4015,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlobalClusterOutput>(DeleteGlobalClusterOutput.httpOutput(from:), DeleteGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlobalClusterOutput>())
@@ -4100,9 +4048,9 @@ extension RDSClient {
     ///
     /// Deletes a zero-ETL integration with Amazon Redshift.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : A zero-ETL integration with Amazon Redshift.
+    /// - Returns: A zero-ETL integration with Amazon Redshift. (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4136,7 +4084,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
@@ -4170,9 +4117,9 @@ extension RDSClient {
     ///
     /// Deletes an existing option group.
     ///
-    /// - Parameter DeleteOptionGroupInput :
+    /// - Parameter input: (Type: `DeleteOptionGroupInput`)
     ///
-    /// - Returns: `DeleteOptionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOptionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4205,7 +4152,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOptionGroupInput, DeleteOptionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOptionGroupOutput>(DeleteOptionGroupOutput.httpOutput(from:), DeleteOptionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOptionGroupInput, DeleteOptionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOptionGroupOutput>())
@@ -4239,9 +4185,9 @@ extension RDSClient {
     ///
     /// Deletes a tenant database from your DB instance. This command only applies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance.
     ///
-    /// - Parameter DeleteTenantDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTenantDatabaseInput`)
     ///
-    /// - Returns: `DeleteTenantDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTenantDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4276,7 +4222,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTenantDatabaseInput, DeleteTenantDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTenantDatabaseOutput>(DeleteTenantDatabaseOutput.httpOutput(from:), DeleteTenantDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTenantDatabaseInput, DeleteTenantDatabaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTenantDatabaseOutput>())
@@ -4310,9 +4255,9 @@ extension RDSClient {
     ///
     /// Remove the association between one or more DBProxyTarget data structures and a DBProxyTargetGroup.
     ///
-    /// - Parameter DeregisterDBProxyTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterDBProxyTargetsInput`)
     ///
-    /// - Returns: `DeregisterDBProxyTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterDBProxyTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4347,7 +4292,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterDBProxyTargetsInput, DeregisterDBProxyTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterDBProxyTargetsOutput>(DeregisterDBProxyTargetsOutput.httpOutput(from:), DeregisterDBProxyTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterDBProxyTargetsInput, DeregisterDBProxyTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterDBProxyTargetsOutput>())
@@ -4381,9 +4325,9 @@ extension RDSClient {
     ///
     /// Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters.
     ///
-    /// - Parameter DescribeAccountAttributesInput :
+    /// - Parameter input: (Type: `DescribeAccountAttributesInput`)
     ///
-    /// - Returns: `DescribeAccountAttributesOutput` : Data returned by the DescribeAccountAttributes action.
+    /// - Returns: Data returned by the DescribeAccountAttributes action. (Type: `DescribeAccountAttributesOutput`)
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4410,7 +4354,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
@@ -4444,9 +4387,9 @@ extension RDSClient {
     ///
     /// Describes one or more blue/green deployments. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter DescribeBlueGreenDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBlueGreenDeploymentsInput`)
     ///
-    /// - Returns: `DescribeBlueGreenDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBlueGreenDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4478,7 +4421,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBlueGreenDeploymentsOutput>(DescribeBlueGreenDeploymentsOutput.httpOutput(from:), DescribeBlueGreenDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBlueGreenDeploymentsOutput>())
@@ -4512,9 +4454,9 @@ extension RDSClient {
     ///
     /// Lists the set of certificate authority (CA) certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter DescribeCertificatesInput :
+    /// - Parameter input: (Type: `DescribeCertificatesInput`)
     ///
-    /// - Returns: `DescribeCertificatesOutput` : Data returned by the DescribeCertificates action.
+    /// - Returns: Data returned by the DescribeCertificates action. (Type: `DescribeCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4546,7 +4488,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificatesInput, DescribeCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificatesOutput>(DescribeCertificatesOutput.httpOutput(from:), DescribeCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificatesInput, DescribeCertificatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificatesOutput>())
@@ -4580,9 +4521,9 @@ extension RDSClient {
     ///
     /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details about automated backups for previously deleted clusters. Current clusters are returned for both the DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
     ///
-    /// - Parameter DescribeDBClusterAutomatedBackupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClusterAutomatedBackupsInput`)
     ///
-    /// - Returns: `DescribeDBClusterAutomatedBackupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterAutomatedBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4614,7 +4555,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterAutomatedBackupsOutput>(DescribeDBClusterAutomatedBackupsOutput.httpOutput(from:), DescribeDBClusterAutomatedBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterAutomatedBackupsOutput>())
@@ -4648,9 +4588,9 @@ extension RDSClient {
     ///
     /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This action only applies to Aurora MySQL DB clusters.
     ///
-    /// - Parameter DescribeDBClusterBacktracksInput :
+    /// - Parameter input: (Type: `DescribeDBClusterBacktracksInput`)
     ///
-    /// - Returns: `DescribeDBClusterBacktracksOutput` : Contains the result of a successful invocation of the DescribeDBClusterBacktracks action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBClusterBacktracks action. (Type: `DescribeDBClusterBacktracksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4683,7 +4623,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterBacktracksOutput>(DescribeDBClusterBacktracksOutput.httpOutput(from:), DescribeDBClusterBacktracksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterBacktracksOutput>())
@@ -4717,9 +4656,9 @@ extension RDSClient {
     ///
     /// Returns information about endpoints for an Amazon Aurora DB cluster. This action only applies to Aurora DB clusters.
     ///
-    /// - Parameter DescribeDBClusterEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClusterEndpointsInput`)
     ///
-    /// - Returns: `DescribeDBClusterEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4751,7 +4690,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterEndpointsOutput>(DescribeDBClusterEndpointsOutput.httpOutput(from:), DescribeDBClusterEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterEndpointsOutput>())
@@ -4785,9 +4723,9 @@ extension RDSClient {
     ///
     /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DescribeDBClusterParameterGroupsInput :
+    /// - Parameter input: (Type: `DescribeDBClusterParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeDBClusterParameterGroupsOutput` :
+    /// - Returns: (Type: `DescribeDBClusterParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4819,7 +4757,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterParameterGroupsOutput>(DescribeDBClusterParameterGroupsOutput.httpOutput(from:), DescribeDBClusterParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterParameterGroupsOutput>())
@@ -4853,9 +4790,9 @@ extension RDSClient {
     ///
     /// Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DescribeDBClusterParametersInput :
+    /// - Parameter input: (Type: `DescribeDBClusterParametersInput`)
     ///
-    /// - Returns: `DescribeDBClusterParametersOutput` : Provides details about a DB cluster parameter group including the parameters in the DB cluster parameter group.
+    /// - Returns: Provides details about a DB cluster parameter group including the parameters in the DB cluster parameter group. (Type: `DescribeDBClusterParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4887,7 +4824,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterParametersOutput>(DescribeDBClusterParametersOutput.httpOutput(from:), DescribeDBClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterParametersOutput>())
@@ -4921,9 +4857,9 @@ extension RDSClient {
     ///
     /// Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other Amazon Web Services accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts. To add or remove access for an Amazon Web Services account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API action.
     ///
-    /// - Parameter DescribeDBClusterSnapshotAttributesInput :
+    /// - Parameter input: (Type: `DescribeDBClusterSnapshotAttributesInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterSnapshotAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4955,7 +4891,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotAttributesOutput>(DescribeDBClusterSnapshotAttributesOutput.httpOutput(from:), DescribeDBClusterSnapshotAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterSnapshotAttributesOutput>())
@@ -4989,9 +4924,9 @@ extension RDSClient {
     ///
     /// Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DescribeDBClusterSnapshotsInput :
+    /// - Parameter input: (Type: `DescribeDBClusterSnapshotsInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotsOutput` : Provides a list of DB cluster snapshots for the user as the result of a call to the DescribeDBClusterSnapshots action.
+    /// - Returns: Provides a list of DB cluster snapshots for the user as the result of a call to the DescribeDBClusterSnapshots action. (Type: `DescribeDBClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5023,7 +4958,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotsOutput>(DescribeDBClusterSnapshotsOutput.httpOutput(from:), DescribeDBClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterSnapshotsOutput>())
@@ -5057,9 +4991,9 @@ extension RDSClient {
     ///
     /// Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     ///
-    /// - Parameter DescribeDBClustersInput :
+    /// - Parameter input: (Type: `DescribeDBClustersInput`)
     ///
-    /// - Returns: `DescribeDBClustersOutput` : Contains the result of a successful invocation of the DescribeDBClusters action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBClusters action. (Type: `DescribeDBClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5091,7 +5025,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClustersInput, DescribeDBClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClustersOutput>(DescribeDBClustersOutput.httpOutput(from:), DescribeDBClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClustersInput, DescribeDBClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClustersOutput>())
@@ -5125,9 +5058,9 @@ extension RDSClient {
     ///
     /// Describes the properties of specific versions of DB engines.
     ///
-    /// - Parameter DescribeDBEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeDBEngineVersionsOutput` : Contains the result of a successful invocation of the DescribeDBEngineVersions action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBEngineVersions action. (Type: `DescribeDBEngineVersionsOutput`)
     public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5154,7 +5087,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBEngineVersionsOutput>(DescribeDBEngineVersionsOutput.httpOutput(from:), DescribeDBEngineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBEngineVersionsOutput>())
@@ -5188,9 +5120,9 @@ extension RDSClient {
     ///
     /// Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
     ///
-    /// - Parameter DescribeDBInstanceAutomatedBackupsInput : Parameter input for DescribeDBInstanceAutomatedBackups.
+    /// - Parameter input: Parameter input for DescribeDBInstanceAutomatedBackups. (Type: `DescribeDBInstanceAutomatedBackupsInput`)
     ///
-    /// - Returns: `DescribeDBInstanceAutomatedBackupsOutput` : Contains the result of a successful invocation of the DescribeDBInstanceAutomatedBackups action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBInstanceAutomatedBackups action. (Type: `DescribeDBInstanceAutomatedBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5222,7 +5154,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBInstanceAutomatedBackupsOutput>(DescribeDBInstanceAutomatedBackupsOutput.httpOutput(from:), DescribeDBInstanceAutomatedBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBInstanceAutomatedBackupsOutput>())
@@ -5256,9 +5187,9 @@ extension RDSClient {
     ///
     /// Describes provisioned RDS instances. This API supports pagination. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     ///
-    /// - Parameter DescribeDBInstancesInput :
+    /// - Parameter input: (Type: `DescribeDBInstancesInput`)
     ///
-    /// - Returns: `DescribeDBInstancesOutput` : Contains the result of a successful invocation of the DescribeDBInstances action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBInstances action. (Type: `DescribeDBInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5290,7 +5221,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBInstancesOutput>(DescribeDBInstancesOutput.httpOutput(from:), DescribeDBInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBInstancesOutput>())
@@ -5324,9 +5254,9 @@ extension RDSClient {
     ///
     /// Returns a list of DB log files for the DB instance. This command doesn't apply to RDS Custom.
     ///
-    /// - Parameter DescribeDBLogFilesInput :
+    /// - Parameter input: (Type: `DescribeDBLogFilesInput`)
     ///
-    /// - Returns: `DescribeDBLogFilesOutput` : The response from a call to DescribeDBLogFiles.
+    /// - Returns: The response from a call to DescribeDBLogFiles. (Type: `DescribeDBLogFilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5359,7 +5289,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBLogFilesInput, DescribeDBLogFilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBLogFilesOutput>(DescribeDBLogFilesOutput.httpOutput(from:), DescribeDBLogFilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBLogFilesInput, DescribeDBLogFilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBLogFilesOutput>())
@@ -5393,9 +5322,9 @@ extension RDSClient {
     ///
     /// Describes the properties of specific major versions of DB engines.
     ///
-    /// - Parameter DescribeDBMajorEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBMajorEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeDBMajorEngineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBMajorEngineVersionsOutput`)
     public func describeDBMajorEngineVersions(input: DescribeDBMajorEngineVersionsInput) async throws -> DescribeDBMajorEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5422,7 +5351,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBMajorEngineVersionsInput, DescribeDBMajorEngineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBMajorEngineVersionsOutput>(DescribeDBMajorEngineVersionsOutput.httpOutput(from:), DescribeDBMajorEngineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBMajorEngineVersionsInput, DescribeDBMajorEngineVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBMajorEngineVersionsOutput>())
@@ -5456,9 +5384,9 @@ extension RDSClient {
     ///
     /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     ///
-    /// - Parameter DescribeDBParameterGroupsInput :
+    /// - Parameter input: (Type: `DescribeDBParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeDBParameterGroupsOutput` : Contains the result of a successful invocation of the DescribeDBParameterGroups action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBParameterGroups action. (Type: `DescribeDBParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5490,7 +5418,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBParameterGroupsOutput>(DescribeDBParameterGroupsOutput.httpOutput(from:), DescribeDBParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBParameterGroupsOutput>())
@@ -5524,9 +5451,9 @@ extension RDSClient {
     ///
     /// Returns the detailed parameter list for a particular DB parameter group.
     ///
-    /// - Parameter DescribeDBParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBParametersInput`)
     ///
-    /// - Returns: `DescribeDBParametersOutput` : Contains the result of a successful invocation of the DescribeDBParameters action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBParameters action. (Type: `DescribeDBParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5558,7 +5485,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBParametersInput, DescribeDBParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBParametersOutput>(DescribeDBParametersOutput.httpOutput(from:), DescribeDBParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBParametersInput, DescribeDBParametersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBParametersOutput>())
@@ -5592,9 +5518,9 @@ extension RDSClient {
     ///
     /// Returns information about DB proxies.
     ///
-    /// - Parameter DescribeDBProxiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBProxiesInput`)
     ///
-    /// - Returns: `DescribeDBProxiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBProxiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5626,7 +5552,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBProxiesInput, DescribeDBProxiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBProxiesOutput>(DescribeDBProxiesOutput.httpOutput(from:), DescribeDBProxiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBProxiesInput, DescribeDBProxiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBProxiesOutput>())
@@ -5660,9 +5585,9 @@ extension RDSClient {
     ///
     /// Returns information about DB proxy endpoints.
     ///
-    /// - Parameter DescribeDBProxyEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBProxyEndpointsInput`)
     ///
-    /// - Returns: `DescribeDBProxyEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBProxyEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5695,7 +5620,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBProxyEndpointsOutput>(DescribeDBProxyEndpointsOutput.httpOutput(from:), DescribeDBProxyEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBProxyEndpointsOutput>())
@@ -5729,9 +5653,9 @@ extension RDSClient {
     ///
     /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     ///
-    /// - Parameter DescribeDBProxyTargetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBProxyTargetGroupsInput`)
     ///
-    /// - Returns: `DescribeDBProxyTargetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBProxyTargetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5765,7 +5689,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBProxyTargetGroupsOutput>(DescribeDBProxyTargetGroupsOutput.httpOutput(from:), DescribeDBProxyTargetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBProxyTargetGroupsOutput>())
@@ -5799,9 +5722,9 @@ extension RDSClient {
     ///
     /// Returns information about DBProxyTarget objects. This API supports pagination.
     ///
-    /// - Parameter DescribeDBProxyTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBProxyTargetsInput`)
     ///
-    /// - Returns: `DescribeDBProxyTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBProxyTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5836,7 +5759,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBProxyTargetsOutput>(DescribeDBProxyTargetsOutput.httpOutput(from:), DescribeDBProxyTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBProxyTargetsOutput>())
@@ -5870,9 +5792,9 @@ extension RDSClient {
     ///
     /// Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups.
     ///
-    /// - Parameter DescribeDBRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBRecommendationsInput`)
     ///
-    /// - Returns: `DescribeDBRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBRecommendationsOutput`)
     public func describeDBRecommendations(input: DescribeDBRecommendationsInput) async throws -> DescribeDBRecommendationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5899,7 +5821,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBRecommendationsInput, DescribeDBRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBRecommendationsOutput>(DescribeDBRecommendationsOutput.httpOutput(from:), DescribeDBRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBRecommendationsInput, DescribeDBRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBRecommendationsOutput>())
@@ -5933,9 +5854,9 @@ extension RDSClient {
     ///
     /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter DescribeDBSecurityGroupsInput :
+    /// - Parameter input: (Type: `DescribeDBSecurityGroupsInput`)
     ///
-    /// - Returns: `DescribeDBSecurityGroupsOutput` : Contains the result of a successful invocation of the DescribeDBSecurityGroups action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBSecurityGroups action. (Type: `DescribeDBSecurityGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5967,7 +5888,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBSecurityGroupsOutput>(DescribeDBSecurityGroupsOutput.httpOutput(from:), DescribeDBSecurityGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBSecurityGroupsOutput>())
@@ -6001,9 +5921,9 @@ extension RDSClient {
     ///
     /// Describes existing Aurora Limitless Database DB shard groups.
     ///
-    /// - Parameter DescribeDBShardGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBShardGroupsInput`)
     ///
-    /// - Returns: `DescribeDBShardGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBShardGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6036,7 +5956,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBShardGroupsInput, DescribeDBShardGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBShardGroupsOutput>(DescribeDBShardGroupsOutput.httpOutput(from:), DescribeDBShardGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBShardGroupsInput, DescribeDBShardGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBShardGroupsOutput>())
@@ -6070,9 +5989,9 @@ extension RDSClient {
     ///
     /// Returns a list of DB snapshot attribute names and values for a manual DB snapshot. When sharing snapshots with other Amazon Web Services accounts, DescribeDBSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual DB snapshot. If all is included in the list of values for the restore attribute, then the manual DB snapshot is public and can be copied or restored by all Amazon Web Services accounts. To add or remove access for an Amazon Web Services account to copy or restore a manual DB snapshot, or to make the manual DB snapshot public or private, use the ModifyDBSnapshotAttribute API action.
     ///
-    /// - Parameter DescribeDBSnapshotAttributesInput :
+    /// - Parameter input: (Type: `DescribeDBSnapshotAttributesInput`)
     ///
-    /// - Returns: `DescribeDBSnapshotAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBSnapshotAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6104,7 +6023,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBSnapshotAttributesInput, DescribeDBSnapshotAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBSnapshotAttributesOutput>(DescribeDBSnapshotAttributesOutput.httpOutput(from:), DescribeDBSnapshotAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBSnapshotAttributesInput, DescribeDBSnapshotAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBSnapshotAttributesOutput>())
@@ -6138,9 +6056,9 @@ extension RDSClient {
     ///
     /// Describes the tenant databases that exist in a DB snapshot. This command only applies to RDS for Oracle DB instances in the multi-tenant configuration. You can use this command to inspect the tenant databases within a snapshot before restoring it. You can't directly interact with the tenant databases in a DB snapshot. If you restore a snapshot that was taken from DB instance using the multi-tenant configuration, you restore all its tenant databases.
     ///
-    /// - Parameter DescribeDBSnapshotTenantDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBSnapshotTenantDatabasesInput`)
     ///
-    /// - Returns: `DescribeDBSnapshotTenantDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBSnapshotTenantDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6172,7 +6090,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBSnapshotTenantDatabasesInput, DescribeDBSnapshotTenantDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBSnapshotTenantDatabasesOutput>(DescribeDBSnapshotTenantDatabasesOutput.httpOutput(from:), DescribeDBSnapshotTenantDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBSnapshotTenantDatabasesInput, DescribeDBSnapshotTenantDatabasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBSnapshotTenantDatabasesOutput>())
@@ -6206,9 +6123,9 @@ extension RDSClient {
     ///
     /// Returns information about DB snapshots. This API action supports pagination.
     ///
-    /// - Parameter DescribeDBSnapshotsInput :
+    /// - Parameter input: (Type: `DescribeDBSnapshotsInput`)
     ///
-    /// - Returns: `DescribeDBSnapshotsOutput` : Contains the result of a successful invocation of the DescribeDBSnapshots action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBSnapshots action. (Type: `DescribeDBSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6240,7 +6157,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBSnapshotsOutput>(DescribeDBSnapshotsOutput.httpOutput(from:), DescribeDBSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBSnapshotsOutput>())
@@ -6274,9 +6190,9 @@ extension RDSClient {
     ///
     /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the [Wikipedia Tutorial](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
     ///
-    /// - Parameter DescribeDBSubnetGroupsInput :
+    /// - Parameter input: (Type: `DescribeDBSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeDBSubnetGroupsOutput` : Contains the result of a successful invocation of the DescribeDBSubnetGroups action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeDBSubnetGroups action. (Type: `DescribeDBSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6308,7 +6224,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBSubnetGroupsOutput>(DescribeDBSubnetGroupsOutput.httpOutput(from:), DescribeDBSubnetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBSubnetGroupsOutput>())
@@ -6342,9 +6257,9 @@ extension RDSClient {
     ///
     /// Returns the default engine and system parameter information for the cluster database engine. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter DescribeEngineDefaultClusterParametersInput :
+    /// - Parameter input: (Type: `DescribeEngineDefaultClusterParametersInput`)
     ///
-    /// - Returns: `DescribeEngineDefaultClusterParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineDefaultClusterParametersOutput`)
     public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6371,7 +6286,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultClusterParametersOutput>(DescribeEngineDefaultClusterParametersOutput.httpOutput(from:), DescribeEngineDefaultClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngineDefaultClusterParametersOutput>())
@@ -6405,9 +6319,9 @@ extension RDSClient {
     ///
     /// Returns the default engine and system parameter information for the specified database engine.
     ///
-    /// - Parameter DescribeEngineDefaultParametersInput :
+    /// - Parameter input: (Type: `DescribeEngineDefaultParametersInput`)
     ///
-    /// - Returns: `DescribeEngineDefaultParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineDefaultParametersOutput`)
     public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6434,7 +6348,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultParametersOutput>(DescribeEngineDefaultParametersOutput.httpOutput(from:), DescribeEngineDefaultParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngineDefaultParametersOutput>())
@@ -6468,9 +6381,9 @@ extension RDSClient {
     ///
     /// Displays a list of categories for all event source types, or, if specified, for a specified source type. You can also see this list in the "Amazon RDS event categories and event messages" section of the [ Amazon RDS User Guide ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html) or the [ Amazon Aurora User Guide ](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html).
     ///
-    /// - Parameter DescribeEventCategoriesInput :
+    /// - Parameter input: (Type: `DescribeEventCategoriesInput`)
     ///
-    /// - Returns: `DescribeEventCategoriesOutput` : Data returned from the DescribeEventCategories operation.
+    /// - Returns: Data returned from the DescribeEventCategories operation. (Type: `DescribeEventCategoriesOutput`)
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6497,7 +6410,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutput>(DescribeEventCategoriesOutput.httpOutput(from:), DescribeEventCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventCategoriesOutput>())
@@ -6531,9 +6443,9 @@ extension RDSClient {
     ///
     /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     ///
-    /// - Parameter DescribeEventSubscriptionsInput :
+    /// - Parameter input: (Type: `DescribeEventSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeEventSubscriptionsOutput` : Data returned by the DescribeEventSubscriptions action.
+    /// - Returns: Data returned by the DescribeEventSubscriptions action. (Type: `DescribeEventSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6565,7 +6477,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutput>(DescribeEventSubscriptionsOutput.httpOutput(from:), DescribeEventSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventSubscriptionsOutput>())
@@ -6599,9 +6510,9 @@ extension RDSClient {
     ///
     /// Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter. For more information on working with events, see [Monitoring Amazon RDS events](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/working-with-events.html) in the Amazon RDS User Guide and [Monitoring Amazon Aurora events](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/working-with-events.html) in the Amazon Aurora User Guide. By default, RDS returns events that were generated in the past hour.
     ///
-    /// - Parameter DescribeEventsInput :
+    /// - Parameter input: (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : Contains the result of a successful invocation of the DescribeEvents action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeEvents action. (Type: `DescribeEventsOutput`)
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6628,7 +6539,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -6662,9 +6572,9 @@ extension RDSClient {
     ///
     /// Returns information about a snapshot or cluster export to Amazon S3. This API operation supports pagination.
     ///
-    /// - Parameter DescribeExportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportTasksInput`)
     ///
-    /// - Returns: `DescribeExportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6696,7 +6606,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportTasksOutput>(DescribeExportTasksOutput.httpOutput(from:), DescribeExportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportTasksOutput>())
@@ -6730,9 +6639,9 @@ extension RDSClient {
     ///
     /// Returns information about Aurora global database clusters. This API supports pagination. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This action only applies to Aurora DB clusters.
     ///
-    /// - Parameter DescribeGlobalClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalClustersInput`)
     ///
-    /// - Returns: `DescribeGlobalClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6764,7 +6673,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGlobalClustersOutput>(DescribeGlobalClustersOutput.httpOutput(from:), DescribeGlobalClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalClustersOutput>())
@@ -6798,9 +6706,9 @@ extension RDSClient {
     ///
     /// Describe one or more zero-ETL integrations with Amazon Redshift.
     ///
-    /// - Parameter DescribeIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIntegrationsInput`)
     ///
-    /// - Returns: `DescribeIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6832,7 +6740,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIntegrationsOutput>(DescribeIntegrationsOutput.httpOutput(from:), DescribeIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIntegrationsOutput>())
@@ -6866,9 +6773,9 @@ extension RDSClient {
     ///
     /// Describes all available options for the specified engine.
     ///
-    /// - Parameter DescribeOptionGroupOptionsInput :
+    /// - Parameter input: (Type: `DescribeOptionGroupOptionsInput`)
     ///
-    /// - Returns: `DescribeOptionGroupOptionsOutput` :
+    /// - Returns: (Type: `DescribeOptionGroupOptionsOutput`)
     public func describeOptionGroupOptions(input: DescribeOptionGroupOptionsInput) async throws -> DescribeOptionGroupOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6895,7 +6802,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOptionGroupOptionsOutput>(DescribeOptionGroupOptionsOutput.httpOutput(from:), DescribeOptionGroupOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOptionGroupOptionsOutput>())
@@ -6929,9 +6835,9 @@ extension RDSClient {
     ///
     /// Describes the available option groups.
     ///
-    /// - Parameter DescribeOptionGroupsInput :
+    /// - Parameter input: (Type: `DescribeOptionGroupsInput`)
     ///
-    /// - Returns: `DescribeOptionGroupsOutput` : List of option groups.
+    /// - Returns: List of option groups. (Type: `DescribeOptionGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6963,7 +6869,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOptionGroupsInput, DescribeOptionGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOptionGroupsOutput>(DescribeOptionGroupsOutput.httpOutput(from:), DescribeOptionGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOptionGroupsInput, DescribeOptionGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOptionGroupsOutput>())
@@ -6997,9 +6902,9 @@ extension RDSClient {
     ///
     /// Describes the orderable DB instance options for a specified DB engine.
     ///
-    /// - Parameter DescribeOrderableDBInstanceOptionsInput :
+    /// - Parameter input: (Type: `DescribeOrderableDBInstanceOptionsInput`)
     ///
-    /// - Returns: `DescribeOrderableDBInstanceOptionsOutput` : Contains the result of a successful invocation of the DescribeOrderableDBInstanceOptions action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeOrderableDBInstanceOptions action. (Type: `DescribeOrderableDBInstanceOptionsOutput`)
     public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7026,7 +6931,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrderableDBInstanceOptionsOutput>(DescribeOrderableDBInstanceOptionsOutput.httpOutput(from:), DescribeOrderableDBInstanceOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrderableDBInstanceOptionsOutput>())
@@ -7060,9 +6964,9 @@ extension RDSClient {
     ///
     /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action. This API follows an eventual consistency model. This means that the result of the DescribePendingMaintenanceActions command might not be immediately visible to all subsequent RDS commands. Keep this in mind when you use DescribePendingMaintenanceActions immediately after using a previous API command such as ApplyPendingMaintenanceActions.
     ///
-    /// - Parameter DescribePendingMaintenanceActionsInput :
+    /// - Parameter input: (Type: `DescribePendingMaintenanceActionsInput`)
     ///
-    /// - Returns: `DescribePendingMaintenanceActionsOutput` : Data returned from the DescribePendingMaintenanceActions action.
+    /// - Returns: Data returned from the DescribePendingMaintenanceActions action. (Type: `DescribePendingMaintenanceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7094,7 +6998,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutput>(DescribePendingMaintenanceActionsOutput.httpOutput(from:), DescribePendingMaintenanceActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePendingMaintenanceActionsOutput>())
@@ -7128,9 +7031,9 @@ extension RDSClient {
     ///
     /// Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
     ///
-    /// - Parameter DescribeReservedDBInstancesInput :
+    /// - Parameter input: (Type: `DescribeReservedDBInstancesInput`)
     ///
-    /// - Returns: `DescribeReservedDBInstancesOutput` : Contains the result of a successful invocation of the DescribeReservedDBInstances action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeReservedDBInstances action. (Type: `DescribeReservedDBInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7162,7 +7065,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedDBInstancesOutput>(DescribeReservedDBInstancesOutput.httpOutput(from:), DescribeReservedDBInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedDBInstancesOutput>())
@@ -7196,9 +7098,9 @@ extension RDSClient {
     ///
     /// Lists available reserved DB instance offerings.
     ///
-    /// - Parameter DescribeReservedDBInstancesOfferingsInput :
+    /// - Parameter input: (Type: `DescribeReservedDBInstancesOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedDBInstancesOfferingsOutput` : Contains the result of a successful invocation of the DescribeReservedDBInstancesOfferings action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeReservedDBInstancesOfferings action. (Type: `DescribeReservedDBInstancesOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7230,7 +7132,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedDBInstancesOfferingsOutput>(DescribeReservedDBInstancesOfferingsOutput.httpOutput(from:), DescribeReservedDBInstancesOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedDBInstancesOfferingsOutput>())
@@ -7264,9 +7165,9 @@ extension RDSClient {
     ///
     /// Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica, copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are supported between other Regions and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your account, or all Regions, use the EC2 operation DescribeRegions. For more information, see [ DescribeRegions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeRegions.html) in the Amazon EC2 API Reference.
     ///
-    /// - Parameter DescribeSourceRegionsInput :
+    /// - Parameter input: (Type: `DescribeSourceRegionsInput`)
     ///
-    /// - Returns: `DescribeSourceRegionsOutput` : Contains the result of a successful invocation of the DescribeSourceRegions action.
+    /// - Returns: Contains the result of a successful invocation of the DescribeSourceRegions action. (Type: `DescribeSourceRegionsOutput`)
     public func describeSourceRegions(input: DescribeSourceRegionsInput) async throws -> DescribeSourceRegionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7293,7 +7194,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSourceRegionsInput, DescribeSourceRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSourceRegionsOutput>(DescribeSourceRegionsOutput.httpOutput(from:), DescribeSourceRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSourceRegionsInput, DescribeSourceRegionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSourceRegionsOutput>())
@@ -7327,9 +7227,9 @@ extension RDSClient {
     ///
     /// Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are supported.
     ///
-    /// - Parameter DescribeTenantDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTenantDatabasesInput`)
     ///
-    /// - Returns: `DescribeTenantDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTenantDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7361,7 +7261,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTenantDatabasesOutput>(DescribeTenantDatabasesOutput.httpOutput(from:), DescribeTenantDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTenantDatabasesInput, DescribeTenantDatabasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTenantDatabasesOutput>())
@@ -7395,9 +7294,9 @@ extension RDSClient {
     ///
     /// You can call DescribeValidDBInstanceModifications to learn what modifications you can make to your DB instance. You can use this information when you call ModifyDBInstance. This command doesn't apply to RDS Custom.
     ///
-    /// - Parameter DescribeValidDBInstanceModificationsInput :
+    /// - Parameter input: (Type: `DescribeValidDBInstanceModificationsInput`)
     ///
-    /// - Returns: `DescribeValidDBInstanceModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeValidDBInstanceModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7430,7 +7329,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeValidDBInstanceModificationsOutput>(DescribeValidDBInstanceModificationsOutput.httpOutput(from:), DescribeValidDBInstanceModificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeValidDBInstanceModificationsOutput>())
@@ -7464,9 +7362,9 @@ extension RDSClient {
     ///
     /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     ///
-    /// - Parameter DisableHttpEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableHttpEndpointInput`)
     ///
-    /// - Returns: `DisableHttpEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableHttpEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7499,7 +7397,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableHttpEndpointInput, DisableHttpEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableHttpEndpointOutput>(DisableHttpEndpointOutput.httpOutput(from:), DisableHttpEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableHttpEndpointInput, DisableHttpEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableHttpEndpointOutput>())
@@ -7533,9 +7430,9 @@ extension RDSClient {
     ///
     /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom. This operation uses resources on database instances. Because of this, we recommend publishing database logs to CloudWatch and then using the GetLogEvents operation. For more information, see [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html) in the Amazon CloudWatch Logs API Reference.
     ///
-    /// - Parameter DownloadDBLogFilePortionInput :
+    /// - Parameter input: (Type: `DownloadDBLogFilePortionInput`)
     ///
-    /// - Returns: `DownloadDBLogFilePortionOutput` : This data type is used as a response element to DownloadDBLogFilePortion.
+    /// - Returns: This data type is used as a response element to DownloadDBLogFilePortion. (Type: `DownloadDBLogFilePortionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7569,7 +7466,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DownloadDBLogFilePortionOutput>(DownloadDBLogFilePortionOutput.httpOutput(from:), DownloadDBLogFilePortionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DownloadDBLogFilePortionOutput>())
@@ -7603,9 +7499,9 @@ extension RDSClient {
     ///
     /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     ///
-    /// - Parameter EnableHttpEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableHttpEndpointInput`)
     ///
-    /// - Returns: `EnableHttpEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableHttpEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7638,7 +7534,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableHttpEndpointInput, EnableHttpEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableHttpEndpointOutput>(EnableHttpEndpointOutput.httpOutput(from:), EnableHttpEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableHttpEndpointInput, EnableHttpEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableHttpEndpointOutput>())
@@ -7672,9 +7567,9 @@ extension RDSClient {
     ///
     /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB instance, the internal monitoring system detects that the primary DB instance is unhealthy and promotes a readable standby (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). Failover times are typically less than 35 seconds. An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists, when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby DB instance when the primary DB instance fails. To simulate a failure of a primary instance for testing, you can force a failover. Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter FailoverDBClusterInput :
+    /// - Parameter input: (Type: `FailoverDBClusterInput`)
     ///
-    /// - Returns: `FailoverDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7708,7 +7603,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverDBClusterInput, FailoverDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverDBClusterOutput>(FailoverDBClusterOutput.httpOutput(from:), FailoverDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverDBClusterInput, FailoverDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverDBClusterOutput>())
@@ -7753,9 +7647,9 @@ extension RDSClient {
     ///
     /// * Switching over - Use this operation on a healthy global database cluster for planned events, such as Regional rotation or to fail back to the original primary DB cluster after a failover operation. With this operation, there is no data loss. For more information about switching over an Amazon Aurora global database, see [Performing switchovers for Aurora global databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html#aurora-global-database-disaster-recovery.managed-failover) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter FailoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverGlobalClusterInput`)
     ///
-    /// - Returns: `FailoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7790,7 +7684,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverGlobalClusterOutput>(FailoverGlobalClusterOutput.httpOutput(from:), FailoverGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverGlobalClusterOutput>())
@@ -7824,9 +7717,9 @@ extension RDSClient {
     ///
     /// Lists all tags on an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter ListTagsForResourceInput :
+    /// - Parameter input: (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` :
+    /// - Returns: (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7868,7 +7761,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -7902,9 +7794,9 @@ extension RDSClient {
     ///
     /// Changes the audit policy state of a database activity stream to either locked (default) or unlocked. A locked policy is read-only, whereas an unlocked policy is read/write. If your activity stream is started and locked, you can unlock it, customize your audit policy, and then lock your activity stream. Restarting the activity stream isn't required. For more information, see [ Modifying a database activity stream](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.Modifying.html) in the Amazon RDS User Guide. This operation is supported for RDS for Oracle and Microsoft SQL Server.
     ///
-    /// - Parameter ModifyActivityStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyActivityStreamInput`)
     ///
-    /// - Returns: `ModifyActivityStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyActivityStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7938,7 +7830,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyActivityStreamInput, ModifyActivityStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyActivityStreamOutput>(ModifyActivityStreamOutput.httpOutput(from:), ModifyActivityStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyActivityStreamInput, ModifyActivityStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyActivityStreamOutput>())
@@ -7979,9 +7870,9 @@ extension RDSClient {
     ///
     /// For more information about rotating your SSL/TLS certificate for RDS DB engines, see [ Rotating Your SSL/TLS Certificate](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html) in the Amazon RDS User Guide. For more information about rotating your SSL/TLS certificate for Aurora DB engines, see [ Rotating Your SSL/TLS Certificate](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL-certificate-rotation.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter ModifyCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyCertificatesInput`)
     ///
-    /// - Returns: `ModifyCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8013,7 +7904,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyCertificatesInput, ModifyCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyCertificatesOutput>(ModifyCertificatesOutput.httpOutput(from:), ModifyCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyCertificatesInput, ModifyCertificatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyCertificatesOutput>())
@@ -8047,9 +7937,9 @@ extension RDSClient {
     ///
     /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period for scaling up and the cooldown period for scaling down. For more information about Aurora Serverless v1, see [Using Amazon Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html) in the Amazon Aurora User Guide. If you call ModifyCurrentDBClusterCapacity with the default TimeoutAction, connections that prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information about scaling points, see [ Autoscaling for Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.auto-scaling) in the Amazon Aurora User Guide. This operation only applies to Aurora Serverless v1 DB clusters.
     ///
-    /// - Parameter ModifyCurrentDBClusterCapacityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyCurrentDBClusterCapacityInput`)
     ///
-    /// - Returns: `ModifyCurrentDBClusterCapacityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCurrentDBClusterCapacityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8083,7 +7973,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyCurrentDBClusterCapacityInput, ModifyCurrentDBClusterCapacityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyCurrentDBClusterCapacityOutput>(ModifyCurrentDBClusterCapacityOutput.httpOutput(from:), ModifyCurrentDBClusterCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyCurrentDBClusterCapacityInput, ModifyCurrentDBClusterCapacityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyCurrentDBClusterCapacityOutput>())
@@ -8117,9 +8006,9 @@ extension RDSClient {
     ///
     /// Modifies the status of a custom engine version (CEV). You can find CEVs to modify by calling DescribeDBEngineVersions. The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the ModifyCustomDbEngineVersion event aren't logged. However, you might see calls from the API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for the ModifyCustomDbEngineVersion event. For more information, see [Modifying CEV status](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.modify) in the Amazon RDS User Guide.
     ///
-    /// - Parameter ModifyCustomDBEngineVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyCustomDBEngineVersionInput`)
     ///
-    /// - Returns: `ModifyCustomDBEngineVersionOutput` : This data type is used as a response element in the action DescribeDBEngineVersions.
+    /// - Returns: This data type is used as a response element in the action DescribeDBEngineVersions. (Type: `ModifyCustomDBEngineVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8152,7 +8041,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyCustomDBEngineVersionInput, ModifyCustomDBEngineVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyCustomDBEngineVersionOutput>(ModifyCustomDBEngineVersionOutput.httpOutput(from:), ModifyCustomDBEngineVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyCustomDBEngineVersionInput, ModifyCustomDBEngineVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyCustomDBEngineVersionOutput>())
@@ -8186,9 +8074,9 @@ extension RDSClient {
     ///
     /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter ModifyDBClusterInput :
+    /// - Parameter input: (Type: `ModifyDBClusterInput`)
     ///
-    /// - Returns: `ModifyDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8239,7 +8127,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterInput, ModifyDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterOutput>(ModifyDBClusterOutput.httpOutput(from:), ModifyDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterInput, ModifyDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterOutput>())
@@ -8273,9 +8160,9 @@ extension RDSClient {
     ///
     /// Modifies the properties of an endpoint in an Amazon Aurora DB cluster. This operation only applies to Aurora DB clusters.
     ///
-    /// - Parameter ModifyDBClusterEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBClusterEndpointInput`)
     ///
-    /// - Returns: `ModifyDBClusterEndpointOutput` : This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
+    /// - Returns: This data type represents the information you need to connect to an Amazon Aurora DB cluster. This data type is used as a response element in the following actions:
     ///
     /// * CreateDBClusterEndpoint
     ///
@@ -8286,7 +8173,7 @@ extension RDSClient {
     /// * DeleteDBClusterEndpoint
     ///
     ///
-    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint. (Type: `ModifyDBClusterEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8322,7 +8209,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterEndpointOutput>(ModifyDBClusterEndpointOutput.httpOutput(from:), ModifyDBClusterEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterEndpointOutput>())
@@ -8356,9 +8242,9 @@ extension RDSClient {
     ///
     /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon RDS to fully complete the create operation before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon RDS console](https://console.aws.amazon.com/rds/) or the DescribeDBClusterParameters operation to verify that your DB cluster parameter group has been created or modified. If the modified DB cluster parameter group is used by an Aurora Serverless v1 cluster, Aurora applies the update immediately. The cluster restart might interrupt your workload. In that case, your application must reopen any connections and retry any transactions that were active when the parameter changes took effect. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter ModifyDBClusterParameterGroupInput :
+    /// - Parameter input: (Type: `ModifyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ModifyDBClusterParameterGroupOutput` :
+    /// - Returns: (Type: `ModifyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8391,7 +8277,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterParameterGroupOutput>(ModifyDBClusterParameterGroupOutput.httpOutput(from:), ModifyDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterParameterGroupOutput>())
@@ -8425,9 +8310,9 @@ extension RDSClient {
     ///
     /// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Don't add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which Amazon Web Services accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot is public or private, use the [DescribeDBClusterSnapshotAttributes] API operation. The accounts are returned as values for the restore attribute.
     ///
-    /// - Parameter ModifyDBClusterSnapshotAttributeInput :
+    /// - Parameter input: (Type: `ModifyDBClusterSnapshotAttributeInput`)
     ///
-    /// - Returns: `ModifyDBClusterSnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterSnapshotAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8461,7 +8346,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterSnapshotAttributeOutput>(ModifyDBClusterSnapshotAttributeOutput.httpOutput(from:), ModifyDBClusterSnapshotAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterSnapshotAttributeOutput>())
@@ -8495,9 +8379,9 @@ extension RDSClient {
     ///
     /// Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance.
     ///
-    /// - Parameter ModifyDBInstanceInput :
+    /// - Parameter input: (Type: `ModifyDBInstanceInput`)
     ///
-    /// - Returns: `ModifyDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8549,7 +8433,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBInstanceOutput>(ModifyDBInstanceOutput.httpOutput(from:), ModifyDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBInstanceOutput>())
@@ -8583,9 +8466,9 @@ extension RDSClient {
     ///
     /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon RDS to fully complete the modify operation before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon RDS console](https://console.aws.amazon.com/rds/) or the DescribeDBParameters command to verify that your DB parameter group has been created or modified.
     ///
-    /// - Parameter ModifyDBParameterGroupInput :
+    /// - Parameter input: (Type: `ModifyDBParameterGroupInput`)
     ///
-    /// - Returns: `ModifyDBParameterGroupOutput` : Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation.
+    /// - Returns: Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation. (Type: `ModifyDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8618,7 +8501,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBParameterGroupOutput>(ModifyDBParameterGroupOutput.httpOutput(from:), ModifyDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBParameterGroupOutput>())
@@ -8652,9 +8534,9 @@ extension RDSClient {
     ///
     /// Changes the settings for an existing DB proxy.
     ///
-    /// - Parameter ModifyDBProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBProxyInput`)
     ///
-    /// - Returns: `ModifyDBProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8688,7 +8570,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBProxyInput, ModifyDBProxyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBProxyOutput>(ModifyDBProxyOutput.httpOutput(from:), ModifyDBProxyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBProxyInput, ModifyDBProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBProxyOutput>())
@@ -8722,9 +8603,9 @@ extension RDSClient {
     ///
     /// Changes the settings for an existing DB proxy endpoint.
     ///
-    /// - Parameter ModifyDBProxyEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBProxyEndpointInput`)
     ///
-    /// - Returns: `ModifyDBProxyEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBProxyEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8759,7 +8640,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBProxyEndpointInput, ModifyDBProxyEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBProxyEndpointOutput>(ModifyDBProxyEndpointOutput.httpOutput(from:), ModifyDBProxyEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBProxyEndpointInput, ModifyDBProxyEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBProxyEndpointOutput>())
@@ -8793,9 +8673,9 @@ extension RDSClient {
     ///
     /// Modifies the properties of a DBProxyTargetGroup.
     ///
-    /// - Parameter ModifyDBProxyTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBProxyTargetGroupInput`)
     ///
-    /// - Returns: `ModifyDBProxyTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBProxyTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8829,7 +8709,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBProxyTargetGroupInput, ModifyDBProxyTargetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBProxyTargetGroupOutput>(ModifyDBProxyTargetGroupOutput.httpOutput(from:), ModifyDBProxyTargetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBProxyTargetGroupInput, ModifyDBProxyTargetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBProxyTargetGroupOutput>())
@@ -8863,9 +8742,9 @@ extension RDSClient {
     ///
     /// Updates the recommendation status and recommended action status for the specified recommendation.
     ///
-    /// - Parameter ModifyDBRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBRecommendationInput`)
     ///
-    /// - Returns: `ModifyDBRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBRecommendationOutput`)
     public func modifyDBRecommendation(input: ModifyDBRecommendationInput) async throws -> ModifyDBRecommendationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8892,7 +8771,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBRecommendationInput, ModifyDBRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBRecommendationOutput>(ModifyDBRecommendationOutput.httpOutput(from:), ModifyDBRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBRecommendationInput, ModifyDBRecommendationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBRecommendationOutput>())
@@ -8926,9 +8804,9 @@ extension RDSClient {
     ///
     /// Modifies the settings of an Aurora Limitless Database DB shard group. You can change one or more settings by specifying these parameters and the new values in the request.
     ///
-    /// - Parameter ModifyDBShardGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBShardGroupInput`)
     ///
-    /// - Returns: `ModifyDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
+    /// - Returns: Contains the details for an Amazon RDS DB shard group. (Type: `ModifyDBShardGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8962,7 +8840,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBShardGroupInput, ModifyDBShardGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBShardGroupOutput>(ModifyDBShardGroupOutput.httpOutput(from:), ModifyDBShardGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBShardGroupInput, ModifyDBShardGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBShardGroupOutput>())
@@ -8996,9 +8873,9 @@ extension RDSClient {
     ///
     /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public. Amazon RDS supports upgrading DB snapshots for MariaDB, MySQL, PostgreSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2.
     ///
-    /// - Parameter ModifyDBSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBSnapshotInput`)
     ///
-    /// - Returns: `ModifyDBSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9032,7 +8909,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBSnapshotInput, ModifyDBSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBSnapshotOutput>(ModifyDBSnapshotOutput.httpOutput(from:), ModifyDBSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBSnapshotInput, ModifyDBSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBSnapshotOutput>())
@@ -9066,9 +8942,9 @@ extension RDSClient {
     ///
     /// Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot. To share a manual DB snapshot with other Amazon Web Services accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all Amazon Web Services accounts. Don't add the all value for any manual DB snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If the manual DB snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which Amazon Web Services accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the [DescribeDBSnapshotAttributes] API operation. The accounts are returned as values for the restore attribute.
     ///
-    /// - Parameter ModifyDBSnapshotAttributeInput :
+    /// - Parameter input: (Type: `ModifyDBSnapshotAttributeInput`)
     ///
-    /// - Returns: `ModifyDBSnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBSnapshotAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9102,7 +8978,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBSnapshotAttributeInput, ModifyDBSnapshotAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBSnapshotAttributeOutput>(ModifyDBSnapshotAttributeOutput.httpOutput(from:), ModifyDBSnapshotAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBSnapshotAttributeInput, ModifyDBSnapshotAttributeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBSnapshotAttributeOutput>())
@@ -9136,9 +9011,9 @@ extension RDSClient {
     ///
     /// Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
     ///
-    /// - Parameter ModifyDBSubnetGroupInput :
+    /// - Parameter input: (Type: `ModifyDBSubnetGroupInput`)
     ///
-    /// - Returns: `ModifyDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9175,7 +9050,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBSubnetGroupOutput>(ModifyDBSubnetGroupOutput.httpOutput(from:), ModifyDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBSubnetGroupOutput>())
@@ -9209,9 +9083,9 @@ extension RDSClient {
     ///
     /// Modifies an existing RDS event notification subscription. You can't modify the source identifiers using this call. To change source identifiers for a subscription, use the AddSourceIdentifierToSubscription and RemoveSourceIdentifierFromSubscription calls. You can see a list of the event categories for a given source type (SourceType) in [Events](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html) in the Amazon RDS User Guide or by using the DescribeEventCategories operation.
     ///
-    /// - Parameter ModifyEventSubscriptionInput :
+    /// - Parameter input: (Type: `ModifyEventSubscriptionInput`)
     ///
-    /// - Returns: `ModifyEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9248,7 +9122,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutput>(ModifyEventSubscriptionOutput.httpOutput(from:), ModifyEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEventSubscriptionOutput>())
@@ -9282,9 +9155,9 @@ extension RDSClient {
     ///
     /// Modifies a setting for an Amazon Aurora global database cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This operation only applies to Aurora global database clusters.
     ///
-    /// - Parameter ModifyGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyGlobalClusterInput`)
     ///
-    /// - Returns: `ModifyGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9320,7 +9193,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyGlobalClusterOutput>(ModifyGlobalClusterOutput.httpOutput(from:), ModifyGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyGlobalClusterOutput>())
@@ -9354,9 +9226,9 @@ extension RDSClient {
     ///
     /// Modifies a zero-ETL integration with Amazon Redshift.
     ///
-    /// - Parameter ModifyIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIntegrationInput`)
     ///
-    /// - Returns: `ModifyIntegrationOutput` : A zero-ETL integration with Amazon Redshift.
+    /// - Returns: A zero-ETL integration with Amazon Redshift. (Type: `ModifyIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9390,7 +9262,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIntegrationOutput>(ModifyIntegrationOutput.httpOutput(from:), ModifyIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIntegrationOutput>())
@@ -9424,9 +9295,9 @@ extension RDSClient {
     ///
     /// Modifies an existing option group.
     ///
-    /// - Parameter ModifyOptionGroupInput :
+    /// - Parameter input: (Type: `ModifyOptionGroupInput`)
     ///
-    /// - Returns: `ModifyOptionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyOptionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9459,7 +9330,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyOptionGroupInput, ModifyOptionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyOptionGroupOutput>(ModifyOptionGroupOutput.httpOutput(from:), ModifyOptionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyOptionGroupInput, ModifyOptionGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyOptionGroupOutput>())
@@ -9493,9 +9363,9 @@ extension RDSClient {
     ///
     /// Modifies an existing tenant database in a DB instance. You can change the tenant database name or the master user password. This operation is supported only for RDS for Oracle CDB instances using the multi-tenant configuration.
     ///
-    /// - Parameter ModifyTenantDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyTenantDatabaseInput`)
     ///
-    /// - Returns: `ModifyTenantDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyTenantDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9534,7 +9404,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyTenantDatabaseInput, ModifyTenantDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTenantDatabaseOutput>(ModifyTenantDatabaseOutput.httpOutput(from:), ModifyTenantDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTenantDatabaseInput, ModifyTenantDatabaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTenantDatabaseOutput>())
@@ -9572,9 +9441,9 @@ extension RDSClient {
     ///
     /// * This command doesn't apply to Aurora MySQL, Aurora PostgreSQL, or RDS Custom.
     ///
-    /// - Parameter PromoteReadReplicaInput :
+    /// - Parameter input: (Type: `PromoteReadReplicaInput`)
     ///
-    /// - Returns: `PromoteReadReplicaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromoteReadReplicaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9607,7 +9476,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PromoteReadReplicaInput, PromoteReadReplicaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PromoteReadReplicaOutput>(PromoteReadReplicaOutput.httpOutput(from:), PromoteReadReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PromoteReadReplicaInput, PromoteReadReplicaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PromoteReadReplicaOutput>())
@@ -9641,9 +9509,9 @@ extension RDSClient {
     ///
     /// Promotes a read replica DB cluster to a standalone DB cluster.
     ///
-    /// - Parameter PromoteReadReplicaDBClusterInput :
+    /// - Parameter input: (Type: `PromoteReadReplicaDBClusterInput`)
     ///
-    /// - Returns: `PromoteReadReplicaDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromoteReadReplicaDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9676,7 +9544,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PromoteReadReplicaDBClusterOutput>(PromoteReadReplicaDBClusterOutput.httpOutput(from:), PromoteReadReplicaDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PromoteReadReplicaDBClusterOutput>())
@@ -9710,9 +9577,9 @@ extension RDSClient {
     ///
     /// Purchases a reserved DB instance offering.
     ///
-    /// - Parameter PurchaseReservedDBInstancesOfferingInput :
+    /// - Parameter input: (Type: `PurchaseReservedDBInstancesOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedDBInstancesOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseReservedDBInstancesOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9746,7 +9613,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseReservedDBInstancesOfferingInput, PurchaseReservedDBInstancesOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseReservedDBInstancesOfferingOutput>(PurchaseReservedDBInstancesOfferingOutput.httpOutput(from:), PurchaseReservedDBInstancesOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseReservedDBInstancesOfferingInput, PurchaseReservedDBInstancesOfferingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseReservedDBInstancesOfferingOutput>())
@@ -9780,9 +9646,9 @@ extension RDSClient {
     ///
     /// You might need to reboot your DB cluster, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB cluster parameter group associated with the DB cluster, reboot the DB cluster for the changes to take effect. Rebooting a DB cluster restarts the database engine service. Rebooting a DB cluster results in a momentary outage, during which the DB cluster status is set to rebooting. Use this operation only for a non-Aurora Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter RebootDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootDBClusterInput`)
     ///
-    /// - Returns: `RebootDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9816,7 +9682,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootDBClusterInput, RebootDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootDBClusterOutput>(RebootDBClusterOutput.httpOutput(from:), RebootDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootDBClusterInput, RebootDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootDBClusterOutput>())
@@ -9850,9 +9715,9 @@ extension RDSClient {
     ///
     /// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting. For more information about rebooting, see [Rebooting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html) in the Amazon RDS User Guide. This command doesn't apply to RDS Custom. If your DB instance is part of a Multi-AZ DB cluster, you can reboot the DB cluster with the RebootDBCluster operation.
     ///
-    /// - Parameter RebootDBInstanceInput :
+    /// - Parameter input: (Type: `RebootDBInstanceInput`)
     ///
-    /// - Returns: `RebootDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9886,7 +9751,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootDBInstanceInput, RebootDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootDBInstanceOutput>(RebootDBInstanceOutput.httpOutput(from:), RebootDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootDBInstanceInput, RebootDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootDBInstanceOutput>())
@@ -9920,9 +9784,9 @@ extension RDSClient {
     ///
     /// You might need to reboot your DB shard group, usually for maintenance reasons. For example, if you make certain modifications, reboot the DB shard group for the changes to take effect. This operation applies only to Aurora Limitless Database DBb shard groups.
     ///
-    /// - Parameter RebootDBShardGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootDBShardGroupInput`)
     ///
-    /// - Returns: `RebootDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
+    /// - Returns: Contains the details for an Amazon RDS DB shard group. (Type: `RebootDBShardGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9955,7 +9819,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootDBShardGroupInput, RebootDBShardGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootDBShardGroupOutput>(RebootDBShardGroupOutput.httpOutput(from:), RebootDBShardGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootDBShardGroupInput, RebootDBShardGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootDBShardGroupOutput>())
@@ -9989,9 +9852,9 @@ extension RDSClient {
     ///
     /// Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup.
     ///
-    /// - Parameter RegisterDBProxyTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterDBProxyTargetsInput`)
     ///
-    /// - Returns: `RegisterDBProxyTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterDBProxyTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10031,7 +9894,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDBProxyTargetsInput, RegisterDBProxyTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterDBProxyTargetsOutput>(RegisterDBProxyTargetsOutput.httpOutput(from:), RegisterDBProxyTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDBProxyTargetsInput, RegisterDBProxyTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDBProxyTargetsOutput>())
@@ -10065,9 +9927,9 @@ extension RDSClient {
     ///
     /// Detaches an Aurora secondary cluster from an Aurora global database cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary cluster in a different Region. This operation only applies to Aurora DB clusters.
     ///
-    /// - Parameter RemoveFromGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFromGlobalClusterInput`)
     ///
-    /// - Returns: `RemoveFromGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFromGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10102,7 +9964,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFromGlobalClusterOutput>(RemoveFromGlobalClusterOutput.httpOutput(from:), RemoveFromGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFromGlobalClusterOutput>())
@@ -10136,9 +9997,9 @@ extension RDSClient {
     ///
     /// Removes the asssociation of an Amazon Web Services Identity and Access Management (IAM) role from a DB cluster. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter RemoveRoleFromDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveRoleFromDBClusterInput`)
     ///
-    /// - Returns: `RemoveRoleFromDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveRoleFromDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10172,7 +10033,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveRoleFromDBClusterOutput>(RemoveRoleFromDBClusterOutput.httpOutput(from:), RemoveRoleFromDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRoleFromDBClusterOutput>())
@@ -10206,9 +10066,9 @@ extension RDSClient {
     ///
     /// Disassociates an Amazon Web Services Identity and Access Management (IAM) role from a DB instance.
     ///
-    /// - Parameter RemoveRoleFromDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveRoleFromDBInstanceInput`)
     ///
-    /// - Returns: `RemoveRoleFromDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveRoleFromDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10242,7 +10102,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRoleFromDBInstanceInput, RemoveRoleFromDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveRoleFromDBInstanceOutput>(RemoveRoleFromDBInstanceOutput.httpOutput(from:), RemoveRoleFromDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveRoleFromDBInstanceInput, RemoveRoleFromDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRoleFromDBInstanceOutput>())
@@ -10276,9 +10135,9 @@ extension RDSClient {
     ///
     /// Removes a source identifier from an existing RDS event notification subscription.
     ///
-    /// - Parameter RemoveSourceIdentifierFromSubscriptionInput :
+    /// - Parameter input: (Type: `RemoveSourceIdentifierFromSubscriptionInput`)
     ///
-    /// - Returns: `RemoveSourceIdentifierFromSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveSourceIdentifierFromSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10311,7 +10170,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveSourceIdentifierFromSubscriptionOutput>(RemoveSourceIdentifierFromSubscriptionOutput.httpOutput(from:), RemoveSourceIdentifierFromSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveSourceIdentifierFromSubscriptionOutput>())
@@ -10345,9 +10203,9 @@ extension RDSClient {
     ///
     /// Removes metadata tags from an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter RemoveTagsFromResourceInput :
+    /// - Parameter input: (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10392,7 +10250,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())
@@ -10426,9 +10283,9 @@ extension RDSClient {
     ///
     /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for every DB instance in your DB cluster that you want the updated static parameter to apply to. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter ResetDBClusterParameterGroupInput :
+    /// - Parameter input: (Type: `ResetDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ResetDBClusterParameterGroupOutput` :
+    /// - Returns: (Type: `ResetDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10461,7 +10318,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetDBClusterParameterGroupOutput>(ResetDBClusterParameterGroupOutput.httpOutput(from:), ResetDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetDBClusterParameterGroupOutput>())
@@ -10495,9 +10351,9 @@ extension RDSClient {
     ///
     /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request.
     ///
-    /// - Parameter ResetDBParameterGroupInput :
+    /// - Parameter input: (Type: `ResetDBParameterGroupInput`)
     ///
-    /// - Returns: `ResetDBParameterGroupOutput` : Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation.
+    /// - Returns: Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation. (Type: `ResetDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10530,7 +10386,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetDBParameterGroupOutput>(ResetDBParameterGroupOutput.httpOutput(from:), ResetDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetDBParameterGroupOutput>())
@@ -10564,9 +10419,9 @@ extension RDSClient {
     ///
     /// Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in [ Migrating Data from MySQL by Using an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Migrating.ExtMySQL.html#AuroraMySQL.Migrating.ExtMySQL.S3) in the Amazon Aurora User Guide. This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromS3 operation has completed and the DB cluster is available. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This operation only applies to Aurora DB clusters. The source DB engine must be MySQL.
     ///
-    /// - Parameter RestoreDBClusterFromS3Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreDBClusterFromS3Input`)
     ///
-    /// - Returns: `RestoreDBClusterFromS3Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterFromS3Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10613,7 +10468,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBClusterFromS3Input, RestoreDBClusterFromS3Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromS3Output>(RestoreDBClusterFromS3Output.httpOutput(from:), RestoreDBClusterFromS3OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBClusterFromS3Input, RestoreDBClusterFromS3Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBClusterFromS3Output>())
@@ -10647,9 +10501,9 @@ extension RDSClient {
     ///
     /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. The target DB cluster is created from the source snapshot with a default configuration. If you don't specify a security group, the new DB cluster is associated with the default security group. This operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterFromSnapshot operation has completed and the DB cluster is available. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter RestoreDBClusterFromSnapshotInput :
+    /// - Parameter input: (Type: `RestoreDBClusterFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreDBClusterFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10702,7 +10556,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromSnapshotOutput>(RestoreDBClusterFromSnapshotOutput.httpOutput(from:), RestoreDBClusterFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBClusterFromSnapshotOutput>())
@@ -10736,9 +10589,9 @@ extension RDSClient {
     ///
     /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write, the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ where RDS restores the DB cluster depends on the AZs in the specified subnet group. For Aurora, this operation only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the CreateDBInstance operation to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime operation has completed and the DB cluster is available. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter RestoreDBClusterToPointInTimeInput :
+    /// - Parameter input: (Type: `RestoreDBClusterToPointInTimeInput`)
     ///
-    /// - Returns: `RestoreDBClusterToPointInTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterToPointInTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10791,7 +10644,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBClusterToPointInTimeOutput>(RestoreDBClusterToPointInTimeOutput.httpOutput(from:), RestoreDBClusterToPointInTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBClusterToPointInTimeOutput>())
@@ -10825,9 +10677,9 @@ extension RDSClient {
     ///
     /// Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment. If you want to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the RestoreDBInstanceFromDBSnapshot operation. RDS doesn't allow two DB instances with the same name. After you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the DBInstanceIdentifier in the call to the RestoreDBInstanceFromDBSnapshot operation. The result is that you replace the original DB instance with the DB instance created from the snapshot. If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot. To restore from a DB snapshot with an unsupported engine version, you must first upgrade the engine version of the snapshot. For more information about upgrading a RDS for MySQL DB snapshot engine version, see [Upgrading a MySQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-upgrade-snapshot.html). For more information about upgrading a RDS for PostgreSQL DB snapshot engine version, [Upgrading a PostgreSQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBSnapshot.PostgreSQL.html). This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterFromSnapshot.
     ///
-    /// - Parameter RestoreDBInstanceFromDBSnapshotInput :
+    /// - Parameter input: (Type: `RestoreDBInstanceFromDBSnapshotInput`)
     ///
-    /// - Returns: `RestoreDBInstanceFromDBSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBInstanceFromDBSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10882,7 +10734,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBInstanceFromDBSnapshotInput, RestoreDBInstanceFromDBSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBInstanceFromDBSnapshotOutput>(RestoreDBInstanceFromDBSnapshotOutput.httpOutput(from:), RestoreDBInstanceFromDBSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBInstanceFromDBSnapshotInput, RestoreDBInstanceFromDBSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBInstanceFromDBSnapshotOutput>())
@@ -10916,9 +10767,9 @@ extension RDSClient {
     ///
     /// Amazon Relational Database Service (Amazon RDS) supports importing MySQL databases by using backup files. You can create a backup of your on-premises database, store it on Amazon Simple Storage Service (Amazon S3), and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see [Restoring a backup into an Amazon RDS for MySQL DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedural.Importing.html) in the Amazon RDS User Guide. This operation doesn't apply to RDS Custom.
     ///
-    /// - Parameter RestoreDBInstanceFromS3Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreDBInstanceFromS3Input`)
     ///
-    /// - Returns: `RestoreDBInstanceFromS3Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBInstanceFromS3Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10968,7 +10819,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBInstanceFromS3Input, RestoreDBInstanceFromS3Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBInstanceFromS3Output>(RestoreDBInstanceFromS3Output.httpOutput(from:), RestoreDBInstanceFromS3OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBInstanceFromS3Input, RestoreDBInstanceFromS3Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBInstanceFromS3Output>())
@@ -11002,9 +10852,9 @@ extension RDSClient {
     ///
     /// Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment. This operation doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterToPointInTime.
     ///
-    /// - Parameter RestoreDBInstanceToPointInTimeInput :
+    /// - Parameter input: (Type: `RestoreDBInstanceToPointInTimeInput`)
     ///
-    /// - Returns: `RestoreDBInstanceToPointInTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBInstanceToPointInTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11060,7 +10910,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBInstanceToPointInTimeInput, RestoreDBInstanceToPointInTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBInstanceToPointInTimeOutput>(RestoreDBInstanceToPointInTimeOutput.httpOutput(from:), RestoreDBInstanceToPointInTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBInstanceToPointInTimeInput, RestoreDBInstanceToPointInTimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBInstanceToPointInTimeOutput>())
@@ -11094,9 +10943,9 @@ extension RDSClient {
     ///
     /// Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId). EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter RevokeDBSecurityGroupIngressInput :
+    /// - Parameter input: (Type: `RevokeDBSecurityGroupIngressInput`)
     ///
-    /// - Returns: `RevokeDBSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeDBSecurityGroupIngressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11130,7 +10979,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeDBSecurityGroupIngressInput, RevokeDBSecurityGroupIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeDBSecurityGroupIngressOutput>(RevokeDBSecurityGroupIngressOutput.httpOutput(from:), RevokeDBSecurityGroupIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeDBSecurityGroupIngressInput, RevokeDBSecurityGroupIngressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeDBSecurityGroupIngressOutput>())
@@ -11164,9 +11012,9 @@ extension RDSClient {
     ///
     /// Starts a database activity stream to monitor activity on the database. For more information, see [ Monitoring Amazon Aurora with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide or [ Monitoring Amazon RDS with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter StartActivityStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartActivityStreamInput`)
     ///
-    /// - Returns: `StartActivityStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartActivityStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11203,7 +11051,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartActivityStreamInput, StartActivityStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartActivityStreamOutput>(StartActivityStreamOutput.httpOutput(from:), StartActivityStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartActivityStreamInput, StartActivityStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartActivityStreamOutput>())
@@ -11237,9 +11084,9 @@ extension RDSClient {
     ///
     /// Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Services console, the stop-db-cluster CLI command, or the StopDBCluster operation. For more information, see [ Stopping and Starting an Aurora Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-cluster-stop-start.html) in the Amazon Aurora User Guide. This operation only applies to Aurora DB clusters.
     ///
-    /// - Parameter StartDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDBClusterInput`)
     ///
-    /// - Returns: `StartDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11275,7 +11122,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDBClusterInput, StartDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDBClusterOutput>(StartDBClusterOutput.httpOutput(from:), StartDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDBClusterInput, StartDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDBClusterOutput>())
@@ -11309,9 +11155,9 @@ extension RDSClient {
     ///
     /// Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the StopDBInstance operation. For more information, see [ Starting an Amazon RDS DB instance That Was Previously Stopped](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StartInstance.html) in the Amazon RDS User Guide. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use StartDBCluster instead.
     ///
-    /// - Parameter StartDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDBInstanceInput`)
     ///
-    /// - Returns: `StartDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11353,7 +11199,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDBInstanceInput, StartDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDBInstanceOutput>(StartDBInstanceOutput.httpOutput(from:), StartDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDBInstanceInput, StartDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDBInstanceOutput>())
@@ -11387,9 +11232,9 @@ extension RDSClient {
     ///
     /// Enables replication of automated backups to a different Amazon Web Services Region. This command doesn't apply to RDS Custom. For more information, see [ Replicating Automated Backups to Another Amazon Web Services Region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter StartDBInstanceAutomatedBackupsReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDBInstanceAutomatedBackupsReplicationInput`)
     ///
-    /// - Returns: `StartDBInstanceAutomatedBackupsReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDBInstanceAutomatedBackupsReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11426,7 +11271,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDBInstanceAutomatedBackupsReplicationInput, StartDBInstanceAutomatedBackupsReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDBInstanceAutomatedBackupsReplicationOutput>(StartDBInstanceAutomatedBackupsReplicationOutput.httpOutput(from:), StartDBInstanceAutomatedBackupsReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDBInstanceAutomatedBackupsReplicationInput, StartDBInstanceAutomatedBackupsReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDBInstanceAutomatedBackupsReplicationOutput>())
@@ -11460,9 +11304,9 @@ extension RDSClient {
     ///
     /// Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances. For more information, see [ Supported Regions and DB engines for exporting snapshots to S3 in Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RDS_Fea_Regions_DB-eng.Feature.ExportSnapshotToS3.html). For more information on exporting DB snapshot data, see [Exporting DB snapshot data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ExportSnapshot.html) in the Amazon RDS User Guide or [Exporting DB cluster snapshot data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-export-snapshot.html) in the Amazon Aurora User Guide. For more information on exporting DB cluster data, see [Exporting DB cluster data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/export-cluster-data.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter StartExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExportTaskInput`)
     ///
-    /// - Returns: `StartExportTaskOutput` : Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks operation.
+    /// - Returns: Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks operation. (Type: `StartExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11503,7 +11347,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExportTaskInput, StartExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExportTaskOutput>(StartExportTaskOutput.httpOutput(from:), StartExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExportTaskInput, StartExportTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExportTaskOutput>())
@@ -11537,9 +11380,9 @@ extension RDSClient {
     ///
     /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream operation. For more information, see [ Monitoring Amazon Aurora with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide or [ Monitoring Amazon RDS with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter StopActivityStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopActivityStreamInput`)
     ///
-    /// - Returns: `StopActivityStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopActivityStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11575,7 +11418,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopActivityStreamInput, StopActivityStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopActivityStreamOutput>(StopActivityStreamOutput.httpOutput(from:), StopActivityStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopActivityStreamInput, StopActivityStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopActivityStreamOutput>())
@@ -11609,9 +11451,9 @@ extension RDSClient {
     ///
     /// Stops an Amazon Aurora DB cluster. When you stop a DB cluster, Aurora retains the DB cluster's metadata, including its endpoints and DB parameter groups. Aurora also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see [ Stopping and Starting an Aurora Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-cluster-stop-start.html) in the Amazon Aurora User Guide. This operation only applies to Aurora DB clusters.
     ///
-    /// - Parameter StopDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDBClusterInput`)
     ///
-    /// - Returns: `StopDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11646,7 +11488,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDBClusterInput, StopDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDBClusterOutput>(StopDBClusterOutput.httpOutput(from:), StopDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDBClusterInput, StopDBClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDBClusterOutput>())
@@ -11680,9 +11521,9 @@ extension RDSClient {
     ///
     /// Stops an Amazon RDS DB instance temporarily. When you stop a DB instance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. The instance restarts automatically after 7 days. For more information, see [ Stopping an Amazon RDS DB Instance Temporarily](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StopInstance.html) in the Amazon RDS User Guide. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora clusters, use StopDBCluster instead.
     ///
-    /// - Parameter StopDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDBInstanceInput`)
     ///
-    /// - Returns: `StopDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11718,7 +11559,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDBInstanceInput, StopDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDBInstanceOutput>(StopDBInstanceOutput.httpOutput(from:), StopDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDBInstanceInput, StopDBInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDBInstanceOutput>())
@@ -11752,9 +11592,9 @@ extension RDSClient {
     ///
     /// Stops automated backup replication for a DB instance. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For more information, see [ Replicating Automated Backups to Another Amazon Web Services Region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html) in the Amazon RDS User Guide.
     ///
-    /// - Parameter StopDBInstanceAutomatedBackupsReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDBInstanceAutomatedBackupsReplicationInput`)
     ///
-    /// - Returns: `StopDBInstanceAutomatedBackupsReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDBInstanceAutomatedBackupsReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11787,7 +11627,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDBInstanceAutomatedBackupsReplicationInput, StopDBInstanceAutomatedBackupsReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDBInstanceAutomatedBackupsReplicationOutput>(StopDBInstanceAutomatedBackupsReplicationOutput.httpOutput(from:), StopDBInstanceAutomatedBackupsReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDBInstanceAutomatedBackupsReplicationInput, StopDBInstanceAutomatedBackupsReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDBInstanceAutomatedBackupsReplicationOutput>())
@@ -11821,9 +11660,9 @@ extension RDSClient {
     ///
     /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment. After you switch over, production traffic is routed to the databases in the green environment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     ///
-    /// - Parameter SwitchoverBlueGreenDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SwitchoverBlueGreenDeploymentInput`)
     ///
-    /// - Returns: `SwitchoverBlueGreenDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SwitchoverBlueGreenDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11856,7 +11695,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwitchoverBlueGreenDeploymentInput, SwitchoverBlueGreenDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SwitchoverBlueGreenDeploymentOutput>(SwitchoverBlueGreenDeploymentOutput.httpOutput(from:), SwitchoverBlueGreenDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwitchoverBlueGreenDeploymentInput, SwitchoverBlueGreenDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SwitchoverBlueGreenDeploymentOutput>())
@@ -11890,9 +11728,9 @@ extension RDSClient {
     ///
     /// Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster. Switchover operations were previously called "managed planned failovers." Aurora promotes the specified secondary cluster to assume full read/write capabilities and demotes the current primary cluster to a secondary (read-only) cluster, maintaining the orginal replication topology. All secondary clusters are synchronized with the primary at the beginning of the process so the new primary continues operations for the Aurora global database without losing any data. Your database is unavailable for a short time while the primary and selected secondary clusters are assuming their new roles. For more information about switching over an Aurora global database, see [Performing switchovers for Amazon Aurora global databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html#aurora-global-database-disaster-recovery.managed-failover) in the Amazon Aurora User Guide. This operation is intended for controlled environments, for operations such as "regional rotation" or to fall back to the original primary after a global database failover.
     ///
-    /// - Parameter SwitchoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SwitchoverGlobalClusterInput`)
     ///
-    /// - Returns: `SwitchoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SwitchoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11927,7 +11765,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwitchoverGlobalClusterInput, SwitchoverGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SwitchoverGlobalClusterOutput>(SwitchoverGlobalClusterOutput.httpOutput(from:), SwitchoverGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwitchoverGlobalClusterInput, SwitchoverGlobalClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SwitchoverGlobalClusterOutput>())
@@ -11961,9 +11798,9 @@ extension RDSClient {
     ///
     /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
     ///
-    /// - Parameter SwitchoverReadReplicaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SwitchoverReadReplicaInput`)
     ///
-    /// - Returns: `SwitchoverReadReplicaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SwitchoverReadReplicaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11996,7 +11833,6 @@ extension RDSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwitchoverReadReplicaInput, SwitchoverReadReplicaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SwitchoverReadReplicaOutput>(SwitchoverReadReplicaOutput.httpOutput(from:), SwitchoverReadReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwitchoverReadReplicaInput, SwitchoverReadReplicaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SwitchoverReadReplicaOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaConnectClient: ClientRuntime.Client {
     public static let clientName = "MediaConnectClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConnectClient.MediaConnectClientConfiguration
     let serviceName = "MediaConnect"
@@ -374,9 +373,9 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing bridge.
     ///
-    /// - Parameter AddBridgeOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddBridgeOutputsInput`)
     ///
-    /// - Returns: `AddBridgeOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddBridgeOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddBridgeOutputsInput, AddBridgeOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddBridgeOutputsOutput>(AddBridgeOutputsOutput.httpOutput(from:), AddBridgeOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddBridgeOutputsInput, AddBridgeOutputsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddBridgeOutputsOutput>())
@@ -448,9 +446,9 @@ extension MediaConnectClient {
     ///
     /// Adds sources to an existing bridge.
     ///
-    /// - Parameter AddBridgeSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddBridgeSourcesInput`)
     ///
-    /// - Returns: `AddBridgeSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddBridgeSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,7 +488,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddBridgeSourcesInput, AddBridgeSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddBridgeSourcesOutput>(AddBridgeSourcesOutput.httpOutput(from:), AddBridgeSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddBridgeSourcesInput, AddBridgeSourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddBridgeSourcesOutput>())
@@ -522,9 +519,9 @@ extension MediaConnectClient {
     ///
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     ///
-    /// - Parameter AddFlowMediaStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowMediaStreamsInput`)
     ///
-    /// - Returns: `AddFlowMediaStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowMediaStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,7 +560,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowMediaStreamsInput, AddFlowMediaStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowMediaStreamsOutput>(AddFlowMediaStreamsOutput.httpOutput(from:), AddFlowMediaStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowMediaStreamsInput, AddFlowMediaStreamsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowMediaStreamsOutput>())
@@ -595,9 +591,9 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     ///
-    /// - Parameter AddFlowOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowOutputsInput`)
     ///
-    /// - Returns: `AddFlowOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -637,7 +633,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowOutputsInput, AddFlowOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowOutputsOutput>(AddFlowOutputsOutput.httpOutput(from:), AddFlowOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowOutputsInput, AddFlowOutputsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowOutputsOutput>())
@@ -669,9 +664,9 @@ extension MediaConnectClient {
     ///
     /// Adds sources to a flow.
     ///
-    /// - Parameter AddFlowSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowSourcesInput`)
     ///
-    /// - Returns: `AddFlowSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -710,7 +705,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowSourcesInput, AddFlowSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowSourcesOutput>(AddFlowSourcesOutput.httpOutput(from:), AddFlowSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowSourcesInput, AddFlowSourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowSourcesOutput>())
@@ -742,9 +736,9 @@ extension MediaConnectClient {
     ///
     /// Adds VPC interfaces to a flow.
     ///
-    /// - Parameter AddFlowVpcInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowVpcInterfacesInput`)
     ///
-    /// - Returns: `AddFlowVpcInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowVpcInterfacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,7 +777,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowVpcInterfacesInput, AddFlowVpcInterfacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowVpcInterfacesOutput>(AddFlowVpcInterfacesOutput.httpOutput(from:), AddFlowVpcInterfacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowVpcInterfacesInput, AddFlowVpcInterfacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowVpcInterfacesOutput>())
@@ -815,9 +808,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new bridge. The request must include one source.
     ///
-    /// - Parameter CreateBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBridgeInput`)
     ///
-    /// - Returns: `CreateBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -857,7 +850,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBridgeInput, CreateBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBridgeOutput>(CreateBridgeOutput.httpOutput(from:), CreateBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBridgeInput, CreateBridgeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBridgeOutput>())
@@ -889,9 +881,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     ///
-    /// - Parameter CreateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowInput`)
     ///
-    /// - Returns: `CreateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,7 +922,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFlowInput, CreateFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFlowOutput>(CreateFlowOutput.httpOutput(from:), CreateFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFlowInput, CreateFlowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFlowOutput>())
@@ -962,9 +953,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new gateway. The request must include at least one network (up to four).
     ///
-    /// - Parameter CreateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
-    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,7 +995,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGatewayOutput>(CreateGatewayOutput.httpOutput(from:), CreateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayInput, CreateGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayOutput>())
@@ -1036,9 +1026,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     ///
-    /// - Parameter DeleteBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBridgeInput`)
     ///
-    /// - Returns: `DeleteBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,7 +1065,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBridgeInput, DeleteBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBridgeOutput>(DeleteBridgeOutput.httpOutput(from:), DeleteBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBridgeInput, DeleteBridgeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBridgeOutput>())
@@ -1107,9 +1096,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a flow. Before you can delete a flow, you must stop the flow.
     ///
-    /// - Parameter DeleteFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowInput`)
     ///
-    /// - Returns: `DeleteFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,7 +1134,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFlowInput, DeleteFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFlowOutput>(DeleteFlowOutput.httpOutput(from:), DeleteFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFlowInput, DeleteFlowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFlowOutput>())
@@ -1177,9 +1165,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
     ///
-    /// - Parameter DeleteGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayInput`)
     ///
-    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,7 +1204,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayOutput>(DeleteGatewayOutput.httpOutput(from:), DeleteGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayOutput>())
@@ -1248,9 +1235,9 @@ extension MediaConnectClient {
     ///
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     ///
-    /// - Parameter DeregisterGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterGatewayInstanceInput`)
     ///
-    /// - Returns: `DeregisterGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,7 +1275,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeregisterGatewayInstanceInput, DeregisterGatewayInstanceOutput>(DeregisterGatewayInstanceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterGatewayInstanceOutput>(DeregisterGatewayInstanceOutput.httpOutput(from:), DeregisterGatewayInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterGatewayInstanceInput, DeregisterGatewayInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterGatewayInstanceOutput>())
@@ -1320,9 +1306,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a bridge.
     ///
-    /// - Parameter DescribeBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBridgeInput`)
     ///
-    /// - Returns: `DescribeBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,7 +1345,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBridgeInput, DescribeBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBridgeOutput>(DescribeBridgeOutput.httpOutput(from:), DescribeBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBridgeInput, DescribeBridgeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBridgeOutput>())
@@ -1391,9 +1376,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     ///
-    /// - Parameter DescribeFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowInput`)
     ///
-    /// - Returns: `DescribeFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1429,7 +1414,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFlowInput, DescribeFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowOutput>(DescribeFlowOutput.httpOutput(from:), DescribeFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowInput, DescribeFlowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowOutput>())
@@ -1461,9 +1445,9 @@ extension MediaConnectClient {
     ///
     /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
     ///
-    /// - Parameter DescribeFlowSourceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowSourceMetadataInput`)
     ///
-    /// - Returns: `DescribeFlowSourceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowSourceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1499,7 +1483,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFlowSourceMetadataInput, DescribeFlowSourceMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowSourceMetadataOutput>(DescribeFlowSourceMetadataOutput.httpOutput(from:), DescribeFlowSourceMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowSourceMetadataInput, DescribeFlowSourceMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowSourceMetadataOutput>())
@@ -1531,9 +1514,9 @@ extension MediaConnectClient {
     ///
     /// Describes the thumbnail for the flow source.
     ///
-    /// - Parameter DescribeFlowSourceThumbnailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowSourceThumbnailInput`)
     ///
-    /// - Returns: `DescribeFlowSourceThumbnailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowSourceThumbnailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,7 +1552,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFlowSourceThumbnailInput, DescribeFlowSourceThumbnailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowSourceThumbnailOutput>(DescribeFlowSourceThumbnailOutput.httpOutput(from:), DescribeFlowSourceThumbnailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowSourceThumbnailInput, DescribeFlowSourceThumbnailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowSourceThumbnailOutput>())
@@ -1601,9 +1583,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
     ///
-    /// - Parameter DescribeGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayInput`)
     ///
-    /// - Returns: `DescribeGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1640,7 +1622,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGatewayInput, DescribeGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayOutput>(DescribeGatewayOutput.httpOutput(from:), DescribeGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayInput, DescribeGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGatewayOutput>())
@@ -1672,9 +1653,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of an instance.
     ///
-    /// - Parameter DescribeGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayInstanceInput`)
     ///
-    /// - Returns: `DescribeGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1711,7 +1692,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGatewayInstanceInput, DescribeGatewayInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayInstanceOutput>(DescribeGatewayInstanceOutput.httpOutput(from:), DescribeGatewayInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayInstanceInput, DescribeGatewayInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGatewayInstanceOutput>())
@@ -1743,9 +1723,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
     ///
-    /// - Parameter DescribeOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOfferingInput`)
     ///
-    /// - Returns: `DescribeOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1780,7 +1760,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOfferingInput, DescribeOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOfferingOutput>(DescribeOfferingOutput.httpOutput(from:), DescribeOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOfferingInput, DescribeOfferingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOfferingOutput>())
@@ -1812,9 +1791,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
     ///
-    /// - Parameter DescribeReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservationInput`)
     ///
-    /// - Returns: `DescribeReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1849,7 +1828,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReservationInput, DescribeReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservationOutput>(DescribeReservationOutput.httpOutput(from:), DescribeReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservationInput, DescribeReservationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservationOutput>())
@@ -1881,9 +1859,9 @@ extension MediaConnectClient {
     ///
     /// Grants entitlements to an existing flow.
     ///
-    /// - Parameter GrantFlowEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GrantFlowEntitlementsInput`)
     ///
-    /// - Returns: `GrantFlowEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GrantFlowEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1923,7 +1901,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GrantFlowEntitlementsInput, GrantFlowEntitlementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GrantFlowEntitlementsOutput>(GrantFlowEntitlementsOutput.httpOutput(from:), GrantFlowEntitlementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GrantFlowEntitlementsInput, GrantFlowEntitlementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GrantFlowEntitlementsOutput>())
@@ -1955,9 +1932,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
     ///
-    /// - Parameter ListBridgesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBridgesInput`)
     ///
-    /// - Returns: `ListBridgesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBridgesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1993,7 +1970,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBridgesInput, ListBridgesOutput>(ListBridgesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBridgesOutput>(ListBridgesOutput.httpOutput(from:), ListBridgesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBridgesInput, ListBridgesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBridgesOutput>())
@@ -2025,9 +2001,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     ///
-    /// - Parameter ListEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitlementsInput`)
     ///
-    /// - Returns: `ListEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2062,7 +2038,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEntitlementsInput, ListEntitlementsOutput>(ListEntitlementsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitlementsOutput>(ListEntitlementsOutput.httpOutput(from:), ListEntitlementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitlementsInput, ListEntitlementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitlementsOutput>())
@@ -2094,9 +2069,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of flows that are associated with this account. This request returns a paginated result.
     ///
-    /// - Parameter ListFlowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowsInput`)
     ///
-    /// - Returns: `ListFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2131,7 +2106,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFlowsInput, ListFlowsOutput>(ListFlowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowsOutput>(ListFlowsOutput.httpOutput(from:), ListFlowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowsInput, ListFlowsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowsOutput>())
@@ -2163,9 +2137,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListGatewayInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewayInstancesInput`)
     ///
-    /// - Returns: `ListGatewayInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewayInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2201,7 +2175,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewayInstancesInput, ListGatewayInstancesOutput>(ListGatewayInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewayInstancesOutput>(ListGatewayInstancesOutput.httpOutput(from:), ListGatewayInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewayInstancesInput, ListGatewayInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewayInstancesOutput>())
@@ -2233,9 +2206,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
     ///
-    /// - Parameter ListGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewaysInput`)
     ///
-    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,7 +2244,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewaysInput, ListGatewaysOutput>(ListGatewaysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewaysOutput>(ListGatewaysOutput.httpOutput(from:), ListGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewaysOutput>())
@@ -2303,9 +2275,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     ///
-    /// - Parameter ListOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOfferingsInput`)
     ///
-    /// - Returns: `ListOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2340,7 +2312,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOfferingsInput, ListOfferingsOutput>(ListOfferingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOfferingsOutput>(ListOfferingsOutput.httpOutput(from:), ListOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOfferingsInput, ListOfferingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOfferingsOutput>())
@@ -2372,9 +2343,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
     ///
-    /// - Parameter ListReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReservationsInput`)
     ///
-    /// - Returns: `ListReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReservationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2409,7 +2380,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReservationsInput, ListReservationsOutput>(ListReservationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReservationsOutput>(ListReservationsOutput.httpOutput(from:), ListReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReservationsInput, ListReservationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReservationsOutput>())
@@ -2441,9 +2411,9 @@ extension MediaConnectClient {
     ///
     /// List all tags on a MediaConnect resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2476,7 +2446,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2508,9 +2477,9 @@ extension MediaConnectClient {
     ///
     /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     ///
-    /// - Parameter PurchaseOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseOfferingInput`)
     ///
-    /// - Returns: `PurchaseOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2549,7 +2518,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutput>(PurchaseOfferingOutput.httpOutput(from:), PurchaseOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseOfferingOutput>())
@@ -2581,9 +2549,9 @@ extension MediaConnectClient {
     ///
     /// Removes an output from a bridge.
     ///
-    /// - Parameter RemoveBridgeOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBridgeOutputInput`)
     ///
-    /// - Returns: `RemoveBridgeOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBridgeOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2620,7 +2588,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveBridgeOutputInput, RemoveBridgeOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveBridgeOutputOutput>(RemoveBridgeOutputOutput.httpOutput(from:), RemoveBridgeOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveBridgeOutputInput, RemoveBridgeOutputOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveBridgeOutputOutput>())
@@ -2652,9 +2619,9 @@ extension MediaConnectClient {
     ///
     /// Removes a source from a bridge.
     ///
-    /// - Parameter RemoveBridgeSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBridgeSourceInput`)
     ///
-    /// - Returns: `RemoveBridgeSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBridgeSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2691,7 +2658,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveBridgeSourceInput, RemoveBridgeSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveBridgeSourceOutput>(RemoveBridgeSourceOutput.httpOutput(from:), RemoveBridgeSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveBridgeSourceInput, RemoveBridgeSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveBridgeSourceOutput>())
@@ -2723,9 +2689,9 @@ extension MediaConnectClient {
     ///
     /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
     ///
-    /// - Parameter RemoveFlowMediaStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowMediaStreamInput`)
     ///
-    /// - Returns: `RemoveFlowMediaStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowMediaStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2761,7 +2727,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowMediaStreamInput, RemoveFlowMediaStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowMediaStreamOutput>(RemoveFlowMediaStreamOutput.httpOutput(from:), RemoveFlowMediaStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowMediaStreamInput, RemoveFlowMediaStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowMediaStreamOutput>())
@@ -2793,9 +2758,9 @@ extension MediaConnectClient {
     ///
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     ///
-    /// - Parameter RemoveFlowOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowOutputInput`)
     ///
-    /// - Returns: `RemoveFlowOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2831,7 +2796,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowOutputInput, RemoveFlowOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowOutputOutput>(RemoveFlowOutputOutput.httpOutput(from:), RemoveFlowOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowOutputInput, RemoveFlowOutputOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowOutputOutput>())
@@ -2863,9 +2827,9 @@ extension MediaConnectClient {
     ///
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     ///
-    /// - Parameter RemoveFlowSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowSourceInput`)
     ///
-    /// - Returns: `RemoveFlowSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2901,7 +2865,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowSourceInput, RemoveFlowSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowSourceOutput>(RemoveFlowSourceOutput.httpOutput(from:), RemoveFlowSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowSourceInput, RemoveFlowSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowSourceOutput>())
@@ -2933,9 +2896,9 @@ extension MediaConnectClient {
     ///
     /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
     ///
-    /// - Parameter RemoveFlowVpcInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowVpcInterfaceInput`)
     ///
-    /// - Returns: `RemoveFlowVpcInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowVpcInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2971,7 +2934,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowVpcInterfaceInput, RemoveFlowVpcInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowVpcInterfaceOutput>(RemoveFlowVpcInterfaceOutput.httpOutput(from:), RemoveFlowVpcInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowVpcInterfaceInput, RemoveFlowVpcInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowVpcInterfaceOutput>())
@@ -3003,9 +2965,9 @@ extension MediaConnectClient {
     ///
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     ///
-    /// - Parameter RevokeFlowEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeFlowEntitlementInput`)
     ///
-    /// - Returns: `RevokeFlowEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeFlowEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3041,7 +3003,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeFlowEntitlementInput, RevokeFlowEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeFlowEntitlementOutput>(RevokeFlowEntitlementOutput.httpOutput(from:), RevokeFlowEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeFlowEntitlementInput, RevokeFlowEntitlementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeFlowEntitlementOutput>())
@@ -3073,9 +3034,9 @@ extension MediaConnectClient {
     ///
     /// Starts a flow.
     ///
-    /// - Parameter StartFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlowInput`)
     ///
-    /// - Returns: `StartFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3111,7 +3072,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFlowInput, StartFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFlowOutput>(StartFlowOutput.httpOutput(from:), StartFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowInput, StartFlowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowOutput>())
@@ -3143,9 +3103,9 @@ extension MediaConnectClient {
     ///
     /// Stops a flow.
     ///
-    /// - Parameter StopFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFlowInput`)
     ///
-    /// - Returns: `StopFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3181,7 +3141,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopFlowInput, StopFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopFlowOutput>(StopFlowOutput.httpOutput(from:), StopFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopFlowInput, StopFlowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopFlowOutput>())
@@ -3213,9 +3172,9 @@ extension MediaConnectClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3251,7 +3210,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3283,9 +3241,9 @@ extension MediaConnectClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3319,7 +3277,6 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3351,9 +3308,9 @@ extension MediaConnectClient {
     ///
     /// Updates the bridge.
     ///
-    /// - Parameter UpdateBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeInput`)
     ///
-    /// - Returns: `UpdateBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,7 +3350,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeInput, UpdateBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeOutput>(UpdateBridgeOutput.httpOutput(from:), UpdateBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeInput, UpdateBridgeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeOutput>())
@@ -3425,9 +3381,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge output.
     ///
-    /// - Parameter UpdateBridgeOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeOutputInput`)
     ///
-    /// - Returns: `UpdateBridgeOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3467,7 +3423,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeOutputInput, UpdateBridgeOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeOutputOutput>(UpdateBridgeOutputOutput.httpOutput(from:), UpdateBridgeOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeOutputInput, UpdateBridgeOutputOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeOutputOutput>())
@@ -3499,9 +3454,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge source.
     ///
-    /// - Parameter UpdateBridgeSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeSourceInput`)
     ///
-    /// - Returns: `UpdateBridgeSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3541,7 +3496,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeSourceInput, UpdateBridgeSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeSourceOutput>(UpdateBridgeSourceOutput.httpOutput(from:), UpdateBridgeSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeSourceInput, UpdateBridgeSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeSourceOutput>())
@@ -3573,9 +3527,9 @@ extension MediaConnectClient {
     ///
     /// Updates the bridge state.
     ///
-    /// - Parameter UpdateBridgeStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeStateInput`)
     ///
-    /// - Returns: `UpdateBridgeStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3615,7 +3569,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeStateInput, UpdateBridgeStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeStateOutput>(UpdateBridgeStateOutput.httpOutput(from:), UpdateBridgeStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeStateInput, UpdateBridgeStateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeStateOutput>())
@@ -3647,9 +3600,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing flow.
     ///
-    /// - Parameter UpdateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowInput`)
     ///
-    /// - Returns: `UpdateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3688,7 +3641,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowInput, UpdateFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowOutput>(UpdateFlowOutput.httpOutput(from:), UpdateFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowInput, UpdateFlowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowOutput>())
@@ -3720,9 +3672,9 @@ extension MediaConnectClient {
     ///
     /// Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     ///
-    /// - Parameter UpdateFlowEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowEntitlementInput`)
     ///
-    /// - Returns: `UpdateFlowEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3761,7 +3713,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowEntitlementInput, UpdateFlowEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowEntitlementOutput>(UpdateFlowEntitlementOutput.httpOutput(from:), UpdateFlowEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowEntitlementInput, UpdateFlowEntitlementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowEntitlementOutput>())
@@ -3793,9 +3744,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing media stream.
     ///
-    /// - Parameter UpdateFlowMediaStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowMediaStreamInput`)
     ///
-    /// - Returns: `UpdateFlowMediaStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowMediaStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3834,7 +3785,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowMediaStreamInput, UpdateFlowMediaStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowMediaStreamOutput>(UpdateFlowMediaStreamOutput.httpOutput(from:), UpdateFlowMediaStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowMediaStreamInput, UpdateFlowMediaStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowMediaStreamOutput>())
@@ -3866,9 +3816,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing flow output.
     ///
-    /// - Parameter UpdateFlowOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowOutputInput`)
     ///
-    /// - Returns: `UpdateFlowOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3907,7 +3857,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowOutputInput, UpdateFlowOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowOutputOutput>(UpdateFlowOutputOutput.httpOutput(from:), UpdateFlowOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowOutputInput, UpdateFlowOutputOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowOutputOutput>())
@@ -3939,9 +3888,9 @@ extension MediaConnectClient {
     ///
     /// Updates the source of a flow.
     ///
-    /// - Parameter UpdateFlowSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowSourceInput`)
     ///
-    /// - Returns: `UpdateFlowSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3980,7 +3929,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowSourceInput, UpdateFlowSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowSourceOutput>(UpdateFlowSourceOutput.httpOutput(from:), UpdateFlowSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowSourceInput, UpdateFlowSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowSourceOutput>())
@@ -4012,9 +3960,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing gateway instance.
     ///
-    /// - Parameter UpdateGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInstanceInput`)
     ///
-    /// - Returns: `UpdateGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4054,7 +4002,6 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInstanceInput, UpdateGatewayInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayInstanceOutput>(UpdateGatewayInstanceOutput.httpOutput(from:), UpdateGatewayInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInstanceInput, UpdateGatewayInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayInstanceOutput>())

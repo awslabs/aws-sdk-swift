@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class HealthClient: ClientRuntime.Client {
     public static let clientName = "HealthClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: HealthClient.HealthClientConfiguration
     let serviceName = "Health"
@@ -373,9 +372,9 @@ extension HealthClient {
     ///
     /// Returns a list of accounts in the organization from Organizations that are affected by the provided event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
-    /// - Parameter DescribeAffectedAccountsForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAffectedAccountsForOrganizationInput`)
     ///
-    /// - Returns: `DescribeAffectedAccountsForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAffectedAccountsForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,7 +406,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAffectedAccountsForOrganizationOutput>(DescribeAffectedAccountsForOrganizationOutput.httpOutput(from:), DescribeAffectedAccountsForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAffectedAccountsForOrganizationOutput>())
@@ -446,9 +444,9 @@ extension HealthClient {
     ///
     /// * This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
     ///
-    /// - Parameter DescribeAffectedEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAffectedEntitiesInput`)
     ///
-    /// - Returns: `DescribeAffectedEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAffectedEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,7 +479,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesOutput>(DescribeAffectedEntitiesOutput.httpOutput(from:), DescribeAffectedEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAffectedEntitiesOutput>())
@@ -520,9 +517,9 @@ extension HealthClient {
     ///
     /// * This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
     ///
-    /// - Parameter DescribeAffectedEntitiesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAffectedEntitiesForOrganizationInput`)
     ///
-    /// - Returns: `DescribeAffectedEntitiesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAffectedEntitiesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,7 +552,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesForOrganizationOutput>(DescribeAffectedEntitiesForOrganizationOutput.httpOutput(from:), DescribeAffectedEntitiesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAffectedEntitiesForOrganizationOutput>())
@@ -590,9 +586,9 @@ extension HealthClient {
     ///
     /// Returns the number of entities that are affected by each of the specified events.
     ///
-    /// - Parameter DescribeEntityAggregatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntityAggregatesInput`)
     ///
-    /// - Returns: `DescribeEntityAggregatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntityAggregatesOutput`)
     public func describeEntityAggregates(input: DescribeEntityAggregatesInput) async throws -> DescribeEntityAggregatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -619,7 +615,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesOutput>(DescribeEntityAggregatesOutput.httpOutput(from:), DescribeEntityAggregatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntityAggregatesOutput>())
@@ -654,9 +649,9 @@ extension HealthClient {
     ///
     /// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
     ///
-    /// - Parameter DescribeEntityAggregatesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntityAggregatesForOrganizationInput`)
     ///
-    /// - Returns: `DescribeEntityAggregatesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntityAggregatesForOrganizationOutput`)
     public func describeEntityAggregatesForOrganization(input: DescribeEntityAggregatesForOrganizationInput) async throws -> DescribeEntityAggregatesForOrganizationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -683,7 +678,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesForOrganizationOutput>(DescribeEntityAggregatesForOrganizationOutput.httpOutput(from:), DescribeEntityAggregatesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntityAggregatesForOrganizationOutput>())
@@ -718,9 +712,9 @@ extension HealthClient {
     ///
     /// Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
-    /// - Parameter DescribeEventAggregatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventAggregatesInput`)
     ///
-    /// - Returns: `DescribeEventAggregatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventAggregatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,7 +746,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventAggregatesOutput>(DescribeEventAggregatesOutput.httpOutput(from:), DescribeEventAggregatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventAggregatesOutput>())
@@ -787,9 +780,9 @@ extension HealthClient {
     ///
     /// Returns detailed information about one or more specified events. Information includes standard event data (Amazon Web Services Region, service, and so on, as returned by [DescribeEvents](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html)), a detailed event description, and possible additional metadata that depends upon the nature of the event. Affected entities are not included. To retrieve the entities, use the [DescribeAffectedEntities](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html) operation. If a specified event can't be retrieved, an error message is returned for that event. This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
     ///
-    /// - Parameter DescribeEventDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventDetailsInput`)
     ///
-    /// - Returns: `DescribeEventDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,7 +814,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventDetailsOutput>(DescribeEventDetailsOutput.httpOutput(from:), DescribeEventDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventDetailsOutput>())
@@ -863,9 +855,9 @@ extension HealthClient {
     ///
     /// For more information, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions) in the Health User Guide.
     ///
-    /// - Parameter DescribeEventDetailsForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventDetailsForOrganizationInput`)
     ///
-    /// - Returns: `DescribeEventDetailsForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventDetailsForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,7 +889,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventDetailsForOrganizationOutput>(DescribeEventDetailsForOrganizationOutput.httpOutput(from:), DescribeEventDetailsForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventDetailsForOrganizationOutput>())
@@ -932,9 +923,9 @@ extension HealthClient {
     ///
     /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the [EventType](https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html) object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
-    /// - Parameter DescribeEventTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventTypesInput`)
     ///
-    /// - Returns: `DescribeEventTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,7 +958,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventTypesInput, DescribeEventTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventTypesOutput>(DescribeEventTypesOutput.httpOutput(from:), DescribeEventTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventTypesInput, DescribeEventTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventTypesOutput>())
@@ -1006,9 +996,9 @@ extension HealthClient {
     ///
     /// * This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
-    /// - Parameter DescribeEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,7 +1031,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -1085,9 +1074,9 @@ extension HealthClient {
     ///
     /// If you don't specify a filter, the DescribeEventsForOrganizations returns all events across your organization. Results are sorted by lastModifiedTime, starting with the most recent event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html). Before you can call this operation, you must first enable Health to work with Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) operation from your organization's management account. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
-    /// - Parameter DescribeEventsForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventsForOrganizationInput`)
     ///
-    /// - Returns: `DescribeEventsForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventsForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,7 +1109,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsForOrganizationOutput>(DescribeEventsForOrganizationOutput.httpOutput(from:), DescribeEventsForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsForOrganizationOutput>())
@@ -1155,9 +1143,9 @@ extension HealthClient {
     ///
     /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must use the organization's management account.
     ///
-    /// - Parameter DescribeHealthServiceStatusForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHealthServiceStatusForOrganizationInput`)
     ///
-    /// - Returns: `DescribeHealthServiceStatusForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHealthServiceStatusForOrganizationOutput`)
     public func describeHealthServiceStatusForOrganization(input: DescribeHealthServiceStatusForOrganizationInput) async throws -> DescribeHealthServiceStatusForOrganizationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1184,7 +1172,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHealthServiceStatusForOrganizationOutput>(DescribeHealthServiceStatusForOrganizationOutput.httpOutput(from:), DescribeHealthServiceStatusForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHealthServiceStatusForOrganizationOutput>())
@@ -1219,9 +1206,9 @@ extension HealthClient {
     ///
     /// Disables Health from working with Organizations. To call this operation, you must sign in to the organization's management account. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html) in the Health User Guide. This operation doesn't remove the service-linked role from the management account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see [Deleting a Service-Linked Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role) in the IAM User Guide. You can also disable the organizational feature by using the Organizations [DisableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html) API operation. After you call this operation, Health stops aggregating events for all other Amazon Web Services accounts in your organization. If you call the Health API operations for organizational view, Health returns an error. Health continues to aggregate health events for your Amazon Web Services account.
     ///
-    /// - Parameter DisableHealthServiceAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableHealthServiceAccessForOrganizationInput`)
     ///
-    /// - Returns: `DisableHealthServiceAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableHealthServiceAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,7 +1240,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableHealthServiceAccessForOrganizationOutput>(DisableHealthServiceAccessForOrganizationOutput.httpOutput(from:), DisableHealthServiceAccessForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableHealthServiceAccessForOrganizationOutput>())
@@ -1295,9 +1281,9 @@ extension HealthClient {
     ///
     /// If you don't have the required support plan, you can instead use the Health console to enable the organizational view feature. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html) in the Health User Guide.
     ///
-    /// - Parameter EnableHealthServiceAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableHealthServiceAccessForOrganizationInput`)
     ///
-    /// - Returns: `EnableHealthServiceAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableHealthServiceAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,7 +1315,6 @@ extension HealthClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableHealthServiceAccessForOrganizationOutput>(EnableHealthServiceAccessForOrganizationOutput.httpOutput(from:), EnableHealthServiceAccessForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableHealthServiceAccessForOrganizationOutput>())

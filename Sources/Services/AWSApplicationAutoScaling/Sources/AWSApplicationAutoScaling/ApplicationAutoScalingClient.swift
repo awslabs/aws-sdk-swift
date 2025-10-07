@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationAutoScalingClient: ClientRuntime.Client {
     public static let clientName = "ApplicationAutoScalingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationAutoScalingClient.ApplicationAutoScalingClientConfiguration
     let serviceName = "Application Auto Scaling"
@@ -374,9 +373,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Deletes the specified scaling policy for an Application Auto Scaling scalable target. Deleting a step scaling policy deletes the underlying alarm action, but does not delete the CloudWatch alarm associated with the scaling policy, even if it no longer has an associated action. For more information, see [Delete a step scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/create-step-scaling-policy-cli.html#delete-step-scaling-policy) and [Delete a target tracking scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/create-target-tracking-policy-cli.html#delete-target-tracking-policy) in the Application Auto Scaling User Guide.
     ///
-    /// - Parameter DeleteScalingPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScalingPolicyInput`)
     ///
-    /// - Returns: `DeleteScalingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScalingPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScalingPolicyOutput>(DeleteScalingPolicyOutput.httpOutput(from:), DeleteScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScalingPolicyOutput>())
@@ -446,9 +444,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Deletes the specified scheduled action for an Application Auto Scaling scalable target. For more information, see [Delete a scheduled action](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html#delete-scheduled-action) in the Application Auto Scaling User Guide.
     ///
-    /// - Parameter DeleteScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduledActionInput`)
     ///
-    /// - Returns: `DeleteScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +481,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduledActionOutput>(DeleteScheduledActionOutput.httpOutput(from:), DeleteScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledActionOutput>())
@@ -518,9 +515,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Deregisters an Application Auto Scaling scalable target when you have finished using it. To see which resources have been registered, use [DescribeScalableTargets](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html). Deregistering a scalable target deletes the scaling policies and the scheduled actions that are associated with it.
     ///
-    /// - Parameter DeregisterScalableTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterScalableTargetInput`)
     ///
-    /// - Returns: `DeregisterScalableTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterScalableTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,7 +552,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterScalableTargetOutput>(DeregisterScalableTargetOutput.httpOutput(from:), DeregisterScalableTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterScalableTargetOutput>())
@@ -590,9 +586,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Gets information about the scalable targets in the specified namespace. You can filter the results using ResourceIds and ScalableDimension.
     ///
-    /// - Parameter DescribeScalableTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScalableTargetsInput`)
     ///
-    /// - Returns: `DescribeScalableTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScalableTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,7 +623,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScalableTargetsOutput>(DescribeScalableTargetsOutput.httpOutput(from:), DescribeScalableTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalableTargetsOutput>())
@@ -662,9 +657,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Provides descriptive information about the scaling activities in the specified namespace from the previous six weeks. You can filter the results using ResourceId and ScalableDimension. For information about viewing scaling activities using the Amazon Web Services CLI, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
     ///
-    /// - Parameter DescribeScalingActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScalingActivitiesInput`)
     ///
-    /// - Returns: `DescribeScalingActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScalingActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,7 +694,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScalingActivitiesOutput>(DescribeScalingActivitiesOutput.httpOutput(from:), DescribeScalingActivitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingActivitiesOutput>())
@@ -734,9 +728,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Describes the Application Auto Scaling scaling policies for the specified service namespace. You can filter the results using ResourceId, ScalableDimension, and PolicyNames. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
     ///
-    /// - Parameter DescribeScalingPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScalingPoliciesInput`)
     ///
-    /// - Returns: `DescribeScalingPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScalingPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,7 +766,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScalingPoliciesOutput>(DescribeScalingPoliciesOutput.httpOutput(from:), DescribeScalingPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPoliciesOutput>())
@@ -807,9 +800,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html) in the Application Auto Scaling User Guide.
     ///
-    /// - Parameter DescribeScheduledActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScheduledActionsInput`)
     ///
-    /// - Returns: `DescribeScheduledActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScheduledActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,7 +837,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScheduledActionsOutput>(DescribeScheduledActionsOutput.httpOutput(from:), DescribeScheduledActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduledActionsOutput>())
@@ -879,9 +871,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using historical load data from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial forecasts. However, having a full 14 days of historical data results in more accurate forecasts.
     ///
-    /// - Parameter GetPredictiveScalingForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPredictiveScalingForecastInput`)
     ///
-    /// - Returns: `GetPredictiveScalingForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPredictiveScalingForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,7 +906,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPredictiveScalingForecastOutput>(GetPredictiveScalingForecastOutput.httpOutput(from:), GetPredictiveScalingForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPredictiveScalingForecastOutput>())
@@ -949,9 +940,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,7 +974,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1018,9 +1008,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scaling policy applies to the scalable target identified by those three attributes. You cannot create a scaling policy until you have registered the resource as a scalable target. Multiple scaling policies can be in force at the same time for the same scalable target. You can have one or more target tracking scaling policies, one or more step scaling policies, or both. However, there is a chance that multiple policies could conflict, instructing the scalable target to scale out or in at the same time. Application Auto Scaling gives precedence to the policy that provides the largest capacity for both scale out and scale in. For example, if one policy increases capacity by 3, another policy increases capacity by 200 percent, and the current capacity is 10, Application Auto Scaling uses the policy with the highest calculated capacity (200% of 10 = 20) and scales out to 30. We recommend caution, however, when using target tracking scaling policies with step scaling policies because conflicts between these policies can cause undesirable behavior. For example, if the step scaling policy initiates a scale-in activity before the target tracking policy is ready to scale in, the scale-in activity will not be blocked. After the scale-in activity completes, the target tracking policy could instruct the scalable target to scale out again. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html), [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html), and [Predictive scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/aas-create-predictive-scaling-policy.html) in the Application Auto Scaling User Guide. If a scalable target is deregistered, the scalable target is no longer available to use scaling policies. Any scaling policies that were specified for the scalable target are deleted.
     ///
-    /// - Parameter PutScalingPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutScalingPolicyInput`)
     ///
-    /// - Returns: `PutScalingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutScalingPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,7 +1047,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutScalingPolicyOutput>(PutScalingPolicyOutput.httpOutput(from:), PutScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutScalingPolicyOutput>())
@@ -1092,9 +1081,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Creates or updates a scheduled action for an Application Auto Scaling scalable target. Each scalable target is identified by a service namespace, resource ID, and scalable dimension. A scheduled action applies to the scalable target identified by those three attributes. You cannot create a scheduled action until you have registered the resource as a scalable target. When you specify start and end times with a recurring schedule using a cron expression or rates, they form the boundaries for when the recurring action starts and stops. To update a scheduled action, specify the parameters that you want to change. If you don't specify start and end times, the old values are deleted. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html) in the Application Auto Scaling User Guide. If a scalable target is deregistered, the scalable target is no longer available to run scheduled actions. Any scheduled actions that were specified for the scalable target are deleted.
     ///
-    /// - Parameter PutScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutScheduledActionInput`)
     ///
-    /// - Returns: `PutScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1130,7 +1119,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutScheduledActionInput, PutScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutScheduledActionOutput>(PutScheduledActionOutput.httpOutput(from:), PutScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutScheduledActionInput, PutScheduledActionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutScheduledActionOutput>())
@@ -1165,9 +1153,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Registers or updates a scalable target, which is the resource that you want to scale. Scalable targets are uniquely identified by the combination of resource ID, scalable dimension, and namespace, which represents some capacity dimension of the underlying service. When you register a new scalable target, you must specify values for the minimum and maximum capacity. If the specified resource is not active in the target service, this operation does not change the resource's current capacity. Otherwise, it changes the resource's current capacity to a value that is inside of this range. If you add a scaling policy, current capacity is adjustable within the specified range when scaling starts. Application Auto Scaling scaling policies will not scale capacity to values that are outside of the minimum and maximum range. After you register a scalable target, you do not need to register it again to use other Application Auto Scaling operations. To see which resources have been registered, use [DescribeScalableTargets](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html). You can also view the scaling policies for a service namespace by using [DescribeScalableTargets](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalableTargets.html). If you no longer need a scalable target, you can deregister it by using [DeregisterScalableTarget](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DeregisterScalableTarget.html). To update a scalable target, specify the parameters that you want to change. Include the parameters that identify the scalable target: resource ID, scalable dimension, and namespace. Any parameters that you don't specify are not changed by this update request. If you call the RegisterScalableTarget API operation to create a scalable target, there might be a brief delay until the operation achieves [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency). You might become aware of this brief delay if you get unexpected errors when performing sequential operations. The typical strategy is to retry the request, and some Amazon Web Services SDKs include automatic backoff and retry logic. If you call the RegisterScalableTarget API operation to update an existing scalable target, Application Auto Scaling retrieves the current capacity of the resource. If it's below the minimum capacity or above the maximum capacity, Application Auto Scaling adjusts the capacity of the scalable target to place it within these bounds, even if you don't include the MinCapacity or MaxCapacity request parameters.
     ///
-    /// - Parameter RegisterScalableTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterScalableTargetInput`)
     ///
-    /// - Returns: `RegisterScalableTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterScalableTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,7 +1190,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterScalableTargetOutput>(RegisterScalableTargetOutput.httpOutput(from:), RegisterScalableTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterScalableTargetOutput>())
@@ -1237,9 +1224,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Adds or edits tags on an Application Auto Scaling scalable target. Each tag consists of a tag key and a tag value, which are both case-sensitive strings. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can use this operation to tag an Application Auto Scaling scalable target, but you cannot tag a scaling policy or scheduled action. You can also add tags to an Application Auto Scaling scalable target while creating it (RegisterScalableTarget). For general information about tags, including the format and syntax, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Use tags to control access to a scalable target. For more information, see [Tagging support for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html) in the Application Auto Scaling User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,7 +1260,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1308,9 +1294,9 @@ extension ApplicationAutoScalingClient {
     ///
     /// Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the tag key and the Application Auto Scaling scalable target.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,7 +1329,6 @@ extension ApplicationAutoScalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

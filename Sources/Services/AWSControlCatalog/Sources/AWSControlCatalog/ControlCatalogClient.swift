@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ControlCatalogClient: ClientRuntime.Client {
     public static let clientName = "ControlCatalogClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ControlCatalogClient.ControlCatalogClientConfiguration
     let serviceName = "ControlCatalog"
@@ -374,9 +373,9 @@ extension ControlCatalogClient {
     ///
     /// Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the ControlArn parameter, in ARN form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the Scope field do not show the DeployableRegions field, because it does not apply. Controls that have the value REGIONAL in the Scope field return a value for the DeployableRegions field, as shown in the example.
     ///
-    /// - Parameter GetControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetControlInput`)
     ///
-    /// - Returns: `GetControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetControlInput, GetControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetControlOutput>(GetControlOutput.httpOutput(from:), GetControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetControlInput, GetControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetControlOutput>())
@@ -446,9 +444,9 @@ extension ControlCatalogClient {
     ///
     /// Returns a paginated list of common controls from the Amazon Web Services Control Catalog. You can apply an optional filter to see common controls that have a specific objective. If you don’t provide a filter, the operation returns all common controls.
     ///
-    /// - Parameter ListCommonControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommonControlsInput`)
     ///
-    /// - Returns: `ListCommonControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommonControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommonControlsInput, ListCommonControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommonControlsOutput>(ListCommonControlsOutput.httpOutput(from:), ListCommonControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommonControlsInput, ListCommonControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommonControlsOutput>())
@@ -518,9 +515,9 @@ extension ControlCatalogClient {
     ///
     /// Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
     ///
-    /// - Parameter ListControlMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlMappingsInput`)
     ///
-    /// - Returns: `ListControlMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,7 +555,6 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListControlMappingsInput, ListControlMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListControlMappingsOutput>(ListControlMappingsOutput.httpOutput(from:), ListControlMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListControlMappingsInput, ListControlMappingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListControlMappingsOutput>())
@@ -590,9 +586,9 @@ extension ControlCatalogClient {
     ///
     /// Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type controlSummary. The ARN is returned in the global controlcatalog format, as shown in the examples.
     ///
-    /// - Parameter ListControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlsInput`)
     ///
-    /// - Returns: `ListControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,7 +626,6 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListControlsInput, ListControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListControlsOutput>(ListControlsOutput.httpOutput(from:), ListControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListControlsInput, ListControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListControlsOutput>())
@@ -662,9 +657,9 @@ extension ControlCatalogClient {
     ///
     /// Returns a paginated list of domains from the Control Catalog.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,7 +694,6 @@ extension ControlCatalogClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainsInput, ListDomainsOutput>(ListDomainsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -731,9 +725,9 @@ extension ControlCatalogClient {
     ///
     /// Returns a paginated list of objectives from the Control Catalog. You can apply an optional filter to see the objectives that belong to a specific domain. If you don’t provide a filter, the operation returns all objectives.
     ///
-    /// - Parameter ListObjectivesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectivesInput`)
     ///
-    /// - Returns: `ListObjectivesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectivesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,7 +765,6 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObjectivesInput, ListObjectivesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectivesOutput>(ListObjectivesOutput.httpOutput(from:), ListObjectivesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectivesInput, ListObjectivesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectivesOutput>())

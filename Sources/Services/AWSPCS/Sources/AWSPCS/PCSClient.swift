@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PCSClient: ClientRuntime.Client {
     public static let clientName = "PCSClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PCSClient.PCSClientConfiguration
     let serviceName = "PCS"
@@ -374,9 +373,9 @@ extension PCSClient {
     ///
     /// Creates a cluster in your account. PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action. It takes time for PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,7 +443,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -479,9 +477,9 @@ extension PCSClient {
     ///
     /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
     ///
-    /// - Parameter CreateComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComputeNodeGroupInput`)
     ///
-    /// - Returns: `CreateComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComputeNodeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,7 +548,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComputeNodeGroupInput, CreateComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComputeNodeGroupOutput>(CreateComputeNodeGroupOutput.httpOutput(from:), CreateComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComputeNodeGroupInput, CreateComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComputeNodeGroupOutput>())
@@ -585,9 +582,9 @@ extension PCSClient {
     ///
     /// Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
     ///
-    /// - Parameter CreateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
     ///
-    /// - Returns: `CreateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,7 +653,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
@@ -691,9 +687,9 @@ extension PCSClient {
     ///
     /// Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -755,7 +751,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -790,9 +785,9 @@ extension PCSClient {
     ///
     /// Deletes a compute node group. You must delete all queues associated with the compute node group first.
     ///
-    /// - Parameter DeleteComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComputeNodeGroupInput`)
     ///
-    /// - Returns: `DeleteComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComputeNodeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -854,7 +849,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteComputeNodeGroupInput, DeleteComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComputeNodeGroupOutput>(DeleteComputeNodeGroupOutput.httpOutput(from:), DeleteComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComputeNodeGroupInput, DeleteComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComputeNodeGroupOutput>())
@@ -889,9 +883,9 @@ extension PCSClient {
     ///
     /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
     ///
-    /// - Parameter DeleteQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
     ///
-    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -953,7 +947,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
@@ -988,9 +981,9 @@ extension PCSClient {
     ///
     /// Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
     ///
-    /// - Parameter GetClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterInput`)
     ///
-    /// - Returns: `GetClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1051,7 +1044,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClusterInput, GetClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterOutput>(GetClusterOutput.httpOutput(from:), GetClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterInput, GetClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterOutput>())
@@ -1086,9 +1078,9 @@ extension PCSClient {
     ///
     /// Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
     ///
-    /// - Parameter GetComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComputeNodeGroupInput`)
     ///
-    /// - Returns: `GetComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComputeNodeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1149,7 +1141,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeNodeGroupInput, GetComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComputeNodeGroupOutput>(GetComputeNodeGroupOutput.httpOutput(from:), GetComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComputeNodeGroupInput, GetComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComputeNodeGroupOutput>())
@@ -1184,9 +1175,9 @@ extension PCSClient {
     ///
     /// Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
     ///
-    /// - Parameter GetQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: `GetQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,7 +1238,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueInput, GetQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueOutput>(GetQueueOutput.httpOutput(from:), GetQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueInput, GetQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueOutput>())
@@ -1282,9 +1272,9 @@ extension PCSClient {
     ///
     /// Returns a list of running clusters in your account.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1345,7 +1335,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClustersInput, ListClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -1380,9 +1369,9 @@ extension PCSClient {
     ///
     /// Returns a list of all compute node groups associated with a cluster.
     ///
-    /// - Parameter ListComputeNodeGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComputeNodeGroupsInput`)
     ///
-    /// - Returns: `ListComputeNodeGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComputeNodeGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1443,7 +1432,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComputeNodeGroupsInput, ListComputeNodeGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComputeNodeGroupsOutput>(ListComputeNodeGroupsOutput.httpOutput(from:), ListComputeNodeGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputeNodeGroupsInput, ListComputeNodeGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputeNodeGroupsOutput>())
@@ -1478,9 +1466,9 @@ extension PCSClient {
     ///
     /// Returns a list of all queues associated with a cluster.
     ///
-    /// - Parameter ListQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
     ///
-    /// - Returns: `ListQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1541,7 +1529,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueuesInput, ListQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
@@ -1576,9 +1563,9 @@ extension PCSClient {
     ///
     /// Returns a list of all tags on an PCS resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,7 +1597,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1645,9 +1631,9 @@ extension PCSClient {
     ///
     /// This API action isn't intended for you to use. PCS uses this API action to register the compute nodes it launches in your account.
     ///
-    /// - Parameter RegisterComputeNodeGroupInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterComputeNodeGroupInstanceInput`)
     ///
-    /// - Returns: `RegisterComputeNodeGroupInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterComputeNodeGroupInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1688,7 +1674,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterComputeNodeGroupInstanceInput, RegisterComputeNodeGroupInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterComputeNodeGroupInstanceOutput>(RegisterComputeNodeGroupInstanceOutput.httpOutput(from:), RegisterComputeNodeGroupInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterComputeNodeGroupInstanceInput, RegisterComputeNodeGroupInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterComputeNodeGroupInstanceOutput>())
@@ -1723,9 +1708,9 @@ extension PCSClient {
     ///
     /// Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1764,7 +1749,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1799,9 +1783,9 @@ extension PCSClient {
     ///
     /// Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1833,7 +1817,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1868,9 +1851,9 @@ extension PCSClient {
     ///
     /// Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster. You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1932,7 +1915,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
@@ -1967,9 +1949,9 @@ extension PCSClient {
     ///
     /// Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
     ///
-    /// - Parameter UpdateComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComputeNodeGroupInput`)
     ///
-    /// - Returns: `UpdateComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComputeNodeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2038,7 +2020,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComputeNodeGroupInput, UpdateComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComputeNodeGroupOutput>(UpdateComputeNodeGroupOutput.httpOutput(from:), UpdateComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComputeNodeGroupInput, UpdateComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComputeNodeGroupOutput>())
@@ -2073,9 +2054,9 @@ extension PCSClient {
     ///
     /// Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
     ///
-    /// - Parameter UpdateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueInput`)
     ///
-    /// - Returns: `UpdateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,7 +2125,6 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueInput, UpdateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueOutput>(UpdateQueueOutput.httpOutput(from:), UpdateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueInput, UpdateQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutput>())

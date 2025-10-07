@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMQuickSetupClient: ClientRuntime.Client {
     public static let clientName = "SSMQuickSetupClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMQuickSetupClient.SSMQuickSetupClientConfiguration
     let serviceName = "SSM QuickSetup"
@@ -374,9 +373,9 @@ extension SSMQuickSetupClient {
     ///
     /// Creates a Quick Setup configuration manager resource. This object is a collection of desired state configurations for multiple configuration definitions and summaries describing the deployments of those definitions.
     ///
-    /// - Parameter CreateConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationManagerInput`)
     ///
-    /// - Returns: `CreateConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationManagerInput, CreateConfigurationManagerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationManagerOutput>(CreateConfigurationManagerOutput.httpOutput(from:), CreateConfigurationManagerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationManagerInput, CreateConfigurationManagerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationManagerOutput>())
@@ -446,9 +444,9 @@ extension SSMQuickSetupClient {
     ///
     /// Deletes a configuration manager.
     ///
-    /// - Parameter DeleteConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationManagerInput`)
     ///
-    /// - Returns: `DeleteConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,7 +482,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationManagerInput, DeleteConfigurationManagerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationManagerOutput>(DeleteConfigurationManagerOutput.httpOutput(from:), DeleteConfigurationManagerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationManagerInput, DeleteConfigurationManagerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationManagerOutput>())
@@ -516,9 +513,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns details about the specified configuration.
     ///
-    /// - Parameter GetConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
     ///
-    /// - Returns: `GetConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationInput, GetConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationOutput>(GetConfigurationOutput.httpOutput(from:), GetConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationInput, GetConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationOutput>())
@@ -586,9 +582,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns a configuration manager.
     ///
-    /// - Parameter GetConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationManagerInput`)
     ///
-    /// - Returns: `GetConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,7 +620,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationManagerInput, GetConfigurationManagerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationManagerOutput>(GetConfigurationManagerOutput.httpOutput(from:), GetConfigurationManagerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationManagerInput, GetConfigurationManagerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationManagerOutput>())
@@ -656,9 +651,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSettingsInput`)
     ///
-    /// - Returns: `GetServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -692,7 +687,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSettingsOutput>(GetServiceSettingsOutput.httpOutput(from:), GetServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceSettingsOutput>())
@@ -724,9 +718,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns Quick Setup configuration managers.
     ///
-    /// - Parameter ListConfigurationManagersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationManagersInput`)
     ///
-    /// - Returns: `ListConfigurationManagersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationManagersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -764,7 +758,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationManagersInput, ListConfigurationManagersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationManagersOutput>(ListConfigurationManagersOutput.httpOutput(from:), ListConfigurationManagersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationManagersInput, ListConfigurationManagersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationManagersOutput>())
@@ -796,9 +789,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,7 +829,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationsInput, ListConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationsOutput>(ListConfigurationsOutput.httpOutput(from:), ListConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationsOutput>())
@@ -868,9 +860,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns the available Quick Setup types.
     ///
-    /// - Parameter ListQuickSetupTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuickSetupTypesInput`)
     ///
-    /// - Returns: `ListQuickSetupTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuickSetupTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,7 +896,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListQuickSetupTypesInput, ListQuickSetupTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQuickSetupTypesOutput>(ListQuickSetupTypesOutput.httpOutput(from:), ListQuickSetupTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQuickSetupTypesInput, ListQuickSetupTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQuickSetupTypesOutput>())
@@ -936,9 +927,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns tags assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,7 +965,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1006,9 +996,9 @@ extension SSMQuickSetupClient {
     ///
     /// Assigns key-value pairs of metadata to Amazon Web Services resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,7 +1037,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1079,9 +1068,9 @@ extension SSMQuickSetupClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1118,7 +1107,6 @@ extension SSMQuickSetupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1150,9 +1138,9 @@ extension SSMQuickSetupClient {
     ///
     /// Updates a Quick Setup configuration definition.
     ///
-    /// - Parameter UpdateConfigurationDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationDefinitionInput`)
     ///
-    /// - Returns: `UpdateConfigurationDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1191,7 +1179,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationDefinitionInput, UpdateConfigurationDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationDefinitionOutput>(UpdateConfigurationDefinitionOutput.httpOutput(from:), UpdateConfigurationDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationDefinitionInput, UpdateConfigurationDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationDefinitionOutput>())
@@ -1223,9 +1210,9 @@ extension SSMQuickSetupClient {
     ///
     /// Updates a Quick Setup configuration manager.
     ///
-    /// - Parameter UpdateConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationManagerInput`)
     ///
-    /// - Returns: `UpdateConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1264,7 +1251,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationManagerInput, UpdateConfigurationManagerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationManagerOutput>(UpdateConfigurationManagerOutput.httpOutput(from:), UpdateConfigurationManagerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationManagerInput, UpdateConfigurationManagerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationManagerOutput>())
@@ -1296,9 +1282,9 @@ extension SSMQuickSetupClient {
     ///
     /// Updates settings configured for Quick Setup.
     ///
-    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSettingsInput`)
     ///
-    /// - Returns: `UpdateServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1336,7 +1322,6 @@ extension SSMQuickSetupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSettingsOutput>(UpdateServiceSettingsOutput.httpOutput(from:), UpdateServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSettingsOutput>())

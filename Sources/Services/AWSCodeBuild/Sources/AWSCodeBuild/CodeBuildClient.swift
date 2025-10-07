@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeBuildClient: ClientRuntime.Client {
     public static let clientName = "CodeBuildClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeBuildClient.CodeBuildClientConfiguration
     let serviceName = "CodeBuild"
@@ -373,9 +372,9 @@ extension CodeBuildClient {
     ///
     /// Deletes one or more builds.
     ///
-    /// - Parameter BatchDeleteBuildsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteBuildsInput`)
     ///
-    /// - Returns: `BatchDeleteBuildsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteBuildsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,7 +406,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteBuildsOutput>(BatchDeleteBuildsOutput.httpOutput(from:), BatchDeleteBuildsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteBuildsOutput>())
@@ -442,9 +440,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves information about one or more batch builds.
     ///
-    /// - Parameter BatchGetBuildBatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetBuildBatchesInput`)
     ///
-    /// - Returns: `BatchGetBuildBatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetBuildBatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,7 +474,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetBuildBatchesOutput>(BatchGetBuildBatchesOutput.httpOutput(from:), BatchGetBuildBatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetBuildBatchesOutput>())
@@ -511,9 +508,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about one or more builds.
     ///
-    /// - Parameter BatchGetBuildsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetBuildsInput`)
     ///
-    /// - Returns: `BatchGetBuildsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetBuildsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -545,7 +542,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetBuildsOutput>(BatchGetBuildsOutput.httpOutput(from:), BatchGetBuildsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetBuildsOutput>())
@@ -580,9 +576,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about the command executions.
     ///
-    /// - Parameter BatchGetCommandExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCommandExecutionsInput`)
     ///
-    /// - Returns: `BatchGetCommandExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCommandExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,7 +610,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCommandExecutionsOutput>(BatchGetCommandExecutionsOutput.httpOutput(from:), BatchGetCommandExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCommandExecutionsOutput>())
@@ -649,9 +644,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about one or more compute fleets.
     ///
-    /// - Parameter BatchGetFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFleetsInput`)
     ///
-    /// - Returns: `BatchGetFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,7 +678,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFleetsOutput>(BatchGetFleetsOutput.httpOutput(from:), BatchGetFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFleetsOutput>())
@@ -718,9 +712,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about one or more build projects.
     ///
-    /// - Parameter BatchGetProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetProjectsInput`)
     ///
-    /// - Returns: `BatchGetProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,7 +746,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetProjectsOutput>(BatchGetProjectsOutput.httpOutput(from:), BatchGetProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetProjectsOutput>())
@@ -787,9 +780,9 @@ extension CodeBuildClient {
     ///
     /// Returns an array of report groups.
     ///
-    /// - Parameter BatchGetReportGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetReportGroupsInput`)
     ///
-    /// - Returns: `BatchGetReportGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetReportGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,7 +814,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetReportGroupsOutput>(BatchGetReportGroupsOutput.httpOutput(from:), BatchGetReportGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetReportGroupsOutput>())
@@ -856,9 +848,9 @@ extension CodeBuildClient {
     ///
     /// Returns an array of reports.
     ///
-    /// - Parameter BatchGetReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetReportsInput`)
     ///
-    /// - Returns: `BatchGetReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,7 +882,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetReportsOutput>(BatchGetReportsOutput.httpOutput(from:), BatchGetReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetReportsOutput>())
@@ -925,9 +916,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about the sandbox status.
     ///
-    /// - Parameter BatchGetSandboxesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSandboxesInput`)
     ///
-    /// - Returns: `BatchGetSandboxesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSandboxesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -959,7 +950,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSandboxesOutput>(BatchGetSandboxesOutput.httpOutput(from:), BatchGetSandboxesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSandboxesOutput>())
@@ -994,9 +984,9 @@ extension CodeBuildClient {
     ///
     /// Creates a compute fleet.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1030,7 +1020,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
@@ -1065,9 +1054,9 @@ extension CodeBuildClient {
     ///
     /// Creates a build project.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1101,7 +1090,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -1136,9 +1124,9 @@ extension CodeBuildClient {
     ///
     /// Creates a report group. A report group contains a collection of reports.
     ///
-    /// - Parameter CreateReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReportGroupInput`)
     ///
-    /// - Returns: `CreateReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,7 +1160,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReportGroupOutput>(CreateReportGroupOutput.httpOutput(from:), CreateReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReportGroupOutput>())
@@ -1207,9 +1194,9 @@ extension CodeBuildClient {
     ///
     /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a code change is pushed to the repository. If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build basis, you are billed for both builds. Therefore, if you are using CodePipeline, we recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the Webhook box. For more information, see step 5 in [Change a Build Project's Settings](https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console).
     ///
-    /// - Parameter CreateWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebhookInput`)
     ///
-    /// - Returns: `CreateWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1244,7 +1231,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebhookInput, CreateWebhookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebhookOutput>(CreateWebhookOutput.httpOutput(from:), CreateWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebhookInput, CreateWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWebhookOutput>())
@@ -1279,9 +1265,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a batch build.
     ///
-    /// - Parameter DeleteBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBuildBatchInput`)
     ///
-    /// - Returns: `DeleteBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1313,7 +1299,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBuildBatchOutput>(DeleteBuildBatchOutput.httpOutput(from:), DeleteBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBuildBatchOutput>())
@@ -1348,9 +1333,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1382,7 +1367,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetOutput>(DeleteFleetOutput.httpOutput(from:), DeleteFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
@@ -1417,9 +1401,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a build project. When you delete a project, its builds are not deleted.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,7 +1435,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -1486,9 +1469,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a report.
     ///
-    /// - Parameter DeleteReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReportInput`)
     ///
-    /// - Returns: `DeleteReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1520,7 +1503,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportInput, DeleteReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReportOutput>(DeleteReportOutput.httpOutput(from:), DeleteReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportInput, DeleteReportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportOutput>())
@@ -1555,9 +1537,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a report group. Before you delete a report group, you must delete its reports.
     ///
-    /// - Parameter DeleteReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReportGroupInput`)
     ///
-    /// - Returns: `DeleteReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1589,7 +1571,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReportGroupOutput>(DeleteReportGroupOutput.httpOutput(from:), DeleteReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportGroupOutput>())
@@ -1624,9 +1605,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a resource policy that is identified by its resource ARN.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,7 +1639,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1693,9 +1673,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
     ///
-    /// - Parameter DeleteSourceCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceCredentialsInput`)
     ///
-    /// - Returns: `DeleteSourceCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1728,7 +1708,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSourceCredentialsOutput>(DeleteSourceCredentialsOutput.httpOutput(from:), DeleteSourceCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSourceCredentialsOutput>())
@@ -1763,9 +1742,9 @@ extension CodeBuildClient {
     ///
     /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
     ///
-    /// - Parameter DeleteWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebhookInput`)
     ///
-    /// - Returns: `DeleteWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,7 +1778,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebhookOutput>(DeleteWebhookOutput.httpOutput(from:), DeleteWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebhookOutput>())
@@ -1834,9 +1812,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves one or more code coverage reports.
     ///
-    /// - Parameter DescribeCodeCoveragesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCodeCoveragesInput`)
     ///
-    /// - Returns: `DescribeCodeCoveragesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCodeCoveragesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1868,7 +1846,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCodeCoveragesOutput>(DescribeCodeCoveragesOutput.httpOutput(from:), DescribeCodeCoveragesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCodeCoveragesOutput>())
@@ -1903,9 +1880,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of details about test cases for a report.
     ///
-    /// - Parameter DescribeTestCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTestCasesInput`)
     ///
-    /// - Returns: `DescribeTestCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTestCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1938,7 +1915,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTestCasesOutput>(DescribeTestCasesOutput.httpOutput(from:), DescribeTestCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTestCasesOutput>())
@@ -1973,9 +1949,9 @@ extension CodeBuildClient {
     ///
     /// Analyzes and accumulates test report values for the specified test reports.
     ///
-    /// - Parameter GetReportGroupTrendInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportGroupTrendInput`)
     ///
-    /// - Returns: `GetReportGroupTrendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportGroupTrendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,7 +1984,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReportGroupTrendOutput>(GetReportGroupTrendOutput.httpOutput(from:), GetReportGroupTrendOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReportGroupTrendOutput>())
@@ -2043,9 +2018,9 @@ extension CodeBuildClient {
     ///
     /// Gets a resource policy that is identified by its resource ARN.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2078,7 +2053,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -2113,9 +2087,9 @@ extension CodeBuildClient {
     ///
     /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
     ///
-    /// - Parameter ImportSourceCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportSourceCredentialsInput`)
     ///
-    /// - Returns: `ImportSourceCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportSourceCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,7 +2123,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportSourceCredentialsOutput>(ImportSourceCredentialsOutput.httpOutput(from:), ImportSourceCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportSourceCredentialsOutput>())
@@ -2184,9 +2157,9 @@ extension CodeBuildClient {
     ///
     /// Resets the cache for a project.
     ///
-    /// - Parameter InvalidateProjectCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvalidateProjectCacheInput`)
     ///
-    /// - Returns: `InvalidateProjectCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvalidateProjectCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2219,7 +2192,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvalidateProjectCacheOutput>(InvalidateProjectCacheOutput.httpOutput(from:), InvalidateProjectCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvalidateProjectCacheOutput>())
@@ -2254,9 +2226,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves the identifiers of your build batches in the current region.
     ///
-    /// - Parameter ListBuildBatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildBatchesInput`)
     ///
-    /// - Returns: `ListBuildBatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildBatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2288,7 +2260,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildBatchesOutput>(ListBuildBatchesOutput.httpOutput(from:), ListBuildBatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildBatchesOutput>())
@@ -2323,9 +2294,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves the identifiers of the build batches for a specific project.
     ///
-    /// - Parameter ListBuildBatchesForProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildBatchesForProjectInput`)
     ///
-    /// - Returns: `ListBuildBatchesForProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildBatchesForProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2358,7 +2329,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildBatchesForProjectOutput>(ListBuildBatchesForProjectOutput.httpOutput(from:), ListBuildBatchesForProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildBatchesForProjectOutput>())
@@ -2393,9 +2363,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of build IDs, with each build ID representing a single build.
     ///
-    /// - Parameter ListBuildsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildsInput`)
     ///
-    /// - Returns: `ListBuildsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2427,7 +2397,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildsOutput>(ListBuildsOutput.httpOutput(from:), ListBuildsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsInput, ListBuildsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildsOutput>())
@@ -2462,9 +2431,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
     ///
-    /// - Parameter ListBuildsForProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildsForProjectInput`)
     ///
-    /// - Returns: `ListBuildsForProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildsForProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2497,7 +2466,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildsForProjectOutput>(ListBuildsForProjectOutput.httpOutput(from:), ListBuildsForProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildsForProjectOutput>())
@@ -2532,9 +2500,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of command executions for a sandbox.
     ///
-    /// - Parameter ListCommandExecutionsForSandboxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommandExecutionsForSandboxInput`)
     ///
-    /// - Returns: `ListCommandExecutionsForSandboxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommandExecutionsForSandboxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2567,7 +2535,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommandExecutionsForSandboxOutput>(ListCommandExecutionsForSandboxOutput.httpOutput(from:), ListCommandExecutionsForSandboxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandExecutionsForSandboxOutput>())
@@ -2602,9 +2569,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about Docker images that are managed by CodeBuild.
     ///
-    /// - Parameter ListCuratedEnvironmentImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCuratedEnvironmentImagesInput`)
     ///
-    /// - Returns: `ListCuratedEnvironmentImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCuratedEnvironmentImagesOutput`)
     public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2631,7 +2598,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCuratedEnvironmentImagesOutput>(ListCuratedEnvironmentImagesOutput.httpOutput(from:), ListCuratedEnvironmentImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCuratedEnvironmentImagesOutput>())
@@ -2666,9 +2632,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
     ///
-    /// - Parameter ListFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
     ///
-    /// - Returns: `ListFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2700,7 +2666,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetsOutput>(ListFleetsOutput.httpOutput(from:), ListFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsOutput>())
@@ -2735,9 +2700,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of build project names, with each build project name representing a single build project.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2769,7 +2734,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -2804,9 +2768,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list ARNs for the report groups in the current Amazon Web Services account.
     ///
-    /// - Parameter ListReportGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportGroupsInput`)
     ///
-    /// - Returns: `ListReportGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2838,7 +2802,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportGroupsOutput>(ListReportGroupsOutput.httpOutput(from:), ListReportGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportGroupsOutput>())
@@ -2873,9 +2836,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of ARNs for the reports in the current Amazon Web Services account.
     ///
-    /// - Parameter ListReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportsInput`)
     ///
-    /// - Returns: `ListReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2907,7 +2870,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsInput, ListReportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportsOutput>(ListReportsOutput.httpOutput(from:), ListReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportsInput, ListReportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportsOutput>())
@@ -2942,9 +2904,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of ARNs for the reports that belong to a ReportGroup.
     ///
-    /// - Parameter ListReportsForReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportsForReportGroupInput`)
     ///
-    /// - Returns: `ListReportsForReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportsForReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2977,7 +2939,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportsForReportGroupOutput>(ListReportsForReportGroupOutput.httpOutput(from:), ListReportsForReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportsForReportGroupOutput>())
@@ -3012,9 +2973,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of sandboxes.
     ///
-    /// - Parameter ListSandboxesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSandboxesInput`)
     ///
-    /// - Returns: `ListSandboxesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSandboxesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3046,7 +3007,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesInput, ListSandboxesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSandboxesOutput>(ListSandboxesOutput.httpOutput(from:), ListSandboxesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSandboxesInput, ListSandboxesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSandboxesOutput>())
@@ -3081,9 +3041,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of sandboxes for a given project.
     ///
-    /// - Parameter ListSandboxesForProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSandboxesForProjectInput`)
     ///
-    /// - Returns: `ListSandboxesForProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSandboxesForProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3116,7 +3076,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSandboxesForProjectOutput>(ListSandboxesForProjectOutput.httpOutput(from:), ListSandboxesForProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSandboxesForProjectOutput>())
@@ -3151,9 +3110,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of projects that are shared with other Amazon Web Services accounts or users.
     ///
-    /// - Parameter ListSharedProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSharedProjectsInput`)
     ///
-    /// - Returns: `ListSharedProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSharedProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3185,7 +3144,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSharedProjectsOutput>(ListSharedProjectsOutput.httpOutput(from:), ListSharedProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSharedProjectsOutput>())
@@ -3220,9 +3178,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
     ///
-    /// - Parameter ListSharedReportGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSharedReportGroupsInput`)
     ///
-    /// - Returns: `ListSharedReportGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSharedReportGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3254,7 +3212,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSharedReportGroupsOutput>(ListSharedReportGroupsOutput.httpOutput(from:), ListSharedReportGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSharedReportGroupsOutput>())
@@ -3289,9 +3246,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of SourceCredentialsInfo objects.
     ///
-    /// - Parameter ListSourceCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceCredentialsInput`)
     ///
-    /// - Returns: `ListSourceCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3323,7 +3280,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceCredentialsOutput>(ListSourceCredentialsOutput.httpOutput(from:), ListSourceCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceCredentialsOutput>())
@@ -3358,9 +3314,9 @@ extension CodeBuildClient {
     ///
     /// Stores a resource policy for the ARN of a Project or ReportGroup object.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,7 +3349,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -3428,9 +3383,9 @@ extension CodeBuildClient {
     ///
     /// Restarts a build.
     ///
-    /// - Parameter RetryBuildInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryBuildInput`)
     ///
-    /// - Returns: `RetryBuildOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryBuildOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3464,7 +3419,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildInput, RetryBuildOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryBuildOutput>(RetryBuildOutput.httpOutput(from:), RetryBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryBuildInput, RetryBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetryBuildOutput>())
@@ -3499,9 +3453,9 @@ extension CodeBuildClient {
     ///
     /// Restarts a failed batch build. Only batch builds that have failed can be retried.
     ///
-    /// - Parameter RetryBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryBuildBatchInput`)
     ///
-    /// - Returns: `RetryBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3534,7 +3488,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryBuildBatchOutput>(RetryBuildBatchOutput.httpOutput(from:), RetryBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetryBuildBatchOutput>())
@@ -3569,9 +3522,9 @@ extension CodeBuildClient {
     ///
     /// Starts running a build with the settings defined in the project. These setting include: how to run a build, where to get the source code, which build environment to use, which build commands to run, and where to store the build output. You can also start a build run by overriding some of the build settings in the project. The overrides only apply for that specific start build request. The settings in the project are unaltered.
     ///
-    /// - Parameter StartBuildInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBuildInput`)
     ///
-    /// - Returns: `StartBuildOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBuildOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3605,7 +3558,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildInput, StartBuildOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBuildOutput>(StartBuildOutput.httpOutput(from:), StartBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBuildInput, StartBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBuildOutput>())
@@ -3640,9 +3592,9 @@ extension CodeBuildClient {
     ///
     /// Starts a batch build for a project.
     ///
-    /// - Parameter StartBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBuildBatchInput`)
     ///
-    /// - Returns: `StartBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,7 +3627,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBuildBatchOutput>(StartBuildBatchOutput.httpOutput(from:), StartBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBuildBatchOutput>())
@@ -3710,9 +3661,9 @@ extension CodeBuildClient {
     ///
     /// Starts a command execution.
     ///
-    /// - Parameter StartCommandExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCommandExecutionInput`)
     ///
-    /// - Returns: `StartCommandExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCommandExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3745,7 +3696,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCommandExecutionOutput>(StartCommandExecutionOutput.httpOutput(from:), StartCommandExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCommandExecutionOutput>())
@@ -3780,9 +3730,9 @@ extension CodeBuildClient {
     ///
     /// Starts a sandbox.
     ///
-    /// - Parameter StartSandboxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSandboxInput`)
     ///
-    /// - Returns: `StartSandboxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSandboxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3816,7 +3766,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxInput, StartSandboxOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSandboxOutput>(StartSandboxOutput.httpOutput(from:), StartSandboxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSandboxInput, StartSandboxOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSandboxOutput>())
@@ -3851,9 +3800,9 @@ extension CodeBuildClient {
     ///
     /// Starts a sandbox connection.
     ///
-    /// - Parameter StartSandboxConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSandboxConnectionInput`)
     ///
-    /// - Returns: `StartSandboxConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSandboxConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3886,7 +3835,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSandboxConnectionOutput>(StartSandboxConnectionOutput.httpOutput(from:), StartSandboxConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSandboxConnectionOutput>())
@@ -3921,9 +3869,9 @@ extension CodeBuildClient {
     ///
     /// Attempts to stop running a build.
     ///
-    /// - Parameter StopBuildInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBuildInput`)
     ///
-    /// - Returns: `StopBuildOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBuildOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3956,7 +3904,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildInput, StopBuildOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBuildOutput>(StopBuildOutput.httpOutput(from:), StopBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBuildInput, StopBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBuildOutput>())
@@ -3991,9 +3938,9 @@ extension CodeBuildClient {
     ///
     /// Stops a running batch build.
     ///
-    /// - Parameter StopBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBuildBatchInput`)
     ///
-    /// - Returns: `StopBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4026,7 +3973,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBuildBatchOutput>(StopBuildBatchOutput.httpOutput(from:), StopBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBuildBatchOutput>())
@@ -4061,9 +4007,9 @@ extension CodeBuildClient {
     ///
     /// Stops a sandbox.
     ///
-    /// - Parameter StopSandboxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSandboxInput`)
     ///
-    /// - Returns: `StopSandboxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSandboxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4096,7 +4042,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSandboxInput, StopSandboxOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSandboxOutput>(StopSandboxOutput.httpOutput(from:), StopSandboxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSandboxInput, StopSandboxOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSandboxOutput>())
@@ -4131,9 +4076,9 @@ extension CodeBuildClient {
     ///
     /// Updates a compute fleet.
     ///
-    /// - Parameter UpdateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///
-    /// - Returns: `UpdateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4167,7 +4112,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetOutput>(UpdateFleetOutput.httpOutput(from:), UpdateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetInput, UpdateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetOutput>())
@@ -4202,9 +4146,9 @@ extension CodeBuildClient {
     ///
     /// Changes the settings of a build project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4237,7 +4181,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
@@ -4285,9 +4228,9 @@ extension CodeBuildClient {
     ///
     /// * A malicious user can use public builds to distribute malicious artifacts. We recommend that you review all pull requests to verify that the pull request is a legitimate change. We also recommend that you validate any artifacts with their checksums to make sure that the correct artifacts are being downloaded.
     ///
-    /// - Parameter UpdateProjectVisibilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectVisibilityInput`)
     ///
-    /// - Returns: `UpdateProjectVisibilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectVisibilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4320,7 +4263,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectVisibilityOutput>(UpdateProjectVisibilityOutput.httpOutput(from:), UpdateProjectVisibilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectVisibilityOutput>())
@@ -4355,9 +4297,9 @@ extension CodeBuildClient {
     ///
     /// Updates a report group.
     ///
-    /// - Parameter UpdateReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReportGroupInput`)
     ///
-    /// - Returns: `UpdateReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4390,7 +4332,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReportGroupOutput>(UpdateReportGroupOutput.httpOutput(from:), UpdateReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReportGroupOutput>())
@@ -4425,9 +4366,9 @@ extension CodeBuildClient {
     ///
     /// Updates the webhook associated with an CodeBuild build project. If you use Bitbucket for your repository, rotateSecret is ignored.
     ///
-    /// - Parameter UpdateWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebhookInput`)
     ///
-    /// - Returns: `UpdateWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4461,7 +4402,6 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebhookOutput>(UpdateWebhookOutput.httpOutput(from:), UpdateWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebhookOutput>())

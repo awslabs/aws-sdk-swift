@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesWebClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesWebClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesWebClient.WorkSpacesWebClientConfiguration
     let serviceName = "WorkSpaces Web"
@@ -375,9 +374,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a browser settings resource with a web portal.
     ///
-    /// - Parameter AssociateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateBrowserSettingsInput`)
     ///
-    /// - Returns: `AssociateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>(AssociateBrowserSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateBrowserSettingsOutput>(AssociateBrowserSettingsOutput.httpOutput(from:), AssociateBrowserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateBrowserSettingsOutput>())
@@ -446,9 +444,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a data protection settings resource with a web portal.
     ///
-    /// - Parameter AssociateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `AssociateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateDataProtectionSettingsInput, AssociateDataProtectionSettingsOutput>(AssociateDataProtectionSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDataProtectionSettingsOutput>(AssociateDataProtectionSettingsOutput.httpOutput(from:), AssociateDataProtectionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDataProtectionSettingsInput, AssociateDataProtectionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDataProtectionSettingsOutput>())
@@ -517,9 +514,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates an IP access settings resource with a web portal.
     ///
-    /// - Parameter AssociateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateIpAccessSettingsInput`)
     ///
-    /// - Returns: `AssociateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,7 +553,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>(AssociateIpAccessSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIpAccessSettingsOutput>(AssociateIpAccessSettingsOutput.httpOutput(from:), AssociateIpAccessSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateIpAccessSettingsOutput>())
@@ -588,9 +584,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a network settings resource with a web portal.
     ///
-    /// - Parameter AssociateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateNetworkSettingsInput`)
     ///
-    /// - Returns: `AssociateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,7 +623,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>(AssociateNetworkSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateNetworkSettingsOutput>(AssociateNetworkSettingsOutput.httpOutput(from:), AssociateNetworkSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateNetworkSettingsOutput>())
@@ -659,9 +654,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a session logger with a portal.
     ///
-    /// - Parameter AssociateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSessionLoggerInput`)
     ///
-    /// - Returns: `AssociateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,7 +693,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateSessionLoggerInput, AssociateSessionLoggerOutput>(AssociateSessionLoggerInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSessionLoggerOutput>(AssociateSessionLoggerOutput.httpOutput(from:), AssociateSessionLoggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSessionLoggerInput, AssociateSessionLoggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSessionLoggerOutput>())
@@ -730,9 +724,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a trust store with a web portal.
     ///
-    /// - Parameter AssociateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTrustStoreInput`)
     ///
-    /// - Returns: `AssociateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,7 +763,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>(AssociateTrustStoreInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTrustStoreOutput>(AssociateTrustStoreOutput.httpOutput(from:), AssociateTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTrustStoreOutput>())
@@ -801,9 +794,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a user access logging settings resource with a web portal.
     ///
-    /// - Parameter AssociateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `AssociateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,7 +833,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>(AssociateUserAccessLoggingSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateUserAccessLoggingSettingsOutput>(AssociateUserAccessLoggingSettingsOutput.httpOutput(from:), AssociateUserAccessLoggingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateUserAccessLoggingSettingsOutput>())
@@ -872,9 +864,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a user settings resource with a web portal.
     ///
-    /// - Parameter AssociateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserSettingsInput`)
     ///
-    /// - Returns: `AssociateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,7 +903,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>(AssociateUserSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateUserSettingsOutput>(AssociateUserSettingsOutput.httpOutput(from:), AssociateUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateUserSettingsOutput>())
@@ -943,9 +934,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     ///
-    /// - Parameter CreateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBrowserSettingsInput`)
     ///
-    /// - Returns: `CreateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -986,7 +977,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBrowserSettingsOutput>(CreateBrowserSettingsOutput.httpOutput(from:), CreateBrowserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBrowserSettingsOutput>())
@@ -1018,9 +1008,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a data protection settings resource that can be associated with a web portal.
     ///
-    /// - Parameter CreateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `CreateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1061,7 +1051,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataProtectionSettingsInput, CreateDataProtectionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataProtectionSettingsOutput>(CreateDataProtectionSettingsOutput.httpOutput(from:), CreateDataProtectionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataProtectionSettingsInput, CreateDataProtectionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataProtectionSettingsOutput>())
@@ -1093,9 +1082,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates an identity provider resource that is then associated with a web portal.
     ///
-    /// - Parameter CreateIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdentityProviderInput`)
     ///
-    /// - Returns: `CreateIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,7 +1125,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutput>(CreateIdentityProviderOutput.httpOutput(from:), CreateIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdentityProviderOutput>())
@@ -1168,9 +1156,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates an IP access settings resource that can be associated with a web portal.
     ///
-    /// - Parameter CreateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpAccessSettingsInput`)
     ///
-    /// - Returns: `CreateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,7 +1198,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpAccessSettingsOutput>(CreateIpAccessSettingsOutput.httpOutput(from:), CreateIpAccessSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpAccessSettingsOutput>())
@@ -1242,9 +1229,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     ///
-    /// - Parameter CreateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkSettingsInput`)
     ///
-    /// - Returns: `CreateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,7 +1271,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkSettingsOutput>(CreateNetworkSettingsOutput.httpOutput(from:), CreateNetworkSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkSettingsOutput>())
@@ -1316,9 +1302,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a web portal.
     ///
-    /// - Parameter CreatePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePortalInput`)
     ///
-    /// - Returns: `CreatePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,7 +1345,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePortalInput, CreatePortalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePortalOutput>(CreatePortalOutput.httpOutput(from:), CreatePortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePortalInput, CreatePortalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePortalOutput>())
@@ -1391,9 +1376,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a session logger.
     ///
-    /// - Parameter CreateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionLoggerInput`)
     ///
-    /// - Returns: `CreateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,7 +1418,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSessionLoggerInput, CreateSessionLoggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSessionLoggerOutput>(CreateSessionLoggerOutput.httpOutput(from:), CreateSessionLoggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionLoggerInput, CreateSessionLoggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSessionLoggerOutput>())
@@ -1465,9 +1449,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     ///
-    /// - Parameter CreateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrustStoreInput`)
     ///
-    /// - Returns: `CreateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,7 +1491,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustStoreOutput>(CreateTrustStoreOutput.httpOutput(from:), CreateTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrustStoreOutput>())
@@ -1539,9 +1522,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a user access logging settings resource that can be associated with a web portal.
     ///
-    /// - Parameter CreateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `CreateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1581,7 +1564,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserAccessLoggingSettingsOutput>(CreateUserAccessLoggingSettingsOutput.httpOutput(from:), CreateUserAccessLoggingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserAccessLoggingSettingsOutput>())
@@ -1613,9 +1595,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     ///
-    /// - Parameter CreateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserSettingsInput`)
     ///
-    /// - Returns: `CreateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1655,7 +1637,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserSettingsOutput>(CreateUserSettingsOutput.httpOutput(from:), CreateUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserSettingsOutput>())
@@ -1687,9 +1668,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes browser settings.
     ///
-    /// - Parameter DeleteBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrowserSettingsInput`)
     ///
-    /// - Returns: `DeleteBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1724,7 +1705,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBrowserSettingsOutput>(DeleteBrowserSettingsOutput.httpOutput(from:), DeleteBrowserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBrowserSettingsOutput>())
@@ -1756,9 +1736,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes data protection settings.
     ///
-    /// - Parameter DeleteDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataProtectionSettingsInput`)
     ///
-    /// - Returns: `DeleteDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1793,7 +1773,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataProtectionSettingsInput, DeleteDataProtectionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataProtectionSettingsOutput>(DeleteDataProtectionSettingsOutput.httpOutput(from:), DeleteDataProtectionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataProtectionSettingsInput, DeleteDataProtectionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataProtectionSettingsOutput>())
@@ -1825,9 +1804,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes the identity provider.
     ///
-    /// - Parameter DeleteIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentityProviderInput`)
     ///
-    /// - Returns: `DeleteIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1862,7 +1841,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutput>(DeleteIdentityProviderOutput.httpOutput(from:), DeleteIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentityProviderOutput>())
@@ -1894,9 +1872,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes IP access settings.
     ///
-    /// - Parameter DeleteIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpAccessSettingsInput`)
     ///
-    /// - Returns: `DeleteIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1931,7 +1909,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpAccessSettingsOutput>(DeleteIpAccessSettingsOutput.httpOutput(from:), DeleteIpAccessSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpAccessSettingsOutput>())
@@ -1963,9 +1940,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes network settings.
     ///
-    /// - Parameter DeleteNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkSettingsInput`)
     ///
-    /// - Returns: `DeleteNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,7 +1977,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkSettingsOutput>(DeleteNetworkSettingsOutput.httpOutput(from:), DeleteNetworkSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkSettingsOutput>())
@@ -2032,9 +2008,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes a web portal.
     ///
-    /// - Parameter DeletePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePortalInput`)
     ///
-    /// - Returns: `DeletePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2069,7 +2045,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePortalInput, DeletePortalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePortalOutput>(DeletePortalOutput.httpOutput(from:), DeletePortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePortalInput, DeletePortalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePortalOutput>())
@@ -2101,9 +2076,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes a session logger resource.
     ///
-    /// - Parameter DeleteSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSessionLoggerInput`)
     ///
-    /// - Returns: `DeleteSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2138,7 +2113,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSessionLoggerInput, DeleteSessionLoggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSessionLoggerOutput>(DeleteSessionLoggerOutput.httpOutput(from:), DeleteSessionLoggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSessionLoggerInput, DeleteSessionLoggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSessionLoggerOutput>())
@@ -2170,9 +2144,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes the trust store.
     ///
-    /// - Parameter DeleteTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrustStoreInput`)
     ///
-    /// - Returns: `DeleteTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2207,7 +2181,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustStoreOutput>(DeleteTrustStoreOutput.httpOutput(from:), DeleteTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrustStoreOutput>())
@@ -2239,9 +2212,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes user access logging settings.
     ///
-    /// - Parameter DeleteUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `DeleteUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2276,7 +2249,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserAccessLoggingSettingsOutput>(DeleteUserAccessLoggingSettingsOutput.httpOutput(from:), DeleteUserAccessLoggingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserAccessLoggingSettingsOutput>())
@@ -2308,9 +2280,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes user settings.
     ///
-    /// - Parameter DeleteUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserSettingsInput`)
     ///
-    /// - Returns: `DeleteUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2345,7 +2317,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserSettingsOutput>(DeleteUserSettingsOutput.httpOutput(from:), DeleteUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserSettingsOutput>())
@@ -2377,9 +2348,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates browser settings from a web portal.
     ///
-    /// - Parameter DisassociateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateBrowserSettingsInput`)
     ///
-    /// - Returns: `DisassociateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2415,7 +2386,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateBrowserSettingsOutput>(DisassociateBrowserSettingsOutput.httpOutput(from:), DisassociateBrowserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateBrowserSettingsOutput>())
@@ -2447,9 +2417,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates data protection settings from a web portal.
     ///
-    /// - Parameter DisassociateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `DisassociateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2485,7 +2455,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateDataProtectionSettingsInput, DisassociateDataProtectionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDataProtectionSettingsOutput>(DisassociateDataProtectionSettingsOutput.httpOutput(from:), DisassociateDataProtectionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDataProtectionSettingsInput, DisassociateDataProtectionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDataProtectionSettingsOutput>())
@@ -2517,9 +2486,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates IP access settings from a web portal.
     ///
-    /// - Parameter DisassociateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIpAccessSettingsInput`)
     ///
-    /// - Returns: `DisassociateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2555,7 +2524,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIpAccessSettingsOutput>(DisassociateIpAccessSettingsOutput.httpOutput(from:), DisassociateIpAccessSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateIpAccessSettingsOutput>())
@@ -2587,9 +2555,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates network settings from a web portal.
     ///
-    /// - Parameter DisassociateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateNetworkSettingsInput`)
     ///
-    /// - Returns: `DisassociateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2625,7 +2593,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateNetworkSettingsOutput>(DisassociateNetworkSettingsOutput.httpOutput(from:), DisassociateNetworkSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateNetworkSettingsOutput>())
@@ -2657,9 +2624,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates a session logger from a portal.
     ///
-    /// - Parameter DisassociateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSessionLoggerInput`)
     ///
-    /// - Returns: `DisassociateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2694,7 +2661,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSessionLoggerInput, DisassociateSessionLoggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSessionLoggerOutput>(DisassociateSessionLoggerOutput.httpOutput(from:), DisassociateSessionLoggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSessionLoggerInput, DisassociateSessionLoggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSessionLoggerOutput>())
@@ -2726,9 +2692,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates a trust store from a web portal.
     ///
-    /// - Parameter DisassociateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTrustStoreInput`)
     ///
-    /// - Returns: `DisassociateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2764,7 +2730,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTrustStoreOutput>(DisassociateTrustStoreOutput.httpOutput(from:), DisassociateTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTrustStoreOutput>())
@@ -2796,9 +2761,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates user access logging settings from a web portal.
     ///
-    /// - Parameter DisassociateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `DisassociateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2834,7 +2799,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateUserAccessLoggingSettingsOutput>(DisassociateUserAccessLoggingSettingsOutput.httpOutput(from:), DisassociateUserAccessLoggingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateUserAccessLoggingSettingsOutput>())
@@ -2866,9 +2830,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates user settings from a web portal.
     ///
-    /// - Parameter DisassociateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserSettingsInput`)
     ///
-    /// - Returns: `DisassociateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2904,7 +2868,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateUserSettingsOutput>(DisassociateUserSettingsOutput.httpOutput(from:), DisassociateUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateUserSettingsOutput>())
@@ -2936,9 +2899,9 @@ extension WorkSpacesWebClient {
     ///
     /// Expires an active secure browser session.
     ///
-    /// - Parameter ExpireSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExpireSessionInput`)
     ///
-    /// - Returns: `ExpireSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExpireSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2973,7 +2936,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExpireSessionInput, ExpireSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExpireSessionOutput>(ExpireSessionOutput.httpOutput(from:), ExpireSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExpireSessionInput, ExpireSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExpireSessionOutput>())
@@ -3005,9 +2967,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets browser settings.
     ///
-    /// - Parameter GetBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBrowserSettingsInput`)
     ///
-    /// - Returns: `GetBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3042,7 +3004,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBrowserSettingsOutput>(GetBrowserSettingsOutput.httpOutput(from:), GetBrowserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBrowserSettingsOutput>())
@@ -3074,9 +3035,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the data protection settings.
     ///
-    /// - Parameter GetDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataProtectionSettingsInput`)
     ///
-    /// - Returns: `GetDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3111,7 +3072,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataProtectionSettingsInput, GetDataProtectionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataProtectionSettingsOutput>(GetDataProtectionSettingsOutput.httpOutput(from:), GetDataProtectionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataProtectionSettingsInput, GetDataProtectionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataProtectionSettingsOutput>())
@@ -3143,9 +3103,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the identity provider.
     ///
-    /// - Parameter GetIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentityProviderInput`)
     ///
-    /// - Returns: `GetIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3180,7 +3140,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityProviderOutput>(GetIdentityProviderOutput.httpOutput(from:), GetIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityProviderOutput>())
@@ -3212,9 +3171,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the IP access settings.
     ///
-    /// - Parameter GetIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpAccessSettingsInput`)
     ///
-    /// - Returns: `GetIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3249,7 +3208,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpAccessSettingsOutput>(GetIpAccessSettingsOutput.httpOutput(from:), GetIpAccessSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpAccessSettingsOutput>())
@@ -3281,9 +3239,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the network settings.
     ///
-    /// - Parameter GetNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkSettingsInput`)
     ///
-    /// - Returns: `GetNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3318,7 +3276,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkSettingsOutput>(GetNetworkSettingsOutput.httpOutput(from:), GetNetworkSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkSettingsOutput>())
@@ -3350,9 +3307,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the web portal.
     ///
-    /// - Parameter GetPortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortalInput`)
     ///
-    /// - Returns: `GetPortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3387,7 +3344,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortalInput, GetPortalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortalOutput>(GetPortalOutput.httpOutput(from:), GetPortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortalInput, GetPortalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPortalOutput>())
@@ -3419,9 +3375,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the service provider metadata.
     ///
-    /// - Parameter GetPortalServiceProviderMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortalServiceProviderMetadataInput`)
     ///
-    /// - Returns: `GetPortalServiceProviderMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortalServiceProviderMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3456,7 +3412,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortalServiceProviderMetadataOutput>(GetPortalServiceProviderMetadataOutput.httpOutput(from:), GetPortalServiceProviderMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPortalServiceProviderMetadataOutput>())
@@ -3488,9 +3443,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets information for a secure browser session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3525,7 +3480,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -3557,9 +3511,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets details about a specific session logger resource.
     ///
-    /// - Parameter GetSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionLoggerInput`)
     ///
-    /// - Returns: `GetSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3594,7 +3548,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionLoggerInput, GetSessionLoggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionLoggerOutput>(GetSessionLoggerOutput.httpOutput(from:), GetSessionLoggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionLoggerInput, GetSessionLoggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionLoggerOutput>())
@@ -3626,9 +3579,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the trust store.
     ///
-    /// - Parameter GetTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrustStoreInput`)
     ///
-    /// - Returns: `GetTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3663,7 +3616,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrustStoreInput, GetTrustStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrustStoreOutput>(GetTrustStoreOutput.httpOutput(from:), GetTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrustStoreInput, GetTrustStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrustStoreOutput>())
@@ -3695,9 +3647,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the trust store certificate.
     ///
-    /// - Parameter GetTrustStoreCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrustStoreCertificateInput`)
     ///
-    /// - Returns: `GetTrustStoreCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrustStoreCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3733,7 +3685,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>(GetTrustStoreCertificateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrustStoreCertificateOutput>(GetTrustStoreCertificateOutput.httpOutput(from:), GetTrustStoreCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrustStoreCertificateOutput>())
@@ -3765,9 +3716,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets user access logging settings.
     ///
-    /// - Parameter GetUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `GetUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3802,7 +3753,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserAccessLoggingSettingsOutput>(GetUserAccessLoggingSettingsOutput.httpOutput(from:), GetUserAccessLoggingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserAccessLoggingSettingsOutput>())
@@ -3834,9 +3784,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets user settings.
     ///
-    /// - Parameter GetUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserSettingsInput`)
     ///
-    /// - Returns: `GetUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3871,7 +3821,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserSettingsOutput>(GetUserSettingsOutput.httpOutput(from:), GetUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserSettingsInput, GetUserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserSettingsOutput>())
@@ -3903,9 +3852,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of browser settings.
     ///
-    /// - Parameter ListBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrowserSettingsInput`)
     ///
-    /// - Returns: `ListBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3940,7 +3889,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>(ListBrowserSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBrowserSettingsOutput>(ListBrowserSettingsOutput.httpOutput(from:), ListBrowserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBrowserSettingsOutput>())
@@ -3972,9 +3920,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of data protection settings.
     ///
-    /// - Parameter ListDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataProtectionSettingsInput`)
     ///
-    /// - Returns: `ListDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4009,7 +3957,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataProtectionSettingsInput, ListDataProtectionSettingsOutput>(ListDataProtectionSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataProtectionSettingsOutput>(ListDataProtectionSettingsOutput.httpOutput(from:), ListDataProtectionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataProtectionSettingsInput, ListDataProtectionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataProtectionSettingsOutput>())
@@ -4041,9 +3988,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of identity providers for a specific web portal.
     ///
-    /// - Parameter ListIdentityProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityProvidersInput`)
     ///
-    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4078,7 +4025,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(ListIdentityProvidersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput>(ListIdentityProvidersOutput.httpOutput(from:), ListIdentityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityProvidersOutput>())
@@ -4110,9 +4056,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of IP access settings.
     ///
-    /// - Parameter ListIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIpAccessSettingsInput`)
     ///
-    /// - Returns: `ListIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4147,7 +4093,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>(ListIpAccessSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIpAccessSettingsOutput>(ListIpAccessSettingsOutput.httpOutput(from:), ListIpAccessSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIpAccessSettingsOutput>())
@@ -4179,9 +4124,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of network settings.
     ///
-    /// - Parameter ListNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNetworkSettingsInput`)
     ///
-    /// - Returns: `ListNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4216,7 +4161,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>(ListNetworkSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNetworkSettingsOutput>(ListNetworkSettingsOutput.httpOutput(from:), ListNetworkSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNetworkSettingsOutput>())
@@ -4248,9 +4192,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list or web portals.
     ///
-    /// - Parameter ListPortalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPortalsInput`)
     ///
-    /// - Returns: `ListPortalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPortalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4285,7 +4229,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPortalsInput, ListPortalsOutput>(ListPortalsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPortalsOutput>(ListPortalsOutput.httpOutput(from:), ListPortalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPortalsInput, ListPortalsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPortalsOutput>())
@@ -4317,9 +4260,9 @@ extension WorkSpacesWebClient {
     ///
     /// Lists all available session logger resources.
     ///
-    /// - Parameter ListSessionLoggersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionLoggersInput`)
     ///
-    /// - Returns: `ListSessionLoggersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionLoggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4354,7 +4297,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSessionLoggersInput, ListSessionLoggersOutput>(ListSessionLoggersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionLoggersOutput>(ListSessionLoggersOutput.httpOutput(from:), ListSessionLoggersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionLoggersInput, ListSessionLoggersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionLoggersOutput>())
@@ -4386,9 +4328,9 @@ extension WorkSpacesWebClient {
     ///
     /// Lists information for multiple secure browser sessions from a specific portal.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4424,7 +4366,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSessionsInput, ListSessionsOutput>(ListSessionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsOutput>(ListSessionsOutput.httpOutput(from:), ListSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
@@ -4456,9 +4397,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4493,7 +4434,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4525,9 +4465,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of trust store certificates.
     ///
-    /// - Parameter ListTrustStoreCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustStoreCertificatesInput`)
     ///
-    /// - Returns: `ListTrustStoreCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustStoreCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4563,7 +4503,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>(ListTrustStoreCertificatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustStoreCertificatesOutput>(ListTrustStoreCertificatesOutput.httpOutput(from:), ListTrustStoreCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrustStoreCertificatesOutput>())
@@ -4595,9 +4534,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of trust stores.
     ///
-    /// - Parameter ListTrustStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustStoresInput`)
     ///
-    /// - Returns: `ListTrustStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4632,7 +4571,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrustStoresInput, ListTrustStoresOutput>(ListTrustStoresInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustStoresOutput>(ListTrustStoresOutput.httpOutput(from:), ListTrustStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustStoresInput, ListTrustStoresOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrustStoresOutput>())
@@ -4664,9 +4602,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of user access logging settings.
     ///
-    /// - Parameter ListUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `ListUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4701,7 +4639,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>(ListUserAccessLoggingSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserAccessLoggingSettingsOutput>(ListUserAccessLoggingSettingsOutput.httpOutput(from:), ListUserAccessLoggingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserAccessLoggingSettingsOutput>())
@@ -4733,9 +4670,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of user settings.
     ///
-    /// - Parameter ListUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserSettingsInput`)
     ///
-    /// - Returns: `ListUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4770,7 +4707,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUserSettingsInput, ListUserSettingsOutput>(ListUserSettingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserSettingsOutput>(ListUserSettingsOutput.httpOutput(from:), ListUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserSettingsInput, ListUserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserSettingsOutput>())
@@ -4802,9 +4738,9 @@ extension WorkSpacesWebClient {
     ///
     /// Adds or overwrites one or more tags for the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4844,7 +4780,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4876,9 +4811,9 @@ extension WorkSpacesWebClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4914,7 +4849,6 @@ extension WorkSpacesWebClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4946,9 +4880,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates browser settings.
     ///
-    /// - Parameter UpdateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrowserSettingsInput`)
     ///
-    /// - Returns: `UpdateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4987,7 +4921,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrowserSettingsOutput>(UpdateBrowserSettingsOutput.httpOutput(from:), UpdateBrowserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrowserSettingsOutput>())
@@ -5019,9 +4952,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates data protection settings.
     ///
-    /// - Parameter UpdateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `UpdateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5060,7 +4993,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataProtectionSettingsInput, UpdateDataProtectionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataProtectionSettingsOutput>(UpdateDataProtectionSettingsOutput.httpOutput(from:), UpdateDataProtectionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataProtectionSettingsInput, UpdateDataProtectionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataProtectionSettingsOutput>())
@@ -5092,9 +5024,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the identity provider.
     ///
-    /// - Parameter UpdateIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdentityProviderInput`)
     ///
-    /// - Returns: `UpdateIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5133,7 +5065,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutput>(UpdateIdentityProviderOutput.httpOutput(from:), UpdateIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdentityProviderOutput>())
@@ -5165,9 +5096,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates IP access settings.
     ///
-    /// - Parameter UpdateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIpAccessSettingsInput`)
     ///
-    /// - Returns: `UpdateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5206,7 +5137,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIpAccessSettingsOutput>(UpdateIpAccessSettingsOutput.httpOutput(from:), UpdateIpAccessSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIpAccessSettingsOutput>())
@@ -5238,9 +5168,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates network settings.
     ///
-    /// - Parameter UpdateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNetworkSettingsInput`)
     ///
-    /// - Returns: `UpdateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5279,7 +5209,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNetworkSettingsOutput>(UpdateNetworkSettingsOutput.httpOutput(from:), UpdateNetworkSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNetworkSettingsOutput>())
@@ -5311,9 +5240,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates a web portal.
     ///
-    /// - Parameter UpdatePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePortalInput`)
     ///
-    /// - Returns: `UpdatePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5353,7 +5282,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePortalInput, UpdatePortalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePortalOutput>(UpdatePortalOutput.httpOutput(from:), UpdatePortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePortalInput, UpdatePortalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePortalOutput>())
@@ -5385,9 +5313,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the details of a session logger.
     ///
-    /// - Parameter UpdateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionLoggerInput`)
     ///
-    /// - Returns: `UpdateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5425,7 +5353,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSessionLoggerInput, UpdateSessionLoggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSessionLoggerOutput>(UpdateSessionLoggerOutput.httpOutput(from:), UpdateSessionLoggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSessionLoggerInput, UpdateSessionLoggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSessionLoggerOutput>())
@@ -5457,9 +5384,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the trust store.
     ///
-    /// - Parameter UpdateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustStoreInput`)
     ///
-    /// - Returns: `UpdateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5499,7 +5426,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustStoreOutput>(UpdateTrustStoreOutput.httpOutput(from:), UpdateTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrustStoreOutput>())
@@ -5531,9 +5457,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the user access logging settings.
     ///
-    /// - Parameter UpdateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `UpdateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5572,7 +5498,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserAccessLoggingSettingsOutput>(UpdateUserAccessLoggingSettingsOutput.httpOutput(from:), UpdateUserAccessLoggingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserAccessLoggingSettingsOutput>())
@@ -5604,9 +5529,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the user settings.
     ///
-    /// - Parameter UpdateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserSettingsInput`)
     ///
-    /// - Returns: `UpdateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5645,7 +5570,6 @@ extension WorkSpacesWebClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutput>(UpdateUserSettingsOutput.httpOutput(from:), UpdateUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserSettingsOutput>())

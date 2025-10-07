@@ -27,7 +27,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -87,7 +86,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3Client: ClientRuntime.Client {
     public static let clientName = "S3Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: S3Client.S3ClientConfiguration
     let serviceName = "S3"
@@ -480,9 +479,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter AbortMultipartUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AbortMultipartUploadInput`)
     ///
-    /// - Returns: `AbortMultipartUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortMultipartUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,7 +516,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(AbortMultipartUploadOutput.httpOutput(from:), AbortMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AbortMultipartUploadOutput>())
@@ -607,9 +605,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter CompleteMultipartUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteMultipartUploadInput`)
     ///
-    /// - Returns: `CompleteMultipartUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteMultipartUploadOutput`)
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -642,7 +640,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(CompleteMultipartUploadOutput.httpOutput(from:), CompleteMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteMultipartUploadOutput>())
@@ -731,9 +728,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter CopyObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyObjectInput`)
     ///
-    /// - Returns: `CopyObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,7 +765,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CopyObjectInput, CopyObjectOutput>(CopyObjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyObjectOutput>(CopyObjectOutput.httpOutput(from:), CopyObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyObjectInput, CopyObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyObjectOutput>())
@@ -831,9 +827,9 @@ extension S3Client {
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
-    /// - Parameter CreateBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketInput`)
     ///
-    /// - Returns: `CreateBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,7 +867,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketInput, CreateBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(CreateBucketOutput.httpOutput(from:), CreateBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketInput, CreateBucketOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBucketOutput>())
@@ -932,9 +927,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter CreateBucketMetadataConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketMetadataConfigurationInput`)
     ///
-    /// - Returns: `CreateBucketMetadataConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketMetadataConfigurationOutput`)
     public func createBucketMetadataConfiguration(input: CreateBucketMetadataConfigurationInput) async throws -> CreateBucketMetadataConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -967,7 +962,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketMetadataConfigurationOutput>(CreateBucketMetadataConfigurationOutput.httpOutput(from:), CreateBucketMetadataConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBucketMetadataConfigurationOutput>())
@@ -1019,9 +1013,9 @@ extension S3Client {
     ///
     /// * [GetBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataTableConfiguration.html)
     ///
-    /// - Parameter CreateBucketMetadataTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationInput`)
     ///
-    /// - Returns: `CreateBucketMetadataTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationOutput`)
     public func createBucketMetadataTableConfiguration(input: CreateBucketMetadataTableConfigurationInput) async throws -> CreateBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1054,7 +1048,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketMetadataTableConfigurationOutput>(CreateBucketMetadataTableConfigurationOutput.httpOutput(from:), CreateBucketMetadataTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBucketMetadataTableConfigurationOutput>())
@@ -1156,9 +1149,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter CreateMultipartUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMultipartUploadInput`)
     ///
-    /// - Returns: `CreateMultipartUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultipartUploadOutput`)
     public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1188,7 +1181,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(CreateMultipartUploadInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultipartUploadOutput>(CreateMultipartUploadOutput.httpOutput(from:), CreateMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultipartUploadOutput>())
@@ -1231,9 +1223,9 @@ extension S3Client {
     ///
     /// Permissions To obtain temporary security credentials, you must create a bucket policy or an IAM identity-based policy that grants s3express:CreateSession permission to the bucket. In a policy, you can have the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. For more information about ReadWrite or ReadOnly sessions, see [x-amz-create-session-mode](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html#API_CreateSession_RequestParameters). For example policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide. To grant cross-account access to Zonal endpoint API operations, the bucket policy should also grant both accounts the s3express:CreateSession permission. If you want to encrypt objects with SSE-KMS, you must also have the kms:GenerateDataKey and the kms:Decrypt permissions in IAM identity-based policies and KMS key policies for the target KMS key. Encryption For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). For [Zonal endpoint (object-level) API operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-differences.html#s3-express-differences-api-operations) except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), you authenticate and authorize requests through [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html) for low latency. To encrypt new objects in a directory bucket with SSE-KMS, you must specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). Then, when a session is created for Zonal endpoint API operations, new objects are automatically encrypted and decrypted with SSE-KMS and S3 Bucket Keys during the session. Only 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) is supported per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. After you specify SSE-KMS as your bucket's default encryption configuration with a customer managed key, you can't change the customer managed key for the bucket's SSE-KMS configuration. In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, you can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) from the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. Also, in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), it's not supported to override the values of the encryption settings from the CreateSession request. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com.
     ///
-    /// - Parameter CreateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,7 +1260,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateSessionInput, CreateSessionOutput>(CreateSessionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(CreateSessionOutput.httpOutput(from:), CreateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionInput, CreateSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSessionOutput>())
@@ -1320,9 +1311,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter DeleteBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketInput`)
     ///
-    /// - Returns: `DeleteBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1351,7 +1342,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(DeleteBucketOutput.httpOutput(from:), DeleteBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketInput, DeleteBucketOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketOutput>())
@@ -1391,9 +1381,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
-    /// - Parameter DeleteBucketAnalyticsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketAnalyticsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationOutput`)
     public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1423,7 +1413,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationOutput.httpOutput(from:), DeleteBucketAnalyticsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketAnalyticsConfigurationOutput>())
@@ -1461,9 +1450,9 @@ extension S3Client {
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
     ///
-    /// - Parameter DeleteBucketCorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketCorsInput`)
     ///
-    /// - Returns: `DeleteBucketCorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketCorsOutput`)
     public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1493,7 +1482,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(DeleteBucketCorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketCorsOutput>(DeleteBucketCorsOutput.httpOutput(from:), DeleteBucketCorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketCorsOutput>())
@@ -1545,9 +1533,9 @@ extension S3Client {
     ///
     /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
     ///
-    /// - Parameter DeleteBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketEncryptionInput`)
     ///
-    /// - Returns: `DeleteBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketEncryptionOutput`)
     public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1577,7 +1565,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(DeleteBucketEncryptionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketEncryptionOutput>(DeleteBucketEncryptionOutput.httpOutput(from:), DeleteBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketEncryptionOutput>())
@@ -1617,9 +1604,9 @@ extension S3Client {
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
     ///
-    /// - Parameter DeleteBucketIntelligentTieringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationOutput`)
     public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1649,7 +1636,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(DeleteBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(DeleteBucketIntelligentTieringConfigurationOutput.httpOutput(from:), DeleteBucketIntelligentTieringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>())
@@ -1689,9 +1675,9 @@ extension S3Client {
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
     ///
-    /// - Parameter DeleteBucketInventoryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketInventoryConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketInventoryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketInventoryConfigurationOutput`)
     public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1721,7 +1707,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationOutput.httpOutput(from:), DeleteBucketInventoryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketInventoryConfigurationOutput>())
@@ -1769,9 +1754,9 @@ extension S3Client {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter DeleteBucketLifecycleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketLifecycleInput`)
     ///
-    /// - Returns: `DeleteBucketLifecycleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleOutput`)
     public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1801,7 +1786,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(DeleteBucketLifecycleInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleOutput>(DeleteBucketLifecycleOutput.httpOutput(from:), DeleteBucketLifecycleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketLifecycleOutput>())
@@ -1843,9 +1827,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter DeleteBucketMetadataConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetadataConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketMetadataConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataConfigurationOutput`)
     public func deleteBucketMetadataConfiguration(input: DeleteBucketMetadataConfigurationInput) async throws -> DeleteBucketMetadataConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1875,7 +1859,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput>(DeleteBucketMetadataConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketMetadataConfigurationOutput>(DeleteBucketMetadataConfigurationOutput.httpOutput(from:), DeleteBucketMetadataConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketMetadataConfigurationOutput>())
@@ -1913,9 +1896,9 @@ extension S3Client {
     ///
     /// * [GetBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataTableConfiguration.html)
     ///
-    /// - Parameter DeleteBucketMetadataTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetadataTableConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketMetadataTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataTableConfigurationOutput`)
     public func deleteBucketMetadataTableConfiguration(input: DeleteBucketMetadataTableConfigurationInput) async throws -> DeleteBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1945,7 +1928,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput>(DeleteBucketMetadataTableConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketMetadataTableConfigurationOutput>(DeleteBucketMetadataTableConfigurationOutput.httpOutput(from:), DeleteBucketMetadataTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketMetadataTableConfigurationOutput>())
@@ -1987,9 +1969,9 @@ extension S3Client {
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
     ///
-    /// - Parameter DeleteBucketMetricsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetricsConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketMetricsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketMetricsConfigurationOutput`)
     public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2019,7 +2001,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationOutput.httpOutput(from:), DeleteBucketMetricsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketMetricsConfigurationOutput>())
@@ -2057,9 +2038,9 @@ extension S3Client {
     ///
     /// * [PutBucketOwnershipControls]
     ///
-    /// - Parameter DeleteBucketOwnershipControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketOwnershipControlsInput`)
     ///
-    /// - Returns: `DeleteBucketOwnershipControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketOwnershipControlsOutput`)
     public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2089,7 +2070,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsOutput.httpOutput(from:), DeleteBucketOwnershipControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketOwnershipControlsOutput>())
@@ -2134,9 +2114,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter DeleteBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketPolicyInput`)
     ///
-    /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2166,7 +2146,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(DeleteBucketPolicyOutput.httpOutput(from:), DeleteBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketPolicyOutput>())
@@ -2204,9 +2183,9 @@ extension S3Client {
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html)
     ///
-    /// - Parameter DeleteBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketReplicationInput`)
     ///
-    /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketReplicationOutput`)
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2236,7 +2215,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(DeleteBucketReplicationOutput.httpOutput(from:), DeleteBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketReplicationOutput>())
@@ -2274,9 +2252,9 @@ extension S3Client {
     ///
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html)
     ///
-    /// - Parameter DeleteBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketTaggingInput`)
     ///
-    /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2306,7 +2284,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(DeleteBucketTaggingOutput.httpOutput(from:), DeleteBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketTaggingOutput>())
@@ -2344,9 +2321,9 @@ extension S3Client {
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
     ///
-    /// - Parameter DeleteBucketWebsiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketWebsiteInput`)
     ///
-    /// - Returns: `DeleteBucketWebsiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketWebsiteOutput`)
     public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2376,7 +2353,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(DeleteBucketWebsiteInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketWebsiteOutput>(DeleteBucketWebsiteOutput.httpOutput(from:), DeleteBucketWebsiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketWebsiteOutput>())
@@ -2442,9 +2418,9 @@ extension S3Client {
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
-    /// - Parameter DeleteObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectInput`)
     ///
-    /// - Returns: `DeleteObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2474,7 +2450,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteObjectInput, DeleteObjectOutput>(DeleteObjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(DeleteObjectOutput.httpOutput(from:), DeleteObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectInput, DeleteObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObjectOutput>())
@@ -2512,9 +2487,9 @@ extension S3Client {
     ///
     /// * [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html)
     ///
-    /// - Parameter DeleteObjectTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectTaggingInput`)
     ///
-    /// - Returns: `DeleteObjectTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectTaggingOutput`)
     public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2544,7 +2519,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(DeleteObjectTaggingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectTaggingOutput>(DeleteObjectTaggingOutput.httpOutput(from:), DeleteObjectTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObjectTaggingOutput>())
@@ -2616,9 +2590,9 @@ extension S3Client {
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
     ///
-    /// - Parameter DeleteObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectsInput`)
     ///
-    /// - Returns: `DeleteObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectsOutput`)
     public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2651,7 +2625,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteObjectsInput, DeleteObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectsOutput>(DeleteObjectsOutput.httpOutput(from:), DeleteObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObjectsOutput>())
@@ -2694,9 +2667,9 @@ extension S3Client {
     ///
     /// * [GetBucketPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicyStatus.html)
     ///
-    /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicAccessBlockInput`)
     ///
-    /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2726,7 +2699,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(DeletePublicAccessBlockOutput.httpOutput(from:), DeletePublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublicAccessBlockOutput>())
@@ -2762,9 +2734,9 @@ extension S3Client {
     ///
     /// * [PutBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html)
     ///
-    /// - Parameter GetBucketAccelerateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketAccelerateConfigurationInput`)
     ///
-    /// - Returns: `GetBucketAccelerateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketAccelerateConfigurationOutput`)
     public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2794,7 +2766,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationOutput.httpOutput(from:), GetBucketAccelerateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketAccelerateConfigurationOutput>())
@@ -2830,9 +2801,9 @@ extension S3Client {
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
     ///
-    /// - Parameter GetBucketAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketAclInput`)
     ///
-    /// - Returns: `GetBucketAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketAclOutput`)
     public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2862,7 +2833,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketAclInput, GetBucketAclOutput>(GetBucketAclInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAclOutput>(GetBucketAclOutput.httpOutput(from:), GetBucketAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAclInput, GetBucketAclOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketAclOutput>())
@@ -2902,9 +2872,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
-    /// - Parameter GetBucketAnalyticsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketAnalyticsConfigurationInput`)
     ///
-    /// - Returns: `GetBucketAnalyticsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketAnalyticsConfigurationOutput`)
     public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2934,7 +2904,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationOutput.httpOutput(from:), GetBucketAnalyticsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketAnalyticsConfigurationOutput>())
@@ -2972,9 +2941,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html)
     ///
-    /// - Parameter GetBucketCorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketCorsInput`)
     ///
-    /// - Returns: `GetBucketCorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketCorsOutput`)
     public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3004,7 +2973,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(GetBucketCorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketCorsOutput>(GetBucketCorsOutput.httpOutput(from:), GetBucketCorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketCorsOutput>())
@@ -3056,9 +3024,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
     ///
-    /// - Parameter GetBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketEncryptionInput`)
     ///
-    /// - Returns: `GetBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketEncryptionOutput`)
     public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3088,7 +3056,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(GetBucketEncryptionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketEncryptionOutput>(GetBucketEncryptionOutput.httpOutput(from:), GetBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketEncryptionOutput>())
@@ -3128,9 +3095,9 @@ extension S3Client {
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
     ///
-    /// - Parameter GetBucketIntelligentTieringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationInput`)
     ///
-    /// - Returns: `GetBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationOutput`)
     public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3160,7 +3127,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(GetBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketIntelligentTieringConfigurationOutput>(GetBucketIntelligentTieringConfigurationOutput.httpOutput(from:), GetBucketIntelligentTieringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketIntelligentTieringConfigurationOutput>())
@@ -3200,9 +3166,9 @@ extension S3Client {
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
     ///
-    /// - Parameter GetBucketInventoryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketInventoryConfigurationInput`)
     ///
-    /// - Returns: `GetBucketInventoryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketInventoryConfigurationOutput`)
     public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3232,7 +3198,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationOutput.httpOutput(from:), GetBucketInventoryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketInventoryConfigurationOutput>())
@@ -3296,9 +3261,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
     ///
-    /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3328,7 +3293,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationOutput.httpOutput(from:), GetBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketLifecycleConfigurationOutput>())
@@ -3366,9 +3330,9 @@ extension S3Client {
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
-    /// - Parameter GetBucketLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLocationInput`)
     ///
-    /// - Returns: `GetBucketLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLocationOutput`)
     public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3398,7 +3362,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(GetBucketLocationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLocationOutput>(GetBucketLocationOutput.httpOutput(from:), GetBucketLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketLocationOutput>())
@@ -3436,9 +3399,9 @@ extension S3Client {
     ///
     /// * [PutBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html)
     ///
-    /// - Parameter GetBucketLoggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLoggingInput`)
     ///
-    /// - Returns: `GetBucketLoggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLoggingOutput`)
     public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3468,7 +3431,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(GetBucketLoggingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLoggingOutput>(GetBucketLoggingOutput.httpOutput(from:), GetBucketLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketLoggingOutput>())
@@ -3510,9 +3472,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter GetBucketMetadataConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketMetadataConfigurationInput`)
     ///
-    /// - Returns: `GetBucketMetadataConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketMetadataConfigurationOutput`)
     public func getBucketMetadataConfiguration(input: GetBucketMetadataConfigurationInput) async throws -> GetBucketMetadataConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3542,7 +3504,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput>(GetBucketMetadataConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketMetadataConfigurationOutput>(GetBucketMetadataConfigurationOutput.httpOutput(from:), GetBucketMetadataConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketMetadataConfigurationOutput>())
@@ -3580,9 +3541,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetadataTableConfiguration.html)
     ///
-    /// - Parameter GetBucketMetadataTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketMetadataTableConfigurationInput`)
     ///
-    /// - Returns: `GetBucketMetadataTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketMetadataTableConfigurationOutput`)
     public func getBucketMetadataTableConfiguration(input: GetBucketMetadataTableConfigurationInput) async throws -> GetBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3612,7 +3573,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput>(GetBucketMetadataTableConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketMetadataTableConfigurationOutput>(GetBucketMetadataTableConfigurationOutput.httpOutput(from:), GetBucketMetadataTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketMetadataTableConfigurationOutput>())
@@ -3654,9 +3614,9 @@ extension S3Client {
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
     ///
-    /// - Parameter GetBucketMetricsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketMetricsConfigurationInput`)
     ///
-    /// - Returns: `GetBucketMetricsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketMetricsConfigurationOutput`)
     public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3686,7 +3646,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationOutput.httpOutput(from:), GetBucketMetricsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketMetricsConfigurationOutput>())
@@ -3722,9 +3681,9 @@ extension S3Client {
     ///
     /// * [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html)
     ///
-    /// - Parameter GetBucketNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetBucketNotificationConfigurationOutput` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
+    /// - Returns: A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket. (Type: `GetBucketNotificationConfigurationOutput`)
     public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3754,7 +3713,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationOutput.httpOutput(from:), GetBucketNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketNotificationConfigurationOutput>())
@@ -3799,9 +3757,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketOwnershipControls]
     ///
-    /// - Parameter GetBucketOwnershipControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketOwnershipControlsInput`)
     ///
-    /// - Returns: `GetBucketOwnershipControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketOwnershipControlsOutput`)
     public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3831,7 +3789,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsOutput.httpOutput(from:), GetBucketOwnershipControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketOwnershipControlsOutput>())
@@ -3874,9 +3831,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter GetBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyInput`)
     ///
-    /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3906,7 +3863,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(GetBucketPolicyOutput.httpOutput(from:), GetBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketPolicyOutput>())
@@ -3948,9 +3904,9 @@ extension S3Client {
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
     ///
-    /// - Parameter GetBucketPolicyStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyStatusInput`)
     ///
-    /// - Returns: `GetBucketPolicyStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketPolicyStatusOutput`)
     public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3980,7 +3936,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(GetBucketPolicyStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketPolicyStatusOutput>(GetBucketPolicyStatusOutput.httpOutput(from:), GetBucketPolicyStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketPolicyStatusOutput>())
@@ -4018,9 +3973,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
     ///
-    /// - Parameter GetBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketReplicationInput`)
     ///
-    /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4050,7 +4005,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(GetBucketReplicationOutput.httpOutput(from:), GetBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketReplicationOutput>())
@@ -4086,9 +4040,9 @@ extension S3Client {
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
     ///
-    /// - Parameter GetBucketRequestPaymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketRequestPaymentInput`)
     ///
-    /// - Returns: `GetBucketRequestPaymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketRequestPaymentOutput`)
     public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4118,7 +4072,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(GetBucketRequestPaymentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketRequestPaymentOutput>(GetBucketRequestPaymentOutput.httpOutput(from:), GetBucketRequestPaymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketRequestPaymentOutput>())
@@ -4166,9 +4119,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
     ///
-    /// - Parameter GetBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketTaggingInput`)
     ///
-    /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4198,7 +4151,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(GetBucketTaggingOutput.httpOutput(from:), GetBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketTaggingOutput>())
@@ -4238,9 +4190,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter GetBucketVersioningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketVersioningInput`)
     ///
-    /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4270,7 +4222,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(GetBucketVersioningOutput.httpOutput(from:), GetBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketVersioningOutput>())
@@ -4308,9 +4259,9 @@ extension S3Client {
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
     ///
-    /// - Parameter GetBucketWebsiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketWebsiteInput`)
     ///
-    /// - Returns: `GetBucketWebsiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketWebsiteOutput`)
     public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4340,7 +4291,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(GetBucketWebsiteInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketWebsiteOutput>(GetBucketWebsiteOutput.httpOutput(from:), GetBucketWebsiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketWebsiteOutput>())
@@ -4407,9 +4357,9 @@ extension S3Client {
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
     ///
-    /// - Parameter GetObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectInput`)
     ///
-    /// - Returns: `GetObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4445,7 +4395,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
@@ -4487,9 +4436,9 @@ extension S3Client {
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
-    /// - Parameter GetObjectAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectAclInput`)
     ///
-    /// - Returns: `GetObjectAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectAclOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4524,7 +4473,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectAclInput, GetObjectAclOutput>(GetObjectAclInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectAclOutput>(GetObjectAclOutput.httpOutput(from:), GetObjectAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectAclInput, GetObjectAclOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectAclOutput>())
@@ -4625,9 +4573,9 @@ extension S3Client {
     ///
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
-    /// - Parameter GetObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectAttributesInput`)
     ///
-    /// - Returns: `GetObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4662,7 +4610,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(GetObjectAttributesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutput>(GetObjectAttributesOutput.httpOutput(from:), GetObjectAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectAttributesOutput>())
@@ -4698,9 +4645,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter GetObjectLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectLegalHoldInput`)
     ///
-    /// - Returns: `GetObjectLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectLegalHoldOutput`)
     public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4730,7 +4677,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(GetObjectLegalHoldInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectLegalHoldOutput>(GetObjectLegalHoldOutput.httpOutput(from:), GetObjectLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectLegalHoldOutput>())
@@ -4766,9 +4712,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter GetObjectLockConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectLockConfigurationInput`)
     ///
-    /// - Returns: `GetObjectLockConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectLockConfigurationOutput`)
     public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4798,7 +4744,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(GetObjectLockConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectLockConfigurationOutput>(GetObjectLockConfigurationOutput.httpOutput(from:), GetObjectLockConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectLockConfigurationOutput>())
@@ -4834,9 +4779,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter GetObjectRetentionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectRetentionInput`)
     ///
-    /// - Returns: `GetObjectRetentionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectRetentionOutput`)
     public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4866,7 +4811,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(GetObjectRetentionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectRetentionOutput>(GetObjectRetentionOutput.httpOutput(from:), GetObjectRetentionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectRetentionOutput>())
@@ -4906,9 +4850,9 @@ extension S3Client {
     ///
     /// * [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html)
     ///
-    /// - Parameter GetObjectTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectTaggingInput`)
     ///
-    /// - Returns: `GetObjectTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectTaggingOutput`)
     public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4938,7 +4882,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(GetObjectTaggingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectTaggingOutput>(GetObjectTaggingOutput.httpOutput(from:), GetObjectTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectTaggingOutput>())
@@ -4974,9 +4917,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter GetObjectTorrentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectTorrentInput`)
     ///
-    /// - Returns: `GetObjectTorrentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectTorrentOutput`)
     public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5006,7 +4949,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(GetObjectTorrentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectTorrentOutput>(GetObjectTorrentOutput.httpOutput(from:), GetObjectTorrentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectTorrentOutput>())
@@ -5047,9 +4989,9 @@ extension S3Client {
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
     ///
-    /// - Parameter GetPublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicAccessBlockInput`)
     ///
-    /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicAccessBlockOutput`)
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5079,7 +5021,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(GetPublicAccessBlockOutput.httpOutput(from:), GetPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPublicAccessBlockOutput>())
@@ -5120,9 +5061,9 @@ extension S3Client {
     ///
     /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. You must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter HeadBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `HeadBucketInput`)
     ///
-    /// - Returns: `HeadBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `HeadBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5156,7 +5097,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<HeadBucketInput, HeadBucketOutput>(HeadBucketInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<HeadBucketOutput>(HeadBucketOutput.httpOutput(from:), HeadBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<HeadBucketInput, HeadBucketOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<HeadBucketOutput>())
@@ -5231,9 +5171,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter HeadObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `HeadObjectInput`)
     ///
-    /// - Returns: `HeadObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `HeadObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5268,7 +5208,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<HeadObjectInput, HeadObjectOutput>(HeadObjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<HeadObjectOutput>(HeadObjectOutput.httpOutput(from:), HeadObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<HeadObjectInput, HeadObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<HeadObjectOutput>())
@@ -5308,9 +5247,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
-    /// - Parameter ListBucketAnalyticsConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketAnalyticsConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsOutput`)
     public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5340,7 +5279,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsOutput.httpOutput(from:), ListBucketAnalyticsConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBucketAnalyticsConfigurationsOutput>())
@@ -5380,9 +5318,9 @@ extension S3Client {
     ///
     /// * [GetBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html)
     ///
-    /// - Parameter ListBucketIntelligentTieringConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketIntelligentTieringConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsOutput`)
     public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5412,7 +5350,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(ListBucketIntelligentTieringConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(ListBucketIntelligentTieringConfigurationsOutput.httpOutput(from:), ListBucketIntelligentTieringConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBucketIntelligentTieringConfigurationsOutput>())
@@ -5452,9 +5389,9 @@ extension S3Client {
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
     ///
-    /// - Parameter ListBucketInventoryConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketInventoryConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketInventoryConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketInventoryConfigurationsOutput`)
     public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5484,7 +5421,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsOutput.httpOutput(from:), ListBucketInventoryConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBucketInventoryConfigurationsOutput>())
@@ -5524,9 +5460,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html)
     ///
-    /// - Parameter ListBucketMetricsConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketMetricsConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketMetricsConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketMetricsConfigurationsOutput`)
     public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5556,7 +5492,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsOutput.httpOutput(from:), ListBucketMetricsConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBucketMetricsConfigurationsOutput>())
@@ -5590,9 +5525,9 @@ extension S3Client {
     ///
     /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns a list of all buckets owned by the authenticated sender of the request. To grant IAM permission to use this operation, you must add the s3:ListAllMyBuckets policy action. For information about Amazon S3 buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). We strongly recommend using only paginated ListBuckets requests. Unpaginated ListBuckets requests are only supported for Amazon Web Services accounts set to the default general purpose bucket quota of 10,000. If you have an approved general purpose bucket quota above 10,000, you must send paginated ListBuckets requests to list your account’s buckets. All unpaginated ListBuckets requests will be rejected for Amazon Web Services accounts with a general purpose bucket quota greater than 10,000.
     ///
-    /// - Parameter ListBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketsInput`)
     ///
-    /// - Returns: `ListBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketsOutput`)
     public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5621,7 +5556,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketsInput, ListBucketsOutput>(ListBucketsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketsOutput>(ListBucketsOutput.httpOutput(from:), ListBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketsInput, ListBucketsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBucketsOutput>())
@@ -5655,9 +5589,9 @@ extension S3Client {
     ///
     /// Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the request. For more information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions You must have the s3express:ListAllMyDirectoryBuckets permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The BucketRegion response element is not part of the ListDirectoryBuckets Response Syntax.
     ///
-    /// - Parameter ListDirectoryBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDirectoryBucketsInput`)
     ///
-    /// - Returns: `ListDirectoryBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDirectoryBucketsOutput`)
     public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5686,7 +5620,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(ListDirectoryBucketsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDirectoryBucketsOutput>(ListDirectoryBucketsOutput.httpOutput(from:), ListDirectoryBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDirectoryBucketsOutput>())
@@ -5751,9 +5684,9 @@ extension S3Client {
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
     ///
-    /// - Parameter ListMultipartUploadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMultipartUploadsInput`)
     ///
-    /// - Returns: `ListMultipartUploadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMultipartUploadsOutput`)
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5783,7 +5716,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(ListMultipartUploadsOutput.httpOutput(from:), ListMultipartUploadsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMultipartUploadsOutput>())
@@ -5825,9 +5757,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter ListObjectVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectVersionsInput`)
     ///
-    /// - Returns: `ListObjectVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectVersionsOutput`)
     public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5857,7 +5789,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(ListObjectVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectVersionsOutput>(ListObjectVersionsOutput.httpOutput(from:), ListObjectVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectVersionsOutput>())
@@ -5901,9 +5832,9 @@ extension S3Client {
     ///
     /// * [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html)
     ///
-    /// - Parameter ListObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectsInput`)
     ///
-    /// - Returns: `ListObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5938,7 +5869,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectsInput, ListObjectsOutput>(ListObjectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectsOutput>(ListObjectsOutput.httpOutput(from:), ListObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectsInput, ListObjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectsOutput>())
@@ -6001,9 +5931,9 @@ extension S3Client {
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
-    /// - Parameter ListObjectsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectsV2Input`)
     ///
-    /// - Returns: `ListObjectsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6038,7 +5968,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectsV2Input, ListObjectsV2Output>(ListObjectsV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectsV2Output>(ListObjectsV2Output.httpOutput(from:), ListObjectsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectsV2Input, ListObjectsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectsV2Output>())
@@ -6091,9 +6020,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter ListPartsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPartsInput`)
     ///
-    /// - Returns: `ListPartsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPartsOutput`)
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6123,7 +6052,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartsOutput>(ListPartsOutput.httpOutput(from:), ListPartsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartsInput, ListPartsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPartsOutput>())
@@ -6168,9 +6096,9 @@ extension S3Client {
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
-    /// - Parameter PutBucketAccelerateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketAccelerateConfigurationInput`)
     ///
-    /// - Returns: `PutBucketAccelerateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketAccelerateConfigurationOutput`)
     public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6203,7 +6131,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationOutput.httpOutput(from:), PutBucketAccelerateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketAccelerateConfigurationOutput>())
@@ -6314,9 +6241,9 @@ extension S3Client {
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
     ///
-    /// - Parameter PutBucketAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketAclInput`)
     ///
-    /// - Returns: `PutBucketAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketAclOutput`)
     public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6349,7 +6276,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketAclInput, PutBucketAclOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketAclOutput>(PutBucketAclOutput.httpOutput(from:), PutBucketAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketAclInput, PutBucketAclOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketAclOutput>())
@@ -6423,9 +6349,9 @@ extension S3Client {
     ///
     /// * [ListBucketAnalyticsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html)
     ///
-    /// - Parameter PutBucketAnalyticsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketAnalyticsConfigurationInput`)
     ///
-    /// - Returns: `PutBucketAnalyticsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketAnalyticsConfigurationOutput`)
     public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6458,7 +6384,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationOutput.httpOutput(from:), PutBucketAnalyticsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketAnalyticsConfigurationOutput>())
@@ -6507,9 +6432,9 @@ extension S3Client {
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
     ///
-    /// - Parameter PutBucketCorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketCorsInput`)
     ///
-    /// - Returns: `PutBucketCorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketCorsOutput`)
     public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6542,7 +6467,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketCorsInput, PutBucketCorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketCorsOutput>(PutBucketCorsOutput.httpOutput(from:), PutBucketCorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketCorsOutput>())
@@ -6615,9 +6539,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
     ///
-    /// - Parameter PutBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketEncryptionInput`)
     ///
-    /// - Returns: `PutBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketEncryptionOutput`)
     public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6650,7 +6574,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketEncryptionOutput>(PutBucketEncryptionOutput.httpOutput(from:), PutBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketEncryptionOutput>())
@@ -6694,9 +6617,9 @@ extension S3Client {
     ///
     /// You only need S3 Intelligent-Tiering enabled on a bucket if you want to automatically move objects stored in the S3 Intelligent-Tiering storage class to the Archive Access or Deep Archive Access tier. PutBucketIntelligentTieringConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutIntelligentTieringConfiguration bucket permission to set the configuration on the bucket.
     ///
-    /// - Parameter PutBucketIntelligentTieringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketIntelligentTieringConfigurationInput`)
     ///
-    /// - Returns: `PutBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketIntelligentTieringConfigurationOutput`)
     public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6729,7 +6652,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketIntelligentTieringConfigurationOutput>(PutBucketIntelligentTieringConfigurationOutput.httpOutput(from:), PutBucketIntelligentTieringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketIntelligentTieringConfigurationOutput>())
@@ -6769,9 +6691,9 @@ extension S3Client {
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
     ///
-    /// - Parameter PutBucketInventoryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketInventoryConfigurationInput`)
     ///
-    /// - Returns: `PutBucketInventoryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketInventoryConfigurationOutput`)
     public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6804,7 +6726,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationOutput.httpOutput(from:), PutBucketInventoryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketInventoryConfigurationOutput>())
@@ -6870,9 +6791,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
     ///
-    /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6905,7 +6826,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationOutput.httpOutput(from:), PutBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketLifecycleConfigurationOutput>())
@@ -6957,9 +6877,9 @@ extension S3Client {
     ///
     /// * [GetBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLogging.html)
     ///
-    /// - Parameter PutBucketLoggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketLoggingInput`)
     ///
-    /// - Returns: `PutBucketLoggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketLoggingOutput`)
     public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6992,7 +6912,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketLoggingOutput>(PutBucketLoggingOutput.httpOutput(from:), PutBucketLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketLoggingOutput>())
@@ -7042,9 +6961,9 @@ extension S3Client {
     ///
     /// * HTTP Status Code: HTTP 400 Bad Request
     ///
-    /// - Parameter PutBucketMetricsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketMetricsConfigurationInput`)
     ///
-    /// - Returns: `PutBucketMetricsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketMetricsConfigurationOutput`)
     public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7077,7 +6996,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationOutput.httpOutput(from:), PutBucketMetricsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketMetricsConfigurationOutput>())
@@ -7113,9 +7031,9 @@ extension S3Client {
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
     ///
-    /// - Parameter PutBucketNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketNotificationConfigurationInput`)
     ///
-    /// - Returns: `PutBucketNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketNotificationConfigurationOutput`)
     public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7148,7 +7066,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationOutput.httpOutput(from:), PutBucketNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketNotificationConfigurationOutput>())
@@ -7186,9 +7103,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketOwnershipControls]
     ///
-    /// - Parameter PutBucketOwnershipControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketOwnershipControlsInput`)
     ///
-    /// - Returns: `PutBucketOwnershipControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketOwnershipControlsOutput`)
     public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7221,7 +7138,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsOutput.httpOutput(from:), PutBucketOwnershipControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketOwnershipControlsOutput>())
@@ -7267,9 +7183,9 @@ extension S3Client {
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
-    /// - Parameter PutBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketPolicyInput`)
     ///
-    /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7302,7 +7218,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(PutBucketPolicyOutput.httpOutput(from:), PutBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketPolicyOutput>())
@@ -7341,9 +7256,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
     ///
-    /// - Parameter PutBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketReplicationInput`)
     ///
-    /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7376,7 +7291,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(PutBucketReplicationOutput.httpOutput(from:), PutBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketReplicationOutput>())
@@ -7415,9 +7329,9 @@ extension S3Client {
     ///
     /// * [GetBucketRequestPayment](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketRequestPayment.html)
     ///
-    /// - Parameter PutBucketRequestPaymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketRequestPaymentInput`)
     ///
-    /// - Returns: `PutBucketRequestPaymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketRequestPaymentOutput`)
     public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7450,7 +7364,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketRequestPaymentOutput>(PutBucketRequestPaymentOutput.httpOutput(from:), PutBucketRequestPaymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketRequestPaymentOutput>())
@@ -7500,9 +7413,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
     ///
-    /// - Parameter PutBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketTaggingInput`)
     ///
-    /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7535,7 +7448,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(PutBucketTaggingOutput.httpOutput(from:), PutBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketTaggingOutput>())
@@ -7576,9 +7488,9 @@ extension S3Client {
     ///
     /// * [GetBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html)
     ///
-    /// - Parameter PutBucketVersioningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketVersioningInput`)
     ///
-    /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketVersioningOutput`)
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7611,7 +7523,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(PutBucketVersioningOutput.httpOutput(from:), PutBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketVersioningOutput>())
@@ -7692,9 +7603,9 @@ extension S3Client {
     ///
     /// Amazon S3 has a limitation of 50 routing rules per website configuration. If you require more than 50 routing rules, you can use object redirect. For more information, see [Configuring an Object Redirect](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html) in the Amazon S3 User Guide. The maximum request length is limited to 128 KB.
     ///
-    /// - Parameter PutBucketWebsiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketWebsiteInput`)
     ///
-    /// - Returns: `PutBucketWebsiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketWebsiteOutput`)
     public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7727,7 +7638,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketWebsiteOutput>(PutBucketWebsiteOutput.httpOutput(from:), PutBucketWebsiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketWebsiteOutput>())
@@ -7807,9 +7717,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter PutObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectInput`)
     ///
-    /// - Returns: `PutObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7856,7 +7766,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectInput, PutObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
@@ -7958,9 +7867,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter PutObjectAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectAclInput`)
     ///
-    /// - Returns: `PutObjectAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectAclOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7998,7 +7907,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectAclInput, PutObjectAclOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectAclOutput>(PutObjectAclOutput.httpOutput(from:), PutObjectAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectAclInput, PutObjectAclOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectAclOutput>())
@@ -8033,9 +7941,9 @@ extension S3Client {
     ///
     /// This operation is not supported for directory buckets. Applies a legal hold configuration to the specified object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for Amazon S3 on Outposts.
     ///
-    /// - Parameter PutObjectLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectLegalHoldInput`)
     ///
-    /// - Returns: `PutObjectLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectLegalHoldOutput`)
     public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8068,7 +7976,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectLegalHoldOutput>(PutObjectLegalHoldOutput.httpOutput(from:), PutObjectLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectLegalHoldOutput>())
@@ -8109,9 +8016,9 @@ extension S3Client {
     ///
     /// * You can enable Object Lock for new or existing buckets. For more information, see [Configuring Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-configure.html).
     ///
-    /// - Parameter PutObjectLockConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectLockConfigurationInput`)
     ///
-    /// - Returns: `PutObjectLockConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectLockConfigurationOutput`)
     public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8144,7 +8051,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectLockConfigurationOutput>(PutObjectLockConfigurationOutput.httpOutput(from:), PutObjectLockConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectLockConfigurationOutput>())
@@ -8179,9 +8085,9 @@ extension S3Client {
     ///
     /// This operation is not supported for directory buckets. Places an Object Retention configuration on an object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). Users or accounts require the s3:PutObjectRetention permission in order to place an Object Retention configuration on objects. Bypassing a Governance Retention configuration requires the s3:BypassGovernanceRetention permission. This functionality is not supported for Amazon S3 on Outposts.
     ///
-    /// - Parameter PutObjectRetentionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectRetentionInput`)
     ///
-    /// - Returns: `PutObjectRetentionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectRetentionOutput`)
     public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8214,7 +8120,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectRetentionOutput>(PutObjectRetentionOutput.httpOutput(from:), PutObjectRetentionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectRetentionOutput>())
@@ -8264,9 +8169,9 @@ extension S3Client {
     ///
     /// * [DeleteObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html)
     ///
-    /// - Parameter PutObjectTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectTaggingInput`)
     ///
-    /// - Returns: `PutObjectTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectTaggingOutput`)
     public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8299,7 +8204,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectTaggingOutput>(PutObjectTaggingOutput.httpOutput(from:), PutObjectTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectTaggingOutput>())
@@ -8342,9 +8246,9 @@ extension S3Client {
     ///
     /// * [Using Amazon S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html)
     ///
-    /// - Parameter PutPublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPublicAccessBlockInput`)
     ///
-    /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8377,7 +8281,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(PutPublicAccessBlockOutput.httpOutput(from:), PutPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPublicAccessBlockOutput>())
@@ -8417,9 +8320,9 @@ extension S3Client {
     ///
     /// Permissions To grant access to the RenameObject operation on a directory bucket, we recommend that you use the CreateSession operation for session-based authorization. Specifically, you grant the s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the CreateSession API call on the directory bucket to obtain a session token. With the session token in your request header, you can make API requests to this operation. After the session token expires, you make another CreateSession API call to generate a new session token for use. The Amazon Web Services CLI and SDKs will create and manage your session including refreshing the session token automatically to avoid service interruptions when a session expires. In your bucket policy, you can specify the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. A ReadWrite session is required for executing all the Zonal endpoint API operations, including RenameObject. For more information about authorization, see [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html). To learn more about Zonal endpoint API operations, see [Authorizing Zonal endpoint API operations with CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-create-session.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com.
     ///
-    /// - Parameter RenameObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RenameObjectInput`)
     ///
-    /// - Returns: `RenameObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenameObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8455,7 +8358,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RenameObjectInput, RenameObjectOutput>(RenameObjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RenameObjectOutput>(RenameObjectOutput.httpOutput(from:), RenameObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenameObjectInput, RenameObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RenameObjectOutput>())
@@ -8551,9 +8453,9 @@ extension S3Client {
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
     ///
-    /// - Parameter RestoreObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreObjectInput`)
     ///
-    /// - Returns: `RestoreObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8591,7 +8493,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreObjectInput, RestoreObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreObjectOutput>(RestoreObjectOutput.httpOutput(from:), RestoreObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreObjectInput, RestoreObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreObjectOutput>())
@@ -8650,9 +8551,9 @@ extension S3Client {
     ///
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter SelectObjectContentInput : Learn Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
+    /// - Parameter input: Learn Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html). (Type: `SelectObjectContentInput`)
     ///
-    /// - Returns: `SelectObjectContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SelectObjectContentOutput`)
     public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8685,7 +8586,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SelectObjectContentOutput>(SelectObjectContentOutput.httpOutput(from:), SelectObjectContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectObjectContentOutput>())
@@ -8746,9 +8646,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter UpdateBucketMetadataInventoryTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationInput`)
     ///
-    /// - Returns: `UpdateBucketMetadataInventoryTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationOutput`)
     public func updateBucketMetadataInventoryTableConfiguration(input: UpdateBucketMetadataInventoryTableConfigurationInput) async throws -> UpdateBucketMetadataInventoryTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8781,7 +8681,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBucketMetadataInventoryTableConfigurationOutput>(UpdateBucketMetadataInventoryTableConfigurationOutput.httpOutput(from:), UpdateBucketMetadataInventoryTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBucketMetadataInventoryTableConfigurationOutput>())
@@ -8824,9 +8723,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataInventoryTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataInventoryTableConfiguration.html)
     ///
-    /// - Parameter UpdateBucketMetadataJournalTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBucketMetadataJournalTableConfigurationInput`)
     ///
-    /// - Returns: `UpdateBucketMetadataJournalTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataJournalTableConfigurationOutput`)
     public func updateBucketMetadataJournalTableConfiguration(input: UpdateBucketMetadataJournalTableConfigurationInput) async throws -> UpdateBucketMetadataJournalTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8859,7 +8758,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBucketMetadataJournalTableConfigurationOutput>(UpdateBucketMetadataJournalTableConfigurationOutput.httpOutput(from:), UpdateBucketMetadataJournalTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBucketMetadataJournalTableConfigurationOutput>())
@@ -8941,9 +8839,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter UploadPartInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadPartInput`)
     ///
-    /// - Returns: `UploadPartOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadPartOutput`)
     public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8976,7 +8874,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadPartInput, UploadPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
@@ -9074,9 +8971,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter UploadPartCopyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadPartCopyInput`)
     ///
-    /// - Returns: `UploadPartCopyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadPartCopyOutput`)
     public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -9106,7 +9003,6 @@ extension S3Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(UploadPartCopyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartCopyOutput>(UploadPartCopyOutput.httpOutput(from:), UploadPartCopyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartCopyOutput>())
@@ -9140,9 +9036,9 @@ extension S3Client {
     ///
     /// This operation is not supported for directory buckets. Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see [Transforming objects with Object Lambda access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. This operation supports metadata that can be returned by [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html), in addition to RequestRoute, RequestToken, StatusCode, ErrorCode, and ErrorMessage. The GetObject response metadata is supported so that the WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a customer-owned Lambda function, the metadata returned to the end user GetObject call might differ from what Amazon S3 would normally return. You can include any number of metadata headers. When including a metadata header, it should be prefaced with x-amz-meta. For example, x-amz-meta-my-custom-header: MyCustomValue. The primary use case for this is to forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda functions that you can use with S3 Object Lambda to detect and redact personally identifiable information (PII) and decompress S3 objects. These Lambda functions are available in the Amazon Web Services Serverless Application Repository, and can be selected through the Amazon Web Services Management Console when you create your Object Lambda access point. Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically detects personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 2: PII Redaction - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically redacts personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 3: Decompression - The Lambda function S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP. For information on how to view and use these functions, see [Using Amazon Web Services built Lambda functions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter WriteGetObjectResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `WriteGetObjectResponseInput`)
     ///
-    /// - Returns: `WriteGetObjectResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `WriteGetObjectResponseOutput`)
     public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9174,7 +9070,6 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(requiresLength: false, unsignedPayload: true))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<WriteGetObjectResponseOutput>(WriteGetObjectResponseOutput.httpOutput(from:), WriteGetObjectResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<WriteGetObjectResponseOutput>())

@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointSMSVoiceClient: ClientRuntime.Client {
     public static let clientName = "PinpointSMSVoiceClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceClient.PinpointSMSVoiceClientConfiguration
     let serviceName = "Pinpoint SMS Voice"
@@ -373,9 +372,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
     ///
-    /// - Parameter CreateConfigurationSetInput : A request to create a new configuration set.
+    /// - Parameter input: A request to create a new configuration set. (Type: `CreateConfigurationSetInput`)
     ///
-    /// - Returns: `CreateConfigurationSetOutput` : An empty object that indicates that the configuration set was successfully created.
+    /// - Returns: An empty object that indicates that the configuration set was successfully created. (Type: `CreateConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension PinpointSMSVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutput>(CreateConfigurationSetOutput.httpOutput(from:), CreateConfigurationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationSetOutput>())
@@ -445,9 +443,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// Create a new event destination in a configuration set.
     ///
-    /// - Parameter CreateConfigurationSetEventDestinationInput : Create a new event destination in a configuration set.
+    /// - Parameter input: Create a new event destination in a configuration set. (Type: `CreateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `CreateConfigurationSetEventDestinationOutput` : An empty object that indicates that the event destination was created successfully.
+    /// - Returns: An empty object that indicates that the event destination was created successfully. (Type: `CreateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension PinpointSMSVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationSetEventDestinationOutput>(CreateConfigurationSetEventDestinationOutput.httpOutput(from:), CreateConfigurationSetEventDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationSetEventDestinationOutput>())
@@ -518,9 +515,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// Deletes an existing configuration set.
     ///
-    /// - Parameter DeleteConfigurationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationSetInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetOutput` : An empty object that indicates that the configuration set was deleted successfully.
+    /// - Returns: An empty object that indicates that the configuration set was deleted successfully. (Type: `DeleteConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension PinpointSMSVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutput>(DeleteConfigurationSetOutput.httpOutput(from:), DeleteConfigurationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationSetOutput>())
@@ -586,9 +582,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// Deletes an event destination in a configuration set.
     ///
-    /// - Parameter DeleteConfigurationSetEventDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetEventDestinationOutput` : An empty object that indicates that the event destination was deleted successfully.
+    /// - Returns: An empty object that indicates that the event destination was deleted successfully. (Type: `DeleteConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,7 +618,6 @@ extension PinpointSMSVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetEventDestinationOutput>(DeleteConfigurationSetEventDestinationOutput.httpOutput(from:), DeleteConfigurationSetEventDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationSetEventDestinationOutput>())
@@ -654,9 +649,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
     ///
-    /// - Parameter GetConfigurationSetEventDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationSetEventDestinationsInput`)
     ///
-    /// - Returns: `GetConfigurationSetEventDestinationsOutput` : An object that contains information about an event destination.
+    /// - Returns: An object that contains information about an event destination. (Type: `GetConfigurationSetEventDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -690,7 +685,6 @@ extension PinpointSMSVoiceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationSetEventDestinationsOutput>(GetConfigurationSetEventDestinationsOutput.httpOutput(from:), GetConfigurationSetEventDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationSetEventDestinationsOutput>())
@@ -722,9 +716,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
     ///
-    /// - Parameter ListConfigurationSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationSetsInput`)
     ///
-    /// - Returns: `ListConfigurationSetsOutput` : An object that contains information about the configuration sets for your account in the current region.
+    /// - Returns: An object that contains information about the configuration sets for your account in the current region. (Type: `ListConfigurationSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -758,7 +752,6 @@ extension PinpointSMSVoiceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>(ListConfigurationSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationSetsOutput>(ListConfigurationSetsOutput.httpOutput(from:), ListConfigurationSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationSetsOutput>())
@@ -790,9 +783,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// Create a new voice message and send it to a recipient's phone number.
     ///
-    /// - Parameter SendVoiceMessageInput : SendVoiceMessageRequest
+    /// - Parameter input: SendVoiceMessageRequest (Type: `SendVoiceMessageInput`)
     ///
-    /// - Returns: `SendVoiceMessageOutput` : An object that that contains the Message ID of a Voice message that was sent successfully.
+    /// - Returns: An object that that contains the Message ID of a Voice message that was sent successfully. (Type: `SendVoiceMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -828,7 +821,6 @@ extension PinpointSMSVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendVoiceMessageOutput>(SendVoiceMessageOutput.httpOutput(from:), SendVoiceMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendVoiceMessageOutput>())
@@ -860,9 +852,9 @@ extension PinpointSMSVoiceClient {
     ///
     /// Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
     ///
-    /// - Parameter UpdateConfigurationSetEventDestinationInput : UpdateConfigurationSetEventDestinationRequest
+    /// - Parameter input: UpdateConfigurationSetEventDestinationRequest (Type: `UpdateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `UpdateConfigurationSetEventDestinationOutput` : An empty object that indicates that the event destination was updated successfully.
+    /// - Returns: An empty object that indicates that the event destination was updated successfully. (Type: `UpdateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,7 +891,6 @@ extension PinpointSMSVoiceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetEventDestinationOutput>(UpdateConfigurationSetEventDestinationOutput.httpOutput(from:), UpdateConfigurationSetEventDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationSetEventDestinationOutput>())

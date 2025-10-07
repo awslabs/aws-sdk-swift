@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MTurkClient: ClientRuntime.Client {
     public static let clientName = "MTurkClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MTurkClient.MTurkClientConfiguration
     let serviceName = "MTurk"
@@ -374,9 +373,9 @@ extension MTurkClient {
     ///
     /// The AcceptQualificationRequest operation approves a Worker's request for a Qualification. Only the owner of the Qualification type can grant a Qualification request for that type. A successful request for the AcceptQualificationRequest operation returns with no errors and an empty body.
     ///
-    /// - Parameter AcceptQualificationRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptQualificationRequestInput`)
     ///
-    /// - Returns: `AcceptQualificationRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptQualificationRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptQualificationRequestInput, AcceptQualificationRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptQualificationRequestOutput>(AcceptQualificationRequestOutput.httpOutput(from:), AcceptQualificationRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptQualificationRequestInput, AcceptQualificationRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptQualificationRequestOutput>())
@@ -451,9 +449,9 @@ extension MTurkClient {
     ///
     /// If the Requester's account does not have adequate funds for these payments, the call to ApproveAssignment returns an exception, and the approval is not processed. You can include an optional feedback message with the approval, which the Worker can see in the Status section of the web site. You can also call this operation for assignments that were previous rejected and approve them by explicitly overriding the previous rejection. This only works on rejected assignments that were submitted within the previous 30 days and only if the assignment's related HIT has not been deleted.
     ///
-    /// - Parameter ApproveAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApproveAssignmentInput`)
     ///
-    /// - Returns: `ApproveAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApproveAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApproveAssignmentInput, ApproveAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApproveAssignmentOutput>(ApproveAssignmentOutput.httpOutput(from:), ApproveAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApproveAssignmentInput, ApproveAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApproveAssignmentOutput>())
@@ -521,9 +518,9 @@ extension MTurkClient {
     ///
     /// The AssociateQualificationWithWorker operation gives a Worker a Qualification. AssociateQualificationWithWorker does not require that the Worker submit a Qualification request. It gives the Qualification directly to the Worker. You can only assign a Qualification of a Qualification type that you created (using the CreateQualificationType operation). Note: AssociateQualificationWithWorker does not affect any pending Qualification requests for the Qualification by the Worker. If you assign a Qualification to a Worker, then later grant a Qualification request made by the Worker, the granting of the request may modify the Qualification score. To resolve a pending Qualification request without affecting the Qualification the Worker already has, reject the request with the RejectQualificationRequest operation.
     ///
-    /// - Parameter AssociateQualificationWithWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateQualificationWithWorkerInput`)
     ///
-    /// - Returns: `AssociateQualificationWithWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateQualificationWithWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,7 +553,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateQualificationWithWorkerInput, AssociateQualificationWithWorkerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateQualificationWithWorkerOutput>(AssociateQualificationWithWorkerOutput.httpOutput(from:), AssociateQualificationWithWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateQualificationWithWorkerInput, AssociateQualificationWithWorkerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateQualificationWithWorkerOutput>())
@@ -595,9 +591,9 @@ extension MTurkClient {
     ///
     /// * HITs that were created before July 22, 2015 cannot be extended. Attempting to extend HITs that were created before July 22, 2015 will result in an AWS.MechanicalTurk.HITTooOldForExtension exception.
     ///
-    /// - Parameter CreateAdditionalAssignmentsForHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAdditionalAssignmentsForHITInput`)
     ///
-    /// - Returns: `CreateAdditionalAssignmentsForHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAdditionalAssignmentsForHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,7 +626,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAdditionalAssignmentsForHITInput, CreateAdditionalAssignmentsForHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAdditionalAssignmentsForHITOutput>(CreateAdditionalAssignmentsForHITOutput.httpOutput(from:), CreateAdditionalAssignmentsForHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAdditionalAssignmentsForHITInput, CreateAdditionalAssignmentsForHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAdditionalAssignmentsForHITOutput>())
@@ -665,9 +660,9 @@ extension MTurkClient {
     ///
     /// The CreateHIT operation creates a new Human Intelligence Task (HIT). The new HIT is made available for Workers to find and accept on the Amazon Mechanical Turk website. This operation allows you to specify a new HIT by passing in values for the properties of the HIT, such as its title, reward amount and number of assignments. When you pass these values to CreateHIT, a new HIT is created for you, with a new HITTypeID. The HITTypeID can be used to create additional HITs in the future without needing to specify common parameters such as the title, description and reward amount each time. An alternative way to create HITs is to first generate a HITTypeID using the CreateHITType operation and then call the CreateHITWithHITType operation. This is the recommended best practice for Requesters who are creating large numbers of HITs. CreateHIT also supports several ways to provide question data: by providing a value for the Question parameter that fully specifies the contents of the HIT, or by providing a HitLayoutId and associated HitLayoutParameters. If a HIT is created with 10 or more maximum assignments, there is an additional fee. For more information, see [Amazon Mechanical Turk Pricing](https://requester.mturk.com/pricing).
     ///
-    /// - Parameter CreateHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHITInput`)
     ///
-    /// - Returns: `CreateHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,7 +695,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHITInput, CreateHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHITOutput>(CreateHITOutput.httpOutput(from:), CreateHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHITInput, CreateHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHITOutput>())
@@ -735,9 +729,9 @@ extension MTurkClient {
     ///
     /// The CreateHITType operation creates a new HIT type. This operation allows you to define a standard set of HIT properties to use when creating HITs. If you register a HIT type with values that match an existing HIT type, the HIT type ID of the existing type will be returned.
     ///
-    /// - Parameter CreateHITTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHITTypeInput`)
     ///
-    /// - Returns: `CreateHITTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHITTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,7 +764,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHITTypeInput, CreateHITTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHITTypeOutput>(CreateHITTypeOutput.httpOutput(from:), CreateHITTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHITTypeInput, CreateHITTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHITTypeOutput>())
@@ -805,9 +798,9 @@ extension MTurkClient {
     ///
     /// The CreateHITWithHITType operation creates a new Human Intelligence Task (HIT) using an existing HITTypeID generated by the CreateHITType operation. This is an alternative way to create HITs from the CreateHIT operation. This is the recommended best practice for Requesters who are creating large numbers of HITs. CreateHITWithHITType also supports several ways to provide question data: by providing a value for the Question parameter that fully specifies the contents of the HIT, or by providing a HitLayoutId and associated HitLayoutParameters. If a HIT is created with 10 or more maximum assignments, there is an additional fee. For more information, see [Amazon Mechanical Turk Pricing](https://requester.mturk.com/pricing).
     ///
-    /// - Parameter CreateHITWithHITTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHITWithHITTypeInput`)
     ///
-    /// - Returns: `CreateHITWithHITTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHITWithHITTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,7 +833,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHITWithHITTypeInput, CreateHITWithHITTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHITWithHITTypeOutput>(CreateHITWithHITTypeOutput.httpOutput(from:), CreateHITWithHITTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHITWithHITTypeInput, CreateHITWithHITTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHITWithHITTypeOutput>())
@@ -875,9 +867,9 @@ extension MTurkClient {
     ///
     /// The CreateQualificationType operation creates a new Qualification type, which is represented by a QualificationType data structure.
     ///
-    /// - Parameter CreateQualificationTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQualificationTypeInput`)
     ///
-    /// - Returns: `CreateQualificationTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQualificationTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,7 +902,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQualificationTypeInput, CreateQualificationTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQualificationTypeOutput>(CreateQualificationTypeOutput.httpOutput(from:), CreateQualificationTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQualificationTypeInput, CreateQualificationTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQualificationTypeOutput>())
@@ -945,9 +936,9 @@ extension MTurkClient {
     ///
     /// The CreateWorkerBlock operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is producing poor quality work. You can block up to 100,000 Workers.
     ///
-    /// - Parameter CreateWorkerBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkerBlockInput`)
     ///
-    /// - Returns: `CreateWorkerBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkerBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -980,7 +971,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkerBlockInput, CreateWorkerBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkerBlockOutput>(CreateWorkerBlockOutput.httpOutput(from:), CreateWorkerBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkerBlockInput, CreateWorkerBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkerBlockOutput>())
@@ -1023,9 +1013,9 @@ extension MTurkClient {
     ///
     /// * Disposing HITs can improve the performance of operations such as ListReviewableHITs and ListHITs.
     ///
-    /// - Parameter DeleteHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHITInput`)
     ///
-    /// - Returns: `DeleteHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1058,7 +1048,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHITInput, DeleteHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHITOutput>(DeleteHITOutput.httpOutput(from:), DeleteHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHITInput, DeleteHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHITOutput>())
@@ -1093,9 +1082,9 @@ extension MTurkClient {
     ///
     /// The DeleteQualificationType deletes a Qualification type and deletes any HIT types that are associated with the Qualification type. This operation does not revoke Qualifications already assigned to Workers because the Qualifications might be needed for active HITs. If there are any pending requests for the Qualification type, Amazon Mechanical Turk rejects those requests. After you delete a Qualification type, you can no longer use it to create HITs or HIT types. DeleteQualificationType must wait for all the HITs that use the deleted Qualification type to be deleted before completing. It may take up to 48 hours before DeleteQualificationType completes and the unique name of the Qualification type is available for reuse with CreateQualificationType.
     ///
-    /// - Parameter DeleteQualificationTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQualificationTypeInput`)
     ///
-    /// - Returns: `DeleteQualificationTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQualificationTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1128,7 +1117,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQualificationTypeInput, DeleteQualificationTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQualificationTypeOutput>(DeleteQualificationTypeOutput.httpOutput(from:), DeleteQualificationTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQualificationTypeInput, DeleteQualificationTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQualificationTypeOutput>())
@@ -1163,9 +1151,9 @@ extension MTurkClient {
     ///
     /// The DeleteWorkerBlock operation allows you to reinstate a blocked Worker to work on your HITs. This operation reverses the effects of the CreateWorkerBlock operation. You need the Worker ID to use this operation. If the Worker ID is missing or invalid, this operation fails and returns the message “WorkerId is invalid.” If the specified Worker is not blocked, this operation returns successfully.
     ///
-    /// - Parameter DeleteWorkerBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkerBlockInput`)
     ///
-    /// - Returns: `DeleteWorkerBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkerBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1198,7 +1186,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkerBlockInput, DeleteWorkerBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkerBlockOutput>(DeleteWorkerBlockOutput.httpOutput(from:), DeleteWorkerBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkerBlockInput, DeleteWorkerBlockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkerBlockOutput>())
@@ -1233,9 +1220,9 @@ extension MTurkClient {
     ///
     /// The DisassociateQualificationFromWorker revokes a previously granted Qualification from a user. You can provide a text message explaining why the Qualification was revoked. The user who had the Qualification can see this message.
     ///
-    /// - Parameter DisassociateQualificationFromWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateQualificationFromWorkerInput`)
     ///
-    /// - Returns: `DisassociateQualificationFromWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateQualificationFromWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,7 +1255,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateQualificationFromWorkerInput, DisassociateQualificationFromWorkerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateQualificationFromWorkerOutput>(DisassociateQualificationFromWorkerOutput.httpOutput(from:), DisassociateQualificationFromWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateQualificationFromWorkerInput, DisassociateQualificationFromWorkerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateQualificationFromWorkerOutput>())
@@ -1303,9 +1289,9 @@ extension MTurkClient {
     ///
     /// The GetAccountBalance operation retrieves the Prepaid HITs balance in your Amazon Mechanical Turk account if you are a Prepaid Requester. Alternatively, this operation will retrieve the remaining available AWS Billing usage if you have enabled AWS Billing. Note: If you have enabled AWS Billing and still have a remaining Prepaid HITs balance, this balance can be viewed on the My Account page in the Requester console.
     ///
-    /// - Parameter GetAccountBalanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountBalanceInput`)
     ///
-    /// - Returns: `GetAccountBalanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountBalanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,7 +1324,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountBalanceInput, GetAccountBalanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountBalanceOutput>(GetAccountBalanceOutput.httpOutput(from:), GetAccountBalanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountBalanceInput, GetAccountBalanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountBalanceOutput>())
@@ -1373,9 +1358,9 @@ extension MTurkClient {
     ///
     /// The GetAssignment operation retrieves the details of the specified Assignment.
     ///
-    /// - Parameter GetAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssignmentInput`)
     ///
-    /// - Returns: `GetAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1408,7 +1393,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAssignmentInput, GetAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssignmentOutput>(GetAssignmentOutput.httpOutput(from:), GetAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssignmentInput, GetAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssignmentOutput>())
@@ -1446,9 +1430,9 @@ extension MTurkClient {
     ///
     /// structure will no longer support the FileUploadAnswer element to be used for the QuestionForm data structure. Instead, we recommend that Requesters who want to create HITs asking Workers to upload files to use Amazon S3.
     ///
-    /// - Parameter GetFileUploadURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFileUploadURLInput`)
     ///
-    /// - Returns: `GetFileUploadURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFileUploadURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1481,7 +1465,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFileUploadURLInput, GetFileUploadURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFileUploadURLOutput>(GetFileUploadURLOutput.httpOutput(from:), GetFileUploadURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFileUploadURLInput, GetFileUploadURLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFileUploadURLOutput>())
@@ -1516,9 +1499,9 @@ extension MTurkClient {
     ///
     /// The GetHIT operation retrieves the details of the specified HIT.
     ///
-    /// - Parameter GetHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHITInput`)
     ///
-    /// - Returns: `GetHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,7 +1534,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHITInput, GetHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHITOutput>(GetHITOutput.httpOutput(from:), GetHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHITInput, GetHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHITOutput>())
@@ -1586,9 +1568,9 @@ extension MTurkClient {
     ///
     /// The GetQualificationScore operation returns the value of a Worker's Qualification for a given Qualification type. To get a Worker's Qualification, you must know the Worker's ID. The Worker's ID is included in the assignment data returned by the ListAssignmentsForHIT operation. Only the owner of a Qualification type can query the value of a Worker's Qualification of that type.
     ///
-    /// - Parameter GetQualificationScoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQualificationScoreInput`)
     ///
-    /// - Returns: `GetQualificationScoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQualificationScoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,7 +1603,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQualificationScoreInput, GetQualificationScoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQualificationScoreOutput>(GetQualificationScoreOutput.httpOutput(from:), GetQualificationScoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQualificationScoreInput, GetQualificationScoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQualificationScoreOutput>())
@@ -1656,9 +1637,9 @@ extension MTurkClient {
     ///
     /// The GetQualificationTypeoperation retrieves information about a Qualification type using its ID.
     ///
-    /// - Parameter GetQualificationTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQualificationTypeInput`)
     ///
-    /// - Returns: `GetQualificationTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQualificationTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,7 +1672,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQualificationTypeInput, GetQualificationTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQualificationTypeOutput>(GetQualificationTypeOutput.httpOutput(from:), GetQualificationTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQualificationTypeInput, GetQualificationTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQualificationTypeOutput>())
@@ -1726,9 +1706,9 @@ extension MTurkClient {
     ///
     /// The ListAssignmentsForHIT operation retrieves completed assignments for a HIT. You can use this operation to retrieve the results for a HIT. You can get assignments for a HIT at any time, even if the HIT is not yet Reviewable. If a HIT requested multiple assignments, and has received some results but has not yet become Reviewable, you can still retrieve the partial results with this operation. Use the AssignmentStatus parameter to control which set of assignments for a HIT are returned. The ListAssignmentsForHIT operation can return submitted assignments awaiting approval, or it can return assignments that have already been approved or rejected. You can set AssignmentStatus=Approved,Rejected to get assignments that have already been approved and rejected together in one result set. Only the Requester who created the HIT can retrieve the assignments for that HIT. Results are sorted and divided into numbered pages and the operation returns a single page of results. You can use the parameters of the operation to control sorting and pagination.
     ///
-    /// - Parameter ListAssignmentsForHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssignmentsForHITInput`)
     ///
-    /// - Returns: `ListAssignmentsForHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssignmentsForHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,7 +1741,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssignmentsForHITInput, ListAssignmentsForHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssignmentsForHITOutput>(ListAssignmentsForHITOutput.httpOutput(from:), ListAssignmentsForHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssignmentsForHITInput, ListAssignmentsForHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssignmentsForHITOutput>())
@@ -1796,9 +1775,9 @@ extension MTurkClient {
     ///
     /// The ListBonusPayments operation retrieves the amounts of bonuses you have paid to Workers for a given HIT or assignment.
     ///
-    /// - Parameter ListBonusPaymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBonusPaymentsInput`)
     ///
-    /// - Returns: `ListBonusPaymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBonusPaymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1831,7 +1810,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBonusPaymentsInput, ListBonusPaymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBonusPaymentsOutput>(ListBonusPaymentsOutput.httpOutput(from:), ListBonusPaymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBonusPaymentsInput, ListBonusPaymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBonusPaymentsOutput>())
@@ -1866,9 +1844,9 @@ extension MTurkClient {
     ///
     /// The ListHITs operation returns all of a Requester's HITs. The operation returns HITs of any status, except for HITs that have been deleted of with the DeleteHIT operation or that have been auto-deleted.
     ///
-    /// - Parameter ListHITsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHITsInput`)
     ///
-    /// - Returns: `ListHITsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHITsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1901,7 +1879,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHITsInput, ListHITsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHITsOutput>(ListHITsOutput.httpOutput(from:), ListHITsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHITsInput, ListHITsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHITsOutput>())
@@ -1936,9 +1913,9 @@ extension MTurkClient {
     ///
     /// The ListHITsForQualificationType operation returns the HITs that use the given Qualification type for a Qualification requirement. The operation returns HITs of any status, except for HITs that have been deleted with the DeleteHIT operation or that have been auto-deleted.
     ///
-    /// - Parameter ListHITsForQualificationTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHITsForQualificationTypeInput`)
     ///
-    /// - Returns: `ListHITsForQualificationTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHITsForQualificationTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1971,7 +1948,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHITsForQualificationTypeOutput>(ListHITsForQualificationTypeOutput.httpOutput(from:), ListHITsForQualificationTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHITsForQualificationTypeOutput>())
@@ -2006,9 +1982,9 @@ extension MTurkClient {
     ///
     /// The ListQualificationRequests operation retrieves requests for Qualifications of a particular Qualification type. The owner of the Qualification type calls this operation to poll for pending requests, and accepts them using the AcceptQualification operation.
     ///
-    /// - Parameter ListQualificationRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQualificationRequestsInput`)
     ///
-    /// - Returns: `ListQualificationRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQualificationRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2041,7 +2017,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQualificationRequestsInput, ListQualificationRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQualificationRequestsOutput>(ListQualificationRequestsOutput.httpOutput(from:), ListQualificationRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQualificationRequestsInput, ListQualificationRequestsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQualificationRequestsOutput>())
@@ -2076,9 +2051,9 @@ extension MTurkClient {
     ///
     /// The ListQualificationTypes operation returns a list of Qualification types, filtered by an optional search term.
     ///
-    /// - Parameter ListQualificationTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQualificationTypesInput`)
     ///
-    /// - Returns: `ListQualificationTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQualificationTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2111,7 +2086,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQualificationTypesInput, ListQualificationTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQualificationTypesOutput>(ListQualificationTypesOutput.httpOutput(from:), ListQualificationTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQualificationTypesInput, ListQualificationTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQualificationTypesOutput>())
@@ -2146,9 +2120,9 @@ extension MTurkClient {
     ///
     /// The ListReviewPolicyResultsForHIT operation retrieves the computed results and the actions taken in the course of executing your Review Policies for a given HIT. For information about how to specify Review Policies when you call CreateHIT, see Review Policies. The ListReviewPolicyResultsForHIT operation can return results for both Assignment-level and HIT-level review results.
     ///
-    /// - Parameter ListReviewPolicyResultsForHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReviewPolicyResultsForHITInput`)
     ///
-    /// - Returns: `ListReviewPolicyResultsForHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReviewPolicyResultsForHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2181,7 +2155,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReviewPolicyResultsForHITOutput>(ListReviewPolicyResultsForHITOutput.httpOutput(from:), ListReviewPolicyResultsForHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReviewPolicyResultsForHITOutput>())
@@ -2216,9 +2189,9 @@ extension MTurkClient {
     ///
     /// The ListReviewableHITs operation retrieves the HITs with Status equal to Reviewable or Status equal to Reviewing that belong to the Requester calling the operation.
     ///
-    /// - Parameter ListReviewableHITsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReviewableHITsInput`)
     ///
-    /// - Returns: `ListReviewableHITsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReviewableHITsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2251,7 +2224,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReviewableHITsInput, ListReviewableHITsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReviewableHITsOutput>(ListReviewableHITsOutput.httpOutput(from:), ListReviewableHITsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReviewableHITsInput, ListReviewableHITsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReviewableHITsOutput>())
@@ -2286,9 +2258,9 @@ extension MTurkClient {
     ///
     /// The ListWorkersBlocks operation retrieves a list of Workers who are blocked from working on your HITs.
     ///
-    /// - Parameter ListWorkerBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkerBlocksInput`)
     ///
-    /// - Returns: `ListWorkerBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkerBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2321,7 +2293,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkerBlocksInput, ListWorkerBlocksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkerBlocksOutput>(ListWorkerBlocksOutput.httpOutput(from:), ListWorkerBlocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkerBlocksInput, ListWorkerBlocksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkerBlocksOutput>())
@@ -2356,9 +2327,9 @@ extension MTurkClient {
     ///
     /// The ListWorkersWithQualificationType operation returns all of the Workers that have been associated with a given Qualification type.
     ///
-    /// - Parameter ListWorkersWithQualificationTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkersWithQualificationTypeInput`)
     ///
-    /// - Returns: `ListWorkersWithQualificationTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkersWithQualificationTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2391,7 +2362,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkersWithQualificationTypeOutput>(ListWorkersWithQualificationTypeOutput.httpOutput(from:), ListWorkersWithQualificationTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkersWithQualificationTypeOutput>())
@@ -2426,9 +2396,9 @@ extension MTurkClient {
     ///
     /// The NotifyWorkers operation sends an email to one or more Workers that you specify with the Worker ID. You can specify up to 100 Worker IDs to send the same message with a single call to the NotifyWorkers operation. The NotifyWorkers operation will send a notification email to a Worker only if you have previously approved or rejected work from the Worker.
     ///
-    /// - Parameter NotifyWorkersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyWorkersInput`)
     ///
-    /// - Returns: `NotifyWorkersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyWorkersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2461,7 +2431,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyWorkersInput, NotifyWorkersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyWorkersOutput>(NotifyWorkersOutput.httpOutput(from:), NotifyWorkersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyWorkersInput, NotifyWorkersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyWorkersOutput>())
@@ -2496,9 +2465,9 @@ extension MTurkClient {
     ///
     /// The RejectAssignment operation rejects the results of a completed assignment. You can include an optional feedback message with the rejection, which the Worker can see in the Status section of the web site. When you include a feedback message with the rejection, it helps the Worker understand why the assignment was rejected, and can improve the quality of the results the Worker submits in the future. Only the Requester who created the HIT can reject an assignment for the HIT.
     ///
-    /// - Parameter RejectAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectAssignmentInput`)
     ///
-    /// - Returns: `RejectAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2531,7 +2500,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAssignmentInput, RejectAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectAssignmentOutput>(RejectAssignmentOutput.httpOutput(from:), RejectAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAssignmentInput, RejectAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectAssignmentOutput>())
@@ -2566,9 +2534,9 @@ extension MTurkClient {
     ///
     /// The RejectQualificationRequest operation rejects a user's request for a Qualification. You can provide a text message explaining why the request was rejected. The Worker who made the request can see this message.
     ///
-    /// - Parameter RejectQualificationRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectQualificationRequestInput`)
     ///
-    /// - Returns: `RejectQualificationRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectQualificationRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,7 +2569,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectQualificationRequestInput, RejectQualificationRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectQualificationRequestOutput>(RejectQualificationRequestOutput.httpOutput(from:), RejectQualificationRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectQualificationRequestInput, RejectQualificationRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectQualificationRequestOutput>())
@@ -2636,9 +2603,9 @@ extension MTurkClient {
     ///
     /// The SendBonus operation issues a payment of money from your account to a Worker. This payment happens separately from the reward you pay to the Worker when you approve the Worker's assignment. The SendBonus operation requires the Worker's ID and the assignment ID as parameters to initiate payment of the bonus. You must include a message that explains the reason for the bonus payment, as the Worker may not be expecting the payment. Amazon Mechanical Turk collects a fee for bonus payments, similar to the HIT listing fee. This operation fails if your account does not have enough funds to pay for both the bonus and the fees.
     ///
-    /// - Parameter SendBonusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendBonusInput`)
     ///
-    /// - Returns: `SendBonusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendBonusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,7 +2638,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendBonusInput, SendBonusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendBonusOutput>(SendBonusOutput.httpOutput(from:), SendBonusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendBonusInput, SendBonusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendBonusOutput>())
@@ -2706,9 +2672,9 @@ extension MTurkClient {
     ///
     /// The SendTestEventNotification operation causes Amazon Mechanical Turk to send a notification message as if a HIT event occurred, according to the provided notification specification. This allows you to test notifications without setting up notifications for a real HIT type and trying to trigger them using the website. When you call this operation, the service attempts to send the test notification immediately.
     ///
-    /// - Parameter SendTestEventNotificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendTestEventNotificationInput`)
     ///
-    /// - Returns: `SendTestEventNotificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendTestEventNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2741,7 +2707,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendTestEventNotificationInput, SendTestEventNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendTestEventNotificationOutput>(SendTestEventNotificationOutput.httpOutput(from:), SendTestEventNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendTestEventNotificationInput, SendTestEventNotificationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendTestEventNotificationOutput>())
@@ -2776,9 +2741,9 @@ extension MTurkClient {
     ///
     /// The UpdateExpirationForHIT operation allows you update the expiration time of a HIT. If you update it to a time in the past, the HIT will be immediately expired.
     ///
-    /// - Parameter UpdateExpirationForHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExpirationForHITInput`)
     ///
-    /// - Returns: `UpdateExpirationForHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExpirationForHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2811,7 +2776,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExpirationForHITInput, UpdateExpirationForHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExpirationForHITOutput>(UpdateExpirationForHITOutput.httpOutput(from:), UpdateExpirationForHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExpirationForHITInput, UpdateExpirationForHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExpirationForHITOutput>())
@@ -2846,9 +2810,9 @@ extension MTurkClient {
     ///
     /// The UpdateHITReviewStatus operation updates the status of a HIT. If the status is Reviewable, this operation can update the status to Reviewing, or it can revert a Reviewing HIT back to the Reviewable status.
     ///
-    /// - Parameter UpdateHITReviewStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHITReviewStatusInput`)
     ///
-    /// - Returns: `UpdateHITReviewStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHITReviewStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2881,7 +2845,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHITReviewStatusInput, UpdateHITReviewStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHITReviewStatusOutput>(UpdateHITReviewStatusOutput.httpOutput(from:), UpdateHITReviewStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHITReviewStatusInput, UpdateHITReviewStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHITReviewStatusOutput>())
@@ -2916,9 +2879,9 @@ extension MTurkClient {
     ///
     /// The UpdateHITTypeOfHIT operation allows you to change the HITType properties of a HIT. This operation disassociates the HIT from its old HITType properties and associates it with the new HITType properties. The HIT takes on the properties of the new HITType in place of the old ones.
     ///
-    /// - Parameter UpdateHITTypeOfHITInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHITTypeOfHITInput`)
     ///
-    /// - Returns: `UpdateHITTypeOfHITOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHITTypeOfHITOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2951,7 +2914,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHITTypeOfHITInput, UpdateHITTypeOfHITOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHITTypeOfHITOutput>(UpdateHITTypeOfHITOutput.httpOutput(from:), UpdateHITTypeOfHITOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHITTypeOfHITInput, UpdateHITTypeOfHITOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHITTypeOfHITOutput>())
@@ -2986,9 +2948,9 @@ extension MTurkClient {
     ///
     /// The UpdateNotificationSettings operation creates, updates, disables or re-enables notifications for a HIT type. If you call the UpdateNotificationSettings operation for a HIT type that already has a notification specification, the operation replaces the old specification with a new one. You can call the UpdateNotificationSettings operation to enable or disable notifications for the HIT type, without having to modify the notification specification itself by providing updates to the Active status without specifying a new notification specification. To change the Active status of a HIT type's notifications, the HIT type must already have a notification specification, or one must be provided in the same call to UpdateNotificationSettings.
     ///
-    /// - Parameter UpdateNotificationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotificationSettingsInput`)
     ///
-    /// - Returns: `UpdateNotificationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotificationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3021,7 +2983,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotificationSettingsInput, UpdateNotificationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotificationSettingsOutput>(UpdateNotificationSettingsOutput.httpOutput(from:), UpdateNotificationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotificationSettingsInput, UpdateNotificationSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotificationSettingsOutput>())
@@ -3056,9 +3017,9 @@ extension MTurkClient {
     ///
     /// The UpdateQualificationType operation modifies the attributes of an existing Qualification type, which is represented by a QualificationType data structure. Only the owner of a Qualification type can modify its attributes. Most attributes of a Qualification type can be changed after the type has been created. However, the Name and Keywords fields cannot be modified. The RetryDelayInSeconds parameter can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds cannot be used to disable retries. You can use this operation to update the test for a Qualification type. The test is updated based on the values specified for the Test, TestDurationInSeconds and AnswerKey parameters. All three parameters specify the updated test. If you are updating the test for a type, you must specify the Test and TestDurationInSeconds parameters. The AnswerKey parameter is optional; omitting it specifies that the updated test does not have an answer key. If you omit the Test parameter, the test for the Qualification type is unchanged. There is no way to remove a test from a Qualification type that has one. If the type already has a test, you cannot update it to be AutoGranted. If the Qualification type does not have a test and one is provided by an update, the type will henceforth have a test. If you want to update the test duration or answer key for an existing test without changing the questions, you must specify a Test parameter with the original questions, along with the updated values. If you provide an updated Test but no AnswerKey, the new test will not have an answer key. Requests for such Qualifications must be granted manually. You can also update the AutoGranted and AutoGrantedValue attributes of the Qualification type.
     ///
-    /// - Parameter UpdateQualificationTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQualificationTypeInput`)
     ///
-    /// - Returns: `UpdateQualificationTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQualificationTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3091,7 +3052,6 @@ extension MTurkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQualificationTypeInput, UpdateQualificationTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQualificationTypeOutput>(UpdateQualificationTypeOutput.httpOutput(from:), UpdateQualificationTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQualificationTypeInput, UpdateQualificationTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQualificationTypeOutput>())

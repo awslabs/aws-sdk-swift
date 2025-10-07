@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TrustedAdvisorClient: ClientRuntime.Client {
     public static let clientName = "TrustedAdvisorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: TrustedAdvisorClient.TrustedAdvisorClientConfiguration
     let serviceName = "TrustedAdvisor"
@@ -374,9 +373,9 @@ extension TrustedAdvisorClient {
     ///
     /// Update one or more exclusion status for a list of recommendation resources
     ///
-    /// - Parameter BatchUpdateRecommendationResourceExclusionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateRecommendationResourceExclusionInput`)
     ///
-    /// - Returns: `BatchUpdateRecommendationResourceExclusionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateRecommendationResourceExclusionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension TrustedAdvisorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateRecommendationResourceExclusionInput, BatchUpdateRecommendationResourceExclusionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateRecommendationResourceExclusionOutput>(BatchUpdateRecommendationResourceExclusionOutput.httpOutput(from:), BatchUpdateRecommendationResourceExclusionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateRecommendationResourceExclusionInput, BatchUpdateRecommendationResourceExclusionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateRecommendationResourceExclusionOutput>())
@@ -446,9 +444,9 @@ extension TrustedAdvisorClient {
     ///
     /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations.
     ///
-    /// - Parameter GetOrganizationRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationRecommendationInput`)
     ///
-    /// - Returns: `GetOrganizationRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +481,6 @@ extension TrustedAdvisorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOrganizationRecommendationInput, GetOrganizationRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrganizationRecommendationOutput>(GetOrganizationRecommendationOutput.httpOutput(from:), GetOrganizationRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationRecommendationInput, GetOrganizationRecommendationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationRecommendationOutput>())
@@ -515,9 +512,9 @@ extension TrustedAdvisorClient {
     ///
     /// Get a specific Recommendation
     ///
-    /// - Parameter GetRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationInput`)
     ///
-    /// - Returns: `GetRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,7 +549,6 @@ extension TrustedAdvisorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecommendationInput, GetRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationOutput>(GetRecommendationOutput.httpOutput(from:), GetRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationInput, GetRecommendationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationOutput>())
@@ -584,9 +580,9 @@ extension TrustedAdvisorClient {
     ///
     /// List a filterable set of Checks
     ///
-    /// - Parameter ListChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChecksInput`)
     ///
-    /// - Returns: `ListChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,7 +617,6 @@ extension TrustedAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChecksInput, ListChecksOutput>(ListChecksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChecksOutput>(ListChecksOutput.httpOutput(from:), ListChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChecksInput, ListChecksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChecksOutput>())
@@ -653,9 +648,9 @@ extension TrustedAdvisorClient {
     ///
     /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations.
     ///
-    /// - Parameter ListOrganizationRecommendationAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationRecommendationAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationRecommendationAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationRecommendationAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,7 +686,6 @@ extension TrustedAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationRecommendationAccountsInput, ListOrganizationRecommendationAccountsOutput>(ListOrganizationRecommendationAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationRecommendationAccountsOutput>(ListOrganizationRecommendationAccountsOutput.httpOutput(from:), ListOrganizationRecommendationAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationRecommendationAccountsInput, ListOrganizationRecommendationAccountsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationRecommendationAccountsOutput>())
@@ -723,9 +717,9 @@ extension TrustedAdvisorClient {
     ///
     /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations.
     ///
-    /// - Parameter ListOrganizationRecommendationResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationRecommendationResourcesInput`)
     ///
-    /// - Returns: `ListOrganizationRecommendationResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationRecommendationResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,7 +755,6 @@ extension TrustedAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationRecommendationResourcesInput, ListOrganizationRecommendationResourcesOutput>(ListOrganizationRecommendationResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationRecommendationResourcesOutput>(ListOrganizationRecommendationResourcesOutput.httpOutput(from:), ListOrganizationRecommendationResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationRecommendationResourcesInput, ListOrganizationRecommendationResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationRecommendationResourcesOutput>())
@@ -793,9 +786,9 @@ extension TrustedAdvisorClient {
     ///
     /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations.
     ///
-    /// - Parameter ListOrganizationRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationRecommendationsInput`)
     ///
-    /// - Returns: `ListOrganizationRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,7 +823,6 @@ extension TrustedAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationRecommendationsInput, ListOrganizationRecommendationsOutput>(ListOrganizationRecommendationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationRecommendationsOutput>(ListOrganizationRecommendationsOutput.httpOutput(from:), ListOrganizationRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationRecommendationsInput, ListOrganizationRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationRecommendationsOutput>())
@@ -862,9 +854,9 @@ extension TrustedAdvisorClient {
     ///
     /// List Resources of a Recommendation
     ///
-    /// - Parameter ListRecommendationResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationResourcesInput`)
     ///
-    /// - Returns: `ListRecommendationResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -900,7 +892,6 @@ extension TrustedAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecommendationResourcesInput, ListRecommendationResourcesOutput>(ListRecommendationResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendationResourcesOutput>(ListRecommendationResourcesOutput.httpOutput(from:), ListRecommendationResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationResourcesInput, ListRecommendationResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationResourcesOutput>())
@@ -932,9 +923,9 @@ extension TrustedAdvisorClient {
     ///
     /// List a filterable set of Recommendations
     ///
-    /// - Parameter ListRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationsInput`)
     ///
-    /// - Returns: `ListRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -969,7 +960,6 @@ extension TrustedAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(ListRecommendationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendationsOutput>(ListRecommendationsOutput.httpOutput(from:), ListRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationsOutput>())
@@ -1001,9 +991,9 @@ extension TrustedAdvisorClient {
     ///
     /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations.
     ///
-    /// - Parameter UpdateOrganizationRecommendationLifecycleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationRecommendationLifecycleInput`)
     ///
-    /// - Returns: `UpdateOrganizationRecommendationLifecycleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationRecommendationLifecycleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,7 +1032,6 @@ extension TrustedAdvisorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOrganizationRecommendationLifecycleInput, UpdateOrganizationRecommendationLifecycleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrganizationRecommendationLifecycleOutput>(UpdateOrganizationRecommendationLifecycleOutput.httpOutput(from:), UpdateOrganizationRecommendationLifecycleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationRecommendationLifecycleInput, UpdateOrganizationRecommendationLifecycleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationRecommendationLifecycleOutput>())
@@ -1074,9 +1063,9 @@ extension TrustedAdvisorClient {
     ///
     /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
     ///
-    /// - Parameter UpdateRecommendationLifecycleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecommendationLifecycleInput`)
     ///
-    /// - Returns: `UpdateRecommendationLifecycleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecommendationLifecycleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1115,7 +1104,6 @@ extension TrustedAdvisorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecommendationLifecycleInput, UpdateRecommendationLifecycleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecommendationLifecycleOutput>(UpdateRecommendationLifecycleOutput.httpOutput(from:), UpdateRecommendationLifecycleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecommendationLifecycleInput, UpdateRecommendationLifecycleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecommendationLifecycleOutput>())

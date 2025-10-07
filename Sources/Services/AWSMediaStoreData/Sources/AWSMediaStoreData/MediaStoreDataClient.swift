@@ -22,7 +22,6 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaStoreDataClient: ClientRuntime.Client {
     public static let clientName = "MediaStoreDataClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaStoreDataClient.MediaStoreDataClientConfiguration
     let serviceName = "MediaStore Data"
@@ -375,9 +374,9 @@ extension MediaStoreDataClient {
     ///
     /// Deletes an object at the specified path.
     ///
-    /// - Parameter DeleteObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectInput`)
     ///
-    /// - Returns: `DeleteObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,7 +409,6 @@ extension MediaStoreDataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteObjectInput, DeleteObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(DeleteObjectOutput.httpOutput(from:), DeleteObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectInput, DeleteObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObjectOutput>())
@@ -442,9 +440,9 @@ extension MediaStoreDataClient {
     ///
     /// Gets the headers for an object at the specified path.
     ///
-    /// - Parameter DescribeObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeObjectInput`)
     ///
-    /// - Returns: `DescribeObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -477,7 +475,6 @@ extension MediaStoreDataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeObjectInput, DescribeObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeObjectOutput>(DescribeObjectOutput.httpOutput(from:), DescribeObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeObjectInput, DescribeObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeObjectOutput>())
@@ -509,9 +506,9 @@ extension MediaStoreDataClient {
     ///
     /// Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     ///
-    /// - Parameter GetObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectInput`)
     ///
-    /// - Returns: `GetObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,7 +543,6 @@ extension MediaStoreDataClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
@@ -578,9 +574,9 @@ extension MediaStoreDataClient {
     ///
     /// Provides a list of metadata entries about folders and objects in the specified folder.
     ///
-    /// - Parameter ListItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListItemsInput`)
     ///
-    /// - Returns: `ListItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,7 +609,6 @@ extension MediaStoreDataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListItemsInput, ListItemsOutput>(ListItemsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListItemsOutput>(ListItemsOutput.httpOutput(from:), ListItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListItemsInput, ListItemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListItemsOutput>())
@@ -645,9 +640,9 @@ extension MediaStoreDataClient {
     ///
     /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     ///
-    /// - Parameter PutObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectInput`)
     ///
-    /// - Returns: `PutObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,7 +678,6 @@ extension MediaStoreDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectInput, PutObjectOutput>(requiresLength: false, unsignedPayload: true))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())

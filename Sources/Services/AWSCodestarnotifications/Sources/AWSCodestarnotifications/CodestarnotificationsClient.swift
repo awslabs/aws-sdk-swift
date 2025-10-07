@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodestarnotificationsClient: ClientRuntime.Client {
     public static let clientName = "CodestarnotificationsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CodestarnotificationsClient.CodestarnotificationsClientConfiguration
     let serviceName = "codestar notifications"
@@ -375,9 +374,9 @@ extension CodestarnotificationsClient {
     ///
     /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive them.
     ///
-    /// - Parameter CreateNotificationRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotificationRuleInput`)
     ///
-    /// - Returns: `CreateNotificationRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotificationRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,7 +416,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotificationRuleOutput>(CreateNotificationRuleOutput.httpOutput(from:), CreateNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotificationRuleOutput>())
@@ -449,9 +447,9 @@ extension CodestarnotificationsClient {
     ///
     /// Deletes a notification rule for a resource.
     ///
-    /// - Parameter DeleteNotificationRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationRuleInput`)
     ///
-    /// - Returns: `DeleteNotificationRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotificationRuleOutput>(DeleteNotificationRuleOutput.httpOutput(from:), DeleteNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotificationRuleOutput>())
@@ -519,9 +516,9 @@ extension CodestarnotificationsClient {
     ///
     /// Deletes a specified target for notifications.
     ///
-    /// - Parameter DeleteTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTargetInput`)
     ///
-    /// - Returns: `DeleteTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,7 +552,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTargetInput, DeleteTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTargetOutput>(DeleteTargetOutput.httpOutput(from:), DeleteTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTargetInput, DeleteTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTargetOutput>())
@@ -587,9 +583,9 @@ extension CodestarnotificationsClient {
     ///
     /// Returns information about a specified notification rule.
     ///
-    /// - Parameter DescribeNotificationRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNotificationRuleInput`)
     ///
-    /// - Returns: `DescribeNotificationRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNotificationRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,7 +620,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotificationRuleOutput>(DescribeNotificationRuleOutput.httpOutput(from:), DescribeNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNotificationRuleOutput>())
@@ -656,9 +651,9 @@ extension CodestarnotificationsClient {
     ///
     /// Returns information about the event types available for configuring notifications.
     ///
-    /// - Parameter ListEventTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventTypesInput`)
     ///
-    /// - Returns: `ListEventTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,7 +688,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventTypesInput, ListEventTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventTypesOutput>(ListEventTypesOutput.httpOutput(from:), ListEventTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventTypesInput, ListEventTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventTypesOutput>())
@@ -725,9 +719,9 @@ extension CodestarnotificationsClient {
     ///
     /// Returns a list of the notification rules for an Amazon Web Services account.
     ///
-    /// - Parameter ListNotificationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationRulesInput`)
     ///
-    /// - Returns: `ListNotificationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,7 +756,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotificationRulesOutput>(ListNotificationRulesOutput.httpOutput(from:), ListNotificationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotificationRulesOutput>())
@@ -794,9 +787,9 @@ extension CodestarnotificationsClient {
     ///
     /// Returns a list of the tags associated with a notification rule.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -831,7 +824,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -863,9 +855,9 @@ extension CodestarnotificationsClient {
     ///
     /// Returns a list of the notification rule targets for an Amazon Web Services account.
     ///
-    /// - Parameter ListTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetsInput`)
     ///
-    /// - Returns: `ListTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -900,7 +892,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTargetsInput, ListTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetsOutput>(ListTargetsOutput.httpOutput(from:), ListTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsInput, ListTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsOutput>())
@@ -932,9 +923,9 @@ extension CodestarnotificationsClient {
     ///
     /// Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the associated target can receive notifications when the events described in the rule are triggered.
     ///
-    /// - Parameter SubscribeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubscribeInput`)
     ///
-    /// - Returns: `SubscribeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubscribeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,7 +961,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubscribeInput, SubscribeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubscribeOutput>(SubscribeOutput.httpOutput(from:), SubscribeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubscribeInput, SubscribeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubscribeOutput>())
@@ -1002,9 +992,9 @@ extension CodestarnotificationsClient {
     ///
     /// Associates a set of provided tags with a notification rule.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,7 +1031,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1073,9 +1062,9 @@ extension CodestarnotificationsClient {
     ///
     /// Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
     ///
-    /// - Parameter UnsubscribeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnsubscribeInput`)
     ///
-    /// - Returns: `UnsubscribeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnsubscribeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,7 +1098,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnsubscribeInput, UnsubscribeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnsubscribeOutput>(UnsubscribeOutput.httpOutput(from:), UnsubscribeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnsubscribeInput, UnsubscribeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnsubscribeOutput>())
@@ -1141,9 +1129,9 @@ extension CodestarnotificationsClient {
     ///
     /// Removes the association between one or more provided tags and a notification rule.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,7 +1166,6 @@ extension CodestarnotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1210,9 +1197,9 @@ extension CodestarnotificationsClient {
     ///
     /// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. To add or remove tags for a notification rule, you must use [TagResource] and [UntagResource].
     ///
-    /// - Parameter UpdateNotificationRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotificationRuleInput`)
     ///
-    /// - Returns: `UpdateNotificationRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotificationRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,7 +1235,6 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotificationRuleOutput>(UpdateNotificationRuleOutput.httpOutput(from:), UpdateNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotificationRuleOutput>())

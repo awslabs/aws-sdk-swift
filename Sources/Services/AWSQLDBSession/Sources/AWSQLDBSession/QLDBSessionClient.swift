@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QLDBSessionClient: ClientRuntime.Client {
     public static let clientName = "QLDBSessionClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: QLDBSessionClient.QLDBSessionClientConfiguration
     let serviceName = "QLDB Session"
@@ -377,9 +376,9 @@ extension QLDBSessionClient {
     ///
     /// * If you are working with the AWS Command Line Interface (AWS CLI), use the QLDB shell. The shell is a command line interface that uses the QLDB driver to interact with a ledger. For information, see [Accessing Amazon QLDB using the QLDB shell](https://docs.aws.amazon.com/qldb/latest/developerguide/data-shell.html).
     ///
-    /// - Parameter SendCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendCommandInput`)
     ///
-    /// - Returns: `SendCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension QLDBSessionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendCommandInput, SendCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendCommandOutput>(SendCommandOutput.httpOutput(from:), SendCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendCommandInput, SendCommandOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendCommandOutput>())

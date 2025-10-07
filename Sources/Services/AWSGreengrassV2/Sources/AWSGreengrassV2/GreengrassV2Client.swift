@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GreengrassV2Client: ClientRuntime.Client {
     public static let clientName = "GreengrassV2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: GreengrassV2Client.GreengrassV2ClientConfiguration
     let serviceName = "GreengrassV2"
@@ -376,9 +375,9 @@ extension GreengrassV2Client {
     ///
     /// Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of client devices and manage core device connectivity information. The role must include the [AWSGreengrassResourceAccessRolePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:awsiam::aws:policy/service-role/AWSGreengrassResourceAccessRolePolicy) managed policy or a custom policy that defines equivalent permissions for the IoT Greengrass features that you use. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
-    /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateServiceRoleToAccountInput`)
     ///
-    /// - Returns: `AssociateServiceRoleToAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateServiceRoleToAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateServiceRoleToAccountOutput>(AssociateServiceRoleToAccountOutput.httpOutput(from:), AssociateServiceRoleToAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateServiceRoleToAccountOutput>())
@@ -445,9 +443,9 @@ extension GreengrassV2Client {
     ///
     /// Associates a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to IoT Greengrass to retrieve associated core devices' connectivity information and certificates. For more information, see [Configure cloud discovery](https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-cloud-discovery.html) in the IoT Greengrass V2 Developer Guide. Client devices are local IoT devices that connect to and communicate with an IoT Greengrass core device over MQTT. You can connect client devices to a core device to sync MQTT messages and data to Amazon Web Services IoT Core and interact with client devices in Greengrass components. For more information, see [Interact with local IoT devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/interact-with-local-iot-devices.html) in the IoT Greengrass V2 Developer Guide.
     ///
-    /// - Parameter BatchAssociateClientDeviceWithCoreDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateClientDeviceWithCoreDeviceInput`)
     ///
-    /// - Returns: `BatchAssociateClientDeviceWithCoreDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateClientDeviceWithCoreDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateClientDeviceWithCoreDeviceInput, BatchAssociateClientDeviceWithCoreDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAssociateClientDeviceWithCoreDeviceOutput>(BatchAssociateClientDeviceWithCoreDeviceOutput.httpOutput(from:), BatchAssociateClientDeviceWithCoreDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateClientDeviceWithCoreDeviceInput, BatchAssociateClientDeviceWithCoreDeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateClientDeviceWithCoreDeviceOutput>())
@@ -517,9 +514,9 @@ extension GreengrassV2Client {
     ///
     /// Disassociates a list of client devices from a core device. After you disassociate a client device from a core device, the client device won't be able to use cloud discovery to retrieve the core device's connectivity information and certificates.
     ///
-    /// - Parameter BatchDisassociateClientDeviceFromCoreDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateClientDeviceFromCoreDeviceInput`)
     ///
-    /// - Returns: `BatchDisassociateClientDeviceFromCoreDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateClientDeviceFromCoreDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,7 +554,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateClientDeviceFromCoreDeviceInput, BatchDisassociateClientDeviceFromCoreDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateClientDeviceFromCoreDeviceOutput>(BatchDisassociateClientDeviceFromCoreDeviceOutput.httpOutput(from:), BatchDisassociateClientDeviceFromCoreDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateClientDeviceFromCoreDeviceInput, BatchDisassociateClientDeviceFromCoreDeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateClientDeviceFromCoreDeviceOutput>())
@@ -589,9 +585,9 @@ extension GreengrassV2Client {
     ///
     /// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deployment, this operation doesn't change anything for that device.
     ///
-    /// - Parameter CancelDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelDeploymentInput`)
     ///
-    /// - Returns: `CancelDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,7 +623,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelDeploymentInput, CancelDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDeploymentOutput>(CancelDeploymentOutput.httpOutput(from:), CancelDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDeploymentInput, CancelDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDeploymentOutput>())
@@ -663,9 +658,9 @@ extension GreengrassV2Client {
     ///
     /// * Create components from Lambda functions Create a component from an Lambda function that runs on IoT Greengrass. This creates a recipe and artifacts from the Lambda function's deployment package. You can use this operation to migrate Lambda functions from IoT Greengrass V1 to IoT Greengrass V2. This function accepts Lambda functions in all supported versions of Python, Node.js, and Java runtimes. IoT Greengrass doesn't apply any additional restrictions on deprecated Lambda runtime versions. To create a component from a Lambda function, specify lambdaFunction when you call this operation. IoT Greengrass currently supports Lambda functions on only Linux core devices.
     ///
-    /// - Parameter CreateComponentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentVersionInput`)
     ///
-    /// - Returns: `CreateComponentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,7 +701,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComponentVersionInput, CreateComponentVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComponentVersionOutput>(CreateComponentVersionOutput.httpOutput(from:), CreateComponentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComponentVersionInput, CreateComponentVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComponentVersionOutput>())
@@ -738,9 +732,9 @@ extension GreengrassV2Client {
     ///
     /// Creates a continuous deployment for a target, which is a Greengrass core device or group of core devices. When you add a new core device to a group of core devices that has a deployment, IoT Greengrass deploys that group's deployment to the new device. You can define one deployment for each target. When you create a new deployment for a target that has an existing deployment, you replace the previous deployment. IoT Greengrass applies the new deployment to the target devices. Every deployment has a revision number that indicates how many deployment revisions you define for a target. Use this operation to create a new revision of an existing deployment. For more information, see the [Create deployments](https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html) in the IoT Greengrass V2 Developer Guide.
     ///
-    /// - Parameter CreateDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,7 +775,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput>(CreateDeploymentOutput.httpOutput(from:), CreateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentOutput>())
@@ -813,9 +806,9 @@ extension GreengrassV2Client {
     ///
     /// Deletes a version of a component from IoT Greengrass. This operation deletes the component's recipe and artifacts. As a result, deployments that refer to this component version will fail. If you have deployments that use this component version, you can remove the component from the deployment or update the deployment to use a valid version.
     ///
-    /// - Parameter DeleteComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
-    /// - Returns: `DeleteComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,7 +844,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteComponentInput, DeleteComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComponentOutput>(DeleteComponentOutput.httpOutput(from:), DeleteComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComponentInput, DeleteComponentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComponentOutput>())
@@ -883,9 +875,9 @@ extension GreengrassV2Client {
     ///
     /// Deletes a Greengrass core device, which is an IoT thing. This operation removes the core device from the list of core devices. This operation doesn't delete the IoT thing. For more information about how to delete the IoT thing, see [DeleteThing](https://docs.aws.amazon.com/iot/latest/apireference/API_DeleteThing.html) in the IoT API Reference.
     ///
-    /// - Parameter DeleteCoreDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoreDeviceInput`)
     ///
-    /// - Returns: `DeleteCoreDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCoreDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,7 +913,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCoreDeviceInput, DeleteCoreDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCoreDeviceOutput>(DeleteCoreDeviceOutput.httpOutput(from:), DeleteCoreDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCoreDeviceInput, DeleteCoreDeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCoreDeviceOutput>())
@@ -953,9 +944,9 @@ extension GreengrassV2Client {
     ///
     /// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see [CancelDeployment](https://docs.aws.amazon.com/iot/latest/apireference/API_CancelDeployment.html). Deleting a deployment doesn't affect core devices that run that deployment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deployment that has been deleted.
     ///
-    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,7 +982,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeploymentOutput>(DeleteDeploymentOutput.httpOutput(from:), DeleteDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentOutput>())
@@ -1023,9 +1013,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves metadata for a version of a component.
     ///
-    /// - Parameter DescribeComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeComponentInput`)
     ///
-    /// - Returns: `DescribeComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1060,7 +1050,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeComponentInput, DescribeComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComponentOutput>(DescribeComponentOutput.httpOutput(from:), DescribeComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComponentInput, DescribeComponentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComponentOutput>())
@@ -1092,9 +1081,9 @@ extension GreengrassV2Client {
     ///
     /// Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. Without a service role, IoT Greengrass can't verify the identity of client devices or manage core device connectivity information. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
-    /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateServiceRoleFromAccountInput`)
     ///
-    /// - Returns: `DisassociateServiceRoleFromAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateServiceRoleFromAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,7 +1114,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateServiceRoleFromAccountOutput>(DisassociateServiceRoleFromAccountOutput.httpOutput(from:), DisassociateServiceRoleFromAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateServiceRoleFromAccountOutput>())
@@ -1157,9 +1145,9 @@ extension GreengrassV2Client {
     ///
     /// Gets the recipe for a version of a component.
     ///
-    /// - Parameter GetComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
-    /// - Returns: `GetComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1195,7 +1183,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetComponentInput, GetComponentOutput>(GetComponentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComponentOutput>(GetComponentOutput.httpOutput(from:), GetComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComponentInput, GetComponentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComponentOutput>())
@@ -1227,9 +1214,9 @@ extension GreengrassV2Client {
     ///
     /// Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices call this operation to identify the URL that they can use to download an artifact to install.
     ///
-    /// - Parameter GetComponentVersionArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentVersionArtifactInput`)
     ///
-    /// - Returns: `GetComponentVersionArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentVersionArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,7 +1253,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutput>(GetComponentVersionArtifactInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComponentVersionArtifactOutput>(GetComponentVersionArtifactOutput.httpOutput(from:), GetComponentVersionArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComponentVersionArtifactOutput>())
@@ -1298,9 +1284,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html), IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
-    /// - Parameter GetConnectivityInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectivityInfoInput`)
     ///
-    /// - Returns: `GetConnectivityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectivityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,7 +1318,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectivityInfoOutput>(GetConnectivityInfoOutput.httpOutput(from:), GetConnectivityInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectivityInfoOutput>())
@@ -1374,9 +1359,9 @@ extension GreengrassV2Client {
     ///
     /// * For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and cloud deployment
     ///
-    /// - Parameter GetCoreDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreDeviceInput`)
     ///
-    /// - Returns: `GetCoreDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,7 +1396,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCoreDeviceInput, GetCoreDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreDeviceOutput>(GetCoreDeviceOutput.httpOutput(from:), GetCoreDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreDeviceInput, GetCoreDeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreDeviceOutput>())
@@ -1443,9 +1427,9 @@ extension GreengrassV2Client {
     ///
     /// Gets a deployment. Deployments define the components that run on Greengrass core devices.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,7 +1464,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentOutput>(GetDeploymentOutput.httpOutput(from:), GetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentOutput>())
@@ -1512,9 +1495,9 @@ extension GreengrassV2Client {
     ///
     /// Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of client devices and manage core device connectivity information. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
-    /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceRoleForAccountInput`)
     ///
-    /// - Returns: `GetServiceRoleForAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceRoleForAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,7 +1528,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceRoleForAccountOutput>(GetServiceRoleForAccountOutput.httpOutput(from:), GetServiceRoleForAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceRoleForAccountOutput>())
@@ -1577,9 +1559,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves a paginated list of client devices that are associated with a core device.
     ///
-    /// - Parameter ListClientDevicesAssociatedWithCoreDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClientDevicesAssociatedWithCoreDeviceInput`)
     ///
-    /// - Returns: `ListClientDevicesAssociatedWithCoreDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClientDevicesAssociatedWithCoreDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1615,7 +1597,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutput>(ListClientDevicesAssociatedWithCoreDeviceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClientDevicesAssociatedWithCoreDeviceOutput>(ListClientDevicesAssociatedWithCoreDeviceOutput.httpOutput(from:), ListClientDevicesAssociatedWithCoreDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClientDevicesAssociatedWithCoreDeviceOutput>())
@@ -1647,9 +1628,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves a paginated list of all versions for a component. Greater versions are listed first.
     ///
-    /// - Parameter ListComponentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentVersionsInput`)
     ///
-    /// - Returns: `ListComponentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,7 +1666,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListComponentVersionsInput, ListComponentVersionsOutput>(ListComponentVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentVersionsOutput>(ListComponentVersionsOutput.httpOutput(from:), ListComponentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentVersionsInput, ListComponentVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentVersionsOutput>())
@@ -1717,9 +1697,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves a paginated list of component summaries. This list includes components that you have permission to view.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1755,7 +1735,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListComponentsInput, ListComponentsOutput>(ListComponentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentsOutput>(ListComponentsOutput.httpOutput(from:), ListComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentsInput, ListComponentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentsOutput>())
@@ -1799,9 +1778,9 @@ extension GreengrassV2Client {
     ///
     /// * For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and cloud deployment
     ///
-    /// - Parameter ListCoreDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoreDevicesInput`)
     ///
-    /// - Returns: `ListCoreDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoreDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,7 +1815,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCoreDevicesInput, ListCoreDevicesOutput>(ListCoreDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoreDevicesOutput>(ListCoreDevicesOutput.httpOutput(from:), ListCoreDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoreDevicesInput, ListCoreDevicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoreDevicesOutput>())
@@ -1868,9 +1846,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves a paginated list of deployments.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1905,7 +1883,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(ListDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput>(ListDeploymentsOutput.httpOutput(from:), ListDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentsOutput>())
@@ -1937,9 +1914,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
     ///
-    /// - Parameter ListEffectiveDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEffectiveDeploymentsInput`)
     ///
-    /// - Returns: `ListEffectiveDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEffectiveDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1975,7 +1952,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutput>(ListEffectiveDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEffectiveDeploymentsOutput>(ListEffectiveDeploymentsOutput.httpOutput(from:), ListEffectiveDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEffectiveDeploymentsOutput>())
@@ -2017,9 +1993,9 @@ extension GreengrassV2Client {
     ///
     /// * For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and cloud deployment
     ///
-    /// - Parameter ListInstalledComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstalledComponentsInput`)
     ///
-    /// - Returns: `ListInstalledComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstalledComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,7 +2031,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInstalledComponentsInput, ListInstalledComponentsOutput>(ListInstalledComponentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstalledComponentsOutput>(ListInstalledComponentsOutput.httpOutput(from:), ListInstalledComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstalledComponentsInput, ListInstalledComponentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstalledComponentsOutput>())
@@ -2087,9 +2062,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves the list of tags for an IoT Greengrass resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2122,7 +2097,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2154,9 +2128,9 @@ extension GreengrassV2Client {
     ///
     /// Retrieves a list of components that meet the component, version, and platform requirements of a deployment. Greengrass core devices call this operation when they receive a deployment to identify the components to install. This operation identifies components that meet all dependency requirements for a deployment. If the requirements conflict, then this operation returns an error and the deployment fails. For example, this occurs if component A requires version >2.0.0 and component B requires version <2.0.0 of a component dependency. When you specify the component candidates to resolve, IoT Greengrass compares each component's digest from the core device with the component's digest in the Amazon Web Services Cloud. If the digests don't match, then IoT Greengrass specifies to use the version from the Amazon Web Services Cloud. To use this operation, you must use the data plane API endpoint and authenticate with an IoT device certificate. For more information, see [IoT Greengrass endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/greengrass.html).
     ///
-    /// - Parameter ResolveComponentCandidatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResolveComponentCandidatesInput`)
     ///
-    /// - Returns: `ResolveComponentCandidatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResolveComponentCandidatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2195,7 +2169,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveComponentCandidatesInput, ResolveComponentCandidatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResolveComponentCandidatesOutput>(ResolveComponentCandidatesOutput.httpOutput(from:), ResolveComponentCandidatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResolveComponentCandidatesInput, ResolveComponentCandidatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResolveComponentCandidatesOutput>())
@@ -2227,9 +2200,9 @@ extension GreengrassV2Client {
     ///
     /// Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation updates the tag's value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2265,7 +2238,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2297,9 +2269,9 @@ extension GreengrassV2Client {
     ///
     /// Removes a tag from an IoT Greengrass resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2333,7 +2305,6 @@ extension GreengrassV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2365,9 +2336,9 @@ extension GreengrassV2Client {
     ///
     /// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html), IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
-    /// - Parameter UpdateConnectivityInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectivityInfoInput`)
     ///
-    /// - Returns: `UpdateConnectivityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectivityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,7 +2373,6 @@ extension GreengrassV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectivityInfoOutput>(UpdateConnectivityInfoOutput.httpOutput(from:), UpdateConnectivityInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectivityInfoOutput>())

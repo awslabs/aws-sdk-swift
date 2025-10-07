@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceEntitlementClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceEntitlementClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceEntitlementClient.MarketplaceEntitlementClientConfiguration
     let serviceName = "Marketplace Entitlement"
@@ -373,9 +372,9 @@ extension MarketplaceEntitlementClient {
     ///
     /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, or product dimensions. The CustomerIdentifier parameter is on path for deprecation. Use CustomerAWSAccountID instead. These parameters are mutually exclusive. You can't specify both CustomerIdentifier and CustomerAWSAccountID in the same request.
     ///
-    /// - Parameter GetEntitlementsInput : The GetEntitlementsRequest contains parameters for the GetEntitlements operation.
+    /// - Parameter input: The GetEntitlementsRequest contains parameters for the GetEntitlements operation. (Type: `GetEntitlementsInput`)
     ///
-    /// - Returns: `GetEntitlementsOutput` : The GetEntitlementsRequest contains results from the GetEntitlements operation.
+    /// - Returns: The GetEntitlementsRequest contains results from the GetEntitlements operation. (Type: `GetEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension MarketplaceEntitlementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEntitlementsOutput>(GetEntitlementsOutput.httpOutput(from:), GetEntitlementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEntitlementsOutput>())

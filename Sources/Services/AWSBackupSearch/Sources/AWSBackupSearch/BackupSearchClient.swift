@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupSearchClient: ClientRuntime.Client {
     public static let clientName = "BackupSearchClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupSearchClient.BackupSearchClientConfiguration
     let serviceName = "BackupSearch"
@@ -374,9 +373,9 @@ extension BackupSearchClient {
     ///
     /// This operation retrieves metadata of a search job, including its progress.
     ///
-    /// - Parameter GetSearchJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSearchJobInput`)
     ///
-    /// - Returns: `GetSearchJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSearchJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension BackupSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSearchJobInput, GetSearchJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSearchJobOutput>(GetSearchJobOutput.httpOutput(from:), GetSearchJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSearchJobInput, GetSearchJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSearchJobOutput>())
@@ -443,9 +441,9 @@ extension BackupSearchClient {
     ///
     /// This operation retrieves the metadata of an export job. An export job is an operation that transmits the results of a search job to a specified S3 bucket in a .csv file. An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days.
     ///
-    /// - Parameter GetSearchResultExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSearchResultExportJobInput`)
     ///
-    /// - Returns: `GetSearchResultExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSearchResultExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension BackupSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSearchResultExportJobInput, GetSearchResultExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSearchResultExportJobOutput>(GetSearchResultExportJobOutput.httpOutput(from:), GetSearchResultExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSearchResultExportJobInput, GetSearchResultExportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSearchResultExportJobOutput>())
@@ -512,9 +509,9 @@ extension BackupSearchClient {
     ///
     /// This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job. If a search does not display an expected backup in the results, you can call this operation to display each backup included in the search. Any backups that were not included because they have a FAILED status from a permissions issue will be displayed, along with a status message. Only recovery points with a backup index that has a status of ACTIVE will be included in search results. If the index has any other status, its status will be displayed along with a status message.
     ///
-    /// - Parameter ListSearchJobBackupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSearchJobBackupsInput`)
     ///
-    /// - Returns: `ListSearchJobBackupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSearchJobBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,7 +547,6 @@ extension BackupSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSearchJobBackupsInput, ListSearchJobBackupsOutput>(ListSearchJobBackupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSearchJobBackupsOutput>(ListSearchJobBackupsOutput.httpOutput(from:), ListSearchJobBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSearchJobBackupsInput, ListSearchJobBackupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSearchJobBackupsOutput>())
@@ -582,9 +578,9 @@ extension BackupSearchClient {
     ///
     /// This operation returns a list of a specified search job.
     ///
-    /// - Parameter ListSearchJobResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSearchJobResultsInput`)
     ///
-    /// - Returns: `ListSearchJobResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSearchJobResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,7 +616,6 @@ extension BackupSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSearchJobResultsInput, ListSearchJobResultsOutput>(ListSearchJobResultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSearchJobResultsOutput>(ListSearchJobResultsOutput.httpOutput(from:), ListSearchJobResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSearchJobResultsInput, ListSearchJobResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSearchJobResultsOutput>())
@@ -652,9 +647,9 @@ extension BackupSearchClient {
     ///
     /// This operation returns a list of search jobs belonging to an account.
     ///
-    /// - Parameter ListSearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSearchJobsInput`)
     ///
-    /// - Returns: `ListSearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -689,7 +684,6 @@ extension BackupSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSearchJobsInput, ListSearchJobsOutput>(ListSearchJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSearchJobsOutput>(ListSearchJobsOutput.httpOutput(from:), ListSearchJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSearchJobsInput, ListSearchJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSearchJobsOutput>())
@@ -721,9 +715,9 @@ extension BackupSearchClient {
     ///
     /// This operation exports search results of a search job to a specified destination S3 bucket.
     ///
-    /// - Parameter ListSearchResultExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSearchResultExportJobsInput`)
     ///
-    /// - Returns: `ListSearchResultExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSearchResultExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -760,7 +754,6 @@ extension BackupSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSearchResultExportJobsInput, ListSearchResultExportJobsOutput>(ListSearchResultExportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSearchResultExportJobsOutput>(ListSearchResultExportJobsOutput.httpOutput(from:), ListSearchResultExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSearchResultExportJobsInput, ListSearchResultExportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSearchResultExportJobsOutput>())
@@ -792,9 +785,9 @@ extension BackupSearchClient {
     ///
     /// This operation returns the tags for a resource type.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -829,7 +822,6 @@ extension BackupSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -861,9 +853,9 @@ extension BackupSearchClient {
     ///
     /// This operation creates a search job which returns recovery points filtered by SearchScope and items filtered by ItemFilters. You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags.
     ///
-    /// - Parameter StartSearchJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSearchJobInput`)
     ///
-    /// - Returns: `StartSearchJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSearchJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -903,7 +895,6 @@ extension BackupSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSearchJobInput, StartSearchJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSearchJobOutput>(StartSearchJobOutput.httpOutput(from:), StartSearchJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSearchJobInput, StartSearchJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSearchJobOutput>())
@@ -935,9 +926,9 @@ extension BackupSearchClient {
     ///
     /// This operations starts a job to export the results of search job to a designated S3 bucket.
     ///
-    /// - Parameter StartSearchResultExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSearchResultExportJobInput`)
     ///
-    /// - Returns: `StartSearchResultExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSearchResultExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,7 +968,6 @@ extension BackupSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSearchResultExportJobInput, StartSearchResultExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSearchResultExportJobOutput>(StartSearchResultExportJobOutput.httpOutput(from:), StartSearchResultExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSearchResultExportJobInput, StartSearchResultExportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSearchResultExportJobOutput>())
@@ -1009,9 +999,9 @@ extension BackupSearchClient {
     ///
     /// This operations ends a search job. Only a search job with a status of RUNNING can be stopped.
     ///
-    /// - Parameter StopSearchJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSearchJobInput`)
     ///
-    /// - Returns: `StopSearchJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSearchJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,7 +1037,6 @@ extension BackupSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopSearchJobInput, StopSearchJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSearchJobOutput>(StopSearchJobOutput.httpOutput(from:), StopSearchJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSearchJobInput, StopSearchJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSearchJobOutput>())
@@ -1079,9 +1068,9 @@ extension BackupSearchClient {
     ///
     /// This operation puts tags on the resource you indicate.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1119,7 +1108,6 @@ extension BackupSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1151,9 +1139,9 @@ extension BackupSearchClient {
     ///
     /// This operation removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,7 +1177,6 @@ extension BackupSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

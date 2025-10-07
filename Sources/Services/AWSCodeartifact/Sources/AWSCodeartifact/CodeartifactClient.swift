@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -72,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeartifactClient: ClientRuntime.Client {
     public static let clientName = "CodeartifactClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeartifactClient.CodeartifactClientConfiguration
     let serviceName = "codeartifact"
@@ -378,9 +377,9 @@ extension CodeartifactClient {
     ///
     /// Adds an existing external connection to a repository. One external connection is allowed per repository. A repository can have one or more upstream repositories, or an external connection.
     ///
-    /// - Parameter AssociateExternalConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateExternalConnectionInput`)
     ///
-    /// - Returns: `AssociateExternalConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateExternalConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,7 +417,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateExternalConnectionInput, AssociateExternalConnectionOutput>(AssociateExternalConnectionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateExternalConnectionOutput>(AssociateExternalConnectionOutput.httpOutput(from:), AssociateExternalConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateExternalConnectionInput, AssociateExternalConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateExternalConnectionOutput>())
@@ -450,9 +448,9 @@ extension CodeartifactClient {
     ///
     /// Copies package versions from one repository to another repository in the same domain. You must specify versions or versionRevisions. You cannot specify both.
     ///
-    /// - Parameter CopyPackageVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyPackageVersionsInput`)
     ///
-    /// - Returns: `CopyPackageVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyPackageVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,7 +491,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyPackageVersionsInput, CopyPackageVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyPackageVersionsOutput>(CopyPackageVersionsOutput.httpOutput(from:), CopyPackageVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyPackageVersionsInput, CopyPackageVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyPackageVersionsOutput>())
@@ -525,9 +522,9 @@ extension CodeartifactClient {
     ///
     /// Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories. Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration.
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -568,7 +565,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -600,9 +596,9 @@ extension CodeartifactClient {
     ///
     /// Creates a package group. For more information about creating package groups, including example CLI commands, see [Create a package group](https://docs.aws.amazon.com/codeartifact/latest/ug/create-package-group.html) in the CodeArtifact User Guide.
     ///
-    /// - Parameter CreatePackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePackageGroupInput`)
     ///
-    /// - Returns: `CreatePackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,7 +639,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackageGroupInput, CreatePackageGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackageGroupOutput>(CreatePackageGroupOutput.httpOutput(from:), CreatePackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackageGroupInput, CreatePackageGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackageGroupOutput>())
@@ -675,9 +670,9 @@ extension CodeartifactClient {
     ///
     /// Creates a repository.
     ///
-    /// - Parameter CreateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRepositoryInput`)
     ///
-    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,7 +713,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryOutput>(CreateRepositoryOutput.httpOutput(from:), CreateRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRepositoryOutput>())
@@ -750,9 +744,9 @@ extension CodeartifactClient {
     ///
     /// Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain with repositories, first delete its repositories.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,7 +782,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDomainInput, DeleteDomainOutput>(DeleteDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -820,9 +813,9 @@ extension CodeartifactClient {
     ///
     /// Deletes the resource policy set on a domain.
     ///
-    /// - Parameter DeleteDomainPermissionsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainPermissionsPolicyInput`)
     ///
-    /// - Returns: `DeleteDomainPermissionsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainPermissionsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,7 +852,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDomainPermissionsPolicyInput, DeleteDomainPermissionsPolicyOutput>(DeleteDomainPermissionsPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainPermissionsPolicyOutput>(DeleteDomainPermissionsPolicyOutput.httpOutput(from:), DeleteDomainPermissionsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainPermissionsPolicyInput, DeleteDomainPermissionsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainPermissionsPolicyOutput>())
@@ -891,9 +883,9 @@ extension CodeartifactClient {
     ///
     /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html) API.
     ///
-    /// - Parameter DeletePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackageInput`)
     ///
-    /// - Returns: `DeletePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,7 +922,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePackageInput, DeletePackageOutput>(DeletePackageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageOutput>(DeletePackageOutput.httpOutput(from:), DeletePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageInput, DeletePackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageOutput>())
@@ -962,9 +953,9 @@ extension CodeartifactClient {
     ///
     /// Deletes a package group. Deleting a package group does not delete packages or package versions associated with the package group. When a package group is deleted, the direct child package groups will become children of the package group's direct parent package group. Therefore, if any of the child groups are inheriting any settings from the parent, those settings could change.
     ///
-    /// - Parameter DeletePackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackageGroupInput`)
     ///
-    /// - Returns: `DeletePackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,7 +993,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePackageGroupInput, DeletePackageGroupOutput>(DeletePackageGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageGroupOutput>(DeletePackageGroupOutput.httpOutput(from:), DeletePackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageGroupInput, DeletePackageGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageGroupOutput>())
@@ -1034,9 +1024,9 @@ extension CodeartifactClient {
     ///
     /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
     ///
-    /// - Parameter DeletePackageVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackageVersionsInput`)
     ///
-    /// - Returns: `DeletePackageVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackageVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,7 +1066,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePackageVersionsInput, DeletePackageVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageVersionsOutput>(DeletePackageVersionsOutput.httpOutput(from:), DeletePackageVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageVersionsInput, DeletePackageVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageVersionsOutput>())
@@ -1108,9 +1097,9 @@ extension CodeartifactClient {
     ///
     /// Deletes a repository.
     ///
-    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryInput`)
     ///
-    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,7 +1136,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(DeleteRepositoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutput>(DeleteRepositoryOutput.httpOutput(from:), DeleteRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryOutput>())
@@ -1179,9 +1167,9 @@ extension CodeartifactClient {
     ///
     /// Deletes the resource policy that is set on a repository. After a resource policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate. Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform the repository actions granted by the deleted policy.
     ///
-    /// - Parameter DeleteRepositoryPermissionsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryPermissionsPolicyInput`)
     ///
-    /// - Returns: `DeleteRepositoryPermissionsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryPermissionsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,7 +1206,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRepositoryPermissionsPolicyInput, DeleteRepositoryPermissionsPolicyOutput>(DeleteRepositoryPermissionsPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryPermissionsPolicyOutput>(DeleteRepositoryPermissionsPolicyOutput.httpOutput(from:), DeleteRepositoryPermissionsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryPermissionsPolicyInput, DeleteRepositoryPermissionsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryPermissionsPolicyOutput>())
@@ -1250,9 +1237,9 @@ extension CodeartifactClient {
     ///
     /// Returns a [DomainDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainDescription.html) object that contains information about the requested domain.
     ///
-    /// - Parameter DescribeDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainInput`)
     ///
-    /// - Returns: `DescribeDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,7 +1275,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDomainInput, DescribeDomainOutput>(DescribeDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainOutput>(DescribeDomainOutput.httpOutput(from:), DescribeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainInput, DescribeDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainOutput>())
@@ -1320,9 +1306,9 @@ extension CodeartifactClient {
     ///
     /// Returns a [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html) object that contains information about the requested package.
     ///
-    /// - Parameter DescribePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageInput`)
     ///
-    /// - Returns: `DescribePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1358,7 +1344,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribePackageInput, DescribePackageOutput>(DescribePackageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackageOutput>(DescribePackageOutput.httpOutput(from:), DescribePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackageInput, DescribePackageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackageOutput>())
@@ -1390,9 +1375,9 @@ extension CodeartifactClient {
     ///
     /// Returns a [PackageGroupDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageGroupDescription.html) object that contains information about the requested package group.
     ///
-    /// - Parameter DescribePackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageGroupInput`)
     ///
-    /// - Returns: `DescribePackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1428,7 +1413,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribePackageGroupInput, DescribePackageGroupOutput>(DescribePackageGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackageGroupOutput>(DescribePackageGroupOutput.httpOutput(from:), DescribePackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackageGroupInput, DescribePackageGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackageGroupOutput>())
@@ -1460,9 +1444,9 @@ extension CodeartifactClient {
     ///
     /// Returns a [PackageVersionDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) object that contains information about the requested package version.
     ///
-    /// - Parameter DescribePackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageVersionInput`)
     ///
-    /// - Returns: `DescribePackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1499,7 +1483,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribePackageVersionInput, DescribePackageVersionOutput>(DescribePackageVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackageVersionOutput>(DescribePackageVersionOutput.httpOutput(from:), DescribePackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackageVersionInput, DescribePackageVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackageVersionOutput>())
@@ -1531,9 +1514,9 @@ extension CodeartifactClient {
     ///
     /// Returns a RepositoryDescription object that contains detailed information about the requested repository.
     ///
-    /// - Parameter DescribeRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRepositoryInput`)
     ///
-    /// - Returns: `DescribeRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,7 +1552,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeRepositoryInput, DescribeRepositoryOutput>(DescribeRepositoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRepositoryOutput>(DescribeRepositoryOutput.httpOutput(from:), DescribeRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRepositoryInput, DescribeRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRepositoryOutput>())
@@ -1601,9 +1583,9 @@ extension CodeartifactClient {
     ///
     /// Removes an existing external connection from a repository.
     ///
-    /// - Parameter DisassociateExternalConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateExternalConnectionInput`)
     ///
-    /// - Returns: `DisassociateExternalConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateExternalConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1641,7 +1623,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateExternalConnectionInput, DisassociateExternalConnectionOutput>(DisassociateExternalConnectionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateExternalConnectionOutput>(DisassociateExternalConnectionOutput.httpOutput(from:), DisassociateExternalConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateExternalConnectionInput, DisassociateExternalConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateExternalConnectionOutput>())
@@ -1673,9 +1654,9 @@ extension CodeartifactClient {
     ///
     /// Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted. To view all disposed package versions in a repository, use [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html) and set the [status](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html#API_ListPackageVersions_RequestSyntax) parameter to Disposed. To view information about a disposed package version, use [DescribePackageVersion](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DescribePackageVersion.html).
     ///
-    /// - Parameter DisposePackageVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisposePackageVersionsInput`)
     ///
-    /// - Returns: `DisposePackageVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisposePackageVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1715,7 +1696,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisposePackageVersionsInput, DisposePackageVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisposePackageVersionsOutput>(DisposePackageVersionsOutput.httpOutput(from:), DisposePackageVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisposePackageVersionsInput, DisposePackageVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisposePackageVersionsOutput>())
@@ -1747,9 +1727,9 @@ extension CodeartifactClient {
     ///
     /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repository in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
     ///
-    /// - Parameter GetAssociatedPackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociatedPackageGroupInput`)
     ///
-    /// - Returns: `GetAssociatedPackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociatedPackageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1784,7 +1764,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAssociatedPackageGroupInput, GetAssociatedPackageGroupOutput>(GetAssociatedPackageGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssociatedPackageGroupOutput>(GetAssociatedPackageGroupOutput.httpOutput(from:), GetAssociatedPackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssociatedPackageGroupInput, GetAssociatedPackageGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssociatedPackageGroupOutput>())
@@ -1816,9 +1795,9 @@ extension CodeartifactClient {
     ///
     /// Generates a temporary authorization token for accessing repositories in the domain. This API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken permissions. For more information about authorization tokens, see [CodeArtifact authentication and tokens](https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html). CodeArtifact authorization tokens are valid for a period of 12 hours when created with the login command. You can call login periodically to refresh the token. When you create an authorization token with the GetAuthorizationToken API, you can set a custom authorization period, up to a maximum of 12 hours, with the durationSeconds parameter. The authorization period begins after login or GetAuthorizationToken is called. If login or GetAuthorizationToken is called while assuming a role, the token lifetime is independent of the maximum session duration of the role. For example, if you call sts assume-role and specify a session duration of 15 minutes, then generate a CodeArtifact authorization token, the token will be valid for the full authorization period even though this is longer than the 15-minute session duration. See [Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) for more information on controlling session duration.
     ///
-    /// - Parameter GetAuthorizationTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthorizationTokenInput`)
     ///
-    /// - Returns: `GetAuthorizationTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthorizationTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1854,7 +1833,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(GetAuthorizationTokenInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthorizationTokenOutput>(GetAuthorizationTokenOutput.httpOutput(from:), GetAuthorizationTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthorizationTokenOutput>())
@@ -1886,9 +1864,9 @@ extension CodeartifactClient {
     ///
     /// Returns the resource policy attached to the specified domain. The policy is a resource-based policy, not an identity-based policy. For more information, see [Identity-based policies and resource-based policies ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the IAM User Guide.
     ///
-    /// - Parameter GetDomainPermissionsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainPermissionsPolicyInput`)
     ///
-    /// - Returns: `GetDomainPermissionsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainPermissionsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1924,7 +1902,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDomainPermissionsPolicyInput, GetDomainPermissionsPolicyOutput>(GetDomainPermissionsPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainPermissionsPolicyOutput>(GetDomainPermissionsPolicyOutput.httpOutput(from:), GetDomainPermissionsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainPermissionsPolicyInput, GetDomainPermissionsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainPermissionsPolicyOutput>())
@@ -1956,9 +1933,9 @@ extension CodeartifactClient {
     ///
     /// Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version.
     ///
-    /// - Parameter GetPackageVersionAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPackageVersionAssetInput`)
     ///
-    /// - Returns: `GetPackageVersionAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPackageVersionAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1995,7 +1972,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPackageVersionAssetInput, GetPackageVersionAssetOutput>(GetPackageVersionAssetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPackageVersionAssetOutput>(GetPackageVersionAssetOutput.httpOutput(from:), GetPackageVersionAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPackageVersionAssetInput, GetPackageVersionAssetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPackageVersionAssetOutput>())
@@ -2027,9 +2003,9 @@ extension CodeartifactClient {
     ///
     /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
     ///
-    /// - Parameter GetPackageVersionReadmeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPackageVersionReadmeInput`)
     ///
-    /// - Returns: `GetPackageVersionReadmeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPackageVersionReadmeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2065,7 +2041,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPackageVersionReadmeInput, GetPackageVersionReadmeOutput>(GetPackageVersionReadmeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPackageVersionReadmeOutput>(GetPackageVersionReadmeOutput.httpOutput(from:), GetPackageVersionReadmeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPackageVersionReadmeInput, GetPackageVersionReadmeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPackageVersionReadmeOutput>())
@@ -2113,9 +2088,9 @@ extension CodeartifactClient {
     ///
     /// * swift
     ///
-    /// - Parameter GetRepositoryEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryEndpointInput`)
     ///
-    /// - Returns: `GetRepositoryEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2151,7 +2126,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRepositoryEndpointInput, GetRepositoryEndpointOutput>(GetRepositoryEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositoryEndpointOutput>(GetRepositoryEndpointOutput.httpOutput(from:), GetRepositoryEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryEndpointInput, GetRepositoryEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositoryEndpointOutput>())
@@ -2183,9 +2157,9 @@ extension CodeartifactClient {
     ///
     /// Returns the resource policy that is set on a repository.
     ///
-    /// - Parameter GetRepositoryPermissionsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryPermissionsPolicyInput`)
     ///
-    /// - Returns: `GetRepositoryPermissionsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryPermissionsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2221,7 +2195,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRepositoryPermissionsPolicyInput, GetRepositoryPermissionsPolicyOutput>(GetRepositoryPermissionsPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositoryPermissionsPolicyOutput>(GetRepositoryPermissionsPolicyOutput.httpOutput(from:), GetRepositoryPermissionsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryPermissionsPolicyInput, GetRepositoryPermissionsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositoryPermissionsPolicyOutput>())
@@ -2253,9 +2226,9 @@ extension CodeartifactClient {
     ///
     /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types and added repository lists, see [Package group origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-origin-controls.html) in the CodeArtifact User Guide.
     ///
-    /// - Parameter ListAllowedRepositoriesForGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAllowedRepositoriesForGroupInput`)
     ///
-    /// - Returns: `ListAllowedRepositoriesForGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAllowedRepositoriesForGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2292,7 +2265,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAllowedRepositoriesForGroupInput, ListAllowedRepositoriesForGroupOutput>(ListAllowedRepositoriesForGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAllowedRepositoriesForGroupOutput>(ListAllowedRepositoriesForGroupOutput.httpOutput(from:), ListAllowedRepositoriesForGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAllowedRepositoriesForGroupInput, ListAllowedRepositoriesForGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAllowedRepositoriesForGroupOutput>())
@@ -2324,9 +2296,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of packages associated with the requested package group. For information package group association and matching, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
     ///
-    /// - Parameter ListAssociatedPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedPackagesInput`)
     ///
-    /// - Returns: `ListAssociatedPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedPackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2361,7 +2333,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssociatedPackagesInput, ListAssociatedPackagesOutput>(ListAssociatedPackagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedPackagesOutput>(ListAssociatedPackagesOutput.httpOutput(from:), ListAssociatedPackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedPackagesInput, ListAssociatedPackagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedPackagesOutput>())
@@ -2393,9 +2364,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of [DomainSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2432,7 +2403,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -2464,9 +2434,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of package groups in the requested domain.
     ///
-    /// - Parameter ListPackageGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackageGroupsInput`)
     ///
-    /// - Returns: `ListPackageGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackageGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2502,7 +2472,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackageGroupsInput, ListPackageGroupsOutput>(ListPackageGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackageGroupsOutput>(ListPackageGroupsOutput.httpOutput(from:), ListPackageGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackageGroupsInput, ListPackageGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackageGroupsOutput>())
@@ -2534,9 +2503,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) objects for assets in a package version.
     ///
-    /// - Parameter ListPackageVersionAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackageVersionAssetsInput`)
     ///
-    /// - Returns: `ListPackageVersionAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackageVersionAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2572,7 +2541,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackageVersionAssetsInput, ListPackageVersionAssetsOutput>(ListPackageVersionAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackageVersionAssetsOutput>(ListPackageVersionAssetsOutput.httpOutput(from:), ListPackageVersionAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackageVersionAssetsInput, ListPackageVersionAssetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackageVersionAssetsOutput>())
@@ -2604,9 +2572,9 @@ extension CodeartifactClient {
     ///
     /// Returns the direct dependencies for a package version. The dependencies are returned as [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html) objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
     ///
-    /// - Parameter ListPackageVersionDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackageVersionDependenciesInput`)
     ///
-    /// - Returns: `ListPackageVersionDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackageVersionDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,7 +2610,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackageVersionDependenciesInput, ListPackageVersionDependenciesOutput>(ListPackageVersionDependenciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackageVersionDependenciesOutput>(ListPackageVersionDependenciesOutput.httpOutput(from:), ListPackageVersionDependenciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackageVersionDependenciesInput, ListPackageVersionDependenciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackageVersionDependenciesOutput>())
@@ -2674,9 +2641,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of [PackageVersionSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html) objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no --status parameter.
     ///
-    /// - Parameter ListPackageVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackageVersionsInput`)
     ///
-    /// - Returns: `ListPackageVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackageVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2712,7 +2679,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackageVersionsInput, ListPackageVersionsOutput>(ListPackageVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackageVersionsOutput>(ListPackageVersionsOutput.httpOutput(from:), ListPackageVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackageVersionsInput, ListPackageVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackageVersionsOutput>())
@@ -2744,9 +2710,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects for packages in a repository that match the request parameters.
     ///
-    /// - Parameter ListPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackagesInput`)
     ///
-    /// - Returns: `ListPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2782,7 +2748,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackagesInput, ListPackagesOutput>(ListPackagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackagesOutput>(ListPackagesOutput.httpOutput(from:), ListPackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackagesInput, ListPackagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackagesOutput>())
@@ -2814,9 +2779,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input parameters.
     ///
-    /// - Parameter ListRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositoriesInput`)
     ///
-    /// - Returns: `ListRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2851,7 +2816,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(ListRepositoriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositoriesOutput>(ListRepositoriesOutput.httpOutput(from:), ListRepositoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRepositoriesOutput>())
@@ -2883,9 +2847,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
     ///
-    /// - Parameter ListRepositoriesInDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositoriesInDomainInput`)
     ///
-    /// - Returns: `ListRepositoriesInDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositoriesInDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2921,7 +2885,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRepositoriesInDomainInput, ListRepositoriesInDomainOutput>(ListRepositoriesInDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositoriesInDomainOutput>(ListRepositoriesInDomainOutput.httpOutput(from:), ListRepositoriesInDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositoriesInDomainInput, ListRepositoriesInDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRepositoriesInDomainOutput>())
@@ -2953,9 +2916,9 @@ extension CodeartifactClient {
     ///
     /// Returns a list of direct children of the specified package group. For information package group hierarchy, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
     ///
-    /// - Parameter ListSubPackageGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubPackageGroupsInput`)
     ///
-    /// - Returns: `ListSubPackageGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubPackageGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2991,7 +2954,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubPackageGroupsInput, ListSubPackageGroupsOutput>(ListSubPackageGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubPackageGroupsOutput>(ListSubPackageGroupsOutput.httpOutput(from:), ListSubPackageGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubPackageGroupsInput, ListSubPackageGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubPackageGroupsOutput>())
@@ -3023,9 +2985,9 @@ extension CodeartifactClient {
     ///
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3060,7 +3022,6 @@ extension CodeartifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3092,9 +3053,9 @@ extension CodeartifactClient {
     ///
     /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of its assets have been uploaded (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact user guide). To set the package version’s status to Published, omit the unfinished flag when uploading the final asset, or set the status using [UpdatePackageVersionStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html). Once a package version’s status is set to Published, it cannot change back to Unfinished. Only generic packages can be published using this API. For more information, see [Using generic packages](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html) in the CodeArtifact User Guide.
     ///
-    /// - Parameter PublishPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishPackageVersionInput`)
     ///
-    /// - Returns: `PublishPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3136,7 +3097,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishPackageVersionInput, PublishPackageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishPackageVersionOutput>(PublishPackageVersionOutput.httpOutput(from:), PublishPackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishPackageVersionInput, PublishPackageVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishPackageVersionOutput>())
@@ -3168,9 +3128,9 @@ extension CodeartifactClient {
     ///
     /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy.
     ///
-    /// - Parameter PutDomainPermissionsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDomainPermissionsPolicyInput`)
     ///
-    /// - Returns: `PutDomainPermissionsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDomainPermissionsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3210,7 +3170,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDomainPermissionsPolicyInput, PutDomainPermissionsPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDomainPermissionsPolicyOutput>(PutDomainPermissionsPolicyOutput.httpOutput(from:), PutDomainPermissionsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDomainPermissionsPolicyInput, PutDomainPermissionsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDomainPermissionsPolicyOutput>())
@@ -3242,9 +3201,9 @@ extension CodeartifactClient {
     ///
     /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see [Editing package origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-origin-controls.html) in the CodeArtifact User Guide. PutPackageOriginConfiguration can be called on a package that doesn't yet exist in the repository. When called on a package that does not exist, a package is created in the repository with no versions and the requested restrictions are set on the package. This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
     ///
-    /// - Parameter PutPackageOriginConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPackageOriginConfigurationInput`)
     ///
-    /// - Returns: `PutPackageOriginConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPackageOriginConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3283,7 +3242,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPackageOriginConfigurationInput, PutPackageOriginConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPackageOriginConfigurationOutput>(PutPackageOriginConfigurationOutput.httpOutput(from:), PutPackageOriginConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPackageOriginConfigurationInput, PutPackageOriginConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPackageOriginConfigurationOutput>())
@@ -3315,9 +3273,9 @@ extension CodeartifactClient {
     ///
     /// Sets the resource policy on a repository that specifies permissions to access it. When you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored when evaluting permissions. This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being able to update the resource policy.
     ///
-    /// - Parameter PutRepositoryPermissionsPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRepositoryPermissionsPolicyInput`)
     ///
-    /// - Returns: `PutRepositoryPermissionsPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRepositoryPermissionsPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3358,7 +3316,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRepositoryPermissionsPolicyInput, PutRepositoryPermissionsPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRepositoryPermissionsPolicyOutput>(PutRepositoryPermissionsPolicyOutput.httpOutput(from:), PutRepositoryPermissionsPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRepositoryPermissionsPolicyInput, PutRepositoryPermissionsPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRepositoryPermissionsPolicyOutput>())
@@ -3390,9 +3347,9 @@ extension CodeartifactClient {
     ///
     /// Adds or updates tags for a resource in CodeArtifact.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3431,7 +3388,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3463,9 +3419,9 @@ extension CodeartifactClient {
     ///
     /// Removes tags from a resource in CodeArtifact.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3503,7 +3459,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3535,9 +3490,9 @@ extension CodeartifactClient {
     ///
     /// Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a package group's origin configuration, use [UpdatePackageGroupOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageGroupOriginConfiguration.html).
     ///
-    /// - Parameter UpdatePackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePackageGroupInput`)
     ///
-    /// - Returns: `UpdatePackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3577,7 +3532,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageGroupInput, UpdatePackageGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageGroupOutput>(UpdatePackageGroupOutput.httpOutput(from:), UpdatePackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageGroupInput, UpdatePackageGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageGroupOutput>())
@@ -3609,9 +3563,9 @@ extension CodeartifactClient {
     ///
     /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see [Package group origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-origin-controls.html) in the CodeArtifact User Guide.
     ///
-    /// - Parameter UpdatePackageGroupOriginConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePackageGroupOriginConfigurationInput`)
     ///
-    /// - Returns: `UpdatePackageGroupOriginConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackageGroupOriginConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3651,7 +3605,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageGroupOriginConfigurationInput, UpdatePackageGroupOriginConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageGroupOriginConfigurationOutput>(UpdatePackageGroupOriginConfigurationOutput.httpOutput(from:), UpdatePackageGroupOriginConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageGroupOriginConfigurationInput, UpdatePackageGroupOriginConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageGroupOriginConfigurationOutput>())
@@ -3683,9 +3636,9 @@ extension CodeartifactClient {
     ///
     /// Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus, you can update the status of package versions to Archived, Published, or Unlisted. To set the status of a package version to Disposed, use [DisposePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DisposePackageVersions.html).
     ///
-    /// - Parameter UpdatePackageVersionsStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePackageVersionsStatusInput`)
     ///
-    /// - Returns: `UpdatePackageVersionsStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackageVersionsStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3725,7 +3678,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageVersionsStatusInput, UpdatePackageVersionsStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageVersionsStatusOutput>(UpdatePackageVersionsStatusOutput.httpOutput(from:), UpdatePackageVersionsStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageVersionsStatusInput, UpdatePackageVersionsStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageVersionsStatusOutput>())
@@ -3757,9 +3709,9 @@ extension CodeartifactClient {
     ///
     /// Update the properties of a repository.
     ///
-    /// - Parameter UpdateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRepositoryInput`)
     ///
-    /// - Returns: `UpdateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3800,7 +3752,6 @@ extension CodeartifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRepositoryInput, UpdateRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRepositoryOutput>(UpdateRepositoryOutput.httpOutput(from:), UpdateRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRepositoryInput, UpdateRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRepositoryOutput>())

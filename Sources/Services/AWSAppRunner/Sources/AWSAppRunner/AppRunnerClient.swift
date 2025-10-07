@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppRunnerClient: ClientRuntime.Client {
     public static let clientName = "AppRunnerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: AppRunnerClient.AppRunnerClientConfiguration
     let serviceName = "AppRunner"
@@ -373,9 +372,9 @@ extension AppRunnerClient {
     ///
     /// Associate your own domain name with the App Runner subdomain URL of your App Runner service. After you call AssociateCustomDomain and receive a successful response, use the information in the [CustomDomain] record that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks domain validity in a certificate stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide).
     ///
-    /// - Parameter AssociateCustomDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCustomDomainInput`)
     ///
-    /// - Returns: `AssociateCustomDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCustomDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCustomDomainOutput>(AssociateCustomDomainOutput.httpOutput(from:), AssociateCustomDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCustomDomainOutput>())
@@ -444,9 +442,9 @@ extension AppRunnerClient {
     ///
     /// Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName. The call returns incremental AutoScalingConfigurationRevision values. When you create a service and configure an auto scaling configuration resource, the service uses the latest active revision of the auto scaling configuration by default. You can optionally configure the service to use a specific revision. Configure a higher MinSize to increase the spread of your App Runner service over more Availability Zones in the Amazon Web Services Region. The tradeoff is a higher minimal cost. Configure a lower MaxSize to control your cost. The tradeoff is lower responsiveness during peak demand.
     ///
-    /// - Parameter CreateAutoScalingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutoScalingConfigurationInput`)
     ///
-    /// - Returns: `CreateAutoScalingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutoScalingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutoScalingConfigurationOutput>(CreateAutoScalingConfigurationOutput.httpOutput(from:), CreateAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutoScalingConfigurationOutput>())
@@ -515,9 +512,9 @@ extension AppRunnerClient {
     ///
     /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection.
     ///
-    /// - Parameter CreateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionInput`)
     ///
-    /// - Returns: `CreateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,7 +548,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
@@ -586,9 +582,9 @@ extension AppRunnerClient {
     ///
     /// Create an App Runner observability configuration resource. App Runner requires this resource when you create or update App Runner services and you want to enable non-default observability features. You can share an observability configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same ObservabilityConfigurationName. The call returns incremental ObservabilityConfigurationRevision values. When you create a service and configure an observability configuration resource, the service uses the latest active revision of the observability configuration by default. You can optionally configure the service to use a specific revision. The observability configuration resource is designed to configure multiple features (currently one feature, tracing). This action takes optional parameters that describe the configuration of these features (currently one parameter, TraceConfiguration). If you don't specify a feature parameter, App Runner doesn't enable the feature.
     ///
-    /// - Parameter CreateObservabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateObservabilityConfigurationInput`)
     ///
-    /// - Returns: `CreateObservabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateObservabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,7 +618,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateObservabilityConfigurationOutput>(CreateObservabilityConfigurationOutput.httpOutput(from:), CreateObservabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateObservabilityConfigurationOutput>())
@@ -657,9 +652,9 @@ extension AppRunnerClient {
     ///
     /// Create an App Runner service. After the service is created, the action also automatically starts a deployment. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations](https://docs.aws.amazon.com/apprunner/latest/api/API_ListOperations.html) call to track the operation's progress.
     ///
-    /// - Parameter CreateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
-    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,7 +688,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInput, CreateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceOutput>())
@@ -728,9 +722,9 @@ extension AppRunnerClient {
     ///
     /// Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud (Amazon VPC).
     ///
-    /// - Parameter CreateVpcConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcConnectorInput`)
     ///
-    /// - Returns: `CreateVpcConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -764,7 +758,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcConnectorOutput>(CreateVpcConnectorOutput.httpOutput(from:), CreateVpcConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcConnectorOutput>())
@@ -799,9 +792,9 @@ extension AppRunnerClient {
     ///
     /// Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
     ///
-    /// - Parameter CreateVpcIngressConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcIngressConnectionInput`)
     ///
-    /// - Returns: `CreateVpcIngressConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcIngressConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,7 +829,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcIngressConnectionOutput>(CreateVpcIngressConnectionOutput.httpOutput(from:), CreateVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcIngressConnectionOutput>())
@@ -871,9 +863,9 @@ extension AppRunnerClient {
     ///
     /// Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or more App Runner services.
     ///
-    /// - Parameter DeleteAutoScalingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAutoScalingConfigurationInput`)
     ///
-    /// - Returns: `DeleteAutoScalingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAutoScalingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -907,7 +899,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutoScalingConfigurationOutput>(DeleteAutoScalingConfigurationOutput.httpOutput(from:), DeleteAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutoScalingConfigurationOutput>())
@@ -942,9 +933,9 @@ extension AppRunnerClient {
     ///
     /// Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the DeleteConnection action fails.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,7 +969,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
@@ -1013,9 +1003,9 @@ extension AppRunnerClient {
     ///
     /// Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
     ///
-    /// - Parameter DeleteObservabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObservabilityConfigurationInput`)
     ///
-    /// - Returns: `DeleteObservabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObservabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1049,7 +1039,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObservabilityConfigurationOutput>(DeleteObservabilityConfigurationOutput.httpOutput(from:), DeleteObservabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObservabilityConfigurationOutput>())
@@ -1084,9 +1073,9 @@ extension AppRunnerClient {
     ///
     /// Delete an App Runner service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress. Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
     ///
-    /// - Parameter DeleteServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,7 +1110,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceInput, DeleteServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceOutput>())
@@ -1156,9 +1144,9 @@ extension AppRunnerClient {
     ///
     /// Delete an App Runner VPC connector resource. You can't delete a connector that's used by one or more App Runner services.
     ///
-    /// - Parameter DeleteVpcConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcConnectorInput`)
     ///
-    /// - Returns: `DeleteVpcConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1192,7 +1180,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcConnectorOutput>(DeleteVpcConnectorOutput.httpOutput(from:), DeleteVpcConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcConnectorOutput>())
@@ -1235,9 +1222,9 @@ extension AppRunnerClient {
     ///
     /// * FAILED_DELETION
     ///
-    /// - Parameter DeleteVpcIngressConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcIngressConnectionInput`)
     ///
-    /// - Returns: `DeleteVpcIngressConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcIngressConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,7 +1259,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcIngressConnectionOutput>(DeleteVpcIngressConnectionOutput.httpOutput(from:), DeleteVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcIngressConnectionOutput>())
@@ -1307,9 +1293,9 @@ extension AppRunnerClient {
     ///
     /// Return a full description of an App Runner automatic scaling configuration resource.
     ///
-    /// - Parameter DescribeAutoScalingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAutoScalingConfigurationInput`)
     ///
-    /// - Returns: `DescribeAutoScalingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAutoScalingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,7 +1329,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAutoScalingConfigurationOutput>(DescribeAutoScalingConfigurationOutput.httpOutput(from:), DescribeAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutoScalingConfigurationOutput>())
@@ -1378,9 +1363,9 @@ extension AppRunnerClient {
     ///
     /// Return a description of custom domain names that are associated with an App Runner service.
     ///
-    /// - Parameter DescribeCustomDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomDomainsInput`)
     ///
-    /// - Returns: `DescribeCustomDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1414,7 +1399,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomDomainsOutput>(DescribeCustomDomainsOutput.httpOutput(from:), DescribeCustomDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomDomainsOutput>())
@@ -1449,9 +1433,9 @@ extension AppRunnerClient {
     ///
     /// Return a full description of an App Runner observability configuration resource.
     ///
-    /// - Parameter DescribeObservabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeObservabilityConfigurationInput`)
     ///
-    /// - Returns: `DescribeObservabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeObservabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,7 +1469,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeObservabilityConfigurationOutput>(DescribeObservabilityConfigurationOutput.httpOutput(from:), DescribeObservabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeObservabilityConfigurationOutput>())
@@ -1520,9 +1503,9 @@ extension AppRunnerClient {
     ///
     /// Return a full description of an App Runner service.
     ///
-    /// - Parameter DescribeServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceInput`)
     ///
-    /// - Returns: `DescribeServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1556,7 +1539,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceInput, DescribeServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceOutput>(DescribeServiceOutput.httpOutput(from:), DescribeServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceInput, DescribeServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServiceOutput>())
@@ -1591,9 +1573,9 @@ extension AppRunnerClient {
     ///
     /// Return a description of an App Runner VPC connector resource.
     ///
-    /// - Parameter DescribeVpcConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcConnectorInput`)
     ///
-    /// - Returns: `DescribeVpcConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1627,7 +1609,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcConnectorOutput>(DescribeVpcConnectorOutput.httpOutput(from:), DescribeVpcConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcConnectorOutput>())
@@ -1662,9 +1643,9 @@ extension AppRunnerClient {
     ///
     /// Return a full description of an App Runner VPC Ingress Connection resource.
     ///
-    /// - Parameter DescribeVpcIngressConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcIngressConnectionInput`)
     ///
-    /// - Returns: `DescribeVpcIngressConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcIngressConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1698,7 +1679,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcIngressConnectionOutput>(DescribeVpcIngressConnectionOutput.httpOutput(from:), DescribeVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcIngressConnectionOutput>())
@@ -1733,9 +1713,9 @@ extension AppRunnerClient {
     ///
     /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom domain and are stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service.
     ///
-    /// - Parameter DisassociateCustomDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCustomDomainInput`)
     ///
-    /// - Returns: `DisassociateCustomDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCustomDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1770,7 +1750,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCustomDomainOutput>(DisassociateCustomDomainOutput.httpOutput(from:), DisassociateCustomDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCustomDomainOutput>())
@@ -1805,9 +1784,9 @@ extension AppRunnerClient {
     ///
     /// Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListAutoScalingConfigurations.
     ///
-    /// - Parameter ListAutoScalingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutoScalingConfigurationsInput`)
     ///
-    /// - Returns: `ListAutoScalingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutoScalingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1840,7 +1819,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutoScalingConfigurationsOutput>(ListAutoScalingConfigurationsOutput.httpOutput(from:), ListAutoScalingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutoScalingConfigurationsOutput>())
@@ -1875,9 +1853,9 @@ extension AppRunnerClient {
     ///
     /// Returns a list of App Runner connections that are associated with your Amazon Web Services account.
     ///
-    /// - Parameter ListConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectionsInput`)
     ///
-    /// - Returns: `ListConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,7 +1888,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionsInput, ListConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionsOutput>(ListConnectionsOutput.httpOutput(from:), ListConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionsInput, ListConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectionsOutput>())
@@ -1945,9 +1922,9 @@ extension AppRunnerClient {
     ///
     /// Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListObservabilityConfigurations.
     ///
-    /// - Parameter ListObservabilityConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObservabilityConfigurationsInput`)
     ///
-    /// - Returns: `ListObservabilityConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObservabilityConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1980,7 +1957,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObservabilityConfigurationsOutput>(ListObservabilityConfigurationsOutput.httpOutput(from:), ListObservabilityConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObservabilityConfigurationsOutput>())
@@ -2015,9 +1991,9 @@ extension AppRunnerClient {
     ///
     /// Return a list of operations that occurred on an App Runner service. The resulting list of [OperationSummary] objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
     ///
-    /// - Parameter ListOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOperationsInput`)
     ///
-    /// - Returns: `ListOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,7 +2027,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOperationsInput, ListOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOperationsOutput>(ListOperationsOutput.httpOutput(from:), ListOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOperationsInput, ListOperationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOperationsOutput>())
@@ -2086,9 +2061,9 @@ extension AppRunnerClient {
     ///
     /// Returns a list of running App Runner services in your Amazon Web Services account.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,7 +2096,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesInput, ListServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
@@ -2156,9 +2130,9 @@ extension AppRunnerClient {
     ///
     /// Returns a list of the associated App Runner services using an auto scaling configuration.
     ///
-    /// - Parameter ListServicesForAutoScalingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesForAutoScalingConfigurationInput`)
     ///
-    /// - Returns: `ListServicesForAutoScalingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesForAutoScalingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2192,7 +2166,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesForAutoScalingConfigurationOutput>(ListServicesForAutoScalingConfigurationOutput.httpOutput(from:), ListServicesForAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesForAutoScalingConfigurationOutput>())
@@ -2227,9 +2200,9 @@ extension AppRunnerClient {
     ///
     /// List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,7 +2237,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2299,9 +2271,9 @@ extension AppRunnerClient {
     ///
     /// Returns a list of App Runner VPC connectors in your Amazon Web Services account.
     ///
-    /// - Parameter ListVpcConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcConnectorsInput`)
     ///
-    /// - Returns: `ListVpcConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2334,7 +2306,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcConnectorsOutput>(ListVpcConnectorsOutput.httpOutput(from:), ListVpcConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcConnectorsOutput>())
@@ -2369,9 +2340,9 @@ extension AppRunnerClient {
     ///
     /// Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
     ///
-    /// - Parameter ListVpcIngressConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcIngressConnectionsInput`)
     ///
-    /// - Returns: `ListVpcIngressConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcIngressConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2404,7 +2375,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcIngressConnectionsOutput>(ListVpcIngressConnectionsOutput.httpOutput(from:), ListVpcIngressConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcIngressConnectionsOutput>())
@@ -2439,9 +2409,9 @@ extension AppRunnerClient {
     ///
     /// Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is removed). This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
-    /// - Parameter PauseServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PauseServiceInput`)
     ///
-    /// - Returns: `PauseServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PauseServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2476,7 +2446,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PauseServiceInput, PauseServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseServiceOutput>(PauseServiceOutput.httpOutput(from:), PauseServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseServiceInput, PauseServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PauseServiceOutput>())
@@ -2511,9 +2480,9 @@ extension AppRunnerClient {
     ///
     /// Resume an active App Runner service. App Runner provisions compute capacity for the service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
-    /// - Parameter ResumeServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeServiceInput`)
     ///
-    /// - Returns: `ResumeServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2548,7 +2517,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeServiceInput, ResumeServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeServiceOutput>(ResumeServiceOutput.httpOutput(from:), ResumeServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeServiceInput, ResumeServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeServiceOutput>())
@@ -2583,9 +2551,9 @@ extension AppRunnerClient {
     ///
     /// Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner service. For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker image. In both cases, App Runner then deploys the new image to your service and starts a new container instance. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
-    /// - Parameter StartDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDeploymentInput`)
     ///
-    /// - Returns: `StartDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2619,7 +2587,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeploymentInput, StartDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeploymentOutput>(StartDeploymentOutput.httpOutput(from:), StartDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeploymentInput, StartDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDeploymentOutput>())
@@ -2654,9 +2621,9 @@ extension AppRunnerClient {
     ///
     /// Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2691,7 +2658,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2726,9 +2692,9 @@ extension AppRunnerClient {
     ///
     /// Remove tags from an App Runner resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2763,7 +2729,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2798,9 +2763,9 @@ extension AppRunnerClient {
     ///
     /// Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automatically.
     ///
-    /// - Parameter UpdateDefaultAutoScalingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDefaultAutoScalingConfigurationInput`)
     ///
-    /// - Returns: `UpdateDefaultAutoScalingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDefaultAutoScalingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2834,7 +2799,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDefaultAutoScalingConfigurationOutput>(UpdateDefaultAutoScalingConfigurationOutput.httpOutput(from:), UpdateDefaultAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDefaultAutoScalingConfigurationOutput>())
@@ -2869,9 +2833,9 @@ extension AppRunnerClient {
     ///
     /// Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service. To update the tags applied to your service, use the separate actions [TagResource] and [UntagResource]. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
-    /// - Parameter UpdateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2906,7 +2870,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInput, UpdateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceOutput>())
@@ -2947,9 +2910,9 @@ extension AppRunnerClient {
     ///
     /// * FAILED_UPDATE
     ///
-    /// - Parameter UpdateVpcIngressConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVpcIngressConnectionInput`)
     ///
-    /// - Returns: `UpdateVpcIngressConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcIngressConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2984,7 +2947,6 @@ extension AppRunnerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcIngressConnectionOutput>(UpdateVpcIngressConnectionOutput.httpOutput(from:), UpdateVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcIngressConnectionOutput>())

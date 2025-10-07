@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BatchClient: ClientRuntime.Client {
     public static let clientName = "BatchClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: BatchClient.BatchClientConfiguration
     let serviceName = "Batch"
@@ -374,9 +373,9 @@ extension BatchClient {
     ///
     /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED. A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed. Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the [TerminateJob] operation.
     ///
-    /// - Parameter CancelJobInput : Contains the parameters for CancelJob.
+    /// - Parameter input: Contains the parameters for CancelJob. (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -443,9 +441,9 @@ extension BatchClient {
     ///
     /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the [launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) that you specify when you create the compute environment. Either, you can choose to use EC2 On-Demand Instances and EC2 Spot Instances. Or, you can use Fargate and Fargate Spot capacity in your managed compute environment. You can optionally set a maximum price so that Spot Instances only launch when the Spot Instance price is less than a specified percentage of the On-Demand price. In an unmanaged compute environment, you can manage your own EC2 compute resources and have flexibility with how you configure your compute resources. For example, you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance AMI specification. For more information, see [container instance AMIs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container_instance_AMIs.html) in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged compute environment, you can use the [DescribeComputeEnvironments] operation to find the Amazon ECS cluster that's associated with it. Then, launch your container instances into that Amazon ECS cluster. For more information, see [Launching an Amazon ECS container instance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_container_instance.html) in the Amazon Elastic Container Service Developer Guide. Batch doesn't automatically upgrade the AMIs in a compute environment after it's created. For more information on how to update a compute environment's AMI, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     ///
-    /// - Parameter CreateComputeEnvironmentInput : Contains the parameters for CreateComputeEnvironment.
+    /// - Parameter input: Contains the parameters for CreateComputeEnvironment. (Type: `CreateComputeEnvironmentInput`)
     ///
-    /// - Returns: `CreateComputeEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComputeEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComputeEnvironmentInput, CreateComputeEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComputeEnvironmentOutput>(CreateComputeEnvironmentOutput.httpOutput(from:), CreateComputeEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComputeEnvironmentInput, CreateComputeEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComputeEnvironmentOutput>())
@@ -512,9 +509,9 @@ extension BatchClient {
     ///
     /// Creates an Batch consumable resource.
     ///
-    /// - Parameter CreateConsumableResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConsumableResourceInput`)
     ///
-    /// - Returns: `CreateConsumableResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConsumableResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -549,7 +546,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConsumableResourceInput, CreateConsumableResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConsumableResourceOutput>(CreateConsumableResourceOutput.httpOutput(from:), CreateConsumableResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConsumableResourceInput, CreateConsumableResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConsumableResourceOutput>())
@@ -581,9 +577,9 @@ extension BatchClient {
     ///
     /// Creates an Batch job queue. When you create a job queue, you associate one or more compute environments to the queue and assign an order of preference for the compute environments. You also set a priority to the job queue that determines the order that the Batch scheduler places jobs onto its associated compute environments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given preference for scheduling jobs to that compute environment.
     ///
-    /// - Parameter CreateJobQueueInput : Contains the parameters for CreateJobQueue.
+    /// - Parameter input: Contains the parameters for CreateJobQueue. (Type: `CreateJobQueueInput`)
     ///
-    /// - Returns: `CreateJobQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -618,7 +614,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobQueueInput, CreateJobQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobQueueOutput>(CreateJobQueueOutput.httpOutput(from:), CreateJobQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobQueueInput, CreateJobQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobQueueOutput>())
@@ -650,9 +645,9 @@ extension BatchClient {
     ///
     /// Creates an Batch scheduling policy.
     ///
-    /// - Parameter CreateSchedulingPolicyInput : Contains the parameters for CreateSchedulingPolicy.
+    /// - Parameter input: Contains the parameters for CreateSchedulingPolicy. (Type: `CreateSchedulingPolicyInput`)
     ///
-    /// - Returns: `CreateSchedulingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchedulingPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,7 +682,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSchedulingPolicyInput, CreateSchedulingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSchedulingPolicyOutput>(CreateSchedulingPolicyOutput.httpOutput(from:), CreateSchedulingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSchedulingPolicyInput, CreateSchedulingPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSchedulingPolicyOutput>())
@@ -719,9 +713,9 @@ extension BatchClient {
     ///
     /// Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
     ///
-    /// - Parameter CreateServiceEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceEnvironmentInput`)
     ///
-    /// - Returns: `CreateServiceEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,7 +750,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceEnvironmentInput, CreateServiceEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceEnvironmentOutput>(CreateServiceEnvironmentOutput.httpOutput(from:), CreateServiceEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceEnvironmentInput, CreateServiceEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceEnvironmentOutput>())
@@ -788,9 +781,9 @@ extension BatchClient {
     ///
     /// Deletes an Batch compute environment. Before you can delete a compute environment, you must set its state to DISABLED with the [UpdateComputeEnvironment] API operation and disassociate it from any job queues with the [UpdateJobQueue] API operation. Compute environments that use Fargate resources must terminate all active jobs on that compute environment before deleting the compute environment. If this isn't done, the compute environment enters an invalid state.
     ///
-    /// - Parameter DeleteComputeEnvironmentInput : Contains the parameters for DeleteComputeEnvironment.
+    /// - Parameter input: Contains the parameters for DeleteComputeEnvironment. (Type: `DeleteComputeEnvironmentInput`)
     ///
-    /// - Returns: `DeleteComputeEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComputeEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,7 +818,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteComputeEnvironmentInput, DeleteComputeEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComputeEnvironmentOutput>(DeleteComputeEnvironmentOutput.httpOutput(from:), DeleteComputeEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComputeEnvironmentInput, DeleteComputeEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComputeEnvironmentOutput>())
@@ -857,9 +849,9 @@ extension BatchClient {
     ///
     /// Deletes the specified consumable resource.
     ///
-    /// - Parameter DeleteConsumableResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConsumableResourceInput`)
     ///
-    /// - Returns: `DeleteConsumableResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConsumableResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,7 +886,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConsumableResourceInput, DeleteConsumableResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConsumableResourceOutput>(DeleteConsumableResourceOutput.httpOutput(from:), DeleteConsumableResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConsumableResourceInput, DeleteConsumableResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConsumableResourceOutput>())
@@ -926,9 +917,9 @@ extension BatchClient {
     ///
     /// Deletes the specified job queue. You must first disable submissions for a queue with the [UpdateJobQueue] operation. All jobs in the queue are eventually terminated when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each second. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
     ///
-    /// - Parameter DeleteJobQueueInput : Contains the parameters for DeleteJobQueue.
+    /// - Parameter input: Contains the parameters for DeleteJobQueue. (Type: `DeleteJobQueueInput`)
     ///
-    /// - Returns: `DeleteJobQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,7 +954,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteJobQueueInput, DeleteJobQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobQueueOutput>(DeleteJobQueueOutput.httpOutput(from:), DeleteJobQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobQueueInput, DeleteJobQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobQueueOutput>())
@@ -995,9 +985,9 @@ extension BatchClient {
     ///
     /// Deletes the specified scheduling policy. You can't delete a scheduling policy that's used in any job queues.
     ///
-    /// - Parameter DeleteSchedulingPolicyInput : Contains the parameters for DeleteSchedulingPolicy.
+    /// - Parameter input: Contains the parameters for DeleteSchedulingPolicy. (Type: `DeleteSchedulingPolicyInput`)
     ///
-    /// - Returns: `DeleteSchedulingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchedulingPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1032,7 +1022,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSchedulingPolicyInput, DeleteSchedulingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSchedulingPolicyOutput>(DeleteSchedulingPolicyOutput.httpOutput(from:), DeleteSchedulingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchedulingPolicyInput, DeleteSchedulingPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchedulingPolicyOutput>())
@@ -1064,9 +1053,9 @@ extension BatchClient {
     ///
     /// Deletes a Service environment. Before you can delete a service environment, you must first set its state to DISABLED with the UpdateServiceEnvironment API operation and disassociate it from any job queues with the UpdateJobQueue API operation.
     ///
-    /// - Parameter DeleteServiceEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceEnvironmentInput`)
     ///
-    /// - Returns: `DeleteServiceEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1101,7 +1090,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceEnvironmentInput, DeleteServiceEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceEnvironmentOutput>(DeleteServiceEnvironmentOutput.httpOutput(from:), DeleteServiceEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceEnvironmentInput, DeleteServiceEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceEnvironmentOutput>())
@@ -1133,9 +1121,9 @@ extension BatchClient {
     ///
     /// Deregisters an Batch job definition. Job definitions are permanently deleted after 180 days.
     ///
-    /// - Parameter DeregisterJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterJobDefinitionInput`)
     ///
-    /// - Returns: `DeregisterJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,7 +1158,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterJobDefinitionInput, DeregisterJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterJobDefinitionOutput>(DeregisterJobDefinitionOutput.httpOutput(from:), DeregisterJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterJobDefinitionInput, DeregisterJobDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterJobDefinitionOutput>())
@@ -1202,9 +1189,9 @@ extension BatchClient {
     ///
     /// Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into.
     ///
-    /// - Parameter DescribeComputeEnvironmentsInput : Contains the parameters for DescribeComputeEnvironments.
+    /// - Parameter input: Contains the parameters for DescribeComputeEnvironments. (Type: `DescribeComputeEnvironmentsInput`)
     ///
-    /// - Returns: `DescribeComputeEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComputeEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,7 +1226,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComputeEnvironmentsOutput>(DescribeComputeEnvironmentsOutput.httpOutput(from:), DescribeComputeEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComputeEnvironmentsOutput>())
@@ -1271,9 +1257,9 @@ extension BatchClient {
     ///
     /// Returns a description of the specified consumable resource.
     ///
-    /// - Parameter DescribeConsumableResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConsumableResourceInput`)
     ///
-    /// - Returns: `DescribeConsumableResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConsumableResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1308,7 +1294,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConsumableResourceInput, DescribeConsumableResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConsumableResourceOutput>(DescribeConsumableResourceOutput.httpOutput(from:), DescribeConsumableResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConsumableResourceInput, DescribeConsumableResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConsumableResourceOutput>())
@@ -1340,9 +1325,9 @@ extension BatchClient {
     ///
     /// Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
     ///
-    /// - Parameter DescribeJobDefinitionsInput : Contains the parameters for DescribeJobDefinitions.
+    /// - Parameter input: Contains the parameters for DescribeJobDefinitions. (Type: `DescribeJobDefinitionsInput`)
     ///
-    /// - Returns: `DescribeJobDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1377,7 +1362,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobDefinitionsOutput>(DescribeJobDefinitionsOutput.httpOutput(from:), DescribeJobDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobDefinitionsOutput>())
@@ -1409,9 +1393,9 @@ extension BatchClient {
     ///
     /// Describes one or more of your job queues.
     ///
-    /// - Parameter DescribeJobQueuesInput : Contains the parameters for DescribeJobQueues.
+    /// - Parameter input: Contains the parameters for DescribeJobQueues. (Type: `DescribeJobQueuesInput`)
     ///
-    /// - Returns: `DescribeJobQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,7 +1430,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeJobQueuesInput, DescribeJobQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobQueuesOutput>(DescribeJobQueuesOutput.httpOutput(from:), DescribeJobQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobQueuesInput, DescribeJobQueuesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobQueuesOutput>())
@@ -1478,9 +1461,9 @@ extension BatchClient {
     ///
     /// Describes a list of Batch jobs.
     ///
-    /// - Parameter DescribeJobsInput : Contains the parameters for DescribeJobs.
+    /// - Parameter input: Contains the parameters for DescribeJobs. (Type: `DescribeJobsInput`)
     ///
-    /// - Returns: `DescribeJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1515,7 +1498,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeJobsInput, DescribeJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobsOutput>(DescribeJobsOutput.httpOutput(from:), DescribeJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobsInput, DescribeJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobsOutput>())
@@ -1547,9 +1529,9 @@ extension BatchClient {
     ///
     /// Describes one or more of your scheduling policies.
     ///
-    /// - Parameter DescribeSchedulingPoliciesInput : Contains the parameters for DescribeSchedulingPolicies.
+    /// - Parameter input: Contains the parameters for DescribeSchedulingPolicies. (Type: `DescribeSchedulingPoliciesInput`)
     ///
-    /// - Returns: `DescribeSchedulingPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSchedulingPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1584,7 +1566,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSchedulingPoliciesInput, DescribeSchedulingPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSchedulingPoliciesOutput>(DescribeSchedulingPoliciesOutput.httpOutput(from:), DescribeSchedulingPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSchedulingPoliciesInput, DescribeSchedulingPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSchedulingPoliciesOutput>())
@@ -1616,9 +1597,9 @@ extension BatchClient {
     ///
     /// Describes one or more of your service environments.
     ///
-    /// - Parameter DescribeServiceEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceEnvironmentsInput`)
     ///
-    /// - Returns: `DescribeServiceEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,7 +1634,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceEnvironmentsInput, DescribeServiceEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceEnvironmentsOutput>(DescribeServiceEnvironmentsOutput.httpOutput(from:), DescribeServiceEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceEnvironmentsInput, DescribeServiceEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServiceEnvironmentsOutput>())
@@ -1685,9 +1665,9 @@ extension BatchClient {
     ///
     /// The details of a service job.
     ///
-    /// - Parameter DescribeServiceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceJobInput`)
     ///
-    /// - Returns: `DescribeServiceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1722,7 +1702,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceJobInput, DescribeServiceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceJobOutput>(DescribeServiceJobOutput.httpOutput(from:), DescribeServiceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceJobInput, DescribeServiceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServiceJobOutput>())
@@ -1754,9 +1733,9 @@ extension BatchClient {
     ///
     /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
     ///
-    /// - Parameter GetJobQueueSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobQueueSnapshotInput`)
     ///
-    /// - Returns: `GetJobQueueSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobQueueSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1791,7 +1770,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobQueueSnapshotInput, GetJobQueueSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobQueueSnapshotOutput>(GetJobQueueSnapshotOutput.httpOutput(from:), GetJobQueueSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobQueueSnapshotInput, GetJobQueueSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobQueueSnapshotOutput>())
@@ -1823,9 +1801,9 @@ extension BatchClient {
     ///
     /// Returns a list of Batch consumable resources.
     ///
-    /// - Parameter ListConsumableResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConsumableResourcesInput`)
     ///
-    /// - Returns: `ListConsumableResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConsumableResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,7 +1838,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConsumableResourcesInput, ListConsumableResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConsumableResourcesOutput>(ListConsumableResourcesOutput.httpOutput(from:), ListConsumableResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConsumableResourcesInput, ListConsumableResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConsumableResourcesOutput>())
@@ -1901,9 +1878,9 @@ extension BatchClient {
     ///
     /// You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
     ///
-    /// - Parameter ListJobsInput : Contains the parameters for ListJobs.
+    /// - Parameter input: Contains the parameters for ListJobs. (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1938,7 +1915,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListJobsInput, ListJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -1970,9 +1946,9 @@ extension BatchClient {
     ///
     /// Returns a list of Batch jobs that require a specific consumable resource.
     ///
-    /// - Parameter ListJobsByConsumableResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsByConsumableResourceInput`)
     ///
-    /// - Returns: `ListJobsByConsumableResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsByConsumableResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2007,7 +1983,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListJobsByConsumableResourceInput, ListJobsByConsumableResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsByConsumableResourceOutput>(ListJobsByConsumableResourceOutput.httpOutput(from:), ListJobsByConsumableResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsByConsumableResourceInput, ListJobsByConsumableResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsByConsumableResourceOutput>())
@@ -2039,9 +2014,9 @@ extension BatchClient {
     ///
     /// Returns a list of Batch scheduling policies.
     ///
-    /// - Parameter ListSchedulingPoliciesInput : Contains the parameters for ListSchedulingPolicies.
+    /// - Parameter input: Contains the parameters for ListSchedulingPolicies. (Type: `ListSchedulingPoliciesInput`)
     ///
-    /// - Returns: `ListSchedulingPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchedulingPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2076,7 +2051,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchedulingPoliciesOutput>(ListSchedulingPoliciesOutput.httpOutput(from:), ListSchedulingPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchedulingPoliciesOutput>())
@@ -2108,9 +2082,9 @@ extension BatchClient {
     ///
     /// Returns a list of service jobs for a specified job queue.
     ///
-    /// - Parameter ListServiceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceJobsInput`)
     ///
-    /// - Returns: `ListServiceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2145,7 +2119,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceJobsInput, ListServiceJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceJobsOutput>(ListServiceJobsOutput.httpOutput(from:), ListServiceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceJobsInput, ListServiceJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceJobsOutput>())
@@ -2177,9 +2150,9 @@ extension BatchClient {
     ///
     /// Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
     ///
-    /// - Parameter ListTagsForResourceInput : Contains the parameters for ListTagsForResource.
+    /// - Parameter input: Contains the parameters for ListTagsForResource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2211,7 +2184,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2243,9 +2215,9 @@ extension BatchClient {
     ///
     /// Registers an Batch job definition.
     ///
-    /// - Parameter RegisterJobDefinitionInput : Contains the parameters for RegisterJobDefinition.
+    /// - Parameter input: Contains the parameters for RegisterJobDefinition. (Type: `RegisterJobDefinitionInput`)
     ///
-    /// - Returns: `RegisterJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2280,7 +2252,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterJobDefinitionInput, RegisterJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterJobDefinitionOutput>(RegisterJobDefinitionOutput.httpOutput(from:), RegisterJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterJobDefinitionInput, RegisterJobDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterJobDefinitionOutput>())
@@ -2312,9 +2283,9 @@ extension BatchClient {
     ///
     /// Submits an Batch job from a job definition. Parameters that are specified during [SubmitJob] override parameters defined in the job definition. vCPU and memory requirements that are specified in the resourceRequirements objects in the job definition are the exception. They can't be overridden this way using the memory and vcpus parameters. Rather, you must specify updates to job definition parameters in a resourceRequirements object that's included in the containerOverrides parameter. Job queues with a scheduling policy are limited to 500 active share identifiers at a time. Jobs that run on Fargate resources can't be guaranteed to run for more than 14 days. This is because, after 14 days, Fargate resources might become unavailable and job might be terminated.
     ///
-    /// - Parameter SubmitJobInput : Contains the parameters for SubmitJob.
+    /// - Parameter input: Contains the parameters for SubmitJob. (Type: `SubmitJobInput`)
     ///
-    /// - Returns: `SubmitJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2349,7 +2320,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitJobInput, SubmitJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitJobOutput>(SubmitJobOutput.httpOutput(from:), SubmitJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitJobInput, SubmitJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitJobOutput>())
@@ -2381,9 +2351,9 @@ extension BatchClient {
     ///
     /// Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
     ///
-    /// - Parameter SubmitServiceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitServiceJobInput`)
     ///
-    /// - Returns: `SubmitServiceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitServiceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2419,7 +2389,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitServiceJobInput, SubmitServiceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitServiceJobOutput>(SubmitServiceJobOutput.httpOutput(from:), SubmitServiceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitServiceJobInput, SubmitServiceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitServiceJobOutput>())
@@ -2451,9 +2420,9 @@ extension BatchClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
     ///
-    /// - Parameter TagResourceInput : Contains the parameters for TagResource.
+    /// - Parameter input: Contains the parameters for TagResource. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2488,7 +2457,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2520,9 +2488,9 @@ extension BatchClient {
     ///
     /// Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled.
     ///
-    /// - Parameter TerminateJobInput : Contains the parameters for TerminateJob.
+    /// - Parameter input: Contains the parameters for TerminateJob. (Type: `TerminateJobInput`)
     ///
-    /// - Returns: `TerminateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2557,7 +2525,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateJobInput, TerminateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateJobOutput>(TerminateJobOutput.httpOutput(from:), TerminateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateJobInput, TerminateJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateJobOutput>())
@@ -2589,9 +2556,9 @@ extension BatchClient {
     ///
     /// Terminates a service job in a job queue.
     ///
-    /// - Parameter TerminateServiceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateServiceJobInput`)
     ///
-    /// - Returns: `TerminateServiceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateServiceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2626,7 +2593,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateServiceJobInput, TerminateServiceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateServiceJobOutput>(TerminateServiceJobOutput.httpOutput(from:), TerminateServiceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateServiceJobInput, TerminateServiceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateServiceJobOutput>())
@@ -2658,9 +2624,9 @@ extension BatchClient {
     ///
     /// Deletes specified tags from an Batch resource.
     ///
-    /// - Parameter UntagResourceInput : Contains the parameters for UntagResource.
+    /// - Parameter input: Contains the parameters for UntagResource. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2693,7 +2659,6 @@ extension BatchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2725,9 +2690,9 @@ extension BatchClient {
     ///
     /// Updates an Batch compute environment.
     ///
-    /// - Parameter UpdateComputeEnvironmentInput : Contains the parameters for UpdateComputeEnvironment.
+    /// - Parameter input: Contains the parameters for UpdateComputeEnvironment. (Type: `UpdateComputeEnvironmentInput`)
     ///
-    /// - Returns: `UpdateComputeEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComputeEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2762,7 +2727,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComputeEnvironmentInput, UpdateComputeEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComputeEnvironmentOutput>(UpdateComputeEnvironmentOutput.httpOutput(from:), UpdateComputeEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComputeEnvironmentInput, UpdateComputeEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComputeEnvironmentOutput>())
@@ -2794,9 +2758,9 @@ extension BatchClient {
     ///
     /// Updates a consumable resource.
     ///
-    /// - Parameter UpdateConsumableResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConsumableResourceInput`)
     ///
-    /// - Returns: `UpdateConsumableResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConsumableResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2832,7 +2796,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConsumableResourceInput, UpdateConsumableResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConsumableResourceOutput>(UpdateConsumableResourceOutput.httpOutput(from:), UpdateConsumableResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConsumableResourceInput, UpdateConsumableResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConsumableResourceOutput>())
@@ -2864,9 +2827,9 @@ extension BatchClient {
     ///
     /// Updates a job queue.
     ///
-    /// - Parameter UpdateJobQueueInput : Contains the parameters for UpdateJobQueue.
+    /// - Parameter input: Contains the parameters for UpdateJobQueue. (Type: `UpdateJobQueueInput`)
     ///
-    /// - Returns: `UpdateJobQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2901,7 +2864,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobQueueInput, UpdateJobQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobQueueOutput>(UpdateJobQueueOutput.httpOutput(from:), UpdateJobQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobQueueInput, UpdateJobQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobQueueOutput>())
@@ -2933,9 +2895,9 @@ extension BatchClient {
     ///
     /// Updates a scheduling policy.
     ///
-    /// - Parameter UpdateSchedulingPolicyInput : Contains the parameters for UpdateSchedulingPolicy.
+    /// - Parameter input: Contains the parameters for UpdateSchedulingPolicy. (Type: `UpdateSchedulingPolicyInput`)
     ///
-    /// - Returns: `UpdateSchedulingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSchedulingPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2970,7 +2932,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSchedulingPolicyInput, UpdateSchedulingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSchedulingPolicyOutput>(UpdateSchedulingPolicyOutput.httpOutput(from:), UpdateSchedulingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSchedulingPolicyInput, UpdateSchedulingPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSchedulingPolicyOutput>())
@@ -3002,9 +2963,9 @@ extension BatchClient {
     ///
     /// Updates a service environment. You can update the state of a service environment from ENABLED to DISABLED to prevent new service jobs from being placed in the service environment.
     ///
-    /// - Parameter UpdateServiceEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceEnvironmentInput`)
     ///
-    /// - Returns: `UpdateServiceEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3039,7 +3000,6 @@ extension BatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceEnvironmentInput, UpdateServiceEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceEnvironmentOutput>(UpdateServiceEnvironmentOutput.httpOutput(from:), UpdateServiceEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceEnvironmentInput, UpdateServiceEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceEnvironmentOutput>())

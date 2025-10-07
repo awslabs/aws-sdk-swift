@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PcaConnectorAdClient: ClientRuntime.Client {
     public static let clientName = "PcaConnectorAdClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorAdClient.PcaConnectorAdClientConfiguration
     let serviceName = "Pca Connector Ad"
@@ -374,9 +373,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA, directory ID, and security groups.
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,7 +416,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
@@ -449,9 +447,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates a directory registration that authorizes communication between Amazon Web Services Private CA and an Active Directory
     ///
-    /// - Parameter CreateDirectoryRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectoryRegistrationInput`)
     ///
-    /// - Returns: `CreateDirectoryRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectoryRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,7 +489,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectoryRegistrationInput, CreateDirectoryRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectoryRegistrationOutput>(CreateDirectoryRegistrationOutput.httpOutput(from:), CreateDirectoryRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectoryRegistrationInput, CreateDirectoryRegistrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectoryRegistrationOutput>())
@@ -523,9 +520,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates a service principal name (SPN) for the service account in Active Directory. Kerberos authentication uses SPNs to associate a service instance with a service sign-in account.
     ///
-    /// - Parameter CreateServicePrincipalNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServicePrincipalNameInput`)
     ///
-    /// - Returns: `CreateServicePrincipalNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServicePrincipalNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,7 +562,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServicePrincipalNameInput, CreateServicePrincipalNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServicePrincipalNameOutput>(CreateServicePrincipalNameOutput.httpOutput(from:), CreateServicePrincipalNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServicePrincipalNameInput, CreateServicePrincipalNameOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServicePrincipalNameOutput>())
@@ -597,9 +593,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates an Active Directory compatible certificate template. The connectors issues certificates using these templates based on the requester’s Active Directory group membership.
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,7 +636,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateInput, CreateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateOutput>(CreateTemplateOutput.httpOutput(from:), CreateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateInput, CreateTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTemplateOutput>())
@@ -672,9 +667,9 @@ extension PcaConnectorAdClient {
     ///
     /// Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or autoenrolling with the template based on the group security identifiers (SIDs).
     ///
-    /// - Parameter CreateTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `CreateTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,7 +710,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateGroupAccessControlEntryInput, CreateTemplateGroupAccessControlEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateGroupAccessControlEntryOutput>(CreateTemplateGroupAccessControlEntryOutput.httpOutput(from:), CreateTemplateGroupAccessControlEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateGroupAccessControlEntryInput, CreateTemplateGroupAccessControlEntryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTemplateGroupAccessControlEntryOutput>())
@@ -747,9 +741,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN) of the connector that you want to delete. You can find the ARN by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors) action. Deleting a connector does not deregister your directory with Amazon Web Services Private CA. You can deregister your directory by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration) action.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,7 +779,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
@@ -817,9 +810,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a directory registration. Deleting a directory registration deauthorizes Amazon Web Services Private CA with the directory.
     ///
-    /// - Parameter DeleteDirectoryRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectoryRegistrationInput`)
     ///
-    /// - Returns: `DeleteDirectoryRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectoryRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -854,7 +847,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDirectoryRegistrationInput, DeleteDirectoryRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectoryRegistrationOutput>(DeleteDirectoryRegistrationOutput.httpOutput(from:), DeleteDirectoryRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectoryRegistrationInput, DeleteDirectoryRegistrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectoryRegistrationOutput>())
@@ -886,9 +878,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes the service principal name (SPN) used by a connector to authenticate with your Active Directory.
     ///
-    /// - Parameter DeleteServicePrincipalNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServicePrincipalNameInput`)
     ///
-    /// - Returns: `DeleteServicePrincipalNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServicePrincipalNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,7 +915,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServicePrincipalNameInput, DeleteServicePrincipalNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServicePrincipalNameOutput>(DeleteServicePrincipalNameOutput.httpOutput(from:), DeleteServicePrincipalNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServicePrincipalNameInput, DeleteServicePrincipalNameOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServicePrincipalNameOutput>())
@@ -955,9 +946,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a template. Certificates issued using the template are still valid until they are revoked or expired.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -993,7 +984,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTemplateInput, DeleteTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateOutput>(DeleteTemplateOutput.httpOutput(from:), DeleteTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateInput, DeleteTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTemplateOutput>())
@@ -1025,9 +1015,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a group access control entry.
     ///
-    /// - Parameter DeleteTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `DeleteTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1063,7 +1053,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTemplateGroupAccessControlEntryInput, DeleteTemplateGroupAccessControlEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateGroupAccessControlEntryOutput>(DeleteTemplateGroupAccessControlEntryOutput.httpOutput(from:), DeleteTemplateGroupAccessControlEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateGroupAccessControlEntryInput, DeleteTemplateGroupAccessControlEntryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTemplateGroupAccessControlEntryOutput>())
@@ -1095,9 +1084,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists information about your connector. You specify the connector on input by its ARN (Amazon Resource Name).
     ///
-    /// - Parameter GetConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorInput`)
     ///
-    /// - Returns: `GetConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1132,7 +1121,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorInput, GetConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorOutput>(GetConnectorOutput.httpOutput(from:), GetConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorInput, GetConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorOutput>())
@@ -1164,9 +1152,9 @@ extension PcaConnectorAdClient {
     ///
     /// A structure that contains information about your directory registration.
     ///
-    /// - Parameter GetDirectoryRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDirectoryRegistrationInput`)
     ///
-    /// - Returns: `GetDirectoryRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDirectoryRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1201,7 +1189,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDirectoryRegistrationInput, GetDirectoryRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDirectoryRegistrationOutput>(GetDirectoryRegistrationOutput.httpOutput(from:), GetDirectoryRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDirectoryRegistrationInput, GetDirectoryRegistrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDirectoryRegistrationOutput>())
@@ -1233,9 +1220,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the service principal name that the connector uses to authenticate with Active Directory.
     ///
-    /// - Parameter GetServicePrincipalNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServicePrincipalNameInput`)
     ///
-    /// - Returns: `GetServicePrincipalNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServicePrincipalNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1270,7 +1257,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServicePrincipalNameInput, GetServicePrincipalNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServicePrincipalNameOutput>(GetServicePrincipalNameOutput.httpOutput(from:), GetServicePrincipalNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServicePrincipalNameInput, GetServicePrincipalNameOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServicePrincipalNameOutput>())
@@ -1302,9 +1288,9 @@ extension PcaConnectorAdClient {
     ///
     /// Retrieves a certificate template that the connector uses to issue certificates from a private CA.
     ///
-    /// - Parameter GetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1339,7 +1325,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemplateInput, GetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateOutput>(GetTemplateOutput.httpOutput(from:), GetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateInput, GetTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateOutput>())
@@ -1371,9 +1356,9 @@ extension PcaConnectorAdClient {
     ///
     /// Retrieves the group access control entries for a template.
     ///
-    /// - Parameter GetTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `GetTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1408,7 +1393,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemplateGroupAccessControlEntryInput, GetTemplateGroupAccessControlEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateGroupAccessControlEntryOutput>(GetTemplateGroupAccessControlEntryOutput.httpOutput(from:), GetTemplateGroupAccessControlEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateGroupAccessControlEntryInput, GetTemplateGroupAccessControlEntryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateGroupAccessControlEntryOutput>())
@@ -1440,9 +1424,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the connectors that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector) action.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1477,7 +1461,6 @@ extension PcaConnectorAdClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
@@ -1509,9 +1492,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the directory registrations that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration) action.
     ///
-    /// - Parameter ListDirectoryRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDirectoryRegistrationsInput`)
     ///
-    /// - Returns: `ListDirectoryRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDirectoryRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1546,7 +1529,6 @@ extension PcaConnectorAdClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDirectoryRegistrationsInput, ListDirectoryRegistrationsOutput>(ListDirectoryRegistrationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDirectoryRegistrationsOutput>(ListDirectoryRegistrationsOutput.httpOutput(from:), ListDirectoryRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDirectoryRegistrationsInput, ListDirectoryRegistrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDirectoryRegistrationsOutput>())
@@ -1578,9 +1560,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the service principal names that the connector uses to authenticate with Active Directory.
     ///
-    /// - Parameter ListServicePrincipalNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicePrincipalNamesInput`)
     ///
-    /// - Returns: `ListServicePrincipalNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicePrincipalNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1616,7 +1598,6 @@ extension PcaConnectorAdClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServicePrincipalNamesInput, ListServicePrincipalNamesOutput>(ListServicePrincipalNamesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicePrincipalNamesOutput>(ListServicePrincipalNamesOutput.httpOutput(from:), ListServicePrincipalNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicePrincipalNamesInput, ListServicePrincipalNamesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicePrincipalNamesOutput>())
@@ -1648,9 +1629,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the tags, if any, that are associated with your resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,7 +1666,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1717,9 +1697,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists group access control entries you created.
     ///
-    /// - Parameter ListTemplateGroupAccessControlEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateGroupAccessControlEntriesInput`)
     ///
-    /// - Returns: `ListTemplateGroupAccessControlEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateGroupAccessControlEntriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1755,7 +1735,6 @@ extension PcaConnectorAdClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplateGroupAccessControlEntriesInput, ListTemplateGroupAccessControlEntriesOutput>(ListTemplateGroupAccessControlEntriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplateGroupAccessControlEntriesOutput>(ListTemplateGroupAccessControlEntriesOutput.httpOutput(from:), ListTemplateGroupAccessControlEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplateGroupAccessControlEntriesInput, ListTemplateGroupAccessControlEntriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplateGroupAccessControlEntriesOutput>())
@@ -1787,9 +1766,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the templates, if any, that are associated with a connector.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1825,7 +1804,6 @@ extension PcaConnectorAdClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplatesInput, ListTemplatesOutput>(ListTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplatesOutput>(ListTemplatesOutput.httpOutput(from:), ListTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplatesInput, ListTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplatesOutput>())
@@ -1857,9 +1835,9 @@ extension PcaConnectorAdClient {
     ///
     /// Adds one or more tags to your resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,7 +1875,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1929,9 +1906,9 @@ extension PcaConnectorAdClient {
     ///
     /// Removes one or more tags from your resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,7 +1944,6 @@ extension PcaConnectorAdClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1999,9 +1975,9 @@ extension PcaConnectorAdClient {
     ///
     /// Update template configuration to define the information included in certificates.
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2040,7 +2016,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateInput, UpdateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateOutput>(UpdateTemplateOutput.httpOutput(from:), UpdateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateInput, UpdateTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateOutput>())
@@ -2072,9 +2047,9 @@ extension PcaConnectorAdClient {
     ///
     /// Update a group access control entry you created using [CreateTemplateGroupAccessControlEntry](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplateGroupAccessControlEntry.html).
     ///
-    /// - Parameter UpdateTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `UpdateTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,7 +2088,6 @@ extension PcaConnectorAdClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateGroupAccessControlEntryInput, UpdateTemplateGroupAccessControlEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateGroupAccessControlEntryOutput>(UpdateTemplateGroupAccessControlEntryOutput.httpOutput(from:), UpdateTemplateGroupAccessControlEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateGroupAccessControlEntryInput, UpdateTemplateGroupAccessControlEntryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateGroupAccessControlEntryOutput>())

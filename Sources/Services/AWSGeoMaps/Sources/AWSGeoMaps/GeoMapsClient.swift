@@ -22,7 +22,6 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -63,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoMapsClient: ClientRuntime.Client {
     public static let clientName = "GeoMapsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoMapsClient.GeoMapsClientConfiguration
     let serviceName = "Geo Maps"
@@ -369,9 +368,9 @@ extension GeoMapsClient {
     ///
     /// GetGlyphs returns the map's glyphs.
     ///
-    /// - Parameter GetGlyphsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlyphsInput`)
     ///
-    /// - Returns: `GetGlyphsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlyphsOutput`)
     public func getGlyphs(input: GetGlyphsInput) async throws -> GetGlyphsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -397,7 +396,6 @@ extension GeoMapsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlyphsInput, GetGlyphsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlyphsOutput>(GetGlyphsOutput.httpOutput(from:), GetGlyphsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlyphsInput, GetGlyphsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlyphsOutput>())
@@ -429,9 +427,9 @@ extension GeoMapsClient {
     ///
     /// GetSprites returns the map's sprites.
     ///
-    /// - Parameter GetSpritesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpritesInput`)
     ///
-    /// - Returns: `GetSpritesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpritesOutput`)
     public func getSprites(input: GetSpritesInput) async throws -> GetSpritesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -457,7 +455,6 @@ extension GeoMapsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSpritesInput, GetSpritesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpritesOutput>(GetSpritesOutput.httpOutput(from:), GetSpritesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpritesInput, GetSpritesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpritesOutput>())
@@ -489,9 +486,9 @@ extension GeoMapsClient {
     ///
     /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
     ///
-    /// - Parameter GetStaticMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStaticMapInput`)
     ///
-    /// - Returns: `GetStaticMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStaticMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -526,7 +523,6 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStaticMapInput, GetStaticMapOutput>(GetStaticMapInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStaticMapOutput>(GetStaticMapOutput.httpOutput(from:), GetStaticMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStaticMapInput, GetStaticMapOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStaticMapOutput>())
@@ -558,9 +554,9 @@ extension GeoMapsClient {
     ///
     /// GetStyleDescriptor returns information about the style.
     ///
-    /// - Parameter GetStyleDescriptorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStyleDescriptorInput`)
     ///
-    /// - Returns: `GetStyleDescriptorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStyleDescriptorOutput`)
     public func getStyleDescriptor(input: GetStyleDescriptorInput) async throws -> GetStyleDescriptorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -587,7 +583,6 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStyleDescriptorInput, GetStyleDescriptorOutput>(GetStyleDescriptorInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStyleDescriptorOutput>(GetStyleDescriptorOutput.httpOutput(from:), GetStyleDescriptorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStyleDescriptorInput, GetStyleDescriptorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStyleDescriptorOutput>())
@@ -619,9 +614,9 @@ extension GeoMapsClient {
     ///
     /// GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.
     ///
-    /// - Parameter GetTileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTileInput`)
     ///
-    /// - Returns: `GetTileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,7 +652,6 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTileInput, GetTileOutput>(GetTileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTileOutput>(GetTileOutput.httpOutput(from:), GetTileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTileInput, GetTileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTileOutput>())

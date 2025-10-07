@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OSISClient: ClientRuntime.Client {
     public static let clientName = "OSISClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: OSISClient.OSISClientConfiguration
     let serviceName = "OSIS"
@@ -373,9 +372,9 @@ extension OSISClient {
     ///
     /// Creates an OpenSearch Ingestion pipeline. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
     ///
-    /// - Parameter CreatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(CreatePipelineOutput.httpOutput(from:), CreatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineInput, CreatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipelineOutput>())
@@ -447,9 +445,9 @@ extension OSISClient {
     ///
     /// Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to ingest data from your VPC into pipelines that you have access to.
     ///
-    /// - Parameter CreatePipelineEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipelineEndpointInput`)
     ///
-    /// - Returns: `CreatePipelineEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipelineEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,7 +486,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineEndpointInput, CreatePipelineEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineEndpointOutput>(CreatePipelineEndpointOutput.httpOutput(from:), CreatePipelineEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineEndpointInput, CreatePipelineEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipelineEndpointOutput>())
@@ -520,9 +517,9 @@ extension OSISClient {
     ///
     /// Deletes an OpenSearch Ingestion pipeline. For more information, see [Deleting Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/delete-pipeline.html).
     ///
-    /// - Parameter DeletePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,7 +555,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(DeletePipelineOutput.httpOutput(from:), DeletePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineInput, DeletePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipelineOutput>())
@@ -590,9 +586,9 @@ extension OSISClient {
     ///
     /// Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
     ///
-    /// - Parameter DeletePipelineEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipelineEndpointInput`)
     ///
-    /// - Returns: `DeletePipelineEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,7 +622,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePipelineEndpointInput, DeletePipelineEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineEndpointOutput>(DeletePipelineEndpointOutput.httpOutput(from:), DeletePipelineEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineEndpointInput, DeletePipelineEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipelineEndpointOutput>())
@@ -658,9 +653,9 @@ extension OSISClient {
     ///
     /// Deletes a resource-based policy from an OpenSearch Ingestion resource.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,7 +691,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -728,9 +722,9 @@ extension OSISClient {
     ///
     /// Retrieves information about an OpenSearch Ingestion pipeline.
     ///
-    /// - Parameter GetPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPipelineInput`)
     ///
-    /// - Returns: `GetPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,7 +759,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPipelineInput, GetPipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPipelineOutput>(GetPipelineOutput.httpOutput(from:), GetPipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPipelineInput, GetPipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPipelineOutput>())
@@ -797,9 +790,9 @@ extension OSISClient {
     ///
     /// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
-    /// - Parameter GetPipelineBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPipelineBlueprintInput`)
     ///
-    /// - Returns: `GetPipelineBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPipelineBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,7 +828,6 @@ extension OSISClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPipelineBlueprintInput, GetPipelineBlueprintOutput>(GetPipelineBlueprintInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPipelineBlueprintOutput>(GetPipelineBlueprintOutput.httpOutput(from:), GetPipelineBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPipelineBlueprintInput, GetPipelineBlueprintOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPipelineBlueprintOutput>())
@@ -867,9 +859,9 @@ extension OSISClient {
     ///
     /// Returns progress information for the current change happening on an OpenSearch Ingestion pipeline. Currently, this operation only returns information when a pipeline is being created. For more information, see [Tracking the status of pipeline creation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#get-pipeline-progress).
     ///
-    /// - Parameter GetPipelineChangeProgressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPipelineChangeProgressInput`)
     ///
-    /// - Returns: `GetPipelineChangeProgressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPipelineChangeProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,7 +896,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPipelineChangeProgressInput, GetPipelineChangeProgressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPipelineChangeProgressOutput>(GetPipelineChangeProgressOutput.httpOutput(from:), GetPipelineChangeProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPipelineChangeProgressInput, GetPipelineChangeProgressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPipelineChangeProgressOutput>())
@@ -936,9 +927,9 @@ extension OSISClient {
     ///
     /// Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,7 +965,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -1006,9 +996,9 @@ extension OSISClient {
     ///
     /// Retrieves a list of all available blueprints for Data Prepper. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
-    /// - Parameter ListPipelineBlueprintsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineBlueprintsInput`)
     ///
-    /// - Returns: `ListPipelineBlueprintsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,7 +1033,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPipelineBlueprintsInput, ListPipelineBlueprintsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelineBlueprintsOutput>(ListPipelineBlueprintsOutput.httpOutput(from:), ListPipelineBlueprintsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelineBlueprintsInput, ListPipelineBlueprintsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelineBlueprintsOutput>())
@@ -1075,9 +1064,9 @@ extension OSISClient {
     ///
     /// Lists the pipeline endpoints connected to pipelines in your account.
     ///
-    /// - Parameter ListPipelineEndpointConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineEndpointConnectionsInput`)
     ///
-    /// - Returns: `ListPipelineEndpointConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineEndpointConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,7 +1102,6 @@ extension OSISClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPipelineEndpointConnectionsInput, ListPipelineEndpointConnectionsOutput>(ListPipelineEndpointConnectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelineEndpointConnectionsOutput>(ListPipelineEndpointConnectionsOutput.httpOutput(from:), ListPipelineEndpointConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelineEndpointConnectionsInput, ListPipelineEndpointConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelineEndpointConnectionsOutput>())
@@ -1145,9 +1133,9 @@ extension OSISClient {
     ///
     /// Lists all pipeline endpoints in your account.
     ///
-    /// - Parameter ListPipelineEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineEndpointsInput`)
     ///
-    /// - Returns: `ListPipelineEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1183,7 +1171,6 @@ extension OSISClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPipelineEndpointsInput, ListPipelineEndpointsOutput>(ListPipelineEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelineEndpointsOutput>(ListPipelineEndpointsOutput.httpOutput(from:), ListPipelineEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelineEndpointsInput, ListPipelineEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelineEndpointsOutput>())
@@ -1215,9 +1202,9 @@ extension OSISClient {
     ///
     /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see [Viewing Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/list-pipeline.html).
     ///
-    /// - Parameter ListPipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,7 +1240,6 @@ extension OSISClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPipelinesInput, ListPipelinesOutput>(ListPipelinesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(ListPipelinesOutput.httpOutput(from:), ListPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelinesInput, ListPipelinesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelinesOutput>())
@@ -1285,9 +1271,9 @@ extension OSISClient {
     ///
     /// Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,7 +1309,6 @@ extension OSISClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1355,9 +1340,9 @@ extension OSISClient {
     ///
     /// Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based policies grant permissions to principals to perform actions on the resource.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,7 +1381,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -1428,9 +1412,9 @@ extension OSISClient {
     ///
     /// Revokes pipeline endpoints from specified endpoint IDs.
     ///
-    /// - Parameter RevokePipelineEndpointConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokePipelineEndpointConnectionsInput`)
     ///
-    /// - Returns: `RevokePipelineEndpointConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokePipelineEndpointConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,7 +1452,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokePipelineEndpointConnectionsInput, RevokePipelineEndpointConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokePipelineEndpointConnectionsOutput>(RevokePipelineEndpointConnectionsOutput.httpOutput(from:), RevokePipelineEndpointConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokePipelineEndpointConnectionsInput, RevokePipelineEndpointConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokePipelineEndpointConnectionsOutput>())
@@ -1500,9 +1483,9 @@ extension OSISClient {
     ///
     /// Starts an OpenSearch Ingestion pipeline. For more information, see [Starting an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--start).
     ///
-    /// - Parameter StartPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPipelineInput`)
     ///
-    /// - Returns: `StartPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,7 +1521,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPipelineInput, StartPipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPipelineOutput>(StartPipelineOutput.httpOutput(from:), StartPipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPipelineInput, StartPipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPipelineOutput>())
@@ -1570,9 +1552,9 @@ extension OSISClient {
     ///
     /// Stops an OpenSearch Ingestion pipeline. For more information, see [Stopping an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--stop).
     ///
-    /// - Parameter StopPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPipelineInput`)
     ///
-    /// - Returns: `StopPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1608,7 +1590,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopPipelineInput, StopPipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopPipelineOutput>(StopPipelineOutput.httpOutput(from:), StopPipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPipelineInput, StopPipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPipelineOutput>())
@@ -1640,9 +1621,9 @@ extension OSISClient {
     ///
     /// Tags an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,7 +1663,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1714,9 +1694,9 @@ extension OSISClient {
     ///
     /// Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1755,7 +1735,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1787,9 +1766,9 @@ extension OSISClient {
     ///
     /// Updates an OpenSearch Ingestion pipeline. For more information, see [Updating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/update-pipeline.html).
     ///
-    /// - Parameter UpdatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipelineInput`)
     ///
-    /// - Returns: `UpdatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1828,7 +1807,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineOutput>(UpdatePipelineOutput.httpOutput(from:), UpdatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineOutput>())
@@ -1860,9 +1838,9 @@ extension OSISClient {
     ///
     /// Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
     ///
-    /// - Parameter ValidatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidatePipelineInput`)
     ///
-    /// - Returns: `ValidatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1899,7 +1877,6 @@ extension OSISClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidatePipelineInput, ValidatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePipelineOutput>(ValidatePipelineOutput.httpOutput(from:), ValidatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePipelineInput, ValidatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidatePipelineOutput>())

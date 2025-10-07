@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoPlacesClient: ClientRuntime.Client {
     public static let clientName = "GeoPlacesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoPlacesClient.GeoPlacesClientConfiguration
     let serviceName = "Geo Places"
@@ -373,9 +372,9 @@ extension GeoPlacesClient {
     ///
     /// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views.
     ///
-    /// - Parameter AutocompleteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AutocompleteInput`)
     ///
-    /// - Returns: `AutocompleteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AutocompleteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension GeoPlacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AutocompleteInput, AutocompleteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AutocompleteOutput>(AutocompleteOutput.httpOutput(from:), AutocompleteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AutocompleteInput, AutocompleteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AutocompleteOutput>())
@@ -445,9 +443,9 @@ extension GeoPlacesClient {
     ///
     /// Geocode converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views.
     ///
-    /// - Parameter GeocodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GeocodeInput`)
     ///
-    /// - Returns: `GeocodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GeocodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension GeoPlacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GeocodeInput, GeocodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GeocodeOutput>(GeocodeOutput.httpOutput(from:), GeocodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GeocodeInput, GeocodeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GeocodeOutput>())
@@ -517,9 +514,9 @@ extension GeoPlacesClient {
     ///
     /// GetPlace finds a place by its unique ID. A PlaceId is returned by other place operations.
     ///
-    /// - Parameter GetPlaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaceInput`)
     ///
-    /// - Returns: `GetPlaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension GeoPlacesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPlaceInput, GetPlaceOutput>(GetPlaceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlaceOutput>(GetPlaceOutput.httpOutput(from:), GetPlaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlaceInput, GetPlaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlaceOutput>())
@@ -586,9 +582,9 @@ extension GeoPlacesClient {
     ///
     /// ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other related information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone information and the inclusion of political views.
     ///
-    /// - Parameter ReverseGeocodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReverseGeocodeInput`)
     ///
-    /// - Returns: `ReverseGeocodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReverseGeocodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,7 +622,6 @@ extension GeoPlacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReverseGeocodeInput, ReverseGeocodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReverseGeocodeOutput>(ReverseGeocodeOutput.httpOutput(from:), ReverseGeocodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReverseGeocodeInput, ReverseGeocodeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReverseGeocodeOutput>())
@@ -658,9 +653,9 @@ extension GeoPlacesClient {
     ///
     /// SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters.
     ///
-    /// - Parameter SearchNearbyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchNearbyInput`)
     ///
-    /// - Returns: `SearchNearbyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchNearbyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,7 +693,6 @@ extension GeoPlacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchNearbyInput, SearchNearbyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchNearbyOutput>(SearchNearbyOutput.httpOutput(from:), SearchNearbyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchNearbyInput, SearchNearbyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchNearbyOutput>())
@@ -730,9 +724,9 @@ extension GeoPlacesClient {
     ///
     /// SearchText searches for geocode and place information. You can then complete a follow-up query suggested from the Suggest API via a query id.
     ///
-    /// - Parameter SearchTextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTextInput`)
     ///
-    /// - Returns: `SearchTextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,7 +764,6 @@ extension GeoPlacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTextInput, SearchTextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTextOutput>(SearchTextOutput.httpOutput(from:), SearchTextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTextInput, SearchTextOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTextOutput>())
@@ -802,9 +795,9 @@ extension GeoPlacesClient {
     ///
     /// Suggest provides intelligent predictions or recommendations based on the user's input or context, such as relevant places, points of interest, query terms or search category. It is designed to help users find places or point of interests candidates or identify a follow on query based on incomplete or misspelled queries. It returns a list of possible matches or refinements that can be used to formulate a more accurate query. Users can select the most appropriate suggestion and use it for further searching. The API provides options for filtering results by location and other attributes, and allows for additional features like phonemes and timezones. The response includes refined query terms and detailed place information.
     ///
-    /// - Parameter SuggestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SuggestInput`)
     ///
-    /// - Returns: `SuggestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SuggestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,7 +835,6 @@ extension GeoPlacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SuggestInput, SuggestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SuggestOutput>(SuggestOutput.httpOutput(from:), SuggestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SuggestInput, SuggestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SuggestOutput>())

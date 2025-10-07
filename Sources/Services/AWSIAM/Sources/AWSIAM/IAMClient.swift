@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IAMClient: ClientRuntime.Client {
     public static let clientName = "IAMClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: IAMClient.IAMClientConfiguration
     let serviceName = "IAM"
@@ -373,9 +372,9 @@ extension IAMClient {
     ///
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
     ///
-    /// - Parameter AddClientIDToOpenIDConnectProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddClientIDToOpenIDConnectProviderInput`)
     ///
-    /// - Returns: `AddClientIDToOpenIDConnectProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddClientIDToOpenIDConnectProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,7 +409,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddClientIDToOpenIDConnectProviderOutput>(AddClientIDToOpenIDConnectProviderOutput.httpOutput(from:), AddClientIDToOpenIDConnectProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddClientIDToOpenIDConnectProviderOutput>())
@@ -444,9 +442,9 @@ extension IAMClient {
     ///
     /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency). To force the change, you must [disassociate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html) and then [associate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateIamInstanceProfile.html), or you can stop your instance and then restart it. The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy. When using the [iam:AssociatedResourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#available-keys-for-iam) condition in a policy to restrict the [PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) IAM action, special considerations apply if the policy is intended to define access for the AddRoleToInstanceProfile action. In this case, you cannot specify a Region or instance ID in the EC2 instance ARN. The ARN value must be arn:aws:ec2:*:CallerAccountId:instance/*. Using any other ARN value may lead to unexpected evaluation results. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
-    /// - Parameter AddRoleToInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddRoleToInstanceProfileInput`)
     ///
-    /// - Returns: `AddRoleToInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddRoleToInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,7 +480,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddRoleToInstanceProfileOutput>(AddRoleToInstanceProfileOutput.httpOutput(from:), AddRoleToInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddRoleToInstanceProfileOutput>())
@@ -516,9 +513,9 @@ extension IAMClient {
     ///
     /// Adds the specified user to the specified group.
     ///
-    /// - Parameter AddUserToGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddUserToGroupInput`)
     ///
-    /// - Returns: `AddUserToGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddUserToGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,7 +549,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddUserToGroupInput, AddUserToGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddUserToGroupOutput>(AddUserToGroupOutput.httpOutput(from:), AddUserToGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddUserToGroupInput, AddUserToGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddUserToGroupOutput>())
@@ -586,9 +582,9 @@ extension IAMClient {
     ///
     /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use [PutGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutGroupPolicy.html). As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter AttachGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachGroupPolicyInput`)
     ///
-    /// - Returns: `AttachGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,7 +620,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachGroupPolicyOutput>(AttachGroupPolicyOutput.httpOutput(from:), AttachGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachGroupPolicyOutput>())
@@ -658,9 +653,9 @@ extension IAMClient {
     ///
     /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html). You can update a role's trust policy using [UpdateAssumerolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html). Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use [PutRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html). For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide.
     ///
-    /// - Parameter AttachRolePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachRolePolicyInput`)
     ///
-    /// - Returns: `AttachRolePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachRolePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,7 +692,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachRolePolicyOutput>(AttachRolePolicyOutput.httpOutput(from:), AttachRolePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachRolePolicyOutput>())
@@ -731,9 +725,9 @@ extension IAMClient {
     ///
     /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use [PutUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html). As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter AttachUserPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachUserPolicyInput`)
     ///
-    /// - Returns: `AttachUserPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachUserPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,7 +763,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachUserPolicyOutput>(AttachUserPolicyOutput.httpOutput(from:), AttachUserPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachUserPolicyOutput>())
@@ -803,9 +796,9 @@ extension IAMClient {
     ///
     /// Changes the password of the IAM user who is calling this operation. This operation can be performed using the CLI, the Amazon Web Services API, or the My Security Credentials page in the Amazon Web Services Management Console. The Amazon Web Services account root user password is not affected by this operation. Use [UpdateLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateLoginProfile.html) to use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
     ///
-    /// - Parameter ChangePasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ChangePasswordInput`)
     ///
-    /// - Returns: `ChangePasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ChangePasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,7 +835,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangePasswordInput, ChangePasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangePasswordOutput>(ChangePasswordOutput.httpOutput(from:), ChangePasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangePasswordInput, ChangePasswordOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangePasswordOutput>())
@@ -876,9 +868,9 @@ extension IAMClient {
     ///
     /// Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services access key ID for the specified user. The default status for new keys is Active. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials. This is true even if the Amazon Web Services account has no associated users. For information about quotas on the number of keys you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation. You must save the key (for example, in a text file) if you want to be able to access it again. If a secret key is lost, you can delete the access keys for the associated user and then create new keys.
     ///
-    /// - Parameter CreateAccessKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessKeyInput`)
     ///
-    /// - Returns: `CreateAccessKeyOutput` : Contains the response to a successful [CreateAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html) request.
+    /// - Returns: Contains the response to a successful [CreateAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html) request. (Type: `CreateAccessKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -912,7 +904,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessKeyOutput>(CreateAccessKeyOutput.httpOutput(from:), CreateAccessKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessKeyOutput>())
@@ -946,9 +937,9 @@ extension IAMClient {
     ///
     /// Creates an alias for your Amazon Web Services account. For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html) in the Amazon Web Services Sign-In User Guide.
     ///
-    /// - Parameter CreateAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountAliasInput`)
     ///
-    /// - Returns: `CreateAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,7 +974,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountAliasOutput>(CreateAccountAliasOutput.httpOutput(from:), CreateAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountAliasOutput>())
@@ -1017,9 +1007,9 @@ extension IAMClient {
     ///
     /// Creates a new group. For information about the number of groups you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : Contains the response to a successful [CreateGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html) request.
+    /// - Returns: Contains the response to a successful [CreateGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html) request. (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,7 +1044,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -1088,9 +1077,9 @@ extension IAMClient {
     ///
     /// Creates a new instance profile. For information about instance profiles, see [Using roles for applications on Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html) in the IAM User Guide, and [Instance profiles](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#ec2-instance-profile) in the Amazon EC2 User Guide. For information about the number of instance profiles you can create, see [IAM object quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceProfileInput`)
     ///
-    /// - Returns: `CreateInstanceProfileOutput` : Contains the response to a successful [CreateInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateInstanceProfile.html) request.
+    /// - Returns: Contains the response to a successful [CreateInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateInstanceProfile.html) request. (Type: `CreateInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1126,7 +1115,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput>(CreateInstanceProfileOutput.httpOutput(from:), CreateInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceProfileOutput>())
@@ -1160,9 +1148,9 @@ extension IAMClient {
     ///
     /// Creates a password for the specified IAM user. A password allows an IAM user to access Amazon Web Services services through the Amazon Web Services Management Console. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to create a password for any IAM user. Use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html) to update your own existing password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about managing passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateLoginProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoginProfileInput`)
     ///
-    /// - Returns: `CreateLoginProfileOutput` : Contains the response to a successful [CreateLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html) request.
+    /// - Returns: Contains the response to a successful [CreateLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html) request. (Type: `CreateLoginProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1198,7 +1186,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoginProfileOutput>(CreateLoginProfileOutput.httpOutput(from:), CreateLoginProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoginProfileOutput>())
@@ -1243,9 +1230,9 @@ extension IAMClient {
     ///
     /// You get all of this information from the OIDC IdP you want to use to access Amazon Web Services. Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed by one of these trusted CAs, only then we secure communication using the thumbprints set in the IdP's configuration. The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html) operation to highly privileged users.
     ///
-    /// - Parameter CreateOpenIDConnectProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOpenIDConnectProviderInput`)
     ///
-    /// - Returns: `CreateOpenIDConnectProviderOutput` : Contains the response to a successful [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html) request.
+    /// - Returns: Contains the response to a successful [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html) request. (Type: `CreateOpenIDConnectProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1282,7 +1269,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOpenIDConnectProviderOutput>(CreateOpenIDConnectProviderOutput.httpOutput(from:), CreateOpenIDConnectProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOpenIDConnectProviderOutput>())
@@ -1316,9 +1302,9 @@ extension IAMClient {
     ///
     /// Creates a new managed policy for your Amazon Web Services account. This operation creates a policy version with a version identifier of v1 and sets v1 as the policy's default version. For more information about policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about managed policies in general, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter CreatePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePolicyInput`)
     ///
-    /// - Returns: `CreatePolicyOutput` : Contains the response to a successful [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html) request.
+    /// - Returns: Contains the response to a successful [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html) request. (Type: `CreatePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1355,7 +1341,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePolicyInput, CreatePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePolicyOutput>(CreatePolicyOutput.httpOutput(from:), CreatePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePolicyInput, CreatePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePolicyOutput>())
@@ -1389,9 +1374,9 @@ extension IAMClient {
     ///
     /// Creates a new version of the specified managed policy. To update a managed policy, you create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must delete an existing version using [DeletePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html) before you create a new version. Optionally, you can set the new version as the policy's default version. The default version is the version that is in effect for the IAM users, groups, and roles to which the policy is attached. For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
     ///
-    /// - Parameter CreatePolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePolicyVersionInput`)
     ///
-    /// - Returns: `CreatePolicyVersionOutput` : Contains the response to a successful [CreatePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html) request.
+    /// - Returns: Contains the response to a successful [CreatePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html) request. (Type: `CreatePolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1427,7 +1412,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePolicyVersionOutput>(CreatePolicyVersionOutput.httpOutput(from:), CreatePolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePolicyVersionOutput>())
@@ -1461,9 +1445,9 @@ extension IAMClient {
     ///
     /// Creates a new role for your Amazon Web Services account. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For information about quotas for role names and the number of roles you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoleInput`)
     ///
-    /// - Returns: `CreateRoleOutput` : Contains the response to a successful [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html) request.
+    /// - Returns: Contains the response to a successful [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html) request. (Type: `CreateRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1500,7 +1484,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoleInput, CreateRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoleOutput>(CreateRoleOutput.httpOutput(from:), CreateRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoleInput, CreateRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoleOutput>())
@@ -1534,9 +1517,9 @@ extension IAMClient {
     ///
     /// Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access to Amazon Web Services. When you create the SAML provider resource, you upload a SAML metadata document that you get from your IdP. That document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). For more information, see [Enabling SAML 2.0 federated users to access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html) and [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateSAMLProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSAMLProviderInput`)
     ///
-    /// - Returns: `CreateSAMLProviderOutput` : Contains the response to a successful [CreateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html) request.
+    /// - Returns: Contains the response to a successful [CreateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html) request. (Type: `CreateSAMLProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1572,7 +1555,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSAMLProviderOutput>(CreateSAMLProviderOutput.httpOutput(from:), CreateSAMLProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSAMLProviderOutput>())
@@ -1606,9 +1588,9 @@ extension IAMClient {
     ///
     /// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide. To attach a policy to this service-linked role, you must make the request using the Amazon Web Services service that depends on this role.
     ///
-    /// - Parameter CreateServiceLinkedRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceLinkedRoleInput`)
     ///
-    /// - Returns: `CreateServiceLinkedRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceLinkedRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1643,7 +1625,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceLinkedRoleOutput>(CreateServiceLinkedRoleOutput.httpOutput(from:), CreateServiceLinkedRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceLinkedRoleOutput>())
@@ -1677,9 +1658,9 @@ extension IAMClient {
     ///
     /// Generates a set of credentials consisting of a user name and password that can be used to access the service specified in the request. These credentials are generated by IAM, and can be used only for the specified service. You can have a maximum of two sets of service-specific credentials for each supported service per user. You can create service-specific credentials for Amazon Bedrock, CodeCommit and Amazon Keyspaces (for Apache Cassandra). You can reset the password to a new service-generated value by calling [ResetServiceSpecificCredential](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResetServiceSpecificCredential.html). For more information about service-specific credentials, see [Service-specific credentials for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_bedrock.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateServiceSpecificCredentialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceSpecificCredentialInput`)
     ///
-    /// - Returns: `CreateServiceSpecificCredentialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceSpecificCredentialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,7 +1694,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceSpecificCredentialOutput>(CreateServiceSpecificCredentialOutput.httpOutput(from:), CreateServiceSpecificCredentialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceSpecificCredentialOutput>())
@@ -1747,9 +1727,9 @@ extension IAMClient {
     ///
     /// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : Contains the response to a successful [CreateUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateUser.html) request.
+    /// - Returns: Contains the response to a successful [CreateUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateUser.html) request. (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1786,7 +1766,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1820,9 +1799,9 @@ extension IAMClient {
     ///
     /// Creates a new virtual MFA device for the Amazon Web Services account. After creating the virtual MFA, use [EnableMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_EnableMFADevice.html) to attach the MFA device to an IAM user. For more information about creating and working with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html) in the IAM User Guide. For information about the maximum number of MFA devices you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. The seed information contained in the QR code and the Base32 string should be treated like any other secret access information. In other words, protect the seed information as you would your Amazon Web Services access keys or your passwords. After you provision your virtual device, you should ensure that the information is destroyed following secure procedures.
     ///
-    /// - Parameter CreateVirtualMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVirtualMFADeviceInput`)
     ///
-    /// - Returns: `CreateVirtualMFADeviceOutput` : Contains the response to a successful [CreateVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateVirtualMFADevice.html) request.
+    /// - Returns: Contains the response to a successful [CreateVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateVirtualMFADevice.html) request. (Type: `CreateVirtualMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1858,7 +1837,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVirtualMFADeviceOutput>(CreateVirtualMFADeviceOutput.httpOutput(from:), CreateVirtualMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVirtualMFADeviceOutput>())
@@ -1892,9 +1870,9 @@ extension IAMClient {
     ///
     /// Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled. For more information about creating and working with virtual MFA devices, see [Enabling a virtual multi-factor authentication (MFA) device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html) in the IAM User Guide.
     ///
-    /// - Parameter DeactivateMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateMFADeviceInput`)
     ///
-    /// - Returns: `DeactivateMFADeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1930,7 +1908,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateMFADeviceOutput>(DeactivateMFADeviceOutput.httpOutput(from:), DeactivateMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateMFADeviceOutput>())
@@ -1964,9 +1941,9 @@ extension IAMClient {
     ///
     /// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.
     ///
-    /// - Parameter DeleteAccessKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessKeyInput`)
     ///
-    /// - Returns: `DeleteAccessKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,7 +1977,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessKeyOutput>(DeleteAccessKeyOutput.httpOutput(from:), DeleteAccessKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessKeyOutput>())
@@ -2034,9 +2010,9 @@ extension IAMClient {
     ///
     /// Deletes the specified Amazon Web Services account alias. For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html) in the Amazon Web Services Sign-In User Guide.
     ///
-    /// - Parameter DeleteAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAliasInput`)
     ///
-    /// - Returns: `DeleteAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2071,7 +2047,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutput>(DeleteAccountAliasOutput.httpOutput(from:), DeleteAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountAliasOutput>())
@@ -2105,9 +2080,9 @@ extension IAMClient {
     ///
     /// Deletes the password policy for the Amazon Web Services account. There are no parameters.
     ///
-    /// - Parameter DeleteAccountPasswordPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountPasswordPolicyInput`)
     ///
-    /// - Returns: `DeleteAccountPasswordPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountPasswordPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2141,7 +2116,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountPasswordPolicyOutput>(DeleteAccountPasswordPolicyOutput.httpOutput(from:), DeleteAccountPasswordPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountPasswordPolicyOutput>())
@@ -2175,9 +2149,9 @@ extension IAMClient {
     ///
     /// Deletes the specified IAM group. The group must not contain any users or have any attached policies.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,7 +2186,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -2246,9 +2219,9 @@ extension IAMClient {
     ///
     /// Deletes the specified inline policy that is embedded in the specified IAM group. A group can also have managed policies attached to it. To detach a managed policy from a group, use [DetachGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachGroupPolicy.html). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter DeleteGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupPolicyInput`)
     ///
-    /// - Returns: `DeleteGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,7 +2255,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupPolicyOutput>(DeleteGroupPolicyOutput.httpOutput(from:), DeleteGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupPolicyOutput>())
@@ -2316,9 +2288,9 @@ extension IAMClient {
     ///
     /// Deletes the specified instance profile. The instance profile must not have an associated role. Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
-    /// - Parameter DeleteInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceProfileInput`)
     ///
-    /// - Returns: `DeleteInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2353,7 +2325,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput>(DeleteInstanceProfileOutput.httpOutput(from:), DeleteInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceProfileOutput>())
@@ -2387,9 +2358,9 @@ extension IAMClient {
     ///
     /// Deletes the password for the specified IAM user or root user, For more information, see [Managing passwords for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_admin-change-user.html). You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to delete a password for any IAM user. You can use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html) to update, but not delete, your own password in the My Security Credentials page in the Amazon Web Services Management Console. Deleting a user's password does not prevent a user from accessing Amazon Web Services through the command line interface or the API. To prevent all user access, you must also either make any access keys inactive or delete them. For more information about making keys inactive or deleting them, see [UpdateAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccessKey.html) and [DeleteAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteAccessKey.html).
     ///
-    /// - Parameter DeleteLoginProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoginProfileInput`)
     ///
-    /// - Returns: `DeleteLoginProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoginProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2424,7 +2395,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoginProfileOutput>(DeleteLoginProfileOutput.httpOutput(from:), DeleteLoginProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoginProfileOutput>())
@@ -2458,9 +2428,9 @@ extension IAMClient {
     ///
     /// Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any attempt to assume a role that references a deleted provider fails. This operation is idempotent; it does not fail or return an error if you call the operation for a provider that does not exist.
     ///
-    /// - Parameter DeleteOpenIDConnectProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOpenIDConnectProviderInput`)
     ///
-    /// - Returns: `DeleteOpenIDConnectProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOpenIDConnectProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2494,7 +2464,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOpenIDConnectProviderOutput>(DeleteOpenIDConnectProviderOutput.httpOutput(from:), DeleteOpenIDConnectProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOpenIDConnectProviderOutput>())
@@ -2537,9 +2506,9 @@ extension IAMClient {
     ///
     /// For information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter DeletePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2575,7 +2544,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(DeletePolicyOutput.httpOutput(from:), DeletePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyInput, DeletePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
@@ -2609,9 +2577,9 @@ extension IAMClient {
     ///
     /// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this operation. To delete the default version from a policy, use [DeletePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html). To find out which version of a policy is marked as the default version, use [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html). For information about versions for managed policies, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
     ///
-    /// - Parameter DeletePolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyVersionInput`)
     ///
-    /// - Returns: `DeletePolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,7 +2615,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyVersionOutput>(DeletePolicyVersionOutput.httpOutput(from:), DeletePolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyVersionOutput>())
@@ -2692,9 +2659,9 @@ extension IAMClient {
     ///
     /// Make sure that you do not have any Amazon EC2 instances running with the role you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance.
     ///
-    /// - Parameter DeleteRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoleInput`)
     ///
-    /// - Returns: `DeleteRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2731,7 +2698,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRoleInput, DeleteRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoleOutput>(DeleteRoleOutput.httpOutput(from:), DeleteRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoleInput, DeleteRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoleOutput>())
@@ -2765,9 +2731,9 @@ extension IAMClient {
     ///
     /// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. Deleting the permissions boundary for a role might increase its permissions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies.
     ///
-    /// - Parameter DeleteRolePermissionsBoundaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRolePermissionsBoundaryInput`)
     ///
-    /// - Returns: `DeleteRolePermissionsBoundaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRolePermissionsBoundaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2801,7 +2767,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRolePermissionsBoundaryOutput>(DeleteRolePermissionsBoundaryOutput.httpOutput(from:), DeleteRolePermissionsBoundaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRolePermissionsBoundaryOutput>())
@@ -2835,9 +2800,9 @@ extension IAMClient {
     ///
     /// Deletes the specified inline policy that is embedded in the specified IAM role. A role can also have managed policies attached to it. To detach a managed policy from a role, use [DetachRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachRolePolicy.html). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter DeleteRolePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRolePolicyInput`)
     ///
-    /// - Returns: `DeleteRolePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRolePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2872,7 +2837,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRolePolicyOutput>(DeleteRolePolicyOutput.httpOutput(from:), DeleteRolePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRolePolicyOutput>())
@@ -2906,9 +2870,9 @@ extension IAMClient {
     ///
     /// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-existent provider resource ARN fails. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
-    /// - Parameter DeleteSAMLProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSAMLProviderInput`)
     ///
-    /// - Returns: `DeleteSAMLProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSAMLProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2943,7 +2907,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSAMLProviderOutput>(DeleteSAMLProviderOutput.httpOutput(from:), DeleteSAMLProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSAMLProviderOutput>())
@@ -2977,9 +2940,9 @@ extension IAMClient {
     ///
     /// Deletes the specified SSH public key. The SSH public key deleted by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
-    /// - Parameter DeleteSSHPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSSHPublicKeyInput`)
     ///
-    /// - Returns: `DeleteSSHPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSSHPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3011,7 +2974,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSSHPublicKeyOutput>(DeleteSSHPublicKeyOutput.httpOutput(from:), DeleteSSHPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSSHPublicKeyOutput>())
@@ -3045,9 +3007,9 @@ extension IAMClient {
     ///
     /// Deletes the specified server certificate. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. If you are using a server certificate with Elastic Load Balancing, deleting the certificate could have implications for your application. If Elastic Load Balancing doesn't detect the deletion of bound certificates, it may continue to use the certificates. This could cause Elastic Load Balancing to stop accepting traffic. We recommend that you remove the reference to the certificate from Elastic Load Balancing before using this command to delete the certificate. For more information, see [DeleteLoadBalancerListeners](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html) in the Elastic Load Balancing API Reference.
     ///
-    /// - Parameter DeleteServerCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServerCertificateInput`)
     ///
-    /// - Returns: `DeleteServerCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServerCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3082,7 +3044,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServerCertificateOutput>(DeleteServerCertificateOutput.httpOutput(from:), DeleteServerCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServerCertificateOutput>())
@@ -3116,9 +3077,9 @@ extension IAMClient {
     ///
     /// Submits a service-linked role deletion request and returns a DeletionTaskId, which you can use to check the status of the deletion. Before you call this operation, confirm that the role has no active sessions and that any resources used by the role in the linked service are deleted. If you call this operation more than once for the same service-linked role and an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is returned. If you submit a deletion request for a service-linked role whose linked service is still accessing a resource, then the deletion task fails. If it fails, the [GetServiceLinkedRoleDeletionStatus](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html) operation returns the reason for the failure, usually including the resources that must be deleted. To delete the service-linked role, you must first remove those resources from the linked service and then submit the deletion request again. Resources are specific to the service that is linked to the role. For more information about removing resources from a service, see the [Amazon Web Services documentation](http://docs.aws.amazon.com/) for your service. For more information about service-linked roles, see [Roles terms and concepts: Amazon Web Services service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role) in the IAM User Guide.
     ///
-    /// - Parameter DeleteServiceLinkedRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceLinkedRoleInput`)
     ///
-    /// - Returns: `DeleteServiceLinkedRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceLinkedRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3152,7 +3113,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedRoleOutput>(DeleteServiceLinkedRoleOutput.httpOutput(from:), DeleteServiceLinkedRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceLinkedRoleOutput>())
@@ -3186,9 +3146,9 @@ extension IAMClient {
     ///
     /// Deletes the specified service-specific credential.
     ///
-    /// - Parameter DeleteServiceSpecificCredentialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceSpecificCredentialInput`)
     ///
-    /// - Returns: `DeleteServiceSpecificCredentialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceSpecificCredentialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,7 +3180,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceSpecificCredentialOutput>(DeleteServiceSpecificCredentialOutput.httpOutput(from:), DeleteServiceSpecificCredentialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceSpecificCredentialOutput>())
@@ -3254,9 +3213,9 @@ extension IAMClient {
     ///
     /// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users.
     ///
-    /// - Parameter DeleteSigningCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSigningCertificateInput`)
     ///
-    /// - Returns: `DeleteSigningCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSigningCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3291,7 +3250,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSigningCertificateOutput>(DeleteSigningCertificateOutput.httpOutput(from:), DeleteSigningCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSigningCertificateOutput>())
@@ -3343,9 +3301,9 @@ extension IAMClient {
     ///
     /// * Group memberships ([RemoveUserFromGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_RemoveUserFromGroup.html))
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3381,7 +3339,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -3415,9 +3372,9 @@ extension IAMClient {
     ///
     /// Deletes the permissions boundary for the specified IAM user. Deleting the permissions boundary for a user might increase its permissions by allowing the user to perform all the actions granted in its permissions policies.
     ///
-    /// - Parameter DeleteUserPermissionsBoundaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserPermissionsBoundaryInput`)
     ///
-    /// - Returns: `DeleteUserPermissionsBoundaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserPermissionsBoundaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3450,7 +3407,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserPermissionsBoundaryOutput>(DeleteUserPermissionsBoundaryOutput.httpOutput(from:), DeleteUserPermissionsBoundaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPermissionsBoundaryOutput>())
@@ -3484,9 +3440,9 @@ extension IAMClient {
     ///
     /// Deletes the specified inline policy that is embedded in the specified IAM user. A user can also have managed policies attached to it. To detach a managed policy from a user, use [DetachUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachUserPolicy.html). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter DeleteUserPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserPolicyInput`)
     ///
-    /// - Returns: `DeleteUserPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3520,7 +3476,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserPolicyOutput>(DeleteUserPolicyOutput.httpOutput(from:), DeleteUserPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPolicyOutput>())
@@ -3554,9 +3509,9 @@ extension IAMClient {
     ///
     /// Deletes a virtual MFA device. You must deactivate a user's virtual MFA device before you can delete it. For information about deactivating MFA devices, see [DeactivateMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html).
     ///
-    /// - Parameter DeleteVirtualMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVirtualMFADeviceInput`)
     ///
-    /// - Returns: `DeleteVirtualMFADeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVirtualMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3592,7 +3547,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualMFADeviceOutput>(DeleteVirtualMFADeviceOutput.httpOutput(from:), DeleteVirtualMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualMFADeviceOutput>())
@@ -3626,9 +3580,9 @@ extension IAMClient {
     ///
     /// Removes the specified managed policy from the specified IAM group. A group can also have inline policies embedded with it. To delete an inline policy, use [DeleteGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroupPolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter DetachGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachGroupPolicyInput`)
     ///
-    /// - Returns: `DetachGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3663,7 +3617,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachGroupPolicyOutput>(DetachGroupPolicyOutput.httpOutput(from:), DetachGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachGroupPolicyOutput>())
@@ -3697,9 +3650,9 @@ extension IAMClient {
     ///
     /// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an inline policy, use [DeleteRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteRolePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter DetachRolePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachRolePolicyInput`)
     ///
-    /// - Returns: `DetachRolePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachRolePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3735,7 +3688,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachRolePolicyOutput>(DetachRolePolicyOutput.httpOutput(from:), DetachRolePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachRolePolicyOutput>())
@@ -3769,9 +3721,9 @@ extension IAMClient {
     ///
     /// Removes the specified managed policy from the specified user. A user can also have inline policies embedded with it. To delete an inline policy, use [DeleteUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteUserPolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter DetachUserPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachUserPolicyInput`)
     ///
-    /// - Returns: `DetachUserPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachUserPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3806,7 +3758,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachUserPolicyOutput>(DetachUserPolicyOutput.httpOutput(from:), DetachUserPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachUserPolicyOutput>())
@@ -3840,9 +3791,9 @@ extension IAMClient {
     ///
     /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organization.
     ///
-    /// - Parameter DisableOrganizationsRootCredentialsManagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationsRootCredentialsManagementInput`)
     ///
-    /// - Returns: `DisableOrganizationsRootCredentialsManagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationsRootCredentialsManagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3877,7 +3828,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationsRootCredentialsManagementOutput>(DisableOrganizationsRootCredentialsManagementOutput.httpOutput(from:), DisableOrganizationsRootCredentialsManagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationsRootCredentialsManagementOutput>())
@@ -3911,9 +3861,9 @@ extension IAMClient {
     ///
     /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization.
     ///
-    /// - Parameter DisableOrganizationsRootSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationsRootSessionsInput`)
     ///
-    /// - Returns: `DisableOrganizationsRootSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationsRootSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3948,7 +3898,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationsRootSessionsOutput>(DisableOrganizationsRootSessionsOutput.httpOutput(from:), DisableOrganizationsRootSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationsRootSessionsOutput>())
@@ -3982,9 +3931,9 @@ extension IAMClient {
     ///
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
     ///
-    /// - Parameter EnableMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableMFADeviceInput`)
     ///
-    /// - Returns: `EnableMFADeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4022,7 +3971,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableMFADeviceOutput>(EnableMFADeviceOutput.httpOutput(from:), EnableMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableMFADeviceOutput>())
@@ -4060,9 +4008,9 @@ extension IAMClient {
     ///
     /// * Enable trusted access for Identity and Access Management in Organizations. For details, see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-iam.html) in the Organizations User Guide.
     ///
-    /// - Parameter EnableOrganizationsRootCredentialsManagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationsRootCredentialsManagementInput`)
     ///
-    /// - Returns: `EnableOrganizationsRootCredentialsManagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationsRootCredentialsManagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4098,7 +4046,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationsRootCredentialsManagementOutput>(EnableOrganizationsRootCredentialsManagementOutput.httpOutput(from:), EnableOrganizationsRootCredentialsManagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationsRootCredentialsManagementOutput>())
@@ -4136,9 +4083,9 @@ extension IAMClient {
     ///
     /// * Enable trusted access for Identity and Access Management in Organizations. For details, see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ra.html) in the Organizations User Guide.
     ///
-    /// - Parameter EnableOrganizationsRootSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationsRootSessionsInput`)
     ///
-    /// - Returns: `EnableOrganizationsRootSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationsRootSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4174,7 +4121,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationsRootSessionsOutput>(EnableOrganizationsRootSessionsOutput.httpOutput(from:), EnableOrganizationsRootSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationsRootSessionsOutput>())
@@ -4208,9 +4154,9 @@ extension IAMClient {
     ///
     /// Generates a credential report for the Amazon Web Services account. For more information about the credential report, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) in the IAM User Guide.
     ///
-    /// - Parameter GenerateCredentialReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateCredentialReportInput`)
     ///
-    /// - Returns: `GenerateCredentialReportOutput` : Contains the response to a successful [GenerateCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateCredentialReport.html) request.
+    /// - Returns: Contains the response to a successful [GenerateCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateCredentialReport.html) request. (Type: `GenerateCredentialReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4243,7 +4189,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateCredentialReportOutput>(GenerateCredentialReportOutput.httpOutput(from:), GenerateCredentialReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateCredentialReportOutput>())
@@ -4299,9 +4244,9 @@ extension IAMClient {
     ///
     /// Service last accessed data does not use other policy types when determining whether a principal could access a service. These other policy types include identity-based policies, resource-based policies, access control lists, IAM permissions boundaries, and STS assume role policies. It only applies SCP logic. For more about the evaluation of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics) in the IAM User Guide. For more information about service last accessed data, see [Reducing policy scope by viewing user activity](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide.
     ///
-    /// - Parameter GenerateOrganizationsAccessReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateOrganizationsAccessReportInput`)
     ///
-    /// - Returns: `GenerateOrganizationsAccessReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateOrganizationsAccessReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4333,7 +4278,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateOrganizationsAccessReportOutput>(GenerateOrganizationsAccessReportOutput.httpOutput(from:), GenerateOrganizationsAccessReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateOrganizationsAccessReportOutput>())
@@ -4374,9 +4318,9 @@ extension IAMClient {
     ///
     /// To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the [ListPoliciesGrantingServiceAccess](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccess.html) operation. Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics) in the IAM User Guide. For more information about service and action last accessed data, see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide.
     ///
-    /// - Parameter GenerateServiceLastAccessedDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateServiceLastAccessedDetailsInput`)
     ///
-    /// - Returns: `GenerateServiceLastAccessedDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateServiceLastAccessedDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4409,7 +4353,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateServiceLastAccessedDetailsOutput>(GenerateServiceLastAccessedDetailsOutput.httpOutput(from:), GenerateServiceLastAccessedDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateServiceLastAccessedDetailsOutput>())
@@ -4443,9 +4386,9 @@ extension IAMClient {
     ///
     /// Retrieves information about when the specified access key was last used. The information includes the date and time of last use, along with the Amazon Web Services service and Region that were specified in the last request made with that key.
     ///
-    /// - Parameter GetAccessKeyLastUsedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessKeyLastUsedInput`)
     ///
-    /// - Returns: `GetAccessKeyLastUsedOutput` : Contains the response to a successful [GetAccessKeyLastUsed](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html) request. It is also returned as a member of the [AccessKeyMetaData](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AccessKeyMetaData.html) structure returned by the [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) action.
+    /// - Returns: Contains the response to a successful [GetAccessKeyLastUsed](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html) request. It is also returned as a member of the [AccessKeyMetaData](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AccessKeyMetaData.html) structure returned by the [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) action. (Type: `GetAccessKeyLastUsedOutput`)
     public func getAccessKeyLastUsed(input: GetAccessKeyLastUsedInput) async throws -> GetAccessKeyLastUsedOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4472,7 +4415,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessKeyLastUsedOutput>(GetAccessKeyLastUsedOutput.httpOutput(from:), GetAccessKeyLastUsedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessKeyLastUsedOutput>())
@@ -4506,9 +4448,9 @@ extension IAMClient {
     ///
     /// Retrieves information about all IAM users, groups, roles, and policies in your Amazon Web Services account, including their relationships to one another. Use this operation to obtain a snapshot of the configuration of IAM permissions (users, groups, roles, and policies) in your account. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. You can optionally filter the results using the Filter parameter. You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter GetAccountAuthorizationDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountAuthorizationDetailsInput`)
     ///
-    /// - Returns: `GetAccountAuthorizationDetailsOutput` : Contains the response to a successful [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) request.
+    /// - Returns: Contains the response to a successful [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) request. (Type: `GetAccountAuthorizationDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4540,7 +4482,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountAuthorizationDetailsOutput>(GetAccountAuthorizationDetailsOutput.httpOutput(from:), GetAccountAuthorizationDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountAuthorizationDetailsOutput>())
@@ -4574,9 +4515,9 @@ extension IAMClient {
     ///
     /// Retrieves the password policy for the Amazon Web Services account. This tells you the complexity requirements and mandatory rotation periods for the IAM user passwords in your account. For more information about using a password policy, see [Managing an IAM password policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html).
     ///
-    /// - Parameter GetAccountPasswordPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountPasswordPolicyInput`)
     ///
-    /// - Returns: `GetAccountPasswordPolicyOutput` : Contains the response to a successful [GetAccountPasswordPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html) request.
+    /// - Returns: Contains the response to a successful [GetAccountPasswordPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html) request. (Type: `GetAccountPasswordPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4609,7 +4550,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountPasswordPolicyOutput>(GetAccountPasswordPolicyOutput.httpOutput(from:), GetAccountPasswordPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountPasswordPolicyOutput>())
@@ -4643,9 +4583,9 @@ extension IAMClient {
     ///
     /// Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services account. For information about IAM quotas, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
-    /// - Parameter GetAccountSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSummaryInput`)
     ///
-    /// - Returns: `GetAccountSummaryOutput` : Contains the response to a successful [GetAccountSummary](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html) request.
+    /// - Returns: Contains the response to a successful [GetAccountSummary](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html) request. (Type: `GetAccountSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4677,7 +4617,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSummaryOutput>(GetAccountSummaryOutput.httpOutput(from:), GetAccountSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSummaryOutput>())
@@ -4711,9 +4650,9 @@ extension IAMClient {
     ///
     /// Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html). Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy to understand what key names and values you must supply when you call [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html). Note that all parameters are shown in unencoded form here for clarity but must be URL encoded to be included as a part of a real HTML request.
     ///
-    /// - Parameter GetContextKeysForCustomPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContextKeysForCustomPolicyInput`)
     ///
-    /// - Returns: `GetContextKeysForCustomPolicyOutput` : Contains the response to a successful [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html) or [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) request.
+    /// - Returns: Contains the response to a successful [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html) or [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) request. (Type: `GetContextKeysForCustomPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4745,7 +4684,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContextKeysForCustomPolicyOutput>(GetContextKeysForCustomPolicyOutput.httpOutput(from:), GetContextKeysForCustomPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContextKeysForCustomPolicyOutput>())
@@ -4779,9 +4717,9 @@ extension IAMClient {
     ///
     /// Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) instead. Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html) to understand what key names and values you must supply when you call [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html).
     ///
-    /// - Parameter GetContextKeysForPrincipalPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContextKeysForPrincipalPolicyInput`)
     ///
-    /// - Returns: `GetContextKeysForPrincipalPolicyOutput` : Contains the response to a successful [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html) or [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) request.
+    /// - Returns: Contains the response to a successful [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html) or [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) request. (Type: `GetContextKeysForPrincipalPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4814,7 +4752,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContextKeysForPrincipalPolicyOutput>(GetContextKeysForPrincipalPolicyOutput.httpOutput(from:), GetContextKeysForPrincipalPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContextKeysForPrincipalPolicyOutput>())
@@ -4848,9 +4785,9 @@ extension IAMClient {
     ///
     /// Retrieves a credential report for the Amazon Web Services account. For more information about the credential report, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) in the IAM User Guide.
     ///
-    /// - Parameter GetCredentialReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCredentialReportInput`)
     ///
-    /// - Returns: `GetCredentialReportOutput` : Contains the response to a successful [GetCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetCredentialReport.html) request.
+    /// - Returns: Contains the response to a successful [GetCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetCredentialReport.html) request. (Type: `GetCredentialReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4885,7 +4822,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCredentialReportInput, GetCredentialReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCredentialReportOutput>(GetCredentialReportOutput.httpOutput(from:), GetCredentialReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCredentialReportInput, GetCredentialReportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCredentialReportOutput>())
@@ -4919,9 +4855,9 @@ extension IAMClient {
     ///
     /// Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : Contains the response to a successful [GetGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroup.html) request.
+    /// - Returns: Contains the response to a successful [GetGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroup.html) request. (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4954,7 +4890,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupInput, GetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupOutput>(GetGroupOutput.httpOutput(from:), GetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupInput, GetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupOutput>())
@@ -4988,9 +4923,9 @@ extension IAMClient {
     ///
     /// Retrieves the specified inline policy document that is embedded in the specified IAM group. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. An IAM group can also have managed policies attached to it. To retrieve a managed policy document that is attached to a group, use [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) to determine the policy's default version, then use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) to retrieve the policy document. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter GetGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupPolicyInput`)
     ///
-    /// - Returns: `GetGroupPolicyOutput` : Contains the response to a successful [GetGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html) request.
+    /// - Returns: Contains the response to a successful [GetGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html) request. (Type: `GetGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5023,7 +4958,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupPolicyOutput>(GetGroupPolicyOutput.httpOutput(from:), GetGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupPolicyOutput>())
@@ -5057,9 +4991,9 @@ extension IAMClient {
     ///
     /// Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
-    /// - Parameter GetInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceProfileInput`)
     ///
-    /// - Returns: `GetInstanceProfileOutput` : Contains the response to a successful [GetInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html) request.
+    /// - Returns: Contains the response to a successful [GetInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html) request. (Type: `GetInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5092,7 +5026,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutput>(GetInstanceProfileOutput.httpOutput(from:), GetInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceProfileOutput>())
@@ -5126,9 +5059,9 @@ extension IAMClient {
     ///
     /// Retrieves the user name for the specified IAM user. A login profile is created when you create a password for the user to access the Amazon Web Services Management Console. If the user does not exist or does not have a password, the operation returns a 404 (NoSuchEntity) error. If you create an IAM user with access to the console, the CreateDate reflects the date you created the initial password for the user. If you create an IAM user with programmatic access, and then later add a password for the user to access the Amazon Web Services Management Console, the CreateDate reflects the initial password creation date. A user with programmatic access does not have a login profile unless you create a password for the user to access the Amazon Web Services Management Console.
     ///
-    /// - Parameter GetLoginProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoginProfileInput`)
     ///
-    /// - Returns: `GetLoginProfileOutput` : Contains the response to a successful [GetLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html) request.
+    /// - Returns: Contains the response to a successful [GetLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html) request. (Type: `GetLoginProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5161,7 +5094,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoginProfileInput, GetLoginProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoginProfileOutput>(GetLoginProfileOutput.httpOutput(from:), GetLoginProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoginProfileInput, GetLoginProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoginProfileOutput>())
@@ -5195,9 +5127,9 @@ extension IAMClient {
     ///
     /// Retrieves information about an MFA device for a specified user.
     ///
-    /// - Parameter GetMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMFADeviceInput`)
     ///
-    /// - Returns: `GetMFADeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5230,7 +5162,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMFADeviceInput, GetMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMFADeviceOutput>(GetMFADeviceOutput.httpOutput(from:), GetMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMFADeviceInput, GetMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMFADeviceOutput>())
@@ -5264,9 +5195,9 @@ extension IAMClient {
     ///
     /// Returns information about the specified OpenID Connect (OIDC) provider resource object in IAM.
     ///
-    /// - Parameter GetOpenIDConnectProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOpenIDConnectProviderInput`)
     ///
-    /// - Returns: `GetOpenIDConnectProviderOutput` : Contains the response to a successful [GetOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html) request.
+    /// - Returns: Contains the response to a successful [GetOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html) request. (Type: `GetOpenIDConnectProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5300,7 +5231,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpenIDConnectProviderOutput>(GetOpenIDConnectProviderOutput.httpOutput(from:), GetOpenIDConnectProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpenIDConnectProviderOutput>())
@@ -5334,9 +5264,9 @@ extension IAMClient {
     ///
     /// Retrieves the service last accessed data report for Organizations that was previously generated using the [GenerateOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html) operation. This operation retrieves the status of your report job and the report contents. Depending on the parameters that you passed when you generated the report, the data returned could include different information. For details, see [GenerateOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html). To call this operation, you must be signed in to the management account in your organization. SCPs must be enabled for your organization root. You must have permissions to perform this operation. For more information, see [Refining permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide. For each service that principals in an account (root user, IAM users, or IAM roles) could access using SCPs, the operation returns details about the most recent access attempt. If there was no attempt, the service is listed without details about the most recent attempt to access the service. If the operation fails, it returns the reason that it failed. By default, the list is sorted by service namespace.
     ///
-    /// - Parameter GetOrganizationsAccessReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationsAccessReportInput`)
     ///
-    /// - Returns: `GetOrganizationsAccessReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationsAccessReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5368,7 +5298,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrganizationsAccessReportOutput>(GetOrganizationsAccessReportOutput.httpOutput(from:), GetOrganizationsAccessReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationsAccessReportOutput>())
@@ -5402,9 +5331,9 @@ extension IAMClient {
     ///
     /// Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html). This operation returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html). This operation retrieves information about managed policies. To retrieve information about an inline policy that is embedded with an IAM user, group, or role, use [GetUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html), [GetGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html), or [GetRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html). For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : Contains the response to a successful [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) request.
+    /// - Returns: Contains the response to a successful [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) request. (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5438,7 +5367,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -5472,9 +5400,9 @@ extension IAMClient {
     ///
     /// Retrieves information about the specified version of the specified managed policy, including the policy document. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. To list the available versions for a policy, use [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html). This operation retrieves information about managed policies. To retrieve information about an inline policy that is embedded in a user, group, or role, use [GetUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html), [GetGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html), or [GetRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html). For more information about the types of policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
     ///
-    /// - Parameter GetPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyVersionInput`)
     ///
-    /// - Returns: `GetPolicyVersionOutput` : Contains the response to a successful [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) request.
+    /// - Returns: Contains the response to a successful [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) request. (Type: `GetPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5508,7 +5436,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutput>(GetPolicyVersionOutput.httpOutput(from:), GetPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyVersionOutput>())
@@ -5542,9 +5469,9 @@ extension IAMClient {
     ///
     /// Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically.
     ///
-    /// - Parameter GetRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoleInput`)
     ///
-    /// - Returns: `GetRoleOutput` : Contains the response to a successful [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html) request.
+    /// - Returns: Contains the response to a successful [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html) request. (Type: `GetRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5577,7 +5504,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRoleInput, GetRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoleOutput>(GetRoleOutput.httpOutput(from:), GetRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoleInput, GetRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoleOutput>())
@@ -5611,9 +5537,9 @@ extension IAMClient {
     ///
     /// Retrieves the specified inline policy document that is embedded with the specified IAM role. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) to determine the policy's default version, then use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) to retrieve the policy document. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide.
     ///
-    /// - Parameter GetRolePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRolePolicyInput`)
     ///
-    /// - Returns: `GetRolePolicyOutput` : Contains the response to a successful [GetRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html) request.
+    /// - Returns: Contains the response to a successful [GetRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html) request. (Type: `GetRolePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5646,7 +5572,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRolePolicyInput, GetRolePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRolePolicyOutput>(GetRolePolicyOutput.httpOutput(from:), GetRolePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRolePolicyInput, GetRolePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRolePolicyOutput>())
@@ -5680,9 +5605,9 @@ extension IAMClient {
     ///
     /// Returns the SAML provider metadocument that was uploaded when the IAM SAML provider resource object was created or updated. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
-    /// - Parameter GetSAMLProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSAMLProviderInput`)
     ///
-    /// - Returns: `GetSAMLProviderOutput` : Contains the response to a successful [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html) request.
+    /// - Returns: Contains the response to a successful [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html) request. (Type: `GetSAMLProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5716,7 +5641,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSAMLProviderOutput>(GetSAMLProviderOutput.httpOutput(from:), GetSAMLProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSAMLProviderOutput>())
@@ -5750,9 +5674,9 @@ extension IAMClient {
     ///
     /// Retrieves the specified SSH public key, including metadata about the key. The SSH public key retrieved by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
-    /// - Parameter GetSSHPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSSHPublicKeyInput`)
     ///
-    /// - Returns: `GetSSHPublicKeyOutput` : Contains the response to a successful [GetSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSSHPublicKey.html) request.
+    /// - Returns: Contains the response to a successful [GetSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSSHPublicKey.html) request. (Type: `GetSSHPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5785,7 +5709,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSSHPublicKeyOutput>(GetSSHPublicKeyOutput.httpOutput(from:), GetSSHPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSSHPublicKeyOutput>())
@@ -5819,9 +5742,9 @@ extension IAMClient {
     ///
     /// Retrieves information about the specified server certificate stored in IAM. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM.
     ///
-    /// - Parameter GetServerCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServerCertificateInput`)
     ///
-    /// - Returns: `GetServerCertificateOutput` : Contains the response to a successful [GetServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html) request.
+    /// - Returns: Contains the response to a successful [GetServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html) request. (Type: `GetServerCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5854,7 +5777,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServerCertificateInput, GetServerCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServerCertificateOutput>(GetServerCertificateOutput.httpOutput(from:), GetServerCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServerCertificateInput, GetServerCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServerCertificateOutput>())
@@ -5899,9 +5821,9 @@ extension IAMClient {
     ///
     /// By default, the list is sorted by service namespace. If you specified ACTION_LEVEL granularity when you generated the report, this operation returns service and action last accessed data. This includes the most recent access attempt for each tracked action within a service. Otherwise, this operation returns only service data. For more information about service and action last accessed data, see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide.
     ///
-    /// - Parameter GetServiceLastAccessedDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceLastAccessedDetailsInput`)
     ///
-    /// - Returns: `GetServiceLastAccessedDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceLastAccessedDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5934,7 +5856,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsOutput>(GetServiceLastAccessedDetailsOutput.httpOutput(from:), GetServiceLastAccessedDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceLastAccessedDetailsOutput>())
@@ -5975,9 +5896,9 @@ extension IAMClient {
     ///
     /// You can also use this operation for user or role reports to retrieve details about those entities. If the operation fails, the GetServiceLastAccessedDetailsWithEntities operation returns the reason that it failed. By default, the list of associated entities is sorted by date, with the most recent access listed first.
     ///
-    /// - Parameter GetServiceLastAccessedDetailsWithEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceLastAccessedDetailsWithEntitiesInput`)
     ///
-    /// - Returns: `GetServiceLastAccessedDetailsWithEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceLastAccessedDetailsWithEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6010,7 +5931,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(GetServiceLastAccessedDetailsWithEntitiesOutput.httpOutput(from:), GetServiceLastAccessedDetailsWithEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>())
@@ -6044,9 +5964,9 @@ extension IAMClient {
     ///
     /// Retrieves the status of your service-linked role deletion. After you use [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed, if that information is returned by the service.
     ///
-    /// - Parameter GetServiceLinkedRoleDeletionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceLinkedRoleDeletionStatusInput`)
     ///
-    /// - Returns: `GetServiceLinkedRoleDeletionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceLinkedRoleDeletionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6080,7 +6000,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceLinkedRoleDeletionStatusOutput>(GetServiceLinkedRoleDeletionStatusOutput.httpOutput(from:), GetServiceLinkedRoleDeletionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceLinkedRoleDeletionStatusOutput>())
@@ -6114,9 +6033,9 @@ extension IAMClient {
     ///
     /// Retrieves information about the specified IAM user, including the user's creation date, path, unique ID, and ARN. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID used to sign the request to this operation.
     ///
-    /// - Parameter GetUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserInput`)
     ///
-    /// - Returns: `GetUserOutput` : Contains the response to a successful [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html) request.
+    /// - Returns: Contains the response to a successful [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html) request. (Type: `GetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6149,7 +6068,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserInput, GetUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserOutput>(GetUserOutput.httpOutput(from:), GetUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserInput, GetUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserOutput>())
@@ -6183,9 +6101,9 @@ extension IAMClient {
     ///
     /// Retrieves the specified inline policy document that is embedded in the specified IAM user. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality, and some SDKs do this decoding automatically. An IAM user can also have managed policies attached to it. To retrieve a managed policy document that is attached to a user, use [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) to determine the policy's default version. Then use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) to retrieve the policy document. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter GetUserPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserPolicyInput`)
     ///
-    /// - Returns: `GetUserPolicyOutput` : Contains the response to a successful [GetUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html) request.
+    /// - Returns: Contains the response to a successful [GetUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html) request. (Type: `GetUserPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6218,7 +6136,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserPolicyInput, GetUserPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserPolicyOutput>(GetUserPolicyOutput.httpOutput(from:), GetUserPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserPolicyInput, GetUserPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserPolicyOutput>())
@@ -6252,9 +6169,9 @@ extension IAMClient {
     ///
     /// Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. If the Amazon Web Services account has no associated users, the root user returns it's own access key IDs by running this command. To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation.
     ///
-    /// - Parameter ListAccessKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessKeysInput`)
     ///
-    /// - Returns: `ListAccessKeysOutput` : Contains the response to a successful [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) request.
+    /// - Returns: Contains the response to a successful [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) request. (Type: `ListAccessKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6287,7 +6204,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessKeysInput, ListAccessKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessKeysOutput>(ListAccessKeysOutput.httpOutput(from:), ListAccessKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessKeysInput, ListAccessKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessKeysOutput>())
@@ -6321,9 +6237,9 @@ extension IAMClient {
     ///
     /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#CreateAccountAlias) in the IAM User Guide.
     ///
-    /// - Parameter ListAccountAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAliasesInput`)
     ///
-    /// - Returns: `ListAccountAliasesOutput` : Contains the response to a successful [ListAccountAliases](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccountAliases.html) request.
+    /// - Returns: Contains the response to a successful [ListAccountAliases](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccountAliases.html) request. (Type: `ListAccountAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6355,7 +6271,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAliasesOutput>(ListAccountAliasesOutput.httpOutput(from:), ListAccountAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAliasesOutput>())
@@ -6389,9 +6304,9 @@ extension IAMClient {
     ///
     /// Lists all managed policies that are attached to the specified IAM group. An IAM group can also have inline policies embedded with it. To list the inline policies for a group, use [ListGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
     ///
-    /// - Parameter ListAttachedGroupPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachedGroupPoliciesInput`)
     ///
-    /// - Returns: `ListAttachedGroupPoliciesOutput` : Contains the response to a successful [ListAttachedGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html) request.
+    /// - Returns: Contains the response to a successful [ListAttachedGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html) request. (Type: `ListAttachedGroupPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6425,7 +6340,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachedGroupPoliciesOutput>(ListAttachedGroupPoliciesOutput.httpOutput(from:), ListAttachedGroupPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachedGroupPoliciesOutput>())
@@ -6459,9 +6373,9 @@ extension IAMClient {
     ///
     /// Lists all managed policies that are attached to the specified IAM role. An IAM role can also have inline policies embedded with it. To list the inline policies for a role, use [ListRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified role (or none that match the specified path prefix), the operation returns an empty list.
     ///
-    /// - Parameter ListAttachedRolePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachedRolePoliciesInput`)
     ///
-    /// - Returns: `ListAttachedRolePoliciesOutput` : Contains the response to a successful [ListAttachedRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html) request.
+    /// - Returns: Contains the response to a successful [ListAttachedRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html) request. (Type: `ListAttachedRolePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6495,7 +6409,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachedRolePoliciesOutput>(ListAttachedRolePoliciesOutput.httpOutput(from:), ListAttachedRolePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachedRolePoliciesOutput>())
@@ -6529,9 +6442,9 @@ extension IAMClient {
     ///
     /// Lists all managed policies that are attached to the specified IAM user. An IAM user can also have inline policies embedded with it. To list the inline policies for a user, use [ListUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
     ///
-    /// - Parameter ListAttachedUserPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachedUserPoliciesInput`)
     ///
-    /// - Returns: `ListAttachedUserPoliciesOutput` : Contains the response to a successful [ListAttachedUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html) request.
+    /// - Returns: Contains the response to a successful [ListAttachedUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html) request. (Type: `ListAttachedUserPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6565,7 +6478,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachedUserPoliciesOutput>(ListAttachedUserPoliciesOutput.httpOutput(from:), ListAttachedUserPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachedUserPoliciesOutput>())
@@ -6599,9 +6511,9 @@ extension IAMClient {
     ///
     /// Lists all IAM users, groups, and roles that the specified managed policy is attached to. You can use the optional EntityFilter parameter to limit the results to a particular type of entity (users, groups, or roles). For example, to list only the roles that are attached to the specified policy, set EntityFilter to Role. You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListEntitiesForPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesForPolicyInput`)
     ///
-    /// - Returns: `ListEntitiesForPolicyOutput` : Contains the response to a successful [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html) request.
+    /// - Returns: Contains the response to a successful [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html) request. (Type: `ListEntitiesForPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6635,7 +6547,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitiesForPolicyOutput>(ListEntitiesForPolicyOutput.httpOutput(from:), ListEntitiesForPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesForPolicyOutput>())
@@ -6669,9 +6580,9 @@ extension IAMClient {
     ///
     /// Lists the names of the inline policies that are embedded in the specified IAM group. An IAM group can also have managed policies attached to it. To list the managed policies that are attached to a group, use [ListAttachedGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html). For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the operation returns an empty list.
     ///
-    /// - Parameter ListGroupPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupPoliciesInput`)
     ///
-    /// - Returns: `ListGroupPoliciesOutput` : Contains the response to a successful [ListGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html) request.
+    /// - Returns: Contains the response to a successful [ListGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html) request. (Type: `ListGroupPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6704,7 +6615,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupPoliciesOutput>(ListGroupPoliciesOutput.httpOutput(from:), ListGroupPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupPoliciesOutput>())
@@ -6738,9 +6648,9 @@ extension IAMClient {
     ///
     /// Lists the IAM groups that have the specified path prefix. You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : Contains the response to a successful [ListGroups](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html) request.
+    /// - Returns: Contains the response to a successful [ListGroups](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html) request. (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6772,7 +6682,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -6806,9 +6715,9 @@ extension IAMClient {
     ///
     /// Lists the IAM groups that the specified IAM user belongs to. You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListGroupsForUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsForUserInput`)
     ///
-    /// - Returns: `ListGroupsForUserOutput` : Contains the response to a successful [ListGroupsForUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupsForUser.html) request.
+    /// - Returns: Contains the response to a successful [ListGroupsForUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupsForUser.html) request. (Type: `ListGroupsForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6841,7 +6750,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsForUserOutput>(ListGroupsForUserOutput.httpOutput(from:), ListGroupsForUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsForUserOutput>())
@@ -6875,9 +6783,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified IAM instance profile. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter ListInstanceProfileTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceProfileTagsInput`)
     ///
-    /// - Returns: `ListInstanceProfileTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstanceProfileTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6910,7 +6818,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceProfileTagsOutput>(ListInstanceProfileTagsOutput.httpOutput(from:), ListInstanceProfileTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceProfileTagsOutput>())
@@ -6944,9 +6851,9 @@ extension IAMClient {
     ///
     /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see [GetInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html). You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListInstanceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceProfilesInput`)
     ///
-    /// - Returns: `ListInstanceProfilesOutput` : Contains the response to a successful [ListInstanceProfiles](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfiles.html) request.
+    /// - Returns: Contains the response to a successful [ListInstanceProfiles](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfiles.html) request. (Type: `ListInstanceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6978,7 +6885,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutput>(ListInstanceProfilesOutput.httpOutput(from:), ListInstanceProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceProfilesOutput>())
@@ -7012,9 +6918,9 @@ extension IAMClient {
     ///
     /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListInstanceProfilesForRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceProfilesForRoleInput`)
     ///
-    /// - Returns: `ListInstanceProfilesForRoleOutput` : Contains the response to a successful [ListInstanceProfilesForRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html) request.
+    /// - Returns: Contains the response to a successful [ListInstanceProfilesForRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html) request. (Type: `ListInstanceProfilesForRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7047,7 +6953,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceProfilesForRoleOutput>(ListInstanceProfilesForRoleOutput.httpOutput(from:), ListInstanceProfilesForRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceProfilesForRoleOutput>())
@@ -7081,9 +6986,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter ListMFADeviceTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMFADeviceTagsInput`)
     ///
-    /// - Returns: `ListMFADeviceTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMFADeviceTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7117,7 +7022,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMFADeviceTagsOutput>(ListMFADeviceTagsOutput.httpOutput(from:), ListMFADeviceTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMFADeviceTagsOutput>())
@@ -7151,9 +7055,9 @@ extension IAMClient {
     ///
     /// Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request for this operation. You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListMFADevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMFADevicesInput`)
     ///
-    /// - Returns: `ListMFADevicesOutput` : Contains the response to a successful [ListMFADevices](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html) request.
+    /// - Returns: Contains the response to a successful [ListMFADevices](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html) request. (Type: `ListMFADevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7186,7 +7090,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMFADevicesInput, ListMFADevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMFADevicesOutput>(ListMFADevicesOutput.httpOutput(from:), ListMFADevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMFADevicesInput, ListMFADevicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMFADevicesOutput>())
@@ -7220,9 +7123,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see [About web identity federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter ListOpenIDConnectProviderTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpenIDConnectProviderTagsInput`)
     ///
-    /// - Returns: `ListOpenIDConnectProviderTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpenIDConnectProviderTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7256,7 +7159,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProviderTagsOutput>(ListOpenIDConnectProviderTagsOutput.httpOutput(from:), ListOpenIDConnectProviderTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpenIDConnectProviderTagsOutput>())
@@ -7290,9 +7192,9 @@ extension IAMClient {
     ///
     /// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see [GetOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html).
     ///
-    /// - Parameter ListOpenIDConnectProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpenIDConnectProvidersInput`)
     ///
-    /// - Returns: `ListOpenIDConnectProvidersOutput` : Contains the response to a successful [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) request.
+    /// - Returns: Contains the response to a successful [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) request. (Type: `ListOpenIDConnectProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7324,7 +7226,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProvidersOutput>(ListOpenIDConnectProvidersOutput.httpOutput(from:), ListOpenIDConnectProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpenIDConnectProvidersOutput>())
@@ -7358,9 +7259,9 @@ extension IAMClient {
     ///
     /// Lists the centralized root access features enabled for your organization. For more information, see [Centrally manage root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
     ///
-    /// - Parameter ListOrganizationsFeaturesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationsFeaturesInput`)
     ///
-    /// - Returns: `ListOrganizationsFeaturesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationsFeaturesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7395,7 +7296,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationsFeaturesOutput>(ListOrganizationsFeaturesOutput.httpOutput(from:), ListOrganizationsFeaturesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationsFeaturesOutput>())
@@ -7429,9 +7329,9 @@ extension IAMClient {
     ///
     /// Lists all the managed policies that are available in your Amazon Web Services account, including your own customer-defined managed policies and all Amazon Web Services managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your Amazon Web Services account, set Scope to Local. To list only Amazon Web Services managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html).
     ///
-    /// - Parameter ListPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPoliciesInput`)
     ///
-    /// - Returns: `ListPoliciesOutput` : Contains the response to a successful [ListPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html) request.
+    /// - Returns: Contains the response to a successful [ListPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html) request. (Type: `ListPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7463,7 +7363,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPoliciesInput, ListPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(ListPoliciesOutput.httpOutput(from:), ListPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPoliciesInput, ListPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesOutput>())
@@ -7506,9 +7405,9 @@ extension IAMClient {
     ///
     /// For each managed policy, this operation returns the ARN and policy name. For each inline policy, it returns the policy name and the entity to which it is attached. Inline policies do not have an ARN. For more information about these policy types, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html) in the IAM User Guide. Policies that are attached to users and roles as permissions boundaries are not returned. To view which managed policy is currently used to set the permissions boundary for a user or role, use the [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html) or [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html) operations.
     ///
-    /// - Parameter ListPoliciesGrantingServiceAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPoliciesGrantingServiceAccessInput`)
     ///
-    /// - Returns: `ListPoliciesGrantingServiceAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPoliciesGrantingServiceAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7541,7 +7440,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPoliciesGrantingServiceAccessOutput>(ListPoliciesGrantingServiceAccessOutput.httpOutput(from:), ListPoliciesGrantingServiceAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesGrantingServiceAccessOutput>())
@@ -7575,9 +7473,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified IAM customer managed policy. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter ListPolicyTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyTagsInput`)
     ///
-    /// - Returns: `ListPolicyTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7611,7 +7509,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyTagsOutput>(ListPolicyTagsOutput.httpOutput(from:), ListPolicyTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyTagsOutput>())
@@ -7645,9 +7542,9 @@ extension IAMClient {
     ///
     /// Lists information about the versions of the specified managed policy, including the version that is currently set as the policy's default version. For more information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter ListPolicyVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyVersionsInput`)
     ///
-    /// - Returns: `ListPolicyVersionsOutput` : Contains the response to a successful [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html) request.
+    /// - Returns: Contains the response to a successful [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html) request. (Type: `ListPolicyVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7681,7 +7578,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutput>(ListPolicyVersionsOutput.httpOutput(from:), ListPolicyVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyVersionsOutput>())
@@ -7715,9 +7611,9 @@ extension IAMClient {
     ///
     /// Lists the names of the inline policies that are embedded in the specified IAM role. An IAM role can also have managed policies attached to it. To list the managed policies that are attached to a role, use [ListAttachedRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html). For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the operation returns an empty list.
     ///
-    /// - Parameter ListRolePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRolePoliciesInput`)
     ///
-    /// - Returns: `ListRolePoliciesOutput` : Contains the response to a successful [ListRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html) request.
+    /// - Returns: Contains the response to a successful [ListRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html) request. (Type: `ListRolePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7750,7 +7646,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRolePoliciesOutput>(ListRolePoliciesOutput.httpOutput(from:), ListRolePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRolePoliciesOutput>())
@@ -7784,9 +7679,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter ListRoleTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoleTagsInput`)
     ///
-    /// - Returns: `ListRoleTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoleTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7819,7 +7714,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoleTagsInput, ListRoleTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoleTagsOutput>(ListRoleTagsOutput.httpOutput(from:), ListRoleTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoleTagsInput, ListRoleTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoleTagsOutput>())
@@ -7862,9 +7756,9 @@ extension IAMClient {
     ///
     /// To view all of the information for a role, see [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html). You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListRolesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRolesInput`)
     ///
-    /// - Returns: `ListRolesOutput` : Contains the response to a successful [ListRoles](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRoles.html) request.
+    /// - Returns: Contains the response to a successful [ListRoles](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRoles.html) request. (Type: `ListRolesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7896,7 +7790,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRolesInput, ListRolesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRolesOutput>(ListRolesOutput.httpOutput(from:), ListRolesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRolesInput, ListRolesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRolesOutput>())
@@ -7930,9 +7823,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter ListSAMLProviderTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSAMLProviderTagsInput`)
     ///
-    /// - Returns: `ListSAMLProviderTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSAMLProviderTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7966,7 +7859,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSAMLProviderTagsOutput>(ListSAMLProviderTagsOutput.httpOutput(from:), ListSAMLProviderTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSAMLProviderTagsOutput>())
@@ -8000,9 +7892,9 @@ extension IAMClient {
     ///
     /// Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a SAML provider, see [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html). This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
-    /// - Parameter ListSAMLProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSAMLProvidersInput`)
     ///
-    /// - Returns: `ListSAMLProvidersOutput` : Contains the response to a successful [ListSAMLProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSAMLProviders.html) request.
+    /// - Returns: Contains the response to a successful [ListSAMLProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSAMLProviders.html) request. (Type: `ListSAMLProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8034,7 +7926,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSAMLProvidersOutput>(ListSAMLProvidersOutput.httpOutput(from:), ListSAMLProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSAMLProvidersOutput>())
@@ -8068,9 +7959,9 @@ extension IAMClient {
     ///
     /// Returns information about the SSH public keys associated with the specified IAM user. If none exists, the operation returns an empty list. The SSH public keys returned by this operation are used only for authenticating the IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListSSHPublicKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSSHPublicKeysInput`)
     ///
-    /// - Returns: `ListSSHPublicKeysOutput` : Contains the response to a successful [ListSSHPublicKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html) request.
+    /// - Returns: Contains the response to a successful [ListSSHPublicKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html) request. (Type: `ListSSHPublicKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8102,7 +7993,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSSHPublicKeysOutput>(ListSSHPublicKeysOutput.httpOutput(from:), ListSSHPublicKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSSHPublicKeysOutput>())
@@ -8136,9 +8026,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified IAM server certificate. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide.
     ///
-    /// - Parameter ListServerCertificateTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServerCertificateTagsInput`)
     ///
-    /// - Returns: `ListServerCertificateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServerCertificateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8171,7 +8061,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServerCertificateTagsOutput>(ListServerCertificateTagsOutput.httpOutput(from:), ListServerCertificateTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServerCertificateTagsOutput>())
@@ -8205,9 +8094,9 @@ extension IAMClient {
     ///
     /// Lists the server certificates stored in IAM that have the specified path prefix. If none exist, the operation returns an empty list. You can paginate the results using the MaxItems and Marker parameters. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a servercertificate, see [GetServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html).
     ///
-    /// - Parameter ListServerCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServerCertificatesInput`)
     ///
-    /// - Returns: `ListServerCertificatesOutput` : Contains the response to a successful [ListServerCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html) request.
+    /// - Returns: Contains the response to a successful [ListServerCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html) request. (Type: `ListServerCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8239,7 +8128,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServerCertificatesOutput>(ListServerCertificatesOutput.httpOutput(from:), ListServerCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServerCertificatesOutput>())
@@ -8273,9 +8161,9 @@ extension IAMClient {
     ///
     /// Returns information about the service-specific credentials associated with the specified IAM user. If none exists, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an Amazon Web Services service, see [Set up service-specific credentials](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html) in the CodeCommit User Guide.
     ///
-    /// - Parameter ListServiceSpecificCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceSpecificCredentialsInput`)
     ///
-    /// - Returns: `ListServiceSpecificCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceSpecificCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8308,7 +8196,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceSpecificCredentialsOutput>(ListServiceSpecificCredentialsOutput.httpOutput(from:), ListServiceSpecificCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceSpecificCredentialsOutput>())
@@ -8342,9 +8229,9 @@ extension IAMClient {
     ///
     /// Returns information about the signing certificates associated with the specified IAM user. If none exists, the operation returns an empty list. Although each user is limited to a small number of signing certificates, you can still paginate the results using the MaxItems and Marker parameters. If the UserName field is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request for this operation. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.
     ///
-    /// - Parameter ListSigningCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSigningCertificatesInput`)
     ///
-    /// - Returns: `ListSigningCertificatesOutput` : Contains the response to a successful [ListSigningCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html) request.
+    /// - Returns: Contains the response to a successful [ListSigningCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html) request. (Type: `ListSigningCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8377,7 +8264,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSigningCertificatesOutput>(ListSigningCertificatesOutput.httpOutput(from:), ListSigningCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSigningCertificatesOutput>())
@@ -8411,9 +8297,9 @@ extension IAMClient {
     ///
     /// Lists the names of the inline policies embedded in the specified IAM user. An IAM user can also have managed policies attached to it. To list the managed policies that are attached to a user, use [ListAttachedUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html). For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified user, the operation returns an empty list.
     ///
-    /// - Parameter ListUserPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserPoliciesInput`)
     ///
-    /// - Returns: `ListUserPoliciesOutput` : Contains the response to a successful [ListUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html) request.
+    /// - Returns: Contains the response to a successful [ListUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html) request. (Type: `ListUserPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8446,7 +8332,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserPoliciesOutput>(ListUserPoliciesOutput.httpOutput(from:), ListUserPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoliciesOutput>())
@@ -8480,9 +8365,9 @@ extension IAMClient {
     ///
     /// Lists the tags that are attached to the specified IAM user. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter ListUserTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserTagsInput`)
     ///
-    /// - Returns: `ListUserTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8515,7 +8400,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserTagsInput, ListUserTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserTagsOutput>(ListUserTagsOutput.httpOutput(from:), ListUserTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserTagsInput, ListUserTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserTagsOutput>())
@@ -8556,9 +8440,9 @@ extension IAMClient {
     ///
     /// To view all of the information for a user, see [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html). You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : Contains the response to a successful [ListUsers](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html) request.
+    /// - Returns: Contains the response to a successful [ListUsers](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html) request. (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8590,7 +8474,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -8624,9 +8507,9 @@ extension IAMClient {
     ///
     /// Lists the virtual MFA devices defined in the Amazon Web Services account by assignment status. If you do not specify an assignment status, the operation returns a list of all virtual MFA devices. Assignment status can be Assigned, Unassigned, or Any. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view tag information for a virtual MFA device, see [ListMFADeviceTags](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADeviceTags.html). You can paginate the results using the MaxItems and Marker parameters.
     ///
-    /// - Parameter ListVirtualMFADevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVirtualMFADevicesInput`)
     ///
-    /// - Returns: `ListVirtualMFADevicesOutput` : Contains the response to a successful [ListVirtualMFADevices](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListVirtualMFADevices.html) request.
+    /// - Returns: Contains the response to a successful [ListVirtualMFADevices](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListVirtualMFADevices.html) request. (Type: `ListVirtualMFADevicesOutput`)
     public func listVirtualMFADevices(input: ListVirtualMFADevicesInput) async throws -> ListVirtualMFADevicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8653,7 +8536,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualMFADevicesOutput>(ListVirtualMFADevicesOutput.httpOutput(from:), ListVirtualMFADevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualMFADevicesOutput>())
@@ -8687,9 +8569,9 @@ extension IAMClient {
     ///
     /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use [AttachGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
-    /// - Parameter PutGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGroupPolicyInput`)
     ///
-    /// - Returns: `PutGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8724,7 +8606,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutGroupPolicyOutput>(PutGroupPolicyOutput.httpOutput(from:), PutGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutGroupPolicyOutput>())
@@ -8758,9 +8639,9 @@ extension IAMClient {
     ///
     /// Adds or updates the policy that is specified as the IAM role's permissions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a role. Use the boundary to control the maximum permissions that the role can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the role. You cannot set the boundary for a service-linked role. Policies used as permissions boundaries do not provide permissions. You must also attach a permissions policy to the role. To learn how the effective permissions for a role are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) in the IAM User Guide.
     ///
-    /// - Parameter PutRolePermissionsBoundaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRolePermissionsBoundaryInput`)
     ///
-    /// - Returns: `PutRolePermissionsBoundaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRolePermissionsBoundaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8796,7 +8677,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRolePermissionsBoundaryOutput>(PutRolePermissionsBoundaryOutput.httpOutput(from:), PutRolePermissionsBoundaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRolePermissionsBoundaryOutput>())
@@ -8830,9 +8710,9 @@ extension IAMClient {
     ///
     /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html). You can update a role's trust policy using [UpdateAssumeRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html). For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html) in the IAM User Guide. A role can also have a managed policy attached to it. To attach a managed policy to a role, use [AttachRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
-    /// - Parameter PutRolePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRolePolicyInput`)
     ///
-    /// - Returns: `PutRolePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRolePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8868,7 +8748,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRolePolicyInput, PutRolePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRolePolicyOutput>(PutRolePolicyOutput.httpOutput(from:), PutRolePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRolePolicyInput, PutRolePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRolePolicyOutput>())
@@ -8902,9 +8781,9 @@ extension IAMClient {
     ///
     /// Adds or updates the policy that is specified as the IAM user's permissions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a user. Use the boundary to control the maximum permissions that the user can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the user. Policies that are used as permissions boundaries do not provide permissions. You must also attach a permissions policy to the user. To learn how the effective permissions for a user are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) in the IAM User Guide.
     ///
-    /// - Parameter PutUserPermissionsBoundaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutUserPermissionsBoundaryInput`)
     ///
-    /// - Returns: `PutUserPermissionsBoundaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutUserPermissionsBoundaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8939,7 +8818,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutUserPermissionsBoundaryOutput>(PutUserPermissionsBoundaryOutput.httpOutput(from:), PutUserPermissionsBoundaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutUserPermissionsBoundaryOutput>())
@@ -8973,9 +8851,9 @@ extension IAMClient {
     ///
     /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use [AttachUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
-    /// - Parameter PutUserPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutUserPolicyInput`)
     ///
-    /// - Returns: `PutUserPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutUserPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9010,7 +8888,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutUserPolicyInput, PutUserPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutUserPolicyOutput>(PutUserPolicyOutput.httpOutput(from:), PutUserPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutUserPolicyInput, PutUserPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutUserPolicyOutput>())
@@ -9044,9 +8921,9 @@ extension IAMClient {
     ///
     /// Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object. This operation is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
     ///
-    /// - Parameter RemoveClientIDFromOpenIDConnectProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveClientIDFromOpenIDConnectProviderInput`)
     ///
-    /// - Returns: `RemoveClientIDFromOpenIDConnectProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveClientIDFromOpenIDConnectProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9080,7 +8957,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>(RemoveClientIDFromOpenIDConnectProviderOutput.httpOutput(from:), RemoveClientIDFromOpenIDConnectProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>())
@@ -9114,9 +8990,9 @@ extension IAMClient {
     ///
     /// Removes the specified IAM role from the specified Amazon EC2 instance profile. Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
-    /// - Parameter RemoveRoleFromInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveRoleFromInstanceProfileInput`)
     ///
-    /// - Returns: `RemoveRoleFromInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveRoleFromInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9151,7 +9027,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveRoleFromInstanceProfileOutput>(RemoveRoleFromInstanceProfileOutput.httpOutput(from:), RemoveRoleFromInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRoleFromInstanceProfileOutput>())
@@ -9185,9 +9060,9 @@ extension IAMClient {
     ///
     /// Removes the specified user from the specified group.
     ///
-    /// - Parameter RemoveUserFromGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveUserFromGroupInput`)
     ///
-    /// - Returns: `RemoveUserFromGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveUserFromGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9221,7 +9096,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveUserFromGroupOutput>(RemoveUserFromGroupOutput.httpOutput(from:), RemoveUserFromGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveUserFromGroupOutput>())
@@ -9255,9 +9129,9 @@ extension IAMClient {
     ///
     /// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It cannot be configured by the user. Resetting the password immediately invalidates the previous password associated with this user.
     ///
-    /// - Parameter ResetServiceSpecificCredentialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetServiceSpecificCredentialInput`)
     ///
-    /// - Returns: `ResetServiceSpecificCredentialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetServiceSpecificCredentialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9289,7 +9163,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetServiceSpecificCredentialOutput>(ResetServiceSpecificCredentialOutput.httpOutput(from:), ResetServiceSpecificCredentialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetServiceSpecificCredentialOutput>())
@@ -9323,9 +9196,9 @@ extension IAMClient {
     ///
     /// Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services servers. For more information about creating and working with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html) in the IAM User Guide.
     ///
-    /// - Parameter ResyncMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResyncMFADeviceInput`)
     ///
-    /// - Returns: `ResyncMFADeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResyncMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9361,7 +9234,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResyncMFADeviceOutput>(ResyncMFADeviceOutput.httpOutput(from:), ResyncMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResyncMFADeviceOutput>())
@@ -9395,9 +9267,9 @@ extension IAMClient {
     ///
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html). For information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
-    /// - Parameter SetDefaultPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetDefaultPolicyVersionInput`)
     ///
-    /// - Returns: `SetDefaultPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9432,7 +9304,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultPolicyVersionOutput>(SetDefaultPolicyVersionOutput.httpOutput(from:), SetDefaultPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultPolicyVersionOutput>())
@@ -9466,9 +9337,9 @@ extension IAMClient {
     ///
     /// Sets the specified version of the global endpoint token as the token version used for the Amazon Web Services account. By default, Security Token Service (STS) is available as a global service, and all STS requests go to a single endpoint at https://sts.amazonaws.com. Amazon Web Services recommends using Regional STS endpoints to reduce latency, build in redundancy, and increase session token availability. For information about Regional endpoints for STS, see [Security Token Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/sts.html) in the Amazon Web Services General Reference. If you make an STS call to the global endpoint, the resulting session tokens might be valid in some Regions but not others. It depends on the version that is set in this operation. Version 1 tokens are valid only in Amazon Web Services Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see [Activating and deactivating STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide. To view the current session token version, see the GlobalEndpointTokenVersion entry in the response of the [GetAccountSummary](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html) operation.
     ///
-    /// - Parameter SetSecurityTokenServicePreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetSecurityTokenServicePreferencesInput`)
     ///
-    /// - Returns: `SetSecurityTokenServicePreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetSecurityTokenServicePreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9500,7 +9371,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetSecurityTokenServicePreferencesOutput>(SetSecurityTokenServicePreferencesOutput.httpOutput(from:), SetSecurityTokenServicePreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetSecurityTokenServicePreferencesOutput>())
@@ -9534,9 +9404,9 @@ extension IAMClient {
     ///
     /// Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your account. If you want to simulate existing policies that are attached to an IAM user, group, or role, use [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html) instead. Context keys are variables that are maintained by Amazon Web Services and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html). If the output is long, you can use MaxItems and Marker parameters to paginate the results. The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see [Testing IAM policies with the IAM policy simulator ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in the IAM User Guide.
     ///
-    /// - Parameter SimulateCustomPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SimulateCustomPolicyInput`)
     ///
-    /// - Returns: `SimulateCustomPolicyOutput` : Contains the response to a successful [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html) or [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) request.
+    /// - Returns: Contains the response to a successful [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html) or [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) request. (Type: `SimulateCustomPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9569,7 +9439,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SimulateCustomPolicyOutput>(SimulateCustomPolicyOutput.httpOutput(from:), SimulateCustomPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SimulateCustomPolicyOutput>())
@@ -9603,9 +9472,9 @@ extension IAMClient {
     ///
     /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your account. You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation for IAM users only. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html). If the output is long, you can use the MaxItems and Marker parameters to paginate the results. The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see [Testing IAM policies with the IAM policy simulator ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in the IAM User Guide.
     ///
-    /// - Parameter SimulatePrincipalPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SimulatePrincipalPolicyInput`)
     ///
-    /// - Returns: `SimulatePrincipalPolicyOutput` : Contains the response to a successful [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html) or [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) request.
+    /// - Returns: Contains the response to a successful [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html) or [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) request. (Type: `SimulatePrincipalPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9639,7 +9508,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SimulatePrincipalPolicyOutput>(SimulatePrincipalPolicyOutput.httpOutput(from:), SimulatePrincipalPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SimulatePrincipalPolicyOutput>())
@@ -9684,9 +9552,9 @@ extension IAMClient {
     ///
     /// * Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
     ///
-    /// - Parameter TagInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagInstanceProfileInput`)
     ///
-    /// - Returns: `TagInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9722,7 +9590,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagInstanceProfileOutput>(TagInstanceProfileOutput.httpOutput(from:), TagInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagInstanceProfileOutput>())
@@ -9767,9 +9634,9 @@ extension IAMClient {
     ///
     /// * Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
     ///
-    /// - Parameter TagMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagMFADeviceInput`)
     ///
-    /// - Returns: `TagMFADeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9805,7 +9672,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagMFADeviceInput, TagMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagMFADeviceOutput>(TagMFADeviceOutput.httpOutput(from:), TagMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagMFADeviceInput, TagMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagMFADeviceOutput>())
@@ -9850,9 +9716,9 @@ extension IAMClient {
     ///
     /// * Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
     ///
-    /// - Parameter TagOpenIDConnectProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagOpenIDConnectProviderInput`)
     ///
-    /// - Returns: `TagOpenIDConnectProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagOpenIDConnectProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9888,7 +9754,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagOpenIDConnectProviderOutput>(TagOpenIDConnectProviderOutput.httpOutput(from:), TagOpenIDConnectProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagOpenIDConnectProviderOutput>())
@@ -9933,9 +9798,9 @@ extension IAMClient {
     ///
     /// * Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
     ///
-    /// - Parameter TagPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagPolicyInput`)
     ///
-    /// - Returns: `TagPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9971,7 +9836,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagPolicyInput, TagPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagPolicyOutput>(TagPolicyOutput.httpOutput(from:), TagPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagPolicyInput, TagPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagPolicyOutput>())
@@ -10021,9 +9885,9 @@ extension IAMClient {
     ///
     /// For more information about tagging, see [Tagging IAM identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter TagRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagRoleInput`)
     ///
-    /// - Returns: `TagRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10059,7 +9923,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagRoleInput, TagRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagRoleOutput>(TagRoleOutput.httpOutput(from:), TagRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagRoleInput, TagRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagRoleOutput>())
@@ -10104,9 +9967,9 @@ extension IAMClient {
     ///
     /// * Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
     ///
-    /// - Parameter TagSAMLProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagSAMLProviderInput`)
     ///
-    /// - Returns: `TagSAMLProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagSAMLProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10142,7 +10005,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagSAMLProviderOutput>(TagSAMLProviderOutput.httpOutput(from:), TagSAMLProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagSAMLProviderOutput>())
@@ -10189,9 +10051,9 @@ extension IAMClient {
     ///
     /// * Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
     ///
-    /// - Parameter TagServerCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagServerCertificateInput`)
     ///
-    /// - Returns: `TagServerCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagServerCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10227,7 +10089,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagServerCertificateInput, TagServerCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagServerCertificateOutput>(TagServerCertificateOutput.httpOutput(from:), TagServerCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagServerCertificateInput, TagServerCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagServerCertificateOutput>())
@@ -10277,9 +10138,9 @@ extension IAMClient {
     ///
     /// For more information about tagging, see [Tagging IAM identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter TagUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagUserInput`)
     ///
-    /// - Returns: `TagUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10315,7 +10176,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagUserInput, TagUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagUserOutput>(TagUserOutput.httpOutput(from:), TagUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagUserInput, TagUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagUserOutput>())
@@ -10349,9 +10209,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the IAM instance profile. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagInstanceProfileInput`)
     ///
-    /// - Returns: `UntagInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10386,7 +10246,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagInstanceProfileOutput>(UntagInstanceProfileOutput.httpOutput(from:), UntagInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagInstanceProfileOutput>())
@@ -10420,9 +10279,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the IAM virtual multi-factor authentication (MFA) device. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagMFADeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagMFADeviceInput`)
     ///
-    /// - Returns: `UntagMFADeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagMFADeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10457,7 +10316,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagMFADeviceOutput>(UntagMFADeviceOutput.httpOutput(from:), UntagMFADeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagMFADeviceOutput>())
@@ -10491,9 +10349,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the specified OpenID Connect (OIDC)-compatible identity provider in IAM. For more information about OIDC providers, see [About web identity federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagOpenIDConnectProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagOpenIDConnectProviderInput`)
     ///
-    /// - Returns: `UntagOpenIDConnectProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagOpenIDConnectProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10528,7 +10386,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagOpenIDConnectProviderOutput>(UntagOpenIDConnectProviderOutput.httpOutput(from:), UntagOpenIDConnectProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagOpenIDConnectProviderOutput>())
@@ -10562,9 +10419,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the customer managed policy. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagPolicyInput`)
     ///
-    /// - Returns: `UntagPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10599,7 +10456,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagPolicyInput, UntagPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagPolicyOutput>(UntagPolicyOutput.httpOutput(from:), UntagPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagPolicyInput, UntagPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagPolicyOutput>())
@@ -10633,9 +10489,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the role. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagRoleInput`)
     ///
-    /// - Returns: `UntagRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10669,7 +10525,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagRoleInput, UntagRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagRoleOutput>(UntagRoleOutput.httpOutput(from:), UntagRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagRoleInput, UntagRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagRoleOutput>())
@@ -10703,9 +10558,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the specified Security Assertion Markup Language (SAML) identity provider in IAM. For more information about these providers, see [About web identity federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagSAMLProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagSAMLProviderInput`)
     ///
-    /// - Returns: `UntagSAMLProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagSAMLProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10740,7 +10595,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagSAMLProviderOutput>(UntagSAMLProviderOutput.httpOutput(from:), UntagSAMLProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagSAMLProviderOutput>())
@@ -10774,9 +10628,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the IAM server certificate. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagServerCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagServerCertificateInput`)
     ///
-    /// - Returns: `UntagServerCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagServerCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10811,7 +10665,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagServerCertificateOutput>(UntagServerCertificateOutput.httpOutput(from:), UntagServerCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagServerCertificateOutput>())
@@ -10845,9 +10698,9 @@ extension IAMClient {
     ///
     /// Removes the specified tags from the user. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
-    /// - Parameter UntagUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagUserInput`)
     ///
-    /// - Returns: `UntagUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10881,7 +10734,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagUserInput, UntagUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagUserOutput>(UntagUserOutput.httpOutput(from:), UntagUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagUserInput, UntagUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagUserOutput>())
@@ -10915,9 +10767,9 @@ extension IAMClient {
     ///
     /// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users. For information about rotating keys, see [Managing keys and certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html) in the IAM User Guide.
     ///
-    /// - Parameter UpdateAccessKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessKeyInput`)
     ///
-    /// - Returns: `UpdateAccessKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10952,7 +10804,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessKeyOutput>(UpdateAccessKeyOutput.httpOutput(from:), UpdateAccessKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessKeyOutput>())
@@ -10986,9 +10837,9 @@ extension IAMClient {
     ///
     /// Updates the password policy settings for the Amazon Web Services account. This operation does not support partial updates. No parameters are required, but if you do not specify a parameter, that parameter's value reverts to its default value. See the Request Parameters section for each parameter's default value. Also note that some parameters do not allow the default parameter to be explicitly set. Instead, to invoke the default value, do not include that parameter when you invoke the operation. For more information about using a password policy, see [Managing an IAM password policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html) in the IAM User Guide.
     ///
-    /// - Parameter UpdateAccountPasswordPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountPasswordPolicyInput`)
     ///
-    /// - Returns: `UpdateAccountPasswordPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountPasswordPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11023,7 +10874,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountPasswordPolicyOutput>(UpdateAccountPasswordPolicyOutput.httpOutput(from:), UpdateAccountPasswordPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountPasswordPolicyOutput>())
@@ -11057,9 +10907,9 @@ extension IAMClient {
     ///
     /// Updates the policy that grants an IAM entity permission to assume a role. This is typically referred to as the "role trust policy". For more information about roles, see [Using roles to delegate permissions and federate identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html).
     ///
-    /// - Parameter UpdateAssumeRolePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssumeRolePolicyInput`)
     ///
-    /// - Returns: `UpdateAssumeRolePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssumeRolePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11095,7 +10945,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssumeRolePolicyOutput>(UpdateAssumeRolePolicyOutput.httpOutput(from:), UpdateAssumeRolePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssumeRolePolicyOutput>())
@@ -11129,9 +10978,9 @@ extension IAMClient {
     ///
     /// Updates the name and/or the path of the specified IAM group. You should understand the implications of changing a group's path or name. For more information, see [Renaming users and groups](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html) in the IAM User Guide. The person making the request (the principal), must have permission to change the role group with the old name and the new name. For example, to change the group named Managers to MGRs, the principal must have a policy that allows them to update both groups. If the principal has permission to update the Managers group, but not the MGRs group, then the update fails. For more information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html).
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11166,7 +11015,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -11200,9 +11048,9 @@ extension IAMClient {
     ///
     /// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html) to change your own password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
     ///
-    /// - Parameter UpdateLoginProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLoginProfileInput`)
     ///
-    /// - Returns: `UpdateLoginProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLoginProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11238,7 +11086,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLoginProfileOutput>(UpdateLoginProfileOutput.httpOutput(from:), UpdateLoginProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoginProfileOutput>())
@@ -11272,9 +11119,9 @@ extension IAMClient {
     ///
     /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated. Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not signed by one of these trusted CAs, only then we secure communication using the thumbprints set in the IdP's configuration. Trust for the OIDC provider is derived from the provider certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
     ///
-    /// - Parameter UpdateOpenIDConnectProviderThumbprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOpenIDConnectProviderThumbprintInput`)
     ///
-    /// - Returns: `UpdateOpenIDConnectProviderThumbprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOpenIDConnectProviderThumbprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11308,7 +11155,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>(UpdateOpenIDConnectProviderThumbprintOutput.httpOutput(from:), UpdateOpenIDConnectProviderThumbprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>())
@@ -11342,9 +11188,9 @@ extension IAMClient {
     ///
     /// Updates the description or maximum session duration setting of a role.
     ///
-    /// - Parameter UpdateRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoleInput`)
     ///
-    /// - Returns: `UpdateRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11378,7 +11224,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoleInput, UpdateRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoleOutput>(UpdateRoleOutput.httpOutput(from:), UpdateRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoleInput, UpdateRoleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoleOutput>())
@@ -11412,9 +11257,9 @@ extension IAMClient {
     ///
     /// Use [UpdateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateRole.html) instead. Modifies only the description of a role. This operation performs the same function as the Description parameter in the UpdateRole operation.
     ///
-    /// - Parameter UpdateRoleDescriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoleDescriptionInput`)
     ///
-    /// - Returns: `UpdateRoleDescriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoleDescriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11448,7 +11293,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoleDescriptionOutput>(UpdateRoleDescriptionOutput.httpOutput(from:), UpdateRoleDescriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoleDescriptionOutput>())
@@ -11482,9 +11326,9 @@ extension IAMClient {
     ///
     /// Updates the metadata document, SAML encryption settings, and private keys for an existing SAML provider. To rotate private keys, add your new private key and then remove the old key in a separate request.
     ///
-    /// - Parameter UpdateSAMLProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSAMLProviderInput`)
     ///
-    /// - Returns: `UpdateSAMLProviderOutput` : Contains the response to a successful [UpdateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html) request.
+    /// - Returns: Contains the response to a successful [UpdateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html) request. (Type: `UpdateSAMLProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11519,7 +11363,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSAMLProviderOutput>(UpdateSAMLProviderOutput.httpOutput(from:), UpdateSAMLProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSAMLProviderOutput>())
@@ -11553,9 +11396,9 @@ extension IAMClient {
     ///
     /// Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This operation can be used to disable a user's SSH public key as part of a key rotation work flow. The SSH public key affected by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
-    /// - Parameter UpdateSSHPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSSHPublicKeyInput`)
     ///
-    /// - Returns: `UpdateSSHPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSSHPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11588,7 +11431,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSSHPublicKeyOutput>(UpdateSSHPublicKeyOutput.httpOutput(from:), UpdateSSHPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSSHPublicKeyOutput>())
@@ -11622,9 +11464,9 @@ extension IAMClient {
     ///
     /// Updates the name and/or the path of the specified server certificate stored in IAM. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. You should understand the implications of changing a server certificate's path or name. For more information, see [Renaming a server certificate](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts) in the IAM User Guide. The person making the request (the principal), must have permission to change the server certificate with the old name and the new name. For example, to change the certificate named ProductionCert to ProdCert, the principal must have a policy that allows them to update both certificates. If the principal has permission to update the ProductionCert group, but not the ProdCert certificate, then the update fails. For more information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
     ///
-    /// - Parameter UpdateServerCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServerCertificateInput`)
     ///
-    /// - Returns: `UpdateServerCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServerCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11659,7 +11501,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServerCertificateOutput>(UpdateServerCertificateOutput.httpOutput(from:), UpdateServerCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServerCertificateOutput>())
@@ -11693,9 +11534,9 @@ extension IAMClient {
     ///
     /// Sets the status of a service-specific credential to Active or Inactive. Service-specific credentials that are inactive cannot be used for authentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow.
     ///
-    /// - Parameter UpdateServiceSpecificCredentialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSpecificCredentialInput`)
     ///
-    /// - Returns: `UpdateServiceSpecificCredentialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSpecificCredentialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11727,7 +11568,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSpecificCredentialOutput>(UpdateServiceSpecificCredentialOutput.httpOutput(from:), UpdateServiceSpecificCredentialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSpecificCredentialOutput>())
@@ -11761,9 +11601,9 @@ extension IAMClient {
     ///
     /// Changes the status of the specified user signing certificate from active to disabled, or vice versa. This operation can be used to disable an IAM user's signing certificate as part of a certificate rotation work flow. If the UserName field is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.
     ///
-    /// - Parameter UpdateSigningCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSigningCertificateInput`)
     ///
-    /// - Returns: `UpdateSigningCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSigningCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11798,7 +11638,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSigningCertificateOutput>(UpdateSigningCertificateOutput.httpOutput(from:), UpdateSigningCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSigningCertificateOutput>())
@@ -11832,9 +11671,9 @@ extension IAMClient {
     ///
     /// Updates the name and/or the path of the specified IAM user. You should understand the implications of changing an IAM user's path or name. For more information, see [Renaming an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming) and [Renaming an IAM group](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html) in the IAM User Guide. To change a user name, the requester must have appropriate permissions on both the source object and the target object. For example, to change Bob to Robert, the entity making the request must have permission on Bob and Robert, or must have permission on all (*). For more information about permissions, see [Permissions and policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html).
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11871,7 +11710,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())
@@ -11905,9 +11743,9 @@ extension IAMClient {
     ///
     /// Uploads an SSH public key and associates it with the specified IAM user. The SSH public key uploaded by this operation can be used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
-    /// - Parameter UploadSSHPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadSSHPublicKeyInput`)
     ///
-    /// - Returns: `UploadSSHPublicKeyOutput` : Contains the response to a successful [UploadSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html) request.
+    /// - Returns: Contains the response to a successful [UploadSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html) request. (Type: `UploadSSHPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11943,7 +11781,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadSSHPublicKeyOutput>(UploadSSHPublicKeyOutput.httpOutput(from:), UploadSSHPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadSSHPublicKeyOutput>())
@@ -11977,9 +11814,9 @@ extension IAMClient {
     ///
     /// Uploads a server certificate entity for the Amazon Web Services account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use [Certificate Manager](https://docs.aws.amazon.com/acm/) to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to Amazon Web Services resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. For more information about using ACM, see the [Certificate Manager User Guide](https://docs.aws.amazon.com/acm/latest/userguide/). For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. For information about the number of server certificates you can upload, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because the body of the public key certificate, private key, and the certificate chain can be large, you should use POST rather than GET when calling UploadServerCertificate. For information about setting up signatures and authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) in the Amazon Web Services General Reference. For general information about using the Query API with IAM, see [Calling the API by making HTTP query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/programming.html) in the IAM User Guide.
     ///
-    /// - Parameter UploadServerCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadServerCertificateInput`)
     ///
-    /// - Returns: `UploadServerCertificateOutput` : Contains the response to a successful [UploadServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadServerCertificate.html) request.
+    /// - Returns: Contains the response to a successful [UploadServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadServerCertificate.html) request. (Type: `UploadServerCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12017,7 +11854,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadServerCertificateOutput>(UploadServerCertificateOutput.httpOutput(from:), UploadServerCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadServerCertificateOutput>())
@@ -12051,9 +11887,9 @@ extension IAMClient {
     ///
     /// Uploads an X.509 signing certificate and associates it with the specified IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active. For information about when you would use an X.509 signing certificate, see [Managing server certificates in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. If the UserName is not specified, the IAM user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users. Because the body of an X.509 certificate can be large, you should use POST rather than GET when calling UploadSigningCertificate. For information about setting up signatures and authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) in the Amazon Web Services General Reference. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
-    /// - Parameter UploadSigningCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadSigningCertificateInput`)
     ///
-    /// - Returns: `UploadSigningCertificateOutput` : Contains the response to a successful [UploadSigningCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html) request.
+    /// - Returns: Contains the response to a successful [UploadSigningCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html) request. (Type: `UploadSigningCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12092,7 +11928,6 @@ extension IAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadSigningCertificateOutput>(UploadSigningCertificateOutput.httpOutput(from:), UploadSigningCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadSigningCertificateOutput>())

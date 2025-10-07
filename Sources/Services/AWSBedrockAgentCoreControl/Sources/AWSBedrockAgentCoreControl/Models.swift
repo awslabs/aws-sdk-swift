@@ -726,6 +726,25 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.
+    public struct LifecycleConfiguration: Swift.Sendable {
+        /// Timeout in seconds for idle runtime sessions. When a session remains idle for this duration, it will be automatically terminated. Default: 900 seconds (15 minutes).
+        public var idleRuntimeSessionTimeout: Swift.Int?
+        /// Maximum lifetime for the instance in seconds. Once reached, instances will be automatically terminated and replaced. Default: 28800 seconds (8 hours).
+        public var maxLifetime: Swift.Int?
+
+        public init(
+            idleRuntimeSessionTimeout: Swift.Int? = nil,
+            maxLifetime: Swift.Int? = nil
+        ) {
+            self.idleRuntimeSessionTimeout = idleRuntimeSessionTimeout
+            self.maxLifetime = maxLifetime
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum NetworkMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `public`
         case vpc
@@ -797,12 +816,14 @@ extension BedrockAgentCoreControlClientTypes {
 extension BedrockAgentCoreControlClientTypes {
 
     public enum ServerProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case a2a
         case http
         case mcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServerProtocol] {
             return [
+                .a2a,
                 .http,
                 .mcp
             ]
@@ -815,6 +836,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .a2a: return "A2A"
             case .http: return "HTTP"
             case .mcp: return "MCP"
             case let .sdkUnknown(s): return s
@@ -864,6 +886,8 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     public var description: Swift.String?
     /// Environment variables to set in the AgentCore Runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
+    /// The life cycle configuration for the AgentCore Runtime.
+    public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
     /// The network configuration for the AgentCore Runtime.
     /// This member is required.
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
@@ -884,6 +908,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
+        lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
@@ -896,6 +921,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
         self.clientToken = clientToken
         self.description = description
         self.environmentVariables = environmentVariables
+        self.lifecycleConfiguration = lifecycleConfiguration
         self.networkConfiguration = networkConfiguration
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
@@ -906,7 +932,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
 
 extension CreateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -1069,6 +1095,9 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     /// The timestamp when the AgentCore Runtime was last updated.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
+    /// The life cycle configuration for the AgentCore Runtime.
+    /// This member is required.
+    public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
     /// The network configuration for the AgentCore Runtime.
     /// This member is required.
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
@@ -1096,6 +1125,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
@@ -1113,6 +1143,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         self.description = description
         self.environmentVariables = environmentVariables
         self.lastUpdatedAt = lastUpdatedAt
+        self.lifecycleConfiguration = lifecycleConfiguration
         self.networkConfiguration = networkConfiguration
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
@@ -1124,7 +1155,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
 
 extension GetAgentRuntimeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), createdAt: \(Swift.String(describing: createdAt)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), createdAt: \(Swift.String(describing: createdAt)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAgentRuntimesInput: Swift.Sendable {
@@ -1260,6 +1291,8 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     public var description: Swift.String?
     /// Updated environment variables to set in the AgentCore Runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
+    /// The updated life cycle configuration for the AgentCore Runtime.
+    public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
     /// The updated network configuration for the AgentCore Runtime.
     /// This member is required.
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
@@ -1278,6 +1311,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
+        lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
@@ -1289,6 +1323,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         self.clientToken = clientToken
         self.description = description
         self.environmentVariables = environmentVariables
+        self.lifecycleConfiguration = lifecycleConfiguration
         self.networkConfiguration = networkConfiguration
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
@@ -1298,7 +1333,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
 
 extension UpdateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAgentRuntimeOutput: Swift.Sendable {
@@ -4065,6 +4100,8 @@ public struct CreateMemoryInput: Swift.Sendable {
     /// The name of the memory. The name must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
+    /// A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -4073,7 +4110,8 @@ public struct CreateMemoryInput: Swift.Sendable {
         eventExpiryDuration: Swift.Int? = nil,
         memoryExecutionRoleArn: Swift.String? = nil,
         memoryStrategies: [BedrockAgentCoreControlClientTypes.MemoryStrategyInput]? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
@@ -4082,12 +4120,13 @@ public struct CreateMemoryInput: Swift.Sendable {
         self.memoryExecutionRoleArn = memoryExecutionRoleArn
         self.memoryStrategies = memoryStrategies
         self.name = name
+        self.tags = tags
     }
 }
 
 extension CreateMemoryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+        "CreateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -6860,6 +6899,7 @@ extension CreateAgentRuntimeInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.write(value:to:))
         try writer["requestHeaderConfiguration"].write(value.requestHeaderConfiguration, with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.write(value:to:))
@@ -6957,6 +6997,7 @@ extension CreateMemoryInput {
         try writer["memoryExecutionRoleArn"].write(value.memoryExecutionRoleArn)
         try writer["memoryStrategies"].writeList(value.memoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7097,6 +7138,7 @@ extension UpdateAgentRuntimeInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.write(value:to:))
         try writer["requestHeaderConfiguration"].write(value.requestHeaderConfiguration, with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.write(value:to:))
@@ -7479,6 +7521,7 @@ extension GetAgentRuntimeOutput {
         value.description = try reader["description"].readIfPresent()
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleConfiguration = try reader["lifecycleConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.read(from:))
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.read(from:))
         value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.read(from:))
         value.requestHeaderConfiguration = try reader["requestHeaderConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.read(from:))
@@ -9773,6 +9816,57 @@ extension BedrockAgentCoreControlClientTypes.SemanticExtractionOverride {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.NetworkConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkMode"].write(value.networkMode)
+        try writer["networkModeConfig"].write(value.networkModeConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.NetworkConfiguration()
+        value.networkMode = try reader["networkMode"].readIfPresent() ?? .sdkUnknown("")
+        value.networkModeConfig = try reader["networkModeConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.VpcConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.VpcConfig()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LifecycleConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idleRuntimeSessionTimeout"].write(value.idleRuntimeSessionTimeout)
+        try writer["maxLifetime"].write(value.maxLifetime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LifecycleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LifecycleConfiguration()
+        value.idleRuntimeSessionTimeout = try reader["idleRuntimeSessionTimeout"].readIfPresent()
+        value.maxLifetime = try reader["maxLifetime"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact {
 
     static func write(value: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact?, to writer: SmithyJSON.Writer) throws {
@@ -9808,40 +9902,6 @@ extension BedrockAgentCoreControlClientTypes.ContainerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.ContainerConfiguration()
         value.containerUri = try reader["containerUri"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.NetworkConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkMode"].write(value.networkMode)
-        try writer["networkModeConfig"].write(value.networkModeConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.NetworkConfiguration()
-        value.networkMode = try reader["networkMode"].readIfPresent() ?? .sdkUnknown("")
-        value.networkModeConfig = try reader["networkModeConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.VpcConfig {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.VpcConfig()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

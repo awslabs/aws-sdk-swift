@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeRuntimeClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeRuntimeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeRuntimeClient.PersonalizeRuntimeClientConfiguration
     let serviceName = "Personalize Runtime"
@@ -372,9 +371,9 @@ extension PersonalizeRuntimeClient {
     ///
     /// Returns a list of recommended actions in sorted in descending order by prediction score. Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSONALIZED_ACTIONS recipe. For more information about PERSONALIZED_ACTIONS recipes, see [PERSONALIZED_ACTIONS recipes](https://docs.aws.amazon.com/personalize/latest/dg/nexts-best-action-recipes.html). For more information about getting action recommendations, see [Getting action recommendations](https://docs.aws.amazon.com/personalize/latest/dg/get-action-recommendations.html).
     ///
-    /// - Parameter GetActionRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetActionRecommendationsInput`)
     ///
-    /// - Returns: `GetActionRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetActionRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension PersonalizeRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetActionRecommendationsInput, GetActionRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetActionRecommendationsOutput>(GetActionRecommendationsOutput.httpOutput(from:), GetActionRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetActionRecommendationsInput, GetActionRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetActionRecommendationsOutput>())
@@ -441,9 +439,9 @@ extension PersonalizeRuntimeClient {
     ///
     /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user. The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING.
     ///
-    /// - Parameter GetPersonalizedRankingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPersonalizedRankingInput`)
     ///
-    /// - Returns: `GetPersonalizedRankingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPersonalizedRankingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,7 +476,6 @@ extension PersonalizeRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPersonalizedRankingInput, GetPersonalizedRankingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPersonalizedRankingOutput>(GetPersonalizedRankingOutput.httpOutput(from:), GetPersonalizedRankingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPersonalizedRankingInput, GetPersonalizedRankingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPersonalizedRankingOutput>())
@@ -517,9 +514,9 @@ extension PersonalizeRuntimeClient {
     ///
     /// Campaigns that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the API. For recommenders, the recommender's ARN is required and the required item and user input depends on the use case (domain-based recipe) backing the recommender. For information on use case requirements see [Choosing recommender use cases](https://docs.aws.amazon.com/personalize/latest/dg/domain-use-cases.html).
     ///
-    /// - Parameter GetRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationsInput`)
     ///
-    /// - Returns: `GetRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension PersonalizeRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecommendationsInput, GetRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationsOutput>(GetRecommendationsOutput.httpOutput(from:), GetRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationsInput, GetRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationsOutput>())

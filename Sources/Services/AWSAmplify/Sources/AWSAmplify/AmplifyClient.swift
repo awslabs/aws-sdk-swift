@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmplifyClient: ClientRuntime.Client {
     public static let clientName = "AmplifyClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyClient.AmplifyClientConfiguration
     let serviceName = "Amplify"
@@ -374,9 +373,9 @@ extension AmplifyClient {
     ///
     /// Creates a new Amplify app.
     ///
-    /// - Parameter CreateAppInput : The request structure used to create apps in Amplify.
+    /// - Parameter input: The request structure used to create apps in Amplify. (Type: `CreateAppInput`)
     ///
-    /// - Returns: `CreateAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInput, CreateAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppOutput>(CreateAppOutput.httpOutput(from:), CreateAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInput, CreateAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppOutput>())
@@ -446,9 +444,9 @@ extension AmplifyClient {
     ///
     /// Creates a new backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter CreateBackendEnvironmentInput : The request structure for the backend environment create request.
+    /// - Parameter input: The request structure for the backend environment create request. (Type: `CreateBackendEnvironmentInput`)
     ///
-    /// - Returns: `CreateBackendEnvironmentOutput` : The result structure for the create backend environment request.
+    /// - Returns: The result structure for the create backend environment request. (Type: `CreateBackendEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackendEnvironmentInput, CreateBackendEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackendEnvironmentOutput>(CreateBackendEnvironmentOutput.httpOutput(from:), CreateBackendEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackendEnvironmentInput, CreateBackendEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackendEnvironmentOutput>())
@@ -518,9 +515,9 @@ extension AmplifyClient {
     ///
     /// Creates a new branch for an Amplify app.
     ///
-    /// - Parameter CreateBranchInput : The request structure for the create branch request.
+    /// - Parameter input: The request structure for the create branch request. (Type: `CreateBranchInput`)
     ///
-    /// - Returns: `CreateBranchOutput` : The result structure for create branch request.
+    /// - Returns: The result structure for create branch request. (Type: `CreateBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,7 +556,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBranchInput, CreateBranchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBranchOutput>(CreateBranchOutput.httpOutput(from:), CreateBranchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBranchInput, CreateBranchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBranchOutput>())
@@ -591,9 +587,9 @@ extension AmplifyClient {
     ///
     /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a Git repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
-    /// - Parameter CreateDeploymentInput : The request structure for the create a new deployment request.
+    /// - Parameter input: The request structure for the create a new deployment request. (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : The result structure for the create a new deployment request.
+    /// - Returns: The result structure for the create a new deployment request. (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,7 +626,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput>(CreateDeploymentOutput.httpOutput(from:), CreateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentOutput>())
@@ -662,9 +657,9 @@ extension AmplifyClient {
     ///
     /// Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
     ///
-    /// - Parameter CreateDomainAssociationInput : The request structure for the create domain association request.
+    /// - Parameter input: The request structure for the create domain association request. (Type: `CreateDomainAssociationInput`)
     ///
-    /// - Returns: `CreateDomainAssociationOutput` : The result structure for the create domain association request.
+    /// - Returns: The result structure for the create domain association request. (Type: `CreateDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,7 +698,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainAssociationInput, CreateDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainAssociationOutput>(CreateDomainAssociationOutput.httpOutput(from:), CreateDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainAssociationInput, CreateDomainAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainAssociationOutput>())
@@ -735,9 +729,9 @@ extension AmplifyClient {
     ///
     /// Creates a new webhook on an Amplify app.
     ///
-    /// - Parameter CreateWebhookInput : The request structure for the create webhook request.
+    /// - Parameter input: The request structure for the create webhook request. (Type: `CreateWebhookInput`)
     ///
-    /// - Returns: `CreateWebhookOutput` : The result structure for the create webhook request.
+    /// - Returns: The result structure for the create webhook request. (Type: `CreateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -776,7 +770,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebhookInput, CreateWebhookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebhookOutput>(CreateWebhookOutput.httpOutput(from:), CreateWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebhookInput, CreateWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWebhookOutput>())
@@ -808,9 +801,9 @@ extension AmplifyClient {
     ///
     /// Deletes an existing Amplify app specified by an app ID.
     ///
-    /// - Parameter DeleteAppInput : Describes the request structure for the delete app request.
+    /// - Parameter input: Describes the request structure for the delete app request. (Type: `DeleteAppInput`)
     ///
-    /// - Returns: `DeleteAppOutput` : The result structure for the delete app request.
+    /// - Returns: The result structure for the delete app request. (Type: `DeleteAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -845,7 +838,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAppInput, DeleteAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppOutput>(DeleteAppOutput.httpOutput(from:), DeleteAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInput, DeleteAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppOutput>())
@@ -877,9 +869,9 @@ extension AmplifyClient {
     ///
     /// Deletes a backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter DeleteBackendEnvironmentInput : The request structure for the delete backend environment request.
+    /// - Parameter input: The request structure for the delete backend environment request. (Type: `DeleteBackendEnvironmentInput`)
     ///
-    /// - Returns: `DeleteBackendEnvironmentOutput` : The result structure of the delete backend environment result.
+    /// - Returns: The result structure of the delete backend environment result. (Type: `DeleteBackendEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,7 +906,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackendEnvironmentInput, DeleteBackendEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackendEnvironmentOutput>(DeleteBackendEnvironmentOutput.httpOutput(from:), DeleteBackendEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackendEnvironmentInput, DeleteBackendEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackendEnvironmentOutput>())
@@ -946,9 +937,9 @@ extension AmplifyClient {
     ///
     /// Deletes a branch for an Amplify app.
     ///
-    /// - Parameter DeleteBranchInput : The request structure for the delete branch request.
+    /// - Parameter input: The request structure for the delete branch request. (Type: `DeleteBranchInput`)
     ///
-    /// - Returns: `DeleteBranchOutput` : The result structure for the delete branch request.
+    /// - Returns: The result structure for the delete branch request. (Type: `DeleteBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,7 +974,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBranchInput, DeleteBranchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBranchOutput>(DeleteBranchOutput.httpOutput(from:), DeleteBranchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBranchInput, DeleteBranchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBranchOutput>())
@@ -1015,9 +1005,9 @@ extension AmplifyClient {
     ///
     /// Deletes a domain association for an Amplify app.
     ///
-    /// - Parameter DeleteDomainAssociationInput : The request structure for the delete domain association request.
+    /// - Parameter input: The request structure for the delete domain association request. (Type: `DeleteDomainAssociationInput`)
     ///
-    /// - Returns: `DeleteDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1052,7 +1042,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainAssociationInput, DeleteDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainAssociationOutput>(DeleteDomainAssociationOutput.httpOutput(from:), DeleteDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainAssociationInput, DeleteDomainAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainAssociationOutput>())
@@ -1084,9 +1073,9 @@ extension AmplifyClient {
     ///
     /// Deletes a job for a branch of an Amplify app.
     ///
-    /// - Parameter DeleteJobInput : The request structure for the delete job request.
+    /// - Parameter input: The request structure for the delete job request. (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : The result structure for the delete job request.
+    /// - Returns: The result structure for the delete job request. (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,7 +1110,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobInput, DeleteJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobOutput>(DeleteJobOutput.httpOutput(from:), DeleteJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobInput, DeleteJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobOutput>())
@@ -1153,9 +1141,9 @@ extension AmplifyClient {
     ///
     /// Deletes a webhook.
     ///
-    /// - Parameter DeleteWebhookInput : The request structure for the delete webhook request.
+    /// - Parameter input: The request structure for the delete webhook request. (Type: `DeleteWebhookInput`)
     ///
-    /// - Returns: `DeleteWebhookOutput` : The result structure for the delete webhook request.
+    /// - Returns: The result structure for the delete webhook request. (Type: `DeleteWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1190,7 +1178,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebhookOutput>(DeleteWebhookOutput.httpOutput(from:), DeleteWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebhookOutput>())
@@ -1222,9 +1209,9 @@ extension AmplifyClient {
     ///
     /// Returns the website access logs for a specific time range using a presigned URL.
     ///
-    /// - Parameter GenerateAccessLogsInput : The request structure for the generate access logs request.
+    /// - Parameter input: The request structure for the generate access logs request. (Type: `GenerateAccessLogsInput`)
     ///
-    /// - Returns: `GenerateAccessLogsOutput` : The result structure for the generate access logs request.
+    /// - Returns: The result structure for the generate access logs request. (Type: `GenerateAccessLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,7 +1248,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateAccessLogsInput, GenerateAccessLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateAccessLogsOutput>(GenerateAccessLogsOutput.httpOutput(from:), GenerateAccessLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateAccessLogsInput, GenerateAccessLogsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateAccessLogsOutput>())
@@ -1293,9 +1279,9 @@ extension AmplifyClient {
     ///
     /// Returns an existing Amplify app specified by an app ID.
     ///
-    /// - Parameter GetAppInput : The request structure for the get app request.
+    /// - Parameter input: The request structure for the get app request. (Type: `GetAppInput`)
     ///
-    /// - Returns: `GetAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,7 +1315,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAppInput, GetAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAppOutput>(GetAppOutput.httpOutput(from:), GetAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAppInput, GetAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAppOutput>())
@@ -1361,9 +1346,9 @@ extension AmplifyClient {
     ///
     /// Returns the artifact info that corresponds to an artifact id.
     ///
-    /// - Parameter GetArtifactUrlInput : Returns the request structure for the get artifact request.
+    /// - Parameter input: Returns the request structure for the get artifact request. (Type: `GetArtifactUrlInput`)
     ///
-    /// - Returns: `GetArtifactUrlOutput` : Returns the result structure for the get artifact request.
+    /// - Returns: Returns the result structure for the get artifact request. (Type: `GetArtifactUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1398,7 +1383,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArtifactUrlInput, GetArtifactUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArtifactUrlOutput>(GetArtifactUrlOutput.httpOutput(from:), GetArtifactUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArtifactUrlInput, GetArtifactUrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArtifactUrlOutput>())
@@ -1430,9 +1414,9 @@ extension AmplifyClient {
     ///
     /// Returns a backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter GetBackendEnvironmentInput : The request structure for the get backend environment request.
+    /// - Parameter input: The request structure for the get backend environment request. (Type: `GetBackendEnvironmentInput`)
     ///
-    /// - Returns: `GetBackendEnvironmentOutput` : The result structure for the get backend environment result.
+    /// - Returns: The result structure for the get backend environment result. (Type: `GetBackendEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1466,7 +1450,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBackendEnvironmentInput, GetBackendEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackendEnvironmentOutput>(GetBackendEnvironmentOutput.httpOutput(from:), GetBackendEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackendEnvironmentInput, GetBackendEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackendEnvironmentOutput>())
@@ -1498,9 +1481,9 @@ extension AmplifyClient {
     ///
     /// Returns a branch for an Amplify app.
     ///
-    /// - Parameter GetBranchInput : The request structure for the get branch request.
+    /// - Parameter input: The request structure for the get branch request. (Type: `GetBranchInput`)
     ///
-    /// - Returns: `GetBranchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1534,7 +1517,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBranchInput, GetBranchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBranchOutput>(GetBranchOutput.httpOutput(from:), GetBranchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBranchInput, GetBranchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBranchOutput>())
@@ -1566,9 +1548,9 @@ extension AmplifyClient {
     ///
     /// Returns the domain information for an Amplify app.
     ///
-    /// - Parameter GetDomainAssociationInput : The request structure for the get domain association request.
+    /// - Parameter input: The request structure for the get domain association request. (Type: `GetDomainAssociationInput`)
     ///
-    /// - Returns: `GetDomainAssociationOutput` : The result structure for the get domain association request.
+    /// - Returns: The result structure for the get domain association request. (Type: `GetDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1602,7 +1584,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainAssociationInput, GetDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainAssociationOutput>(GetDomainAssociationOutput.httpOutput(from:), GetDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainAssociationInput, GetDomainAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainAssociationOutput>())
@@ -1634,9 +1615,9 @@ extension AmplifyClient {
     ///
     /// Returns a job for a branch of an Amplify app.
     ///
-    /// - Parameter GetJobInput : The request structure for the get job request.
+    /// - Parameter input: The request structure for the get job request. (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1671,7 +1652,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -1703,9 +1683,9 @@ extension AmplifyClient {
     ///
     /// Returns the webhook information that corresponds to a specified webhook ID.
     ///
-    /// - Parameter GetWebhookInput : The request structure for the get webhook request.
+    /// - Parameter input: The request structure for the get webhook request. (Type: `GetWebhookInput`)
     ///
-    /// - Returns: `GetWebhookOutput` : The result structure for the get webhook request.
+    /// - Returns: The result structure for the get webhook request. (Type: `GetWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1740,7 +1720,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWebhookInput, GetWebhookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWebhookOutput>(GetWebhookOutput.httpOutput(from:), GetWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebhookInput, GetWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWebhookOutput>())
@@ -1772,9 +1751,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of the existing Amplify apps.
     ///
-    /// - Parameter ListAppsInput : The request structure for the list apps request.
+    /// - Parameter input: The request structure for the list apps request. (Type: `ListAppsInput`)
     ///
-    /// - Returns: `ListAppsOutput` : The result structure for an Amplify app list request.
+    /// - Returns: The result structure for an Amplify app list request. (Type: `ListAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1808,7 +1787,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppsInput, ListAppsOutput>(ListAppsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppsOutput>(ListAppsOutput.httpOutput(from:), ListAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppsInput, ListAppsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppsOutput>())
@@ -1840,9 +1818,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the [GetJob](https://docs.aws.amazon.com/amplify/latest/APIReference/API_GetJob.html) API. For more information about Amplify testing support, see [Setting up end-to-end Cypress tests for your Amplify application](https://docs.aws.amazon.com/amplify/latest/userguide/running-tests.html) in the Amplify Hosting User Guide.
     ///
-    /// - Parameter ListArtifactsInput : Describes the request structure for the list artifacts request.
+    /// - Parameter input: Describes the request structure for the list artifacts request. (Type: `ListArtifactsInput`)
     ///
-    /// - Returns: `ListArtifactsOutput` : The result structure for the list artifacts request.
+    /// - Returns: The result structure for the list artifacts request. (Type: `ListArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1877,7 +1855,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListArtifactsInput, ListArtifactsOutput>(ListArtifactsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArtifactsOutput>(ListArtifactsOutput.httpOutput(from:), ListArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArtifactsInput, ListArtifactsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArtifactsOutput>())
@@ -1909,9 +1886,9 @@ extension AmplifyClient {
     ///
     /// Lists the backend environments for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter ListBackendEnvironmentsInput : The request structure for the list backend environments request.
+    /// - Parameter input: The request structure for the list backend environments request. (Type: `ListBackendEnvironmentsInput`)
     ///
-    /// - Returns: `ListBackendEnvironmentsOutput` : The result structure for the list backend environments result.
+    /// - Returns: The result structure for the list backend environments result. (Type: `ListBackendEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1945,7 +1922,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackendEnvironmentsInput, ListBackendEnvironmentsOutput>(ListBackendEnvironmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackendEnvironmentsOutput>(ListBackendEnvironmentsOutput.httpOutput(from:), ListBackendEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackendEnvironmentsInput, ListBackendEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackendEnvironmentsOutput>())
@@ -1977,9 +1953,9 @@ extension AmplifyClient {
     ///
     /// Lists the branches of an Amplify app.
     ///
-    /// - Parameter ListBranchesInput : The request structure for the list branches request.
+    /// - Parameter input: The request structure for the list branches request. (Type: `ListBranchesInput`)
     ///
-    /// - Returns: `ListBranchesOutput` : The result structure for the list branches request.
+    /// - Returns: The result structure for the list branches request. (Type: `ListBranchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2013,7 +1989,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBranchesInput, ListBranchesOutput>(ListBranchesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBranchesOutput>(ListBranchesOutput.httpOutput(from:), ListBranchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBranchesInput, ListBranchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBranchesOutput>())
@@ -2045,9 +2020,9 @@ extension AmplifyClient {
     ///
     /// Returns the domain associations for an Amplify app.
     ///
-    /// - Parameter ListDomainAssociationsInput : The request structure for the list domain associations request.
+    /// - Parameter input: The request structure for the list domain associations request. (Type: `ListDomainAssociationsInput`)
     ///
-    /// - Returns: `ListDomainAssociationsOutput` : The result structure for the list domain association request.
+    /// - Returns: The result structure for the list domain association request. (Type: `ListDomainAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,7 +2056,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainAssociationsInput, ListDomainAssociationsOutput>(ListDomainAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainAssociationsOutput>(ListDomainAssociationsOutput.httpOutput(from:), ListDomainAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainAssociationsInput, ListDomainAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainAssociationsOutput>())
@@ -2113,9 +2087,9 @@ extension AmplifyClient {
     ///
     /// Lists the jobs for a branch of an Amplify app.
     ///
-    /// - Parameter ListJobsInput : The request structure for the list jobs request.
+    /// - Parameter input: The request structure for the list jobs request. (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : The maximum number of records to list in a single response.
+    /// - Returns: The maximum number of records to list in a single response. (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2150,7 +2124,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -2182,9 +2155,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of tags for a specified Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListTagsForResourceInput : The request structure to use to list tags for a resource.
+    /// - Parameter input: The request structure to use to list tags for a resource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The response for the list tags for resource request.
+    /// - Returns: The response for the list tags for resource request. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2217,7 +2190,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2249,9 +2221,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of webhooks for an Amplify app.
     ///
-    /// - Parameter ListWebhooksInput : The request structure for the list webhooks request.
+    /// - Parameter input: The request structure for the list webhooks request. (Type: `ListWebhooksInput`)
     ///
-    /// - Returns: `ListWebhooksOutput` : The result structure for the list webhooks request.
+    /// - Returns: The result structure for the list webhooks request. (Type: `ListWebhooksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2286,7 +2258,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWebhooksInput, ListWebhooksOutput>(ListWebhooksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWebhooksOutput>(ListWebhooksOutput.httpOutput(from:), ListWebhooksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebhooksInput, ListWebhooksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWebhooksOutput>())
@@ -2318,9 +2289,9 @@ extension AmplifyClient {
     ///
     /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a Git repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
-    /// - Parameter StartDeploymentInput : The request structure for the start a deployment request.
+    /// - Parameter input: The request structure for the start a deployment request. (Type: `StartDeploymentInput`)
     ///
-    /// - Returns: `StartDeploymentOutput` : The result structure for the start a deployment request.
+    /// - Returns: The result structure for the start a deployment request. (Type: `StartDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2358,7 +2329,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeploymentInput, StartDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeploymentOutput>(StartDeploymentOutput.httpOutput(from:), StartDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeploymentInput, StartDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDeploymentOutput>())
@@ -2390,9 +2360,9 @@ extension AmplifyClient {
     ///
     /// Starts a new job for a branch of an Amplify app.
     ///
-    /// - Parameter StartJobInput : The request structure for the start job request.
+    /// - Parameter input: The request structure for the start job request. (Type: `StartJobInput`)
     ///
-    /// - Returns: `StartJobOutput` : The result structure for the run job request.
+    /// - Returns: The result structure for the run job request. (Type: `StartJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,7 +2400,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartJobInput, StartJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobOutput>(StartJobOutput.httpOutput(from:), StartJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobInput, StartJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobOutput>())
@@ -2462,9 +2431,9 @@ extension AmplifyClient {
     ///
     /// Stops a job that is in progress for a branch of an Amplify app.
     ///
-    /// - Parameter StopJobInput : The request structure for the stop job request.
+    /// - Parameter input: The request structure for the stop job request. (Type: `StopJobInput`)
     ///
-    /// - Returns: `StopJobOutput` : The result structure for the stop job request.
+    /// - Returns: The result structure for the stop job request. (Type: `StopJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,7 +2468,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopJobInput, StopJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopJobOutput>(StopJobOutput.httpOutput(from:), StopJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopJobInput, StopJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopJobOutput>())
@@ -2531,9 +2499,9 @@ extension AmplifyClient {
     ///
     /// Tags the resource with a tag key and value.
     ///
-    /// - Parameter TagResourceInput : The request structure to tag a resource with a tag key and value.
+    /// - Parameter input: The request structure to tag a resource with a tag key and value. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : The response for the tag resource request.
+    /// - Returns: The response for the tag resource request. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2569,7 +2537,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2601,9 +2568,9 @@ extension AmplifyClient {
     ///
     /// Untags a resource with a specified Amazon Resource Name (ARN).
     ///
-    /// - Parameter UntagResourceInput : The request structure for the untag resource request.
+    /// - Parameter input: The request structure for the untag resource request. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : The response for the untag resource request.
+    /// - Returns: The response for the untag resource request. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2637,7 +2604,6 @@ extension AmplifyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2669,9 +2635,9 @@ extension AmplifyClient {
     ///
     /// Updates an existing Amplify app.
     ///
-    /// - Parameter UpdateAppInput : The request structure for the update app request.
+    /// - Parameter input: The request structure for the update app request. (Type: `UpdateAppInput`)
     ///
-    /// - Returns: `UpdateAppOutput` : The result structure for an Amplify app update request.
+    /// - Returns: The result structure for an Amplify app update request. (Type: `UpdateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2708,7 +2674,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppInput, UpdateAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppOutput>(UpdateAppOutput.httpOutput(from:), UpdateAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppInput, UpdateAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppOutput>())
@@ -2740,9 +2705,9 @@ extension AmplifyClient {
     ///
     /// Updates a branch for an Amplify app.
     ///
-    /// - Parameter UpdateBranchInput : The request structure for the update branch request.
+    /// - Parameter input: The request structure for the update branch request. (Type: `UpdateBranchInput`)
     ///
-    /// - Returns: `UpdateBranchOutput` : The result structure for the update branch request.
+    /// - Returns: The result structure for the update branch request. (Type: `UpdateBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,7 +2745,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBranchInput, UpdateBranchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBranchOutput>(UpdateBranchOutput.httpOutput(from:), UpdateBranchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBranchInput, UpdateBranchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBranchOutput>())
@@ -2812,9 +2776,9 @@ extension AmplifyClient {
     ///
     /// Creates a new domain association for an Amplify app.
     ///
-    /// - Parameter UpdateDomainAssociationInput : The request structure for the update domain association request.
+    /// - Parameter input: The request structure for the update domain association request. (Type: `UpdateDomainAssociationInput`)
     ///
-    /// - Returns: `UpdateDomainAssociationOutput` : The result structure for the update domain association request.
+    /// - Returns: The result structure for the update domain association request. (Type: `UpdateDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2852,7 +2816,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainAssociationOutput>(UpdateDomainAssociationOutput.httpOutput(from:), UpdateDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainAssociationOutput>())
@@ -2884,9 +2847,9 @@ extension AmplifyClient {
     ///
     /// Updates a webhook.
     ///
-    /// - Parameter UpdateWebhookInput : The request structure for the update webhook request.
+    /// - Parameter input: The request structure for the update webhook request. (Type: `UpdateWebhookInput`)
     ///
-    /// - Returns: `UpdateWebhookOutput` : The result structure for the update webhook request.
+    /// - Returns: The result structure for the update webhook request. (Type: `UpdateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2924,7 +2887,6 @@ extension AmplifyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebhookOutput>(UpdateWebhookOutput.httpOutput(from:), UpdateWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebhookOutput>())

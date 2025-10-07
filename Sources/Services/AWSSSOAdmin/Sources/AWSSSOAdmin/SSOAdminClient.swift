@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOAdminClient: ClientRuntime.Client {
     public static let clientName = "SSOAdminClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOAdminClient.SSOAdminClientConfiguration
     let serviceName = "SSO Admin"
@@ -375,9 +374,9 @@ extension SSOAdminClient {
     ///
     /// Attaches the specified customer managed policy to the specified [PermissionSet].
     ///
-    /// - Parameter AttachCustomerManagedPolicyReferenceToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachCustomerManagedPolicyReferenceToPermissionSetInput`)
     ///
-    /// - Returns: `AttachCustomerManagedPolicyReferenceToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachCustomerManagedPolicyReferenceToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(AttachCustomerManagedPolicyReferenceToPermissionSetOutput.httpOutput(from:), AttachCustomerManagedPolicyReferenceToPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutput>())
@@ -450,9 +448,9 @@ extension SSOAdminClient {
     ///
     /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
-    /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachManagedPolicyToPermissionSetInput`)
     ///
-    /// - Returns: `AttachManagedPolicyToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachManagedPolicyToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,7 +488,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachManagedPolicyToPermissionSetOutput>(AttachManagedPolicyToPermissionSetOutput.httpOutput(from:), AttachManagedPolicyToPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachManagedPolicyToPermissionSetOutput>())
@@ -525,9 +522,9 @@ extension SSOAdminClient {
     ///
     /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
-    /// - Parameter CreateAccountAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountAssignmentInput`)
     ///
-    /// - Returns: `CreateAccountAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,7 +562,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountAssignmentOutput>(CreateAccountAssignmentOutput.httpOutput(from:), CreateAccountAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountAssignmentOutput>())
@@ -600,9 +596,9 @@ extension SSOAdminClient {
     ///
     /// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider. This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See [Setting up customer managed SAML 2.0 applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-setup.html). For more information on these application types, see [Amazon Web Services managed applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/awsapps.html).
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,7 +637,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -676,9 +671,9 @@ extension SSOAdminClient {
     ///
     /// Grant application access to a user or group.
     ///
-    /// - Parameter CreateApplicationAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationAssignmentInput`)
     ///
-    /// - Returns: `CreateApplicationAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,7 +711,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationAssignmentOutput>(CreateApplicationAssignmentOutput.httpOutput(from:), CreateApplicationAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationAssignmentInput, CreateApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationAssignmentOutput>())
@@ -755,9 +749,9 @@ extension SSOAdminClient {
     ///
     /// * An instance already exists in the same account.
     ///
-    /// - Parameter CreateInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceInput`)
     ///
-    /// - Returns: `CreateInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -795,7 +789,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceInput, CreateInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceOutput>(CreateInstanceOutput.httpOutput(from:), CreateInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceInput, CreateInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceOutput>())
@@ -830,9 +823,9 @@ extension SSOAdminClient {
     ///
     /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide. After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
     ///
-    /// - Parameter CreateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `CreateInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -869,7 +862,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>(CreateInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), CreateInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceAccessControlAttributeConfigurationOutput>())
@@ -904,9 +896,9 @@ extension SSOAdminClient {
     ///
     /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
-    /// - Parameter CreatePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionSetInput`)
     ///
-    /// - Returns: `CreatePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,7 +936,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePermissionSetOutput>(CreatePermissionSetOutput.httpOutput(from:), CreatePermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePermissionSetInput, CreatePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePermissionSetOutput>())
@@ -979,9 +970,9 @@ extension SSOAdminClient {
     ///
     /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
     ///
-    /// - Parameter CreateTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `CreateTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,7 +1010,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustedTokenIssuerOutput>(CreateTrustedTokenIssuerOutput.httpOutput(from:), CreateTrustedTokenIssuerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustedTokenIssuerInput, CreateTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrustedTokenIssuerOutput>())
@@ -1054,9 +1044,9 @@ extension SSOAdminClient {
     ///
     /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
-    /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAssignmentInput`)
     ///
-    /// - Returns: `DeleteAccountAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,7 +1083,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountAssignmentOutput>(DeleteAccountAssignmentOutput.httpOutput(from:), DeleteAccountAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountAssignmentOutput>())
@@ -1128,9 +1117,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the association with the application. The connected service resource still exists.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,7 +1156,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -1202,9 +1190,9 @@ extension SSOAdminClient {
     ///
     /// Deletes an IAM Identity Center access scope from an application.
     ///
-    /// - Parameter DeleteApplicationAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationAccessScopeInput`)
     ///
-    /// - Returns: `DeleteApplicationAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationAccessScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1241,7 +1229,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationAccessScopeOutput>(DeleteApplicationAccessScopeOutput.httpOutput(from:), DeleteApplicationAccessScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationAccessScopeInput, DeleteApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationAccessScopeOutput>())
@@ -1276,9 +1263,9 @@ extension SSOAdminClient {
     ///
     /// Revoke application access to an application by deleting application assignments for a user or group.
     ///
-    /// - Parameter DeleteApplicationAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationAssignmentInput`)
     ///
-    /// - Returns: `DeleteApplicationAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1315,7 +1302,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationAssignmentOutput>(DeleteApplicationAssignmentOutput.httpOutput(from:), DeleteApplicationAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationAssignmentInput, DeleteApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationAssignmentOutput>())
@@ -1350,9 +1336,9 @@ extension SSOAdminClient {
     ///
     /// Deletes an authentication method from an application.
     ///
-    /// - Parameter DeleteApplicationAuthenticationMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationAuthenticationMethodInput`)
     ///
-    /// - Returns: `DeleteApplicationAuthenticationMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationAuthenticationMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1389,7 +1375,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationAuthenticationMethodOutput>(DeleteApplicationAuthenticationMethodOutput.httpOutput(from:), DeleteApplicationAuthenticationMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationAuthenticationMethodInput, DeleteApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationAuthenticationMethodOutput>())
@@ -1424,9 +1409,9 @@ extension SSOAdminClient {
     ///
     /// Deletes a grant from an application.
     ///
-    /// - Parameter DeleteApplicationGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationGrantInput`)
     ///
-    /// - Returns: `DeleteApplicationGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1463,7 +1448,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationGrantOutput>(DeleteApplicationGrantOutput.httpOutput(from:), DeleteApplicationGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationGrantInput, DeleteApplicationGrantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationGrantOutput>())
@@ -1498,9 +1482,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the inline policy from a specified permission set.
     ///
-    /// - Parameter DeleteInlinePolicyFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInlinePolicyFromPermissionSetInput`)
     ///
-    /// - Returns: `DeleteInlinePolicyFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInlinePolicyFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1537,7 +1521,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInlinePolicyFromPermissionSetOutput>(DeleteInlinePolicyFromPermissionSetOutput.httpOutput(from:), DeleteInlinePolicyFromPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInlinePolicyFromPermissionSetOutput>())
@@ -1572,9 +1555,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
     ///
-    /// - Parameter DeleteInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceInput`)
     ///
-    /// - Returns: `DeleteInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,7 +1593,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceOutput>(DeleteInstanceOutput.httpOutput(from:), DeleteInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceOutput>())
@@ -1645,9 +1627,9 @@ extension SSOAdminClient {
     ///
     /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
-    /// - Parameter DeleteInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `DeleteInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,7 +1666,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>(DeleteInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), DeleteInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutput>())
@@ -1719,9 +1700,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the specified permission set.
     ///
-    /// - Parameter DeletePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionSetInput`)
     ///
-    /// - Returns: `DeletePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1758,7 +1739,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionSetOutput>(DeletePermissionSetOutput.httpOutput(from:), DeletePermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionSetInput, DeletePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionSetOutput>())
@@ -1793,9 +1773,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the permissions boundary from a specified [PermissionSet].
     ///
-    /// - Parameter DeletePermissionsBoundaryFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionsBoundaryFromPermissionSetInput`)
     ///
-    /// - Returns: `DeletePermissionsBoundaryFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionsBoundaryFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1832,7 +1812,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>(DeletePermissionsBoundaryFromPermissionSetOutput.httpOutput(from:), DeletePermissionsBoundaryFromPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionsBoundaryFromPermissionSetOutput>())
@@ -1867,9 +1846,9 @@ extension SSOAdminClient {
     ///
     /// Deletes a trusted token issuer configuration from an instance of IAM Identity Center. Deleting this trusted token issuer configuration will cause users to lose access to any applications that are configured to use the trusted token issuer.
     ///
-    /// - Parameter DeleteTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `DeleteTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1906,7 +1885,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustedTokenIssuerOutput>(DeleteTrustedTokenIssuerOutput.httpOutput(from:), DeleteTrustedTokenIssuerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustedTokenIssuerInput, DeleteTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrustedTokenIssuerOutput>())
@@ -1941,9 +1919,9 @@ extension SSOAdminClient {
     ///
     /// Describes the status of the assignment creation request.
     ///
-    /// - Parameter DescribeAccountAssignmentCreationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAssignmentCreationStatusInput`)
     ///
-    /// - Returns: `DescribeAccountAssignmentCreationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAssignmentCreationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1979,7 +1957,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentCreationStatusOutput>(DescribeAccountAssignmentCreationStatusOutput.httpOutput(from:), DescribeAccountAssignmentCreationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAssignmentCreationStatusOutput>())
@@ -2014,9 +1991,9 @@ extension SSOAdminClient {
     ///
     /// Describes the status of the assignment deletion request.
     ///
-    /// - Parameter DescribeAccountAssignmentDeletionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAssignmentDeletionStatusInput`)
     ///
-    /// - Returns: `DescribeAccountAssignmentDeletionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAssignmentDeletionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,7 +2029,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentDeletionStatusOutput>(DescribeAccountAssignmentDeletionStatusOutput.httpOutput(from:), DescribeAccountAssignmentDeletionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAssignmentDeletionStatusOutput>())
@@ -2087,9 +2063,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the details of an application associated with an instance of IAM Identity Center.
     ///
-    /// - Parameter DescribeApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInput`)
     ///
-    /// - Returns: `DescribeApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2125,7 +2101,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationOutput>(DescribeApplicationOutput.httpOutput(from:), DescribeApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationOutput>())
@@ -2160,9 +2135,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use [ListApplicationAssignmentsForPrincipal].
     ///
-    /// - Parameter DescribeApplicationAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationAssignmentInput`)
     ///
-    /// - Returns: `DescribeApplicationAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2198,7 +2173,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationAssignmentOutput>(DescribeApplicationAssignmentOutput.httpOutput(from:), DescribeApplicationAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationAssignmentInput, DescribeApplicationAssignmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationAssignmentOutput>())
@@ -2233,9 +2207,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
     ///
-    /// - Parameter DescribeApplicationProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationProviderInput`)
     ///
-    /// - Returns: `DescribeApplicationProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,7 +2245,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationProviderOutput>(DescribeApplicationProviderOutput.httpOutput(from:), DescribeApplicationProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationProviderInput, DescribeApplicationProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationProviderOutput>())
@@ -2312,9 +2285,9 @@ extension SSOAdminClient {
     ///
     /// * ACTIVE - The instance is active.
     ///
-    /// - Parameter DescribeInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceInput`)
     ///
-    /// - Returns: `DescribeInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2349,7 +2322,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceInput, DescribeInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceOutput>(DescribeInstanceOutput.httpOutput(from:), DescribeInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceOutput>())
@@ -2384,9 +2356,9 @@ extension SSOAdminClient {
     ///
     /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
-    /// - Parameter DescribeInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `DescribeInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2422,7 +2394,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>(DescribeInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), DescribeInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutput>())
@@ -2457,9 +2428,9 @@ extension SSOAdminClient {
     ///
     /// Gets the details of the permission set.
     ///
-    /// - Parameter DescribePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePermissionSetInput`)
     ///
-    /// - Returns: `DescribePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2495,7 +2466,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePermissionSetOutput>(DescribePermissionSetOutput.httpOutput(from:), DescribePermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePermissionSetInput, DescribePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePermissionSetOutput>())
@@ -2530,9 +2500,9 @@ extension SSOAdminClient {
     ///
     /// Describes the status for the given permission set provisioning request.
     ///
-    /// - Parameter DescribePermissionSetProvisioningStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePermissionSetProvisioningStatusInput`)
     ///
-    /// - Returns: `DescribePermissionSetProvisioningStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePermissionSetProvisioningStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2568,7 +2538,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePermissionSetProvisioningStatusOutput>(DescribePermissionSetProvisioningStatusOutput.httpOutput(from:), DescribePermissionSetProvisioningStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePermissionSetProvisioningStatusOutput>())
@@ -2603,9 +2572,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
     ///
-    /// - Parameter DescribeTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `DescribeTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2641,7 +2610,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrustedTokenIssuerOutput>(DescribeTrustedTokenIssuerOutput.httpOutput(from:), DescribeTrustedTokenIssuerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrustedTokenIssuerInput, DescribeTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrustedTokenIssuerOutput>())
@@ -2676,9 +2644,9 @@ extension SSOAdminClient {
     ///
     /// Detaches the specified customer managed policy from the specified [PermissionSet].
     ///
-    /// - Parameter DetachCustomerManagedPolicyReferenceFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachCustomerManagedPolicyReferenceFromPermissionSetInput`)
     ///
-    /// - Returns: `DetachCustomerManagedPolicyReferenceFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachCustomerManagedPolicyReferenceFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2715,7 +2683,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(DetachCustomerManagedPolicyReferenceFromPermissionSetOutput.httpOutput(from:), DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutput>())
@@ -2750,9 +2717,9 @@ extension SSOAdminClient {
     ///
     /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
-    /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachManagedPolicyFromPermissionSetInput`)
     ///
-    /// - Returns: `DetachManagedPolicyFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachManagedPolicyFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2789,7 +2756,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachManagedPolicyFromPermissionSetOutput>(DetachManagedPolicyFromPermissionSetOutput.httpOutput(from:), DetachManagedPolicyFromPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachManagedPolicyFromPermissionSetOutput>())
@@ -2824,9 +2790,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the authorized targets for an IAM Identity Center access scope for an application.
     ///
-    /// - Parameter GetApplicationAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationAccessScopeInput`)
     ///
-    /// - Returns: `GetApplicationAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationAccessScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2862,7 +2828,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationAccessScopeOutput>(GetApplicationAccessScopeOutput.httpOutput(from:), GetApplicationAccessScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationAccessScopeInput, GetApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationAccessScopeOutput>())
@@ -2897,9 +2862,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the configuration of [PutApplicationAssignmentConfiguration].
     ///
-    /// - Parameter GetApplicationAssignmentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationAssignmentConfigurationInput`)
     ///
-    /// - Returns: `GetApplicationAssignmentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationAssignmentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2935,7 +2900,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationAssignmentConfigurationOutput>(GetApplicationAssignmentConfigurationOutput.httpOutput(from:), GetApplicationAssignmentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationAssignmentConfigurationInput, GetApplicationAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationAssignmentConfigurationOutput>())
@@ -2970,9 +2934,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about an authentication method used by an application.
     ///
-    /// - Parameter GetApplicationAuthenticationMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationAuthenticationMethodInput`)
     ///
-    /// - Returns: `GetApplicationAuthenticationMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationAuthenticationMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3008,7 +2972,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationAuthenticationMethodOutput>(GetApplicationAuthenticationMethodOutput.httpOutput(from:), GetApplicationAuthenticationMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationAuthenticationMethodInput, GetApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationAuthenticationMethodOutput>())
@@ -3043,9 +3006,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about an application grant.
     ///
-    /// - Parameter GetApplicationGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationGrantInput`)
     ///
-    /// - Returns: `GetApplicationGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3081,7 +3044,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationGrantOutput>(GetApplicationGrantOutput.httpOutput(from:), GetApplicationGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationGrantInput, GetApplicationGrantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationGrantOutput>())
@@ -3116,9 +3078,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
     ///
-    /// - Parameter GetApplicationSessionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationSessionConfigurationInput`)
     ///
-    /// - Returns: `GetApplicationSessionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationSessionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3154,7 +3116,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationSessionConfigurationOutput>(GetApplicationSessionConfigurationOutput.httpOutput(from:), GetApplicationSessionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationSessionConfigurationOutput>())
@@ -3189,9 +3150,9 @@ extension SSOAdminClient {
     ///
     /// Obtains the inline policy assigned to the permission set.
     ///
-    /// - Parameter GetInlinePolicyForPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInlinePolicyForPermissionSetInput`)
     ///
-    /// - Returns: `GetInlinePolicyForPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInlinePolicyForPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3227,7 +3188,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInlinePolicyForPermissionSetOutput>(GetInlinePolicyForPermissionSetOutput.httpOutput(from:), GetInlinePolicyForPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInlinePolicyForPermissionSetOutput>())
@@ -3262,9 +3222,9 @@ extension SSOAdminClient {
     ///
     /// Obtains the permissions boundary for a specified [PermissionSet].
     ///
-    /// - Parameter GetPermissionsBoundaryForPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionsBoundaryForPermissionSetInput`)
     ///
-    /// - Returns: `GetPermissionsBoundaryForPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionsBoundaryForPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3300,7 +3260,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPermissionsBoundaryForPermissionSetOutput>(GetPermissionsBoundaryForPermissionSetOutput.httpOutput(from:), GetPermissionsBoundaryForPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPermissionsBoundaryForPermissionSetOutput>())
@@ -3335,9 +3294,9 @@ extension SSOAdminClient {
     ///
     /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
-    /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentCreationStatusInput`)
     ///
-    /// - Returns: `ListAccountAssignmentCreationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentCreationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3373,7 +3332,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentCreationStatusOutput>(ListAccountAssignmentCreationStatusOutput.httpOutput(from:), ListAccountAssignmentCreationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentCreationStatusOutput>())
@@ -3408,9 +3366,9 @@ extension SSOAdminClient {
     ///
     /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
-    /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentDeletionStatusInput`)
     ///
-    /// - Returns: `ListAccountAssignmentDeletionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentDeletionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3446,7 +3404,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentDeletionStatusOutput>(ListAccountAssignmentDeletionStatusOutput.httpOutput(from:), ListAccountAssignmentDeletionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentDeletionStatusOutput>())
@@ -3481,9 +3438,9 @@ extension SSOAdminClient {
     ///
     /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
-    /// - Parameter ListAccountAssignmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentsInput`)
     ///
-    /// - Returns: `ListAccountAssignmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3519,7 +3476,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsOutput>(ListAccountAssignmentsOutput.httpOutput(from:), ListAccountAssignmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentsOutput>())
@@ -3554,9 +3510,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
     ///
-    /// - Parameter ListAccountAssignmentsForPrincipalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentsForPrincipalInput`)
     ///
-    /// - Returns: `ListAccountAssignmentsForPrincipalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentsForPrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3592,7 +3548,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsForPrincipalOutput>(ListAccountAssignmentsForPrincipalOutput.httpOutput(from:), ListAccountAssignmentsForPrincipalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssignmentsForPrincipalInput, ListAccountAssignmentsForPrincipalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssignmentsForPrincipalOutput>())
@@ -3627,9 +3582,9 @@ extension SSOAdminClient {
     ///
     /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
-    /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountsForProvisionedPermissionSetInput`)
     ///
-    /// - Returns: `ListAccountsForProvisionedPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountsForProvisionedPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3665,7 +3620,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountsForProvisionedPermissionSetOutput>(ListAccountsForProvisionedPermissionSetOutput.httpOutput(from:), ListAccountsForProvisionedPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsForProvisionedPermissionSetOutput>())
@@ -3700,9 +3654,9 @@ extension SSOAdminClient {
     ///
     /// Lists the access scopes and authorized targets associated with an application.
     ///
-    /// - Parameter ListApplicationAccessScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAccessScopesInput`)
     ///
-    /// - Returns: `ListApplicationAccessScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAccessScopesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3738,7 +3692,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAccessScopesOutput>(ListApplicationAccessScopesOutput.httpOutput(from:), ListApplicationAccessScopesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAccessScopesInput, ListApplicationAccessScopesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAccessScopesOutput>())
@@ -3773,9 +3726,9 @@ extension SSOAdminClient {
     ///
     /// Lists Amazon Web Services account users that are assigned to an application.
     ///
-    /// - Parameter ListApplicationAssignmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAssignmentsInput`)
     ///
-    /// - Returns: `ListApplicationAssignmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAssignmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3811,7 +3764,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAssignmentsOutput>(ListApplicationAssignmentsOutput.httpOutput(from:), ListApplicationAssignmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAssignmentsInput, ListApplicationAssignmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAssignmentsOutput>())
@@ -3846,9 +3798,9 @@ extension SSOAdminClient {
     ///
     /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
     ///
-    /// - Parameter ListApplicationAssignmentsForPrincipalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAssignmentsForPrincipalInput`)
     ///
-    /// - Returns: `ListApplicationAssignmentsForPrincipalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAssignmentsForPrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3884,7 +3836,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAssignmentsForPrincipalOutput>(ListApplicationAssignmentsForPrincipalOutput.httpOutput(from:), ListApplicationAssignmentsForPrincipalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAssignmentsForPrincipalInput, ListApplicationAssignmentsForPrincipalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAssignmentsForPrincipalOutput>())
@@ -3919,9 +3870,9 @@ extension SSOAdminClient {
     ///
     /// Lists all of the authentication methods supported by the specified application.
     ///
-    /// - Parameter ListApplicationAuthenticationMethodsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAuthenticationMethodsInput`)
     ///
-    /// - Returns: `ListApplicationAuthenticationMethodsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAuthenticationMethodsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3957,7 +3908,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAuthenticationMethodsOutput>(ListApplicationAuthenticationMethodsOutput.httpOutput(from:), ListApplicationAuthenticationMethodsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAuthenticationMethodsInput, ListApplicationAuthenticationMethodsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAuthenticationMethodsOutput>())
@@ -3992,9 +3942,9 @@ extension SSOAdminClient {
     ///
     /// List the grants associated with an application.
     ///
-    /// - Parameter ListApplicationGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationGrantsInput`)
     ///
-    /// - Returns: `ListApplicationGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4030,7 +3980,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationGrantsOutput>(ListApplicationGrantsOutput.httpOutput(from:), ListApplicationGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationGrantsInput, ListApplicationGrantsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationGrantsOutput>())
@@ -4065,9 +4014,9 @@ extension SSOAdminClient {
     ///
     /// Lists the application providers configured in the IAM Identity Center identity store.
     ///
-    /// - Parameter ListApplicationProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationProvidersInput`)
     ///
-    /// - Returns: `ListApplicationProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4102,7 +4051,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationProvidersOutput>(ListApplicationProvidersOutput.httpOutput(from:), ListApplicationProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationProvidersInput, ListApplicationProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationProvidersOutput>())
@@ -4137,9 +4085,9 @@ extension SSOAdminClient {
     ///
     /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4174,7 +4122,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -4209,9 +4156,9 @@ extension SSOAdminClient {
     ///
     /// Lists all customer managed policies attached to a specified [PermissionSet].
     ///
-    /// - Parameter ListCustomerManagedPolicyReferencesInPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomerManagedPolicyReferencesInPermissionSetInput`)
     ///
-    /// - Returns: `ListCustomerManagedPolicyReferencesInPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomerManagedPolicyReferencesInPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4247,7 +4194,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>(ListCustomerManagedPolicyReferencesInPermissionSetOutput.httpOutput(from:), ListCustomerManagedPolicyReferencesInPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutput>())
@@ -4282,9 +4228,9 @@ extension SSOAdminClient {
     ///
     /// Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
     ///
-    /// - Parameter ListInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstancesInput`)
     ///
-    /// - Returns: `ListInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4319,7 +4265,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstancesInput, ListInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(ListInstancesOutput.httpOutput(from:), ListInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstancesInput, ListInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstancesOutput>())
@@ -4354,9 +4299,9 @@ extension SSOAdminClient {
     ///
     /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
-    /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedPoliciesInPermissionSetInput`)
     ///
-    /// - Returns: `ListManagedPoliciesInPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedPoliciesInPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4392,7 +4337,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedPoliciesInPermissionSetOutput>(ListManagedPoliciesInPermissionSetOutput.httpOutput(from:), ListManagedPoliciesInPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedPoliciesInPermissionSetOutput>())
@@ -4427,9 +4371,9 @@ extension SSOAdminClient {
     ///
     /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     ///
-    /// - Parameter ListPermissionSetProvisioningStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionSetProvisioningStatusInput`)
     ///
-    /// - Returns: `ListPermissionSetProvisioningStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionSetProvisioningStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4465,7 +4409,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionSetProvisioningStatusOutput>(ListPermissionSetProvisioningStatusOutput.httpOutput(from:), ListPermissionSetProvisioningStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionSetProvisioningStatusOutput>())
@@ -4500,9 +4443,9 @@ extension SSOAdminClient {
     ///
     /// Lists the [PermissionSet]s in an IAM Identity Center instance.
     ///
-    /// - Parameter ListPermissionSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionSetsInput`)
     ///
-    /// - Returns: `ListPermissionSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4538,7 +4481,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionSetsOutput>(ListPermissionSetsOutput.httpOutput(from:), ListPermissionSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionSetsInput, ListPermissionSetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionSetsOutput>())
@@ -4573,9 +4515,9 @@ extension SSOAdminClient {
     ///
     /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
-    /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionSetsProvisionedToAccountInput`)
     ///
-    /// - Returns: `ListPermissionSetsProvisionedToAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionSetsProvisionedToAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4611,7 +4553,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionSetsProvisionedToAccountOutput>(ListPermissionSetsProvisionedToAccountOutput.httpOutput(from:), ListPermissionSetsProvisionedToAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionSetsProvisionedToAccountOutput>())
@@ -4646,9 +4587,9 @@ extension SSOAdminClient {
     ///
     /// Lists the tags that are attached to a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4684,7 +4625,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4719,9 +4659,9 @@ extension SSOAdminClient {
     ///
     /// Lists all the trusted token issuers configured in an instance of IAM Identity Center.
     ///
-    /// - Parameter ListTrustedTokenIssuersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustedTokenIssuersInput`)
     ///
-    /// - Returns: `ListTrustedTokenIssuersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustedTokenIssuersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4756,7 +4696,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustedTokenIssuersOutput>(ListTrustedTokenIssuersOutput.httpOutput(from:), ListTrustedTokenIssuersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustedTokenIssuersInput, ListTrustedTokenIssuersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrustedTokenIssuersOutput>())
@@ -4791,9 +4730,9 @@ extension SSOAdminClient {
     ///
     /// The process by which a specified permission set is provisioned to the specified target.
     ///
-    /// - Parameter ProvisionPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionPermissionSetInput`)
     ///
-    /// - Returns: `ProvisionPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4830,7 +4769,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionPermissionSetOutput>(ProvisionPermissionSetOutput.httpOutput(from:), ProvisionPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionPermissionSetOutput>())
@@ -4865,9 +4803,9 @@ extension SSOAdminClient {
     ///
     /// Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
     ///
-    /// - Parameter PutApplicationAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationAccessScopeInput`)
     ///
-    /// - Returns: `PutApplicationAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationAccessScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4904,7 +4842,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationAccessScopeOutput>(PutApplicationAccessScopeOutput.httpOutput(from:), PutApplicationAccessScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationAccessScopeInput, PutApplicationAccessScopeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationAccessScopeOutput>())
@@ -4939,9 +4876,9 @@ extension SSOAdminClient {
     ///
     /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the [CreateApplicationAssignment API](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html). If false, all users have access to the application. If an assignment is created using [CreateApplicationAssignment](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html)., the user retains access if AssignmentsRequired is set to true.
     ///
-    /// - Parameter PutApplicationAssignmentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationAssignmentConfigurationInput`)
     ///
-    /// - Returns: `PutApplicationAssignmentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationAssignmentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4978,7 +4915,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationAssignmentConfigurationOutput>(PutApplicationAssignmentConfigurationOutput.httpOutput(from:), PutApplicationAssignmentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationAssignmentConfigurationInput, PutApplicationAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationAssignmentConfigurationOutput>())
@@ -5013,9 +4949,9 @@ extension SSOAdminClient {
     ///
     /// Adds or updates an authentication method for an application.
     ///
-    /// - Parameter PutApplicationAuthenticationMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationAuthenticationMethodInput`)
     ///
-    /// - Returns: `PutApplicationAuthenticationMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationAuthenticationMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5052,7 +4988,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationAuthenticationMethodOutput>(PutApplicationAuthenticationMethodOutput.httpOutput(from:), PutApplicationAuthenticationMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationAuthenticationMethodInput, PutApplicationAuthenticationMethodOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationAuthenticationMethodOutput>())
@@ -5113,9 +5048,9 @@ extension SSOAdminClient {
     ///
     /// * Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
     ///
-    /// - Parameter PutApplicationGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationGrantInput`)
     ///
-    /// - Returns: `PutApplicationGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5152,7 +5087,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationGrantOutput>(PutApplicationGrantOutput.httpOutput(from:), PutApplicationGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationGrantInput, PutApplicationGrantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationGrantOutput>())
@@ -5187,9 +5121,9 @@ extension SSOAdminClient {
     ///
     /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
     ///
-    /// - Parameter PutApplicationSessionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationSessionConfigurationInput`)
     ///
-    /// - Returns: `PutApplicationSessionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationSessionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5226,7 +5160,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationSessionConfigurationOutput>(PutApplicationSessionConfigurationOutput.httpOutput(from:), PutApplicationSessionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationSessionConfigurationOutput>())
@@ -5261,9 +5194,9 @@ extension SSOAdminClient {
     ///
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
     ///
-    /// - Parameter PutInlinePolicyToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInlinePolicyToPermissionSetInput`)
     ///
-    /// - Returns: `PutInlinePolicyToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInlinePolicyToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5301,7 +5234,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInlinePolicyToPermissionSetOutput>(PutInlinePolicyToPermissionSetOutput.httpOutput(from:), PutInlinePolicyToPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInlinePolicyToPermissionSetOutput>())
@@ -5336,9 +5268,9 @@ extension SSOAdminClient {
     ///
     /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
-    /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPermissionsBoundaryToPermissionSetInput`)
     ///
-    /// - Returns: `PutPermissionsBoundaryToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPermissionsBoundaryToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5375,7 +5307,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPermissionsBoundaryToPermissionSetOutput>(PutPermissionsBoundaryToPermissionSetOutput.httpOutput(from:), PutPermissionsBoundaryToPermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPermissionsBoundaryToPermissionSetOutput>())
@@ -5410,9 +5341,9 @@ extension SSOAdminClient {
     ///
     /// Associates a set of tags with a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5450,7 +5381,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5485,9 +5415,9 @@ extension SSOAdminClient {
     ///
     /// Disassociates a set of tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5524,7 +5454,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5559,9 +5488,9 @@ extension SSOAdminClient {
     ///
     /// Updates application properties.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5598,7 +5527,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -5633,9 +5561,9 @@ extension SSOAdminClient {
     ///
     /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
     ///
-    /// - Parameter UpdateInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceInput`)
     ///
-    /// - Returns: `UpdateInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5672,7 +5600,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceInput, UpdateInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceOutput>(UpdateInstanceOutput.httpOutput(from:), UpdateInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceOutput>())
@@ -5707,9 +5634,9 @@ extension SSOAdminClient {
     ///
     /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
-    /// - Parameter UpdateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `UpdateInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5746,7 +5673,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>(UpdateInstanceAccessControlAttributeConfigurationOutput.httpOutput(from:), UpdateInstanceAccessControlAttributeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutput>())
@@ -5781,9 +5707,9 @@ extension SSOAdminClient {
     ///
     /// Updates an existing permission set.
     ///
-    /// - Parameter UpdatePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePermissionSetInput`)
     ///
-    /// - Returns: `UpdatePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5820,7 +5746,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePermissionSetOutput>(UpdatePermissionSetOutput.httpOutput(from:), UpdatePermissionSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePermissionSetOutput>())
@@ -5855,9 +5780,9 @@ extension SSOAdminClient {
     ///
     /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration. Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
     ///
-    /// - Parameter UpdateTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `UpdateTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5894,7 +5819,6 @@ extension SSOAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustedTokenIssuerOutput>(UpdateTrustedTokenIssuerOutput.httpOutput(from:), UpdateTrustedTokenIssuerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustedTokenIssuerInput, UpdateTrustedTokenIssuerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrustedTokenIssuerOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutMetricsClient: ClientRuntime.Client {
     public static let clientName = "LookoutMetricsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutMetricsClient.LookoutMetricsClientConfiguration
     let serviceName = "LookoutMetrics"
@@ -374,9 +373,9 @@ extension LookoutMetricsClient {
     ///
     /// Activates an anomaly detector.
     ///
-    /// - Parameter ActivateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateAnomalyDetectorInput`)
     ///
-    /// - Returns: `ActivateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateAnomalyDetectorInput, ActivateAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateAnomalyDetectorOutput>(ActivateAnomalyDetectorOutput.httpOutput(from:), ActivateAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateAnomalyDetectorInput, ActivateAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateAnomalyDetectorOutput>())
@@ -447,9 +445,9 @@ extension LookoutMetricsClient {
     ///
     /// Runs a backtest for anomaly detection for the specified resource.
     ///
-    /// - Parameter BackTestAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BackTestAnomalyDetectorInput`)
     ///
-    /// - Returns: `BackTestAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BackTestAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BackTestAnomalyDetectorInput, BackTestAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BackTestAnomalyDetectorOutput>(BackTestAnomalyDetectorOutput.httpOutput(from:), BackTestAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BackTestAnomalyDetectorInput, BackTestAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BackTestAnomalyDetectorOutput>())
@@ -519,9 +516,9 @@ extension LookoutMetricsClient {
     ///
     /// Creates an alert for an anomaly detector.
     ///
-    /// - Parameter CreateAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAlertInput`)
     ///
-    /// - Returns: `CreateAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,7 +558,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAlertInput, CreateAlertOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAlertOutput>(CreateAlertOutput.httpOutput(from:), CreateAlertOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAlertInput, CreateAlertOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAlertOutput>())
@@ -593,9 +589,9 @@ extension LookoutMetricsClient {
     ///
     /// Creates an anomaly detector.
     ///
-    /// - Parameter CreateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnomalyDetectorInput`)
     ///
-    /// - Returns: `CreateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,7 +630,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnomalyDetectorOutput>(CreateAnomalyDetectorOutput.httpOutput(from:), CreateAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnomalyDetectorOutput>())
@@ -666,9 +661,9 @@ extension LookoutMetricsClient {
     ///
     /// Creates a dataset.
     ///
-    /// - Parameter CreateMetricSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMetricSetInput`)
     ///
-    /// - Returns: `CreateMetricSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMetricSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,7 +703,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMetricSetInput, CreateMetricSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMetricSetOutput>(CreateMetricSetOutput.httpOutput(from:), CreateMetricSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMetricSetInput, CreateMetricSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMetricSetOutput>())
@@ -740,9 +734,9 @@ extension LookoutMetricsClient {
     ///
     /// Deactivates an anomaly detector.
     ///
-    /// - Parameter DeactivateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateAnomalyDetectorInput`)
     ///
-    /// - Returns: `DeactivateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,7 +775,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateAnomalyDetectorInput, DeactivateAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateAnomalyDetectorOutput>(DeactivateAnomalyDetectorOutput.httpOutput(from:), DeactivateAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateAnomalyDetectorInput, DeactivateAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateAnomalyDetectorOutput>())
@@ -813,9 +806,9 @@ extension LookoutMetricsClient {
     ///
     /// Deletes an alert.
     ///
-    /// - Parameter DeleteAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlertInput`)
     ///
-    /// - Returns: `DeleteAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,7 +846,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlertInput, DeleteAlertOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlertOutput>(DeleteAlertOutput.httpOutput(from:), DeleteAlertOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlertInput, DeleteAlertOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlertOutput>())
@@ -885,9 +877,9 @@ extension LookoutMetricsClient {
     ///
     /// Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
     ///
-    /// - Parameter DeleteAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnomalyDetectorInput`)
     ///
-    /// - Returns: `DeleteAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -926,7 +918,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalyDetectorOutput>(DeleteAnomalyDetectorOutput.httpOutput(from:), DeleteAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnomalyDetectorOutput>())
@@ -958,9 +949,9 @@ extension LookoutMetricsClient {
     ///
     /// Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter DescribeAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlertInput`)
     ///
-    /// - Returns: `DescribeAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,7 +989,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlertInput, DescribeAlertOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlertOutput>(DescribeAlertOutput.httpOutput(from:), DescribeAlertOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlertInput, DescribeAlertOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlertOutput>())
@@ -1030,9 +1020,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns information about the status of the specified anomaly detection jobs.
     ///
-    /// - Parameter DescribeAnomalyDetectionExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnomalyDetectionExecutionsInput`)
     ///
-    /// - Returns: `DescribeAnomalyDetectionExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnomalyDetectionExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1070,7 +1060,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAnomalyDetectionExecutionsInput, DescribeAnomalyDetectionExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnomalyDetectionExecutionsOutput>(DescribeAnomalyDetectionExecutionsOutput.httpOutput(from:), DescribeAnomalyDetectionExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnomalyDetectionExecutionsInput, DescribeAnomalyDetectionExecutionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnomalyDetectionExecutionsOutput>())
@@ -1102,9 +1091,9 @@ extension LookoutMetricsClient {
     ///
     /// Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter DescribeAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnomalyDetectorInput`)
     ///
-    /// - Returns: `DescribeAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,7 +1131,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnomalyDetectorOutput>(DescribeAnomalyDetectorOutput.httpOutput(from:), DescribeAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnomalyDetectorOutput>())
@@ -1174,9 +1162,9 @@ extension LookoutMetricsClient {
     ///
     /// Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter DescribeMetricSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetricSetInput`)
     ///
-    /// - Returns: `DescribeMetricSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetricSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,7 +1202,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetricSetInput, DescribeMetricSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetricSetOutput>(DescribeMetricSetOutput.httpOutput(from:), DescribeMetricSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetricSetInput, DescribeMetricSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetricSetOutput>())
@@ -1246,9 +1233,9 @@ extension LookoutMetricsClient {
     ///
     /// Detects an Amazon S3 dataset's file format, interval, and offset.
     ///
-    /// - Parameter DetectMetricSetConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectMetricSetConfigInput`)
     ///
-    /// - Returns: `DetectMetricSetConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectMetricSetConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,7 +1273,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectMetricSetConfigInput, DetectMetricSetConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectMetricSetConfigOutput>(DetectMetricSetConfigOutput.httpOutput(from:), DetectMetricSetConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectMetricSetConfigInput, DetectMetricSetConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectMetricSetConfigOutput>())
@@ -1318,9 +1304,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns details about a group of anomalous metrics.
     ///
-    /// - Parameter GetAnomalyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnomalyGroupInput`)
     ///
-    /// - Returns: `GetAnomalyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnomalyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1358,7 +1344,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnomalyGroupInput, GetAnomalyGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnomalyGroupOutput>(GetAnomalyGroupOutput.httpOutput(from:), GetAnomalyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnomalyGroupInput, GetAnomalyGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnomalyGroupOutput>())
@@ -1390,9 +1375,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns details about the requested data quality metrics.
     ///
-    /// - Parameter GetDataQualityMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityMetricsInput`)
     ///
-    /// - Returns: `GetDataQualityMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataQualityMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1430,7 +1415,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityMetricsInput, GetDataQualityMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityMetricsOutput>(GetDataQualityMetricsOutput.httpOutput(from:), GetDataQualityMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityMetricsInput, GetDataQualityMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityMetricsOutput>())
@@ -1462,9 +1446,9 @@ extension LookoutMetricsClient {
     ///
     /// Get feedback for an anomaly group.
     ///
-    /// - Parameter GetFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFeedbackInput`)
     ///
-    /// - Returns: `GetFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1502,7 +1486,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFeedbackInput, GetFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFeedbackOutput>(GetFeedbackOutput.httpOutput(from:), GetFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFeedbackInput, GetFeedbackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFeedbackOutput>())
@@ -1534,9 +1517,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns a selection of sample records from an Amazon S3 datasource.
     ///
-    /// - Parameter GetSampleDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSampleDataInput`)
     ///
-    /// - Returns: `GetSampleDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSampleDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1574,7 +1557,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSampleDataInput, GetSampleDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSampleDataOutput>(GetSampleDataOutput.httpOutput(from:), GetSampleDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSampleDataInput, GetSampleDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSampleDataOutput>())
@@ -1606,9 +1588,9 @@ extension LookoutMetricsClient {
     ///
     /// Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter ListAlertsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlertsInput`)
     ///
-    /// - Returns: `ListAlertsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlertsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,7 +1628,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAlertsInput, ListAlertsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlertsOutput>(ListAlertsOutput.httpOutput(from:), ListAlertsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlertsInput, ListAlertsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAlertsOutput>())
@@ -1678,9 +1659,9 @@ extension LookoutMetricsClient {
     ///
     /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter ListAnomalyDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyDetectorsInput`)
     ///
-    /// - Returns: `ListAnomalyDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1718,7 +1699,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnomalyDetectorsOutput>(ListAnomalyDetectorsOutput.httpOutput(from:), ListAnomalyDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnomalyDetectorsOutput>())
@@ -1750,9 +1730,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns a list of measures that are potential causes or effects of an anomaly group.
     ///
-    /// - Parameter ListAnomalyGroupRelatedMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyGroupRelatedMetricsInput`)
     ///
-    /// - Returns: `ListAnomalyGroupRelatedMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyGroupRelatedMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,7 +1770,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnomalyGroupRelatedMetricsInput, ListAnomalyGroupRelatedMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnomalyGroupRelatedMetricsOutput>(ListAnomalyGroupRelatedMetricsOutput.httpOutput(from:), ListAnomalyGroupRelatedMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnomalyGroupRelatedMetricsInput, ListAnomalyGroupRelatedMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnomalyGroupRelatedMetricsOutput>())
@@ -1822,9 +1801,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns a list of anomaly groups.
     ///
-    /// - Parameter ListAnomalyGroupSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyGroupSummariesInput`)
     ///
-    /// - Returns: `ListAnomalyGroupSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyGroupSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1862,7 +1841,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnomalyGroupSummariesInput, ListAnomalyGroupSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnomalyGroupSummariesOutput>(ListAnomalyGroupSummariesOutput.httpOutput(from:), ListAnomalyGroupSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnomalyGroupSummariesInput, ListAnomalyGroupSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnomalyGroupSummariesOutput>())
@@ -1894,9 +1872,9 @@ extension LookoutMetricsClient {
     ///
     /// Gets a list of anomalous metrics for a measure in an anomaly group.
     ///
-    /// - Parameter ListAnomalyGroupTimeSeriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyGroupTimeSeriesInput`)
     ///
-    /// - Returns: `ListAnomalyGroupTimeSeriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyGroupTimeSeriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1934,7 +1912,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnomalyGroupTimeSeriesInput, ListAnomalyGroupTimeSeriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnomalyGroupTimeSeriesOutput>(ListAnomalyGroupTimeSeriesOutput.httpOutput(from:), ListAnomalyGroupTimeSeriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnomalyGroupTimeSeriesInput, ListAnomalyGroupTimeSeriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnomalyGroupTimeSeriesOutput>())
@@ -1966,9 +1943,9 @@ extension LookoutMetricsClient {
     ///
     /// Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter ListMetricSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricSetsInput`)
     ///
-    /// - Returns: `ListMetricSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2006,7 +1983,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricSetsInput, ListMetricSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricSetsOutput>(ListMetricSetsOutput.httpOutput(from:), ListMetricSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricSetsInput, ListMetricSetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricSetsOutput>())
@@ -2038,9 +2014,9 @@ extension LookoutMetricsClient {
     ///
     /// Gets a list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) for a detector, dataset, or alert.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2073,7 +2049,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2105,9 +2080,9 @@ extension LookoutMetricsClient {
     ///
     /// Add feedback for an anomalous metric.
     ///
-    /// - Parameter PutFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFeedbackInput`)
     ///
-    /// - Returns: `PutFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2145,7 +2120,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFeedbackInput, PutFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFeedbackOutput>(PutFeedbackOutput.httpOutput(from:), PutFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFeedbackInput, PutFeedbackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFeedbackOutput>())
@@ -2177,9 +2151,9 @@ extension LookoutMetricsClient {
     ///
     /// Adds [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) to a detector, dataset, or alert.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2215,7 +2189,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2247,9 +2220,9 @@ extension LookoutMetricsClient {
     ///
     /// Removes [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) from a detector, dataset, or alert.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2283,7 +2256,6 @@ extension LookoutMetricsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2315,9 +2287,9 @@ extension LookoutMetricsClient {
     ///
     /// Make changes to an existing alert.
     ///
-    /// - Parameter UpdateAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAlertInput`)
     ///
-    /// - Returns: `UpdateAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2355,7 +2327,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAlertInput, UpdateAlertOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAlertOutput>(UpdateAlertOutput.httpOutput(from:), UpdateAlertOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAlertInput, UpdateAlertOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAlertOutput>())
@@ -2387,9 +2358,9 @@ extension LookoutMetricsClient {
     ///
     /// Updates a detector. After activation, you can only change a detector's ingestion delay and description.
     ///
-    /// - Parameter UpdateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnomalyDetectorInput`)
     ///
-    /// - Returns: `UpdateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2427,7 +2398,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnomalyDetectorInput, UpdateAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnomalyDetectorOutput>(UpdateAnomalyDetectorOutput.httpOutput(from:), UpdateAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnomalyDetectorInput, UpdateAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnomalyDetectorOutput>())
@@ -2459,9 +2429,9 @@ extension LookoutMetricsClient {
     ///
     /// Updates a dataset.
     ///
-    /// - Parameter UpdateMetricSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMetricSetInput`)
     ///
-    /// - Returns: `UpdateMetricSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMetricSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,7 +2470,6 @@ extension LookoutMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMetricSetInput, UpdateMetricSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMetricSetOutput>(UpdateMetricSetOutput.httpOutput(from:), UpdateMetricSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMetricSetInput, UpdateMetricSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMetricSetOutput>())

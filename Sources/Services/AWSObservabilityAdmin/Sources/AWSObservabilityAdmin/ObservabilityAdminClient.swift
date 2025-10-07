@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ObservabilityAdminClient: ClientRuntime.Client {
     public static let clientName = "ObservabilityAdminClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ObservabilityAdminClient.ObservabilityAdminClientConfiguration
     let serviceName = "ObservabilityAdmin"
@@ -372,9 +371,9 @@ extension ObservabilityAdminClient {
     ///
     /// Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter CreateCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `CreateCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCentralizationRuleForOrganizationOutput>(CreateCentralizationRuleForOrganizationOutput.httpOutput(from:), CreateCentralizationRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCentralizationRuleForOrganizationOutput>())
@@ -445,9 +443,9 @@ extension ObservabilityAdminClient {
     ///
     /// Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
     ///
-    /// - Parameter CreateTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTelemetryRuleInput`)
     ///
-    /// - Returns: `CreateTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTelemetryRuleInput, CreateTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTelemetryRuleOutput>(CreateTelemetryRuleOutput.httpOutput(from:), CreateTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTelemetryRuleInput, CreateTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTelemetryRuleOutput>())
@@ -518,9 +515,9 @@ extension ObservabilityAdminClient {
     ///
     /// Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter CreateTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `CreateTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,7 +556,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTelemetryRuleForOrganizationInput, CreateTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTelemetryRuleForOrganizationOutput>(CreateTelemetryRuleForOrganizationOutput.httpOutput(from:), CreateTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTelemetryRuleForOrganizationInput, CreateTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTelemetryRuleForOrganizationOutput>())
@@ -591,9 +587,9 @@ extension ObservabilityAdminClient {
     ///
     /// Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter DeleteCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `DeleteCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,7 +627,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCentralizationRuleForOrganizationOutput>(DeleteCentralizationRuleForOrganizationOutput.httpOutput(from:), DeleteCentralizationRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCentralizationRuleForOrganizationOutput>())
@@ -663,9 +658,9 @@ extension ObservabilityAdminClient {
     ///
     /// Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
     ///
-    /// - Parameter DeleteTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTelemetryRuleInput`)
     ///
-    /// - Returns: `DeleteTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,7 +698,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTelemetryRuleInput, DeleteTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTelemetryRuleOutput>(DeleteTelemetryRuleOutput.httpOutput(from:), DeleteTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTelemetryRuleInput, DeleteTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTelemetryRuleOutput>())
@@ -735,9 +729,9 @@ extension ObservabilityAdminClient {
     ///
     /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter DeleteTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `DeleteTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -775,7 +769,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTelemetryRuleForOrganizationInput, DeleteTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTelemetryRuleForOrganizationOutput>(DeleteTelemetryRuleForOrganizationOutput.httpOutput(from:), DeleteTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTelemetryRuleForOrganizationInput, DeleteTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTelemetryRuleForOrganizationOutput>())
@@ -807,9 +800,9 @@ extension ObservabilityAdminClient {
     ///
     /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter GetCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `GetCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,7 +840,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCentralizationRuleForOrganizationOutput>(GetCentralizationRuleForOrganizationOutput.httpOutput(from:), GetCentralizationRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCentralizationRuleForOrganizationOutput>())
@@ -879,9 +871,9 @@ extension ObservabilityAdminClient {
     ///
     /// Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
     ///
-    /// - Parameter GetTelemetryEvaluationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryEvaluationStatusInput`)
     ///
-    /// - Returns: `GetTelemetryEvaluationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryEvaluationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,7 +906,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTelemetryEvaluationStatusInput, GetTelemetryEvaluationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryEvaluationStatusOutput>(GetTelemetryEvaluationStatusOutput.httpOutput(from:), GetTelemetryEvaluationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryEvaluationStatusInput, GetTelemetryEvaluationStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryEvaluationStatusOutput>())
@@ -946,9 +937,9 @@ extension ObservabilityAdminClient {
     ///
     /// This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
     ///
-    /// - Parameter GetTelemetryEvaluationStatusForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryEvaluationStatusForOrganizationInput`)
     ///
-    /// - Returns: `GetTelemetryEvaluationStatusForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryEvaluationStatusForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,7 +973,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTelemetryEvaluationStatusForOrganizationInput, GetTelemetryEvaluationStatusForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryEvaluationStatusForOrganizationOutput>(GetTelemetryEvaluationStatusForOrganizationOutput.httpOutput(from:), GetTelemetryEvaluationStatusForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryEvaluationStatusForOrganizationInput, GetTelemetryEvaluationStatusForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryEvaluationStatusForOrganizationOutput>())
@@ -1014,9 +1004,9 @@ extension ObservabilityAdminClient {
     ///
     /// Retrieves the details of a specific telemetry rule in your account.
     ///
-    /// - Parameter GetTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryRuleInput`)
     ///
-    /// - Returns: `GetTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,7 +1044,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTelemetryRuleInput, GetTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryRuleOutput>(GetTelemetryRuleOutput.httpOutput(from:), GetTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryRuleInput, GetTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryRuleOutput>())
@@ -1086,9 +1075,9 @@ extension ObservabilityAdminClient {
     ///
     /// Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter GetTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `GetTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1126,7 +1115,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTelemetryRuleForOrganizationInput, GetTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryRuleForOrganizationOutput>(GetTelemetryRuleForOrganizationOutput.httpOutput(from:), GetTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryRuleForOrganizationInput, GetTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryRuleForOrganizationOutput>())
@@ -1158,9 +1146,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter ListCentralizationRulesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCentralizationRulesForOrganizationInput`)
     ///
-    /// - Returns: `ListCentralizationRulesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCentralizationRulesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,7 +1185,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCentralizationRulesForOrganizationOutput>(ListCentralizationRulesForOrganizationOutput.httpOutput(from:), ListCentralizationRulesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCentralizationRulesForOrganizationOutput>())
@@ -1229,9 +1216,9 @@ extension ObservabilityAdminClient {
     ///
     /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see [Auditing CloudWatch telemetry configurations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/telemetry-config-cloudwatch.html).
     ///
-    /// - Parameter ListResourceTelemetryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTelemetryInput`)
     ///
-    /// - Returns: `ListResourceTelemetryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTelemetryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,7 +1255,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceTelemetryInput, ListResourceTelemetryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceTelemetryOutput>(ListResourceTelemetryOutput.httpOutput(from:), ListResourceTelemetryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceTelemetryInput, ListResourceTelemetryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceTelemetryOutput>())
@@ -1300,9 +1286,9 @@ extension ObservabilityAdminClient {
     ///
     /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
     ///
-    /// - Parameter ListResourceTelemetryForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTelemetryForOrganizationInput`)
     ///
-    /// - Returns: `ListResourceTelemetryForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTelemetryForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1339,7 +1325,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceTelemetryForOrganizationInput, ListResourceTelemetryForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceTelemetryForOrganizationOutput>(ListResourceTelemetryForOrganizationOutput.httpOutput(from:), ListResourceTelemetryForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceTelemetryForOrganizationInput, ListResourceTelemetryForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceTelemetryForOrganizationOutput>())
@@ -1371,9 +1356,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all tags attached to the specified telemetry rule resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,7 +1396,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1443,9 +1427,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
     ///
-    /// - Parameter ListTelemetryRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTelemetryRulesInput`)
     ///
-    /// - Returns: `ListTelemetryRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTelemetryRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,7 +1466,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTelemetryRulesInput, ListTelemetryRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTelemetryRulesOutput>(ListTelemetryRulesOutput.httpOutput(from:), ListTelemetryRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTelemetryRulesInput, ListTelemetryRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTelemetryRulesOutput>())
@@ -1514,9 +1497,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter ListTelemetryRulesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTelemetryRulesForOrganizationInput`)
     ///
-    /// - Returns: `ListTelemetryRulesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTelemetryRulesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1553,7 +1536,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTelemetryRulesForOrganizationOutput>(ListTelemetryRulesForOrganizationOutput.httpOutput(from:), ListTelemetryRulesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTelemetryRulesForOrganizationOutput>())
@@ -1585,9 +1567,9 @@ extension ObservabilityAdminClient {
     ///
     /// This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
     ///
-    /// - Parameter StartTelemetryEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTelemetryEvaluationInput`)
     ///
-    /// - Returns: `StartTelemetryEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTelemetryEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,7 +1603,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTelemetryEvaluationOutput>(StartTelemetryEvaluationOutput.httpOutput(from:), StartTelemetryEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTelemetryEvaluationOutput>())
@@ -1653,9 +1634,9 @@ extension ObservabilityAdminClient {
     ///
     /// This actions begins onboarding the organization and all member accounts to the telemetry config feature.
     ///
-    /// - Parameter StartTelemetryEvaluationForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTelemetryEvaluationForOrganizationInput`)
     ///
-    /// - Returns: `StartTelemetryEvaluationForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTelemetryEvaluationForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1689,7 +1670,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTelemetryEvaluationForOrganizationOutput>(StartTelemetryEvaluationForOrganizationOutput.httpOutput(from:), StartTelemetryEvaluationForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTelemetryEvaluationForOrganizationOutput>())
@@ -1721,9 +1701,9 @@ extension ObservabilityAdminClient {
     ///
     /// This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
     ///
-    /// - Parameter StopTelemetryEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTelemetryEvaluationInput`)
     ///
-    /// - Returns: `StopTelemetryEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTelemetryEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1757,7 +1737,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopTelemetryEvaluationInput, StopTelemetryEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTelemetryEvaluationOutput>(StopTelemetryEvaluationOutput.httpOutput(from:), StopTelemetryEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTelemetryEvaluationInput, StopTelemetryEvaluationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTelemetryEvaluationOutput>())
@@ -1789,9 +1768,9 @@ extension ObservabilityAdminClient {
     ///
     /// This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
     ///
-    /// - Parameter StopTelemetryEvaluationForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTelemetryEvaluationForOrganizationInput`)
     ///
-    /// - Returns: `StopTelemetryEvaluationForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTelemetryEvaluationForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1825,7 +1804,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopTelemetryEvaluationForOrganizationInput, StopTelemetryEvaluationForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTelemetryEvaluationForOrganizationOutput>(StopTelemetryEvaluationForOrganizationOutput.httpOutput(from:), StopTelemetryEvaluationForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTelemetryEvaluationForOrganizationInput, StopTelemetryEvaluationForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTelemetryEvaluationForOrganizationOutput>())
@@ -1857,9 +1835,9 @@ extension ObservabilityAdminClient {
     ///
     /// Adds or updates tags for a telemetry rule resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1898,7 +1876,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1930,9 +1907,9 @@ extension ObservabilityAdminClient {
     ///
     /// Removes tags from a telemetry rule resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1970,7 +1947,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2002,9 +1978,9 @@ extension ObservabilityAdminClient {
     ///
     /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter UpdateCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `UpdateCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2043,7 +2019,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCentralizationRuleForOrganizationOutput>(UpdateCentralizationRuleForOrganizationOutput.httpOutput(from:), UpdateCentralizationRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCentralizationRuleForOrganizationOutput>())
@@ -2075,9 +2050,9 @@ extension ObservabilityAdminClient {
     ///
     /// Updates an existing telemetry rule in your account.
     ///
-    /// - Parameter UpdateTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTelemetryRuleInput`)
     ///
-    /// - Returns: `UpdateTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2116,7 +2091,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTelemetryRuleInput, UpdateTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTelemetryRuleOutput>(UpdateTelemetryRuleOutput.httpOutput(from:), UpdateTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTelemetryRuleInput, UpdateTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTelemetryRuleOutput>())
@@ -2148,9 +2122,9 @@ extension ObservabilityAdminClient {
     ///
     /// Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter UpdateTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `UpdateTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,7 +2163,6 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTelemetryRuleForOrganizationInput, UpdateTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTelemetryRuleForOrganizationOutput>(UpdateTelemetryRuleForOrganizationOutput.httpOutput(from:), UpdateTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTelemetryRuleForOrganizationInput, UpdateTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTelemetryRuleForOrganizationOutput>())

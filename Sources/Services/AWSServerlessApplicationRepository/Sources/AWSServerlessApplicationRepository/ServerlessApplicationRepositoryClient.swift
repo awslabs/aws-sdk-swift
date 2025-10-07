@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServerlessApplicationRepositoryClient: ClientRuntime.Client {
     public static let clientName = "ServerlessApplicationRepositoryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfiguration
     let serviceName = "ServerlessApplicationRepository"
@@ -373,9 +372,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -445,9 +443,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an application version.
     ///
-    /// - Parameter CreateApplicationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationVersionInput`)
     ///
-    /// - Returns: `CreateApplicationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationVersionOutput>(CreateApplicationVersionOutput.httpOutput(from:), CreateApplicationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationVersionOutput>())
@@ -517,9 +514,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an AWS CloudFormation change set for the given application.
     ///
-    /// - Parameter CreateCloudFormationChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudFormationChangeSetInput`)
     ///
-    /// - Returns: `CreateCloudFormationChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudFormationChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,7 +553,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudFormationChangeSetInput, CreateCloudFormationChangeSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudFormationChangeSetOutput>(CreateCloudFormationChangeSetOutput.httpOutput(from:), CreateCloudFormationChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudFormationChangeSetInput, CreateCloudFormationChangeSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudFormationChangeSetOutput>())
@@ -588,9 +584,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an AWS CloudFormation template.
     ///
-    /// - Parameter CreateCloudFormationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudFormationTemplateInput`)
     ///
-    /// - Returns: `CreateCloudFormationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudFormationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,7 +624,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudFormationTemplateInput, CreateCloudFormationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudFormationTemplateOutput>(CreateCloudFormationTemplateOutput.httpOutput(from:), CreateCloudFormationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudFormationTemplateInput, CreateCloudFormationTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudFormationTemplateOutput>())
@@ -660,9 +655,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Deletes the specified application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,7 +693,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -730,9 +724,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Gets the specified application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,7 +762,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetApplicationInput, GetApplicationOutput>(GetApplicationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
@@ -800,9 +793,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Retrieves the policy for the application.
     ///
-    /// - Parameter GetApplicationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationPolicyInput`)
     ///
-    /// - Returns: `GetApplicationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,7 +830,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationPolicyInput, GetApplicationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationPolicyOutput>(GetApplicationPolicyOutput.httpOutput(from:), GetApplicationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationPolicyInput, GetApplicationPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationPolicyOutput>())
@@ -869,9 +861,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Gets the specified AWS CloudFormation template.
     ///
-    /// - Parameter GetCloudFormationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudFormationTemplateInput`)
     ///
-    /// - Returns: `GetCloudFormationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudFormationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,7 +898,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudFormationTemplateInput, GetCloudFormationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudFormationTemplateOutput>(GetCloudFormationTemplateOutput.httpOutput(from:), GetCloudFormationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudFormationTemplateInput, GetCloudFormationTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudFormationTemplateOutput>())
@@ -938,9 +929,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Retrieves the list of applications nested in the containing application.
     ///
-    /// - Parameter ListApplicationDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationDependenciesInput`)
     ///
-    /// - Returns: `ListApplicationDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -976,7 +967,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationDependenciesInput, ListApplicationDependenciesOutput>(ListApplicationDependenciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationDependenciesOutput>(ListApplicationDependenciesOutput.httpOutput(from:), ListApplicationDependenciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationDependenciesInput, ListApplicationDependenciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationDependenciesOutput>())
@@ -1008,9 +998,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Lists versions for the specified application.
     ///
-    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationVersionsInput`)
     ///
-    /// - Returns: `ListApplicationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,7 +1036,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationVersionsInput, ListApplicationVersionsOutput>(ListApplicationVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationVersionsOutput>(ListApplicationVersionsOutput.httpOutput(from:), ListApplicationVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationVersionsInput, ListApplicationVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationVersionsOutput>())
@@ -1078,9 +1067,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Lists applications owned by the requester.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1115,7 +1104,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -1147,9 +1135,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Sets the permission policy for an application. For the list of actions supported for this operation, see [Application Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions) .
     ///
-    /// - Parameter PutApplicationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationPolicyInput`)
     ///
-    /// - Returns: `PutApplicationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1187,7 +1175,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationPolicyInput, PutApplicationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationPolicyOutput>(PutApplicationPolicyOutput.httpOutput(from:), PutApplicationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationPolicyInput, PutApplicationPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationPolicyOutput>())
@@ -1219,9 +1206,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
     ///
-    /// - Parameter UnshareApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnshareApplicationInput`)
     ///
-    /// - Returns: `UnshareApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnshareApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,7 +1246,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnshareApplicationInput, UnshareApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnshareApplicationOutput>(UnshareApplicationOutput.httpOutput(from:), UnshareApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnshareApplicationInput, UnshareApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnshareApplicationOutput>())
@@ -1291,9 +1277,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Updates the specified application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,7 +1318,6 @@ extension ServerlessApplicationRepositoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())

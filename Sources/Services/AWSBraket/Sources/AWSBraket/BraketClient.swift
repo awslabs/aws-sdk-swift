@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BraketClient: ClientRuntime.Client {
     public static let clientName = "BraketClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: BraketClient.BraketClientConfiguration
     let serviceName = "Braket"
@@ -375,9 +374,9 @@ extension BraketClient {
     ///
     /// Cancels an Amazon Braket hybrid job.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -445,9 +443,9 @@ extension BraketClient {
     ///
     /// Cancels the specified task.
     ///
-    /// - Parameter CancelQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelQuantumTaskInput`)
     ///
-    /// - Returns: `CancelQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelQuantumTaskInput, CancelQuantumTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelQuantumTaskOutput>(CancelQuantumTaskOutput.httpOutput(from:), CancelQuantumTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelQuantumTaskInput, CancelQuantumTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelQuantumTaskOutput>())
@@ -519,9 +516,9 @@ extension BraketClient {
     ///
     /// Creates an Amazon Braket hybrid job.
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,7 +560,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -595,9 +591,9 @@ extension BraketClient {
     ///
     /// Creates a quantum task.
     ///
-    /// - Parameter CreateQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuantumTaskInput`)
     ///
-    /// - Returns: `CreateQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,7 +634,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQuantumTaskInput, CreateQuantumTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQuantumTaskOutput>(CreateQuantumTaskOutput.httpOutput(from:), CreateQuantumTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQuantumTaskInput, CreateQuantumTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQuantumTaskOutput>())
@@ -670,9 +665,9 @@ extension BraketClient {
     ///
     /// Retrieves the devices available in Amazon Braket. For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
     ///
-    /// - Parameter GetDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceInput`)
     ///
-    /// - Returns: `GetDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,7 +702,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceOutput>(GetDeviceOutput.httpOutput(from:), GetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceInput, GetDeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceOutput>())
@@ -739,9 +733,9 @@ extension BraketClient {
     ///
     /// Retrieves the specified Amazon Braket hybrid job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,7 +771,6 @@ extension BraketClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJobInput, GetJobOutput>(GetJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -809,9 +802,9 @@ extension BraketClient {
     ///
     /// Retrieves the specified quantum task.
     ///
-    /// - Parameter GetQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuantumTaskInput`)
     ///
-    /// - Returns: `GetQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,7 +840,6 @@ extension BraketClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQuantumTaskInput, GetQuantumTaskOutput>(GetQuantumTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQuantumTaskOutput>(GetQuantumTaskOutput.httpOutput(from:), GetQuantumTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQuantumTaskInput, GetQuantumTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQuantumTaskOutput>())
@@ -879,9 +871,9 @@ extension BraketClient {
     ///
     /// Shows the tags associated with this resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,7 +906,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -946,9 +937,9 @@ extension BraketClient {
     ///
     /// Searches for devices using the specified filters.
     ///
-    /// - Parameter SearchDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDevicesInput`)
     ///
-    /// - Returns: `SearchDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,7 +976,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchDevicesInput, SearchDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchDevicesOutput>(SearchDevicesOutput.httpOutput(from:), SearchDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchDevicesInput, SearchDevicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchDevicesOutput>())
@@ -1017,9 +1007,9 @@ extension BraketClient {
     ///
     /// Searches for Amazon Braket hybrid jobs that match the specified filter values.
     ///
-    /// - Parameter SearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
     ///
-    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1056,7 +1046,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchJobsInput, SearchJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchJobsOutput>(SearchJobsOutput.httpOutput(from:), SearchJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchJobsInput, SearchJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchJobsOutput>())
@@ -1088,9 +1077,9 @@ extension BraketClient {
     ///
     /// Searches for tasks that match the specified filter values.
     ///
-    /// - Parameter SearchQuantumTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuantumTasksInput`)
     ///
-    /// - Returns: `SearchQuantumTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuantumTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,7 +1116,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchQuantumTasksInput, SearchQuantumTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchQuantumTasksOutput>(SearchQuantumTasksOutput.httpOutput(from:), SearchQuantumTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchQuantumTasksInput, SearchQuantumTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchQuantumTasksOutput>())
@@ -1159,9 +1147,9 @@ extension BraketClient {
     ///
     /// Add a tag to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,7 +1185,6 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1229,9 +1216,9 @@ extension BraketClient {
     ///
     /// Remove tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,7 +1252,6 @@ extension BraketClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

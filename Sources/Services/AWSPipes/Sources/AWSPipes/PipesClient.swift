@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PipesClient: ClientRuntime.Client {
     public static let clientName = "PipesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: PipesClient.PipesClientConfiguration
     let serviceName = "Pipes"
@@ -374,9 +373,9 @@ extension PipesClient {
     ///
     /// Create a pipe. Amazon EventBridge Pipes connect event sources to targets and reduces the need for specialized knowledge and integration code.
     ///
-    /// - Parameter CreatePipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipeInput`)
     ///
-    /// - Returns: `CreatePipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipeInput, CreatePipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipeOutput>(CreatePipeOutput.httpOutput(from:), CreatePipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipeInput, CreatePipeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipeOutput>())
@@ -447,9 +445,9 @@ extension PipesClient {
     ///
     /// Delete an existing pipe. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
-    /// - Parameter DeletePipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipeInput`)
     ///
-    /// - Returns: `DeletePipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,7 +482,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePipeInput, DeletePipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipeOutput>(DeletePipeOutput.httpOutput(from:), DeletePipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipeInput, DeletePipeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipeOutput>())
@@ -516,9 +513,9 @@ extension PipesClient {
     ///
     /// Get the information about an existing pipe. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
-    /// - Parameter DescribePipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePipeInput`)
     ///
-    /// - Returns: `DescribePipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,7 +549,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePipeInput, DescribePipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipeOutput>(DescribePipeOutput.httpOutput(from:), DescribePipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipeInput, DescribePipeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePipeOutput>())
@@ -584,9 +580,9 @@ extension PipesClient {
     ///
     /// Get the pipes associated with this account. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
-    /// - Parameter ListPipesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipesInput`)
     ///
-    /// - Returns: `ListPipesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,7 +616,6 @@ extension PipesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPipesInput, ListPipesOutput>(ListPipesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipesOutput>(ListPipesOutput.httpOutput(from:), ListPipesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipesInput, ListPipesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipesOutput>())
@@ -652,9 +647,9 @@ extension PipesClient {
     ///
     /// Displays the tags associated with a pipe.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,7 +682,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -719,9 +713,9 @@ extension PipesClient {
     ///
     /// Start an existing pipe.
     ///
-    /// - Parameter StartPipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPipeInput`)
     ///
-    /// - Returns: `StartPipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,7 +750,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPipeInput, StartPipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPipeOutput>(StartPipeOutput.httpOutput(from:), StartPipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPipeInput, StartPipeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPipeOutput>())
@@ -788,9 +781,9 @@ extension PipesClient {
     ///
     /// Stop an existing pipe.
     ///
-    /// - Parameter StopPipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPipeInput`)
     ///
-    /// - Returns: `StopPipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,7 +818,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopPipeInput, StopPipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopPipeOutput>(StopPipeOutput.httpOutput(from:), StopPipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPipeInput, StopPipeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPipeOutput>())
@@ -857,9 +849,9 @@ extension PipesClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified pipe. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a pipe that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the pipe. If you specify a tag key that is already associated with the pipe, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a pipe.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,7 +887,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -927,9 +918,9 @@ extension PipesClient {
     ///
     /// Removes one or more tags from the specified pipes.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,7 +954,6 @@ extension PipesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -995,9 +985,9 @@ extension PipesClient {
     ///
     /// Update an existing pipe. When you call UpdatePipe, EventBridge only the updates fields you have specified in the request; the rest remain unchanged. The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters, or TargetParameters objects. For example, DynamoDBStreamParameters or EventBridgeEventBusParameters. EventBridge updates the fields in these objects atomically as one and overrides existing values. This is by design, and means that if you don't specify an optional field in one of these Parameters objects, EventBridge sets that field to its system-default value during the update. For more information about pipes, see [ Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
-    /// - Parameter UpdatePipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipeInput`)
     ///
-    /// - Returns: `UpdatePipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,7 +1025,6 @@ extension PipesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipeInput, UpdatePipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipeOutput>(UpdatePipeOutput.httpOutput(from:), UpdatePipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipeInput, UpdatePipeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipeOutput>())

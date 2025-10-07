@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IvsClient: ClientRuntime.Client {
     public static let clientName = "IvsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: IvsClient.IvsClientConfiguration
     let serviceName = "ivs"
@@ -373,9 +372,9 @@ extension IvsClient {
     ///
     /// Performs [GetChannel] on multiple ARNs simultaneously.
     ///
-    /// - Parameter BatchGetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetChannelInput`)
     ///
-    /// - Returns: `BatchGetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetChannelOutput`)
     public func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -404,7 +403,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetChannelInput, BatchGetChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetChannelOutput>(BatchGetChannelOutput.httpOutput(from:), BatchGetChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetChannelInput, BatchGetChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetChannelOutput>())
@@ -436,9 +434,9 @@ extension IvsClient {
     ///
     /// Performs [GetStreamKey] on multiple ARNs simultaneously.
     ///
-    /// - Parameter BatchGetStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetStreamKeyInput`)
     ///
-    /// - Returns: `BatchGetStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetStreamKeyOutput`)
     public func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -467,7 +465,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetStreamKeyOutput>(BatchGetStreamKeyOutput.httpOutput(from:), BatchGetStreamKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetStreamKeyOutput>())
@@ -499,9 +496,9 @@ extension IvsClient {
     ///
     /// Performs [StartViewerSessionRevocation] on multiple channel ARN and viewer ID pairs simultaneously.
     ///
-    /// - Parameter BatchStartViewerSessionRevocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchStartViewerSessionRevocationInput`)
     ///
-    /// - Returns: `BatchStartViewerSessionRevocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchStartViewerSessionRevocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -538,7 +535,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchStartViewerSessionRevocationOutput>(BatchStartViewerSessionRevocationOutput.httpOutput(from:), BatchStartViewerSessionRevocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchStartViewerSessionRevocationOutput>())
@@ -570,9 +566,9 @@ extension IvsClient {
     ///
     /// Creates a new channel and an associated stream key to start streaming.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -610,7 +606,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -642,9 +637,9 @@ extension IvsClient {
     ///
     /// Creates a new playback restriction policy, for constraining playback by countries and/or origins.
     ///
-    /// - Parameter CreatePlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `CreatePlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,7 +677,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlaybackRestrictionPolicyInput, CreatePlaybackRestrictionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlaybackRestrictionPolicyOutput>(CreatePlaybackRestrictionPolicyOutput.httpOutput(from:), CreatePlaybackRestrictionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlaybackRestrictionPolicyInput, CreatePlaybackRestrictionPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlaybackRestrictionPolicyOutput>())
@@ -714,9 +708,9 @@ extension IvsClient {
     ///
     /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
     ///
-    /// - Parameter CreateRecordingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecordingConfigurationInput`)
     ///
-    /// - Returns: `CreateRecordingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecordingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -755,7 +749,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecordingConfigurationOutput>(CreateRecordingConfigurationOutput.httpOutput(from:), CreateRecordingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecordingConfigurationOutput>())
@@ -787,9 +780,9 @@ extension IvsClient {
     ///
     /// Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that [CreateChannel] creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use [DeleteStreamKey] and then CreateStreamKey.
     ///
-    /// - Parameter CreateStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamKeyInput`)
     ///
-    /// - Returns: `CreateStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -827,7 +820,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamKeyOutput>(CreateStreamKeyOutput.httpOutput(from:), CreateStreamKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamKeyOutput>())
@@ -859,9 +851,9 @@ extension IvsClient {
     ///
     /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call [StopStream], wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See [ Using EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).)
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,7 +891,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -931,9 +922,9 @@ extension IvsClient {
     ///
     /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter DeletePlaybackKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlaybackKeyPairInput`)
     ///
-    /// - Returns: `DeletePlaybackKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlaybackKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,7 +961,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlaybackKeyPairOutput>(DeletePlaybackKeyPairOutput.httpOutput(from:), DeletePlaybackKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlaybackKeyPairOutput>())
@@ -1002,9 +992,9 @@ extension IvsClient {
     ///
     /// Deletes the specified playback restriction policy.
     ///
-    /// - Parameter DeletePlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `DeletePlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,7 +1032,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePlaybackRestrictionPolicyInput, DeletePlaybackRestrictionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlaybackRestrictionPolicyOutput>(DeletePlaybackRestrictionPolicyOutput.httpOutput(from:), DeletePlaybackRestrictionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlaybackRestrictionPolicyInput, DeletePlaybackRestrictionPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlaybackRestrictionPolicyOutput>())
@@ -1074,9 +1063,9 @@ extension IvsClient {
     ///
     /// Deletes the recording configuration for the specified ARN. If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use [UpdateChannel] to set the recordingConfigurationArn field to an empty string, then use DeleteRecordingConfiguration.
     ///
-    /// - Parameter DeleteRecordingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecordingConfigurationInput`)
     ///
-    /// - Returns: `DeleteRecordingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecordingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,7 +1103,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecordingConfigurationOutput>(DeleteRecordingConfigurationOutput.httpOutput(from:), DeleteRecordingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecordingConfigurationOutput>())
@@ -1146,9 +1134,9 @@ extension IvsClient {
     ///
     /// Deletes the stream key for the specified ARN, so it can no longer be used to stream.
     ///
-    /// - Parameter DeleteStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStreamKeyInput`)
     ///
-    /// - Returns: `DeleteStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1185,7 +1173,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamKeyOutput>(DeleteStreamKeyOutput.httpOutput(from:), DeleteStreamKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamKeyOutput>())
@@ -1217,9 +1204,9 @@ extension IvsClient {
     ///
     /// Gets the channel configuration for the specified channel ARN. See also [BatchGetChannel].
     ///
-    /// - Parameter GetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelInput`)
     ///
-    /// - Returns: `GetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1255,7 +1242,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetChannelInput, GetChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelOutput>(GetChannelOutput.httpOutput(from:), GetChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelInput, GetChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelOutput>())
@@ -1287,9 +1273,9 @@ extension IvsClient {
     ///
     /// Gets a specified playback authorization key pair and returns the arn and fingerprint. The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter GetPlaybackKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaybackKeyPairInput`)
     ///
-    /// - Returns: `GetPlaybackKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaybackKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1325,7 +1311,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlaybackKeyPairOutput>(GetPlaybackKeyPairOutput.httpOutput(from:), GetPlaybackKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlaybackKeyPairOutput>())
@@ -1357,9 +1342,9 @@ extension IvsClient {
     ///
     /// Gets the specified playback restriction policy.
     ///
-    /// - Parameter GetPlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `GetPlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,7 +1381,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlaybackRestrictionPolicyInput, GetPlaybackRestrictionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlaybackRestrictionPolicyOutput>(GetPlaybackRestrictionPolicyOutput.httpOutput(from:), GetPlaybackRestrictionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlaybackRestrictionPolicyInput, GetPlaybackRestrictionPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlaybackRestrictionPolicyOutput>())
@@ -1428,9 +1412,9 @@ extension IvsClient {
     ///
     /// Gets the recording configuration for the specified ARN.
     ///
-    /// - Parameter GetRecordingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecordingConfigurationInput`)
     ///
-    /// - Returns: `GetRecordingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecordingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1467,7 +1451,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordingConfigurationOutput>(GetRecordingConfigurationOutput.httpOutput(from:), GetRecordingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordingConfigurationOutput>())
@@ -1499,9 +1482,9 @@ extension IvsClient {
     ///
     /// Gets information about the active (live) stream on a specified channel.
     ///
-    /// - Parameter GetStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamInput`)
     ///
-    /// - Returns: `GetStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,7 +1521,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStreamInput, GetStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamOutput>(GetStreamOutput.httpOutput(from:), GetStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamInput, GetStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamOutput>())
@@ -1570,9 +1552,9 @@ extension IvsClient {
     ///
     /// Gets stream-key information for a specified ARN.
     ///
-    /// - Parameter GetStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamKeyInput`)
     ///
-    /// - Returns: `GetStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1608,7 +1590,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStreamKeyInput, GetStreamKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamKeyOutput>(GetStreamKeyOutput.httpOutput(from:), GetStreamKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamKeyInput, GetStreamKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamKeyOutput>())
@@ -1640,9 +1621,9 @@ extension IvsClient {
     ///
     /// Gets metadata on a specified stream.
     ///
-    /// - Parameter GetStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamSessionInput`)
     ///
-    /// - Returns: `GetStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1678,7 +1659,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStreamSessionInput, GetStreamSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamSessionOutput>(GetStreamSessionOutput.httpOutput(from:), GetStreamSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamSessionInput, GetStreamSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamSessionOutput>())
@@ -1710,9 +1690,9 @@ extension IvsClient {
     ///
     /// Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter ImportPlaybackKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportPlaybackKeyPairInput`)
     ///
-    /// - Returns: `ImportPlaybackKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportPlaybackKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1750,7 +1730,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportPlaybackKeyPairOutput>(ImportPlaybackKeyPairOutput.httpOutput(from:), ImportPlaybackKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportPlaybackKeyPairOutput>())
@@ -1782,9 +1761,9 @@ extension IvsClient {
     ///
     /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,7 +1799,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListChannelsInput, ListChannelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1852,9 +1830,9 @@ extension IvsClient {
     ///
     /// Gets summary information about playback key pairs. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter ListPlaybackKeyPairsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlaybackKeyPairsInput`)
     ///
-    /// - Returns: `ListPlaybackKeyPairsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlaybackKeyPairsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1889,7 +1867,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlaybackKeyPairsOutput>(ListPlaybackKeyPairsOutput.httpOutput(from:), ListPlaybackKeyPairsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlaybackKeyPairsOutput>())
@@ -1921,9 +1898,9 @@ extension IvsClient {
     ///
     /// Gets summary information about playback restriction policies.
     ///
-    /// - Parameter ListPlaybackRestrictionPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlaybackRestrictionPoliciesInput`)
     ///
-    /// - Returns: `ListPlaybackRestrictionPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlaybackRestrictionPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1960,7 +1937,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlaybackRestrictionPoliciesInput, ListPlaybackRestrictionPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlaybackRestrictionPoliciesOutput>(ListPlaybackRestrictionPoliciesOutput.httpOutput(from:), ListPlaybackRestrictionPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlaybackRestrictionPoliciesInput, ListPlaybackRestrictionPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlaybackRestrictionPoliciesOutput>())
@@ -1992,9 +1968,9 @@ extension IvsClient {
     ///
     /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
     ///
-    /// - Parameter ListRecordingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecordingConfigurationsInput`)
     ///
-    /// - Returns: `ListRecordingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecordingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2030,7 +2006,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecordingConfigurationsOutput>(ListRecordingConfigurationsOutput.httpOutput(from:), ListRecordingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecordingConfigurationsOutput>())
@@ -2062,9 +2037,9 @@ extension IvsClient {
     ///
     /// Gets summary information about stream keys for the specified channel.
     ///
-    /// - Parameter ListStreamKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamKeysInput`)
     ///
-    /// - Returns: `ListStreamKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2100,7 +2075,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamKeysInput, ListStreamKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamKeysOutput>(ListStreamKeysOutput.httpOutput(from:), ListStreamKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamKeysInput, ListStreamKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamKeysOutput>())
@@ -2132,9 +2106,9 @@ extension IvsClient {
     ///
     /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListStreamSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamSessionsInput`)
     ///
-    /// - Returns: `ListStreamSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2170,7 +2144,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamSessionsOutput>(ListStreamSessionsOutput.httpOutput(from:), ListStreamSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamSessionsOutput>())
@@ -2202,9 +2175,9 @@ extension IvsClient {
     ///
     /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
     ///
-    /// - Parameter ListStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamsInput`)
     ///
-    /// - Returns: `ListStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2239,7 +2212,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamsInput, ListStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())
@@ -2271,9 +2243,9 @@ extension IvsClient {
     ///
     /// Gets information about Amazon Web Services tags for the specified ARN.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,7 +2278,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2338,9 +2309,9 @@ extension IvsClient {
     ///
     /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see [Embedding Metadata within a Video Stream](https://docs.aws.amazon.com/ivs/latest/userguide/metadata.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter PutMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetadataInput`)
     ///
-    /// - Returns: `PutMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2378,7 +2349,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetadataInput, PutMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetadataOutput>(PutMetadataOutput.httpOutput(from:), PutMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetadataInput, PutMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetadataOutput>())
@@ -2410,9 +2380,9 @@ extension IvsClient {
     ///
     /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
     ///
-    /// - Parameter StartViewerSessionRevocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartViewerSessionRevocationInput`)
     ///
-    /// - Returns: `StartViewerSessionRevocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartViewerSessionRevocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2451,7 +2421,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartViewerSessionRevocationOutput>(StartViewerSessionRevocationOutput.httpOutput(from:), StartViewerSessionRevocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartViewerSessionRevocationOutput>())
@@ -2483,9 +2452,9 @@ extension IvsClient {
     ///
     /// Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with [DeleteStreamKey] to prevent further streaming to a channel. Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel.
     ///
-    /// - Parameter StopStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopStreamInput`)
     ///
-    /// - Returns: `StopStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2523,7 +2492,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopStreamInput, StopStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamOutput>(StopStreamOutput.httpOutput(from:), StopStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamInput, StopStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopStreamOutput>())
@@ -2555,9 +2523,9 @@ extension IvsClient {
     ///
     /// Adds or updates tags for the Amazon Web Services resource with the specified ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2593,7 +2561,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2625,9 +2592,9 @@ extension IvsClient {
     ///
     /// Removes tags from the resource with the specified ARN.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2661,7 +2628,6 @@ extension IvsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2693,9 +2659,9 @@ extension IvsClient {
     ///
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2733,7 +2699,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -2765,9 +2730,9 @@ extension IvsClient {
     ///
     /// Updates a specified playback restriction policy.
     ///
-    /// - Parameter UpdatePlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `UpdatePlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2805,7 +2770,6 @@ extension IvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlaybackRestrictionPolicyInput, UpdatePlaybackRestrictionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlaybackRestrictionPolicyOutput>(UpdatePlaybackRestrictionPolicyOutput.httpOutput(from:), UpdatePlaybackRestrictionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlaybackRestrictionPolicyInput, UpdatePlaybackRestrictionPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePlaybackRestrictionPolicyOutput>())

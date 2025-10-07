@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AccessAnalyzerClient: ClientRuntime.Client {
     public static let clientName = "AccessAnalyzerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: AccessAnalyzerClient.AccessAnalyzerClientConfiguration
     let serviceName = "AccessAnalyzer"
@@ -375,9 +374,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
     ///
-    /// - Parameter ApplyArchiveRuleInput : Retroactively applies an archive rule.
+    /// - Parameter input: Retroactively applies an archive rule. (Type: `ApplyArchiveRuleInput`)
     ///
-    /// - Returns: `ApplyArchiveRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyArchiveRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyArchiveRuleInput, ApplyArchiveRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyArchiveRuleOutput>(ApplyArchiveRuleOutput.httpOutput(from:), ApplyArchiveRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyArchiveRuleInput, ApplyArchiveRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyArchiveRuleOutput>())
@@ -448,9 +446,9 @@ extension AccessAnalyzerClient {
     ///
     /// Cancels the requested policy generation.
     ///
-    /// - Parameter CancelPolicyGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelPolicyGenerationInput`)
     ///
-    /// - Returns: `CancelPolicyGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelPolicyGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,7 +482,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelPolicyGenerationInput, CancelPolicyGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelPolicyGenerationOutput>(CancelPolicyGenerationOutput.httpOutput(from:), CancelPolicyGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelPolicyGenerationInput, CancelPolicyGenerationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelPolicyGenerationOutput>())
@@ -516,9 +513,9 @@ extension AccessAnalyzerClient {
     ///
     /// Checks whether the specified access isn't allowed by a policy.
     ///
-    /// - Parameter CheckAccessNotGrantedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckAccessNotGrantedInput`)
     ///
-    /// - Returns: `CheckAccessNotGrantedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckAccessNotGrantedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,7 +554,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckAccessNotGrantedInput, CheckAccessNotGrantedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckAccessNotGrantedOutput>(CheckAccessNotGrantedOutput.httpOutput(from:), CheckAccessNotGrantedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckAccessNotGrantedInput, CheckAccessNotGrantedOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckAccessNotGrantedOutput>())
@@ -589,9 +585,9 @@ extension AccessAnalyzerClient {
     ///
     /// Checks whether new access is allowed for an updated policy when compared to the existing policy. You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the [IAM Access Analyzer custom policy checks samples](https://github.com/aws-samples/iam-access-analyzer-custom-policy-check-samples) repository on GitHub. The reference policies in this repository are meant to be passed to the existingPolicyDocument request parameter.
     ///
-    /// - Parameter CheckNoNewAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckNoNewAccessInput`)
     ///
-    /// - Returns: `CheckNoNewAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckNoNewAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,7 +626,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckNoNewAccessInput, CheckNoNewAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckNoNewAccessOutput>(CheckNoNewAccessOutput.httpOutput(from:), CheckNoNewAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckNoNewAccessInput, CheckNoNewAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckNoNewAccessOutput>())
@@ -662,9 +657,9 @@ extension AccessAnalyzerClient {
     ///
     /// Checks whether a resource policy can grant public access to the specified resource type.
     ///
-    /// - Parameter CheckNoPublicAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckNoPublicAccessInput`)
     ///
-    /// - Returns: `CheckNoPublicAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckNoPublicAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,7 +698,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckNoPublicAccessInput, CheckNoPublicAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckNoPublicAccessOutput>(CheckNoPublicAccessOutput.httpOutput(from:), CheckNoPublicAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckNoPublicAccessInput, CheckNoPublicAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckNoPublicAccessOutput>())
@@ -735,9 +729,9 @@ extension AccessAnalyzerClient {
     ///
     /// Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions.
     ///
-    /// - Parameter CreateAccessPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessPreviewInput`)
     ///
-    /// - Returns: `CreateAccessPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,7 +772,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessPreviewInput, CreateAccessPreviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessPreviewOutput>(CreateAccessPreviewOutput.httpOutput(from:), CreateAccessPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessPreviewInput, CreateAccessPreviewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessPreviewOutput>())
@@ -810,9 +803,9 @@ extension AccessAnalyzerClient {
     ///
     /// Creates an analyzer for your account.
     ///
-    /// - Parameter CreateAnalyzerInput : Creates an analyzer.
+    /// - Parameter input: Creates an analyzer. (Type: `CreateAnalyzerInput`)
     ///
-    /// - Returns: `CreateAnalyzerOutput` : The response to the request to create an analyzer.
+    /// - Returns: The response to the request to create an analyzer. (Type: `CreateAnalyzerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -852,7 +845,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnalyzerInput, CreateAnalyzerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnalyzerOutput>(CreateAnalyzerOutput.httpOutput(from:), CreateAnalyzerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnalyzerInput, CreateAnalyzerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnalyzerOutput>())
@@ -884,9 +876,9 @@ extension AccessAnalyzerClient {
     ///
     /// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
     ///
-    /// - Parameter CreateArchiveRuleInput : Creates an archive rule.
+    /// - Parameter input: Creates an archive rule. (Type: `CreateArchiveRuleInput`)
     ///
-    /// - Returns: `CreateArchiveRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateArchiveRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,7 +919,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateArchiveRuleInput, CreateArchiveRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateArchiveRuleOutput>(CreateArchiveRuleOutput.httpOutput(from:), CreateArchiveRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateArchiveRuleInput, CreateArchiveRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateArchiveRuleOutput>())
@@ -959,9 +950,9 @@ extension AccessAnalyzerClient {
     ///
     /// Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
     ///
-    /// - Parameter DeleteAnalyzerInput : Deletes an analyzer.
+    /// - Parameter input: Deletes an analyzer. (Type: `DeleteAnalyzerInput`)
     ///
-    /// - Returns: `DeleteAnalyzerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnalyzerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,7 +989,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAnalyzerInput, DeleteAnalyzerOutput>(DeleteAnalyzerInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnalyzerOutput>(DeleteAnalyzerOutput.httpOutput(from:), DeleteAnalyzerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnalyzerInput, DeleteAnalyzerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnalyzerOutput>())
@@ -1030,9 +1020,9 @@ extension AccessAnalyzerClient {
     ///
     /// Deletes the specified archive rule.
     ///
-    /// - Parameter DeleteArchiveRuleInput : Deletes an archive rule.
+    /// - Parameter input: Deletes an archive rule. (Type: `DeleteArchiveRuleInput`)
     ///
-    /// - Returns: `DeleteArchiveRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteArchiveRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,7 +1059,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteArchiveRuleInput, DeleteArchiveRuleOutput>(DeleteArchiveRuleInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteArchiveRuleOutput>(DeleteArchiveRuleOutput.httpOutput(from:), DeleteArchiveRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArchiveRuleInput, DeleteArchiveRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteArchiveRuleOutput>())
@@ -1101,9 +1090,9 @@ extension AccessAnalyzerClient {
     ///
     /// Creates a recommendation for an unused permissions finding.
     ///
-    /// - Parameter GenerateFindingRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateFindingRecommendationInput`)
     ///
-    /// - Returns: `GenerateFindingRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateFindingRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1138,7 +1127,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GenerateFindingRecommendationInput, GenerateFindingRecommendationOutput>(GenerateFindingRecommendationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateFindingRecommendationOutput>(GenerateFindingRecommendationOutput.httpOutput(from:), GenerateFindingRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateFindingRecommendationInput, GenerateFindingRecommendationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateFindingRecommendationOutput>())
@@ -1170,9 +1158,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves information about an access preview for the specified analyzer.
     ///
-    /// - Parameter GetAccessPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPreviewInput`)
     ///
-    /// - Returns: `GetAccessPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,7 +1196,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAccessPreviewInput, GetAccessPreviewOutput>(GetAccessPreviewInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPreviewOutput>(GetAccessPreviewOutput.httpOutput(from:), GetAccessPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPreviewInput, GetAccessPreviewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPreviewOutput>())
@@ -1240,9 +1227,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves information about a resource that was analyzed.
     ///
-    /// - Parameter GetAnalyzedResourceInput : Retrieves an analyzed resource.
+    /// - Parameter input: Retrieves an analyzed resource. (Type: `GetAnalyzedResourceInput`)
     ///
-    /// - Returns: `GetAnalyzedResourceOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `GetAnalyzedResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,7 +1265,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAnalyzedResourceInput, GetAnalyzedResourceOutput>(GetAnalyzedResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnalyzedResourceOutput>(GetAnalyzedResourceOutput.httpOutput(from:), GetAnalyzedResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalyzedResourceInput, GetAnalyzedResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalyzedResourceOutput>())
@@ -1310,9 +1296,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves information about the specified analyzer.
     ///
-    /// - Parameter GetAnalyzerInput : Retrieves an analyzer.
+    /// - Parameter input: Retrieves an analyzer. (Type: `GetAnalyzerInput`)
     ///
-    /// - Returns: `GetAnalyzerOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `GetAnalyzerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1347,7 +1333,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnalyzerInput, GetAnalyzerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnalyzerOutput>(GetAnalyzerOutput.httpOutput(from:), GetAnalyzerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalyzerInput, GetAnalyzerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalyzerOutput>())
@@ -1379,9 +1364,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves information about an archive rule. To learn about filter keys that you can use to create an archive rule, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
     ///
-    /// - Parameter GetArchiveRuleInput : Retrieves an archive rule.
+    /// - Parameter input: Retrieves an archive rule. (Type: `GetArchiveRuleInput`)
     ///
-    /// - Returns: `GetArchiveRuleOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `GetArchiveRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1416,7 +1401,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetArchiveRuleInput, GetArchiveRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchiveRuleOutput>(GetArchiveRuleOutput.httpOutput(from:), GetArchiveRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveRuleInput, GetArchiveRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveRuleOutput>())
@@ -1448,9 +1432,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action.
     ///
-    /// - Parameter GetFindingInput : Retrieves a finding.
+    /// - Parameter input: Retrieves a finding. (Type: `GetFindingInput`)
     ///
-    /// - Returns: `GetFindingOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `GetFindingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1486,7 +1470,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFindingInput, GetFindingOutput>(GetFindingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingOutput>(GetFindingOutput.httpOutput(from:), GetFindingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingInput, GetFindingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingOutput>())
@@ -1518,9 +1501,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves information about a finding recommendation for the specified analyzer.
     ///
-    /// - Parameter GetFindingRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingRecommendationInput`)
     ///
-    /// - Returns: `GetFindingRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1556,7 +1539,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFindingRecommendationInput, GetFindingRecommendationOutput>(GetFindingRecommendationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingRecommendationOutput>(GetFindingRecommendationOutput.httpOutput(from:), GetFindingRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingRecommendationInput, GetFindingRecommendationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingRecommendationOutput>())
@@ -1588,9 +1570,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action.
     ///
-    /// - Parameter GetFindingV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingV2Input`)
     ///
-    /// - Returns: `GetFindingV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,7 +1608,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFindingV2Input, GetFindingV2Output>(GetFindingV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingV2Output>(GetFindingV2Output.httpOutput(from:), GetFindingV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingV2Input, GetFindingV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingV2Output>())
@@ -1658,9 +1639,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of aggregated finding statistics for an external access or unused access analyzer.
     ///
-    /// - Parameter GetFindingsStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsStatisticsInput`)
     ///
-    /// - Returns: `GetFindingsStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1698,7 +1679,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsStatisticsOutput>(GetFindingsStatisticsOutput.httpOutput(from:), GetFindingsStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsStatisticsOutput>())
@@ -1730,9 +1710,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves the policy that was generated using StartPolicyGeneration.
     ///
-    /// - Parameter GetGeneratedPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGeneratedPolicyInput`)
     ///
-    /// - Returns: `GetGeneratedPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGeneratedPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,7 +1747,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetGeneratedPolicyInput, GetGeneratedPolicyOutput>(GetGeneratedPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGeneratedPolicyOutput>(GetGeneratedPolicyOutput.httpOutput(from:), GetGeneratedPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGeneratedPolicyInput, GetGeneratedPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGeneratedPolicyOutput>())
@@ -1799,9 +1778,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of access preview findings generated by the specified access preview.
     ///
-    /// - Parameter ListAccessPreviewFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPreviewFindingsInput`)
     ///
-    /// - Returns: `ListAccessPreviewFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPreviewFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1840,7 +1819,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPreviewFindingsOutput>(ListAccessPreviewFindingsOutput.httpOutput(from:), ListAccessPreviewFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPreviewFindingsOutput>())
@@ -1872,9 +1850,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of access previews for the specified analyzer.
     ///
-    /// - Parameter ListAccessPreviewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPreviewsInput`)
     ///
-    /// - Returns: `ListAccessPreviewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPreviewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,7 +1888,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPreviewsInput, ListAccessPreviewsOutput>(ListAccessPreviewsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPreviewsOutput>(ListAccessPreviewsOutput.httpOutput(from:), ListAccessPreviewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPreviewsInput, ListAccessPreviewsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPreviewsOutput>())
@@ -1942,9 +1919,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer.
     ///
-    /// - Parameter ListAnalyzedResourcesInput : Retrieves a list of resources that have been analyzed.
+    /// - Parameter input: Retrieves a list of resources that have been analyzed. (Type: `ListAnalyzedResourcesInput`)
     ///
-    /// - Returns: `ListAnalyzedResourcesOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `ListAnalyzedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1982,7 +1959,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalyzedResourcesOutput>(ListAnalyzedResourcesOutput.httpOutput(from:), ListAnalyzedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalyzedResourcesOutput>())
@@ -2014,9 +1990,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of analyzers.
     ///
-    /// - Parameter ListAnalyzersInput : Retrieves a list of analyzers.
+    /// - Parameter input: Retrieves a list of analyzers. (Type: `ListAnalyzersInput`)
     ///
-    /// - Returns: `ListAnalyzersOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `ListAnalyzersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,7 +2027,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnalyzersInput, ListAnalyzersOutput>(ListAnalyzersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalyzersOutput>(ListAnalyzersOutput.httpOutput(from:), ListAnalyzersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalyzersInput, ListAnalyzersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalyzersOutput>())
@@ -2083,9 +2058,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of archive rules created for the specified analyzer.
     ///
-    /// - Parameter ListArchiveRulesInput : Retrieves a list of archive rules created for the specified analyzer.
+    /// - Parameter input: Retrieves a list of archive rules created for the specified analyzer. (Type: `ListArchiveRulesInput`)
     ///
-    /// - Returns: `ListArchiveRulesOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `ListArchiveRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,7 +2095,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListArchiveRulesInput, ListArchiveRulesOutput>(ListArchiveRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArchiveRulesOutput>(ListArchiveRulesOutput.httpOutput(from:), ListArchiveRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchiveRulesInput, ListArchiveRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchiveRulesOutput>())
@@ -2152,9 +2126,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
     ///
-    /// - Parameter ListFindingsInput : Retrieves a list of findings generated by the specified analyzer.
+    /// - Parameter input: Retrieves a list of findings generated by the specified analyzer. (Type: `ListFindingsInput`)
     ///
-    /// - Returns: `ListFindingsOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `ListFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2192,7 +2166,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFindingsInput, ListFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsOutput>(ListFindingsOutput.httpOutput(from:), ListFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsInput, ListFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsOutput>())
@@ -2224,9 +2197,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
     ///
-    /// - Parameter ListFindingsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsV2Input`)
     ///
-    /// - Returns: `ListFindingsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,7 +2237,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFindingsV2Input, ListFindingsV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsV2Output>(ListFindingsV2Output.httpOutput(from:), ListFindingsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsV2Input, ListFindingsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsV2Output>())
@@ -2296,9 +2268,9 @@ extension AccessAnalyzerClient {
     ///
     /// Lists all of the policy generations requested in the last seven days.
     ///
-    /// - Parameter ListPolicyGenerationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyGenerationsInput`)
     ///
-    /// - Returns: `ListPolicyGenerationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyGenerationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2333,7 +2305,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPolicyGenerationsInput, ListPolicyGenerationsOutput>(ListPolicyGenerationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyGenerationsOutput>(ListPolicyGenerationsOutput.httpOutput(from:), ListPolicyGenerationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyGenerationsInput, ListPolicyGenerationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyGenerationsOutput>())
@@ -2365,9 +2336,9 @@ extension AccessAnalyzerClient {
     ///
     /// Retrieves a list of tags applied to the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : Retrieves a list of tags applied to the specified resource.
+    /// - Parameter input: Retrieves a list of tags applied to the specified resource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,7 +2373,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2434,9 +2404,9 @@ extension AccessAnalyzerClient {
     ///
     /// Starts the policy generation request.
     ///
-    /// - Parameter StartPolicyGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPolicyGenerationInput`)
     ///
-    /// - Returns: `StartPolicyGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPolicyGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2476,7 +2446,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPolicyGenerationInput, StartPolicyGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPolicyGenerationOutput>(StartPolicyGenerationOutput.httpOutput(from:), StartPolicyGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPolicyGenerationInput, StartPolicyGenerationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPolicyGenerationOutput>())
@@ -2508,9 +2477,9 @@ extension AccessAnalyzerClient {
     ///
     /// Immediately starts a scan of the policies applied to the specified resource.
     ///
-    /// - Parameter StartResourceScanInput : Starts a scan of the policies applied to the specified resource.
+    /// - Parameter input: Starts a scan of the policies applied to the specified resource. (Type: `StartResourceScanInput`)
     ///
-    /// - Returns: `StartResourceScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartResourceScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2548,7 +2517,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartResourceScanInput, StartResourceScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartResourceScanOutput>(StartResourceScanOutput.httpOutput(from:), StartResourceScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartResourceScanInput, StartResourceScanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartResourceScanOutput>())
@@ -2580,9 +2548,9 @@ extension AccessAnalyzerClient {
     ///
     /// Adds a tag to the specified resource.
     ///
-    /// - Parameter TagResourceInput : Adds a tag to the specified resource.
+    /// - Parameter input: Adds a tag to the specified resource. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2620,7 +2588,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2652,9 +2619,9 @@ extension AccessAnalyzerClient {
     ///
     /// Removes a tag from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : Removes a tag from the specified resource.
+    /// - Parameter input: Removes a tag from the specified resource. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : The response to the request.
+    /// - Returns: The response to the request. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2690,7 +2657,6 @@ extension AccessAnalyzerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2722,9 +2688,9 @@ extension AccessAnalyzerClient {
     ///
     /// Modifies the configuration of an existing analyzer.
     ///
-    /// - Parameter UpdateAnalyzerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnalyzerInput`)
     ///
-    /// - Returns: `UpdateAnalyzerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnalyzerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2763,7 +2729,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnalyzerInput, UpdateAnalyzerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnalyzerOutput>(UpdateAnalyzerOutput.httpOutput(from:), UpdateAnalyzerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnalyzerInput, UpdateAnalyzerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnalyzerOutput>())
@@ -2795,9 +2760,9 @@ extension AccessAnalyzerClient {
     ///
     /// Updates the criteria and values for the specified archive rule.
     ///
-    /// - Parameter UpdateArchiveRuleInput : Updates the specified archive rule.
+    /// - Parameter input: Updates the specified archive rule. (Type: `UpdateArchiveRuleInput`)
     ///
-    /// - Returns: `UpdateArchiveRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateArchiveRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2836,7 +2801,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateArchiveRuleInput, UpdateArchiveRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateArchiveRuleOutput>(UpdateArchiveRuleOutput.httpOutput(from:), UpdateArchiveRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateArchiveRuleInput, UpdateArchiveRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateArchiveRuleOutput>())
@@ -2868,9 +2832,9 @@ extension AccessAnalyzerClient {
     ///
     /// Updates the status for the specified findings.
     ///
-    /// - Parameter UpdateFindingsInput : Updates findings with the new values provided in the request.
+    /// - Parameter input: Updates findings with the new values provided in the request. (Type: `UpdateFindingsInput`)
     ///
-    /// - Returns: `UpdateFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2909,7 +2873,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFindingsInput, UpdateFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingsOutput>(UpdateFindingsOutput.httpOutput(from:), UpdateFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingsInput, UpdateFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingsOutput>())
@@ -2941,9 +2904,9 @@ extension AccessAnalyzerClient {
     ///
     /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
     ///
-    /// - Parameter ValidatePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidatePolicyInput`)
     ///
-    /// - Returns: `ValidatePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidatePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2981,7 +2944,6 @@ extension AccessAnalyzerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidatePolicyInput, ValidatePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePolicyOutput>(ValidatePolicyOutput.httpOutput(from:), ValidatePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePolicyInput, ValidatePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidatePolicyOutput>())

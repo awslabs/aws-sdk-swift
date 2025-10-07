@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BillingClient: ClientRuntime.Client {
     public static let clientName = "BillingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingClient.BillingClientConfiguration
     let serviceName = "Billing"
@@ -375,9 +374,9 @@ extension BillingClient {
     ///
     /// Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
     ///
-    /// - Parameter AssociateSourceViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceViewsInput`)
     ///
-    /// - Returns: `AssociateSourceViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceViewsInput, AssociateSourceViewsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceViewsOutput>(AssociateSourceViewsOutput.httpOutput(from:), AssociateSourceViewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceViewsInput, AssociateSourceViewsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceViewsOutput>())
@@ -451,9 +449,9 @@ extension BillingClient {
     ///
     /// Creates a billing view with the specified billing view attributes.
     ///
-    /// - Parameter CreateBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBillingViewInput`)
     ///
-    /// - Returns: `CreateBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,7 +491,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBillingViewInput, CreateBillingViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBillingViewOutput>(CreateBillingViewOutput.httpOutput(from:), CreateBillingViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBillingViewInput, CreateBillingViewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillingViewOutput>())
@@ -528,9 +525,9 @@ extension BillingClient {
     ///
     /// Deletes the specified billing view.
     ///
-    /// - Parameter DeleteBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBillingViewInput`)
     ///
-    /// - Returns: `DeleteBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,7 +563,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBillingViewInput, DeleteBillingViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBillingViewOutput>(DeleteBillingViewOutput.httpOutput(from:), DeleteBillingViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBillingViewInput, DeleteBillingViewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBillingViewOutput>())
@@ -601,9 +597,9 @@ extension BillingClient {
     ///
     /// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
     ///
-    /// - Parameter DisassociateSourceViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceViewsInput`)
     ///
-    /// - Returns: `DisassociateSourceViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,7 +637,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceViewsInput, DisassociateSourceViewsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceViewsOutput>(DisassociateSourceViewsOutput.httpOutput(from:), DisassociateSourceViewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceViewsInput, DisassociateSourceViewsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceViewsOutput>())
@@ -676,9 +671,9 @@ extension BillingClient {
     ///
     /// Returns the metadata associated to the specified billing view ARN.
     ///
-    /// - Parameter GetBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBillingViewInput`)
     ///
-    /// - Returns: `GetBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,7 +709,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillingViewInput, GetBillingViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBillingViewOutput>(GetBillingViewOutput.httpOutput(from:), GetBillingViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillingViewInput, GetBillingViewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillingViewOutput>())
@@ -749,9 +743,9 @@ extension BillingClient {
     ///
     /// Returns the resource-based policy document attached to the resource in JSON format.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -787,7 +781,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -822,9 +815,9 @@ extension BillingClient {
     ///
     /// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views representing pro forma costs associated with each created billing group.
     ///
-    /// - Parameter ListBillingViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillingViewsInput`)
     ///
-    /// - Returns: `ListBillingViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillingViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,7 +852,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillingViewsInput, ListBillingViewsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBillingViewsOutput>(ListBillingViewsOutput.httpOutput(from:), ListBillingViewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillingViewsInput, ListBillingViewsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillingViewsOutput>())
@@ -894,9 +886,9 @@ extension BillingClient {
     ///
     /// Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
     ///
-    /// - Parameter ListSourceViewsForBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceViewsForBillingViewInput`)
     ///
-    /// - Returns: `ListSourceViewsForBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceViewsForBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,7 +924,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceViewsForBillingViewInput, ListSourceViewsForBillingViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceViewsForBillingViewOutput>(ListSourceViewsForBillingViewOutput.httpOutput(from:), ListSourceViewsForBillingViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceViewsForBillingViewInput, ListSourceViewsForBillingViewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceViewsForBillingViewOutput>())
@@ -967,9 +958,9 @@ extension BillingClient {
     ///
     /// Lists tags associated with the billing view resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,7 +996,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1040,9 +1030,9 @@ extension BillingClient {
     ///
     /// An API operation for adding one or more tags (key-value pairs) to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1078,7 +1068,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1113,9 +1102,9 @@ extension BillingClient {
     ///
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,7 +1140,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1186,9 +1174,9 @@ extension BillingClient {
     ///
     /// An API to update the attributes of the billing view.
     ///
-    /// - Parameter UpdateBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillingViewInput`)
     ///
-    /// - Returns: `UpdateBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,7 +1215,6 @@ extension BillingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillingViewInput, UpdateBillingViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBillingViewOutput>(UpdateBillingViewOutput.httpOutput(from:), UpdateBillingViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBillingViewInput, UpdateBillingViewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillingViewOutput>())

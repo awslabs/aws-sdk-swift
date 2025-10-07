@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupClient: ClientRuntime.Client {
     public static let clientName = "BackupClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupClient.BackupClientConfiguration
     let serviceName = "Backup"
@@ -375,9 +374,9 @@ extension BackupClient {
     ///
     /// Associates an MPA approval team with a backup vault.
     ///
-    /// - Parameter AssociateBackupVaultMpaApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateBackupVaultMpaApprovalTeamInput`)
     ///
-    /// - Returns: `AssociateBackupVaultMpaApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateBackupVaultMpaApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateBackupVaultMpaApprovalTeamInput, AssociateBackupVaultMpaApprovalTeamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateBackupVaultMpaApprovalTeamOutput>(AssociateBackupVaultMpaApprovalTeamOutput.httpOutput(from:), AssociateBackupVaultMpaApprovalTeamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateBackupVaultMpaApprovalTeamInput, AssociateBackupVaultMpaApprovalTeamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateBackupVaultMpaApprovalTeamOutput>())
@@ -447,9 +445,9 @@ extension BackupClient {
     ///
     /// Removes the specified legal hold on a recovery point. This action can only be performed by a user with sufficient permissions.
     ///
-    /// - Parameter CancelLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelLegalHoldInput`)
     ///
-    /// - Returns: `CancelLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelLegalHoldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CancelLegalHoldInput, CancelLegalHoldOutput>(CancelLegalHoldInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelLegalHoldOutput>(CancelLegalHoldOutput.httpOutput(from:), CancelLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelLegalHoldInput, CancelLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelLegalHoldOutput>())
@@ -517,9 +514,9 @@ extension BackupClient {
     ///
     /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     ///
-    /// - Parameter CreateBackupPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBackupPlanInput`)
     ///
-    /// - Returns: `CreateBackupPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackupPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,7 +555,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackupPlanInput, CreateBackupPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackupPlanOutput>(CreateBackupPlanOutput.httpOutput(from:), CreateBackupPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackupPlanInput, CreateBackupPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackupPlanOutput>())
@@ -590,9 +586,9 @@ extension BackupClient {
     ///
     /// Creates a JSON document that specifies a set of resources to assign to a backup plan. For examples, see [Assigning resources programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json).
     ///
-    /// - Parameter CreateBackupSelectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBackupSelectionInput`)
     ///
-    /// - Returns: `CreateBackupSelectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackupSelectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,7 +627,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackupSelectionInput, CreateBackupSelectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackupSelectionOutput>(CreateBackupSelectionOutput.httpOutput(from:), CreateBackupSelectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackupSelectionInput, CreateBackupSelectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackupSelectionOutput>())
@@ -663,9 +658,9 @@ extension BackupClient {
     ///
     /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     ///
-    /// - Parameter CreateBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBackupVaultInput`)
     ///
-    /// - Returns: `CreateBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,7 +699,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackupVaultInput, CreateBackupVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackupVaultOutput>(CreateBackupVaultOutput.httpOutput(from:), CreateBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackupVaultInput, CreateBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackupVaultOutput>())
@@ -736,9 +730,9 @@ extension BackupClient {
     ///
     /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance.
     ///
-    /// - Parameter CreateFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFrameworkInput`)
     ///
-    /// - Returns: `CreateFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,7 +771,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFrameworkInput, CreateFrameworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFrameworkOutput>(CreateFrameworkOutput.httpOutput(from:), CreateFrameworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFrameworkInput, CreateFrameworkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFrameworkOutput>())
@@ -809,9 +802,9 @@ extension BackupClient {
     ///
     /// Creates a legal hold on a recovery point (backup). A legal hold is a restraint on altering or deleting a backup until an authorized user cancels the legal hold. Any actions to delete or disassociate a recovery point will fail with an error if one or more active legal holds are on the recovery point.
     ///
-    /// - Parameter CreateLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLegalHoldInput`)
     ///
-    /// - Returns: `CreateLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLegalHoldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -849,7 +842,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLegalHoldInput, CreateLegalHoldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLegalHoldOutput>(CreateLegalHoldOutput.httpOutput(from:), CreateLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLegalHoldInput, CreateLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLegalHoldOutput>())
@@ -881,9 +873,9 @@ extension BackupClient {
     ///
     /// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the minimum number of retention days, and optionally can include tags and a creator request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     ///
-    /// - Parameter CreateLogicallyAirGappedBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLogicallyAirGappedBackupVaultInput`)
     ///
-    /// - Returns: `CreateLogicallyAirGappedBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLogicallyAirGappedBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,7 +915,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogicallyAirGappedBackupVaultInput, CreateLogicallyAirGappedBackupVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLogicallyAirGappedBackupVaultOutput>(CreateLogicallyAirGappedBackupVaultOutput.httpOutput(from:), CreateLogicallyAirGappedBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogicallyAirGappedBackupVaultInput, CreateLogicallyAirGappedBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogicallyAirGappedBackupVaultOutput>())
@@ -955,9 +946,9 @@ extension BackupClient {
     ///
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     ///
-    /// - Parameter CreateReportPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReportPlanInput`)
     ///
-    /// - Returns: `CreateReportPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReportPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,7 +987,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReportPlanInput, CreateReportPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReportPlanOutput>(CreateReportPlanOutput.httpOutput(from:), CreateReportPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReportPlanInput, CreateReportPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReportPlanOutput>())
@@ -1028,9 +1018,9 @@ extension BackupClient {
     ///
     /// Creates a restore access backup vault that provides temporary access to recovery points in a logically air-gapped backup vault, subject to MPA approval.
     ///
-    /// - Parameter CreateRestoreAccessBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRestoreAccessBackupVaultInput`)
     ///
-    /// - Returns: `CreateRestoreAccessBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRestoreAccessBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1071,7 +1061,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRestoreAccessBackupVaultInput, CreateRestoreAccessBackupVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRestoreAccessBackupVaultOutput>(CreateRestoreAccessBackupVaultOutput.httpOutput(from:), CreateRestoreAccessBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRestoreAccessBackupVaultInput, CreateRestoreAccessBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRestoreAccessBackupVaultOutput>())
@@ -1103,9 +1092,9 @@ extension BackupClient {
     ///
     /// Creates a restore testing plan. The first of two steps to create a restore testing plan. After this request is successful, finish the procedure using CreateRestoreTestingSelection.
     ///
-    /// - Parameter CreateRestoreTestingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRestoreTestingPlanInput`)
     ///
-    /// - Returns: `CreateRestoreTestingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRestoreTestingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1144,7 +1133,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRestoreTestingPlanInput, CreateRestoreTestingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRestoreTestingPlanOutput>(CreateRestoreTestingPlanOutput.httpOutput(from:), CreateRestoreTestingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRestoreTestingPlanInput, CreateRestoreTestingPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRestoreTestingPlanOutput>())
@@ -1183,9 +1171,9 @@ extension BackupClient {
     ///
     /// Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns. Cannot select by both protected resource types AND specific ARNs. Request will fail if both are included.
     ///
-    /// - Parameter CreateRestoreTestingSelectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRestoreTestingSelectionInput`)
     ///
-    /// - Returns: `CreateRestoreTestingSelectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRestoreTestingSelectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,7 +1212,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRestoreTestingSelectionInput, CreateRestoreTestingSelectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRestoreTestingSelectionOutput>(CreateRestoreTestingSelectionOutput.httpOutput(from:), CreateRestoreTestingSelectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRestoreTestingSelectionInput, CreateRestoreTestingSelectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRestoreTestingSelectionOutput>())
@@ -1256,9 +1243,9 @@ extension BackupClient {
     ///
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
     ///
-    /// - Parameter DeleteBackupPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupPlanInput`)
     ///
-    /// - Returns: `DeleteBackupPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1293,7 +1280,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupPlanInput, DeleteBackupPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupPlanOutput>(DeleteBackupPlanOutput.httpOutput(from:), DeleteBackupPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupPlanInput, DeleteBackupPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupPlanOutput>())
@@ -1325,9 +1311,9 @@ extension BackupClient {
     ///
     /// Deletes the resource selection associated with a backup plan that is specified by the SelectionId.
     ///
-    /// - Parameter DeleteBackupSelectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupSelectionInput`)
     ///
-    /// - Returns: `DeleteBackupSelectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupSelectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,7 +1347,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupSelectionInput, DeleteBackupSelectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupSelectionOutput>(DeleteBackupSelectionOutput.httpOutput(from:), DeleteBackupSelectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupSelectionInput, DeleteBackupSelectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupSelectionOutput>())
@@ -1393,9 +1378,9 @@ extension BackupClient {
     ///
     /// Deletes the backup vault identified by its name. A vault can be deleted only if it is empty.
     ///
-    /// - Parameter DeleteBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupVaultInput`)
     ///
-    /// - Returns: `DeleteBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1430,7 +1415,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupVaultInput, DeleteBackupVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupVaultOutput>(DeleteBackupVaultOutput.httpOutput(from:), DeleteBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupVaultInput, DeleteBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupVaultOutput>())
@@ -1462,9 +1446,9 @@ extension BackupClient {
     ///
     /// Deletes the policy document that manages permissions on a backup vault.
     ///
-    /// - Parameter DeleteBackupVaultAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupVaultAccessPolicyInput`)
     ///
-    /// - Returns: `DeleteBackupVaultAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupVaultAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,7 +1482,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupVaultAccessPolicyInput, DeleteBackupVaultAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupVaultAccessPolicyOutput>(DeleteBackupVaultAccessPolicyOutput.httpOutput(from:), DeleteBackupVaultAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupVaultAccessPolicyInput, DeleteBackupVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupVaultAccessPolicyOutput>())
@@ -1530,9 +1513,9 @@ extension BackupClient {
     ///
     /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidRequestException if you attempt to do so. For more information, see [Vault Lock](https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html) in the Backup Developer Guide.
     ///
-    /// - Parameter DeleteBackupVaultLockConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupVaultLockConfigurationInput`)
     ///
-    /// - Returns: `DeleteBackupVaultLockConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupVaultLockConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1567,7 +1550,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupVaultLockConfigurationInput, DeleteBackupVaultLockConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupVaultLockConfigurationOutput>(DeleteBackupVaultLockConfigurationOutput.httpOutput(from:), DeleteBackupVaultLockConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupVaultLockConfigurationInput, DeleteBackupVaultLockConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupVaultLockConfigurationOutput>())
@@ -1599,9 +1581,9 @@ extension BackupClient {
     ///
     /// Deletes event notifications for the specified backup vault.
     ///
-    /// - Parameter DeleteBackupVaultNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupVaultNotificationsInput`)
     ///
-    /// - Returns: `DeleteBackupVaultNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupVaultNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1635,7 +1617,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupVaultNotificationsInput, DeleteBackupVaultNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupVaultNotificationsOutput>(DeleteBackupVaultNotificationsOutput.httpOutput(from:), DeleteBackupVaultNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupVaultNotificationsInput, DeleteBackupVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupVaultNotificationsOutput>())
@@ -1667,9 +1648,9 @@ extension BackupClient {
     ///
     /// Deletes the framework specified by a framework name.
     ///
-    /// - Parameter DeleteFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFrameworkInput`)
     ///
-    /// - Returns: `DeleteFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1704,7 +1685,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFrameworkInput, DeleteFrameworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFrameworkOutput>(DeleteFrameworkOutput.httpOutput(from:), DeleteFrameworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFrameworkInput, DeleteFrameworkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFrameworkOutput>())
@@ -1736,9 +1716,9 @@ extension BackupClient {
     ///
     /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state. EXPIRED recovery points can be deleted with this API once the IAM role has the iam:CreateServiceLinkedRole action. To learn more about adding this role, see [ Troubleshooting manual deletions](https://docs.aws.amazon.com/aws-backup/latest/devguide/deleting-backups.html#deleting-backups-troubleshooting). If the user or role is deleted or the permission within the role is removed, the deletion will not be successful and will enter an EXPIRED state.
     ///
-    /// - Parameter DeleteRecoveryPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecoveryPointInput`)
     ///
-    /// - Returns: `DeleteRecoveryPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecoveryPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1774,7 +1754,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecoveryPointInput, DeleteRecoveryPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecoveryPointOutput>(DeleteRecoveryPointOutput.httpOutput(from:), DeleteRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecoveryPointInput, DeleteRecoveryPointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecoveryPointOutput>())
@@ -1806,9 +1785,9 @@ extension BackupClient {
     ///
     /// Deletes the report plan specified by a report plan name.
     ///
-    /// - Parameter DeleteReportPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReportPlanInput`)
     ///
-    /// - Returns: `DeleteReportPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReportPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1843,7 +1822,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReportPlanInput, DeleteReportPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReportPlanOutput>(DeleteReportPlanOutput.httpOutput(from:), DeleteReportPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportPlanInput, DeleteReportPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportPlanOutput>())
@@ -1875,9 +1853,9 @@ extension BackupClient {
     ///
     /// This request deletes the specified restore testing plan. Deletion can only successfully occur if all associated restore testing selections are deleted first.
     ///
-    /// - Parameter DeleteRestoreTestingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRestoreTestingPlanInput`)
     ///
-    /// - Returns: `DeleteRestoreTestingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRestoreTestingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,7 +1887,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRestoreTestingPlanInput, DeleteRestoreTestingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRestoreTestingPlanOutput>(DeleteRestoreTestingPlanOutput.httpOutput(from:), DeleteRestoreTestingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRestoreTestingPlanInput, DeleteRestoreTestingPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRestoreTestingPlanOutput>())
@@ -1941,9 +1918,9 @@ extension BackupClient {
     ///
     /// Input the Restore Testing Plan name and Restore Testing Selection name. All testing selections associated with a restore testing plan must be deleted before the restore testing plan can be deleted.
     ///
-    /// - Parameter DeleteRestoreTestingSelectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRestoreTestingSelectionInput`)
     ///
-    /// - Returns: `DeleteRestoreTestingSelectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRestoreTestingSelectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1975,7 +1952,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRestoreTestingSelectionInput, DeleteRestoreTestingSelectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRestoreTestingSelectionOutput>(DeleteRestoreTestingSelectionOutput.httpOutput(from:), DeleteRestoreTestingSelectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRestoreTestingSelectionInput, DeleteRestoreTestingSelectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRestoreTestingSelectionOutput>())
@@ -2007,9 +1983,9 @@ extension BackupClient {
     ///
     /// Returns backup job details for the specified BackupJobId.
     ///
-    /// - Parameter DescribeBackupJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBackupJobInput`)
     ///
-    /// - Returns: `DescribeBackupJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBackupJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2044,7 +2020,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBackupJobInput, DescribeBackupJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBackupJobOutput>(DescribeBackupJobOutput.httpOutput(from:), DescribeBackupJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBackupJobInput, DescribeBackupJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBackupJobOutput>())
@@ -2076,9 +2051,9 @@ extension BackupClient {
     ///
     /// Returns metadata about a backup vault specified by its name.
     ///
-    /// - Parameter DescribeBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBackupVaultInput`)
     ///
-    /// - Returns: `DescribeBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,7 +2088,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeBackupVaultInput, DescribeBackupVaultOutput>(DescribeBackupVaultInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBackupVaultOutput>(DescribeBackupVaultOutput.httpOutput(from:), DescribeBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBackupVaultInput, DescribeBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBackupVaultOutput>())
@@ -2145,9 +2119,9 @@ extension BackupClient {
     ///
     /// Returns metadata associated with creating a copy of a resource.
     ///
-    /// - Parameter DescribeCopyJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCopyJobInput`)
     ///
-    /// - Returns: `DescribeCopyJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCopyJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2181,7 +2155,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCopyJobInput, DescribeCopyJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCopyJobOutput>(DescribeCopyJobOutput.httpOutput(from:), DescribeCopyJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCopyJobInput, DescribeCopyJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCopyJobOutput>())
@@ -2213,9 +2186,9 @@ extension BackupClient {
     ///
     /// Returns the framework details for the specified FrameworkName.
     ///
-    /// - Parameter DescribeFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFrameworkInput`)
     ///
-    /// - Returns: `DescribeFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2249,7 +2222,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFrameworkInput, DescribeFrameworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFrameworkOutput>(DescribeFrameworkOutput.httpOutput(from:), DescribeFrameworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFrameworkInput, DescribeFrameworkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFrameworkOutput>())
@@ -2281,9 +2253,9 @@ extension BackupClient {
     ///
     /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
     ///
-    /// - Parameter DescribeGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalSettingsInput`)
     ///
-    /// - Returns: `DescribeGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2315,7 +2287,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGlobalSettingsInput, DescribeGlobalSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGlobalSettingsOutput>(DescribeGlobalSettingsOutput.httpOutput(from:), DescribeGlobalSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGlobalSettingsInput, DescribeGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalSettingsOutput>())
@@ -2347,9 +2318,9 @@ extension BackupClient {
     ///
     /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource.
     ///
-    /// - Parameter DescribeProtectedResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProtectedResourceInput`)
     ///
-    /// - Returns: `DescribeProtectedResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProtectedResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,7 +2354,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProtectedResourceInput, DescribeProtectedResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProtectedResourceOutput>(DescribeProtectedResourceOutput.httpOutput(from:), DescribeProtectedResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProtectedResourceInput, DescribeProtectedResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProtectedResourceOutput>())
@@ -2415,9 +2385,9 @@ extension BackupClient {
     ///
     /// Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle.
     ///
-    /// - Parameter DescribeRecoveryPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecoveryPointInput`)
     ///
-    /// - Returns: `DescribeRecoveryPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecoveryPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,7 +2422,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeRecoveryPointInput, DescribeRecoveryPointOutput>(DescribeRecoveryPointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecoveryPointOutput>(DescribeRecoveryPointOutput.httpOutput(from:), DescribeRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecoveryPointInput, DescribeRecoveryPointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRecoveryPointOutput>())
@@ -2484,9 +2453,9 @@ extension BackupClient {
     ///
     /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region.
     ///
-    /// - Parameter DescribeRegionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegionSettingsInput`)
     ///
-    /// - Returns: `DescribeRegionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2517,7 +2486,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegionSettingsInput, DescribeRegionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegionSettingsOutput>(DescribeRegionSettingsOutput.httpOutput(from:), DescribeRegionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegionSettingsInput, DescribeRegionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegionSettingsOutput>())
@@ -2549,9 +2517,9 @@ extension BackupClient {
     ///
     /// Returns the details associated with creating a report as specified by its ReportJobId.
     ///
-    /// - Parameter DescribeReportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReportJobInput`)
     ///
-    /// - Returns: `DescribeReportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2584,7 +2552,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReportJobInput, DescribeReportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReportJobOutput>(DescribeReportJobOutput.httpOutput(from:), DescribeReportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReportJobInput, DescribeReportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReportJobOutput>())
@@ -2616,9 +2583,9 @@ extension BackupClient {
     ///
     /// Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter DescribeReportPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReportPlanInput`)
     ///
-    /// - Returns: `DescribeReportPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReportPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2652,7 +2619,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReportPlanInput, DescribeReportPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReportPlanOutput>(DescribeReportPlanOutput.httpOutput(from:), DescribeReportPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReportPlanInput, DescribeReportPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReportPlanOutput>())
@@ -2684,9 +2650,9 @@ extension BackupClient {
     ///
     /// Returns metadata associated with a restore job that is specified by a job ID.
     ///
-    /// - Parameter DescribeRestoreJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRestoreJobInput`)
     ///
-    /// - Returns: `DescribeRestoreJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRestoreJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2721,7 +2687,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRestoreJobInput, DescribeRestoreJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRestoreJobOutput>(DescribeRestoreJobOutput.httpOutput(from:), DescribeRestoreJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRestoreJobInput, DescribeRestoreJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRestoreJobOutput>())
@@ -2753,9 +2718,9 @@ extension BackupClient {
     ///
     /// Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
     ///
-    /// - Parameter DisassociateBackupVaultMpaApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateBackupVaultMpaApprovalTeamInput`)
     ///
-    /// - Returns: `DisassociateBackupVaultMpaApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateBackupVaultMpaApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2794,7 +2759,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateBackupVaultMpaApprovalTeamInput, DisassociateBackupVaultMpaApprovalTeamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateBackupVaultMpaApprovalTeamOutput>(DisassociateBackupVaultMpaApprovalTeamOutput.httpOutput(from:), DisassociateBackupVaultMpaApprovalTeamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateBackupVaultMpaApprovalTeamInput, DisassociateBackupVaultMpaApprovalTeamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateBackupVaultMpaApprovalTeamOutput>())
@@ -2826,9 +2790,9 @@ extension BackupClient {
     ///
     /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
     ///
-    /// - Parameter DisassociateRecoveryPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRecoveryPointInput`)
     ///
-    /// - Returns: `DisassociateRecoveryPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRecoveryPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2864,7 +2828,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateRecoveryPointInput, DisassociateRecoveryPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateRecoveryPointOutput>(DisassociateRecoveryPointOutput.httpOutput(from:), DisassociateRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateRecoveryPointInput, DisassociateRecoveryPointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateRecoveryPointOutput>())
@@ -2896,9 +2859,9 @@ extension BackupClient {
     ///
     /// This action to a specific child (nested) recovery point removes the relationship between the specified recovery point and its parent (composite) recovery point.
     ///
-    /// - Parameter DisassociateRecoveryPointFromParentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRecoveryPointFromParentInput`)
     ///
-    /// - Returns: `DisassociateRecoveryPointFromParentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRecoveryPointFromParentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2933,7 +2896,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateRecoveryPointFromParentInput, DisassociateRecoveryPointFromParentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateRecoveryPointFromParentOutput>(DisassociateRecoveryPointFromParentOutput.httpOutput(from:), DisassociateRecoveryPointFromParentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateRecoveryPointFromParentInput, DisassociateRecoveryPointFromParentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateRecoveryPointFromParentOutput>())
@@ -2965,9 +2927,9 @@ extension BackupClient {
     ///
     /// Returns the backup plan that is specified by the plan ID as a backup template.
     ///
-    /// - Parameter ExportBackupPlanTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportBackupPlanTemplateInput`)
     ///
-    /// - Returns: `ExportBackupPlanTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportBackupPlanTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3001,7 +2963,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportBackupPlanTemplateInput, ExportBackupPlanTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportBackupPlanTemplateOutput>(ExportBackupPlanTemplateOutput.httpOutput(from:), ExportBackupPlanTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportBackupPlanTemplateInput, ExportBackupPlanTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportBackupPlanTemplateOutput>())
@@ -3033,9 +2994,9 @@ extension BackupClient {
     ///
     /// Returns BackupPlan details for the specified BackupPlanId. The details are the body of a backup plan in JSON format, in addition to plan metadata.
     ///
-    /// - Parameter GetBackupPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackupPlanInput`)
     ///
-    /// - Returns: `GetBackupPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackupPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3070,7 +3031,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBackupPlanInput, GetBackupPlanOutput>(GetBackupPlanInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackupPlanOutput>(GetBackupPlanOutput.httpOutput(from:), GetBackupPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackupPlanInput, GetBackupPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackupPlanOutput>())
@@ -3102,9 +3062,9 @@ extension BackupClient {
     ///
     /// Returns a valid JSON document specifying a backup plan or an error.
     ///
-    /// - Parameter GetBackupPlanFromJSONInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackupPlanFromJSONInput`)
     ///
-    /// - Returns: `GetBackupPlanFromJSONOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackupPlanFromJSONOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3142,7 +3102,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBackupPlanFromJSONInput, GetBackupPlanFromJSONOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackupPlanFromJSONOutput>(GetBackupPlanFromJSONOutput.httpOutput(from:), GetBackupPlanFromJSONOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackupPlanFromJSONInput, GetBackupPlanFromJSONOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackupPlanFromJSONOutput>())
@@ -3174,9 +3133,9 @@ extension BackupClient {
     ///
     /// Returns the template specified by its templateId as a backup plan.
     ///
-    /// - Parameter GetBackupPlanFromTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackupPlanFromTemplateInput`)
     ///
-    /// - Returns: `GetBackupPlanFromTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackupPlanFromTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3210,7 +3169,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBackupPlanFromTemplateInput, GetBackupPlanFromTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackupPlanFromTemplateOutput>(GetBackupPlanFromTemplateOutput.httpOutput(from:), GetBackupPlanFromTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackupPlanFromTemplateInput, GetBackupPlanFromTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackupPlanFromTemplateOutput>())
@@ -3242,9 +3200,9 @@ extension BackupClient {
     ///
     /// Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan.
     ///
-    /// - Parameter GetBackupSelectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackupSelectionInput`)
     ///
-    /// - Returns: `GetBackupSelectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackupSelectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3278,7 +3236,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBackupSelectionInput, GetBackupSelectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackupSelectionOutput>(GetBackupSelectionOutput.httpOutput(from:), GetBackupSelectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackupSelectionInput, GetBackupSelectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackupSelectionOutput>())
@@ -3310,9 +3267,9 @@ extension BackupClient {
     ///
     /// Returns the access policy document that is associated with the named backup vault.
     ///
-    /// - Parameter GetBackupVaultAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackupVaultAccessPolicyInput`)
     ///
-    /// - Returns: `GetBackupVaultAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackupVaultAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3346,7 +3303,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBackupVaultAccessPolicyInput, GetBackupVaultAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackupVaultAccessPolicyOutput>(GetBackupVaultAccessPolicyOutput.httpOutput(from:), GetBackupVaultAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackupVaultAccessPolicyInput, GetBackupVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackupVaultAccessPolicyOutput>())
@@ -3378,9 +3334,9 @@ extension BackupClient {
     ///
     /// Returns event notifications for the specified backup vault.
     ///
-    /// - Parameter GetBackupVaultNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackupVaultNotificationsInput`)
     ///
-    /// - Returns: `GetBackupVaultNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackupVaultNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3414,7 +3370,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBackupVaultNotificationsInput, GetBackupVaultNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackupVaultNotificationsOutput>(GetBackupVaultNotificationsOutput.httpOutput(from:), GetBackupVaultNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackupVaultNotificationsInput, GetBackupVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackupVaultNotificationsOutput>())
@@ -3446,9 +3401,9 @@ extension BackupClient {
     ///
     /// This action returns details for a specified legal hold. The details are the body of a legal hold in JSON format, in addition to metadata.
     ///
-    /// - Parameter GetLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLegalHoldInput`)
     ///
-    /// - Returns: `GetLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLegalHoldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3482,7 +3437,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLegalHoldInput, GetLegalHoldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLegalHoldOutput>(GetLegalHoldOutput.httpOutput(from:), GetLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLegalHoldInput, GetLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLegalHoldOutput>())
@@ -3514,9 +3468,9 @@ extension BackupClient {
     ///
     /// This operation returns the metadata and details specific to the backup index associated with the specified recovery point.
     ///
-    /// - Parameter GetRecoveryPointIndexDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryPointIndexDetailsInput`)
     ///
-    /// - Returns: `GetRecoveryPointIndexDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecoveryPointIndexDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3550,7 +3504,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecoveryPointIndexDetailsInput, GetRecoveryPointIndexDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryPointIndexDetailsOutput>(GetRecoveryPointIndexDetailsOutput.httpOutput(from:), GetRecoveryPointIndexDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryPointIndexDetailsInput, GetRecoveryPointIndexDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryPointIndexDetailsOutput>())
@@ -3582,9 +3535,9 @@ extension BackupClient {
     ///
     /// Returns a set of metadata key-value pairs that were used to create the backup.
     ///
-    /// - Parameter GetRecoveryPointRestoreMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryPointRestoreMetadataInput`)
     ///
-    /// - Returns: `GetRecoveryPointRestoreMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecoveryPointRestoreMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3619,7 +3572,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecoveryPointRestoreMetadataInput, GetRecoveryPointRestoreMetadataOutput>(GetRecoveryPointRestoreMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryPointRestoreMetadataOutput>(GetRecoveryPointRestoreMetadataOutput.httpOutput(from:), GetRecoveryPointRestoreMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryPointRestoreMetadataInput, GetRecoveryPointRestoreMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryPointRestoreMetadataOutput>())
@@ -3651,9 +3603,9 @@ extension BackupClient {
     ///
     /// This request returns the metadata for the specified restore job.
     ///
-    /// - Parameter GetRestoreJobMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRestoreJobMetadataInput`)
     ///
-    /// - Returns: `GetRestoreJobMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRestoreJobMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3687,7 +3639,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRestoreJobMetadataInput, GetRestoreJobMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRestoreJobMetadataOutput>(GetRestoreJobMetadataOutput.httpOutput(from:), GetRestoreJobMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRestoreJobMetadataInput, GetRestoreJobMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRestoreJobMetadataOutput>())
@@ -3719,9 +3670,9 @@ extension BackupClient {
     ///
     /// This request returns the minimal required set of metadata needed to start a restore job with secure default settings. BackupVaultName and RecoveryPointArn are required parameters. BackupVaultAccountId is an optional parameter.
     ///
-    /// - Parameter GetRestoreTestingInferredMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRestoreTestingInferredMetadataInput`)
     ///
-    /// - Returns: `GetRestoreTestingInferredMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRestoreTestingInferredMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3756,7 +3707,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRestoreTestingInferredMetadataInput, GetRestoreTestingInferredMetadataOutput>(GetRestoreTestingInferredMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRestoreTestingInferredMetadataOutput>(GetRestoreTestingInferredMetadataOutput.httpOutput(from:), GetRestoreTestingInferredMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRestoreTestingInferredMetadataInput, GetRestoreTestingInferredMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRestoreTestingInferredMetadataOutput>())
@@ -3788,9 +3738,9 @@ extension BackupClient {
     ///
     /// Returns RestoreTestingPlan details for the specified RestoreTestingPlanName. The details are the body of a restore testing plan in JSON format, in addition to plan metadata.
     ///
-    /// - Parameter GetRestoreTestingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRestoreTestingPlanInput`)
     ///
-    /// - Returns: `GetRestoreTestingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRestoreTestingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3822,7 +3772,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRestoreTestingPlanInput, GetRestoreTestingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRestoreTestingPlanOutput>(GetRestoreTestingPlanOutput.httpOutput(from:), GetRestoreTestingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRestoreTestingPlanInput, GetRestoreTestingPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRestoreTestingPlanOutput>())
@@ -3854,9 +3803,9 @@ extension BackupClient {
     ///
     /// Returns RestoreTestingSelection, which displays resources and elements of the restore testing plan.
     ///
-    /// - Parameter GetRestoreTestingSelectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRestoreTestingSelectionInput`)
     ///
-    /// - Returns: `GetRestoreTestingSelectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRestoreTestingSelectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3888,7 +3837,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRestoreTestingSelectionInput, GetRestoreTestingSelectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRestoreTestingSelectionOutput>(GetRestoreTestingSelectionOutput.httpOutput(from:), GetRestoreTestingSelectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRestoreTestingSelectionInput, GetRestoreTestingSelectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRestoreTestingSelectionOutput>())
@@ -3920,9 +3868,9 @@ extension BackupClient {
     ///
     /// Returns the Amazon Web Services resource types supported by Backup.
     ///
-    /// - Parameter GetSupportedResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSupportedResourceTypesInput`)
     ///
-    /// - Returns: `GetSupportedResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSupportedResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3953,7 +3901,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSupportedResourceTypesInput, GetSupportedResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSupportedResourceTypesOutput>(GetSupportedResourceTypesOutput.httpOutput(from:), GetSupportedResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSupportedResourceTypesInput, GetSupportedResourceTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSupportedResourceTypesOutput>())
@@ -3985,9 +3932,9 @@ extension BackupClient {
     ///
     /// This is a request for a summary of backup jobs created or running within the most recent 30 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     ///
-    /// - Parameter ListBackupJobSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupJobSummariesInput`)
     ///
-    /// - Returns: `ListBackupJobSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupJobSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4020,7 +3967,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackupJobSummariesInput, ListBackupJobSummariesOutput>(ListBackupJobSummariesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupJobSummariesOutput>(ListBackupJobSummariesOutput.httpOutput(from:), ListBackupJobSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupJobSummariesInput, ListBackupJobSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupJobSummariesOutput>())
@@ -4052,9 +3998,9 @@ extension BackupClient {
     ///
     /// Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these [monitoring tools](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html).
     ///
-    /// - Parameter ListBackupJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupJobsInput`)
     ///
-    /// - Returns: `ListBackupJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4087,7 +4033,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackupJobsInput, ListBackupJobsOutput>(ListBackupJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupJobsOutput>(ListBackupJobsOutput.httpOutput(from:), ListBackupJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupJobsInput, ListBackupJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupJobsOutput>())
@@ -4119,9 +4064,9 @@ extension BackupClient {
     ///
     /// Lists the backup plan templates.
     ///
-    /// - Parameter ListBackupPlanTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupPlanTemplatesInput`)
     ///
-    /// - Returns: `ListBackupPlanTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupPlanTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4156,7 +4101,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackupPlanTemplatesInput, ListBackupPlanTemplatesOutput>(ListBackupPlanTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupPlanTemplatesOutput>(ListBackupPlanTemplatesOutput.httpOutput(from:), ListBackupPlanTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupPlanTemplatesInput, ListBackupPlanTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupPlanTemplatesOutput>())
@@ -4188,9 +4132,9 @@ extension BackupClient {
     ///
     /// Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
     ///
-    /// - Parameter ListBackupPlanVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupPlanVersionsInput`)
     ///
-    /// - Returns: `ListBackupPlanVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupPlanVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4225,7 +4169,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackupPlanVersionsInput, ListBackupPlanVersionsOutput>(ListBackupPlanVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupPlanVersionsOutput>(ListBackupPlanVersionsOutput.httpOutput(from:), ListBackupPlanVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupPlanVersionsInput, ListBackupPlanVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupPlanVersionsOutput>())
@@ -4257,9 +4200,9 @@ extension BackupClient {
     ///
     /// Lists the active backup plans for the account.
     ///
-    /// - Parameter ListBackupPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupPlansInput`)
     ///
-    /// - Returns: `ListBackupPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4294,7 +4237,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackupPlansInput, ListBackupPlansOutput>(ListBackupPlansInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupPlansOutput>(ListBackupPlansOutput.httpOutput(from:), ListBackupPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupPlansInput, ListBackupPlansOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupPlansOutput>())
@@ -4326,9 +4268,9 @@ extension BackupClient {
     ///
     /// Returns an array containing metadata of the resources associated with the target backup plan.
     ///
-    /// - Parameter ListBackupSelectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupSelectionsInput`)
     ///
-    /// - Returns: `ListBackupSelectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupSelectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4363,7 +4305,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackupSelectionsInput, ListBackupSelectionsOutput>(ListBackupSelectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupSelectionsOutput>(ListBackupSelectionsOutput.httpOutput(from:), ListBackupSelectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupSelectionsInput, ListBackupSelectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupSelectionsOutput>())
@@ -4395,9 +4336,9 @@ extension BackupClient {
     ///
     /// Returns a list of recovery point storage containers along with information about them.
     ///
-    /// - Parameter ListBackupVaultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupVaultsInput`)
     ///
-    /// - Returns: `ListBackupVaultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupVaultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4432,7 +4373,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBackupVaultsInput, ListBackupVaultsOutput>(ListBackupVaultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupVaultsOutput>(ListBackupVaultsOutput.httpOutput(from:), ListBackupVaultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupVaultsInput, ListBackupVaultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupVaultsOutput>())
@@ -4464,9 +4404,9 @@ extension BackupClient {
     ///
     /// This request obtains a list of copy jobs created or running within the the most recent 30 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     ///
-    /// - Parameter ListCopyJobSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCopyJobSummariesInput`)
     ///
-    /// - Returns: `ListCopyJobSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCopyJobSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4499,7 +4439,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCopyJobSummariesInput, ListCopyJobSummariesOutput>(ListCopyJobSummariesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCopyJobSummariesOutput>(ListCopyJobSummariesOutput.httpOutput(from:), ListCopyJobSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCopyJobSummariesInput, ListCopyJobSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCopyJobSummariesOutput>())
@@ -4531,9 +4470,9 @@ extension BackupClient {
     ///
     /// Returns metadata about your copy jobs.
     ///
-    /// - Parameter ListCopyJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCopyJobsInput`)
     ///
-    /// - Returns: `ListCopyJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCopyJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4566,7 +4505,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCopyJobsInput, ListCopyJobsOutput>(ListCopyJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCopyJobsOutput>(ListCopyJobsOutput.httpOutput(from:), ListCopyJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCopyJobsInput, ListCopyJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCopyJobsOutput>())
@@ -4598,9 +4536,9 @@ extension BackupClient {
     ///
     /// Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter ListFrameworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFrameworksInput`)
     ///
-    /// - Returns: `ListFrameworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFrameworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4633,7 +4571,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFrameworksInput, ListFrameworksOutput>(ListFrameworksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFrameworksOutput>(ListFrameworksOutput.httpOutput(from:), ListFrameworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFrameworksInput, ListFrameworksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFrameworksOutput>())
@@ -4665,9 +4602,9 @@ extension BackupClient {
     ///
     /// This operation returns a list of recovery points that have an associated index, belonging to the specified account. Optional parameters you can include are: MaxResults; NextToken; SourceResourceArns; CreatedBefore; CreatedAfter; and ResourceType.
     ///
-    /// - Parameter ListIndexedRecoveryPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexedRecoveryPointsInput`)
     ///
-    /// - Returns: `ListIndexedRecoveryPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexedRecoveryPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4701,7 +4638,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIndexedRecoveryPointsInput, ListIndexedRecoveryPointsOutput>(ListIndexedRecoveryPointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndexedRecoveryPointsOutput>(ListIndexedRecoveryPointsOutput.httpOutput(from:), ListIndexedRecoveryPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndexedRecoveryPointsInput, ListIndexedRecoveryPointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndexedRecoveryPointsOutput>())
@@ -4733,9 +4669,9 @@ extension BackupClient {
     ///
     /// This action returns metadata about active and previous legal holds.
     ///
-    /// - Parameter ListLegalHoldsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLegalHoldsInput`)
     ///
-    /// - Returns: `ListLegalHoldsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLegalHoldsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4768,7 +4704,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLegalHoldsInput, ListLegalHoldsOutput>(ListLegalHoldsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLegalHoldsOutput>(ListLegalHoldsOutput.httpOutput(from:), ListLegalHoldsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLegalHoldsInput, ListLegalHoldsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLegalHoldsOutput>())
@@ -4800,9 +4735,9 @@ extension BackupClient {
     ///
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     ///
-    /// - Parameter ListProtectedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtectedResourcesInput`)
     ///
-    /// - Returns: `ListProtectedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtectedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4835,7 +4770,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProtectedResourcesInput, ListProtectedResourcesOutput>(ListProtectedResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectedResourcesOutput>(ListProtectedResourcesOutput.httpOutput(from:), ListProtectedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectedResourcesInput, ListProtectedResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectedResourcesOutput>())
@@ -4867,9 +4801,9 @@ extension BackupClient {
     ///
     /// This request lists the protected resources corresponding to each backup vault.
     ///
-    /// - Parameter ListProtectedResourcesByBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtectedResourcesByBackupVaultInput`)
     ///
-    /// - Returns: `ListProtectedResourcesByBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtectedResourcesByBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4903,7 +4837,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutput>(ListProtectedResourcesByBackupVaultInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectedResourcesByBackupVaultOutput>(ListProtectedResourcesByBackupVaultOutput.httpOutput(from:), ListProtectedResourcesByBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectedResourcesByBackupVaultOutput>())
@@ -4935,9 +4868,9 @@ extension BackupClient {
     ///
     /// Returns detailed information about the recovery points stored in a backup vault.
     ///
-    /// - Parameter ListRecoveryPointsByBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPointsByBackupVaultInput`)
     ///
-    /// - Returns: `ListRecoveryPointsByBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPointsByBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4972,7 +4905,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecoveryPointsByBackupVaultInput, ListRecoveryPointsByBackupVaultOutput>(ListRecoveryPointsByBackupVaultInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPointsByBackupVaultOutput>(ListRecoveryPointsByBackupVaultOutput.httpOutput(from:), ListRecoveryPointsByBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPointsByBackupVaultInput, ListRecoveryPointsByBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPointsByBackupVaultOutput>())
@@ -5004,9 +4936,9 @@ extension BackupClient {
     ///
     /// This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold.
     ///
-    /// - Parameter ListRecoveryPointsByLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPointsByLegalHoldInput`)
     ///
-    /// - Returns: `ListRecoveryPointsByLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPointsByLegalHoldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5040,7 +4972,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecoveryPointsByLegalHoldInput, ListRecoveryPointsByLegalHoldOutput>(ListRecoveryPointsByLegalHoldInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPointsByLegalHoldOutput>(ListRecoveryPointsByLegalHoldOutput.httpOutput(from:), ListRecoveryPointsByLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPointsByLegalHoldInput, ListRecoveryPointsByLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPointsByLegalHoldOutput>())
@@ -5072,9 +5003,9 @@ extension BackupClient {
     ///
     /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN). For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     ///
-    /// - Parameter ListRecoveryPointsByResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPointsByResourceInput`)
     ///
-    /// - Returns: `ListRecoveryPointsByResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPointsByResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5109,7 +5040,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecoveryPointsByResourceInput, ListRecoveryPointsByResourceOutput>(ListRecoveryPointsByResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPointsByResourceOutput>(ListRecoveryPointsByResourceOutput.httpOutput(from:), ListRecoveryPointsByResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPointsByResourceInput, ListRecoveryPointsByResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPointsByResourceOutput>())
@@ -5141,9 +5071,9 @@ extension BackupClient {
     ///
     /// Returns details about your report jobs.
     ///
-    /// - Parameter ListReportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportJobsInput`)
     ///
-    /// - Returns: `ListReportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5177,7 +5107,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReportJobsInput, ListReportJobsOutput>(ListReportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportJobsOutput>(ListReportJobsOutput.httpOutput(from:), ListReportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportJobsInput, ListReportJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportJobsOutput>())
@@ -5209,9 +5138,9 @@ extension BackupClient {
     ///
     /// Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
     ///
-    /// - Parameter ListReportPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportPlansInput`)
     ///
-    /// - Returns: `ListReportPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5244,7 +5173,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReportPlansInput, ListReportPlansOutput>(ListReportPlansInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportPlansOutput>(ListReportPlansOutput.httpOutput(from:), ListReportPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportPlansInput, ListReportPlansOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportPlansOutput>())
@@ -5276,9 +5204,9 @@ extension BackupClient {
     ///
     /// Returns a list of restore access backup vaults associated with a specified backup vault.
     ///
-    /// - Parameter ListRestoreAccessBackupVaultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRestoreAccessBackupVaultsInput`)
     ///
-    /// - Returns: `ListRestoreAccessBackupVaultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRestoreAccessBackupVaultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5313,7 +5241,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRestoreAccessBackupVaultsInput, ListRestoreAccessBackupVaultsOutput>(ListRestoreAccessBackupVaultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRestoreAccessBackupVaultsOutput>(ListRestoreAccessBackupVaultsOutput.httpOutput(from:), ListRestoreAccessBackupVaultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRestoreAccessBackupVaultsInput, ListRestoreAccessBackupVaultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRestoreAccessBackupVaultsOutput>())
@@ -5345,9 +5272,9 @@ extension BackupClient {
     ///
     /// This request obtains a summary of restore jobs created or running within the the most recent 30 days. You can include parameters AccountID, State, ResourceType, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     ///
-    /// - Parameter ListRestoreJobSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRestoreJobSummariesInput`)
     ///
-    /// - Returns: `ListRestoreJobSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRestoreJobSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5380,7 +5307,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRestoreJobSummariesInput, ListRestoreJobSummariesOutput>(ListRestoreJobSummariesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRestoreJobSummariesOutput>(ListRestoreJobSummariesOutput.httpOutput(from:), ListRestoreJobSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRestoreJobSummariesInput, ListRestoreJobSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRestoreJobSummariesOutput>())
@@ -5412,9 +5338,9 @@ extension BackupClient {
     ///
     /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     ///
-    /// - Parameter ListRestoreJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRestoreJobsInput`)
     ///
-    /// - Returns: `ListRestoreJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRestoreJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5449,7 +5375,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRestoreJobsInput, ListRestoreJobsOutput>(ListRestoreJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRestoreJobsOutput>(ListRestoreJobsOutput.httpOutput(from:), ListRestoreJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRestoreJobsInput, ListRestoreJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRestoreJobsOutput>())
@@ -5481,9 +5406,9 @@ extension BackupClient {
     ///
     /// This returns restore jobs that contain the specified protected resource. You must include ResourceArn. You can optionally include NextToken, ByStatus, MaxResults, ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore.
     ///
-    /// - Parameter ListRestoreJobsByProtectedResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRestoreJobsByProtectedResourceInput`)
     ///
-    /// - Returns: `ListRestoreJobsByProtectedResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRestoreJobsByProtectedResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5518,7 +5443,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRestoreJobsByProtectedResourceInput, ListRestoreJobsByProtectedResourceOutput>(ListRestoreJobsByProtectedResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRestoreJobsByProtectedResourceOutput>(ListRestoreJobsByProtectedResourceOutput.httpOutput(from:), ListRestoreJobsByProtectedResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRestoreJobsByProtectedResourceInput, ListRestoreJobsByProtectedResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRestoreJobsByProtectedResourceOutput>())
@@ -5550,9 +5474,9 @@ extension BackupClient {
     ///
     /// Returns a list of restore testing plans.
     ///
-    /// - Parameter ListRestoreTestingPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRestoreTestingPlansInput`)
     ///
-    /// - Returns: `ListRestoreTestingPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRestoreTestingPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5585,7 +5509,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRestoreTestingPlansInput, ListRestoreTestingPlansOutput>(ListRestoreTestingPlansInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRestoreTestingPlansOutput>(ListRestoreTestingPlansOutput.httpOutput(from:), ListRestoreTestingPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRestoreTestingPlansInput, ListRestoreTestingPlansOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRestoreTestingPlansOutput>())
@@ -5617,9 +5540,9 @@ extension BackupClient {
     ///
     /// Returns a list of restore testing selections. Can be filtered by MaxResults and RestoreTestingPlanName.
     ///
-    /// - Parameter ListRestoreTestingSelectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRestoreTestingSelectionsInput`)
     ///
-    /// - Returns: `ListRestoreTestingSelectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRestoreTestingSelectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5653,7 +5576,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRestoreTestingSelectionsInput, ListRestoreTestingSelectionsOutput>(ListRestoreTestingSelectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRestoreTestingSelectionsOutput>(ListRestoreTestingSelectionsOutput.httpOutput(from:), ListRestoreTestingSelectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRestoreTestingSelectionsInput, ListRestoreTestingSelectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRestoreTestingSelectionsOutput>())
@@ -5685,9 +5607,9 @@ extension BackupClient {
     ///
     /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn. For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup. Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb. When this operation is called and when you include values of resourceArn that have an ARN other than arn:aws:backup, it may return one of the exceptions listed below. To prevent this exception, include only values representing resource types that are fully managed by Backup. These have an ARN that begins arn:aws:backup and they are noted in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table.
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5722,7 +5644,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsInput, ListTagsOutput>(ListTagsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -5754,9 +5675,9 @@ extension BackupClient {
     ///
     /// Sets a resource-based policy that is used to manage access permissions on the target backup vault. Requires a backup vault name and an access policy document in JSON format.
     ///
-    /// - Parameter PutBackupVaultAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBackupVaultAccessPolicyInput`)
     ///
-    /// - Returns: `PutBackupVaultAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBackupVaultAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5793,7 +5714,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBackupVaultAccessPolicyInput, PutBackupVaultAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBackupVaultAccessPolicyOutput>(PutBackupVaultAccessPolicyOutput.httpOutput(from:), PutBackupVaultAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBackupVaultAccessPolicyInput, PutBackupVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBackupVaultAccessPolicyOutput>())
@@ -5825,9 +5745,9 @@ extension BackupClient {
     ///
     /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that controls the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault. Backup Vault Lock has been assessed by Cohasset Associates for use in environments that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about how Backup Vault Lock relates to these regulations, see the [Cohasset Associates Compliance Assessment.](https://docs.aws.amazon.com/aws-backup/latest/devguide/samples/cohassetreport.zip) For more information, see [Backup Vault Lock](https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html).
     ///
-    /// - Parameter PutBackupVaultLockConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBackupVaultLockConfigurationInput`)
     ///
-    /// - Returns: `PutBackupVaultLockConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBackupVaultLockConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5865,7 +5785,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBackupVaultLockConfigurationInput, PutBackupVaultLockConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBackupVaultLockConfigurationOutput>(PutBackupVaultLockConfigurationOutput.httpOutput(from:), PutBackupVaultLockConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBackupVaultLockConfigurationInput, PutBackupVaultLockConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBackupVaultLockConfigurationOutput>())
@@ -5897,9 +5816,9 @@ extension BackupClient {
     ///
     /// Turns on notifications on a backup vault for the specified topic and events.
     ///
-    /// - Parameter PutBackupVaultNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBackupVaultNotificationsInput`)
     ///
-    /// - Returns: `PutBackupVaultNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBackupVaultNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5936,7 +5855,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBackupVaultNotificationsInput, PutBackupVaultNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBackupVaultNotificationsOutput>(PutBackupVaultNotificationsOutput.httpOutput(from:), PutBackupVaultNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBackupVaultNotificationsInput, PutBackupVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBackupVaultNotificationsOutput>())
@@ -5968,9 +5886,9 @@ extension BackupClient {
     ///
     /// This request allows you to send your independent self-run restore test validation results. RestoreJobId and ValidationStatus are required. Optionally, you can input a ValidationStatusMessage.
     ///
-    /// - Parameter PutRestoreValidationResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRestoreValidationResultInput`)
     ///
-    /// - Returns: `PutRestoreValidationResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRestoreValidationResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6008,7 +5926,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRestoreValidationResultInput, PutRestoreValidationResultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRestoreValidationResultOutput>(PutRestoreValidationResultOutput.httpOutput(from:), PutRestoreValidationResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRestoreValidationResultInput, PutRestoreValidationResultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRestoreValidationResultOutput>())
@@ -6040,9 +5957,9 @@ extension BackupClient {
     ///
     /// Revokes access to a restore access backup vault, removing the ability to restore from its recovery points and permanently deleting the vault.
     ///
-    /// - Parameter RevokeRestoreAccessBackupVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeRestoreAccessBackupVaultInput`)
     ///
-    /// - Returns: `RevokeRestoreAccessBackupVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeRestoreAccessBackupVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6078,7 +5995,6 @@ extension BackupClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RevokeRestoreAccessBackupVaultInput, RevokeRestoreAccessBackupVaultOutput>(RevokeRestoreAccessBackupVaultInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeRestoreAccessBackupVaultOutput>(RevokeRestoreAccessBackupVaultOutput.httpOutput(from:), RevokeRestoreAccessBackupVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeRestoreAccessBackupVaultInput, RevokeRestoreAccessBackupVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeRestoreAccessBackupVaultOutput>())
@@ -6110,9 +6026,9 @@ extension BackupClient {
     ///
     /// Starts an on-demand backup job for the specified resource.
     ///
-    /// - Parameter StartBackupJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBackupJobInput`)
     ///
-    /// - Returns: `StartBackupJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBackupJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6152,7 +6068,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBackupJobInput, StartBackupJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBackupJobOutput>(StartBackupJobOutput.httpOutput(from:), StartBackupJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBackupJobInput, StartBackupJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBackupJobOutput>())
@@ -6182,11 +6097,11 @@ extension BackupClient {
 
     /// Performs the `StartCopyJob` operation on the `Backup` service.
     ///
-    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups.
+    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See [Copy job retry](https://docs.aws.amazon.com/aws-backup/latest/devguide/recov-point-create-a-copy.html#backup-copy-retry) for information on how Backup retries copy job operations.
     ///
-    /// - Parameter StartCopyJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCopyJobInput`)
     ///
-    /// - Returns: `StartCopyJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCopyJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6226,7 +6141,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCopyJobInput, StartCopyJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCopyJobOutput>(StartCopyJobOutput.httpOutput(from:), StartCopyJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCopyJobInput, StartCopyJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCopyJobOutput>())
@@ -6258,9 +6172,9 @@ extension BackupClient {
     ///
     /// Starts an on-demand report job for the specified report plan.
     ///
-    /// - Parameter StartReportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReportJobInput`)
     ///
-    /// - Returns: `StartReportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6298,7 +6212,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReportJobInput, StartReportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReportJobOutput>(StartReportJobOutput.httpOutput(from:), StartReportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReportJobInput, StartReportJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReportJobOutput>())
@@ -6330,9 +6243,9 @@ extension BackupClient {
     ///
     /// Recovers the saved resource identified by an Amazon Resource Name (ARN).
     ///
-    /// - Parameter StartRestoreJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRestoreJobInput`)
     ///
-    /// - Returns: `StartRestoreJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRestoreJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6371,7 +6284,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRestoreJobInput, StartRestoreJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRestoreJobOutput>(StartRestoreJobOutput.httpOutput(from:), StartRestoreJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRestoreJobInput, StartRestoreJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRestoreJobOutput>())
@@ -6421,9 +6333,9 @@ extension BackupClient {
     ///
     /// * Amazon RDS
     ///
-    /// - Parameter StopBackupJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBackupJobInput`)
     ///
-    /// - Returns: `StopBackupJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBackupJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6458,7 +6370,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBackupJobInput, StopBackupJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBackupJobOutput>(StopBackupJobOutput.httpOutput(from:), StopBackupJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBackupJobInput, StopBackupJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBackupJobOutput>())
@@ -6490,9 +6401,9 @@ extension BackupClient {
     ///
     /// Assigns a set of key-value pairs to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6530,7 +6441,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6562,9 +6472,9 @@ extension BackupClient {
     ///
     /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN) This API is not supported for recovery points for resource types including Aurora, Amazon DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon RDS.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6601,7 +6511,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6633,9 +6542,9 @@ extension BackupClient {
     ///
     /// Updates the specified backup plan. The new version is uniquely identified by its ID.
     ///
-    /// - Parameter UpdateBackupPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBackupPlanInput`)
     ///
-    /// - Returns: `UpdateBackupPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackupPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6672,7 +6581,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBackupPlanInput, UpdateBackupPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBackupPlanOutput>(UpdateBackupPlanOutput.httpOutput(from:), UpdateBackupPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBackupPlanInput, UpdateBackupPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBackupPlanOutput>())
@@ -6704,9 +6612,9 @@ extension BackupClient {
     ///
     /// Updates the specified framework.
     ///
-    /// - Parameter UpdateFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFrameworkInput`)
     ///
-    /// - Returns: `UpdateFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6747,7 +6655,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFrameworkInput, UpdateFrameworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFrameworkOutput>(UpdateFrameworkOutput.httpOutput(from:), UpdateFrameworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFrameworkInput, UpdateFrameworkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFrameworkOutput>())
@@ -6779,9 +6686,9 @@ extension BackupClient {
     ///
     /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     ///
-    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalSettingsInput`)
     ///
-    /// - Returns: `UpdateGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6818,7 +6725,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutput>(UpdateGlobalSettingsOutput.httpOutput(from:), UpdateGlobalSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalSettingsOutput>())
@@ -6850,9 +6756,9 @@ extension BackupClient {
     ///
     /// This operation updates the settings of a recovery point index. Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
     ///
-    /// - Parameter UpdateRecoveryPointIndexSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecoveryPointIndexSettingsInput`)
     ///
-    /// - Returns: `UpdateRecoveryPointIndexSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecoveryPointIndexSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6890,7 +6796,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecoveryPointIndexSettingsInput, UpdateRecoveryPointIndexSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecoveryPointIndexSettingsOutput>(UpdateRecoveryPointIndexSettingsOutput.httpOutput(from:), UpdateRecoveryPointIndexSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecoveryPointIndexSettingsInput, UpdateRecoveryPointIndexSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecoveryPointIndexSettingsOutput>())
@@ -6922,9 +6827,9 @@ extension BackupClient {
     ///
     /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. If your lifecycle currently uses the parameters DeleteAfterDays and MoveToColdStorageAfterDays, include these parameters and their values when you call this operation. Not including them may result in your plan updating with null values. This operation does not support continuous backups.
     ///
-    /// - Parameter UpdateRecoveryPointLifecycleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecoveryPointLifecycleInput`)
     ///
-    /// - Returns: `UpdateRecoveryPointLifecycleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecoveryPointLifecycleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6962,7 +6867,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecoveryPointLifecycleInput, UpdateRecoveryPointLifecycleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecoveryPointLifecycleOutput>(UpdateRecoveryPointLifecycleOutput.httpOutput(from:), UpdateRecoveryPointLifecycleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecoveryPointLifecycleInput, UpdateRecoveryPointLifecycleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecoveryPointLifecycleOutput>())
@@ -6994,9 +6898,9 @@ extension BackupClient {
     ///
     /// Updates the current service opt-in settings for the Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
     ///
-    /// - Parameter UpdateRegionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRegionSettingsInput`)
     ///
-    /// - Returns: `UpdateRegionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRegionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7032,7 +6936,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRegionSettingsInput, UpdateRegionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRegionSettingsOutput>(UpdateRegionSettingsOutput.httpOutput(from:), UpdateRegionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRegionSettingsInput, UpdateRegionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRegionSettingsOutput>())
@@ -7064,9 +6967,9 @@ extension BackupClient {
     ///
     /// Updates the specified report plan.
     ///
-    /// - Parameter UpdateReportPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReportPlanInput`)
     ///
-    /// - Returns: `UpdateReportPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReportPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7105,7 +7008,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReportPlanInput, UpdateReportPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReportPlanOutput>(UpdateReportPlanOutput.httpOutput(from:), UpdateReportPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReportPlanInput, UpdateReportPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReportPlanOutput>())
@@ -7147,9 +7049,9 @@ extension BackupClient {
     ///
     /// * SelectionWindowDays
     ///
-    /// - Parameter UpdateRestoreTestingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRestoreTestingPlanInput`)
     ///
-    /// - Returns: `UpdateRestoreTestingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRestoreTestingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7187,7 +7089,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRestoreTestingPlanInput, UpdateRestoreTestingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRestoreTestingPlanOutput>(UpdateRestoreTestingPlanOutput.httpOutput(from:), UpdateRestoreTestingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRestoreTestingPlanInput, UpdateRestoreTestingPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRestoreTestingPlanOutput>())
@@ -7219,9 +7120,9 @@ extension BackupClient {
     ///
     /// Updates the specified restore testing selection. Most elements except the RestoreTestingSelectionName can be updated with this request. You can use either protected resource ARNs or conditions, but not both.
     ///
-    /// - Parameter UpdateRestoreTestingSelectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRestoreTestingSelectionInput`)
     ///
-    /// - Returns: `UpdateRestoreTestingSelectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRestoreTestingSelectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7259,7 +7160,6 @@ extension BackupClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRestoreTestingSelectionInput, UpdateRestoreTestingSelectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRestoreTestingSelectionOutput>(UpdateRestoreTestingSelectionOutput.httpOutput(from:), UpdateRestoreTestingSelectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRestoreTestingSelectionInput, UpdateRestoreTestingSelectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRestoreTestingSelectionOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MemoryDBClient: ClientRuntime.Client {
     public static let clientName = "MemoryDBClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MemoryDBClient.MemoryDBClientConfiguration
     let serviceName = "MemoryDB"
@@ -374,15 +373,15 @@ extension MemoryDBClient {
     ///
     /// Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see [Applying the service updates](https://docs.aws.amazon.com/MemoryDB/latest/devguide/managing-updates.html#applying-updates).
     ///
-    /// - Parameter BatchUpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateClusterInput`)
     ///
-    /// - Returns: `BatchUpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceUpdateNotFoundFault` :
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceUpdateNotFoundFault` : The specified service update does not exist.
     public func batchUpdateCluster(input: BatchUpdateClusterInput) async throws -> BatchUpdateClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -409,7 +408,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateClusterInput, BatchUpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateClusterOutput>(BatchUpdateClusterOutput.httpOutput(from:), BatchUpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateClusterInput, BatchUpdateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateClusterOutput>())
@@ -444,21 +442,21 @@ extension MemoryDBClient {
     ///
     /// Makes a copy of an existing snapshot.
     ///
-    /// - Parameter CopySnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopySnapshotInput`)
     ///
-    /// - Returns: `CopySnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopySnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidSnapshotStateFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotAlreadyExistsFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SnapshotQuotaExceededFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidSnapshotStateFault` : The snapshot is not in a valid state for the requested operation.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotAlreadyExistsFault` : A snapshot with the specified name already exists.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots allowed.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -485,7 +483,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopySnapshotInput, CopySnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopySnapshotOutput>(CopySnapshotOutput.httpOutput(from:), CopySnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopySnapshotInput, CopySnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopySnapshotOutput>())
@@ -520,20 +517,20 @@ extension MemoryDBClient {
     ///
     /// Creates an Access Control List. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
-    /// - Parameter CreateACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateACLInput`)
     ///
-    /// - Returns: `CreateACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLAlreadyExistsFault` :
-    /// - `ACLQuotaExceededFault` :
-    /// - `DefaultUserRequired` :
-    /// - `DuplicateUserNameFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `TagQuotaPerResourceExceeded` :
-    /// - `UserNotFoundFault` :
+    /// - `ACLAlreadyExistsFault` : An ACL with the specified name already exists.
+    /// - `ACLQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of ACLs allowed.
+    /// - `DefaultUserRequired` : A default user is required and must be specified.
+    /// - `DuplicateUserNameFault` : A user with the specified name already exists.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func createACL(input: CreateACLInput) async throws -> CreateACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -560,7 +557,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateACLInput, CreateACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateACLOutput>(CreateACLOutput.httpOutput(from:), CreateACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateACLInput, CreateACLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateACLOutput>())
@@ -595,31 +591,31 @@ extension MemoryDBClient {
     ///
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterAlreadyExistsFault` :
-    /// - `ClusterQuotaForCustomerExceededFault` :
-    /// - `InsufficientClusterCapacityFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidCredentialsException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterAlreadyExistsFault` : A cluster with the specified name already exists.
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
+    /// - `InsufficientClusterCapacityFault` : The cluster does not have sufficient capacity to perform the requested operation.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidCredentialsException` : The provided credentials are not valid.
     /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidVPCNetworkStateFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is not in a valid state for the requested operation.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
-    /// - `NodeQuotaForClusterExceededFault` :
-    /// - `NodeQuotaForCustomerExceededFault` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `ShardsPerClusterQuotaExceededFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this customer.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `ShardsPerClusterQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of shards allowed per cluster.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -646,7 +642,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -681,19 +676,19 @@ extension MemoryDBClient {
     ///
     /// Creates a new multi-Region cluster.
     ///
-    /// - Parameter CreateMultiRegionClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMultiRegionClusterInput`)
     ///
-    /// - Returns: `CreateMultiRegionClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultiRegionClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterQuotaForCustomerExceededFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterAlreadyExistsFault` : A multi-Region cluster with the specified name already exists.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createMultiRegionCluster(input: CreateMultiRegionClusterInput) async throws -> CreateMultiRegionClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -720,7 +715,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultiRegionClusterOutput>(CreateMultiRegionClusterOutput.httpOutput(from:), CreateMultiRegionClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultiRegionClusterOutput>())
@@ -755,20 +749,20 @@ extension MemoryDBClient {
     ///
     /// Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For more information, see [Configuring engine parameters using parameter groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html).
     ///
-    /// - Parameter CreateParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateParameterGroupInput`)
     ///
-    /// - Returns: `CreateParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupAlreadyExistsFault` :
-    /// - `ParameterGroupQuotaExceededFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupAlreadyExistsFault` : A parameter group with the specified name already exists.
+    /// - `ParameterGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of parameter groups allowed.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -795,7 +789,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateParameterGroupInput, CreateParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateParameterGroupOutput>(CreateParameterGroupOutput.httpOutput(from:), CreateParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateParameterGroupInput, CreateParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateParameterGroupOutput>())
@@ -830,21 +823,21 @@ extension MemoryDBClient {
     ///
     /// Creates a copy of an entire cluster at a specific moment in time.
     ///
-    /// - Parameter CreateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotAlreadyExistsFault` :
-    /// - `SnapshotQuotaExceededFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotAlreadyExistsFault` : A snapshot with the specified name already exists.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots allowed.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -871,7 +864,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput>(CreateSnapshotOutput.httpOutput(from:), CreateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotOutput>())
@@ -906,20 +898,20 @@ extension MemoryDBClient {
     ///
     /// Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see [Subnets and subnet groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html).
     ///
-    /// - Parameter CreateSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubnetGroupInput`)
     ///
-    /// - Returns: `CreateSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidSubnet` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupAlreadyExistsFault` :
-    /// - `SubnetGroupQuotaExceededFault` :
-    /// - `SubnetNotAllowedFault` :
-    /// - `SubnetQuotaExceededFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `InvalidSubnet` : The specified subnet is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupAlreadyExistsFault` : A subnet group with the specified name already exists.
+    /// - `SubnetGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of subnet groups allowed.
+    /// - `SubnetNotAllowedFault` : The specified subnet is not allowed for this operation.
+    /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of subnets allowed.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -946,7 +938,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubnetGroupInput, CreateSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubnetGroupOutput>(CreateSubnetGroupOutput.httpOutput(from:), CreateSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubnetGroupInput, CreateSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubnetGroupOutput>())
@@ -981,19 +972,19 @@ extension MemoryDBClient {
     ///
     /// Creates a MemoryDB user. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DuplicateUserNameFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `TagQuotaPerResourceExceeded` :
-    /// - `UserAlreadyExistsFault` :
-    /// - `UserQuotaExceededFault` :
+    /// - `DuplicateUserNameFault` : A user with the specified name already exists.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
+    /// - `UserAlreadyExistsFault` : A user with the specified name already exists.
+    /// - `UserQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of users allowed.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1020,7 +1011,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1055,16 +1045,16 @@ extension MemoryDBClient {
     ///
     /// Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
-    /// - Parameter DeleteACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteACLInput`)
     ///
-    /// - Returns: `DeleteACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidParameterValueException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     public func deleteACL(input: DeleteACLInput) async throws -> DeleteACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1091,7 +1081,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteACLInput, DeleteACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteACLOutput>(DeleteACLOutput.httpOutput(from:), DeleteACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteACLInput, DeleteACLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteACLOutput>())
@@ -1126,19 +1115,19 @@ extension MemoryDBClient {
     ///
     /// Deletes a cluster. It also deletes all associated nodes and node endpoints. CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotAlreadyExistsFault` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotAlreadyExistsFault` : A snapshot with the specified name already exists.
     public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1165,7 +1154,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -1200,15 +1188,15 @@ extension MemoryDBClient {
     ///
     /// Deletes an existing multi-Region cluster.
     ///
-    /// - Parameter DeleteMultiRegionClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMultiRegionClusterInput`)
     ///
-    /// - Returns: `DeleteMultiRegionClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMultiRegionClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     public func deleteMultiRegionCluster(input: DeleteMultiRegionClusterInput) async throws -> DeleteMultiRegionClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -1236,7 +1224,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMultiRegionClusterOutput>(DeleteMultiRegionClusterOutput.httpOutput(from:), DeleteMultiRegionClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMultiRegionClusterOutput>())
@@ -1271,18 +1258,18 @@ extension MemoryDBClient {
     ///
     /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the default parameter groups in your account.
     ///
-    /// - Parameter DeleteParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteParameterGroupInput`)
     ///
-    /// - Returns: `DeleteParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1309,7 +1296,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteParameterGroupInput, DeleteParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteParameterGroupOutput>(DeleteParameterGroupOutput.httpOutput(from:), DeleteParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteParameterGroupInput, DeleteParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteParameterGroupOutput>())
@@ -1344,18 +1330,18 @@ extension MemoryDBClient {
     ///
     /// Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
     ///
-    /// - Parameter DeleteSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotInput`)
     ///
-    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidSnapshotStateFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidSnapshotStateFault` : The snapshot is not in a valid state for the requested operation.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1382,7 +1368,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutput>(DeleteSnapshotOutput.httpOutput(from:), DeleteSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotOutput>())
@@ -1417,16 +1402,16 @@ extension MemoryDBClient {
     ///
     /// Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
     ///
-    /// - Parameter DeleteSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupInUseFault` :
-    /// - `SubnetGroupNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupInUseFault` : The subnet group is currently in use and cannot be deleted.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
     public func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1453,7 +1438,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSubnetGroupInput, DeleteSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubnetGroupOutput>(DeleteSubnetGroupOutput.httpOutput(from:), DeleteSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubnetGroupInput, DeleteSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubnetGroupOutput>())
@@ -1488,16 +1472,16 @@ extension MemoryDBClient {
     ///
     /// Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidUserStateFault` :
-    /// - `UserNotFoundFault` :
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidUserStateFault` : The user is not in a valid state for the requested operation.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1524,7 +1508,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -1559,15 +1542,15 @@ extension MemoryDBClient {
     ///
     /// Returns a list of ACLs.
     ///
-    /// - Parameter DescribeACLsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeACLsInput`)
     ///
-    /// - Returns: `DescribeACLsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeACLsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
     public func describeACLs(input: DescribeACLsInput) async throws -> DescribeACLsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1594,7 +1577,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeACLsInput, DescribeACLsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeACLsOutput>(DescribeACLsOutput.httpOutput(from:), DescribeACLsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeACLsInput, DescribeACLsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeACLsOutput>())
@@ -1629,17 +1611,17 @@ extension MemoryDBClient {
     ///
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
     ///
-    /// - Parameter DescribeClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: `DescribeClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1666,7 +1648,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClustersInput, DescribeClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClustersOutput>(DescribeClustersOutput.httpOutput(from:), DescribeClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClustersOutput>())
@@ -1701,16 +1682,16 @@ extension MemoryDBClient {
     ///
     /// Returns a list of the available Redis OSS engine versions.
     ///
-    /// - Parameter DescribeEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeEngineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1737,7 +1718,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngineVersionsOutput>(DescribeEngineVersionsOutput.httpOutput(from:), DescribeEngineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngineVersionsOutput>())
@@ -1772,16 +1752,16 @@ extension MemoryDBClient {
     ///
     /// Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
-    /// - Parameter DescribeEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1808,7 +1788,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -1843,16 +1822,16 @@ extension MemoryDBClient {
     ///
     /// Returns details about one or more multi-Region clusters.
     ///
-    /// - Parameter DescribeMultiRegionClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionClustersInput`)
     ///
-    /// - Returns: `DescribeMultiRegionClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     public func describeMultiRegionClusters(input: DescribeMultiRegionClustersInput) async throws -> DescribeMultiRegionClustersOutput {
         let context = Smithy.ContextBuilder()
@@ -1880,7 +1859,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionClustersOutput>(DescribeMultiRegionClustersOutput.httpOutput(from:), DescribeMultiRegionClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiRegionClustersOutput>())
@@ -1911,21 +1889,163 @@ extension MemoryDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeParameterGroups` operation on the `MemoryDB` service.
+    /// Performs the `DescribeMultiRegionParameterGroups` operation on the `MemoryDB` service.
     ///
-    /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
+    /// Returns a list of multi-region parameter groups.
     ///
-    /// - Parameter DescribeParameterGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeParameterGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    public func describeMultiRegionParameterGroups(input: DescribeMultiRegionParameterGroupsInput) async throws -> DescribeMultiRegionParameterGroupsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMultiRegionParameterGroups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(DescribeMultiRegionParameterGroupsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionParameterGroupsOutput>(DescribeMultiRegionParameterGroupsOutput.httpOutput(from:), DescribeMultiRegionParameterGroupsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiRegionParameterGroupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MemoryDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMultiRegionParameterGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(xAmzTarget: "AmazonMemoryDB.DescribeMultiRegionParameterGroups"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMultiRegionParameterGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMultiRegionParameterGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMultiRegionParameterGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeMultiRegionParameters` operation on the `MemoryDB` service.
+    ///
+    /// Returns the detailed parameter list for a particular multi-region parameter group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionParametersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionParametersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    public func describeMultiRegionParameters(input: DescribeMultiRegionParametersInput) async throws -> DescribeMultiRegionParametersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMultiRegionParameters")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(DescribeMultiRegionParametersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionParametersOutput>(DescribeMultiRegionParametersOutput.httpOutput(from:), DescribeMultiRegionParametersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiRegionParametersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MemoryDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMultiRegionParametersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(xAmzTarget: "AmazonMemoryDB.DescribeMultiRegionParameters"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMultiRegionParametersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMultiRegionParametersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMultiRegionParameters")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeParameterGroups` operation on the `MemoryDB` service.
+    ///
+    /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeParameterGroupsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeParameterGroupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1952,7 +2072,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeParameterGroupsInput, DescribeParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeParameterGroupsOutput>(DescribeParameterGroupsOutput.httpOutput(from:), DescribeParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeParameterGroupsInput, DescribeParameterGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeParameterGroupsOutput>())
@@ -1987,17 +2106,17 @@ extension MemoryDBClient {
     ///
     /// Returns the detailed parameter list for a particular parameter group.
     ///
-    /// - Parameter DescribeParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeParametersInput`)
     ///
-    /// - Returns: `DescribeParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2024,7 +2143,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeParametersInput, DescribeParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeParametersOutput>(DescribeParametersOutput.httpOutput(from:), DescribeParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeParametersInput, DescribeParametersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeParametersOutput>())
@@ -2059,17 +2177,17 @@ extension MemoryDBClient {
     ///
     /// Returns information about reserved nodes for this account, or about a specified reserved node.
     ///
-    /// - Parameter DescribeReservedNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservedNodesInput`)
     ///
-    /// - Returns: `DescribeReservedNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservedNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `ReservedNodeNotFoundFault` : The requested node does not exist.
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2096,7 +2214,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOutput>(DescribeReservedNodesOutput.httpOutput(from:), DescribeReservedNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedNodesOutput>())
@@ -2131,17 +2248,17 @@ extension MemoryDBClient {
     ///
     /// Lists available reserved node offerings.
     ///
-    /// - Parameter DescribeReservedNodesOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservedNodesOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedNodesOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservedNodesOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2168,7 +2285,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOfferingsOutput>(DescribeReservedNodesOfferingsOutput.httpOutput(from:), DescribeReservedNodesOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedNodesOfferingsOutput>())
@@ -2203,15 +2319,15 @@ extension MemoryDBClient {
     ///
     /// Returns details of the service updates.
     ///
-    /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceUpdatesInput`)
     ///
-    /// - Returns: `DescribeServiceUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2238,7 +2354,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceUpdatesOutput>(DescribeServiceUpdatesOutput.httpOutput(from:), DescribeServiceUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServiceUpdatesOutput>())
@@ -2273,17 +2388,17 @@ extension MemoryDBClient {
     ///
     /// Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster.
     ///
-    /// - Parameter DescribeSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotsInput`)
     ///
-    /// - Returns: `DescribeSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
     public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2310,7 +2425,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutput>(DescribeSnapshotsOutput.httpOutput(from:), DescribeSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotsOutput>())
@@ -2345,15 +2459,15 @@ extension MemoryDBClient {
     ///
     /// Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
     ///
-    /// - Parameter DescribeSubnetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeSubnetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
     public func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2380,7 +2494,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSubnetGroupsOutput>(DescribeSubnetGroupsOutput.httpOutput(from:), DescribeSubnetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSubnetGroupsOutput>())
@@ -2415,15 +2528,15 @@ extension MemoryDBClient {
     ///
     /// Returns a list of users.
     ///
-    /// - Parameter DescribeUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsersInput`)
     ///
-    /// - Returns: `DescribeUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `UserNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2450,7 +2563,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsersInput, DescribeUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUsersOutput>(DescribeUsersOutput.httpOutput(from:), DescribeUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUsersInput, DescribeUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUsersOutput>())
@@ -2485,21 +2597,21 @@ extension MemoryDBClient {
     ///
     /// Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
     ///
-    /// - Parameter FailoverShardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverShardInput`)
     ///
-    /// - Returns: `FailoverShardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverShardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `APICallRateForCustomerExceededFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidKMSKeyFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ShardNotFoundFault` :
-    /// - `TestFailoverNotAvailableFault` :
+    /// - `APICallRateForCustomerExceededFault` : The customer has exceeded the maximum number of API requests allowed per time period.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidKMSKeyFault` : The specified KMS key is not valid or accessible.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ShardNotFoundFault` : The specified shard does not exist.
+    /// - `TestFailoverNotAvailableFault` : Test failover is not available for this cluster configuration.
     public func failoverShard(input: FailoverShardInput) async throws -> FailoverShardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2526,7 +2638,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverShardInput, FailoverShardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverShardOutput>(FailoverShardOutput.httpOutput(from:), FailoverShardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverShardInput, FailoverShardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverShardOutput>())
@@ -2561,15 +2672,15 @@ extension MemoryDBClient {
     ///
     /// Lists the allowed updates for a multi-Region cluster.
     ///
-    /// - Parameter ListAllowedMultiRegionClusterUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAllowedMultiRegionClusterUpdatesInput`)
     ///
-    /// - Returns: `ListAllowedMultiRegionClusterUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAllowedMultiRegionClusterUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     public func listAllowedMultiRegionClusterUpdates(input: ListAllowedMultiRegionClusterUpdatesInput) async throws -> ListAllowedMultiRegionClusterUpdatesOutput {
         let context = Smithy.ContextBuilder()
@@ -2597,7 +2708,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAllowedMultiRegionClusterUpdatesOutput>(ListAllowedMultiRegionClusterUpdatesOutput.httpOutput(from:), ListAllowedMultiRegionClusterUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAllowedMultiRegionClusterUpdatesOutput>())
@@ -2632,17 +2742,17 @@ extension MemoryDBClient {
     ///
     /// Lists all available node types that you can scale to from your cluster's current node type. When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
     ///
-    /// - Parameter ListAllowedNodeTypeUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAllowedNodeTypeUpdatesInput`)
     ///
-    /// - Returns: `ListAllowedNodeTypeUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAllowedNodeTypeUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput) async throws -> ListAllowedNodeTypeUpdatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2669,7 +2779,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAllowedNodeTypeUpdatesOutput>(ListAllowedNodeTypeUpdatesOutput.httpOutput(from:), ListAllowedNodeTypeUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAllowedNodeTypeUpdatesOutput>())
@@ -2704,24 +2813,24 @@ extension MemoryDBClient {
     ///
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidARNFault` :
-    /// - `InvalidClusterStateFault` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidARNFault` : The specified Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `UserNotFoundFault` :
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2748,7 +2857,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -2783,20 +2891,20 @@ extension MemoryDBClient {
     ///
     /// Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
     ///
-    /// - Parameter PurchaseReservedNodesOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseReservedNodesOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedNodesOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseReservedNodesOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `ReservedNodeAlreadyExistsFault` : You already have a reservation with the given identifier.
     /// - `ReservedNodeQuotaExceededFault` : The request cannot be processed because it would exceed the user's node quota.
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2823,7 +2931,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseReservedNodesOfferingOutput>(PurchaseReservedNodesOfferingOutput.httpOutput(from:), PurchaseReservedNodesOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseReservedNodesOfferingOutput>())
@@ -2858,18 +2965,18 @@ extension MemoryDBClient {
     ///
     /// Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
     ///
-    /// - Parameter ResetParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetParameterGroupInput`)
     ///
-    /// - Returns: `ResetParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func resetParameterGroup(input: ResetParameterGroupInput) async throws -> ResetParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2896,7 +3003,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetParameterGroupInput, ResetParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetParameterGroupOutput>(ResetParameterGroupOutput.httpOutput(from:), ResetParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetParameterGroupInput, ResetParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetParameterGroupOutput>())
@@ -2931,26 +3037,26 @@ extension MemoryDBClient {
     ///
     /// Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). When you add tags to multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidARNFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterValueException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidARNFault` : The specified Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
-    /// - `UserNotFoundFault` :
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2977,7 +3083,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3012,26 +3117,26 @@ extension MemoryDBClient {
     ///
     /// Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). When you remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidARNFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterValueException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidARNFault` : The specified Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `TagNotFoundFault` :
-    /// - `UserNotFoundFault` :
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `TagNotFoundFault` : The specified tag does not exist.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3058,7 +3163,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3093,20 +3197,20 @@ extension MemoryDBClient {
     ///
     /// Changes the list of users that belong to the Access Control List.
     ///
-    /// - Parameter UpdateACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateACLInput`)
     ///
-    /// - Returns: `UpdateACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `DefaultUserRequired` :
-    /// - `DuplicateUserNameFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `UserNotFoundFault` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `DefaultUserRequired` : A default user is required and must be specified.
+    /// - `DuplicateUserNameFault` : A user with the specified name already exists.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func updateACL(input: UpdateACLInput) async throws -> UpdateACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3133,7 +3237,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateACLInput, UpdateACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateACLOutput>(UpdateACLOutput.httpOutput(from:), UpdateACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateACLInput, UpdateACLOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateACLOutput>())
@@ -3168,29 +3271,29 @@ extension MemoryDBClient {
     ///
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `ClusterQuotaForCustomerExceededFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidKMSKeyFault` :
-    /// - `InvalidNodeStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidVPCNetworkStateFault` :
-    /// - `NodeQuotaForClusterExceededFault` :
-    /// - `NodeQuotaForCustomerExceededFault` :
-    /// - `NoOperationFault` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `ShardsPerClusterQuotaExceededFault` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidKMSKeyFault` : The specified KMS key is not valid or accessible.
+    /// - `InvalidNodeStateFault` : The node is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is not in a valid state for the requested operation.
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this customer.
+    /// - `NoOperationFault` : The requested operation would result in no changes.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `ShardsPerClusterQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of shards allowed per cluster.
     public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3217,7 +3320,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
@@ -3252,16 +3354,16 @@ extension MemoryDBClient {
     ///
     /// Updates the configuration of an existing multi-Region cluster.
     ///
-    /// - Parameter UpdateMultiRegionClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMultiRegionClusterInput`)
     ///
-    /// - Returns: `UpdateMultiRegionClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMultiRegionClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
     public func updateMultiRegionCluster(input: UpdateMultiRegionClusterInput) async throws -> UpdateMultiRegionClusterOutput {
@@ -3290,7 +3392,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMultiRegionClusterOutput>(UpdateMultiRegionClusterOutput.httpOutput(from:), UpdateMultiRegionClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMultiRegionClusterOutput>())
@@ -3325,18 +3426,18 @@ extension MemoryDBClient {
     ///
     /// Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
-    /// - Parameter UpdateParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateParameterGroupInput`)
     ///
-    /// - Returns: `UpdateParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3363,7 +3464,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateParameterGroupInput, UpdateParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateParameterGroupOutput>(UpdateParameterGroupOutput.httpOutput(from:), UpdateParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateParameterGroupInput, UpdateParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateParameterGroupOutput>())
@@ -3398,19 +3498,19 @@ extension MemoryDBClient {
     ///
     /// Updates a subnet group. For more information, see [Updating a subnet group](https://docs.aws.amazon.com/MemoryDB/latest/devguide/ubnetGroups.Modifying.html)
     ///
-    /// - Parameter UpdateSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubnetGroupInput`)
     ///
-    /// - Returns: `UpdateSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidSubnet` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `SubnetInUse` :
-    /// - `SubnetNotAllowedFault` :
-    /// - `SubnetQuotaExceededFault` :
+    /// - `InvalidSubnet` : The specified subnet is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `SubnetInUse` : The subnet is currently in use and cannot be deleted.
+    /// - `SubnetNotAllowedFault` : The specified subnet is not allowed for this operation.
+    /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of subnets allowed.
     public func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3437,7 +3537,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubnetGroupInput, UpdateSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubnetGroupOutput>(UpdateSubnetGroupOutput.httpOutput(from:), UpdateSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubnetGroupInput, UpdateSubnetGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubnetGroupOutput>())
@@ -3472,17 +3571,17 @@ extension MemoryDBClient {
     ///
     /// Changes user password(s) and/or access string.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidUserStateFault` :
-    /// - `UserNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidUserStateFault` : The user is not in a valid state for the requested operation.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3509,7 +3608,6 @@ extension MemoryDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())

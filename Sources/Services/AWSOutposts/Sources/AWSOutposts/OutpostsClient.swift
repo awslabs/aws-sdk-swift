@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OutpostsClient: ClientRuntime.Client {
     public static let clientName = "OutpostsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: OutpostsClient.OutpostsClientConfiguration
     let serviceName = "Outposts"
@@ -374,9 +373,9 @@ extension OutpostsClient {
     ///
     /// Cancels the capacity task.
     ///
-    /// - Parameter CancelCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelCapacityTaskInput`)
     ///
-    /// - Returns: `CancelCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelCapacityTaskInput, CancelCapacityTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelCapacityTaskOutput>(CancelCapacityTaskOutput.httpOutput(from:), CancelCapacityTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCapacityTaskInput, CancelCapacityTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelCapacityTaskOutput>())
@@ -443,9 +441,9 @@ extension OutpostsClient {
     ///
     /// Cancels the specified order for an Outpost.
     ///
-    /// - Parameter CancelOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelOrderInput`)
     ///
-    /// - Returns: `CancelOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelOrderInput, CancelOrderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelOrderOutput>(CancelOrderOutput.httpOutput(from:), CancelOrderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelOrderInput, CancelOrderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelOrderOutput>())
@@ -512,9 +509,9 @@ extension OutpostsClient {
     ///
     /// Creates an order for an Outpost.
     ///
-    /// - Parameter CreateOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOrderInput`)
     ///
-    /// - Returns: `CreateOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,7 +550,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOrderInput, CreateOrderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOrderOutput>(CreateOrderOutput.httpOutput(from:), CreateOrderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOrderInput, CreateOrderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOrderOutput>())
@@ -585,9 +581,9 @@ extension OutpostsClient {
     ///
     /// Creates an Outpost. You can specify either an Availability one or an AZ ID.
     ///
-    /// - Parameter CreateOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOutpostInput`)
     ///
-    /// - Returns: `CreateOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,7 +622,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOutpostInput, CreateOutpostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOutpostOutput>(CreateOutpostOutput.httpOutput(from:), CreateOutpostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOutpostInput, CreateOutpostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOutpostOutput>())
@@ -658,9 +653,9 @@ extension OutpostsClient {
     ///
     /// Creates a site for an Outpost.
     ///
-    /// - Parameter CreateSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSiteInput`)
     ///
-    /// - Returns: `CreateSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,7 +693,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSiteInput, CreateSiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSiteOutput>(CreateSiteOutput.httpOutput(from:), CreateSiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSiteInput, CreateSiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSiteOutput>())
@@ -730,9 +724,9 @@ extension OutpostsClient {
     ///
     /// Deletes the specified Outpost.
     ///
-    /// - Parameter DeleteOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOutpostInput`)
     ///
-    /// - Returns: `DeleteOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,7 +761,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOutpostInput, DeleteOutpostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOutpostOutput>(DeleteOutpostOutput.httpOutput(from:), DeleteOutpostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOutpostInput, DeleteOutpostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOutpostOutput>())
@@ -799,9 +792,9 @@ extension OutpostsClient {
     ///
     /// Deletes the specified site.
     ///
-    /// - Parameter DeleteSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSiteInput`)
     ///
-    /// - Returns: `DeleteSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,7 +829,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSiteInput, DeleteSiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSiteOutput>(DeleteSiteOutput.httpOutput(from:), DeleteSiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSiteInput, DeleteSiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSiteOutput>())
@@ -868,9 +860,9 @@ extension OutpostsClient {
     ///
     /// Gets details of the specified capacity task.
     ///
-    /// - Parameter GetCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityTaskInput`)
     ///
-    /// - Returns: `GetCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,7 +896,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCapacityTaskInput, GetCapacityTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityTaskOutput>(GetCapacityTaskOutput.httpOutput(from:), GetCapacityTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityTaskInput, GetCapacityTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityTaskOutput>())
@@ -936,9 +927,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified catalog item.
     ///
-    /// - Parameter GetCatalogItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCatalogItemInput`)
     ///
-    /// - Returns: `GetCatalogItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCatalogItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,7 +963,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCatalogItemInput, GetCatalogItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCatalogItemOutput>(GetCatalogItemOutput.httpOutput(from:), GetCatalogItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCatalogItemInput, GetCatalogItemOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCatalogItemOutput>())
@@ -1004,9 +994,9 @@ extension OutpostsClient {
     ///
     /// Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html) and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html) in the Amazon Web Services Outposts User Guide.
     ///
-    /// - Parameter GetConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionInput`)
     ///
-    /// - Returns: `GetConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,7 +1030,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectionInput, GetConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionOutput>(GetConnectionOutput.httpOutput(from:), GetConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionInput, GetConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionOutput>())
@@ -1072,9 +1061,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified order.
     ///
-    /// - Parameter GetOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrderInput`)
     ///
-    /// - Returns: `GetOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,7 +1096,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOrderInput, GetOrderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrderOutput>(GetOrderOutput.httpOutput(from:), GetOrderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrderInput, GetOrderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrderOutput>())
@@ -1139,9 +1127,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified Outpost.
     ///
-    /// - Parameter GetOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostInput`)
     ///
-    /// - Returns: `GetOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1175,7 +1163,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOutpostInput, GetOutpostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutpostOutput>(GetOutpostOutput.httpOutput(from:), GetOutpostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutpostInput, GetOutpostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOutpostOutput>())
@@ -1207,9 +1194,9 @@ extension OutpostsClient {
     ///
     /// Gets current and historical billing information about the specified Outpost.
     ///
-    /// - Parameter GetOutpostBillingInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostBillingInformationInput`)
     ///
-    /// - Returns: `GetOutpostBillingInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostBillingInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1243,7 +1230,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(GetOutpostBillingInformationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutpostBillingInformationOutput>(GetOutpostBillingInformationOutput.httpOutput(from:), GetOutpostBillingInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOutpostBillingInformationOutput>())
@@ -1275,9 +1261,9 @@ extension OutpostsClient {
     ///
     /// Gets the instance types for the specified Outpost.
     ///
-    /// - Parameter GetOutpostInstanceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostInstanceTypesInput`)
     ///
-    /// - Returns: `GetOutpostInstanceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,7 +1298,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetOutpostInstanceTypesInput, GetOutpostInstanceTypesOutput>(GetOutpostInstanceTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutpostInstanceTypesOutput>(GetOutpostInstanceTypesOutput.httpOutput(from:), GetOutpostInstanceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutpostInstanceTypesInput, GetOutpostInstanceTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOutpostInstanceTypesOutput>())
@@ -1344,9 +1329,9 @@ extension OutpostsClient {
     ///
     /// Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration.
     ///
-    /// - Parameter GetOutpostSupportedInstanceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostSupportedInstanceTypesInput`)
     ///
-    /// - Returns: `GetOutpostSupportedInstanceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostSupportedInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1381,7 +1366,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetOutpostSupportedInstanceTypesInput, GetOutpostSupportedInstanceTypesOutput>(GetOutpostSupportedInstanceTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutpostSupportedInstanceTypesOutput>(GetOutpostSupportedInstanceTypesOutput.httpOutput(from:), GetOutpostSupportedInstanceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutpostSupportedInstanceTypesInput, GetOutpostSupportedInstanceTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOutpostSupportedInstanceTypesOutput>())
@@ -1413,9 +1397,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified Outpost site.
     ///
-    /// - Parameter GetSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSiteInput`)
     ///
-    /// - Returns: `GetSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1449,7 +1433,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSiteInput, GetSiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSiteOutput>(GetSiteOutput.httpOutput(from:), GetSiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSiteInput, GetSiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSiteOutput>())
@@ -1481,9 +1464,9 @@ extension OutpostsClient {
     ///
     /// Gets the site address of the specified site.
     ///
-    /// - Parameter GetSiteAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSiteAddressInput`)
     ///
-    /// - Returns: `GetSiteAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSiteAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,7 +1501,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSiteAddressInput, GetSiteAddressOutput>(GetSiteAddressInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSiteAddressOutput>(GetSiteAddressOutput.httpOutput(from:), GetSiteAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSiteAddressInput, GetSiteAddressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSiteAddressOutput>())
@@ -1550,9 +1532,9 @@ extension OutpostsClient {
     ///
     /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 instances.
     ///
-    /// - Parameter ListAssetInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetInstancesInput`)
     ///
-    /// - Returns: `ListAssetInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1587,7 +1569,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetInstancesInput, ListAssetInstancesOutput>(ListAssetInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetInstancesOutput>(ListAssetInstancesOutput.httpOutput(from:), ListAssetInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetInstancesInput, ListAssetInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetInstancesOutput>())
@@ -1619,9 +1600,9 @@ extension OutpostsClient {
     ///
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetsInput`)
     ///
-    /// - Returns: `ListAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1656,7 +1637,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetsInput, ListAssetsOutput>(ListAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetsOutput>(ListAssetsOutput.httpOutput(from:), ListAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetsInput, ListAssetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetsOutput>())
@@ -1688,9 +1668,9 @@ extension OutpostsClient {
     ///
     /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task.
     ///
-    /// - Parameter ListBlockingInstancesForCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBlockingInstancesForCapacityTaskInput`)
     ///
-    /// - Returns: `ListBlockingInstancesForCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBlockingInstancesForCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1725,7 +1705,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBlockingInstancesForCapacityTaskInput, ListBlockingInstancesForCapacityTaskOutput>(ListBlockingInstancesForCapacityTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBlockingInstancesForCapacityTaskOutput>(ListBlockingInstancesForCapacityTaskOutput.httpOutput(from:), ListBlockingInstancesForCapacityTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBlockingInstancesForCapacityTaskInput, ListBlockingInstancesForCapacityTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBlockingInstancesForCapacityTaskOutput>())
@@ -1757,9 +1736,9 @@ extension OutpostsClient {
     ///
     /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListCapacityTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCapacityTasksInput`)
     ///
-    /// - Returns: `ListCapacityTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCapacityTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1794,7 +1773,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCapacityTasksInput, ListCapacityTasksOutput>(ListCapacityTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCapacityTasksOutput>(ListCapacityTasksOutput.httpOutput(from:), ListCapacityTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCapacityTasksInput, ListCapacityTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCapacityTasksOutput>())
@@ -1826,9 +1804,9 @@ extension OutpostsClient {
     ///
     /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListCatalogItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCatalogItemsInput`)
     ///
-    /// - Returns: `ListCatalogItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCatalogItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1863,7 +1841,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCatalogItemsInput, ListCatalogItemsOutput>(ListCatalogItemsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCatalogItemsOutput>(ListCatalogItemsOutput.httpOutput(from:), ListCatalogItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCatalogItemsInput, ListCatalogItemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCatalogItemsOutput>())
@@ -1895,9 +1872,9 @@ extension OutpostsClient {
     ///
     /// Lists the Outpost orders for your Amazon Web Services account.
     ///
-    /// - Parameter ListOrdersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrdersInput`)
     ///
-    /// - Returns: `ListOrdersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrdersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1932,7 +1909,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrdersInput, ListOrdersOutput>(ListOrdersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrdersOutput>(ListOrdersOutput.httpOutput(from:), ListOrdersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrdersInput, ListOrdersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrdersOutput>())
@@ -1964,9 +1940,9 @@ extension OutpostsClient {
     ///
     /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListOutpostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOutpostsInput`)
     ///
-    /// - Returns: `ListOutpostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOutpostsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,7 +1976,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOutpostsInput, ListOutpostsOutput>(ListOutpostsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOutpostsOutput>(ListOutpostsOutput.httpOutput(from:), ListOutpostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutpostsInput, ListOutpostsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOutpostsOutput>())
@@ -2032,9 +2007,9 @@ extension OutpostsClient {
     ///
     /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListSitesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSitesInput`)
     ///
-    /// - Returns: `ListSitesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2068,7 +2043,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSitesInput, ListSitesOutput>(ListSitesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSitesOutput>(ListSitesOutput.httpOutput(from:), ListSitesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSitesInput, ListSitesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSitesOutput>())
@@ -2100,9 +2074,9 @@ extension OutpostsClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,7 +2109,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2167,9 +2140,9 @@ extension OutpostsClient {
     ///
     /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost.
     ///
-    /// - Parameter StartCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCapacityTaskInput`)
     ///
-    /// - Returns: `StartCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2207,7 +2180,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCapacityTaskInput, StartCapacityTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCapacityTaskOutput>(StartCapacityTaskOutput.httpOutput(from:), StartCapacityTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCapacityTaskInput, StartCapacityTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCapacityTaskOutput>())
@@ -2239,9 +2211,9 @@ extension OutpostsClient {
     ///
     /// Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html) and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html) in the Amazon Web Services Outposts User Guide.
     ///
-    /// - Parameter StartConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConnectionInput`)
     ///
-    /// - Returns: `StartConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2278,7 +2250,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConnectionInput, StartConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConnectionOutput>(StartConnectionOutput.httpOutput(from:), StartConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConnectionInput, StartConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConnectionOutput>())
@@ -2310,9 +2281,9 @@ extension OutpostsClient {
     ///
     /// Adds tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2348,7 +2319,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2380,9 +2350,9 @@ extension OutpostsClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2416,7 +2386,6 @@ extension OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2448,9 +2417,9 @@ extension OutpostsClient {
     ///
     /// Updates an Outpost.
     ///
-    /// - Parameter UpdateOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOutpostInput`)
     ///
-    /// - Returns: `UpdateOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2488,7 +2457,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOutpostInput, UpdateOutpostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOutpostOutput>(UpdateOutpostOutput.httpOutput(from:), UpdateOutpostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOutpostInput, UpdateOutpostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOutpostOutput>())
@@ -2520,9 +2488,9 @@ extension OutpostsClient {
     ///
     /// Updates the specified site.
     ///
-    /// - Parameter UpdateSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSiteInput`)
     ///
-    /// - Returns: `UpdateSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2560,7 +2528,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSiteInput, UpdateSiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSiteOutput>(UpdateSiteOutput.httpOutput(from:), UpdateSiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSiteInput, UpdateSiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSiteOutput>())
@@ -2592,9 +2559,9 @@ extension OutpostsClient {
     ///
     /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deactivated.
     ///
-    /// - Parameter UpdateSiteAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSiteAddressInput`)
     ///
-    /// - Returns: `UpdateSiteAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSiteAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2632,7 +2599,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSiteAddressInput, UpdateSiteAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSiteAddressOutput>(UpdateSiteAddressOutput.httpOutput(from:), UpdateSiteAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSiteAddressInput, UpdateSiteAddressOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSiteAddressOutput>())
@@ -2664,9 +2630,9 @@ extension OutpostsClient {
     ///
     /// Update the physical and logistical details for a rack at a site. For more information about hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist) in the Amazon Web Services Outposts User Guide. To update a rack at a site with an order of IN_PROGRESS, you must wait for the order to complete or cancel the order.
     ///
-    /// - Parameter UpdateSiteRackPhysicalPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSiteRackPhysicalPropertiesInput`)
     ///
-    /// - Returns: `UpdateSiteRackPhysicalPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSiteRackPhysicalPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2704,7 +2670,6 @@ extension OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSiteRackPhysicalPropertiesInput, UpdateSiteRackPhysicalPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSiteRackPhysicalPropertiesOutput>(UpdateSiteRackPhysicalPropertiesOutput.httpOutput(from:), UpdateSiteRackPhysicalPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSiteRackPhysicalPropertiesInput, UpdateSiteRackPhysicalPropertiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSiteRackPhysicalPropertiesOutput>())

@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeStarconnectionsClient: ClientRuntime.Client {
     public static let clientName = "CodeStarconnectionsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeStarconnectionsClient.CodeStarconnectionsClientConfiguration
     let serviceName = "CodeStar connections"
@@ -373,9 +372,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
     ///
-    /// - Parameter CreateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionInput`)
     ///
-    /// - Returns: `CreateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
@@ -444,9 +442,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
     ///
-    /// - Parameter CreateHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHostInput`)
     ///
-    /// - Returns: `CreateHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,7 +476,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHostInput, CreateHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHostOutput>(CreateHostOutput.httpOutput(from:), CreateHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHostInput, CreateHostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHostOutput>())
@@ -513,9 +510,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
     ///
-    /// - Parameter CreateRepositoryLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRepositoryLinkInput`)
     ///
-    /// - Returns: `CreateRepositoryLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRepositoryLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,7 +550,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryLinkInput, CreateRepositoryLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryLinkOutput>(CreateRepositoryLinkOutput.httpOutput(from:), CreateRepositoryLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryLinkInput, CreateRepositoryLinkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRepositoryLinkOutput>())
@@ -588,9 +584,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Creates a sync configuration which allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource. Parameters for the sync configuration are determined by the sync type.
     ///
-    /// - Parameter CreateSyncConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSyncConfigurationInput`)
     ///
-    /// - Returns: `CreateSyncConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSyncConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,7 +624,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSyncConfigurationInput, CreateSyncConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSyncConfigurationOutput>(CreateSyncConfigurationOutput.httpOutput(from:), CreateSyncConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSyncConfigurationInput, CreateSyncConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSyncConfigurationOutput>())
@@ -663,9 +658,9 @@ extension CodeStarconnectionsClient {
     ///
     /// The connection to be deleted.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,7 +692,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
@@ -732,9 +726,9 @@ extension CodeStarconnectionsClient {
     ///
     /// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
     ///
-    /// - Parameter DeleteHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHostInput`)
     ///
-    /// - Returns: `DeleteHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,7 +761,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHostInput, DeleteHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHostOutput>(DeleteHostOutput.httpOutput(from:), DeleteHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHostInput, DeleteHostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHostOutput>())
@@ -802,9 +795,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Deletes the association between your connection and a specified external Git repository.
     ///
-    /// - Parameter DeleteRepositoryLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryLinkInput`)
     ///
-    /// - Returns: `DeleteRepositoryLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -843,7 +836,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryLinkInput, DeleteRepositoryLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryLinkOutput>(DeleteRepositoryLinkOutput.httpOutput(from:), DeleteRepositoryLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryLinkInput, DeleteRepositoryLinkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryLinkOutput>())
@@ -878,9 +870,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Deletes the sync configuration for a specified repository and connection.
     ///
-    /// - Parameter DeleteSyncConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSyncConfigurationInput`)
     ///
-    /// - Returns: `DeleteSyncConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSyncConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -917,7 +909,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSyncConfigurationInput, DeleteSyncConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSyncConfigurationOutput>(DeleteSyncConfigurationOutput.httpOutput(from:), DeleteSyncConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSyncConfigurationInput, DeleteSyncConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSyncConfigurationOutput>())
@@ -952,9 +943,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns the connection ARN and details such as status, owner, and provider type.
     ///
-    /// - Parameter GetConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionInput`)
     ///
-    /// - Returns: `GetConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -987,7 +978,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectionInput, GetConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionOutput>(GetConnectionOutput.httpOutput(from:), GetConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionInput, GetConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionOutput>())
@@ -1022,9 +1012,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
     ///
-    /// - Parameter GetHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHostInput`)
     ///
-    /// - Returns: `GetHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,7 +1047,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHostInput, GetHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostOutput>(GetHostOutput.httpOutput(from:), GetHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostInput, GetHostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostOutput>())
@@ -1092,9 +1081,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository.
     ///
-    /// - Parameter GetRepositoryLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryLinkInput`)
     ///
-    /// - Returns: `GetRepositoryLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,7 +1120,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositoryLinkInput, GetRepositoryLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositoryLinkOutput>(GetRepositoryLinkOutput.httpOutput(from:), GetRepositoryLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryLinkInput, GetRepositoryLinkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositoryLinkOutput>())
@@ -1166,9 +1154,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository.
     ///
-    /// - Parameter GetRepositorySyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositorySyncStatusInput`)
     ///
-    /// - Returns: `GetRepositorySyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositorySyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,7 +1192,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositorySyncStatusOutput>(GetRepositorySyncStatusOutput.httpOutput(from:), GetRepositorySyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositorySyncStatusOutput>())
@@ -1239,9 +1226,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns the status of the sync with the Git repository for a specific Amazon Web Services resource.
     ///
-    /// - Parameter GetResourceSyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSyncStatusInput`)
     ///
-    /// - Returns: `GetResourceSyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1277,7 +1264,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceSyncStatusInput, GetResourceSyncStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceSyncStatusOutput>(GetResourceSyncStatusOutput.httpOutput(from:), GetResourceSyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceSyncStatusInput, GetResourceSyncStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceSyncStatusOutput>())
@@ -1312,9 +1298,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns a list of the most recent sync blockers.
     ///
-    /// - Parameter GetSyncBlockerSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSyncBlockerSummaryInput`)
     ///
-    /// - Returns: `GetSyncBlockerSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSyncBlockerSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,7 +1336,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSyncBlockerSummaryInput, GetSyncBlockerSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSyncBlockerSummaryOutput>(GetSyncBlockerSummaryOutput.httpOutput(from:), GetSyncBlockerSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSyncBlockerSummaryInput, GetSyncBlockerSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSyncBlockerSummaryOutput>())
@@ -1385,9 +1370,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
     ///
-    /// - Parameter GetSyncConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSyncConfigurationInput`)
     ///
-    /// - Returns: `GetSyncConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSyncConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,7 +1408,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSyncConfigurationInput, GetSyncConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSyncConfigurationOutput>(GetSyncConfigurationOutput.httpOutput(from:), GetSyncConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSyncConfigurationInput, GetSyncConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSyncConfigurationOutput>())
@@ -1458,9 +1442,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Lists the connections associated with your account.
     ///
-    /// - Parameter ListConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectionsInput`)
     ///
-    /// - Returns: `ListConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,7 +1476,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionsInput, ListConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionsOutput>(ListConnectionsOutput.httpOutput(from:), ListConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionsInput, ListConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectionsOutput>())
@@ -1527,9 +1510,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Lists the hosts associated with your account.
     ///
-    /// - Parameter ListHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHostsInput`)
     ///
-    /// - Returns: `ListHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHostsOutput`)
     public func listHosts(input: ListHostsInput) async throws -> ListHostsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1556,7 +1539,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHostsInput, ListHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostsOutput>(ListHostsOutput.httpOutput(from:), ListHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostsInput, ListHostsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostsOutput>())
@@ -1591,9 +1573,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Lists the repository links created for connections in your account.
     ///
-    /// - Parameter ListRepositoryLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositoryLinksInput`)
     ///
-    /// - Returns: `ListRepositoryLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositoryLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1630,7 +1612,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRepositoryLinksInput, ListRepositoryLinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositoryLinksOutput>(ListRepositoryLinksOutput.httpOutput(from:), ListRepositoryLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositoryLinksInput, ListRepositoryLinksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRepositoryLinksOutput>())
@@ -1665,9 +1646,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Lists the repository sync definitions for repository links in your account.
     ///
-    /// - Parameter ListRepositorySyncDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositorySyncDefinitionsInput`)
     ///
-    /// - Returns: `ListRepositorySyncDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositorySyncDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1703,7 +1684,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositorySyncDefinitionsOutput>(ListRepositorySyncDefinitionsOutput.httpOutput(from:), ListRepositorySyncDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRepositorySyncDefinitionsOutput>())
@@ -1738,9 +1718,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Returns a list of sync configurations for a specified repository.
     ///
-    /// - Parameter ListSyncConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSyncConfigurationsInput`)
     ///
-    /// - Returns: `ListSyncConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSyncConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1776,7 +1756,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSyncConfigurationsInput, ListSyncConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSyncConfigurationsOutput>(ListSyncConfigurationsOutput.httpOutput(from:), ListSyncConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSyncConfigurationsInput, ListSyncConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSyncConfigurationsOutput>())
@@ -1811,9 +1790,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1845,7 +1824,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1880,9 +1858,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1915,7 +1893,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1950,9 +1927,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Removes tags from an Amazon Web Services resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,7 +1961,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2019,9 +1995,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Updates a specified host with the provided configurations.
     ///
-    /// - Parameter UpdateHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHostInput`)
     ///
-    /// - Returns: `UpdateHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2056,7 +2032,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostInput, UpdateHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostOutput>(UpdateHostOutput.httpOutput(from:), UpdateHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostInput, UpdateHostOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHostOutput>())
@@ -2091,9 +2066,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
     ///
-    /// - Parameter UpdateRepositoryLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRepositoryLinkInput`)
     ///
-    /// - Returns: `UpdateRepositoryLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRepositoryLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2131,7 +2106,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRepositoryLinkInput, UpdateRepositoryLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRepositoryLinkOutput>(UpdateRepositoryLinkOutput.httpOutput(from:), UpdateRepositoryLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRepositoryLinkInput, UpdateRepositoryLinkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRepositoryLinkOutput>())
@@ -2166,9 +2140,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
     ///
-    /// - Parameter UpdateSyncBlockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSyncBlockerInput`)
     ///
-    /// - Returns: `UpdateSyncBlockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSyncBlockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2206,7 +2180,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSyncBlockerInput, UpdateSyncBlockerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSyncBlockerOutput>(UpdateSyncBlockerOutput.httpOutput(from:), UpdateSyncBlockerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSyncBlockerInput, UpdateSyncBlockerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSyncBlockerOutput>())
@@ -2241,9 +2214,9 @@ extension CodeStarconnectionsClient {
     ///
     /// Updates the sync configuration for your connection and a specified external Git repository.
     ///
-    /// - Parameter UpdateSyncConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSyncConfigurationInput`)
     ///
-    /// - Returns: `UpdateSyncConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSyncConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2281,7 +2254,6 @@ extension CodeStarconnectionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSyncConfigurationInput, UpdateSyncConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSyncConfigurationOutput>(UpdateSyncConfigurationOutput.httpOutput(from:), UpdateSyncConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSyncConfigurationInput, UpdateSyncConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSyncConfigurationOutput>())

@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IdentitystoreClient: ClientRuntime.Client {
     public static let clientName = "IdentitystoreClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: IdentitystoreClient.IdentitystoreClientConfiguration
     let serviceName = "identitystore"
@@ -373,9 +372,9 @@ extension IdentitystoreClient {
     ///
     /// Creates a group within the specified identity store.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,7 +416,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -452,9 +450,9 @@ extension IdentitystoreClient {
     ///
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
     ///
-    /// - Parameter CreateGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupMembershipInput`)
     ///
-    /// - Returns: `CreateGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -496,7 +494,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupMembershipOutput>(CreateGroupMembershipOutput.httpOutput(from:), CreateGroupMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupMembershipOutput>())
@@ -531,9 +528,9 @@ extension IdentitystoreClient {
     ///
     /// Creates a user within the specified identity store.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -575,7 +572,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -610,9 +606,9 @@ extension IdentitystoreClient {
     ///
     /// Delete a group within an identity store given GroupId.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,7 +649,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -688,9 +683,9 @@ extension IdentitystoreClient {
     ///
     /// Delete a membership within a group given MembershipId.
     ///
-    /// - Parameter DeleteGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupMembershipInput`)
     ///
-    /// - Returns: `DeleteGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,7 +726,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupMembershipOutput>(DeleteGroupMembershipOutput.httpOutput(from:), DeleteGroupMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupMembershipOutput>())
@@ -766,9 +760,9 @@ extension IdentitystoreClient {
     ///
     /// Deletes a user within an identity store given UserId.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,7 +803,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -844,9 +837,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the group metadata and attributes from GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter DescribeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupInput`)
     ///
-    /// - Returns: `DescribeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,7 +875,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGroupInput, DescribeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGroupOutput>(DescribeGroupOutput.httpOutput(from:), DescribeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGroupInput, DescribeGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGroupOutput>())
@@ -917,9 +909,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves membership metadata and attributes from MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter DescribeGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupMembershipInput`)
     ///
-    /// - Returns: `DescribeGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -955,7 +947,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGroupMembershipOutput>(DescribeGroupMembershipOutput.httpOutput(from:), DescribeGroupMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGroupMembershipOutput>())
@@ -990,9 +981,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the user metadata and attributes from the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1028,7 +1019,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserOutput>())
@@ -1063,9 +1053,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter GetGroupIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupIdInput`)
     ///
-    /// - Returns: `GetGroupIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1101,7 +1091,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupIdInput, GetGroupIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupIdOutput>(GetGroupIdOutput.httpOutput(from:), GetGroupIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupIdInput, GetGroupIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupIdOutput>())
@@ -1136,9 +1125,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter GetGroupMembershipIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupMembershipIdInput`)
     ///
-    /// - Returns: `GetGroupMembershipIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupMembershipIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,7 +1163,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupMembershipIdOutput>(GetGroupMembershipIdOutput.httpOutput(from:), GetGroupMembershipIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupMembershipIdOutput>())
@@ -1209,9 +1197,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter GetUserIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserIdInput`)
     ///
-    /// - Returns: `GetUserIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,7 +1235,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserIdInput, GetUserIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserIdOutput>(GetUserIdOutput.httpOutput(from:), GetUserIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserIdInput, GetUserIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserIdOutput>())
@@ -1282,9 +1269,9 @@ extension IdentitystoreClient {
     ///
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter IsMemberInGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IsMemberInGroupsInput`)
     ///
-    /// - Returns: `IsMemberInGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IsMemberInGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1320,7 +1307,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<IsMemberInGroupsOutput>(IsMemberInGroupsOutput.httpOutput(from:), IsMemberInGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IsMemberInGroupsOutput>())
@@ -1355,9 +1341,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListGroupMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembershipsInput`)
     ///
-    /// - Returns: `ListGroupMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1393,7 +1379,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupMembershipsOutput>(ListGroupMembershipsOutput.httpOutput(from:), ListGroupMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupMembershipsOutput>())
@@ -1428,9 +1413,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListGroupMembershipsForMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembershipsForMemberInput`)
     ///
-    /// - Returns: `ListGroupMembershipsForMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembershipsForMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1466,7 +1451,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupMembershipsForMemberOutput>(ListGroupMembershipsForMemberOutput.httpOutput(from:), ListGroupMembershipsForMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupMembershipsForMemberOutput>())
@@ -1501,9 +1485,9 @@ extension IdentitystoreClient {
     ///
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1539,7 +1523,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -1574,9 +1557,9 @@ extension IdentitystoreClient {
     ///
     /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1612,7 +1595,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -1647,9 +1629,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified group in the specified identity store, updates the group metadata and attributes.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,7 +1673,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -1726,9 +1707,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified user in the specified identity store, updates the user metadata and attributes.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1770,7 +1751,6 @@ extension IdentitystoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())

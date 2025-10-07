@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KendraClient: ClientRuntime.Client {
     public static let clientName = "KendraClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: KendraClient.KendraClientConfiguration
     let serviceName = "kendra"
@@ -375,9 +374,9 @@ extension KendraClient {
     ///
     /// Grants users or groups in your IAM Identity Center identity source access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter AssociateEntitiesToExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEntitiesToExperienceInput`)
     ///
-    /// - Returns: `AssociateEntitiesToExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEntitiesToExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEntitiesToExperienceOutput>(AssociateEntitiesToExperienceOutput.httpOutput(from:), AssociateEntitiesToExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEntitiesToExperienceOutput>())
@@ -449,9 +447,9 @@ extension KendraClient {
     ///
     /// Defines the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter AssociatePersonasToEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePersonasToEntitiesInput`)
     ///
-    /// - Returns: `AssociatePersonasToEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePersonasToEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,7 +486,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePersonasToEntitiesOutput>(AssociatePersonasToEntitiesOutput.httpOutput(from:), AssociatePersonasToEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePersonasToEntitiesOutput>())
@@ -523,9 +520,9 @@ extension KendraClient {
     ///
     /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDeleteDocument could take up to an hour or more, depending on the number of documents you want to delete.
     ///
-    /// - Parameter BatchDeleteDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteDocumentInput`)
     ///
-    /// - Returns: `BatchDeleteDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,7 +559,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteDocumentOutput>(BatchDeleteDocumentOutput.httpOutput(from:), BatchDeleteDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteDocumentOutput>())
@@ -597,9 +593,9 @@ extension KendraClient {
     ///
     /// Removes one or more sets of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
     ///
-    /// - Parameter BatchDeleteFeaturedResultsSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteFeaturedResultsSetInput`)
     ///
-    /// - Returns: `BatchDeleteFeaturedResultsSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteFeaturedResultsSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,7 +631,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteFeaturedResultsSetOutput>(BatchDeleteFeaturedResultsSetOutput.httpOutput(from:), BatchDeleteFeaturedResultsSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteFeaturedResultsSetOutput>())
@@ -670,9 +665,9 @@ extension KendraClient {
     ///
     /// Returns the indexing status for one or more documents submitted with the [ BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html) API. When you use the BatchPutDocument API, documents are indexed asynchronously. You can use the BatchGetDocumentStatus API to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus API to check the status of the [ BatchDeleteDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteDocument.html) API. When a document is deleted from the index, Amazon Kendra returns NOT_FOUND as the status.
     ///
-    /// - Parameter BatchGetDocumentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetDocumentStatusInput`)
     ///
-    /// - Returns: `BatchGetDocumentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetDocumentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -709,7 +704,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetDocumentStatusOutput>(BatchGetDocumentStatusOutput.httpOutput(from:), BatchGetDocumentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDocumentStatusOutput>())
@@ -744,9 +738,9 @@ extension KendraClient {
     ///
     /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of indexing your documents. For an example of ingesting inline documents using Python and Java SDKs, see [Adding files directly to an index](https://docs.aws.amazon.com/kendra/latest/dg/in-adding-binary-doc.html).
     ///
-    /// - Parameter BatchPutDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutDocumentInput`)
     ///
-    /// - Returns: `BatchPutDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,7 +778,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutDocumentOutput>(BatchPutDocumentOutput.httpOutput(from:), BatchPutDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutDocumentOutput>())
@@ -819,9 +812,9 @@ extension KendraClient {
     ///
     /// Clears existing query suggestions from an index. This deletes existing suggestions only, not the queries in the query log. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. If you do not see any new suggestions, then please allow Amazon Kendra to collect enough queries to learn new suggestions. ClearQuerySuggestions is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter ClearQuerySuggestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ClearQuerySuggestionsInput`)
     ///
-    /// - Returns: `ClearQuerySuggestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ClearQuerySuggestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -858,7 +851,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ClearQuerySuggestionsOutput>(ClearQuerySuggestionsOutput.httpOutput(from:), ClearQuerySuggestionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ClearQuerySuggestionsOutput>())
@@ -893,9 +885,9 @@ extension KendraClient {
     ///
     /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing top-secret documents. The user still has access to top-secret documents because the user had access when your documents were previously indexed. You can create a specific access control configuration for the user with deny access. You can later update the access control configuration to allow access if the user returns to the company and re-joins the 'top-secret' team. You can re-configure access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call the [BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html) API with the AccessControlConfigurationId included in the [Document](https://docs.aws.amazon.com/kendra/latest/dg/API_Document.html) object. If you use an S3 bucket as a data source, you update the .metadata.json with the AccessControlConfigurationId and synchronize your data source. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API. You can't configure access control using CreateAccessControlConfiguration for an Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a ValidationException error for a Gen_AI_ENTERPRISE_EDITION index.
     ///
-    /// - Parameter CreateAccessControlConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessControlConfigurationInput`)
     ///
-    /// - Returns: `CreateAccessControlConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessControlConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,7 +926,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessControlConfigurationOutput>(CreateAccessControlConfigurationOutput.httpOutput(from:), CreateAccessControlConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessControlConfigurationOutput>())
@@ -969,9 +960,9 @@ extension KendraClient {
     ///
     /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the data source connector. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. For an example of creating an index and data source using the Python SDK, see [Getting started with Python SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html). For an example of creating an index and data source using the Java SDK, see [Getting started with Java SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html).
     ///
-    /// - Parameter CreateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSourceInput`)
     ///
-    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,7 +1002,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSourceOutput>(CreateDataSourceOutput.httpOutput(from:), CreateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSourceOutput>())
@@ -1046,9 +1036,9 @@ extension KendraClient {
     ///
     /// Creates an Amazon Kendra experience such as a search application. For more information on creating a search application experience, including using the Python and Java SDKs, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter CreateExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExperienceInput`)
     ///
-    /// - Returns: `CreateExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1087,7 +1077,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExperienceInput, CreateExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExperienceOutput>(CreateExperienceOutput.httpOutput(from:), CreateExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExperienceInput, CreateExperienceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExperienceOutput>())
@@ -1122,9 +1111,9 @@ extension KendraClient {
     ///
     /// Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored in an Amazon S3 bucket. Adding FAQs to an index is an asynchronous operation. For an example of adding an FAQ to an index using Python and Java SDKs, see [Using your FAQ file](https://docs.aws.amazon.com/kendra/latest/dg/in-creating-faq.html#using-faq-file).
     ///
-    /// - Parameter CreateFaqInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFaqInput`)
     ///
-    /// - Returns: `CreateFaqOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFaqOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1163,7 +1152,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFaqInput, CreateFaqOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFaqOutput>(CreateFaqOutput.httpOutput(from:), CreateFaqOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFaqInput, CreateFaqOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFaqOutput>())
@@ -1198,9 +1186,9 @@ extension KendraClient {
     ///
     /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can request to increase this limit by contacting [Support](http://aws.amazon.com/contact-us/).
     ///
-    /// - Parameter CreateFeaturedResultsSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFeaturedResultsSetInput`)
     ///
-    /// - Returns: `CreateFeaturedResultsSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFeaturedResultsSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1238,7 +1226,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFeaturedResultsSetOutput>(CreateFeaturedResultsSetOutput.httpOutput(from:), CreateFeaturedResultsSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFeaturedResultsSetOutput>())
@@ -1273,9 +1260,9 @@ extension KendraClient {
     ///
     /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the BatchPutDocument API or using one of the supported [data sources](https://docs.aws.amazon.com/kendra/latest/dg/data-sources.html). For an example of creating an index and data source using the Python SDK, see [Getting started with Python SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html). For an example of creating an index and data source using the Java SDK, see [Getting started with Java SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html).
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1314,7 +1301,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
@@ -1349,9 +1335,9 @@ extension KendraClient {
     ///
     /// Creates a block list to exlcude certain queries from suggestions. Any query that contains words or phrases specified in the block list is blocked or filtered out from being shown as a suggestion. You need to provide the file location of your block list text file in your S3 bucket. In your text file, enter each block word or phrase on a separate line. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html). CreateQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region. For an example of creating a block list for query suggestions using the Python SDK, see [Query suggestions block list](https://docs.aws.amazon.com/kendra/latest/dg/query-suggestions.html#query-suggestions-blocklist).
     ///
-    /// - Parameter CreateQuerySuggestionsBlockListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuerySuggestionsBlockListInput`)
     ///
-    /// - Returns: `CreateQuerySuggestionsBlockListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuerySuggestionsBlockListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1390,7 +1376,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQuerySuggestionsBlockListOutput>(CreateQuerySuggestionsBlockListOutput.httpOutput(from:), CreateQuerySuggestionsBlockListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQuerySuggestionsBlockListOutput>())
@@ -1425,9 +1410,9 @@ extension KendraClient {
     ///
     /// Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format. For an example of adding a thesaurus file to an index, see [Adding custom synonyms to an index](https://docs.aws.amazon.com/kendra/latest/dg/index-synonyms-adding-thesaurus-file.html).
     ///
-    /// - Parameter CreateThesaurusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThesaurusInput`)
     ///
-    /// - Returns: `CreateThesaurusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThesaurusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1466,7 +1451,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThesaurusInput, CreateThesaurusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThesaurusOutput>(CreateThesaurusOutput.httpOutput(from:), CreateThesaurusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThesaurusInput, CreateThesaurusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThesaurusOutput>())
@@ -1501,9 +1485,9 @@ extension KendraClient {
     ///
     /// Deletes an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     ///
-    /// - Parameter DeleteAccessControlConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessControlConfigurationInput`)
     ///
-    /// - Returns: `DeleteAccessControlConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessControlConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1540,7 +1524,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessControlConfigurationOutput>(DeleteAccessControlConfigurationOutput.httpOutput(from:), DeleteAccessControlConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessControlConfigurationOutput>())
@@ -1575,9 +1558,9 @@ extension KendraClient {
     ///
     /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see [Deleting Data Sources](https://docs.aws.amazon.com/kendra/latest/dg/delete-data-source.html). Deleting an entire data source or re-syncing your index after deleting specific documents from a data source could take up to an hour or more, depending on the number of documents you want to delete.
     ///
-    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1614,7 +1597,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
@@ -1649,9 +1631,9 @@ extension KendraClient {
     ///
     /// Deletes your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter DeleteExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExperienceInput`)
     ///
-    /// - Returns: `DeleteExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1688,7 +1670,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExperienceInput, DeleteExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExperienceOutput>(DeleteExperienceOutput.httpOutput(from:), DeleteExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExperienceInput, DeleteExperienceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExperienceOutput>())
@@ -1723,9 +1704,9 @@ extension KendraClient {
     ///
     /// Removes a FAQ from an index.
     ///
-    /// - Parameter DeleteFaqInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFaqInput`)
     ///
-    /// - Returns: `DeleteFaqOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFaqOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1762,7 +1743,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFaqInput, DeleteFaqOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFaqOutput>(DeleteFaqOutput.httpOutput(from:), DeleteFaqOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFaqInput, DeleteFaqOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFaqOutput>())
@@ -1797,9 +1777,9 @@ extension KendraClient {
     ///
     /// Deletes an Amazon Kendra index. An exception is not thrown if the index is already being deleted. While the index is being deleted, the Status field returned by a call to the DescribeIndex API is set to DELETING.
     ///
-    /// - Parameter DeleteIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
-    /// - Returns: `DeleteIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,7 +1816,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexInput, DeleteIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
@@ -1871,9 +1850,9 @@ extension KendraClient {
     ///
     /// Deletes a group so that all users that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping. DeletePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter DeletePrincipalMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePrincipalMappingInput`)
     ///
-    /// - Returns: `DeletePrincipalMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePrincipalMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,7 +1889,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePrincipalMappingOutput>(DeletePrincipalMappingOutput.httpOutput(from:), DeletePrincipalMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePrincipalMappingOutput>())
@@ -1945,9 +1923,9 @@ extension KendraClient {
     ///
     /// Deletes a block list used for query suggestions for an index. A deleted block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to add back the queries that were previously blocked. DeleteQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter DeleteQuerySuggestionsBlockListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQuerySuggestionsBlockListInput`)
     ///
-    /// - Returns: `DeleteQuerySuggestionsBlockListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQuerySuggestionsBlockListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,7 +1962,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQuerySuggestionsBlockListOutput>(DeleteQuerySuggestionsBlockListOutput.httpOutput(from:), DeleteQuerySuggestionsBlockListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQuerySuggestionsBlockListOutput>())
@@ -2019,9 +1996,9 @@ extension KendraClient {
     ///
     /// Deletes an Amazon Kendra thesaurus.
     ///
-    /// - Parameter DeleteThesaurusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThesaurusInput`)
     ///
-    /// - Returns: `DeleteThesaurusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThesaurusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2058,7 +2035,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThesaurusOutput>(DeleteThesaurusOutput.httpOutput(from:), DeleteThesaurusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThesaurusInput, DeleteThesaurusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThesaurusOutput>())
@@ -2093,9 +2069,9 @@ extension KendraClient {
     ///
     /// Gets information about an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     ///
-    /// - Parameter DescribeAccessControlConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccessControlConfigurationInput`)
     ///
-    /// - Returns: `DescribeAccessControlConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccessControlConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2131,7 +2107,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccessControlConfigurationOutput>(DescribeAccessControlConfigurationOutput.httpOutput(from:), DescribeAccessControlConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccessControlConfigurationOutput>())
@@ -2166,9 +2141,9 @@ extension KendraClient {
     ///
     /// Gets information about an Amazon Kendra data source connector.
     ///
-    /// - Parameter DescribeDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSourceInput`)
     ///
-    /// - Returns: `DescribeDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2204,7 +2179,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSourceOutput>(DescribeDataSourceOutput.httpOutput(from:), DescribeDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSourceOutput>())
@@ -2239,9 +2213,9 @@ extension KendraClient {
     ///
     /// Gets information about your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter DescribeExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExperienceInput`)
     ///
-    /// - Returns: `DescribeExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2277,7 +2251,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExperienceInput, DescribeExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExperienceOutput>(DescribeExperienceOutput.httpOutput(from:), DescribeExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExperienceInput, DescribeExperienceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExperienceOutput>())
@@ -2312,9 +2285,9 @@ extension KendraClient {
     ///
     /// Gets information about a FAQ.
     ///
-    /// - Parameter DescribeFaqInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFaqInput`)
     ///
-    /// - Returns: `DescribeFaqOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFaqOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2350,7 +2323,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFaqInput, DescribeFaqOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFaqOutput>(DescribeFaqOutput.httpOutput(from:), DescribeFaqOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFaqInput, DescribeFaqOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFaqOutput>())
@@ -2385,9 +2357,9 @@ extension KendraClient {
     ///
     /// Gets information about a set of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
     ///
-    /// - Parameter DescribeFeaturedResultsSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFeaturedResultsSetInput`)
     ///
-    /// - Returns: `DescribeFeaturedResultsSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFeaturedResultsSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2423,7 +2395,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFeaturedResultsSetOutput>(DescribeFeaturedResultsSetOutput.httpOutput(from:), DescribeFeaturedResultsSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFeaturedResultsSetOutput>())
@@ -2458,9 +2429,9 @@ extension KendraClient {
     ///
     /// Gets information about an Amazon Kendra index.
     ///
-    /// - Parameter DescribeIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIndexInput`)
     ///
-    /// - Returns: `DescribeIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2496,7 +2467,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIndexInput, DescribeIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIndexOutput>(DescribeIndexOutput.httpOutput(from:), DescribeIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIndexInput, DescribeIndexOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIndexOutput>())
@@ -2531,9 +2501,9 @@ extension KendraClient {
     ///
     /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions currently processing or yet to be processed, when actions were last updated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter DescribePrincipalMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePrincipalMappingInput`)
     ///
-    /// - Returns: `DescribePrincipalMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePrincipalMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2569,7 +2539,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePrincipalMappingOutput>(DescribePrincipalMappingOutput.httpOutput(from:), DescribePrincipalMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePrincipalMappingOutput>())
@@ -2604,9 +2573,9 @@ extension KendraClient {
     ///
     /// Gets information about a block list used for query suggestions for an index. This is used to check the current settings that are applied to a block list. DescribeQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter DescribeQuerySuggestionsBlockListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQuerySuggestionsBlockListInput`)
     ///
-    /// - Returns: `DescribeQuerySuggestionsBlockListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQuerySuggestionsBlockListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,7 +2611,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsBlockListOutput>(DescribeQuerySuggestionsBlockListOutput.httpOutput(from:), DescribeQuerySuggestionsBlockListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQuerySuggestionsBlockListOutput>())
@@ -2677,9 +2645,9 @@ extension KendraClient {
     ///
     /// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query suggestions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter DescribeQuerySuggestionsConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQuerySuggestionsConfigInput`)
     ///
-    /// - Returns: `DescribeQuerySuggestionsConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQuerySuggestionsConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2715,7 +2683,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsConfigOutput>(DescribeQuerySuggestionsConfigOutput.httpOutput(from:), DescribeQuerySuggestionsConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQuerySuggestionsConfigOutput>())
@@ -2750,9 +2717,9 @@ extension KendraClient {
     ///
     /// Gets information about an Amazon Kendra thesaurus.
     ///
-    /// - Parameter DescribeThesaurusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThesaurusInput`)
     ///
-    /// - Returns: `DescribeThesaurusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThesaurusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2788,7 +2755,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThesaurusOutput>(DescribeThesaurusOutput.httpOutput(from:), DescribeThesaurusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThesaurusInput, DescribeThesaurusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThesaurusOutput>())
@@ -2823,9 +2789,9 @@ extension KendraClient {
     ///
     /// Prevents users or groups in your IAM Identity Center identity source from accessing your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter DisassociateEntitiesFromExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEntitiesFromExperienceInput`)
     ///
-    /// - Returns: `DisassociateEntitiesFromExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateEntitiesFromExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2861,7 +2827,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEntitiesFromExperienceOutput>(DisassociateEntitiesFromExperienceOutput.httpOutput(from:), DisassociateEntitiesFromExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEntitiesFromExperienceOutput>())
@@ -2896,9 +2861,9 @@ extension KendraClient {
     ///
     /// Removes the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter DisassociatePersonasFromEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePersonasFromEntitiesInput`)
     ///
-    /// - Returns: `DisassociatePersonasFromEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePersonasFromEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2934,7 +2899,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePersonasFromEntitiesOutput>(DisassociatePersonasFromEntitiesOutput.httpOutput(from:), DisassociatePersonasFromEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePersonasFromEntitiesOutput>())
@@ -2969,9 +2933,9 @@ extension KendraClient {
     ///
     /// Fetches the queries that are suggested to your users. GetQuerySuggestions is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter GetQuerySuggestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuerySuggestionsInput`)
     ///
-    /// - Returns: `GetQuerySuggestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuerySuggestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3009,7 +2973,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQuerySuggestionsOutput>(GetQuerySuggestionsOutput.httpOutput(from:), GetQuerySuggestionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQuerySuggestionsOutput>())
@@ -3044,9 +3007,9 @@ extension KendraClient {
     ///
     /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is.
     ///
-    /// - Parameter GetSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSnapshotsInput`)
     ///
-    /// - Returns: `GetSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3081,7 +3044,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSnapshotsInput, GetSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSnapshotsOutput>(GetSnapshotsOutput.httpOutput(from:), GetSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSnapshotsInput, GetSnapshotsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSnapshotsOutput>())
@@ -3116,9 +3078,9 @@ extension KendraClient {
     ///
     /// Lists one or more access control configurations for an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     ///
-    /// - Parameter ListAccessControlConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessControlConfigurationsInput`)
     ///
-    /// - Returns: `ListAccessControlConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessControlConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3154,7 +3116,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessControlConfigurationsOutput>(ListAccessControlConfigurationsOutput.httpOutput(from:), ListAccessControlConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessControlConfigurationsOutput>())
@@ -3189,9 +3150,9 @@ extension KendraClient {
     ///
     /// Gets statistics about synchronizing a data source connector.
     ///
-    /// - Parameter ListDataSourceSyncJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourceSyncJobsInput`)
     ///
-    /// - Returns: `ListDataSourceSyncJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourceSyncJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3228,7 +3189,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourceSyncJobsOutput>(ListDataSourceSyncJobsOutput.httpOutput(from:), ListDataSourceSyncJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourceSyncJobsOutput>())
@@ -3263,9 +3223,9 @@ extension KendraClient {
     ///
     /// Lists the data source connectors that you have created.
     ///
-    /// - Parameter ListDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3301,7 +3261,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataSourcesInput, ListDataSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
@@ -3336,9 +3295,9 @@ extension KendraClient {
     ///
     /// Lists specific permissions of users and groups with access to your Amazon Kendra experience.
     ///
-    /// - Parameter ListEntityPersonasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntityPersonasInput`)
     ///
-    /// - Returns: `ListEntityPersonasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntityPersonasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3374,7 +3333,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityPersonasOutput>(ListEntityPersonasOutput.httpOutput(from:), ListEntityPersonasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityPersonasInput, ListEntityPersonasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityPersonasOutput>())
@@ -3409,9 +3367,9 @@ extension KendraClient {
     ///
     /// Lists users or groups in your IAM Identity Center identity source that are granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter ListExperienceEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperienceEntitiesInput`)
     ///
-    /// - Returns: `ListExperienceEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperienceEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3447,7 +3405,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperienceEntitiesOutput>(ListExperienceEntitiesOutput.httpOutput(from:), ListExperienceEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperienceEntitiesOutput>())
@@ -3482,9 +3439,9 @@ extension KendraClient {
     ///
     /// Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter ListExperiencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperiencesInput`)
     ///
-    /// - Returns: `ListExperiencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperiencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3520,7 +3477,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExperiencesInput, ListExperiencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperiencesOutput>(ListExperiencesOutput.httpOutput(from:), ListExperiencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperiencesInput, ListExperiencesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperiencesOutput>())
@@ -3555,9 +3511,9 @@ extension KendraClient {
     ///
     /// Gets a list of FAQs associated with an index.
     ///
-    /// - Parameter ListFaqsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFaqsInput`)
     ///
-    /// - Returns: `ListFaqsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFaqsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3593,7 +3549,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFaqsInput, ListFaqsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFaqsOutput>(ListFaqsOutput.httpOutput(from:), ListFaqsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFaqsInput, ListFaqsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFaqsOutput>())
@@ -3628,9 +3583,9 @@ extension KendraClient {
     ///
     /// Lists all your sets of featured results for a given index. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
     ///
-    /// - Parameter ListFeaturedResultsSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFeaturedResultsSetsInput`)
     ///
-    /// - Returns: `ListFeaturedResultsSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFeaturedResultsSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3666,7 +3621,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFeaturedResultsSetsOutput>(ListFeaturedResultsSetsOutput.httpOutput(from:), ListFeaturedResultsSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFeaturedResultsSetsOutput>())
@@ -3701,9 +3655,9 @@ extension KendraClient {
     ///
     /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter ListGroupsOlderThanOrderingIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsOlderThanOrderingIdInput`)
     ///
-    /// - Returns: `ListGroupsOlderThanOrderingIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOlderThanOrderingIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3740,7 +3694,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOlderThanOrderingIdOutput>(ListGroupsOlderThanOrderingIdOutput.httpOutput(from:), ListGroupsOlderThanOrderingIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOlderThanOrderingIdOutput>())
@@ -3775,9 +3728,9 @@ extension KendraClient {
     ///
     /// Lists the Amazon Kendra indexes that you created.
     ///
-    /// - Parameter ListIndicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndicesInput`)
     ///
-    /// - Returns: `ListIndicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3812,7 +3765,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIndicesInput, ListIndicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndicesOutput>(ListIndicesOutput.httpOutput(from:), ListIndicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndicesInput, ListIndicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndicesOutput>())
@@ -3847,9 +3799,9 @@ extension KendraClient {
     ///
     /// Lists the block lists used for query suggestions for an index. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html). ListQuerySuggestionsBlockLists is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter ListQuerySuggestionsBlockListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuerySuggestionsBlockListsInput`)
     ///
-    /// - Returns: `ListQuerySuggestionsBlockListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuerySuggestionsBlockListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3885,7 +3837,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQuerySuggestionsBlockListsOutput>(ListQuerySuggestionsBlockListsOutput.httpOutput(from:), ListQuerySuggestionsBlockListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQuerySuggestionsBlockListsOutput>())
@@ -3920,9 +3871,9 @@ extension KendraClient {
     ///
     /// Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and other resources can have tags associated with them.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3958,7 +3909,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3993,9 +3943,9 @@ extension KendraClient {
     ///
     /// Lists the thesauri for an index.
     ///
-    /// - Parameter ListThesauriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThesauriInput`)
     ///
-    /// - Returns: `ListThesauriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThesauriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4031,7 +3981,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListThesauriInput, ListThesauriOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThesauriOutput>(ListThesauriOutput.httpOutput(from:), ListThesauriOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThesauriInput, ListThesauriOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThesauriOutput>())
@@ -4066,9 +4015,9 @@ extension KendraClient {
     ///
     /// Maps users to their groups so that you only need to provide the user ID when you issue the query. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their search results. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. For more information, see [Filtering on user context](https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html). If more than five PUT actions for a group are currently processing, a validation exception is thrown.
     ///
-    /// - Parameter PutPrincipalMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPrincipalMappingInput`)
     ///
-    /// - Returns: `PutPrincipalMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPrincipalMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4106,7 +4055,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPrincipalMappingOutput>(PutPrincipalMappingOutput.httpOutput(from:), PutPrincipalMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPrincipalMappingOutput>())
@@ -4150,9 +4098,9 @@ extension KendraClient {
     ///
     /// You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results. If you filter result type to only question-answers, a maximum of four results are returned. If you filter result type to only answers, a maximum of three results are returned. If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
     ///
-    /// - Parameter QueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryInput`)
     ///
-    /// - Returns: `QueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4190,7 +4138,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryInput, QueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryOutput>(QueryOutput.httpOutput(from:), QueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryInput, QueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryOutput>())
@@ -4236,9 +4183,9 @@ extension KendraClient {
     ///
     /// You can also include certain fields in the response that might provide useful additional information. The Retrieve API shares the number of [query capacity units](https://docs.aws.amazon.com/kendra/latest/APIReference/API_CapacityUnitsConfiguration.html) that you set for your index. For more information on what's included in a single capacity unit and the default base capacity for an index, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html). If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
     ///
-    /// - Parameter RetrieveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetrieveInput`)
     ///
-    /// - Returns: `RetrieveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetrieveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4276,7 +4223,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveInput, RetrieveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveOutput>(RetrieveOutput.httpOutput(from:), RetrieveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveInput, RetrieveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveOutput>())
@@ -4311,9 +4257,9 @@ extension KendraClient {
     ///
     /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception. Re-syncing your data source with your index after modifying, adding, or deleting documents from your data source respository could take up to an hour or more, depending on the number of documents to sync.
     ///
-    /// - Parameter StartDataSourceSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataSourceSyncJobInput`)
     ///
-    /// - Returns: `StartDataSourceSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataSourceSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4351,7 +4297,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataSourceSyncJobOutput>(StartDataSourceSyncJobOutput.httpOutput(from:), StartDataSourceSyncJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataSourceSyncJobOutput>())
@@ -4386,9 +4331,9 @@ extension KendraClient {
     ///
     /// Stops a synchronization job that is currently running. You can't stop a scheduled synchronization job.
     ///
-    /// - Parameter StopDataSourceSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDataSourceSyncJobInput`)
     ///
-    /// - Returns: `StopDataSourceSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDataSourceSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4424,7 +4369,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDataSourceSyncJobOutput>(StopDataSourceSyncJobOutput.httpOutput(from:), StopDataSourceSyncJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDataSourceSyncJobOutput>())
@@ -4459,9 +4403,9 @@ extension KendraClient {
     ///
     /// Enables you to provide feedback to Amazon Kendra to improve the performance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter SubmitFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitFeedbackInput`)
     ///
-    /// - Returns: `SubmitFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4498,7 +4442,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitFeedbackOutput>(SubmitFeedbackOutput.httpOutput(from:), SubmitFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitFeedbackInput, SubmitFeedbackOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitFeedbackOutput>())
@@ -4533,9 +4476,9 @@ extension KendraClient {
     ///
     /// Adds the specified tag to the specified index, FAQ, data source, or other resource. If the tag already exists, the existing value is replaced with the new value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4571,7 +4514,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4606,9 +4548,9 @@ extension KendraClient {
     ///
     /// Removes a tag from an index, FAQ, data source, or other resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4644,7 +4586,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4679,9 +4620,9 @@ extension KendraClient {
     ///
     /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You created an 'allow' access control configuration for one user who recently joined the 'top-secret' team, switching from a team with 'deny' access to top-secret documents. However, the user suddenly returns to their previous team and should no longer have access to top secret documents. You can update the access control configuration to re-configure access control for your documents as circumstances change. You call the [BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html) API to apply the updated access control configuration, with the AccessControlConfigurationId included in the [Document](https://docs.aws.amazon.com/kendra/latest/dg/API_Document.html) object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API. You can't configure access control using CreateAccessControlConfiguration for an Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a ValidationException error for a Gen_AI_ENTERPRISE_EDITION index.
     ///
-    /// - Parameter UpdateAccessControlConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessControlConfigurationInput`)
     ///
-    /// - Returns: `UpdateAccessControlConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessControlConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4719,7 +4660,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessControlConfigurationOutput>(UpdateAccessControlConfigurationOutput.httpOutput(from:), UpdateAccessControlConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessControlConfigurationOutput>())
@@ -4754,9 +4694,9 @@ extension KendraClient {
     ///
     /// Updates an Amazon Kendra data source connector.
     ///
-    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4793,7 +4733,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
@@ -4828,9 +4767,9 @@ extension KendraClient {
     ///
     /// Updates your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
-    /// - Parameter UpdateExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExperienceInput`)
     ///
-    /// - Returns: `UpdateExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4867,7 +4806,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExperienceInput, UpdateExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExperienceOutput>(UpdateExperienceOutput.httpOutput(from:), UpdateExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExperienceInput, UpdateExperienceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExperienceOutput>())
@@ -4902,9 +4840,9 @@ extension KendraClient {
     ///
     /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are featured in the search results.
     ///
-    /// - Parameter UpdateFeaturedResultsSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFeaturedResultsSetInput`)
     ///
-    /// - Returns: `UpdateFeaturedResultsSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFeaturedResultsSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4941,7 +4879,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFeaturedResultsSetOutput>(UpdateFeaturedResultsSetOutput.httpOutput(from:), UpdateFeaturedResultsSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFeaturedResultsSetOutput>())
@@ -4976,9 +4913,9 @@ extension KendraClient {
     ///
     /// Updates an Amazon Kendra index.
     ///
-    /// - Parameter UpdateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexInput`)
     ///
-    /// - Returns: `UpdateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5016,7 +4953,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexInput, UpdateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexOutput>(UpdateIndexOutput.httpOutput(from:), UpdateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexInput, UpdateIndexOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexOutput>())
@@ -5051,9 +4987,9 @@ extension KendraClient {
     ///
     /// Updates a block list used for query suggestions for an index. Updates to a block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to apply any updates to the block list. Other changes not related to the block list apply immediately. If a block list is updating, then you need to wait for the first update to finish before submitting another update. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. UpdateQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter UpdateQuerySuggestionsBlockListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuerySuggestionsBlockListInput`)
     ///
-    /// - Returns: `UpdateQuerySuggestionsBlockListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuerySuggestionsBlockListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5090,7 +5026,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsBlockListOutput>(UpdateQuerySuggestionsBlockListOutput.httpOutput(from:), UpdateQuerySuggestionsBlockListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuerySuggestionsBlockListOutput>())
@@ -5125,9 +5060,9 @@ extension KendraClient {
     ///
     /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the updates made and the number of search queries in your index. You can still enable/disable query suggestions at any time. UpdateQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
-    /// - Parameter UpdateQuerySuggestionsConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuerySuggestionsConfigInput`)
     ///
-    /// - Returns: `UpdateQuerySuggestionsConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuerySuggestionsConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5164,7 +5099,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsConfigOutput>(UpdateQuerySuggestionsConfigOutput.httpOutput(from:), UpdateQuerySuggestionsConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuerySuggestionsConfigOutput>())
@@ -5199,9 +5133,9 @@ extension KendraClient {
     ///
     /// Updates a thesaurus for an index.
     ///
-    /// - Parameter UpdateThesaurusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThesaurusInput`)
     ///
-    /// - Returns: `UpdateThesaurusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThesaurusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5238,7 +5172,6 @@ extension KendraClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThesaurusOutput>(UpdateThesaurusOutput.httpOutput(from:), UpdateThesaurusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThesaurusInput, UpdateThesaurusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThesaurusOutput>())

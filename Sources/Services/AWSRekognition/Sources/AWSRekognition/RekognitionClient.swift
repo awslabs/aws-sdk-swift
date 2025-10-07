@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RekognitionClient: ClientRuntime.Client {
     public static let clientName = "RekognitionClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: RekognitionClient.RekognitionClientConfiguration
     let serviceName = "Rekognition"
@@ -381,9 +380,9 @@ extension RekognitionClient {
     ///
     /// * UPDATING - A UserID is being updated and there are current associations or disassociations of FaceID(s) taking place.
     ///
-    /// - Parameter AssociateFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFacesInput`)
     ///
-    /// - Returns: `AssociateFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -424,7 +423,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFacesInput, AssociateFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFacesOutput>(AssociateFacesOutput.httpOutput(from:), AssociateFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFacesInput, AssociateFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFacesOutput>())
@@ -459,9 +457,9 @@ extension RekognitionClient {
     ///
     /// Compares a face in the source input image with each of the 100 largest faces detected in the target input image. If the source image contains multiple faces, the service detects the largest face and compares it with each face detected in the target image. CompareFaces uses machine learning algorithms, which are probabilistic. A false negative is an incorrect prediction that a face in the target image has a low similarity confidence score when compared to the face in the source image. To reduce the probability of false negatives, we recommend that you compare the target image against multiple source images. If you plan to use CompareFaces to make a decision that impacts an individual's rights, privacy, or access to services, we recommend that you pass the result to a human for review and further validation before taking action. You pass the input and target images either as base64-encoded image bytes or as references to images in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes isn't supported. The image must be formatted as a PNG or JPEG file. In response, the operation returns an array of face matches ordered by similarity score in descending order. For each face match, the response provides a bounding box of the face, facial landmarks, pose details (pitch, roll, and yaw), quality (brightness and sharpness), and confidence value (indicating the level of confidence that the bounding box contains a face). The response also provides a similarity score, which indicates how closely the faces match. By default, only faces with a similarity score of greater than or equal to 80% are returned in the response. You can change this value by specifying the SimilarityThreshold parameter. CompareFaces also returns an array of faces that don't match the source image. For each face, it returns a bounding box, confidence value, landmarks, pose details, and quality. The response also returns information about the face in the source image, including the bounding box of the face and confidence value. The QualityFilter input parameter allows you to filter out detected faces that don’t meet a required quality bar. The quality bar is based on a variety of common use cases. Use QualityFilter to set the quality bar by specifying LOW, MEDIUM, or HIGH. If you do not want to filter detected faces, specify NONE. The default value is NONE. If the image doesn't contain Exif metadata, CompareFaces returns orientation information for the source and target images. Use these values to display the images with the correct image orientation. If no faces are detected in the source or target images, CompareFaces returns an InvalidParameterException error. This is a stateless API operation. That is, data returned by this operation doesn't persist. For an example, see Comparing Faces in Images in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:CompareFaces action.
     ///
-    /// - Parameter CompareFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompareFacesInput`)
     ///
-    /// - Returns: `CompareFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompareFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,7 +498,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompareFacesInput, CompareFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompareFacesOutput>(CompareFacesOutput.httpOutput(from:), CompareFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompareFacesInput, CompareFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompareFacesOutput>())
@@ -535,9 +532,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project. The source and destination projects can be in different AWS accounts but must be in the same AWS Region. You can't copy a model to another AWS service. To copy a model version to a different AWS account, you need to create a resource-based policy known as a project policy. You attach the project policy to the source project by calling [PutProjectPolicy]. The project policy gives permission to copy the model version from a trusting AWS account to a trusted account. For more information creating and attaching a project policy, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide. If you are copying a model version to a project in the same AWS account, you don't need to create a project policy. Copying project versions is supported only for Custom Labels models. To copy a model, the destination project, source project, and source model version must already exist. Copying a model version takes a while to complete. To get the current status, call [DescribeProjectVersions] and check the value of Status in the [ProjectVersionDescription] object. The copy operation has finished when the value of Status is COPYING_COMPLETED. This operation requires permissions to perform the rekognition:CopyProjectVersion action.
     ///
-    /// - Parameter CopyProjectVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyProjectVersionInput`)
     ///
-    /// - Returns: `CopyProjectVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyProjectVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,7 +574,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyProjectVersionOutput>(CopyProjectVersionOutput.httpOutput(from:), CopyProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyProjectVersionOutput>())
@@ -612,9 +608,9 @@ extension RekognitionClient {
     ///
     /// Creates a collection in an AWS Region. You can add faces to the collection using the [IndexFaces] operation. For example, you might create collections, one for each of your application users. A user can then index faces using the IndexFaces operation and persist results in a specific collection. Then, a user can search the collection for faces in the user-specific container. When you create a collection, it is associated with the latest version of the face model version. Collection names are case-sensitive. This operation requires permissions to perform the rekognition:CreateCollection action. If you want to tag your collection, you also require permission to perform the rekognition:TagResource operation.
     ///
-    /// - Parameter CreateCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCollectionInput`)
     ///
-    /// - Returns: `CreateCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,7 +648,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCollectionInput, CreateCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollectionOutput>(CreateCollectionOutput.httpOutput(from:), CreateCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollectionInput, CreateCollectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollectionOutput>())
@@ -687,9 +682,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Creates a new Amazon Rekognition Custom Labels dataset. You can create a dataset by using an Amazon Sagemaker format manifest file or by copying an existing Amazon Rekognition Custom Labels dataset. To create a training dataset for a project, specify TRAIN for the value of DatasetType. To create the test dataset for a project, specify TEST for the value of DatasetType. The response from CreateDataset is the Amazon Resource Name (ARN) for the dataset. Creating a dataset takes a while to complete. Use [DescribeDataset] to check the current status. The dataset created successfully if the value of Status is CREATE_COMPLETE. To check if any non-terminal errors occurred, call [ListDatasetEntries] and check for the presence of errors lists in the JSON Lines. Dataset creation fails if a terminal error occurs (Status = CREATE_FAILED). Currently, you can't access the terminal error information. For more information, see Creating dataset in the Amazon Rekognition Custom Labels Developer Guide. This operation requires permissions to perform the rekognition:CreateDataset action. If you want to copy an existing dataset, you also require permission to perform the rekognition:ListDatasetEntries action.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,7 +724,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -764,9 +758,9 @@ extension RekognitionClient {
     ///
     /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session. You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead. You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.
     ///
-    /// - Parameter CreateFaceLivenessSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFaceLivenessSessionInput`)
     ///
-    /// - Returns: `CreateFaceLivenessSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFaceLivenessSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,7 +796,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFaceLivenessSessionOutput>(CreateFaceLivenessSessionOutput.httpOutput(from:), CreateFaceLivenessSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFaceLivenessSessionOutput>())
@@ -837,9 +830,9 @@ extension RekognitionClient {
     ///
     /// Creates a new Amazon Rekognition project. A project is a group of resources (datasets, model versions) that you use to create and manage a Amazon Rekognition Custom Labels Model or custom adapter. You can specify a feature to create the project with, if no feature is specified then Custom Labels is used by default. For adapters, you can also choose whether or not to have the project auto update by using the AutoUpdate argument. This operation requires permissions to perform the rekognition:CreateProject action.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,7 +870,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -912,9 +904,9 @@ extension RekognitionClient {
     ///
     /// Creates a new version of Amazon Rekognition project (like a Custom Labels model or a custom adapter) and begins training. Models and adapters are managed as part of a Rekognition project. The response from CreateProjectVersion is an Amazon Resource Name (ARN) for the project version. The FeatureConfig operation argument allows you to configure specific model or adapter settings. You can provide a description to the project version by using the VersionDescription argment. Training can take a while to complete. You can get the current status by calling [DescribeProjectVersions]. Training completed successfully if the value of the Status field is TRAINING_COMPLETED. Once training has successfully completed, call [DescribeProjectVersions] to get the training results and evaluate the model. This operation requires permissions to perform the rekognition:CreateProjectVersion action. The following applies only to projects with Amazon Rekognition Custom Labels as the chosen feature: You can train a model in a project that doesn't have associated datasets by specifying manifest files in the TrainingData and TestingData fields. If you open the console after training a model with manifest files, Amazon Rekognition Custom Labels creates the datasets for you using the most recent manifest files. You can no longer train a model version for the project by specifying manifest files. Instead of training with a project without associated datasets, we recommend that you use the manifest files to create training and test datasets for the project.
     ///
-    /// - Parameter CreateProjectVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectVersionInput`)
     ///
-    /// - Returns: `CreateProjectVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,7 +946,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectVersionOutput>(CreateProjectVersionOutput.httpOutput(from:), CreateProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectVersionOutput>())
@@ -996,9 +987,9 @@ extension RekognitionClient {
     ///
     /// Use Name to assign an identifier for the stream processor. You use Name to manage the stream processor. For example, you can start processing the source video by calling [StartStreamProcessor] with the Name field. This operation requires permissions to perform the rekognition:CreateStreamProcessor action. If you want to tag your stream processor, you also require permission to perform the rekognition:TagResource operation.
     ///
-    /// - Parameter CreateStreamProcessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamProcessorInput`)
     ///
-    /// - Returns: `CreateStreamProcessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamProcessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,7 +1028,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamProcessorOutput>(CreateStreamProcessorOutput.httpOutput(from:), CreateStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamProcessorOutput>())
@@ -1072,9 +1062,9 @@ extension RekognitionClient {
     ///
     /// Creates a new User within a collection specified by CollectionId. Takes UserId as a parameter, which is a user provided ID which should be unique within the collection. The provided UserId will alias the system generated UUID to make the UserId more user friendly. Uses a ClientToken, an idempotency token that ensures a call to CreateUser completes only once. If the value is not supplied, the AWS SDK generates an idempotency token for the requests. This prevents retries after a network error results from making multiple CreateUser calls.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1115,7 +1105,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1150,9 +1139,9 @@ extension RekognitionClient {
     ///
     /// Deletes the specified collection. Note that this operation removes all faces in the collection. For an example, see [Deleting a collection](https://docs.aws.amazon.com/rekognition/latest/dg/delete-collection-procedure.html). This operation requires permissions to perform the rekognition:DeleteCollection action.
     ///
-    /// - Parameter DeleteCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCollectionInput`)
     ///
-    /// - Returns: `DeleteCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,7 +1178,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCollectionOutput>(DeleteCollectionOutput.httpOutput(from:), DeleteCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCollectionOutput>())
@@ -1224,9 +1212,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Deletes an existing Amazon Rekognition Custom Labels dataset. Deleting a dataset might take while. Use [DescribeDataset] to check the current status. The dataset is still deleting if the value of Status is DELETE_IN_PROGRESS. If you try to access the dataset after it is deleted, you get a ResourceNotFoundException exception. You can't delete a dataset while it is creating (Status = CREATE_IN_PROGRESS) or if the dataset is updating (Status = UPDATE_IN_PROGRESS). This operation requires permissions to perform the rekognition:DeleteDataset action.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,7 +1253,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -1300,9 +1287,9 @@ extension RekognitionClient {
     ///
     /// Deletes faces from a collection. You specify a collection ID and an array of face IDs to remove from the collection. This operation requires permissions to perform the rekognition:DeleteFaces action.
     ///
-    /// - Parameter DeleteFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFacesInput`)
     ///
-    /// - Returns: `DeleteFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1339,7 +1326,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFacesInput, DeleteFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFacesOutput>(DeleteFacesOutput.httpOutput(from:), DeleteFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFacesInput, DeleteFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFacesOutput>())
@@ -1374,9 +1360,9 @@ extension RekognitionClient {
     ///
     /// Deletes a Amazon Rekognition project. To delete a project you must first delete all models or adapters associated with the project. To delete a model or adapter, see [DeleteProjectVersion]. DeleteProject is an asynchronous operation. To check if the project is deleted, call [DescribeProjects]. The project is deleted when the project no longer appears in the response. Be aware that deleting a given project will also delete any ProjectPolicies associated with that project. This operation requires permissions to perform the rekognition:DeleteProject action.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1414,7 +1400,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -1449,9 +1434,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Deletes an existing project policy. To get a list of project policies attached to a project, call [ListProjectPolicies]. To attach a project policy to a project, call [PutProjectPolicy]. This operation requires permissions to perform the rekognition:DeleteProjectPolicy action.
     ///
-    /// - Parameter DeleteProjectPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectPolicyInput`)
     ///
-    /// - Returns: `DeleteProjectPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1489,7 +1474,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectPolicyOutput>(DeleteProjectPolicyOutput.httpOutput(from:), DeleteProjectPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectPolicyOutput>())
@@ -1524,9 +1508,9 @@ extension RekognitionClient {
     ///
     /// Deletes a Rekognition project model or project version, like a Amazon Rekognition Custom Labels model or a custom adapter. You can't delete a project version if it is running or if it is training. To check the status of a project version, use the Status field returned from [DescribeProjectVersions]. To stop a project version call [StopProjectVersion]. If the project version is training, wait until it finishes. This operation requires permissions to perform the rekognition:DeleteProjectVersion action.
     ///
-    /// - Parameter DeleteProjectVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectVersionInput`)
     ///
-    /// - Returns: `DeleteProjectVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1564,7 +1548,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectVersionOutput>(DeleteProjectVersionOutput.httpOutput(from:), DeleteProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectVersionOutput>())
@@ -1599,9 +1582,9 @@ extension RekognitionClient {
     ///
     /// Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with [CreateStreamProcessor]. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
     ///
-    /// - Parameter DeleteStreamProcessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStreamProcessorInput`)
     ///
-    /// - Returns: `DeleteStreamProcessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamProcessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1639,7 +1622,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamProcessorOutput>(DeleteStreamProcessorOutput.httpOutput(from:), DeleteStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamProcessorOutput>())
@@ -1674,9 +1656,9 @@ extension RekognitionClient {
     ///
     /// Deletes the specified UserID within the collection. Faces that are associated with the UserID are disassociated from the UserID before deleting the specified UserID. If the specified Collection or UserID is already deleted or not found, a ResourceNotFoundException will be thrown. If the action is successful with a 200 response, an empty HTTP body is returned.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1716,7 +1698,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -1751,9 +1732,9 @@ extension RekognitionClient {
     ///
     /// Describes the specified collection. You can use DescribeCollection to get information, such as the number of faces indexed into a collection and the version of the model used by the collection for face detection. For more information, see Describing a Collection in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter DescribeCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCollectionInput`)
     ///
-    /// - Returns: `DescribeCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,7 +1771,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCollectionOutput>(DescribeCollectionOutput.httpOutput(from:), DescribeCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCollectionOutput>())
@@ -1825,9 +1805,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Describes an Amazon Rekognition Custom Labels dataset. You can get information such as the current status of a dataset and statistics about the images and labels in a dataset. This operation requires permissions to perform the rekognition:DescribeDataset action.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1864,7 +1844,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -1899,9 +1878,9 @@ extension RekognitionClient {
     ///
     /// Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or adapter versions in ProjectVersionArns. If you don't specify a value, descriptions for all model/adapter versions in the project are returned. This operation requires permissions to perform the rekognition:DescribeProjectVersions action.
     ///
-    /// - Parameter DescribeProjectVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProjectVersionsInput`)
     ///
-    /// - Returns: `DescribeProjectVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProjectVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1939,7 +1918,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectVersionsOutput>(DescribeProjectVersionsOutput.httpOutput(from:), DescribeProjectVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProjectVersionsOutput>())
@@ -1974,9 +1952,9 @@ extension RekognitionClient {
     ///
     /// Gets information about your Rekognition projects. This operation requires permissions to perform the rekognition:DescribeProjects action.
     ///
-    /// - Parameter DescribeProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProjectsInput`)
     ///
-    /// - Returns: `DescribeProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2013,7 +1991,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectsOutput>(DescribeProjectsOutput.httpOutput(from:), DescribeProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProjectsOutput>())
@@ -2048,9 +2025,9 @@ extension RekognitionClient {
     ///
     /// Provides information about a stream processor created by [CreateStreamProcessor]. You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor.
     ///
-    /// - Parameter DescribeStreamProcessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStreamProcessorInput`)
     ///
-    /// - Returns: `DescribeStreamProcessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStreamProcessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,7 +2064,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamProcessorOutput>(DescribeStreamProcessorOutput.httpOutput(from:), DescribeStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamProcessorOutput>())
@@ -2122,9 +2098,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model. You specify which version of a model version to use by using the ProjectVersionArn input parameter. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file. For each object that the model version detects on an image, the API returns a (CustomLabel) object in an array (CustomLabels). Each CustomLabel object provides the label name (Name), the level of confidence that the image contains the object (Confidence), and object location information, if it exists, for the label on the image (Geometry). To filter labels that are returned, specify a value for MinConfidence. DetectCustomLabelsLabels only returns labels with a confidence that's higher than the specified value. The value of MinConfidence maps to the assumed threshold values created during training. For more information, see Assumed threshold in the Amazon Rekognition Custom Labels Developer Guide. Amazon Rekognition Custom Labels metrics expresses an assumed threshold as a floating point value between 0-1. The range of MinConfidence normalizes the threshold value to a percentage value (0-100). Confidence responses from DetectCustomLabels are also returned as a percentage. You can use MinConfidence to change the precision and recall or your model. For more information, see Analyzing an image in the Amazon Rekognition Custom Labels Developer Guide. If you don't specify a value for MinConfidence, DetectCustomLabels returns labels based on the assumed threshold of each label. This is a stateless API operation. That is, the operation does not persist any data. This operation requires permissions to perform the rekognition:DetectCustomLabels action. For more information, see Analyzing an image in the Amazon Rekognition Custom Labels Developer Guide.
     ///
-    /// - Parameter DetectCustomLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectCustomLabelsInput`)
     ///
-    /// - Returns: `DetectCustomLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectCustomLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2169,7 +2145,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectCustomLabelsOutput>(DetectCustomLabelsOutput.httpOutput(from:), DetectCustomLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectCustomLabelsOutput>())
@@ -2204,9 +2179,9 @@ extension RekognitionClient {
     ///
     /// Detects faces within an image that is provided as input. DetectFaces detects the 100 largest faces in the image. For each face detected, the operation returns face details. These details include a bounding box of the face, a confidence value (that the bounding box contains a face), and a fixed set of attributes such as facial landmarks (for example, coordinates of eye and mouth), pose, presence of facial occlusion, and so on. The face-detection algorithm is most effective on frontal faces. For non-frontal or obscured faces, the algorithm might not detect the faces or might detect faces with lower confidence. You pass the input image either as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file. This is a stateless API operation. That is, the operation does not persist any data. This operation requires permissions to perform the rekognition:DetectFaces action.
     ///
-    /// - Parameter DetectFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectFacesInput`)
     ///
-    /// - Returns: `DetectFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2245,7 +2220,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectFacesInput, DetectFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectFacesOutput>(DetectFacesOutput.httpOutput(from:), DetectFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectFacesInput, DetectFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectFacesOutput>())
@@ -2312,9 +2286,9 @@ extension RekognitionClient {
     ///
     /// {Name: tulip,Confidence: 99.0562} In this example, the detection algorithm more precisely identifies the flower as a tulip. If the object detected is a person, the operation doesn't provide the same facial details that the [DetectFaces] operation provides. This is a stateless API operation that doesn't return any data. This operation requires permissions to perform the rekognition:DetectLabels action.
     ///
-    /// - Parameter DetectLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectLabelsInput`)
     ///
-    /// - Returns: `DetectLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2353,7 +2327,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectLabelsInput, DetectLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectLabelsOutput>(DetectLabelsOutput.httpOutput(from:), DetectLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectLabelsInput, DetectLabelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectLabelsOutput>())
@@ -2388,9 +2361,9 @@ extension RekognitionClient {
     ///
     /// Detects unsafe content in a specified JPEG or PNG format image. Use DetectModerationLabels to moderate images depending on your requirements. For example, you might want to filter images that contain nudity, but not images containing suggestive content. To filter images, use the labels returned by DetectModerationLabels to determine which types of content are appropriate. For information about moderation labels, see Detecting Unsafe Content in the Amazon Rekognition Developer Guide. You pass the input image either as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file. You can specify an adapter to use when retrieving label predictions by providing a ProjectVersionArn to the ProjectVersion argument.
     ///
-    /// - Parameter DetectModerationLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectModerationLabelsInput`)
     ///
-    /// - Returns: `DetectModerationLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectModerationLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2435,7 +2408,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectModerationLabelsOutput>(DetectModerationLabelsOutput.httpOutput(from:), DetectModerationLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectModerationLabelsOutput>())
@@ -2488,9 +2460,9 @@ extension RekognitionClient {
     ///
     /// This is a stateless API operation. That is, the operation does not persist any data. This operation requires permissions to perform the rekognition:DetectProtectiveEquipment action.
     ///
-    /// - Parameter DetectProtectiveEquipmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectProtectiveEquipmentInput`)
     ///
-    /// - Returns: `DetectProtectiveEquipmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectProtectiveEquipmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2529,7 +2501,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectProtectiveEquipmentOutput>(DetectProtectiveEquipmentOutput.httpOutput(from:), DetectProtectiveEquipmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectProtectiveEquipmentOutput>())
@@ -2564,9 +2535,9 @@ extension RekognitionClient {
     ///
     /// Detects text in the input image and converts it into machine-readable text. Pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, you must pass it as a reference to an image in an Amazon S3 bucket. For the AWS CLI, passing image bytes is not supported. The image must be either a .png or .jpeg formatted file. The DetectText operation returns text in an array of [TextDetection] elements, TextDetections. Each TextDetection element provides information about a single word or line of text that was detected in the image. A word is one or more script characters that are not separated by spaces. DetectText can detect up to 100 words in an image. A line is a string of equally spaced words. A line isn't necessarily a complete sentence. For example, a driver's license number is detected as a line. A line ends when there is no aligned text after it. Also, a line ends when there is a large gap between words, relative to the length of the words. This means, depending on the gap between words, Amazon Rekognition may detect multiple lines in text aligned in the same direction. Periods don't represent the end of a line. If a sentence spans multiple lines, the DetectText operation returns multiple lines. To determine whether a TextDetection element is a line of text or a word, use the TextDetection object Type field. To be detected, text must be within +/- 90 degrees orientation of the horizontal axis. For more information, see Detecting text in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter DetectTextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectTextInput`)
     ///
-    /// - Returns: `DetectTextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectTextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2605,7 +2576,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectTextInput, DetectTextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectTextOutput>(DetectTextOutput.httpOutput(from:), DetectTextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectTextInput, DetectTextOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectTextOutput>())
@@ -2640,9 +2610,9 @@ extension RekognitionClient {
     ///
     /// Removes the association between a Face supplied in an array of FaceIds and the User. If the User is not present already, then a ResourceNotFound exception is thrown. If successful, an array of faces that are disassociated from the User is returned. If a given face is already disassociated from the given UserID, it will be ignored and not be returned in the response. If a given face is already associated with a different User or not found in the collection it will be returned as part of UnsuccessfulDisassociations. You can remove 1 - 100 face IDs from a user at one time.
     ///
-    /// - Parameter DisassociateFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFacesInput`)
     ///
-    /// - Returns: `DisassociateFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2682,7 +2652,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFacesOutput>(DisassociateFacesOutput.httpOutput(from:), DisassociateFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFacesOutput>())
@@ -2717,9 +2686,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Distributes the entries (images) in a training dataset across the training dataset and the test dataset for a project. DistributeDatasetEntries moves 20% of the training dataset images to the test dataset. An entry is a JSON Line that describes an image. You supply the Amazon Resource Names (ARN) of a project's training dataset and test dataset. The training dataset must contain the images that you want to split. The test dataset must be empty. The datasets must belong to the same project. To create training and test datasets for a project, call [CreateDataset]. Distributing a dataset takes a while to complete. To check the status call DescribeDataset. The operation is complete when the Status field for the training dataset and the test dataset is UPDATE_COMPLETE. If the dataset split fails, the value of Status is UPDATE_FAILED. This operation requires permissions to perform the rekognition:DistributeDatasetEntries action.
     ///
-    /// - Parameter DistributeDatasetEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DistributeDatasetEntriesInput`)
     ///
-    /// - Returns: `DistributeDatasetEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DistributeDatasetEntriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2760,7 +2729,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DistributeDatasetEntriesOutput>(DistributeDatasetEntriesOutput.httpOutput(from:), DistributeDatasetEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DistributeDatasetEntriesOutput>())
@@ -2795,9 +2763,9 @@ extension RekognitionClient {
     ///
     /// Gets the name and additional information about a celebrity based on their Amazon Rekognition ID. The additional information is returned as an array of URLs. If there is no additional information about the celebrity, this list is empty. For more information, see Getting information about a celebrity in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:GetCelebrityInfo action.
     ///
-    /// - Parameter GetCelebrityInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCelebrityInfoInput`)
     ///
-    /// - Returns: `GetCelebrityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCelebrityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2834,7 +2802,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCelebrityInfoOutput>(GetCelebrityInfoOutput.httpOutput(from:), GetCelebrityInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCelebrityInfoOutput>())
@@ -2869,9 +2836,9 @@ extension RekognitionClient {
     ///
     /// Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by [StartCelebrityRecognition]. Celebrity recognition in a video is an asynchronous operation. Analysis is started by a call to [StartCelebrityRecognition] which returns a job identifier (JobId). When the celebrity recognition operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartCelebrityRecognition. To get the results of the celebrity recognition analysis, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetCelebrityDetection and pass the job identifier (JobId) from the initial call to StartCelebrityDetection. For more information, see Working With Stored Videos in the Amazon Rekognition Developer Guide. GetCelebrityRecognition returns detected celebrities and the time(s) they are detected in an array (Celebrities) of [CelebrityRecognition] objects. Each CelebrityRecognition contains information about the celebrity in a [CelebrityDetail] object and the time, Timestamp, the celebrity was detected. This [CelebrityDetail] object stores information about the detected celebrity's face attributes, a face bounding box, known gender, the celebrity's name, and a confidence estimate. GetCelebrityRecognition only returns the default facial attributes (BoundingBox, Confidence, Landmarks, Pose, and Quality). The BoundingBox field only applies to the detected face instance. The other facial attributes listed in the Face object of the following response syntax are not returned. For more information, see FaceDetail in the Amazon Rekognition Developer Guide. By default, the Celebrities array is sorted by time (milliseconds from the start of the video). You can also sort the array by celebrity by specifying the value ID in the SortBy input parameter. The CelebrityDetail object includes the celebrity identifer and additional information urls. If you don't store the additional information urls, you can get them later by calling [GetCelebrityInfo] with the celebrity identifer. No information is returned for faces not recognized as celebrities. Use MaxResults parameter to limit the number of labels returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetCelebrityDetection and populate the NextToken request parameter with the token value returned from the previous call to GetCelebrityRecognition.
     ///
-    /// - Parameter GetCelebrityRecognitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCelebrityRecognitionInput`)
     ///
-    /// - Returns: `GetCelebrityRecognitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCelebrityRecognitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2909,7 +2876,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCelebrityRecognitionOutput>(GetCelebrityRecognitionOutput.httpOutput(from:), GetCelebrityRecognitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCelebrityRecognitionOutput>())
@@ -2944,9 +2910,9 @@ extension RekognitionClient {
     ///
     /// Gets the inappropriate, unwanted, or offensive content analysis results for a Amazon Rekognition Video analysis started by [StartContentModeration]. For a list of moderation labels in Amazon Rekognition, see [Using the image and video moderation APIs](https://docs.aws.amazon.com/rekognition/latest/dg/moderation.html#moderation-api). Amazon Rekognition Video inappropriate or offensive content detection in a stored video is an asynchronous operation. You start analysis by calling [StartContentModeration] which returns a job identifier (JobId). When analysis finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartContentModeration. To get the results of the content analysis, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetContentModeration and pass the job identifier (JobId) from the initial call to StartContentModeration. For more information, see Working with Stored Videos in the Amazon Rekognition Devlopers Guide. GetContentModeration returns detected inappropriate, unwanted, or offensive content moderation labels, and the time they are detected, in an array, ModerationLabels, of [ContentModerationDetection] objects. By default, the moderated labels are returned sorted by time, in milliseconds from the start of the video. You can also sort them by moderated label by specifying NAME for the SortBy input parameter. Since video analysis can return a large number of results, use the MaxResults parameter to limit the number of labels returned in a single call to GetContentModeration. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetContentModeration and populate the NextToken request parameter with the value of NextToken returned from the previous call to GetContentModeration. For more information, see moderating content in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter GetContentModerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentModerationInput`)
     ///
-    /// - Returns: `GetContentModerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentModerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2984,7 +2950,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContentModerationInput, GetContentModerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentModerationOutput>(GetContentModerationOutput.httpOutput(from:), GetContentModerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentModerationInput, GetContentModerationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContentModerationOutput>())
@@ -3019,9 +2984,9 @@ extension RekognitionClient {
     ///
     /// Gets face detection results for a Amazon Rekognition Video analysis started by [StartFaceDetection]. Face detection with Amazon Rekognition Video is an asynchronous operation. You start face detection by calling [StartFaceDetection] which returns a job identifier (JobId). When the face detection operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceDetection. To get the results of the face detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetFaceDetection] and pass the job identifier (JobId) from the initial call to StartFaceDetection. GetFaceDetection returns an array of detected faces (Faces) sorted by the time the faces were detected. Use MaxResults parameter to limit the number of labels returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetFaceDetection and populate the NextToken request parameter with the token value returned from the previous call to GetFaceDetection. Note that for the GetFaceDetection operation, the returned values for FaceOccluded and EyeDirection will always be "null".
     ///
-    /// - Parameter GetFaceDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFaceDetectionInput`)
     ///
-    /// - Returns: `GetFaceDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFaceDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3059,7 +3024,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceDetectionOutput>(GetFaceDetectionOutput.httpOutput(from:), GetFaceDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFaceDetectionOutput>())
@@ -3094,9 +3058,9 @@ extension RekognitionClient {
     ///
     /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100. The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible.
     ///
-    /// - Parameter GetFaceLivenessSessionResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFaceLivenessSessionResultsInput`)
     ///
-    /// - Returns: `GetFaceLivenessSessionResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFaceLivenessSessionResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3133,7 +3097,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceLivenessSessionResultsOutput>(GetFaceLivenessSessionResultsOutput.httpOutput(from:), GetFaceLivenessSessionResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFaceLivenessSessionResultsOutput>())
@@ -3168,9 +3131,9 @@ extension RekognitionClient {
     ///
     /// Gets the face search results for Amazon Rekognition Video face search started by [StartFaceSearch]. The search returns faces in a collection that match the faces of persons detected in a video. It also includes the time(s) that faces are matched in the video. Face search in a video is an asynchronous operation. You start face search by calling to [StartFaceSearch] which returns a job identifier (JobId). When the search operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartFaceSearch. To get the search results, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetFaceSearch and pass the job identifier (JobId) from the initial call to StartFaceSearch. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide. The search results are retured in an array, Persons, of [PersonMatch] objects. EachPersonMatch element contains details about the matching faces in the input collection, person information (facial attributes, bounding boxes, and person identifer) for the matched person, and the time the person was matched in the video. GetFaceSearch only returns the default facial attributes (BoundingBox, Confidence, Landmarks, Pose, and Quality). The other facial attributes listed in the Face object of the following response syntax are not returned. For more information, see FaceDetail in the Amazon Rekognition Developer Guide. By default, the Persons array is sorted by the time, in milliseconds from the start of the video, persons are matched. You can also sort by persons by specifying INDEX for the SORTBY input parameter.
     ///
-    /// - Parameter GetFaceSearchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFaceSearchInput`)
     ///
-    /// - Returns: `GetFaceSearchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFaceSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3208,7 +3171,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceSearchOutput>(GetFaceSearchOutput.httpOutput(from:), GetFaceSearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFaceSearchOutput>())
@@ -3260,9 +3222,9 @@ extension RekognitionClient {
     ///
     /// Timestamp and Bounding box information are returned for detected Instances, only if aggregation is done by TIMESTAMPS. If aggregating by SEGMENTS, information about detected instances isn’t returned. The version of the label model used for the detection is also returned. Note DominantColors isn't returned for Instances, although it is shown as part of the response in the sample seen below. Use MaxResults parameter to limit the number of labels returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetlabelDetection and populate the NextToken request parameter with the token value returned from the previous call to GetLabelDetection. If you are retrieving results while using the Amazon Simple Notification Service, note that you will receive an "ERROR" notification if the job encounters an issue.
     ///
-    /// - Parameter GetLabelDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLabelDetectionInput`)
     ///
-    /// - Returns: `GetLabelDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLabelDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3300,7 +3262,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLabelDetectionOutput>(GetLabelDetectionOutput.httpOutput(from:), GetLabelDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLabelDetectionOutput>())
@@ -3335,9 +3296,9 @@ extension RekognitionClient {
     ///
     /// Retrieves the results for a given media analysis job. Takes a JobId returned by StartMediaAnalysisJob.
     ///
-    /// - Parameter GetMediaAnalysisJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaAnalysisJobInput`)
     ///
-    /// - Returns: `GetMediaAnalysisJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaAnalysisJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3374,7 +3335,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaAnalysisJobOutput>(GetMediaAnalysisJobOutput.httpOutput(from:), GetMediaAnalysisJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMediaAnalysisJobOutput>())
@@ -3409,9 +3369,9 @@ extension RekognitionClient {
     ///
     /// End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this [blog post](https://aws.amazon.com/blogs/machine-learning/transitioning-from-amazon-rekognition-people-pathing-exploring-other-alternatives/). Gets the path tracking results of a Amazon Rekognition Video analysis started by [StartPersonTracking]. The person path tracking operation is started by a call to StartPersonTracking which returns a job identifier (JobId). When the operation finishes, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartPersonTracking. To get the results of the person path tracking operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetPersonTracking] and pass the job identifier (JobId) from the initial call to StartPersonTracking. GetPersonTracking returns an array, Persons, of tracked persons and the time(s) their paths were tracked in the video. GetPersonTracking only returns the default facial attributes (BoundingBox, Confidence, Landmarks, Pose, and Quality). The other facial attributes listed in the Face object of the following response syntax are not returned. For more information, see FaceDetail in the Amazon Rekognition Developer Guide. By default, the array is sorted by the time(s) a person's path is tracked in the video. You can sort by tracked persons by specifying INDEX for the SortBy input parameter. Use the MaxResults parameter to limit the number of items returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetPersonTracking and populate the NextToken request parameter with the token value returned from the previous call to GetPersonTracking.
     ///
-    /// - Parameter GetPersonTrackingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPersonTrackingInput`)
     ///
-    /// - Returns: `GetPersonTrackingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPersonTrackingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3449,7 +3409,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPersonTrackingOutput>(GetPersonTrackingOutput.httpOutput(from:), GetPersonTrackingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPersonTrackingOutput>())
@@ -3484,9 +3443,9 @@ extension RekognitionClient {
     ///
     /// Gets the segment detection results of a Amazon Rekognition Video analysis started by [StartSegmentDetection]. Segment detection with Amazon Rekognition Video is an asynchronous operation. You start segment detection by calling [StartSegmentDetection] which returns a job identifier (JobId). When the segment detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartSegmentDetection. To get the results of the segment detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. if so, call GetSegmentDetection and pass the job identifier (JobId) from the initial call of StartSegmentDetection. GetSegmentDetection returns detected segments in an array (Segments) of [SegmentDetection] objects. Segments is sorted by the segment types specified in the SegmentTypes input parameter of StartSegmentDetection. Each element of the array includes the detected segment, the precentage confidence in the acuracy of the detected segment, the type of the segment, and the frame in which the segment was detected. Use SelectedSegmentTypes to find out the type of segment detection requested in the call to StartSegmentDetection. Use the MaxResults parameter to limit the number of segment detections returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetSegmentDetection and populate the NextToken request parameter with the token value returned from the previous call to GetSegmentDetection. For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter GetSegmentDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentDetectionInput`)
     ///
-    /// - Returns: `GetSegmentDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3524,7 +3483,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentDetectionOutput>(GetSegmentDetectionOutput.httpOutput(from:), GetSegmentDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentDetectionOutput>())
@@ -3559,9 +3517,9 @@ extension RekognitionClient {
     ///
     /// Gets the text detection results of a Amazon Rekognition Video analysis started by [StartTextDetection]. Text detection with Amazon Rekognition Video is an asynchronous operation. You start text detection by calling [StartTextDetection] which returns a job identifier (JobId) When the text detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartTextDetection. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. if so, call GetTextDetection and pass the job identifier (JobId) from the initial call of StartLabelDetection. GetTextDetection returns an array of detected text (TextDetections) sorted by the time the text was detected, up to 100 words per frame of video. Each element of the array includes the detected text, the precentage confidence in the acuracy of the detected text, the time the text was detected, bounding box information for where the text was located, and unique identifiers for words and their lines. Use MaxResults parameter to limit the number of text detections returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetTextDetection and populate the NextToken request parameter with the token value returned from the previous call to GetTextDetection.
     ///
-    /// - Parameter GetTextDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTextDetectionInput`)
     ///
-    /// - Returns: `GetTextDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTextDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3599,7 +3557,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTextDetectionOutput>(GetTextDetectionOutput.httpOutput(from:), GetTextDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTextDetectionOutput>())
@@ -3660,9 +3617,9 @@ extension RekognitionClient {
     ///
     /// If you request ALL or specific facial attributes (e.g., FACE_OCCLUDED) by using the detectionAttributes parameter, Amazon Rekognition returns detailed facial attributes, such as facial landmarks (for example, location of eye and mouth), facial occlusion, and other facial attributes. If you provide the same image, specify the same collection, and use the same external ID in the IndexFaces operation, Amazon Rekognition doesn't save duplicate face metadata. The input image is passed either as base64-encoded image bytes, or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes isn't supported. The image must be formatted as a PNG or JPEG file. This operation requires permissions to perform the rekognition:IndexFaces action.
     ///
-    /// - Parameter IndexFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IndexFacesInput`)
     ///
-    /// - Returns: `IndexFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IndexFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3703,7 +3660,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IndexFacesInput, IndexFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<IndexFacesOutput>(IndexFacesOutput.httpOutput(from:), IndexFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IndexFacesInput, IndexFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IndexFacesOutput>())
@@ -3738,9 +3694,9 @@ extension RekognitionClient {
     ///
     /// Returns list of collection IDs in your account. If the result is truncated, the response also provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs. For an example, see Listing collections in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListCollections action.
     ///
-    /// - Parameter ListCollectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollectionsInput`)
     ///
-    /// - Returns: `ListCollectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3778,7 +3734,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCollectionsInput, ListCollectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollectionsOutput>(ListCollectionsOutput.httpOutput(from:), ListCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollectionsInput, ListCollectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollectionsOutput>())
@@ -3813,9 +3768,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Lists the entries (images) within a dataset. An entry is a JSON Line that contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see [Creating a manifest file](https://docs.aws.amazon.com/rekognition/latest/customlabels-dg/md-manifest-files.html). JSON Lines in the response include information about non-terminal errors found in the dataset. Non terminal errors are reported in errors lists within each JSON Line. The same information is reported in the training and testing validation result manifests that Amazon Rekognition Custom Labels creates during model training. You can filter the response in variety of ways, such as choosing which labels to return and returning JSON Lines created after a specific date. This operation requires permissions to perform the rekognition:ListDatasetEntries action.
     ///
-    /// - Parameter ListDatasetEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetEntriesInput`)
     ///
-    /// - Returns: `ListDatasetEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetEntriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3858,7 +3813,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetEntriesOutput>(ListDatasetEntriesOutput.httpOutput(from:), ListDatasetEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetEntriesOutput>())
@@ -3893,9 +3847,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see [Labeling images](https://docs.aws.amazon.com/rekognition/latest/customlabels-dg/md-labeling-images.html). Lists the labels in a dataset. Amazon Rekognition Custom Labels uses labels to describe images. For more information, see Labeling images in the Amazon Rekognition Custom Labels Developer Guide.
     ///
-    /// - Parameter ListDatasetLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetLabelsInput`)
     ///
-    /// - Returns: `ListDatasetLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3938,7 +3892,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetLabelsOutput>(ListDatasetLabelsOutput.httpOutput(from:), ListDatasetLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetLabelsOutput>())
@@ -3973,9 +3926,9 @@ extension RekognitionClient {
     ///
     /// Returns metadata for faces in the specified collection. This metadata includes information such as the bounding box coordinates, the confidence (that the bounding box contains a face), and face ID. For an example, see Listing Faces in a Collection in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:ListFaces action.
     ///
-    /// - Parameter ListFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFacesInput`)
     ///
-    /// - Returns: `ListFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4013,7 +3966,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFacesInput, ListFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFacesOutput>(ListFacesOutput.httpOutput(from:), ListFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFacesInput, ListFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFacesOutput>())
@@ -4048,9 +4000,9 @@ extension RekognitionClient {
     ///
     /// Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
     ///
-    /// - Parameter ListMediaAnalysisJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMediaAnalysisJobsInput`)
     ///
-    /// - Returns: `ListMediaAnalysisJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMediaAnalysisJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4087,7 +4039,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMediaAnalysisJobsOutput>(ListMediaAnalysisJobsOutput.httpOutput(from:), ListMediaAnalysisJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMediaAnalysisJobsOutput>())
@@ -4122,9 +4073,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Gets a list of the project policies attached to a project. To attach a project policy to a project, call [PutProjectPolicy]. To remove a project policy from a project, call [DeleteProjectPolicy]. This operation requires permissions to perform the rekognition:ListProjectPolicies action.
     ///
-    /// - Parameter ListProjectPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectPoliciesInput`)
     ///
-    /// - Returns: `ListProjectPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4162,7 +4113,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectPoliciesOutput>(ListProjectPoliciesOutput.httpOutput(from:), ListProjectPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectPoliciesOutput>())
@@ -4197,9 +4147,9 @@ extension RekognitionClient {
     ///
     /// Gets a list of stream processors that you have created with [CreateStreamProcessor].
     ///
-    /// - Parameter ListStreamProcessorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamProcessorsInput`)
     ///
-    /// - Returns: `ListStreamProcessorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamProcessorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4236,7 +4186,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamProcessorsOutput>(ListStreamProcessorsOutput.httpOutput(from:), ListStreamProcessorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamProcessorsOutput>())
@@ -4271,9 +4220,9 @@ extension RekognitionClient {
     ///
     /// Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:ListTagsForResource action.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4310,7 +4259,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4345,9 +4293,9 @@ extension RekognitionClient {
     ///
     /// Returns metadata of the User such as UserID in the specified collection. Anonymous User (to reserve faces without any identity) is not returned as part of this request. The results are sorted by system generated primary key ID. If the response is truncated, NextToken is returned in the response that can be used in the subsequent request to retrieve the next set of identities.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4385,7 +4333,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -4420,9 +4367,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Attaches a project policy to a Amazon Rekognition Custom Labels project in a trusting AWS account. A project policy specifies that a trusted AWS account can copy a model version from a trusting AWS account to a project in the trusted AWS account. To copy a model version you use the [CopyProjectVersion] operation. Only applies to Custom Labels projects. For more information about the format of a project policy document, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide. The response from PutProjectPolicy is a revision ID for the project policy. You can attach multiple project policies to a project. You can also update an existing project policy by specifying the policy revision ID of the existing policy. To remove a project policy from a project, call [DeleteProjectPolicy]. To get a list of project policies attached to a project, call [ListProjectPolicies]. You copy a model version by calling [CopyProjectVersion]. This operation requires permissions to perform the rekognition:PutProjectPolicy action.
     ///
-    /// - Parameter PutProjectPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProjectPolicyInput`)
     ///
-    /// - Returns: `PutProjectPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProjectPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4464,7 +4411,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProjectPolicyOutput>(PutProjectPolicyOutput.httpOutput(from:), PutProjectPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutProjectPolicyOutput>())
@@ -4499,9 +4445,9 @@ extension RekognitionClient {
     ///
     /// Returns an array of celebrities recognized in the input image. For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide. RecognizeCelebrities returns the 64 largest faces in the image. It lists the recognized celebrities in the CelebrityFaces array and any unrecognized faces in the UnrecognizedFaces array. RecognizeCelebrities doesn't return celebrities whose faces aren't among the largest 64 faces in the image. For each celebrity recognized, RecognizeCelebrities returns a Celebrity object. The Celebrity object contains the celebrity name, ID, URL links to additional information, match confidence, and a ComparedFace object that you can use to locate the celebrity's face on the image. Amazon Rekognition doesn't retain information about which images a celebrity has been recognized in. Your application must store this information and use the Celebrity ID property as a unique identifier for the celebrity. If you don't store the celebrity name or additional information URLs returned by RecognizeCelebrities, you will need the ID to identify the celebrity in a call to the [GetCelebrityInfo] operation. You pass the input image either as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file. For an example, see Recognizing celebrities in an image in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:RecognizeCelebrities operation.
     ///
-    /// - Parameter RecognizeCelebritiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RecognizeCelebritiesInput`)
     ///
-    /// - Returns: `RecognizeCelebritiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RecognizeCelebritiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4540,7 +4486,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RecognizeCelebritiesOutput>(RecognizeCelebritiesOutput.httpOutput(from:), RecognizeCelebritiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RecognizeCelebritiesOutput>())
@@ -4575,9 +4520,9 @@ extension RekognitionClient {
     ///
     /// For a given input face ID, searches for matching faces in the collection the face belongs to. You get a face ID when you add a face to the collection using the [IndexFaces] operation. The operation compares the features of the input face with faces in the specified collection. You can also search faces without indexing faces by using the SearchFacesByImage operation. The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. More specifically, it is an array of metadata for each face match that is found. Along with the metadata, the response also includes a confidence value for each face match, indicating the confidence that the specific face matches the input face. For an example, see Searching for a face using its face ID in the Amazon Rekognition Developer Guide. This operation requires permissions to perform the rekognition:SearchFaces action.
     ///
-    /// - Parameter SearchFacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFacesInput`)
     ///
-    /// - Returns: `SearchFacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4614,7 +4559,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFacesInput, SearchFacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFacesOutput>(SearchFacesOutput.httpOutput(from:), SearchFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFacesInput, SearchFacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchFacesOutput>())
@@ -4649,9 +4593,9 @@ extension RekognitionClient {
     ///
     /// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The operation compares the features of the input face with faces in the specified collection. To search for all faces in an input image, you might first call the [IndexFaces] operation, and then use the face IDs returned in subsequent calls to the [SearchFaces] operation. You can also call the DetectFaces operation and use the bounding boxes in the response to make face crops, which then you can pass in to the SearchFacesByImage operation. You pass the input image either as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file. The response returns an array of faces that match, ordered by similarity score with the highest similarity first. More specifically, it is an array of metadata for each face match found. Along with the metadata, the response also includes a similarity indicating how similar the face is to the input face. In the response, the operation also returns the bounding box (and a confidence level that the bounding box contains a face) of the face that Amazon Rekognition used for the input image. If no faces are detected in the input image, SearchFacesByImage returns an InvalidParameterException error. For an example, Searching for a Face Using an Image in the Amazon Rekognition Developer Guide. The QualityFilter input parameter allows you to filter out detected faces that don’t meet a required quality bar. The quality bar is based on a variety of common use cases. Use QualityFilter to set the quality bar for filtering by specifying LOW, MEDIUM, or HIGH. If you do not want to filter detected faces, specify NONE. The default value is NONE. To use quality filtering, you need a collection associated with version 3 of the face model or higher. To get the version of the face model associated with a collection, call [DescribeCollection]. This operation requires permissions to perform the rekognition:SearchFacesByImage action.
     ///
-    /// - Parameter SearchFacesByImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFacesByImageInput`)
     ///
-    /// - Returns: `SearchFacesByImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFacesByImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4691,7 +4635,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFacesByImageOutput>(SearchFacesByImageOutput.httpOutput(from:), SearchFacesByImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchFacesByImageOutput>())
@@ -4726,9 +4669,9 @@ extension RekognitionClient {
     ///
     /// Searches for UserIDs within a collection based on a FaceId or UserId. This API can be used to find the closest UserID (with a highest similarity) to associate a face. The request must be provided with either FaceId or UserId. The operation returns an array of UserID that match the FaceId or UserId, ordered by similarity score with the highest similarity first.
     ///
-    /// - Parameter SearchUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchUsersInput`)
     ///
-    /// - Returns: `SearchUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4765,7 +4708,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersInput, SearchUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersOutput>(SearchUsersOutput.httpOutput(from:), SearchUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersInput, SearchUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchUsersOutput>())
@@ -4800,9 +4742,9 @@ extension RekognitionClient {
     ///
     /// Searches for UserIDs using a supplied image. It first detects the largest face in the image, and then searches a specified collection for matching UserIDs. The operation returns an array of UserIDs that match the face in the supplied image, ordered by similarity score with the highest similarity first. It also returns a bounding box for the face found in the input image. Information about faces detected in the supplied image, but not used for the search, is returned in an array of UnsearchedFace objects. If no valid face is detected in the image, the response will contain an empty UserMatches list and no SearchedFace object.
     ///
-    /// - Parameter SearchUsersByImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchUsersByImageInput`)
     ///
-    /// - Returns: `SearchUsersByImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchUsersByImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4842,7 +4784,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersByImageOutput>(SearchUsersByImageOutput.httpOutput(from:), SearchUsersByImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchUsersByImageOutput>())
@@ -4877,9 +4818,9 @@ extension RekognitionClient {
     ///
     /// Starts asynchronous recognition of celebrities in a stored video. Amazon Rekognition Video can detect celebrities in a video must be stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartCelebrityRecognition returns a job identifier (JobId) which you use to get the results of the analysis. When celebrity recognition analysis is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. To get the results of the celebrity recognition analysis, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetCelebrityRecognition] and pass the job identifier (JobId) from the initial call to StartCelebrityRecognition. For more information, see Recognizing celebrities in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter StartCelebrityRecognitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCelebrityRecognitionInput`)
     ///
-    /// - Returns: `StartCelebrityRecognitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCelebrityRecognitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4919,7 +4860,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCelebrityRecognitionOutput>(StartCelebrityRecognitionOutput.httpOutput(from:), StartCelebrityRecognitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCelebrityRecognitionOutput>())
@@ -4954,9 +4894,9 @@ extension RekognitionClient {
     ///
     /// Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video. For a list of moderation labels in Amazon Rekognition, see [Using the image and video moderation APIs](https://docs.aws.amazon.com/rekognition/latest/dg/moderation.html#moderation-api). Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartContentModeration returns a job identifier (JobId) which you use to get the results of the analysis. When content analysis is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. To get the results of the content analysis, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetContentModeration] and pass the job identifier (JobId) from the initial call to StartContentModeration. For more information, see Moderating content in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter StartContentModerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContentModerationInput`)
     ///
-    /// - Returns: `StartContentModerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContentModerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4996,7 +4936,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContentModerationInput, StartContentModerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContentModerationOutput>(StartContentModerationOutput.httpOutput(from:), StartContentModerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContentModerationInput, StartContentModerationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartContentModerationOutput>())
@@ -5031,9 +4970,9 @@ extension RekognitionClient {
     ///
     /// Starts asynchronous detection of faces in a stored video. Amazon Rekognition Video can detect faces in a video stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartFaceDetection returns a job identifier (JobId) that you use to get the results of the operation. When face detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. To get the results of the face detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetFaceDetection] and pass the job identifier (JobId) from the initial call to StartFaceDetection. For more information, see Detecting faces in a stored video in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter StartFaceDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFaceDetectionInput`)
     ///
-    /// - Returns: `StartFaceDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFaceDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5073,7 +5012,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFaceDetectionOutput>(StartFaceDetectionOutput.httpOutput(from:), StartFaceDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFaceDetectionOutput>())
@@ -5108,9 +5046,9 @@ extension RekognitionClient {
     ///
     /// Starts the asynchronous search for faces in a collection that match the faces of persons detected in a stored video. The video must be stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartFaceSearch returns a job identifier (JobId) which you use to get the search results once the search has completed. When searching is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. To get the search results, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetFaceSearch] and pass the job identifier (JobId) from the initial call to StartFaceSearch. For more information, see [Searching stored videos for faces](https://docs.aws.amazon.com/rekognition/latest/dg/procedure-person-search-videos.html).
     ///
-    /// - Parameter StartFaceSearchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFaceSearchInput`)
     ///
-    /// - Returns: `StartFaceSearchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFaceSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5151,7 +5089,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFaceSearchOutput>(StartFaceSearchOutput.httpOutput(from:), StartFaceSearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFaceSearchOutput>())
@@ -5186,9 +5123,9 @@ extension RekognitionClient {
     ///
     /// Starts asynchronous detection of labels in a stored video. Amazon Rekognition Video can detect labels in a video. Labels are instances of real-world entities. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; concepts like landscape, evening, and nature; and activities like a person getting out of a car or a person skiing. The video must be stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartLabelDetection returns a job identifier (JobId) which you use to get the results of the operation. When label detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. To get the results of the label detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetLabelDetection] and pass the job identifier (JobId) from the initial call to StartLabelDetection. Optional Parameters StartLabelDetection has the GENERAL_LABELS Feature applied by default. This feature allows you to provide filtering criteria to the Settings parameter. You can filter with sets of individual labels or with label categories. You can specify inclusive filters, exclusive filters, or a combination of inclusive and exclusive filters. For more information on filtering, see [Detecting labels in a video](https://docs.aws.amazon.com/rekognition/latest/dg/labels-detecting-labels-video.html). You can specify MinConfidence to control the confidence threshold for the labels returned. The default is 50.
     ///
-    /// - Parameter StartLabelDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartLabelDetectionInput`)
     ///
-    /// - Returns: `StartLabelDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartLabelDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5228,7 +5165,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLabelDetectionOutput>(StartLabelDetectionOutput.httpOutput(from:), StartLabelDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLabelDetectionOutput>())
@@ -5263,9 +5199,9 @@ extension RekognitionClient {
     ///
     /// Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
     ///
-    /// - Parameter StartMediaAnalysisJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMediaAnalysisJobInput`)
     ///
-    /// - Returns: `StartMediaAnalysisJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMediaAnalysisJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5311,7 +5247,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMediaAnalysisJobOutput>(StartMediaAnalysisJobOutput.httpOutput(from:), StartMediaAnalysisJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMediaAnalysisJobOutput>())
@@ -5346,9 +5281,9 @@ extension RekognitionClient {
     ///
     /// End of support notice: On October 31, 2025, AWS will discontinue support for Amazon Rekognition People Pathing. After October 31, 2025, you will no longer be able to use the Rekognition People Pathing capability. For more information, visit this [blog post](https://aws.amazon.com/blogs/machine-learning/transitioning-from-amazon-rekognition-people-pathing-exploring-other-alternatives/). Starts the asynchronous tracking of a person's path in a stored video. Amazon Rekognition Video can track the path of people in a video stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartPersonTracking returns a job identifier (JobId) which you use to get the results of the operation. When label detection is finished, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. To get the results of the person detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetPersonTracking] and pass the job identifier (JobId) from the initial call to StartPersonTracking.
     ///
-    /// - Parameter StartPersonTrackingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPersonTrackingInput`)
     ///
-    /// - Returns: `StartPersonTrackingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPersonTrackingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5388,7 +5323,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPersonTrackingOutput>(StartPersonTrackingOutput.httpOutput(from:), StartPersonTrackingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPersonTrackingOutput>())
@@ -5423,9 +5357,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Starts the running of the version of a model. Starting a model takes a while to complete. To check the current state of the model, use [DescribeProjectVersions]. Once the model is running, you can detect custom labels in new images by calling [DetectCustomLabels]. You are charged for the amount of time that the model is running. To stop a running model, call [StopProjectVersion]. This operation requires permissions to perform the rekognition:StartProjectVersion action.
     ///
-    /// - Parameter StartProjectVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProjectVersionInput`)
     ///
-    /// - Returns: `StartProjectVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProjectVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5464,7 +5398,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProjectVersionOutput>(StartProjectVersionOutput.httpOutput(from:), StartProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProjectVersionOutput>())
@@ -5499,9 +5432,9 @@ extension RekognitionClient {
     ///
     /// Starts asynchronous detection of segment detection in a stored video. Amazon Rekognition Video can detect segments in a video stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartSegmentDetection returns a job identifier (JobId) which you use to get the results of the operation. When segment detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. You can use the Filters ([StartSegmentDetectionFilters]) input parameter to specify the minimum detection confidence returned in the response. Within Filters, use ShotFilter ([StartShotDetectionFilter]) to filter detected shots. Use TechnicalCueFilter ([StartTechnicalCueDetectionFilter]) to filter technical cues. To get the results of the segment detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. if so, call [GetSegmentDetection] and pass the job identifier (JobId) from the initial call to StartSegmentDetection. For more information, see Detecting video segments in stored video in the Amazon Rekognition Developer Guide.
     ///
-    /// - Parameter StartSegmentDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSegmentDetectionInput`)
     ///
-    /// - Returns: `StartSegmentDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSegmentDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5541,7 +5474,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSegmentDetectionOutput>(StartSegmentDetectionOutput.httpOutput(from:), StartSegmentDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSegmentDetectionOutput>())
@@ -5576,9 +5508,9 @@ extension RekognitionClient {
     ///
     /// Starts processing a stream processor. You create a stream processor by calling [CreateStreamProcessor]. To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor. If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time.
     ///
-    /// - Parameter StartStreamProcessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartStreamProcessorInput`)
     ///
-    /// - Returns: `StartStreamProcessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartStreamProcessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5616,7 +5548,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamProcessorOutput>(StartStreamProcessorOutput.httpOutput(from:), StartStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamProcessorOutput>())
@@ -5651,9 +5582,9 @@ extension RekognitionClient {
     ///
     /// Starts asynchronous detection of text in a stored video. Amazon Rekognition Video can detect text in a video stored in an Amazon S3 bucket. Use [Video] to specify the bucket name and the filename of the video. StartTextDetection returns a job identifier (JobId) which you use to get the results of the operation. When text detection is finished, Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification Service topic that you specify in NotificationChannel. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. if so, call [GetTextDetection] and pass the job identifier (JobId) from the initial call to StartTextDetection.
     ///
-    /// - Parameter StartTextDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTextDetectionInput`)
     ///
-    /// - Returns: `StartTextDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTextDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5693,7 +5624,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTextDetectionOutput>(StartTextDetectionOutput.httpOutput(from:), StartTextDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTextDetectionOutput>())
@@ -5728,9 +5658,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Stops a running model. The operation might take a while to complete. To check the current status, call [DescribeProjectVersions]. Only applies to Custom Labels projects. This operation requires permissions to perform the rekognition:StopProjectVersion action.
     ///
-    /// - Parameter StopProjectVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopProjectVersionInput`)
     ///
-    /// - Returns: `StopProjectVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopProjectVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5768,7 +5698,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopProjectVersionOutput>(StopProjectVersionOutput.httpOutput(from:), StopProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopProjectVersionOutput>())
@@ -5803,9 +5732,9 @@ extension RekognitionClient {
     ///
     /// Stops a running stream processor that was created by [CreateStreamProcessor].
     ///
-    /// - Parameter StopStreamProcessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopStreamProcessorInput`)
     ///
-    /// - Returns: `StopStreamProcessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopStreamProcessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5843,7 +5772,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamProcessorOutput>(StopStreamProcessorOutput.httpOutput(from:), StopStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopStreamProcessorOutput>())
@@ -5878,9 +5806,9 @@ extension RekognitionClient {
     ///
     /// Adds one or more key-value tags to an Amazon Rekognition collection, stream processor, or Custom Labels model. For more information, see [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). This operation requires permissions to perform the rekognition:TagResource action.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5918,7 +5846,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5953,9 +5880,9 @@ extension RekognitionClient {
     ///
     /// Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model. This operation requires permissions to perform the rekognition:UntagResource action.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5992,7 +5919,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6027,9 +5953,9 @@ extension RekognitionClient {
     ///
     /// This operation applies only to Amazon Rekognition Custom Labels. Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide. If the source-ref field in the JSON line references an existing image, the existing image in the dataset is updated. If source-ref field doesn't reference an existing image, the image is added as a new image to the dataset. You specify the changes that you want to make in the Changes input parameter. There isn't a limit to the number JSON Lines that you can change, but the size of Changes must be less than 5MB. UpdateDatasetEntries returns immediatly, but the dataset update might take a while to complete. Use [DescribeDataset] to check the current status. The dataset updated successfully if the value of Status is UPDATE_COMPLETE. To check if any non-terminal errors occured, call [ListDatasetEntries] and check for the presence of errors lists in the JSON Lines. Dataset update fails if a terminal error occurs (Status = UPDATE_FAILED). Currently, you can't access the terminal error information from the Amazon Rekognition Custom Labels SDK. This operation requires permissions to perform the rekognition:UpdateDatasetEntries action.
     ///
-    /// - Parameter UpdateDatasetEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetEntriesInput`)
     ///
-    /// - Returns: `UpdateDatasetEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetEntriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6068,7 +5994,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetEntriesOutput>(UpdateDatasetEntriesOutput.httpOutput(from:), UpdateDatasetEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetEntriesOutput>())
@@ -6103,9 +6028,9 @@ extension RekognitionClient {
     ///
     /// Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
     ///
-    /// - Parameter UpdateStreamProcessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamProcessorInput`)
     ///
-    /// - Returns: `UpdateStreamProcessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStreamProcessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6143,7 +6068,6 @@ extension RekognitionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamProcessorOutput>(UpdateStreamProcessorOutput.httpOutput(from:), UpdateStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamProcessorOutput>())

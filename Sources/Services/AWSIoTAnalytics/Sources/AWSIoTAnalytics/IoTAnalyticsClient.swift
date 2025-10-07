@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTAnalyticsClient: ClientRuntime.Client {
     public static let clientName = "IoTAnalyticsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTAnalyticsClient.IoTAnalyticsClientConfiguration
     let serviceName = "IoTAnalytics"
@@ -374,9 +373,9 @@ extension IoTAnalyticsClient {
     ///
     /// Sends messages to a channel.
     ///
-    /// - Parameter BatchPutMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutMessageInput`)
     ///
-    /// - Returns: `BatchPutMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutMessageInput, BatchPutMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutMessageOutput>(BatchPutMessageOutput.httpOutput(from:), BatchPutMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutMessageInput, BatchPutMessageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutMessageOutput>())
@@ -446,9 +444,9 @@ extension IoTAnalyticsClient {
     ///
     /// Cancels the reprocessing of data through the pipeline.
     ///
-    /// - Parameter CancelPipelineReprocessingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelPipelineReprocessingInput`)
     ///
-    /// - Returns: `CancelPipelineReprocessingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelPipelineReprocessingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +481,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelPipelineReprocessingInput, CancelPipelineReprocessingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelPipelineReprocessingOutput>(CancelPipelineReprocessingOutput.httpOutput(from:), CancelPipelineReprocessingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelPipelineReprocessingInput, CancelPipelineReprocessingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelPipelineReprocessingOutput>())
@@ -515,9 +512,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to create a channel. A channel collects data from an MQTT topic and archives the raw, unprocessed messages before publishing the data to a pipeline.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,7 +553,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -588,9 +584,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to create a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,7 +625,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -661,9 +656,9 @@ extension IoTAnalyticsClient {
     ///
     /// Creates the content of a dataset by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
     ///
-    /// - Parameter CreateDatasetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetContentInput`)
     ///
-    /// - Returns: `CreateDatasetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,7 +696,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetContentInput, CreateDatasetContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetContentOutput>(CreateDatasetContentOutput.httpOutput(from:), CreateDatasetContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetContentInput, CreateDatasetContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetContentOutput>())
@@ -733,9 +727,9 @@ extension IoTAnalyticsClient {
     ///
     /// Creates a data store, which is a repository for messages.
     ///
-    /// - Parameter CreateDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatastoreInput`)
     ///
-    /// - Returns: `CreateDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,7 +768,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatastoreInput, CreateDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatastoreOutput>(CreateDatastoreOutput.httpOutput(from:), CreateDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatastoreInput, CreateDatastoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatastoreOutput>())
@@ -806,9 +799,9 @@ extension IoTAnalyticsClient {
     ///
     /// Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///
-    /// - Parameter CreatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,7 +840,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(CreatePipelineOutput.httpOutput(from:), CreatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineInput, CreatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipelineOutput>())
@@ -879,9 +871,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified channel.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -916,7 +908,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -948,9 +939,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,7 +976,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -1017,9 +1007,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the content of the specified dataset.
     ///
-    /// - Parameter DeleteDatasetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetContentInput`)
     ///
-    /// - Returns: `DeleteDatasetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1055,7 +1045,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDatasetContentInput, DeleteDatasetContentOutput>(DeleteDatasetContentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetContentOutput>(DeleteDatasetContentOutput.httpOutput(from:), DeleteDatasetContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetContentInput, DeleteDatasetContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetContentOutput>())
@@ -1087,9 +1076,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified data store.
     ///
-    /// - Parameter DeleteDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatastoreInput`)
     ///
-    /// - Returns: `DeleteDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1124,7 +1113,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatastoreInput, DeleteDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatastoreOutput>(DeleteDatastoreOutput.httpOutput(from:), DeleteDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatastoreInput, DeleteDatastoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatastoreOutput>())
@@ -1156,9 +1144,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified pipeline.
     ///
-    /// - Parameter DeletePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,7 +1181,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(DeletePipelineOutput.httpOutput(from:), DeletePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineInput, DeletePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipelineOutput>())
@@ -1225,9 +1212,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a channel.
     ///
-    /// - Parameter DescribeChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,7 +1250,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeChannelInput, DescribeChannelOutput>(DescribeChannelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChannelOutput>(DescribeChannelOutput.httpOutput(from:), DescribeChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChannelInput, DescribeChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChannelOutput>())
@@ -1295,9 +1281,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a dataset.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,7 +1318,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -1364,9 +1349,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a data store.
     ///
-    /// - Parameter DescribeDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatastoreInput`)
     ///
-    /// - Returns: `DescribeDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1402,7 +1387,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDatastoreInput, DescribeDatastoreOutput>(DescribeDatastoreInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatastoreOutput>(DescribeDatastoreOutput.httpOutput(from:), DescribeDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatastoreInput, DescribeDatastoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatastoreOutput>())
@@ -1434,9 +1418,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves the current settings of the IoT Analytics logging options.
     ///
-    /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLoggingOptionsInput`)
     ///
-    /// - Returns: `DescribeLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1471,7 +1455,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLoggingOptionsInput, DescribeLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoggingOptionsOutput>(DescribeLoggingOptionsOutput.httpOutput(from:), DescribeLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingOptionsInput, DescribeLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingOptionsOutput>())
@@ -1503,9 +1486,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a pipeline.
     ///
-    /// - Parameter DescribePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePipelineInput`)
     ///
-    /// - Returns: `DescribePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1540,7 +1523,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePipelineInput, DescribePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipelineOutput>(DescribePipelineOutput.httpOutput(from:), DescribePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipelineInput, DescribePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePipelineOutput>())
@@ -1572,9 +1554,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves the contents of a dataset as presigned URIs.
     ///
-    /// - Parameter GetDatasetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatasetContentInput`)
     ///
-    /// - Returns: `GetDatasetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatasetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,7 +1592,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDatasetContentInput, GetDatasetContentOutput>(GetDatasetContentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDatasetContentOutput>(GetDatasetContentOutput.httpOutput(from:), GetDatasetContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatasetContentInput, GetDatasetContentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatasetContentOutput>())
@@ -1642,9 +1623,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a list of channels.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1679,7 +1660,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1711,9 +1691,9 @@ extension IoTAnalyticsClient {
     ///
     /// Lists information about dataset contents that have been created.
     ///
-    /// - Parameter ListDatasetContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetContentsInput`)
     ///
-    /// - Returns: `ListDatasetContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,7 +1729,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetContentsInput, ListDatasetContentsOutput>(ListDatasetContentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetContentsOutput>(ListDatasetContentsOutput.httpOutput(from:), ListDatasetContentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetContentsInput, ListDatasetContentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetContentsOutput>())
@@ -1781,9 +1760,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about datasets.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1818,7 +1797,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -1850,9 +1828,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a list of data stores.
     ///
-    /// - Parameter ListDatastoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatastoresInput`)
     ///
-    /// - Returns: `ListDatastoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatastoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1887,7 +1865,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatastoresInput, ListDatastoresOutput>(ListDatastoresInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatastoresOutput>(ListDatastoresOutput.httpOutput(from:), ListDatastoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatastoresInput, ListDatastoresOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatastoresOutput>())
@@ -1919,9 +1896,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a list of pipelines.
     ///
-    /// - Parameter ListPipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1956,7 +1933,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPipelinesInput, ListPipelinesOutput>(ListPipelinesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(ListPipelinesOutput.httpOutput(from:), ListPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelinesInput, ListPipelinesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelinesOutput>())
@@ -1988,9 +1964,9 @@ extension IoTAnalyticsClient {
     ///
     /// Lists the tags (metadata) that you have assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2027,7 +2003,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2059,9 +2034,9 @@ extension IoTAnalyticsClient {
     ///
     /// Sets or updates the IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     ///
-    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingOptionsInput`)
     ///
-    /// - Returns: `PutLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2098,7 +2073,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLoggingOptionsOutput>(PutLoggingOptionsOutput.httpOutput(from:), PutLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLoggingOptionsOutput>())
@@ -2130,9 +2104,9 @@ extension IoTAnalyticsClient {
     ///
     /// Simulates the results of running a pipeline activity on a message payload.
     ///
-    /// - Parameter RunPipelineActivityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RunPipelineActivityInput`)
     ///
-    /// - Returns: `RunPipelineActivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RunPipelineActivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2169,7 +2143,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RunPipelineActivityInput, RunPipelineActivityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunPipelineActivityOutput>(RunPipelineActivityOutput.httpOutput(from:), RunPipelineActivityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunPipelineActivityInput, RunPipelineActivityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RunPipelineActivityOutput>())
@@ -2201,9 +2174,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a sample of messages from the specified channel ingested during the specified timeframe. Up to 10 messages can be retrieved.
     ///
-    /// - Parameter SampleChannelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SampleChannelDataInput`)
     ///
-    /// - Returns: `SampleChannelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SampleChannelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2239,7 +2212,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<SampleChannelDataInput, SampleChannelDataOutput>(SampleChannelDataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SampleChannelDataOutput>(SampleChannelDataOutput.httpOutput(from:), SampleChannelDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SampleChannelDataInput, SampleChannelDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SampleChannelDataOutput>())
@@ -2271,9 +2243,9 @@ extension IoTAnalyticsClient {
     ///
     /// Starts the reprocessing of raw message data through the pipeline.
     ///
-    /// - Parameter StartPipelineReprocessingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPipelineReprocessingInput`)
     ///
-    /// - Returns: `StartPipelineReprocessingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPipelineReprocessingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2312,7 +2284,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPipelineReprocessingInput, StartPipelineReprocessingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPipelineReprocessingOutput>(StartPipelineReprocessingOutput.httpOutput(from:), StartPipelineReprocessingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPipelineReprocessingInput, StartPipelineReprocessingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPipelineReprocessingOutput>())
@@ -2344,9 +2315,9 @@ extension IoTAnalyticsClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2386,7 +2357,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2418,9 +2388,9 @@ extension IoTAnalyticsClient {
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2457,7 +2427,6 @@ extension IoTAnalyticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2489,9 +2458,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to update the settings of a channel.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2529,7 +2498,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -2561,9 +2529,9 @@ extension IoTAnalyticsClient {
     ///
     /// Updates the settings of a dataset.
     ///
-    /// - Parameter UpdateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,7 +2569,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetOutput>(UpdateDatasetOutput.httpOutput(from:), UpdateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetOutput>())
@@ -2633,9 +2600,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to update the settings of a data store.
     ///
-    /// - Parameter UpdateDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatastoreInput`)
     ///
-    /// - Returns: `UpdateDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2673,7 +2640,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatastoreInput, UpdateDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatastoreOutput>(UpdateDatastoreOutput.httpOutput(from:), UpdateDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatastoreInput, UpdateDatastoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatastoreOutput>())
@@ -2705,9 +2671,9 @@ extension IoTAnalyticsClient {
     ///
     /// Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///
-    /// - Parameter UpdatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipelineInput`)
     ///
-    /// - Returns: `UpdatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2746,7 +2712,6 @@ extension IoTAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineOutput>(UpdatePipelineOutput.httpOutput(from:), UpdatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineOutput>())

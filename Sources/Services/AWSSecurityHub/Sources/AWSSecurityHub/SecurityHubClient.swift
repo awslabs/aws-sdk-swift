@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityHubClient: ClientRuntime.Client {
     public static let clientName = "SecurityHubClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityHubClient.SecurityHubClientConfiguration
     let serviceName = "SecurityHub"
@@ -376,9 +375,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     ///
-    /// - Parameter AcceptAdministratorInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptAdministratorInvitationInput`)
     ///
-    /// - Returns: `AcceptAdministratorInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptAdministratorInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptAdministratorInvitationOutput>(AcceptAdministratorInvitationOutput.httpOutput(from:), AcceptAdministratorInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAdministratorInvitationOutput>())
@@ -449,9 +447,9 @@ extension SecurityHubClient {
     /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
     ///
-    /// - Parameter AcceptInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
     ///
-    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,7 +487,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptInvitationInput, AcceptInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInvitationOutput>(AcceptInvitationOutput.httpOutput(from:), AcceptInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInvitationOutput>())
@@ -521,9 +518,9 @@ extension SecurityHubClient {
     ///
     /// Deletes one or more automation rules.
     ///
-    /// - Parameter BatchDeleteAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteAutomationRulesInput`)
     ///
-    /// - Returns: `BatchDeleteAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,7 +558,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteAutomationRulesOutput>(BatchDeleteAutomationRulesOutput.httpOutput(from:), BatchDeleteAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteAutomationRulesOutput>())
@@ -593,9 +589,9 @@ extension SecurityHubClient {
     ///
     /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
     ///
-    /// - Parameter BatchDisableStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisableStandardsInput`)
     ///
-    /// - Returns: `BatchDisableStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisableStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,7 +629,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisableStandardsOutput>(BatchDisableStandardsOutput.httpOutput(from:), BatchDisableStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisableStandardsOutput>())
@@ -665,9 +660,9 @@ extension SecurityHubClient {
     ///
     /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
     ///
-    /// - Parameter BatchEnableStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchEnableStandardsInput`)
     ///
-    /// - Returns: `BatchEnableStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchEnableStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,7 +700,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchEnableStandardsOutput>(BatchEnableStandardsOutput.httpOutput(from:), BatchEnableStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchEnableStandardsOutput>())
@@ -737,9 +731,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves a list of details for automation rules based on rule Amazon Resource Names (ARNs).
     ///
-    /// - Parameter BatchGetAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAutomationRulesInput`)
     ///
-    /// - Returns: `BatchGetAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,7 +772,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAutomationRulesOutput>(BatchGetAutomationRulesOutput.httpOutput(from:), BatchGetAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAutomationRulesOutput>())
@@ -810,9 +803,9 @@ extension SecurityHubClient {
     ///
     /// Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
     ///
-    /// - Parameter BatchGetConfigurationPolicyAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetConfigurationPolicyAssociationsInput`)
     ///
-    /// - Returns: `BatchGetConfigurationPolicyAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetConfigurationPolicyAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,7 +844,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetConfigurationPolicyAssociationsOutput>(BatchGetConfigurationPolicyAssociationsOutput.httpOutput(from:), BatchGetConfigurationPolicyAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetConfigurationPolicyAssociationsOutput>())
@@ -883,9 +875,9 @@ extension SecurityHubClient {
     ///
     /// Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter BatchGetSecurityControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSecurityControlsInput`)
     ///
-    /// - Returns: `BatchGetSecurityControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSecurityControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,7 +914,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSecurityControlsOutput>(BatchGetSecurityControlsOutput.httpOutput(from:), BatchGetSecurityControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSecurityControlsOutput>())
@@ -954,9 +945,9 @@ extension SecurityHubClient {
     ///
     /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the association has a NOT_READY_FOR_UPDATES value for StandardsControlsUpdatable.
     ///
-    /// - Parameter BatchGetStandardsControlAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetStandardsControlAssociationsInput`)
     ///
-    /// - Returns: `BatchGetStandardsControlAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetStandardsControlAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -993,7 +984,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetStandardsControlAssociationsOutput>(BatchGetStandardsControlAssociationsOutput.httpOutput(from:), BatchGetStandardsControlAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetStandardsControlAssociationsOutput>())
@@ -1056,9 +1046,9 @@ extension SecurityHubClient {
     ///
     /// Instead, finding providers use FindingProviderFields to provide values for these attributes.
     ///
-    /// - Parameter BatchImportFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchImportFindingsInput`)
     ///
-    /// - Returns: `BatchImportFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchImportFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,7 +1085,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchImportFindingsOutput>(BatchImportFindingsOutput.httpOutput(from:), BatchImportFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchImportFindingsOutput>())
@@ -1127,9 +1116,9 @@ extension SecurityHubClient {
     ///
     /// Updates one or more automation rules based on rule Amazon Resource Names (ARNs) and input parameters.
     ///
-    /// - Parameter BatchUpdateAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateAutomationRulesInput`)
     ///
-    /// - Returns: `BatchUpdateAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,7 +1156,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateAutomationRulesOutput>(BatchUpdateAutomationRulesOutput.httpOutput(from:), BatchUpdateAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateAutomationRulesOutput>())
@@ -1220,9 +1208,9 @@ extension SecurityHubClient {
     ///
     /// If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request. You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access) in the Security Hub User Guide.
     ///
-    /// - Parameter BatchUpdateFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateFindingsInput`)
     ///
-    /// - Returns: `BatchUpdateFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,7 +1247,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateFindingsOutput>(BatchUpdateFindingsOutput.httpOutput(from:), BatchUpdateFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateFindingsOutput>())
@@ -1291,9 +1278,9 @@ extension SecurityHubClient {
     ///
     /// Used by customers to update information about their investigation into a finding. Requested by delegated administrator accounts or member accounts. Delegated administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:BatchUpdateFindings action. Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding. This API is in private preview and subject to change.
     ///
-    /// - Parameter BatchUpdateFindingsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateFindingsV2Input`)
     ///
-    /// - Returns: `BatchUpdateFindingsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateFindingsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1331,7 +1318,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateFindingsV2Input, BatchUpdateFindingsV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateFindingsV2Output>(BatchUpdateFindingsV2Output.httpOutput(from:), BatchUpdateFindingsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateFindingsV2Input, BatchUpdateFindingsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateFindingsV2Output>())
@@ -1363,9 +1349,9 @@ extension SecurityHubClient {
     ///
     /// For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
     ///
-    /// - Parameter BatchUpdateStandardsControlAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateStandardsControlAssociationsInput`)
     ///
-    /// - Returns: `BatchUpdateStandardsControlAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateStandardsControlAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1403,7 +1389,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateStandardsControlAssociationsOutput>(BatchUpdateStandardsControlAssociationsOutput.httpOutput(from:), BatchUpdateStandardsControlAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateStandardsControlAssociationsOutput>())
@@ -1435,9 +1420,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to complete the authorization based on input parameters. This API is in preview release and subject to change.
     ///
-    /// - Parameter ConnectorRegistrationsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConnectorRegistrationsV2Input`)
     ///
-    /// - Returns: `ConnectorRegistrationsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConnectorRegistrationsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1476,7 +1461,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConnectorRegistrationsV2Output>(ConnectorRegistrationsV2Output.httpOutput(from:), ConnectorRegistrationsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConnectorRegistrationsV2Input, ConnectorRegistrationsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConnectorRegistrationsV2Output>())
@@ -1508,9 +1492,9 @@ extension SecurityHubClient {
     ///
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
     ///
-    /// - Parameter CreateActionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateActionTargetInput`)
     ///
-    /// - Returns: `CreateActionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateActionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,7 +1532,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateActionTargetInput, CreateActionTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateActionTargetOutput>(CreateActionTargetOutput.httpOutput(from:), CreateActionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateActionTargetInput, CreateActionTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateActionTargetOutput>())
@@ -1580,9 +1563,9 @@ extension SecurityHubClient {
     ///
     /// Enables aggregation across Amazon Web Services Regions. This API is in private preview and subject to change.
     ///
-    /// - Parameter CreateAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAggregatorV2Input`)
     ///
-    /// - Returns: `CreateAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,7 +1605,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAggregatorV2Input, CreateAggregatorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAggregatorV2Output>(CreateAggregatorV2Output.httpOutput(from:), CreateAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAggregatorV2Input, CreateAggregatorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAggregatorV2Output>())
@@ -1654,9 +1636,9 @@ extension SecurityHubClient {
     ///
     /// Creates an automation rule based on input parameters.
     ///
-    /// - Parameter CreateAutomationRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutomationRuleInput`)
     ///
-    /// - Returns: `CreateAutomationRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutomationRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1694,7 +1676,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomationRuleOutput>(CreateAutomationRuleOutput.httpOutput(from:), CreateAutomationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomationRuleOutput>())
@@ -1726,9 +1707,9 @@ extension SecurityHubClient {
     ///
     /// Creates a V2 automation rule. This API is in private preview and subject to change.
     ///
-    /// - Parameter CreateAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutomationRuleV2Input`)
     ///
-    /// - Returns: `CreateAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,7 +1748,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomationRuleV2Input, CreateAutomationRuleV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomationRuleV2Output>(CreateAutomationRuleV2Output.httpOutput(from:), CreateAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomationRuleV2Input, CreateAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomationRuleV2Output>())
@@ -1799,9 +1779,9 @@ extension SecurityHubClient {
     ///
     /// Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter CreateConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationPolicyInput`)
     ///
-    /// - Returns: `CreateConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1840,7 +1820,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationPolicyOutput>(CreateConfigurationPolicyOutput.httpOutput(from:), CreateConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationPolicyOutput>())
@@ -1872,9 +1851,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to create a connectorV2 based on input parameters. This API is in preview release and subject to change.
     ///
-    /// - Parameter CreateConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorV2Input`)
     ///
-    /// - Returns: `CreateConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,7 +1893,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorV2Input, CreateConnectorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorV2Output>(CreateConnectorV2Output.httpOutput(from:), CreateConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorV2Input, CreateConnectorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorV2Output>())
@@ -1946,9 +1924,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see [Understanding cross-Region aggregation in Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html) in the Security Hub User Guide.
     ///
-    /// - Parameter CreateFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFindingAggregatorInput`)
     ///
-    /// - Returns: `CreateFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1986,7 +1964,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFindingAggregatorOutput>(CreateFindingAggregatorOutput.httpOutput(from:), CreateFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFindingAggregatorOutput>())
@@ -2018,9 +1995,9 @@ extension SecurityHubClient {
     ///
     /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     ///
-    /// - Parameter CreateInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInsightInput`)
     ///
-    /// - Returns: `CreateInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2058,7 +2035,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInsightInput, CreateInsightOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInsightOutput>(CreateInsightOutput.httpOutput(from:), CreateInsightOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInsightInput, CreateInsightOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInsightOutput>())
@@ -2104,9 +2080,9 @@ extension SecurityHubClient {
     ///
     /// A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     ///
-    /// - Parameter CreateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembersInput`)
     ///
-    /// - Returns: `CreateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2145,7 +2121,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMembersInput, CreateMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembersOutput>(CreateMembersOutput.httpOutput(from:), CreateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembersInput, CreateMembersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembersOutput>())
@@ -2177,9 +2152,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. This API is in preview release and subject to change.
     ///
-    /// - Parameter CreateTicketV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTicketV2Input`)
     ///
-    /// - Returns: `CreateTicketV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTicketV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2219,7 +2194,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTicketV2Input, CreateTicketV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTicketV2Output>(CreateTicketV2Output.httpOutput(from:), CreateTicketV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTicketV2Input, CreateTicketV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTicketV2Output>())
@@ -2251,9 +2225,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     ///
-    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeclineInvitationsInput`)
     ///
-    /// - Returns: `DeclineInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeclineInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,7 +2264,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeclineInvitationsOutput>(DeclineInvitationsOutput.httpOutput(from:), DeclineInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeclineInvitationsOutput>())
@@ -2322,9 +2295,9 @@ extension SecurityHubClient {
     ///
     /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     ///
-    /// - Parameter DeleteActionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteActionTargetInput`)
     ///
-    /// - Returns: `DeleteActionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteActionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2358,7 +2331,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteActionTargetOutput>(DeleteActionTargetOutput.httpOutput(from:), DeleteActionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteActionTargetOutput>())
@@ -2390,9 +2362,9 @@ extension SecurityHubClient {
     ///
     /// Deletes the Aggregator V2. This API is in private preview and subject to change.
     ///
-    /// - Parameter DeleteAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAggregatorV2Input`)
     ///
-    /// - Returns: `DeleteAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2428,7 +2400,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAggregatorV2Input, DeleteAggregatorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAggregatorV2Output>(DeleteAggregatorV2Output.httpOutput(from:), DeleteAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAggregatorV2Input, DeleteAggregatorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAggregatorV2Output>())
@@ -2460,9 +2431,9 @@ extension SecurityHubClient {
     ///
     /// Deletes a V2 automation rule. This API is in private preview and subject to change.
     ///
-    /// - Parameter DeleteAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAutomationRuleV2Input`)
     ///
-    /// - Returns: `DeleteAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2498,7 +2469,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAutomationRuleV2Input, DeleteAutomationRuleV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutomationRuleV2Output>(DeleteAutomationRuleV2Output.httpOutput(from:), DeleteAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomationRuleV2Input, DeleteAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutomationRuleV2Output>())
@@ -2530,9 +2500,9 @@ extension SecurityHubClient {
     ///
     /// Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
     ///
-    /// - Parameter DeleteConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationPolicyInput`)
     ///
-    /// - Returns: `DeleteConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2569,7 +2539,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationPolicyOutput>(DeleteConfigurationPolicyOutput.httpOutput(from:), DeleteConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationPolicyOutput>())
@@ -2601,9 +2570,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to delete a connectorV2. This API is in preview release and subject to change.
     ///
-    /// - Parameter DeleteConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorV2Input`)
     ///
-    /// - Returns: `DeleteConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2639,7 +2608,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorV2Input, DeleteConnectorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorV2Output>(DeleteConnectorV2Output.httpOutput(from:), DeleteConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorV2Input, DeleteConnectorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorV2Output>())
@@ -2671,9 +2639,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
     ///
-    /// - Parameter DeleteFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFindingAggregatorInput`)
     ///
-    /// - Returns: `DeleteFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2709,7 +2677,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFindingAggregatorOutput>(DeleteFindingAggregatorOutput.httpOutput(from:), DeleteFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFindingAggregatorOutput>())
@@ -2741,9 +2708,9 @@ extension SecurityHubClient {
     ///
     /// Deletes the insight specified by the InsightArn.
     ///
-    /// - Parameter DeleteInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInsightInput`)
     ///
-    /// - Returns: `DeleteInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2778,7 +2745,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInsightInput, DeleteInsightOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInsightOutput>(DeleteInsightOutput.httpOutput(from:), DeleteInsightOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInsightInput, DeleteInsightOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInsightOutput>())
@@ -2810,9 +2776,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     ///
-    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvitationsInput`)
     ///
-    /// - Returns: `DeleteInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2850,7 +2816,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvitationsOutput>(DeleteInvitationsOutput.httpOutput(from:), DeleteInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvitationsOutput>())
@@ -2882,9 +2847,9 @@ extension SecurityHubClient {
     ///
     /// Deletes the specified member accounts from Security Hub. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
     ///
-    /// - Parameter DeleteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMembersInput`)
     ///
-    /// - Returns: `DeleteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2922,7 +2887,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMembersInput, DeleteMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMembersOutput>(DeleteMembersOutput.httpOutput(from:), DeleteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMembersInput, DeleteMembersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMembersOutput>())
@@ -2954,9 +2918,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of the custom action targets in Security Hub in your account.
     ///
-    /// - Parameter DescribeActionTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActionTargetsInput`)
     ///
-    /// - Returns: `DescribeActionTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActionTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2993,7 +2957,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActionTargetsOutput>(DescribeActionTargetsOutput.httpOutput(from:), DescribeActionTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActionTargetsOutput>())
@@ -3025,9 +2988,9 @@ extension SecurityHubClient {
     ///
     /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
     ///
-    /// - Parameter DescribeHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHubInput`)
     ///
-    /// - Returns: `DescribeHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3063,7 +3026,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeHubInput, DescribeHubOutput>(DescribeHubInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHubOutput>(DescribeHubOutput.httpOutput(from:), DescribeHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHubInput, DescribeHubOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHubOutput>())
@@ -3095,9 +3057,9 @@ extension SecurityHubClient {
     ///
     /// Returns information about the way your organization is configured in Security Hub. Only the Security Hub administrator account can invoke this operation.
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3131,7 +3093,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationOutput.httpOutput(from:), DescribeOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigurationOutput>())
@@ -3163,9 +3124,9 @@ extension SecurityHubClient {
     ///
     /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     ///
-    /// - Parameter DescribeProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProductsInput`)
     ///
-    /// - Returns: `DescribeProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3200,7 +3161,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeProductsInput, DescribeProductsOutput>(DescribeProductsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProductsOutput>(DescribeProductsOutput.httpOutput(from:), DescribeProductsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProductsInput, DescribeProductsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProductsOutput>())
@@ -3232,9 +3192,9 @@ extension SecurityHubClient {
     ///
     /// Gets information about the product integration. This API is in private preview and subject to change.
     ///
-    /// - Parameter DescribeProductsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProductsV2Input`)
     ///
-    /// - Returns: `DescribeProductsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProductsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3270,7 +3230,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeProductsV2Input, DescribeProductsV2Output>(DescribeProductsV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProductsV2Output>(DescribeProductsV2Output.httpOutput(from:), DescribeProductsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProductsV2Input, DescribeProductsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProductsV2Output>())
@@ -3302,9 +3261,9 @@ extension SecurityHubClient {
     ///
     /// Returns details about the service resource in your account. This API is in private preview and subject to change.
     ///
-    /// - Parameter DescribeSecurityHubV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityHubV2Input`)
     ///
-    /// - Returns: `DescribeSecurityHubV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityHubV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3338,7 +3297,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecurityHubV2Input, DescribeSecurityHubV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityHubV2Output>(DescribeSecurityHubV2Output.httpOutput(from:), DescribeSecurityHubV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityHubV2Input, DescribeSecurityHubV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityHubV2Output>())
@@ -3370,9 +3328,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
     ///
-    /// - Parameter DescribeStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStandardsInput`)
     ///
-    /// - Returns: `DescribeStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3406,7 +3364,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeStandardsInput, DescribeStandardsOutput>(DescribeStandardsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStandardsOutput>(DescribeStandardsOutput.httpOutput(from:), DescribeStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStandardsInput, DescribeStandardsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStandardsOutput>())
@@ -3438,9 +3395,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information. This operation returns an empty list for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
-    /// - Parameter DescribeStandardsControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStandardsControlsInput`)
     ///
-    /// - Returns: `DescribeStandardsControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStandardsControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3475,7 +3432,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(DescribeStandardsControlsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStandardsControlsOutput>(DescribeStandardsControlsOutput.httpOutput(from:), DescribeStandardsControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStandardsControlsOutput>())
@@ -3507,9 +3463,9 @@ extension SecurityHubClient {
     ///
     /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
     ///
-    /// - Parameter DisableImportFindingsForProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableImportFindingsForProductInput`)
     ///
-    /// - Returns: `DisableImportFindingsForProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableImportFindingsForProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3544,7 +3500,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableImportFindingsForProductOutput>(DisableImportFindingsForProductOutput.httpOutput(from:), DisableImportFindingsForProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableImportFindingsForProductOutput>())
@@ -3576,9 +3531,9 @@ extension SecurityHubClient {
     ///
     /// Disables a Security Hub administrator account. Can only be called by the organization management account.
     ///
-    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3616,7 +3571,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationAdminAccountOutput>(DisableOrganizationAdminAccountOutput.httpOutput(from:), DisableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationAdminAccountOutput>())
@@ -3648,9 +3602,9 @@ extension SecurityHubClient {
     ///
     /// Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. You can't disable Security Hub in an account that is currently the Security Hub administrator. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
     ///
-    /// - Parameter DisableSecurityHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubInput`)
     ///
-    /// - Returns: `DisableSecurityHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSecurityHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3685,7 +3639,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSecurityHubOutput>(DisableSecurityHubOutput.httpOutput(from:), DisableSecurityHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSecurityHubOutput>())
@@ -3717,9 +3670,9 @@ extension SecurityHubClient {
     ///
     /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
     ///
-    /// - Parameter DisableSecurityHubV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubV2Input`)
     ///
-    /// - Returns: `DisableSecurityHubV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSecurityHubV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3753,7 +3706,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableSecurityHubV2Input, DisableSecurityHubV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSecurityHubV2Output>(DisableSecurityHubV2Output.httpOutput(from:), DisableSecurityHubV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSecurityHubV2Input, DisableSecurityHubV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSecurityHubV2Output>())
@@ -3785,9 +3737,9 @@ extension SecurityHubClient {
     ///
     /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     ///
-    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromAdministratorAccountInput`)
     ///
-    /// - Returns: `DisassociateFromAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3822,7 +3774,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromAdministratorAccountOutput>(DisassociateFromAdministratorAccountOutput.httpOutput(from:), DisassociateFromAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromAdministratorAccountOutput>())
@@ -3855,9 +3806,9 @@ extension SecurityHubClient {
     /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
     ///
-    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromMasterAccountInput`)
     ///
-    /// - Returns: `DisassociateFromMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3892,7 +3843,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromMasterAccountOutput>(DisassociateFromMasterAccountOutput.httpOutput(from:), DisassociateFromMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromMasterAccountOutput>())
@@ -3924,9 +3874,9 @@ extension SecurityHubClient {
     ///
     /// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually.
     ///
-    /// - Parameter DisassociateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMembersInput`)
     ///
-    /// - Returns: `DisassociateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3965,7 +3915,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateMembersInput, DisassociateMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMembersOutput>(DisassociateMembersOutput.httpOutput(from:), DisassociateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMembersOutput>())
@@ -3997,9 +3946,9 @@ extension SecurityHubClient {
     ///
     /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
     ///
-    /// - Parameter EnableImportFindingsForProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableImportFindingsForProductInput`)
     ///
-    /// - Returns: `EnableImportFindingsForProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableImportFindingsForProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4037,7 +3986,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableImportFindingsForProductOutput>(EnableImportFindingsForProductOutput.httpOutput(from:), EnableImportFindingsForProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableImportFindingsForProductOutput>())
@@ -4069,9 +4017,9 @@ extension SecurityHubClient {
     ///
     /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
     ///
-    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4109,7 +4057,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationAdminAccountOutput>(EnableOrganizationAdminAccountOutput.httpOutput(from:), EnableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationAdminAccountOutput>())
@@ -4148,9 +4095,9 @@ extension SecurityHubClient {
     ///
     /// Other standards are not automatically enabled. To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Security Hub User Guide.
     ///
-    /// - Parameter EnableSecurityHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubInput`)
     ///
-    /// - Returns: `EnableSecurityHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSecurityHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4188,7 +4135,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSecurityHubOutput>(EnableSecurityHubOutput.httpOutput(from:), EnableSecurityHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSecurityHubOutput>())
@@ -4220,9 +4166,9 @@ extension SecurityHubClient {
     ///
     /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
     ///
-    /// - Parameter EnableSecurityHubV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubV2Input`)
     ///
-    /// - Returns: `EnableSecurityHubV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSecurityHubV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4259,7 +4205,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableSecurityHubV2Input, EnableSecurityHubV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSecurityHubV2Output>(EnableSecurityHubV2Output.httpOutput(from:), EnableSecurityHubV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSecurityHubV2Input, EnableSecurityHubV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSecurityHubV2Output>())
@@ -4291,9 +4236,9 @@ extension SecurityHubClient {
     ///
     /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
-    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdministratorAccountInput`)
     ///
-    /// - Returns: `GetAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4328,7 +4273,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdministratorAccountOutput>(GetAdministratorAccountOutput.httpOutput(from:), GetAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdministratorAccountOutput>())
@@ -4360,9 +4304,9 @@ extension SecurityHubClient {
     ///
     /// Returns the configuration of the specified Aggregator V2. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAggregatorV2Input`)
     ///
-    /// - Returns: `GetAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4398,7 +4342,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAggregatorV2Input, GetAggregatorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAggregatorV2Output>(GetAggregatorV2Output.httpOutput(from:), GetAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregatorV2Input, GetAggregatorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregatorV2Output>())
@@ -4430,9 +4373,9 @@ extension SecurityHubClient {
     ///
     /// Returns an automation rule for the V2 service. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomationRuleV2Input`)
     ///
-    /// - Returns: `GetAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4468,7 +4411,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomationRuleV2Input, GetAutomationRuleV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomationRuleV2Output>(GetAutomationRuleV2Output.httpOutput(from:), GetAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationRuleV2Input, GetAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationRuleV2Output>())
@@ -4500,9 +4442,9 @@ extension SecurityHubClient {
     ///
     /// Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter GetConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationPolicyInput`)
     ///
-    /// - Returns: `GetConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4538,7 +4480,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationPolicyOutput>(GetConfigurationPolicyOutput.httpOutput(from:), GetConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationPolicyOutput>())
@@ -4570,9 +4511,9 @@ extension SecurityHubClient {
     ///
     /// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter GetConfigurationPolicyAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationPolicyAssociationInput`)
     ///
-    /// - Returns: `GetConfigurationPolicyAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationPolicyAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4611,7 +4552,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationPolicyAssociationOutput>(GetConfigurationPolicyAssociationOutput.httpOutput(from:), GetConfigurationPolicyAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationPolicyAssociationOutput>())
@@ -4643,9 +4583,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to retrieve details for a connectorV2 based on connector id. This API is in preview release and subject to change.
     ///
-    /// - Parameter GetConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorV2Input`)
     ///
-    /// - Returns: `GetConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4681,7 +4621,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorV2Input, GetConnectorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorV2Output>(GetConnectorV2Output.httpOutput(from:), GetConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorV2Input, GetConnectorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorV2Output>())
@@ -4713,9 +4652,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of the standards that are currently enabled.
     ///
-    /// - Parameter GetEnabledStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnabledStandardsInput`)
     ///
-    /// - Returns: `GetEnabledStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnabledStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4752,7 +4691,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnabledStandardsOutput>(GetEnabledStandardsOutput.httpOutput(from:), GetEnabledStandardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnabledStandardsOutput>())
@@ -4784,9 +4722,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions.
     ///
-    /// - Parameter GetFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingAggregatorInput`)
     ///
-    /// - Returns: `GetFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4822,7 +4760,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingAggregatorOutput>(GetFindingAggregatorOutput.httpOutput(from:), GetFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingAggregatorOutput>())
@@ -4854,9 +4791,9 @@ extension SecurityHubClient {
     ///
     /// Returns the history of a Security Hub finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields. This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
     ///
-    /// - Parameter GetFindingHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingHistoryInput`)
     ///
-    /// - Returns: `GetFindingHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4893,7 +4830,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingHistoryOutput>(GetFindingHistoryOutput.httpOutput(from:), GetFindingHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingHistoryOutput>())
@@ -4925,9 +4861,9 @@ extension SecurityHubClient {
     ///
     /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement. You must have permission to perform the s action. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetFindingStatisticsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingStatisticsV2Input`)
     ///
-    /// - Returns: `GetFindingStatisticsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingStatisticsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4965,7 +4901,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingStatisticsV2Input, GetFindingStatisticsV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingStatisticsV2Output>(GetFindingStatisticsV2Output.httpOutput(from:), GetFindingStatisticsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingStatisticsV2Input, GetFindingStatisticsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingStatisticsV2Output>())
@@ -4997,9 +4932,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
     ///
-    /// - Parameter GetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsInput`)
     ///
-    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5036,7 +4971,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingsInput, GetFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(GetFindingsOutput.httpOutput(from:), GetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsInput, GetFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsOutput>())
@@ -5068,9 +5002,9 @@ extension SecurityHubClient {
     ///
     /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:GetFindings action. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetFindingsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsV2Input`)
     ///
-    /// - Returns: `GetFindingsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5108,7 +5042,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingsV2Input, GetFindingsV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsV2Output>(GetFindingsV2Output.httpOutput(from:), GetFindingsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsV2Input, GetFindingsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsV2Output>())
@@ -5140,9 +5073,9 @@ extension SecurityHubClient {
     ///
     /// Lists the results of the Security Hub insight specified by the insight ARN.
     ///
-    /// - Parameter GetInsightResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightResultsInput`)
     ///
-    /// - Returns: `GetInsightResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5177,7 +5110,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInsightResultsInput, GetInsightResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInsightResultsOutput>(GetInsightResultsOutput.httpOutput(from:), GetInsightResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightResultsInput, GetInsightResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightResultsOutput>())
@@ -5209,9 +5141,9 @@ extension SecurityHubClient {
     ///
     /// Lists and describes insights for the specified insight ARNs.
     ///
-    /// - Parameter GetInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightsInput`)
     ///
-    /// - Returns: `GetInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5249,7 +5181,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInsightsInput, GetInsightsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInsightsOutput>(GetInsightsOutput.httpOutput(from:), GetInsightsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightsInput, GetInsightsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightsOutput>())
@@ -5281,9 +5212,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     ///
-    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvitationsCountInput`)
     ///
-    /// - Returns: `GetInvitationsCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvitationsCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5317,7 +5248,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvitationsCountOutput>(GetInvitationsCountOutput.httpOutput(from:), GetInvitationsCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvitationsCountOutput>())
@@ -5350,9 +5280,9 @@ extension SecurityHubClient {
     /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
     ///
-    /// - Parameter GetMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMasterAccountInput`)
     ///
-    /// - Returns: `GetMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5387,7 +5317,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMasterAccountInput, GetMasterAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMasterAccountOutput>(GetMasterAccountOutput.httpOutput(from:), GetMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMasterAccountOutput>())
@@ -5419,9 +5348,9 @@ extension SecurityHubClient {
     ///
     /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
-    /// - Parameter GetMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembersInput`)
     ///
-    /// - Returns: `GetMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5459,7 +5388,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMembersInput, GetMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembersOutput>(GetMembersOutput.httpOutput(from:), GetMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembersInput, GetMembersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembersOutput>())
@@ -5491,9 +5419,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetResourcesStatisticsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesStatisticsV2Input`)
     ///
-    /// - Returns: `GetResourcesStatisticsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesStatisticsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5532,7 +5460,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcesStatisticsV2Input, GetResourcesStatisticsV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesStatisticsV2Output>(GetResourcesStatisticsV2Output.httpOutput(from:), GetResourcesStatisticsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesStatisticsV2Input, GetResourcesStatisticsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesStatisticsV2Output>())
@@ -5564,9 +5491,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of resources. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetResourcesV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesV2Input`)
     ///
-    /// - Returns: `GetResourcesV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5605,7 +5532,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcesV2Input, GetResourcesV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesV2Output>(GetResourcesV2Output.httpOutput(from:), GetResourcesV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesV2Input, GetResourcesV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesV2Output>())
@@ -5637,9 +5563,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
     ///
-    /// - Parameter GetSecurityControlDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityControlDefinitionInput`)
     ///
-    /// - Returns: `GetSecurityControlDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSecurityControlDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5675,7 +5601,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(GetSecurityControlDefinitionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityControlDefinitionOutput>(GetSecurityControlDefinitionOutput.httpOutput(from:), GetSecurityControlDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityControlDefinitionOutput>())
@@ -5707,9 +5632,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     ///
-    /// - Parameter InviteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InviteMembersInput`)
     ///
-    /// - Returns: `InviteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InviteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5747,7 +5672,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InviteMembersInput, InviteMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InviteMembersOutput>(InviteMembersOutput.httpOutput(from:), InviteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteMembersInput, InviteMembersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteMembersOutput>())
@@ -5779,9 +5703,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves a list of V2 aggregators. This API is in private preview and subject to change.
     ///
-    /// - Parameter ListAggregatorsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAggregatorsV2Input`)
     ///
-    /// - Returns: `ListAggregatorsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAggregatorsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5818,7 +5742,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAggregatorsV2Input, ListAggregatorsV2Output>(ListAggregatorsV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAggregatorsV2Output>(ListAggregatorsV2Output.httpOutput(from:), ListAggregatorsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregatorsV2Input, ListAggregatorsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregatorsV2Output>())
@@ -5850,9 +5773,9 @@ extension SecurityHubClient {
     ///
     /// A list of automation rules and their metadata for the calling account.
     ///
-    /// - Parameter ListAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomationRulesInput`)
     ///
-    /// - Returns: `ListAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5888,7 +5811,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(ListAutomationRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationRulesOutput>(ListAutomationRulesOutput.httpOutput(from:), ListAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulesOutput>())
@@ -5920,9 +5842,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of automation rules and metadata for the calling account. This API is in private preview and subject to change.
     ///
-    /// - Parameter ListAutomationRulesV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomationRulesV2Input`)
     ///
-    /// - Returns: `ListAutomationRulesV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomationRulesV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5958,7 +5880,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutomationRulesV2Input, ListAutomationRulesV2Output>(ListAutomationRulesV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationRulesV2Output>(ListAutomationRulesV2Output.httpOutput(from:), ListAutomationRulesV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulesV2Input, ListAutomationRulesV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulesV2Output>())
@@ -5990,9 +5911,9 @@ extension SecurityHubClient {
     ///
     /// Lists the configuration policies that the Security Hub delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter ListConfigurationPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationPoliciesInput`)
     ///
-    /// - Returns: `ListConfigurationPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6028,7 +5949,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(ListConfigurationPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationPoliciesOutput>(ListConfigurationPoliciesOutput.httpOutput(from:), ListConfigurationPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationPoliciesOutput>())
@@ -6060,9 +5980,9 @@ extension SecurityHubClient {
     ///
     /// Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter ListConfigurationPolicyAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationPolicyAssociationsInput`)
     ///
-    /// - Returns: `ListConfigurationPolicyAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationPolicyAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6100,7 +6020,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationPolicyAssociationsOutput>(ListConfigurationPolicyAssociationsOutput.httpOutput(from:), ListConfigurationPolicyAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationPolicyAssociationsOutput>())
@@ -6132,9 +6051,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account. This API is in preview release and subject to change.
     ///
-    /// - Parameter ListConnectorsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsV2Input`)
     ///
-    /// - Returns: `ListConnectorsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6171,7 +6090,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorsV2Input, ListConnectorsV2Output>(ListConnectorsV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsV2Output>(ListConnectorsV2Output.httpOutput(from:), ListConnectorsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsV2Input, ListConnectorsV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsV2Output>())
@@ -6203,9 +6121,9 @@ extension SecurityHubClient {
     ///
     /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     ///
-    /// - Parameter ListEnabledProductsForImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnabledProductsForImportInput`)
     ///
-    /// - Returns: `ListEnabledProductsForImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnabledProductsForImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6239,7 +6157,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(ListEnabledProductsForImportInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnabledProductsForImportOutput>(ListEnabledProductsForImportOutput.httpOutput(from:), ListEnabledProductsForImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnabledProductsForImportOutput>())
@@ -6271,9 +6188,9 @@ extension SecurityHubClient {
     ///
     /// If cross-Region aggregation is enabled, then ListFindingAggregators returns the Amazon Resource Name (ARN) of the finding aggregator. You can run this operation from any Amazon Web Services Region.
     ///
-    /// - Parameter ListFindingAggregatorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingAggregatorsInput`)
     ///
-    /// - Returns: `ListFindingAggregatorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingAggregatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6309,7 +6226,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(ListFindingAggregatorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingAggregatorsOutput>(ListFindingAggregatorsOutput.httpOutput(from:), ListFindingAggregatorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingAggregatorsOutput>())
@@ -6341,9 +6257,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6378,7 +6294,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvitationsInput, ListInvitationsOutput>(ListInvitationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvitationsOutput>(ListInvitationsOutput.httpOutput(from:), ListInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvitationsInput, ListInvitationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvitationsOutput>())
@@ -6410,9 +6325,9 @@ extension SecurityHubClient {
     ///
     /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6447,7 +6362,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>(ListMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
@@ -6479,9 +6393,9 @@ extension SecurityHubClient {
     ///
     /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
     ///
-    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6516,7 +6430,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsOutput.httpOutput(from:), ListOrganizationAdminAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationAdminAccountsOutput>())
@@ -6548,9 +6461,9 @@ extension SecurityHubClient {
     ///
     /// Lists all of the security controls that apply to a specified standard.
     ///
-    /// - Parameter ListSecurityControlDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityControlDefinitionsInput`)
     ///
-    /// - Returns: `ListSecurityControlDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityControlDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6585,7 +6498,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(ListSecurityControlDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityControlDefinitionsOutput>(ListSecurityControlDefinitionsOutput.httpOutput(from:), ListSecurityControlDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityControlDefinitionsOutput>())
@@ -6617,9 +6529,9 @@ extension SecurityHubClient {
     ///
     /// Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account. This operation omits standards control associations for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
-    /// - Parameter ListStandardsControlAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStandardsControlAssociationsInput`)
     ///
-    /// - Returns: `ListStandardsControlAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStandardsControlAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6654,7 +6566,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(ListStandardsControlAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStandardsControlAssociationsOutput>(ListStandardsControlAssociationsOutput.httpOutput(from:), ListStandardsControlAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStandardsControlAssociationsOutput>())
@@ -6686,9 +6597,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of tags associated with a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6721,7 +6632,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -6753,9 +6663,9 @@ extension SecurityHubClient {
     ///
     /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter StartConfigurationPolicyAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationPolicyAssociationInput`)
     ///
-    /// - Returns: `StartConfigurationPolicyAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationPolicyAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6794,7 +6704,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigurationPolicyAssociationOutput>(StartConfigurationPolicyAssociationOutput.httpOutput(from:), StartConfigurationPolicyAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationPolicyAssociationOutput>())
@@ -6826,9 +6735,9 @@ extension SecurityHubClient {
     ///
     /// Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter StartConfigurationPolicyDisassociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationPolicyDisassociationInput`)
     ///
-    /// - Returns: `StartConfigurationPolicyDisassociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationPolicyDisassociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6867,7 +6776,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigurationPolicyDisassociationOutput>(StartConfigurationPolicyDisassociationOutput.httpOutput(from:), StartConfigurationPolicyDisassociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationPolicyDisassociationOutput>())
@@ -6899,9 +6807,9 @@ extension SecurityHubClient {
     ///
     /// Adds one or more tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6937,7 +6845,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6969,9 +6876,9 @@ extension SecurityHubClient {
     ///
     /// Removes one or more tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7005,7 +6912,6 @@ extension SecurityHubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -7037,9 +6943,9 @@ extension SecurityHubClient {
     ///
     /// Updates the name and description of a custom action target in Security Hub.
     ///
-    /// - Parameter UpdateActionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateActionTargetInput`)
     ///
-    /// - Returns: `UpdateActionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateActionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7076,7 +6982,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateActionTargetOutput>(UpdateActionTargetOutput.httpOutput(from:), UpdateActionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateActionTargetOutput>())
@@ -7108,9 +7013,9 @@ extension SecurityHubClient {
     ///
     /// Udpates the configuration for the Aggregator V2. This API is in private preview and subject to change.
     ///
-    /// - Parameter UpdateAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAggregatorV2Input`)
     ///
-    /// - Returns: `UpdateAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7149,7 +7054,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAggregatorV2Input, UpdateAggregatorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAggregatorV2Output>(UpdateAggregatorV2Output.httpOutput(from:), UpdateAggregatorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAggregatorV2Input, UpdateAggregatorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAggregatorV2Output>())
@@ -7181,9 +7085,9 @@ extension SecurityHubClient {
     ///
     /// Updates a V2 automation rule. This API is in private preview and subject to change.
     ///
-    /// - Parameter UpdateAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutomationRuleV2Input`)
     ///
-    /// - Returns: `UpdateAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7222,7 +7126,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomationRuleV2Input, UpdateAutomationRuleV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomationRuleV2Output>(UpdateAutomationRuleV2Output.httpOutput(from:), UpdateAutomationRuleV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomationRuleV2Input, UpdateAutomationRuleV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomationRuleV2Output>())
@@ -7254,9 +7157,9 @@ extension SecurityHubClient {
     ///
     /// Updates a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter UpdateConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationPolicyInput`)
     ///
-    /// - Returns: `UpdateConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7296,7 +7199,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationPolicyOutput>(UpdateConfigurationPolicyOutput.httpOutput(from:), UpdateConfigurationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationPolicyOutput>())
@@ -7328,9 +7230,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to update a connectorV2 based on its id and input parameters. This API is in preview release and subject to change.
     ///
-    /// - Parameter UpdateConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorV2Input`)
     ///
-    /// - Returns: `UpdateConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7369,7 +7271,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorV2Input, UpdateConnectorV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorV2Output>(UpdateConnectorV2Output.httpOutput(from:), UpdateConnectorV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorV2Input, UpdateConnectorV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorV2Output>())
@@ -7401,9 +7302,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region. You can invoke this operation from the current home Region only.
     ///
-    /// - Parameter UpdateFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingAggregatorInput`)
     ///
-    /// - Returns: `UpdateFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7442,7 +7343,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingAggregatorOutput>(UpdateFindingAggregatorOutput.httpOutput(from:), UpdateFindingAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingAggregatorOutput>())
@@ -7474,9 +7374,9 @@ extension SecurityHubClient {
     ///
     /// UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub doesn't record updates made with UpdateFindings in the finding history.
     ///
-    /// - Parameter UpdateFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingsInput`)
     ///
-    /// - Returns: `UpdateFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7514,7 +7414,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFindingsInput, UpdateFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingsOutput>(UpdateFindingsOutput.httpOutput(from:), UpdateFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingsInput, UpdateFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingsOutput>())
@@ -7546,9 +7445,9 @@ extension SecurityHubClient {
     ///
     /// Updates the Security Hub insight identified by the specified insight ARN.
     ///
-    /// - Parameter UpdateInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInsightInput`)
     ///
-    /// - Returns: `UpdateInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7586,7 +7485,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInsightInput, UpdateInsightOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInsightOutput>(UpdateInsightOutput.httpOutput(from:), UpdateInsightOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInsightInput, UpdateInsightOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInsightOutput>())
@@ -7618,9 +7516,9 @@ extension SecurityHubClient {
     ///
     /// Updates the configuration of your organization in Security Hub. Only the Security Hub administrator account can invoke this operation.
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7660,7 +7558,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutput>(UpdateOrganizationConfigurationOutput.httpOutput(from:), UpdateOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationConfigurationOutput>())
@@ -7692,9 +7589,9 @@ extension SecurityHubClient {
     ///
     /// Updates the properties of a security control.
     ///
-    /// - Parameter UpdateSecurityControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityControlInput`)
     ///
-    /// - Returns: `UpdateSecurityControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7734,7 +7631,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityControlOutput>(UpdateSecurityControlOutput.httpOutput(from:), UpdateSecurityControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityControlOutput>())
@@ -7766,9 +7662,9 @@ extension SecurityHubClient {
     ///
     /// Updates configuration options for Security Hub.
     ///
-    /// - Parameter UpdateSecurityHubConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityHubConfigurationInput`)
     ///
-    /// - Returns: `UpdateSecurityHubConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityHubConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7807,7 +7703,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityHubConfigurationOutput>(UpdateSecurityHubConfigurationOutput.httpOutput(from:), UpdateSecurityHubConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityHubConfigurationOutput>())
@@ -7839,9 +7734,9 @@ extension SecurityHubClient {
     ///
     /// Used to control whether an individual security standard control is enabled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     ///
-    /// - Parameter UpdateStandardsControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStandardsControlInput`)
     ///
-    /// - Returns: `UpdateStandardsControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStandardsControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7879,7 +7774,6 @@ extension SecurityHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStandardsControlOutput>(UpdateStandardsControlOutput.httpOutput(from:), UpdateStandardsControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStandardsControlOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RolesAnywhereClient: ClientRuntime.Client {
     public static let clientName = "RolesAnywhereClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: RolesAnywhereClient.RolesAnywhereClientConfiguration
     let serviceName = "RolesAnywhere"
@@ -374,9 +373,9 @@ extension RolesAnywhereClient {
     ///
     /// Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:CreateProfile.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProfileInput, CreateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProfileOutput>(CreateProfileOutput.httpOutput(from:), CreateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProfileInput, CreateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProfileOutput>())
@@ -443,9 +441,9 @@ extension RolesAnywhereClient {
     ///
     /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor.
     ///
-    /// - Parameter CreateTrustAnchorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrustAnchorInput`)
     ///
-    /// - Returns: `CreateTrustAnchorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrustAnchorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustAnchorOutput>(CreateTrustAnchorOutput.httpOutput(from:), CreateTrustAnchorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrustAnchorOutput>())
@@ -512,9 +509,9 @@ extension RolesAnywhereClient {
     ///
     /// Delete an entry from the attribute mapping rules enforced by a given profile.
     ///
-    /// - Parameter DeleteAttributeMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttributeMappingInput`)
     ///
-    /// - Returns: `DeleteAttributeMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAttributeMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -548,7 +545,6 @@ extension RolesAnywhereClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAttributeMappingInput, DeleteAttributeMappingOutput>(DeleteAttributeMappingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttributeMappingOutput>(DeleteAttributeMappingOutput.httpOutput(from:), DeleteAttributeMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttributeMappingInput, DeleteAttributeMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttributeMappingOutput>())
@@ -580,9 +576,9 @@ extension RolesAnywhereClient {
     ///
     /// Deletes a certificate revocation list (CRL). Required permissions: rolesanywhere:DeleteCrl.
     ///
-    /// - Parameter DeleteCrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCrlInput`)
     ///
-    /// - Returns: `DeleteCrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,7 +610,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCrlInput, DeleteCrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCrlOutput>(DeleteCrlOutput.httpOutput(from:), DeleteCrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCrlInput, DeleteCrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCrlOutput>())
@@ -646,9 +641,9 @@ extension RolesAnywhereClient {
     ///
     /// Deletes a profile. Required permissions: rolesanywhere:DeleteProfile.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -680,7 +675,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileOutput>(DeleteProfileOutput.httpOutput(from:), DeleteProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileInput, DeleteProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileOutput>())
@@ -712,9 +706,9 @@ extension RolesAnywhereClient {
     ///
     /// Deletes a trust anchor. Required permissions: rolesanywhere:DeleteTrustAnchor.
     ///
-    /// - Parameter DeleteTrustAnchorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrustAnchorInput`)
     ///
-    /// - Returns: `DeleteTrustAnchorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrustAnchorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,7 +740,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrustAnchorInput, DeleteTrustAnchorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustAnchorOutput>(DeleteTrustAnchorOutput.httpOutput(from:), DeleteTrustAnchorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustAnchorInput, DeleteTrustAnchorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrustAnchorOutput>())
@@ -778,9 +771,9 @@ extension RolesAnywhereClient {
     ///
     /// Disables a certificate revocation list (CRL). Required permissions: rolesanywhere:DisableCrl.
     ///
-    /// - Parameter DisableCrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableCrlInput`)
     ///
-    /// - Returns: `DisableCrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableCrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,7 +805,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableCrlInput, DisableCrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableCrlOutput>(DisableCrlOutput.httpOutput(from:), DisableCrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableCrlInput, DisableCrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableCrlOutput>())
@@ -844,9 +836,9 @@ extension RolesAnywhereClient {
     ///
     /// Disables a profile. When disabled, temporary credential requests with this profile fail. Required permissions: rolesanywhere:DisableProfile.
     ///
-    /// - Parameter DisableProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableProfileInput`)
     ///
-    /// - Returns: `DisableProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,7 +870,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableProfileInput, DisableProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableProfileOutput>(DisableProfileOutput.httpOutput(from:), DisableProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableProfileInput, DisableProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableProfileOutput>())
@@ -910,9 +901,9 @@ extension RolesAnywhereClient {
     ///
     /// Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized. Required permissions: rolesanywhere:DisableTrustAnchor.
     ///
-    /// - Parameter DisableTrustAnchorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableTrustAnchorInput`)
     ///
-    /// - Returns: `DisableTrustAnchorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableTrustAnchorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,7 +935,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableTrustAnchorInput, DisableTrustAnchorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableTrustAnchorOutput>(DisableTrustAnchorOutput.httpOutput(from:), DisableTrustAnchorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableTrustAnchorInput, DisableTrustAnchorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableTrustAnchorOutput>())
@@ -976,9 +966,9 @@ extension RolesAnywhereClient {
     ///
     /// Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials. Required permissions: rolesanywhere:EnableCrl.
     ///
-    /// - Parameter EnableCrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableCrlInput`)
     ///
-    /// - Returns: `EnableCrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableCrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,7 +1000,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableCrlInput, EnableCrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableCrlOutput>(EnableCrlOutput.httpOutput(from:), EnableCrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableCrlInput, EnableCrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableCrlOutput>())
@@ -1042,9 +1031,9 @@ extension RolesAnywhereClient {
     ///
     /// Enables temporary credential requests for a profile. Required permissions: rolesanywhere:EnableProfile.
     ///
-    /// - Parameter EnableProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableProfileInput`)
     ///
-    /// - Returns: `EnableProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,7 +1065,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableProfileInput, EnableProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableProfileOutput>(EnableProfileOutput.httpOutput(from:), EnableProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableProfileInput, EnableProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableProfileOutput>())
@@ -1108,9 +1096,9 @@ extension RolesAnywhereClient {
     ///
     /// Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized for trust validation. Required permissions: rolesanywhere:EnableTrustAnchor.
     ///
-    /// - Parameter EnableTrustAnchorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableTrustAnchorInput`)
     ///
-    /// - Returns: `EnableTrustAnchorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableTrustAnchorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,7 +1130,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableTrustAnchorInput, EnableTrustAnchorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableTrustAnchorOutput>(EnableTrustAnchorOutput.httpOutput(from:), EnableTrustAnchorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableTrustAnchorInput, EnableTrustAnchorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableTrustAnchorOutput>())
@@ -1174,9 +1161,9 @@ extension RolesAnywhereClient {
     ///
     /// Gets a certificate revocation list (CRL). Required permissions: rolesanywhere:GetCrl.
     ///
-    /// - Parameter GetCrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCrlInput`)
     ///
-    /// - Returns: `GetCrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1207,7 +1194,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCrlInput, GetCrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCrlOutput>(GetCrlOutput.httpOutput(from:), GetCrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCrlInput, GetCrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCrlOutput>())
@@ -1239,9 +1225,9 @@ extension RolesAnywhereClient {
     ///
     /// Gets a profile. Required permissions: rolesanywhere:GetProfile.
     ///
-    /// - Parameter GetProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileInput`)
     ///
-    /// - Returns: `GetProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,7 +1259,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileOutput>(GetProfileOutput.httpOutput(from:), GetProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileInput, GetProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileOutput>())
@@ -1305,9 +1290,9 @@ extension RolesAnywhereClient {
     ///
     /// Gets a subject, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication. Required permissions: rolesanywhere:GetSubject.
     ///
-    /// - Parameter GetSubjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubjectInput`)
     ///
-    /// - Returns: `GetSubjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1339,7 +1324,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubjectInput, GetSubjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubjectOutput>(GetSubjectOutput.httpOutput(from:), GetSubjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubjectInput, GetSubjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubjectOutput>())
@@ -1371,9 +1355,9 @@ extension RolesAnywhereClient {
     ///
     /// Gets a trust anchor. Required permissions: rolesanywhere:GetTrustAnchor.
     ///
-    /// - Parameter GetTrustAnchorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrustAnchorInput`)
     ///
-    /// - Returns: `GetTrustAnchorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrustAnchorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,7 +1390,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrustAnchorInput, GetTrustAnchorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrustAnchorOutput>(GetTrustAnchorOutput.httpOutput(from:), GetTrustAnchorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrustAnchorInput, GetTrustAnchorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrustAnchorOutput>())
@@ -1438,9 +1421,9 @@ extension RolesAnywhereClient {
     ///
     /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl.
     ///
-    /// - Parameter ImportCrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCrlInput`)
     ///
-    /// - Returns: `ImportCrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1475,7 +1458,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCrlInput, ImportCrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCrlOutput>(ImportCrlOutput.httpOutput(from:), ImportCrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCrlInput, ImportCrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCrlOutput>())
@@ -1507,9 +1489,9 @@ extension RolesAnywhereClient {
     ///
     /// Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListCrls.
     ///
-    /// - Parameter ListCrlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrlsInput`)
     ///
-    /// - Returns: `ListCrlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,7 +1524,6 @@ extension RolesAnywhereClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCrlsInput, ListCrlsOutput>(ListCrlsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCrlsOutput>(ListCrlsOutput.httpOutput(from:), ListCrlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrlsInput, ListCrlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrlsOutput>())
@@ -1574,9 +1555,9 @@ extension RolesAnywhereClient {
     ///
     /// Lists all profiles in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListProfiles.
     ///
-    /// - Parameter ListProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilesInput`)
     ///
-    /// - Returns: `ListProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1609,7 +1590,6 @@ extension RolesAnywhereClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfilesInput, ListProfilesOutput>(ListProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfilesOutput>(ListProfilesOutput.httpOutput(from:), ListProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfilesInput, ListProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfilesOutput>())
@@ -1641,9 +1621,9 @@ extension RolesAnywhereClient {
     ///
     /// Lists the subjects in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListSubjects.
     ///
-    /// - Parameter ListSubjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubjectsInput`)
     ///
-    /// - Returns: `ListSubjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,7 +1656,6 @@ extension RolesAnywhereClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubjectsInput, ListSubjectsOutput>(ListSubjectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubjectsOutput>(ListSubjectsOutput.httpOutput(from:), ListSubjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubjectsInput, ListSubjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubjectsOutput>())
@@ -1708,9 +1687,9 @@ extension RolesAnywhereClient {
     ///
     /// Lists the tags attached to the resource. Required permissions: rolesanywhere:ListTagsForResource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,7 +1723,6 @@ extension RolesAnywhereClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1776,9 +1754,9 @@ extension RolesAnywhereClient {
     ///
     /// Lists the trust anchors in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListTrustAnchors.
     ///
-    /// - Parameter ListTrustAnchorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustAnchorsInput`)
     ///
-    /// - Returns: `ListTrustAnchorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustAnchorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1811,7 +1789,6 @@ extension RolesAnywhereClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrustAnchorsInput, ListTrustAnchorsOutput>(ListTrustAnchorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustAnchorsOutput>(ListTrustAnchorsOutput.httpOutput(from:), ListTrustAnchorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustAnchorsInput, ListTrustAnchorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrustAnchorsOutput>())
@@ -1843,9 +1820,9 @@ extension RolesAnywhereClient {
     ///
     /// Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
     ///
-    /// - Parameter PutAttributeMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAttributeMappingInput`)
     ///
-    /// - Returns: `PutAttributeMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAttributeMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1881,7 +1858,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAttributeMappingInput, PutAttributeMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAttributeMappingOutput>(PutAttributeMappingOutput.httpOutput(from:), PutAttributeMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAttributeMappingInput, PutAttributeMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAttributeMappingOutput>())
@@ -1913,9 +1889,9 @@ extension RolesAnywhereClient {
     ///
     /// Attaches a list of notification settings to a trust anchor. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify. Required permissions: rolesanywhere:PutNotificationSettings.
     ///
-    /// - Parameter PutNotificationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutNotificationSettingsInput`)
     ///
-    /// - Returns: `PutNotificationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutNotificationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,7 +1927,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutNotificationSettingsOutput>(PutNotificationSettingsOutput.httpOutput(from:), PutNotificationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutNotificationSettingsOutput>())
@@ -1983,9 +1958,9 @@ extension RolesAnywhereClient {
     ///
     /// Resets the custom notification setting to IAM Roles Anywhere default setting. Required permissions: rolesanywhere:ResetNotificationSettings.
     ///
-    /// - Parameter ResetNotificationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetNotificationSettingsInput`)
     ///
-    /// - Returns: `ResetNotificationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetNotificationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,7 +1996,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetNotificationSettingsOutput>(ResetNotificationSettingsOutput.httpOutput(from:), ResetNotificationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetNotificationSettingsOutput>())
@@ -2053,9 +2027,9 @@ extension RolesAnywhereClient {
     ///
     /// Attaches tags to a resource. Required permissions: rolesanywhere:TagResource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,7 +2066,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2124,9 +2097,9 @@ extension RolesAnywhereClient {
     ///
     /// Removes tags from the resource. Required permissions: rolesanywhere:UntagResource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2162,7 +2135,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2194,9 +2166,9 @@ extension RolesAnywhereClient {
     ///
     /// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:UpdateCrl.
     ///
-    /// - Parameter UpdateCrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCrlInput`)
     ///
-    /// - Returns: `UpdateCrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2232,7 +2204,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCrlInput, UpdateCrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCrlOutput>(UpdateCrlOutput.httpOutput(from:), UpdateCrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCrlInput, UpdateCrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCrlOutput>())
@@ -2264,9 +2235,9 @@ extension RolesAnywhereClient {
     ///
     /// Updates a profile, a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:UpdateProfile.
     ///
-    /// - Parameter UpdateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileInput`)
     ///
-    /// - Returns: `UpdateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2302,7 +2273,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileInput, UpdateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileOutput>(UpdateProfileOutput.httpOutput(from:), UpdateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileInput, UpdateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileOutput>())
@@ -2334,9 +2304,9 @@ extension RolesAnywhereClient {
     ///
     /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:UpdateTrustAnchor.
     ///
-    /// - Parameter UpdateTrustAnchorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustAnchorInput`)
     ///
-    /// - Returns: `UpdateTrustAnchorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustAnchorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2372,7 +2342,6 @@ extension RolesAnywhereClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustAnchorOutput>(UpdateTrustAnchorOutput.httpOutput(from:), UpdateTrustAnchorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrustAnchorOutput>())

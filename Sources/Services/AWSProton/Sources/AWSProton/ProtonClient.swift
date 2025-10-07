@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ProtonClient: ClientRuntime.Client {
     public static let clientName = "ProtonClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ProtonClient.ProtonClientConfiguration
     let serviceName = "Proton"
@@ -374,9 +373,9 @@ extension ProtonClient {
     ///
     /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter AcceptEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `AcceptEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptEnvironmentAccountConnectionOutput>(AcceptEnvironmentAccountConnectionOutput.httpOutput(from:), AcceptEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptEnvironmentAccountConnectionOutput>())
@@ -448,9 +446,9 @@ extension ProtonClient {
     ///
     /// Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS deployment status). For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter CancelComponentDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelComponentDeploymentInput`)
     ///
-    /// - Returns: `CancelComponentDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelComponentDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelComponentDeploymentOutput>(CancelComponentDeploymentOutput.httpOutput(from:), CancelComponentDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelComponentDeploymentOutput>())
@@ -528,9 +525,9 @@ extension ProtonClient {
     ///
     /// * If the current [UpdateEnvironment] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     ///
-    /// - Parameter CancelEnvironmentDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelEnvironmentDeploymentInput`)
     ///
-    /// - Returns: `CancelEnvironmentDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelEnvironmentDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -567,7 +564,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelEnvironmentDeploymentOutput>(CancelEnvironmentDeploymentOutput.httpOutput(from:), CancelEnvironmentDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelEnvironmentDeploymentOutput>())
@@ -608,9 +604,9 @@ extension ProtonClient {
     ///
     /// * If the current [UpdateServiceInstance] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     ///
-    /// - Parameter CancelServiceInstanceDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelServiceInstanceDeploymentInput`)
     ///
-    /// - Returns: `CancelServiceInstanceDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelServiceInstanceDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,7 +643,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelServiceInstanceDeploymentOutput>(CancelServiceInstanceDeploymentOutput.httpOutput(from:), CancelServiceInstanceDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelServiceInstanceDeploymentOutput>())
@@ -688,9 +683,9 @@ extension ProtonClient {
     ///
     /// * If the current [UpdateServicePipeline] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     ///
-    /// - Parameter CancelServicePipelineDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelServicePipelineDeploymentInput`)
     ///
-    /// - Returns: `CancelServicePipelineDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelServicePipelineDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,7 +722,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelServicePipelineDeploymentOutput>(CancelServicePipelineDeploymentOutput.httpOutput(from:), CancelServicePipelineDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelServicePipelineDeploymentOutput>())
@@ -762,9 +756,9 @@ extension ProtonClient {
     ///
     /// Create an Proton component. A component is an infrastructure extension for a service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentInput`)
     ///
-    /// - Returns: `CreateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,7 +797,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComponentInput, CreateComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComponentOutput>(CreateComponentOutput.httpOutput(from:), CreateComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComponentInput, CreateComponentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComponentOutput>())
@@ -845,9 +838,9 @@ extension ProtonClient {
     ///
     /// For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -885,7 +878,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -920,9 +912,9 @@ extension ProtonClient {
     ///
     /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter CreateEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `CreateEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,7 +952,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentAccountConnectionOutput>(CreateEnvironmentAccountConnectionOutput.httpOutput(from:), CreateEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentAccountConnectionOutput>())
@@ -999,9 +990,9 @@ extension ProtonClient {
     ///
     /// * Register and publish a customer managed environment template that connects Proton to your existing provisioned infrastructure that you manage. Proton doesn't manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED. For more information, see [Register and publish an environment template](https://docs.aws.amazon.com/proton/latest/userguide/template-create.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentTemplateInput`)
     ///
-    /// - Returns: `CreateEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1038,7 +1029,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentTemplateOutput>(CreateEnvironmentTemplateOutput.httpOutput(from:), CreateEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentTemplateOutput>())
@@ -1073,9 +1063,9 @@ extension ProtonClient {
     ///
     /// Create a new major or minor version of an environment template. A major version of an environment template is a version that isn't backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major version.
     ///
-    /// - Parameter CreateEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `CreateEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,7 +1104,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentTemplateVersionOutput>(CreateEnvironmentTemplateVersionOutput.httpOutput(from:), CreateEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentTemplateVersionOutput>())
@@ -1149,9 +1138,9 @@ extension ProtonClient {
     ///
     /// Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed provisioning, or synced templates). When you create a repository link, Proton creates a [service-linked role](https://docs.aws.amazon.com/proton/latest/userguide/using-service-linked-roles.html) for you. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self), [Template bundles](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-authoring.html#ag-template-bundles), and [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRepositoryInput`)
     ///
-    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,7 +1177,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryOutput>(CreateRepositoryOutput.httpOutput(from:), CreateRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRepositoryOutput>())
@@ -1223,9 +1211,9 @@ extension ProtonClient {
     ///
     /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see [Services](https://docs.aws.amazon.com/proton/latest/userguide/ag-services.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
-    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,7 +1251,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInput, CreateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceOutput>())
@@ -1298,9 +1285,9 @@ extension ProtonClient {
     ///
     /// Create a service instance.
     ///
-    /// - Parameter CreateServiceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInstanceInput`)
     ///
-    /// - Returns: `CreateServiceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,7 +1325,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceInstanceOutput>(CreateServiceInstanceOutput.httpOutput(from:), CreateServiceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceInstanceOutput>())
@@ -1373,9 +1359,9 @@ extension ProtonClient {
     ///
     /// Create the Proton Ops configuration file.
     ///
-    /// - Parameter CreateServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceSyncConfigInput`)
     ///
-    /// - Returns: `CreateServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1412,7 +1398,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceSyncConfigOutput>(CreateServiceSyncConfigOutput.httpOutput(from:), CreateServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceSyncConfigOutput>())
@@ -1447,9 +1432,9 @@ extension ProtonClient {
     ///
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see [Proton templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceTemplateInput`)
     ///
-    /// - Returns: `CreateServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1486,7 +1471,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceTemplateOutput>(CreateServiceTemplateOutput.httpOutput(from:), CreateServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceTemplateOutput>())
@@ -1521,9 +1505,9 @@ extension ProtonClient {
     ///
     /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
     ///
-    /// - Parameter CreateServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceTemplateVersionInput`)
     ///
-    /// - Returns: `CreateServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1562,7 +1546,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceTemplateVersionOutput>(CreateServiceTemplateVersionOutput.httpOutput(from:), CreateServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceTemplateVersionOutput>())
@@ -1597,9 +1580,9 @@ extension ProtonClient {
     ///
     /// Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository]. When a commit is pushed to your linked repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateSyncConfigInput`)
     ///
-    /// - Returns: `CreateTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1636,7 +1619,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateSyncConfigOutput>(CreateTemplateSyncConfigOutput.httpOutput(from:), CreateTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTemplateSyncConfigOutput>())
@@ -1671,9 +1653,9 @@ extension ProtonClient {
     ///
     /// Delete an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter DeleteComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
-    /// - Returns: `DeleteComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1710,7 +1692,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteComponentInput, DeleteComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComponentOutput>(DeleteComponentOutput.httpOutput(from:), DeleteComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComponentInput, DeleteComponentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComponentOutput>())
@@ -1745,9 +1726,9 @@ extension ProtonClient {
     ///
     /// Delete the deployment.
     ///
-    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1783,7 +1764,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeploymentOutput>(DeleteDeploymentOutput.httpOutput(from:), DeleteDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentOutput>())
@@ -1818,9 +1798,9 @@ extension ProtonClient {
     ///
     /// Delete an environment.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1857,7 +1837,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -1892,9 +1871,9 @@ extension ProtonClient {
     ///
     /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter DeleteEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `DeleteEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1931,7 +1910,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentAccountConnectionOutput>(DeleteEnvironmentAccountConnectionOutput.httpOutput(from:), DeleteEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentAccountConnectionOutput>())
@@ -1966,9 +1944,9 @@ extension ProtonClient {
     ///
     /// If no other major or minor versions of an environment template exist, delete the environment template.
     ///
-    /// - Parameter DeleteEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentTemplateInput`)
     ///
-    /// - Returns: `DeleteEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2005,7 +1983,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentTemplateOutput>(DeleteEnvironmentTemplateOutput.httpOutput(from:), DeleteEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentTemplateOutput>())
@@ -2040,9 +2017,9 @@ extension ProtonClient {
     ///
     /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
     ///
-    /// - Parameter DeleteEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `DeleteEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2079,7 +2056,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentTemplateVersionOutput>(DeleteEnvironmentTemplateVersionOutput.httpOutput(from:), DeleteEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentTemplateVersionOutput>())
@@ -2114,9 +2090,9 @@ extension ProtonClient {
     ///
     /// De-register and unlink your repository.
     ///
-    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryInput`)
     ///
-    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2153,7 +2129,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutput>(DeleteRepositoryOutput.httpOutput(from:), DeleteRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryOutput>())
@@ -2188,9 +2163,9 @@ extension ProtonClient {
     ///
     /// Delete a service, with its instances and pipeline. You can't delete a service if it has any service instances that have components attached to them. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter DeleteServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,7 +2202,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceInput, DeleteServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceOutput>())
@@ -2262,9 +2236,9 @@ extension ProtonClient {
     ///
     /// Delete the Proton Ops file.
     ///
-    /// - Parameter DeleteServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceSyncConfigInput`)
     ///
-    /// - Returns: `DeleteServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2301,7 +2275,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceSyncConfigOutput>(DeleteServiceSyncConfigOutput.httpOutput(from:), DeleteServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceSyncConfigOutput>())
@@ -2336,9 +2309,9 @@ extension ProtonClient {
     ///
     /// If no other major or minor versions of the service template exist, delete the service template.
     ///
-    /// - Parameter DeleteServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceTemplateInput`)
     ///
-    /// - Returns: `DeleteServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2375,7 +2348,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceTemplateOutput>(DeleteServiceTemplateOutput.httpOutput(from:), DeleteServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceTemplateOutput>())
@@ -2410,9 +2382,9 @@ extension ProtonClient {
     ///
     /// If no other minor versions of a service template exist, delete a major version of the service template if it's not the Recommended version. Delete the Recommended version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that isn't backwards compatible. Delete a minor version of a service template if it's not the Recommended version. Delete a Recommended minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
     ///
-    /// - Parameter DeleteServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceTemplateVersionInput`)
     ///
-    /// - Returns: `DeleteServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2449,7 +2421,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceTemplateVersionOutput>(DeleteServiceTemplateVersionOutput.httpOutput(from:), DeleteServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceTemplateVersionOutput>())
@@ -2484,9 +2455,9 @@ extension ProtonClient {
     ///
     /// Delete a template sync configuration.
     ///
-    /// - Parameter DeleteTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateSyncConfigInput`)
     ///
-    /// - Returns: `DeleteTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2523,7 +2494,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateSyncConfigOutput>(DeleteTemplateSyncConfigOutput.httpOutput(from:), DeleteTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTemplateSyncConfigOutput>())
@@ -2558,9 +2528,9 @@ extension ProtonClient {
     ///
     /// Get detail data for Proton account-wide settings.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2596,7 +2566,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -2631,9 +2600,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter GetComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
-    /// - Returns: `GetComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2669,7 +2638,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComponentInput, GetComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComponentOutput>(GetComponentOutput.httpOutput(from:), GetComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComponentInput, GetComponentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComponentOutput>())
@@ -2704,9 +2672,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2742,7 +2710,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentOutput>(GetDeploymentOutput.httpOutput(from:), GetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentOutput>())
@@ -2777,9 +2744,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for an environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2815,7 +2782,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentOutput>())
@@ -2850,9 +2816,9 @@ extension ProtonClient {
     ///
     /// In an environment account, get the detailed data for an environment account connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter GetEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `GetEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2888,7 +2854,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentAccountConnectionOutput>(GetEnvironmentAccountConnectionOutput.httpOutput(from:), GetEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentAccountConnectionOutput>())
@@ -2923,9 +2888,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for an environment template.
     ///
-    /// - Parameter GetEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentTemplateInput`)
     ///
-    /// - Returns: `GetEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2961,7 +2926,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentTemplateOutput>(GetEnvironmentTemplateOutput.httpOutput(from:), GetEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentTemplateOutput>())
@@ -2996,9 +2960,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a major or minor version of an environment template.
     ///
-    /// - Parameter GetEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `GetEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3034,7 +2998,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentTemplateVersionOutput>(GetEnvironmentTemplateVersionOutput.httpOutput(from:), GetEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentTemplateVersionOutput>())
@@ -3069,9 +3032,9 @@ extension ProtonClient {
     ///
     /// Get detail data for a linked repository.
     ///
-    /// - Parameter GetRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryInput`)
     ///
-    /// - Returns: `GetRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3107,7 +3070,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositoryInput, GetRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositoryOutput>(GetRepositoryOutput.httpOutput(from:), GetRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryInput, GetRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositoryOutput>())
@@ -3142,9 +3104,9 @@ extension ProtonClient {
     ///
     /// Get the sync status of a repository used for Proton template sync. For more information about template sync, see . A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC). For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags) in the Proton User Guide.
     ///
-    /// - Parameter GetRepositorySyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositorySyncStatusInput`)
     ///
-    /// - Returns: `GetRepositorySyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositorySyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3180,7 +3142,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositorySyncStatusOutput>(GetRepositorySyncStatusOutput.httpOutput(from:), GetRepositorySyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositorySyncStatusOutput>())
@@ -3215,9 +3176,9 @@ extension ProtonClient {
     ///
     /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html) in the Proton User Guide.
     ///
-    /// - Parameter GetResourcesSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesSummaryInput`)
     ///
-    /// - Returns: `GetResourcesSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3252,7 +3213,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesSummaryOutput>(GetResourcesSummaryOutput.httpOutput(from:), GetResourcesSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesSummaryOutput>())
@@ -3287,9 +3247,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a service.
     ///
-    /// - Parameter GetServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
-    /// - Returns: `GetServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3325,7 +3285,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceInput, GetServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceOutput>(GetServiceOutput.httpOutput(from:), GetServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInput, GetServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceOutput>())
@@ -3360,9 +3319,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
     ///
-    /// - Parameter GetServiceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInstanceInput`)
     ///
-    /// - Returns: `GetServiceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3398,7 +3357,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceInstanceOutput>(GetServiceInstanceOutput.httpOutput(from:), GetServiceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceInstanceOutput>())
@@ -3433,9 +3391,9 @@ extension ProtonClient {
     ///
     /// Get the status of the synced service instance.
     ///
-    /// - Parameter GetServiceInstanceSyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInstanceSyncStatusInput`)
     ///
-    /// - Returns: `GetServiceInstanceSyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceInstanceSyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3471,7 +3429,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceInstanceSyncStatusOutput>(GetServiceInstanceSyncStatusOutput.httpOutput(from:), GetServiceInstanceSyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceInstanceSyncStatusOutput>())
@@ -3506,9 +3463,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for the service sync blocker summary.
     ///
-    /// - Parameter GetServiceSyncBlockerSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSyncBlockerSummaryInput`)
     ///
-    /// - Returns: `GetServiceSyncBlockerSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSyncBlockerSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3544,7 +3501,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSyncBlockerSummaryOutput>(GetServiceSyncBlockerSummaryOutput.httpOutput(from:), GetServiceSyncBlockerSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceSyncBlockerSummaryOutput>())
@@ -3579,9 +3535,9 @@ extension ProtonClient {
     ///
     /// Get detailed information for the service sync configuration.
     ///
-    /// - Parameter GetServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSyncConfigInput`)
     ///
-    /// - Returns: `GetServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3617,7 +3573,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSyncConfigOutput>(GetServiceSyncConfigOutput.httpOutput(from:), GetServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceSyncConfigOutput>())
@@ -3652,9 +3607,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a service template.
     ///
-    /// - Parameter GetServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceTemplateInput`)
     ///
-    /// - Returns: `GetServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3690,7 +3645,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceTemplateOutput>(GetServiceTemplateOutput.httpOutput(from:), GetServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceTemplateOutput>())
@@ -3725,9 +3679,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a major or minor version of a service template.
     ///
-    /// - Parameter GetServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceTemplateVersionInput`)
     ///
-    /// - Returns: `GetServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3763,7 +3717,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceTemplateVersionOutput>(GetServiceTemplateVersionOutput.httpOutput(from:), GetServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceTemplateVersionOutput>())
@@ -3798,9 +3751,9 @@ extension ProtonClient {
     ///
     /// Get detail data for a template sync configuration.
     ///
-    /// - Parameter GetTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateSyncConfigInput`)
     ///
-    /// - Returns: `GetTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3836,7 +3789,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateSyncConfigOutput>(GetTemplateSyncConfigOutput.httpOutput(from:), GetTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateSyncConfigOutput>())
@@ -3871,9 +3823,9 @@ extension ProtonClient {
     ///
     /// Get the status of a template sync.
     ///
-    /// - Parameter GetTemplateSyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateSyncStatusInput`)
     ///
-    /// - Returns: `GetTemplateSyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateSyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3909,7 +3861,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateSyncStatusOutput>(GetTemplateSyncStatusOutput.httpOutput(from:), GetTemplateSyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateSyncStatusOutput>())
@@ -3944,9 +3895,9 @@ extension ProtonClient {
     ///
     /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter ListComponentOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentOutputsInput`)
     ///
-    /// - Returns: `ListComponentOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3982,7 +3933,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentOutputsOutput>(ListComponentOutputsOutput.httpOutput(from:), ListComponentOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentOutputsOutput>())
@@ -4017,9 +3967,9 @@ extension ProtonClient {
     ///
     /// List provisioned resources for a component with details. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter ListComponentProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListComponentProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4055,7 +4005,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentProvisionedResourcesOutput>(ListComponentProvisionedResourcesOutput.httpOutput(from:), ListComponentProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentProvisionedResourcesOutput>())
@@ -4090,9 +4039,9 @@ extension ProtonClient {
     ///
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4127,7 +4076,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentsInput, ListComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentsOutput>(ListComponentsOutput.httpOutput(from:), ListComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentsInput, ListComponentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentsOutput>())
@@ -4162,9 +4110,9 @@ extension ProtonClient {
     ///
     /// List deployments. You can filter the result list by environment, service, or a single service instance.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4200,7 +4148,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput>(ListDeploymentsOutput.httpOutput(from:), ListDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentsOutput>())
@@ -4235,9 +4182,9 @@ extension ProtonClient {
     ///
     /// View a list of environment account connections. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter ListEnvironmentAccountConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentAccountConnectionsInput`)
     ///
-    /// - Returns: `ListEnvironmentAccountConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentAccountConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4272,7 +4219,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentAccountConnectionsOutput>(ListEnvironmentAccountConnectionsOutput.httpOutput(from:), ListEnvironmentAccountConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentAccountConnectionsOutput>())
@@ -4307,9 +4253,9 @@ extension ProtonClient {
     ///
     /// List the infrastructure as code outputs for your environment.
     ///
-    /// - Parameter ListEnvironmentOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentOutputsInput`)
     ///
-    /// - Returns: `ListEnvironmentOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4345,7 +4291,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentOutputsOutput>(ListEnvironmentOutputsOutput.httpOutput(from:), ListEnvironmentOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentOutputsOutput>())
@@ -4380,9 +4325,9 @@ extension ProtonClient {
     ///
     /// List the provisioned resources for your environment.
     ///
-    /// - Parameter ListEnvironmentProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListEnvironmentProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4418,7 +4363,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentProvisionedResourcesOutput>(ListEnvironmentProvisionedResourcesOutput.httpOutput(from:), ListEnvironmentProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentProvisionedResourcesOutput>())
@@ -4453,9 +4397,9 @@ extension ProtonClient {
     ///
     /// List major or minor versions of an environment template with detail data.
     ///
-    /// - Parameter ListEnvironmentTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentTemplateVersionsInput`)
     ///
-    /// - Returns: `ListEnvironmentTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4491,7 +4435,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentTemplateVersionsOutput>(ListEnvironmentTemplateVersionsOutput.httpOutput(from:), ListEnvironmentTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentTemplateVersionsOutput>())
@@ -4526,9 +4469,9 @@ extension ProtonClient {
     ///
     /// List environment templates.
     ///
-    /// - Parameter ListEnvironmentTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentTemplatesInput`)
     ///
-    /// - Returns: `ListEnvironmentTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4563,7 +4506,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentTemplatesOutput>(ListEnvironmentTemplatesOutput.httpOutput(from:), ListEnvironmentTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentTemplatesOutput>())
@@ -4598,9 +4540,9 @@ extension ProtonClient {
     ///
     /// List environments with detail data summaries.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4636,7 +4578,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -4671,9 +4612,9 @@ extension ProtonClient {
     ///
     /// List linked repositories with detail data.
     ///
-    /// - Parameter ListRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositoriesInput`)
     ///
-    /// - Returns: `ListRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4709,7 +4650,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRepositoriesInput, ListRepositoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositoriesOutput>(ListRepositoriesOutput.httpOutput(from:), ListRepositoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRepositoriesOutput>())
@@ -4744,9 +4684,9 @@ extension ProtonClient {
     ///
     /// List repository sync definitions with detail data.
     ///
-    /// - Parameter ListRepositorySyncDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositorySyncDefinitionsInput`)
     ///
-    /// - Returns: `ListRepositorySyncDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositorySyncDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4781,7 +4721,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositorySyncDefinitionsOutput>(ListRepositorySyncDefinitionsOutput.httpOutput(from:), ListRepositorySyncDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRepositorySyncDefinitionsOutput>())
@@ -4816,9 +4755,9 @@ extension ProtonClient {
     ///
     /// Get a list service of instance Infrastructure as Code (IaC) outputs.
     ///
-    /// - Parameter ListServiceInstanceOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceInstanceOutputsInput`)
     ///
-    /// - Returns: `ListServiceInstanceOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceInstanceOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4854,7 +4793,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceInstanceOutputsOutput>(ListServiceInstanceOutputsOutput.httpOutput(from:), ListServiceInstanceOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceInstanceOutputsOutput>())
@@ -4889,9 +4827,9 @@ extension ProtonClient {
     ///
     /// List provisioned resources for a service instance with details.
     ///
-    /// - Parameter ListServiceInstanceProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceInstanceProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListServiceInstanceProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceInstanceProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4927,7 +4865,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceInstanceProvisionedResourcesOutput>(ListServiceInstanceProvisionedResourcesOutput.httpOutput(from:), ListServiceInstanceProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceInstanceProvisionedResourcesOutput>())
@@ -4962,9 +4899,9 @@ extension ProtonClient {
     ///
     /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     ///
-    /// - Parameter ListServiceInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceInstancesInput`)
     ///
-    /// - Returns: `ListServiceInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5000,7 +4937,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceInstancesOutput>(ListServiceInstancesOutput.httpOutput(from:), ListServiceInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceInstancesOutput>())
@@ -5035,9 +4971,9 @@ extension ProtonClient {
     ///
     /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     ///
-    /// - Parameter ListServicePipelineOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicePipelineOutputsInput`)
     ///
-    /// - Returns: `ListServicePipelineOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicePipelineOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5073,7 +5009,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicePipelineOutputsOutput>(ListServicePipelineOutputsOutput.httpOutput(from:), ListServicePipelineOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicePipelineOutputsOutput>())
@@ -5108,9 +5043,9 @@ extension ProtonClient {
     ///
     /// List provisioned resources for a service and pipeline with details.
     ///
-    /// - Parameter ListServicePipelineProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicePipelineProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListServicePipelineProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicePipelineProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5146,7 +5081,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicePipelineProvisionedResourcesOutput>(ListServicePipelineProvisionedResourcesOutput.httpOutput(from:), ListServicePipelineProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicePipelineProvisionedResourcesOutput>())
@@ -5181,9 +5115,9 @@ extension ProtonClient {
     ///
     /// List major or minor versions of a service template with detail data.
     ///
-    /// - Parameter ListServiceTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceTemplateVersionsInput`)
     ///
-    /// - Returns: `ListServiceTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5219,7 +5153,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceTemplateVersionsOutput>(ListServiceTemplateVersionsOutput.httpOutput(from:), ListServiceTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceTemplateVersionsOutput>())
@@ -5254,9 +5187,9 @@ extension ProtonClient {
     ///
     /// List service templates with detail data.
     ///
-    /// - Parameter ListServiceTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceTemplatesInput`)
     ///
-    /// - Returns: `ListServiceTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5291,7 +5224,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceTemplatesOutput>(ListServiceTemplatesOutput.httpOutput(from:), ListServiceTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceTemplatesOutput>())
@@ -5326,9 +5258,9 @@ extension ProtonClient {
     ///
     /// List services with summaries of detail data.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5363,7 +5295,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesInput, ListServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
@@ -5398,9 +5329,9 @@ extension ProtonClient {
     ///
     /// List tags for a resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5436,7 +5367,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5471,9 +5401,9 @@ extension ProtonClient {
     ///
     /// Notify Proton of status changes to a provisioned resource when you use self-managed provisioning. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self) in the Proton User Guide.
     ///
-    /// - Parameter NotifyResourceDeploymentStatusChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyResourceDeploymentStatusChangeInput`)
     ///
-    /// - Returns: `NotifyResourceDeploymentStatusChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyResourceDeploymentStatusChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5511,7 +5441,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyResourceDeploymentStatusChangeOutput>(NotifyResourceDeploymentStatusChangeOutput.httpOutput(from:), NotifyResourceDeploymentStatusChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyResourceDeploymentStatusChangeOutput>())
@@ -5546,9 +5475,9 @@ extension ProtonClient {
     ///
     /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you can't accept or use the rejected environment account connection. You can’t reject an environment account connection that's connected to an environment. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter RejectEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `RejectEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5585,7 +5514,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectEnvironmentAccountConnectionOutput>(RejectEnvironmentAccountConnectionOutput.httpOutput(from:), RejectEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectEnvironmentAccountConnectionOutput>())
@@ -5620,9 +5548,9 @@ extension ProtonClient {
     ///
     /// Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5659,7 +5587,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5694,9 +5621,9 @@ extension ProtonClient {
     ///
     /// Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5733,7 +5660,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5768,9 +5694,9 @@ extension ProtonClient {
     ///
     /// Update Proton settings that are used for multiple services in the Amazon Web Services account.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5806,7 +5732,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
@@ -5841,9 +5766,9 @@ extension ProtonClient {
     ///
     /// Update a component. There are a few modes for updating a component. The deploymentType field defines the mode. You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter UpdateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComponentInput`)
     ///
-    /// - Returns: `UpdateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5882,7 +5807,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComponentInput, UpdateComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComponentOutput>(UpdateComponentOutput.httpOutput(from:), UpdateComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComponentInput, UpdateComponentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComponentOutput>())
@@ -5917,9 +5841,9 @@ extension ProtonClient {
     ///
     /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter. You can't update or connect the environment to an environment account connection if it isn't already associated with an environment connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was configured for Amazon Web Services-managed provisioning, omit the provisioningRepository parameter. If the environment was configured for self-managed provisioning, specify the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide. There are four modes for updating an environment. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type. MINOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5956,7 +5880,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -5991,9 +5914,9 @@ extension ProtonClient {
     ///
     /// In an environment account, update an environment account connection to use a new IAM role. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter UpdateEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `UpdateEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6030,7 +5953,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentAccountConnectionOutput>(UpdateEnvironmentAccountConnectionOutput.httpOutput(from:), UpdateEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentAccountConnectionOutput>())
@@ -6065,9 +5987,9 @@ extension ProtonClient {
     ///
     /// Update an environment template.
     ///
-    /// - Parameter UpdateEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentTemplateInput`)
     ///
-    /// - Returns: `UpdateEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6104,7 +6026,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentTemplateOutput>(UpdateEnvironmentTemplateOutput.httpOutput(from:), UpdateEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentTemplateOutput>())
@@ -6139,9 +6060,9 @@ extension ProtonClient {
     ///
     /// Update a major or minor version of an environment template.
     ///
-    /// - Parameter UpdateEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `UpdateEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6178,7 +6099,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentTemplateVersionOutput>(UpdateEnvironmentTemplateVersionOutput.httpOutput(from:), UpdateEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentTemplateVersionOutput>())
@@ -6213,9 +6133,9 @@ extension ProtonClient {
     ///
     /// Edit a service description or use a spec to add and delete service instances. Existing service instances and the service pipeline can't be edited using this API. They can only be deleted. Use the description parameter to modify the description. Edit the spec parameter to add or delete instances. You can't delete a service instance (remove it from the spec) if it has an attached component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter UpdateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6253,7 +6173,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInput, UpdateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceOutput>())
@@ -6288,9 +6207,9 @@ extension ProtonClient {
     ///
     /// Update a service instance. There are a few modes for updating a service instance. The deploymentType field defines the mode. You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter UpdateServiceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInstanceInput`)
     ///
-    /// - Returns: `UpdateServiceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6328,7 +6247,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceInstanceOutput>(UpdateServiceInstanceOutput.httpOutput(from:), UpdateServiceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceInstanceOutput>())
@@ -6363,9 +6281,9 @@ extension ProtonClient {
     ///
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
     ///
-    /// - Parameter UpdateServicePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServicePipelineInput`)
     ///
-    /// - Returns: `UpdateServicePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServicePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6402,7 +6320,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServicePipelineOutput>(UpdateServicePipelineOutput.httpOutput(from:), UpdateServicePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServicePipelineOutput>())
@@ -6437,9 +6354,9 @@ extension ProtonClient {
     ///
     /// Update the service sync blocker by resolving it.
     ///
-    /// - Parameter UpdateServiceSyncBlockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSyncBlockerInput`)
     ///
-    /// - Returns: `UpdateServiceSyncBlockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSyncBlockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6476,7 +6393,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSyncBlockerOutput>(UpdateServiceSyncBlockerOutput.httpOutput(from:), UpdateServiceSyncBlockerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSyncBlockerOutput>())
@@ -6511,9 +6427,9 @@ extension ProtonClient {
     ///
     /// Update the Proton Ops config file.
     ///
-    /// - Parameter UpdateServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSyncConfigInput`)
     ///
-    /// - Returns: `UpdateServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6550,7 +6466,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSyncConfigOutput>(UpdateServiceSyncConfigOutput.httpOutput(from:), UpdateServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSyncConfigOutput>())
@@ -6585,9 +6500,9 @@ extension ProtonClient {
     ///
     /// Update a service template.
     ///
-    /// - Parameter UpdateServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceTemplateInput`)
     ///
-    /// - Returns: `UpdateServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6624,7 +6539,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceTemplateOutput>(UpdateServiceTemplateOutput.httpOutput(from:), UpdateServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceTemplateOutput>())
@@ -6659,9 +6573,9 @@ extension ProtonClient {
     ///
     /// Update a major or minor version of a service template.
     ///
-    /// - Parameter UpdateServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceTemplateVersionInput`)
     ///
-    /// - Returns: `UpdateServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6698,7 +6612,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceTemplateVersionOutput>(UpdateServiceTemplateVersionOutput.httpOutput(from:), UpdateServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceTemplateVersionOutput>())
@@ -6733,9 +6646,9 @@ extension ProtonClient {
     ///
     /// Update template sync configuration parameters, except for the templateName and templateType. Repository details (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
     ///
-    /// - Parameter UpdateTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateSyncConfigInput`)
     ///
-    /// - Returns: `UpdateTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6772,7 +6685,6 @@ extension ProtonClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateSyncConfigOutput>(UpdateTemplateSyncConfigOutput.httpOutput(from:), UpdateTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateSyncConfigOutput>())

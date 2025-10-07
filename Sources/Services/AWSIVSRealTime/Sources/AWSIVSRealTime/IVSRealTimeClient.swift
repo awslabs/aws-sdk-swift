@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IVSRealTimeClient: ClientRuntime.Client {
     public static let clientName = "IVSRealTimeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: IVSRealTimeClient.IVSRealTimeClientConfiguration
     let serviceName = "IVS RealTime"
@@ -374,9 +373,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates an EncoderConfiguration object.
     ///
-    /// - Parameter CreateEncoderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEncoderConfigurationInput`)
     ///
-    /// - Returns: `CreateEncoderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEncoderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEncoderConfigurationInput, CreateEncoderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEncoderConfigurationOutput>(CreateEncoderConfigurationOutput.httpOutput(from:), CreateEncoderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEncoderConfigurationInput, CreateEncoderConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEncoderConfigurationOutput>())
@@ -448,9 +446,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
     ///
-    /// - Parameter CreateIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestConfigurationInput`)
     ///
-    /// - Returns: `CreateIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIngestConfigurationInput, CreateIngestConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIngestConfigurationOutput>(CreateIngestConfigurationOutput.httpOutput(from:), CreateIngestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIngestConfigurationInput, CreateIngestConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIngestConfigurationOutput>())
@@ -519,9 +516,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     ///
-    /// - Parameter CreateParticipantTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateParticipantTokenInput`)
     ///
-    /// - Returns: `CreateParticipantTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateParticipantTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,7 +556,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateParticipantTokenInput, CreateParticipantTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateParticipantTokenOutput>(CreateParticipantTokenOutput.httpOutput(from:), CreateParticipantTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateParticipantTokenInput, CreateParticipantTokenOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateParticipantTokenOutput>())
@@ -591,9 +587,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates a new stage (and optionally participant tokens).
     ///
-    /// - Parameter CreateStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStageInput`)
     ///
-    /// - Returns: `CreateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,7 +626,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStageInput, CreateStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStageOutput>(CreateStageOutput.httpOutput(from:), CreateStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStageInput, CreateStageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStageOutput>())
@@ -662,9 +657,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket.
     ///
-    /// - Parameter CreateStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageConfigurationInput`)
     ///
-    /// - Returns: `CreateStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,7 +699,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageConfigurationInput, CreateStorageConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorageConfigurationOutput>(CreateStorageConfigurationOutput.httpOutput(from:), CreateStorageConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageConfigurationInput, CreateStorageConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStorageConfigurationOutput>())
@@ -736,9 +730,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.
     ///
-    /// - Parameter DeleteEncoderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEncoderConfigurationInput`)
     ///
-    /// - Returns: `DeleteEncoderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEncoderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,7 +771,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEncoderConfigurationInput, DeleteEncoderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEncoderConfigurationOutput>(DeleteEncoderConfigurationOutput.httpOutput(from:), DeleteEncoderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEncoderConfigurationInput, DeleteEncoderConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEncoderConfigurationOutput>())
@@ -809,9 +802,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless force is set to true.
     ///
-    /// - Parameter DeleteIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngestConfigurationInput`)
     ///
-    /// - Returns: `DeleteIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -849,7 +842,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIngestConfigurationInput, DeleteIngestConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIngestConfigurationOutput>(DeleteIngestConfigurationOutput.httpOutput(from:), DeleteIngestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIngestConfigurationInput, DeleteIngestConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIngestConfigurationOutput>())
@@ -881,9 +873,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes the specified public key used to sign stage participant tokens. This invalidates future participant tokens generated using the key pair’s private key.
     ///
-    /// - Parameter DeletePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicKeyInput`)
     ///
-    /// - Returns: `DeletePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,7 +913,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicKeyOutput>(DeletePublicKeyOutput.httpOutput(from:), DeletePublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublicKeyOutput>())
@@ -953,9 +944,9 @@ extension IVSRealTimeClient {
     ///
     /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated [IngestConfiguration], if there are participants using the IngestConfiguration to publish to the stage.
     ///
-    /// - Parameter DeleteStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStageInput`)
     ///
-    /// - Returns: `DeleteStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -993,7 +984,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStageInput, DeleteStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStageOutput>(DeleteStageOutput.httpOutput(from:), DeleteStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStageInput, DeleteStageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStageOutput>())
@@ -1025,9 +1015,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use [StopComposition] and wait for it to complete, then use DeleteStorageConfiguration.
     ///
-    /// - Parameter DeleteStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageConfigurationInput`)
     ///
-    /// - Returns: `DeleteStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1066,7 +1056,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStorageConfigurationInput, DeleteStorageConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageConfigurationOutput>(DeleteStorageConfigurationOutput.httpOutput(from:), DeleteStorageConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageConfigurationInput, DeleteStorageConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStorageConfigurationOutput>())
@@ -1098,9 +1087,9 @@ extension IVSRealTimeClient {
     ///
     /// Disconnects a specified participant from a specified stage. If the participant is publishing using an [IngestConfiguration], DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string.
     ///
-    /// - Parameter DisconnectParticipantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectParticipantInput`)
     ///
-    /// - Returns: `DisconnectParticipantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectParticipantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1137,7 +1126,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisconnectParticipantInput, DisconnectParticipantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisconnectParticipantOutput>(DisconnectParticipantOutput.httpOutput(from:), DisconnectParticipantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisconnectParticipantInput, DisconnectParticipantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisconnectParticipantOutput>())
@@ -1169,9 +1157,9 @@ extension IVSRealTimeClient {
     ///
     /// Get information about the specified Composition resource.
     ///
-    /// - Parameter GetCompositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCompositionInput`)
     ///
-    /// - Returns: `GetCompositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCompositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,7 +1198,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCompositionInput, GetCompositionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCompositionOutput>(GetCompositionOutput.httpOutput(from:), GetCompositionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCompositionInput, GetCompositionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCompositionOutput>())
@@ -1242,9 +1229,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about the specified EncoderConfiguration resource.
     ///
-    /// - Parameter GetEncoderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEncoderConfigurationInput`)
     ///
-    /// - Returns: `GetEncoderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEncoderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1283,7 +1270,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEncoderConfigurationInput, GetEncoderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEncoderConfigurationOutput>(GetEncoderConfigurationOutput.httpOutput(from:), GetEncoderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEncoderConfigurationInput, GetEncoderConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEncoderConfigurationOutput>())
@@ -1315,9 +1301,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about the specified IngestConfiguration.
     ///
-    /// - Parameter GetIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngestConfigurationInput`)
     ///
-    /// - Returns: `GetIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1353,7 +1339,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIngestConfigurationInput, GetIngestConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIngestConfigurationOutput>(GetIngestConfigurationOutput.httpOutput(from:), GetIngestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIngestConfigurationInput, GetIngestConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIngestConfigurationOutput>())
@@ -1385,9 +1370,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about the specified participant token.
     ///
-    /// - Parameter GetParticipantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParticipantInput`)
     ///
-    /// - Returns: `GetParticipantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParticipantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,7 +1408,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParticipantInput, GetParticipantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParticipantOutput>(GetParticipantOutput.httpOutput(from:), GetParticipantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParticipantInput, GetParticipantOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParticipantOutput>())
@@ -1455,9 +1439,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information for the specified public key.
     ///
-    /// - Parameter GetPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyInput`)
     ///
-    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1493,7 +1477,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPublicKeyInput, GetPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicKeyOutput>(GetPublicKeyOutput.httpOutput(from:), GetPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPublicKeyOutput>())
@@ -1525,9 +1508,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information for the specified stage.
     ///
-    /// - Parameter GetStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStageInput`)
     ///
-    /// - Returns: `GetStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1563,7 +1546,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStageInput, GetStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStageOutput>(GetStageOutput.httpOutput(from:), GetStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStageInput, GetStageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStageOutput>())
@@ -1595,9 +1577,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information for the specified stage session.
     ///
-    /// - Parameter GetStageSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStageSessionInput`)
     ///
-    /// - Returns: `GetStageSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStageSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1633,7 +1615,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStageSessionInput, GetStageSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStageSessionOutput>(GetStageSessionOutput.httpOutput(from:), GetStageSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStageSessionInput, GetStageSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStageSessionOutput>())
@@ -1665,9 +1646,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets the storage configuration for the specified ARN.
     ///
-    /// - Parameter GetStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageConfigurationInput`)
     ///
-    /// - Returns: `GetStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1706,7 +1687,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStorageConfigurationInput, GetStorageConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageConfigurationOutput>(GetStorageConfigurationOutput.httpOutput(from:), GetStorageConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageConfigurationInput, GetStorageConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageConfigurationOutput>())
@@ -1738,9 +1718,9 @@ extension IVSRealTimeClient {
     ///
     /// Import a public key to be used for signing stage participant tokens.
     ///
-    /// - Parameter ImportPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportPublicKeyInput`)
     ///
-    /// - Returns: `ImportPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1778,7 +1758,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportPublicKeyInput, ImportPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportPublicKeyOutput>(ImportPublicKeyOutput.httpOutput(from:), ImportPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportPublicKeyInput, ImportPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportPublicKeyOutput>())
@@ -1810,9 +1789,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListCompositionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCompositionsInput`)
     ///
-    /// - Returns: `ListCompositionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCompositionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1850,7 +1829,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCompositionsInput, ListCompositionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCompositionsOutput>(ListCompositionsOutput.httpOutput(from:), ListCompositionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCompositionsInput, ListCompositionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCompositionsOutput>())
@@ -1882,9 +1860,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListEncoderConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEncoderConfigurationsInput`)
     ///
-    /// - Returns: `ListEncoderConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEncoderConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1922,7 +1900,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEncoderConfigurationsInput, ListEncoderConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEncoderConfigurationsOutput>(ListEncoderConfigurationsOutput.httpOutput(from:), ListEncoderConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEncoderConfigurationsInput, ListEncoderConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEncoderConfigurationsOutput>())
@@ -1954,9 +1931,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListIngestConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestConfigurationsInput`)
     ///
-    /// - Returns: `ListIngestConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1991,7 +1968,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIngestConfigurationsInput, ListIngestConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIngestConfigurationsOutput>(ListIngestConfigurationsOutput.httpOutput(from:), ListIngestConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIngestConfigurationsInput, ListIngestConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIngestConfigurationsOutput>())
@@ -2023,9 +1999,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists events for a specified participant that occurred during a specified stage session.
     ///
-    /// - Parameter ListParticipantEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListParticipantEventsInput`)
     ///
-    /// - Returns: `ListParticipantEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListParticipantEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2060,7 +2036,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListParticipantEventsInput, ListParticipantEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListParticipantEventsOutput>(ListParticipantEventsOutput.httpOutput(from:), ListParticipantEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListParticipantEventsInput, ListParticipantEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListParticipantEventsOutput>())
@@ -2092,9 +2067,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists all the replicas for a participant from a source stage.
     ///
-    /// - Parameter ListParticipantReplicasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListParticipantReplicasInput`)
     ///
-    /// - Returns: `ListParticipantReplicasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListParticipantReplicasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2129,7 +2104,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListParticipantReplicasInput, ListParticipantReplicasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListParticipantReplicasOutput>(ListParticipantReplicasOutput.httpOutput(from:), ListParticipantReplicasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListParticipantReplicasInput, ListParticipantReplicasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListParticipantReplicasOutput>())
@@ -2161,9 +2135,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists all participants in a specified stage session.
     ///
-    /// - Parameter ListParticipantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListParticipantsInput`)
     ///
-    /// - Returns: `ListParticipantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListParticipantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2198,7 +2172,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListParticipantsInput, ListParticipantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListParticipantsOutput>(ListParticipantsOutput.httpOutput(from:), ListParticipantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListParticipantsInput, ListParticipantsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListParticipantsOutput>())
@@ -2230,9 +2203,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListPublicKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublicKeysInput`)
     ///
-    /// - Returns: `ListPublicKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublicKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2267,7 +2240,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPublicKeysInput, ListPublicKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublicKeysOutput>(ListPublicKeysOutput.httpOutput(from:), ListPublicKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPublicKeysOutput>())
@@ -2299,9 +2271,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets all sessions for a specified stage.
     ///
-    /// - Parameter ListStageSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStageSessionsInput`)
     ///
-    /// - Returns: `ListStageSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStageSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2336,7 +2308,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStageSessionsInput, ListStageSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStageSessionsOutput>(ListStageSessionsOutput.httpOutput(from:), ListStageSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStageSessionsInput, ListStageSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStageSessionsOutput>())
@@ -2368,9 +2339,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListStagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStagesInput`)
     ///
-    /// - Returns: `ListStagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2406,7 +2377,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStagesInput, ListStagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStagesOutput>(ListStagesOutput.httpOutput(from:), ListStagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStagesInput, ListStagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStagesOutput>())
@@ -2438,9 +2408,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListStorageConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageConfigurationsInput`)
     ///
-    /// - Returns: `ListStorageConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2478,7 +2448,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStorageConfigurationsInput, ListStorageConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageConfigurationsOutput>(ListStorageConfigurationsOutput.httpOutput(from:), ListStorageConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageConfigurationsInput, ListStorageConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStorageConfigurationsOutput>())
@@ -2510,9 +2479,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about AWS tags for the specified ARN.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2545,7 +2514,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2587,9 +2555,9 @@ extension IVSRealTimeClient {
     ///
     /// * When broadcasting is disconnected and all attempts to reconnect are exhausted.
     ///
-    /// - Parameter StartCompositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCompositionInput`)
     ///
-    /// - Returns: `StartCompositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCompositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2630,7 +2598,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCompositionInput, StartCompositionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCompositionOutput>(StartCompositionOutput.httpOutput(from:), StartCompositionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCompositionInput, StartCompositionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCompositionOutput>())
@@ -2662,9 +2629,9 @@ extension IVSRealTimeClient {
     ///
     /// Starts replicating a publishing participant from a source stage to a destination stage.
     ///
-    /// - Parameter StartParticipantReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartParticipantReplicationInput`)
     ///
-    /// - Returns: `StartParticipantReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartParticipantReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2704,7 +2671,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartParticipantReplicationInput, StartParticipantReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartParticipantReplicationOutput>(StartParticipantReplicationOutput.httpOutput(from:), StartParticipantReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartParticipantReplicationInput, StartParticipantReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartParticipantReplicationOutput>())
@@ -2736,9 +2702,9 @@ extension IVSRealTimeClient {
     ///
     /// Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
     ///
-    /// - Parameter StopCompositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCompositionInput`)
     ///
-    /// - Returns: `StopCompositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCompositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2777,7 +2743,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCompositionInput, StopCompositionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCompositionOutput>(StopCompositionOutput.httpOutput(from:), StopCompositionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCompositionInput, StopCompositionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCompositionOutput>())
@@ -2809,9 +2774,9 @@ extension IVSRealTimeClient {
     ///
     /// Stops a replicated participant session.
     ///
-    /// - Parameter StopParticipantReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopParticipantReplicationInput`)
     ///
-    /// - Returns: `StopParticipantReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopParticipantReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2848,7 +2813,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopParticipantReplicationInput, StopParticipantReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopParticipantReplicationOutput>(StopParticipantReplicationOutput.httpOutput(from:), StopParticipantReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopParticipantReplicationInput, StopParticipantReplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopParticipantReplicationOutput>())
@@ -2880,9 +2844,9 @@ extension IVSRealTimeClient {
     ///
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2918,7 +2882,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2950,9 +2913,9 @@ extension IVSRealTimeClient {
     ///
     /// Removes tags from the resource with the specified ARN.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2986,7 +2949,6 @@ extension IVSRealTimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3018,9 +2980,9 @@ extension IVSRealTimeClient {
     ///
     /// Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
     ///
-    /// - Parameter UpdateIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIngestConfigurationInput`)
     ///
-    /// - Returns: `UpdateIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3058,7 +3020,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIngestConfigurationInput, UpdateIngestConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIngestConfigurationOutput>(UpdateIngestConfigurationOutput.httpOutput(from:), UpdateIngestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIngestConfigurationInput, UpdateIngestConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIngestConfigurationOutput>())
@@ -3090,9 +3051,9 @@ extension IVSRealTimeClient {
     ///
     /// Updates a stage’s configuration.
     ///
-    /// - Parameter UpdateStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStageInput`)
     ///
-    /// - Returns: `UpdateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3131,7 +3092,6 @@ extension IVSRealTimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStageInput, UpdateStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStageOutput>(UpdateStageOutput.httpOutput(from:), UpdateStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStageInput, UpdateStageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStageOutput>())

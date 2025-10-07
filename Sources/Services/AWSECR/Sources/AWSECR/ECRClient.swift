@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECRClient: ClientRuntime.Client {
     public static let clientName = "ECRClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ECRClient.ECRClientConfiguration
     let serviceName = "ECR"
@@ -374,9 +373,9 @@ extension ECRClient {
     ///
     /// Checks the availability of one or more image layers in a repository. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter BatchCheckLayerAvailabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCheckLayerAvailabilityInput`)
     ///
-    /// - Returns: `BatchCheckLayerAvailabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCheckLayerAvailabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,7 +409,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCheckLayerAvailabilityOutput>(BatchCheckLayerAvailabilityOutput.httpOutput(from:), BatchCheckLayerAvailabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCheckLayerAvailabilityOutput>())
@@ -445,9 +443,9 @@ extension ECRClient {
     ///
     /// Deletes a list of specified images within a repository. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the image's digest in your request.
     ///
-    /// - Parameter BatchDeleteImageInput : Deletes specified images within a specified repository. Images are specified with either the imageTag or imageDigest.
+    /// - Parameter input: Deletes specified images within a specified repository. Images are specified with either the imageTag or imageDigest. (Type: `BatchDeleteImageInput`)
     ///
-    /// - Returns: `BatchDeleteImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,7 +479,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteImageOutput>(BatchDeleteImageOutput.httpOutput(from:), BatchDeleteImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteImageOutput>())
@@ -516,9 +513,9 @@ extension ECRClient {
     ///
     /// Gets detailed information for an image. Images are specified with either an imageTag or imageDigest. When an image is pulled, the BatchGetImage API is called once to retrieve the image manifest.
     ///
-    /// - Parameter BatchGetImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetImageInput`)
     ///
-    /// - Returns: `BatchGetImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetImageInput, BatchGetImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetImageOutput>(BatchGetImageOutput.httpOutput(from:), BatchGetImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetImageInput, BatchGetImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetImageOutput>())
@@ -589,9 +585,9 @@ extension ECRClient {
     ///
     /// Gets the scanning configuration for one or more repositories.
     ///
-    /// - Parameter BatchGetRepositoryScanningConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetRepositoryScanningConfigurationInput`)
     ///
-    /// - Returns: `BatchGetRepositoryScanningConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetRepositoryScanningConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,7 +622,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetRepositoryScanningConfigurationOutput>(BatchGetRepositoryScanningConfigurationOutput.httpOutput(from:), BatchGetRepositoryScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetRepositoryScanningConfigurationOutput>())
@@ -661,9 +656,9 @@ extension ECRClient {
     ///
     /// Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter CompleteLayerUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteLayerUploadInput`)
     ///
-    /// - Returns: `CompleteLayerUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteLayerUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,7 +698,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteLayerUploadOutput>(CompleteLayerUploadOutput.httpOutput(from:), CompleteLayerUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteLayerUploadOutput>())
@@ -738,9 +732,9 @@ extension ECRClient {
     ///
     /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an upstream registry source in your Amazon ECR private registry. For more information, see [Using pull through cache rules](https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter CreatePullThroughCacheRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePullThroughCacheRuleInput`)
     ///
-    /// - Returns: `CreatePullThroughCacheRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePullThroughCacheRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,7 +774,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePullThroughCacheRuleOutput>(CreatePullThroughCacheRuleOutput.httpOutput(from:), CreatePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePullThroughCacheRuleOutput>())
@@ -815,9 +808,9 @@ extension ECRClient {
     ///
     /// Creates a repository. For more information, see [Amazon ECR repositories](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter CreateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRepositoryInput`)
     ///
-    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,7 +848,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryOutput>(CreateRepositoryOutput.httpOutput(from:), CreateRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRepositoryOutput>())
@@ -890,9 +882,9 @@ extension ECRClient {
     ///
     /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see [Private repository creation templates](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-creation-templates.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter CreateRepositoryCreationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRepositoryCreationTemplateInput`)
     ///
-    /// - Returns: `CreateRepositoryCreationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRepositoryCreationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -928,7 +920,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryCreationTemplateOutput>(CreateRepositoryCreationTemplateOutput.httpOutput(from:), CreateRepositoryCreationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRepositoryCreationTemplateOutput>())
@@ -963,9 +954,9 @@ extension ECRClient {
     ///
     /// Deletes the lifecycle policy associated with the specified repository.
     ///
-    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
-    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1001,7 +992,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutput>(DeleteLifecyclePolicyOutput.httpOutput(from:), DeleteLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLifecyclePolicyOutput>())
@@ -1036,9 +1026,9 @@ extension ECRClient {
     ///
     /// Deletes a pull through cache rule.
     ///
-    /// - Parameter DeletePullThroughCacheRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePullThroughCacheRuleInput`)
     ///
-    /// - Returns: `DeletePullThroughCacheRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePullThroughCacheRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,7 +1063,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePullThroughCacheRuleOutput>(DeletePullThroughCacheRuleOutput.httpOutput(from:), DeletePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePullThroughCacheRuleOutput>())
@@ -1108,9 +1097,9 @@ extension ECRClient {
     ///
     /// Deletes the registry permissions policy.
     ///
-    /// - Parameter DeleteRegistryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegistryPolicyInput`)
     ///
-    /// - Returns: `DeleteRegistryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegistryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,7 +1134,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegistryPolicyOutput>(DeleteRegistryPolicyOutput.httpOutput(from:), DeleteRegistryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegistryPolicyOutput>())
@@ -1180,9 +1168,9 @@ extension ECRClient {
     ///
     /// Deletes a repository. If the repository isn't empty, you must either delete the contents of the repository or use the force option to delete the repository and have Amazon ECR delete all of its contents on your behalf.
     ///
-    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryInput`)
     ///
-    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,7 +1206,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutput>(DeleteRepositoryOutput.httpOutput(from:), DeleteRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryOutput>())
@@ -1253,9 +1240,9 @@ extension ECRClient {
     ///
     /// Deletes a repository creation template.
     ///
-    /// - Parameter DeleteRepositoryCreationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryCreationTemplateInput`)
     ///
-    /// - Returns: `DeleteRepositoryCreationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryCreationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1290,7 +1277,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryCreationTemplateOutput>(DeleteRepositoryCreationTemplateOutput.httpOutput(from:), DeleteRepositoryCreationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryCreationTemplateOutput>())
@@ -1325,9 +1311,9 @@ extension ECRClient {
     ///
     /// Deletes the repository policy associated with the specified repository.
     ///
-    /// - Parameter DeleteRepositoryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryPolicyInput`)
     ///
-    /// - Returns: `DeleteRepositoryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1362,7 +1348,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryPolicyOutput>(DeleteRepositoryPolicyOutput.httpOutput(from:), DeleteRepositoryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRepositoryPolicyOutput>())
@@ -1397,9 +1382,9 @@ extension ECRClient {
     ///
     /// Returns the replication status for a specified image.
     ///
-    /// - Parameter DescribeImageReplicationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageReplicationStatusInput`)
     ///
-    /// - Returns: `DescribeImageReplicationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageReplicationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1435,7 +1420,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageReplicationStatusOutput>(DescribeImageReplicationStatusOutput.httpOutput(from:), DescribeImageReplicationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageReplicationStatusOutput>())
@@ -1470,9 +1454,9 @@ extension ECRClient {
     ///
     /// Returns the scan findings for the specified image.
     ///
-    /// - Parameter DescribeImageScanFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageScanFindingsInput`)
     ///
-    /// - Returns: `DescribeImageScanFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageScanFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1509,7 +1493,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageScanFindingsOutput>(DescribeImageScanFindingsOutput.httpOutput(from:), DescribeImageScanFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageScanFindingsOutput>())
@@ -1544,9 +1527,9 @@ extension ECRClient {
     ///
     /// Returns metadata about the images in a repository. Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console. The new version of Amazon ECR Basic Scanning doesn't use the [ImageDetail$imageScanFindingsSummary] and [ImageDetail$imageScanStatus] attributes from the API response to return scan results. Use the [DescribeImageScanFindings] API instead. For more information about Amazon Web Services native basic scanning, see [ Scan images for software vulnerabilities in Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html).
     ///
-    /// - Parameter DescribeImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImagesInput`)
     ///
-    /// - Returns: `DescribeImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1581,7 +1564,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImagesOutput>(DescribeImagesOutput.httpOutput(from:), DescribeImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagesInput, DescribeImagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImagesOutput>())
@@ -1616,9 +1598,9 @@ extension ECRClient {
     ///
     /// Returns the pull through cache rules for a registry.
     ///
-    /// - Parameter DescribePullThroughCacheRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePullThroughCacheRulesInput`)
     ///
-    /// - Returns: `DescribePullThroughCacheRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePullThroughCacheRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,7 +1635,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePullThroughCacheRulesOutput>(DescribePullThroughCacheRulesOutput.httpOutput(from:), DescribePullThroughCacheRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePullThroughCacheRulesOutput>())
@@ -1688,9 +1669,9 @@ extension ECRClient {
     ///
     /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the [PutReplicationConfiguration] API action.
     ///
-    /// - Parameter DescribeRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistryInput`)
     ///
-    /// - Returns: `DescribeRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1724,7 +1705,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistryInput, DescribeRegistryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistryOutput>(DescribeRegistryOutput.httpOutput(from:), DescribeRegistryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistryInput, DescribeRegistryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistryOutput>())
@@ -1759,9 +1739,9 @@ extension ECRClient {
     ///
     /// Describes image repositories in a registry.
     ///
-    /// - Parameter DescribeRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRepositoriesInput`)
     ///
-    /// - Returns: `DescribeRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1795,7 +1775,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRepositoriesOutput>(DescribeRepositoriesOutput.httpOutput(from:), DescribeRepositoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRepositoriesOutput>())
@@ -1830,9 +1809,9 @@ extension ECRClient {
     ///
     /// Returns details about the repository creation templates in a registry. The prefixes request parameter can be used to return the details for a specific repository creation template.
     ///
-    /// - Parameter DescribeRepositoryCreationTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRepositoryCreationTemplatesInput`)
     ///
-    /// - Returns: `DescribeRepositoryCreationTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRepositoryCreationTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1866,7 +1845,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRepositoryCreationTemplatesOutput>(DescribeRepositoryCreationTemplatesOutput.httpOutput(from:), DescribeRepositoryCreationTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRepositoryCreationTemplatesOutput>())
@@ -1901,9 +1879,9 @@ extension ECRClient {
     ///
     /// Retrieves the account setting value for the specified setting name.
     ///
-    /// - Parameter GetAccountSettingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingInput`)
     ///
-    /// - Returns: `GetAccountSettingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,7 +1915,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountSettingInput, GetAccountSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingOutput>(GetAccountSettingOutput.httpOutput(from:), GetAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingInput, GetAccountSettingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingOutput>())
@@ -1972,9 +1949,9 @@ extension ECRClient {
     ///
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a registry. The CLI offers an get-login-password command that simplifies the login process. For more information, see [Registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter GetAuthorizationTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthorizationTokenInput`)
     ///
-    /// - Returns: `GetAuthorizationTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthorizationTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2007,7 +1984,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthorizationTokenOutput>(GetAuthorizationTokenOutput.httpOutput(from:), GetAuthorizationTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthorizationTokenOutput>())
@@ -2042,9 +2018,9 @@ extension ECRClient {
     ///
     /// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image. When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer that is not already cached. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter GetDownloadUrlForLayerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDownloadUrlForLayerInput`)
     ///
-    /// - Returns: `GetDownloadUrlForLayerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDownloadUrlForLayerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,7 +2057,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDownloadUrlForLayerOutput>(GetDownloadUrlForLayerOutput.httpOutput(from:), GetDownloadUrlForLayerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDownloadUrlForLayerOutput>())
@@ -2116,9 +2091,9 @@ extension ECRClient {
     ///
     /// Retrieves the lifecycle policy for the specified repository.
     ///
-    /// - Parameter GetLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePolicyInput`)
     ///
-    /// - Returns: `GetLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2154,7 +2129,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyOutput>(GetLifecyclePolicyOutput.httpOutput(from:), GetLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLifecyclePolicyOutput>())
@@ -2189,9 +2163,9 @@ extension ECRClient {
     ///
     /// Retrieves the results of the lifecycle policy preview request for the specified repository.
     ///
-    /// - Parameter GetLifecyclePolicyPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePolicyPreviewInput`)
     ///
-    /// - Returns: `GetLifecyclePolicyPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePolicyPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,7 +2201,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyPreviewOutput>(GetLifecyclePolicyPreviewOutput.httpOutput(from:), GetLifecyclePolicyPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLifecyclePolicyPreviewOutput>())
@@ -2262,9 +2235,9 @@ extension ECRClient {
     ///
     /// Retrieves the permissions policy for a registry.
     ///
-    /// - Parameter GetRegistryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegistryPolicyInput`)
     ///
-    /// - Returns: `GetRegistryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegistryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2299,7 +2272,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegistryPolicyOutput>(GetRegistryPolicyOutput.httpOutput(from:), GetRegistryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegistryPolicyOutput>())
@@ -2334,9 +2306,9 @@ extension ECRClient {
     ///
     /// Retrieves the scanning configuration for a registry.
     ///
-    /// - Parameter GetRegistryScanningConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegistryScanningConfigurationInput`)
     ///
-    /// - Returns: `GetRegistryScanningConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegistryScanningConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2370,7 +2342,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegistryScanningConfigurationOutput>(GetRegistryScanningConfigurationOutput.httpOutput(from:), GetRegistryScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegistryScanningConfigurationOutput>())
@@ -2405,9 +2376,9 @@ extension ECRClient {
     ///
     /// Retrieves the repository policy for the specified repository.
     ///
-    /// - Parameter GetRepositoryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryPolicyInput`)
     ///
-    /// - Returns: `GetRepositoryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2442,7 +2413,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositoryPolicyOutput>(GetRepositoryPolicyOutput.httpOutput(from:), GetRepositoryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRepositoryPolicyOutput>())
@@ -2477,9 +2447,9 @@ extension ECRClient {
     ///
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailability API action. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter InitiateLayerUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitiateLayerUploadInput`)
     ///
-    /// - Returns: `InitiateLayerUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitiateLayerUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2514,7 +2484,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateLayerUploadOutput>(InitiateLayerUploadOutput.httpOutput(from:), InitiateLayerUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateLayerUploadOutput>())
@@ -2549,9 +2518,9 @@ extension ECRClient {
     ///
     /// Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a [BatchDeleteImage] operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
     ///
-    /// - Parameter ListImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImagesInput`)
     ///
-    /// - Returns: `ListImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2585,7 +2554,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImagesInput, ListImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImagesOutput>(ListImagesOutput.httpOutput(from:), ListImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImagesInput, ListImagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImagesOutput>())
@@ -2620,9 +2588,9 @@ extension ECRClient {
     ///
     /// List the tags for an Amazon ECR resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2656,7 +2624,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2691,9 +2658,9 @@ extension ECRClient {
     ///
     /// Allows you to change the basic scan type version or registry policy scope.
     ///
-    /// - Parameter PutAccountSettingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountSettingInput`)
     ///
-    /// - Returns: `PutAccountSettingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountSettingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2728,7 +2695,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingOutput>(PutAccountSettingOutput.httpOutput(from:), PutAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingOutput>())
@@ -2763,9 +2729,9 @@ extension ECRClient {
     ///
     /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter PutImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutImageInput`)
     ///
-    /// - Returns: `PutImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2806,7 +2772,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutImageInput, PutImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutImageOutput>(PutImageOutput.httpOutput(from:), PutImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutImageInput, PutImageOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutImageOutput>())
@@ -2841,9 +2806,9 @@ extension ECRClient {
     ///
     /// The PutImageScanningConfiguration API is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see [PutRegistryScanningConfiguration]. Updates the image scanning configuration for the specified repository.
     ///
-    /// - Parameter PutImageScanningConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutImageScanningConfigurationInput`)
     ///
-    /// - Returns: `PutImageScanningConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutImageScanningConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2878,7 +2843,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutImageScanningConfigurationOutput>(PutImageScanningConfigurationOutput.httpOutput(from:), PutImageScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutImageScanningConfigurationOutput>())
@@ -2913,9 +2877,9 @@ extension ECRClient {
     ///
     /// Updates the image tag mutability settings for the specified repository. For more information, see [Image tag mutability](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter PutImageTagMutabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutImageTagMutabilityInput`)
     ///
-    /// - Returns: `PutImageTagMutabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutImageTagMutabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2949,7 +2913,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutImageTagMutabilityOutput>(PutImageTagMutabilityOutput.httpOutput(from:), PutImageTagMutabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutImageTagMutabilityOutput>())
@@ -2984,9 +2947,9 @@ extension ECRClient {
     ///
     /// Creates or updates the lifecycle policy for the specified repository. For more information, see [Lifecycle policy template](https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html).
     ///
-    /// - Parameter PutLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLifecyclePolicyInput`)
     ///
-    /// - Returns: `PutLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3021,7 +2984,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLifecyclePolicyOutput>(PutLifecyclePolicyOutput.httpOutput(from:), PutLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLifecyclePolicyOutput>())
@@ -3056,9 +3018,9 @@ extension ECRClient {
     ///
     /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see [Registry permissions](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter PutRegistryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRegistryPolicyInput`)
     ///
-    /// - Returns: `PutRegistryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRegistryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3092,7 +3054,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRegistryPolicyOutput>(PutRegistryPolicyOutput.httpOutput(from:), PutRegistryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRegistryPolicyOutput>())
@@ -3127,9 +3088,9 @@ extension ECRClient {
     ///
     /// Creates or updates the scanning configuration for your private registry.
     ///
-    /// - Parameter PutRegistryScanningConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRegistryScanningConfigurationInput`)
     ///
-    /// - Returns: `PutRegistryScanningConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRegistryScanningConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3163,7 +3124,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRegistryScanningConfigurationOutput>(PutRegistryScanningConfigurationOutput.httpOutput(from:), PutRegistryScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRegistryScanningConfigurationOutput>())
@@ -3198,9 +3158,9 @@ extension ECRClient {
     ///
     /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the [DescribeRegistry] API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see [Using service-linked roles for Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/using-service-linked-roles.html) in the Amazon Elastic Container Registry User Guide. For more information on the custom role for replication, see [Creating an IAM role for replication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/replication-creation-templates.html#roles-creatingrole-user-console). When configuring cross-account replication, the destination account must grant the source account permission to replicate. This permission is controlled using a registry permissions policy. For more information, see [PutRegistryPolicy].
     ///
-    /// - Parameter PutReplicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutReplicationConfigurationInput`)
     ///
-    /// - Returns: `PutReplicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutReplicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3234,7 +3194,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutReplicationConfigurationOutput>(PutReplicationConfigurationOutput.httpOutput(from:), PutReplicationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutReplicationConfigurationOutput>())
@@ -3269,9 +3228,9 @@ extension ECRClient {
     ///
     /// Applies a repository policy to the specified repository to control access permissions. For more information, see [Amazon ECR Repository policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter SetRepositoryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetRepositoryPolicyInput`)
     ///
-    /// - Returns: `SetRepositoryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetRepositoryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3305,7 +3264,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetRepositoryPolicyOutput>(SetRepositoryPolicyOutput.httpOutput(from:), SetRepositoryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetRepositoryPolicyOutput>())
@@ -3340,9 +3298,9 @@ extension ECRClient {
     ///
     /// Starts a basic image vulnerability scan. A basic image scan can only be started once per 24 hours on an individual image. This limit includes if an image was scanned on initial push. You can start up to 100,000 basic scans per 24 hours. This limit includes both scans on initial push and scans initiated by the StartImageScan API. For more information, see [Basic scanning](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning-basic.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter StartImageScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImageScanInput`)
     ///
-    /// - Returns: `StartImageScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImageScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3380,7 +3338,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImageScanInput, StartImageScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImageScanOutput>(StartImageScanOutput.httpOutput(from:), StartImageScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImageScanInput, StartImageScanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImageScanOutput>())
@@ -3415,9 +3372,9 @@ extension ECRClient {
     ///
     /// Starts a preview of a lifecycle policy for the specified repository. This allows you to see the results before associating the lifecycle policy with the repository.
     ///
-    /// - Parameter StartLifecyclePolicyPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartLifecyclePolicyPreviewInput`)
     ///
-    /// - Returns: `StartLifecyclePolicyPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartLifecyclePolicyPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3454,7 +3411,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLifecyclePolicyPreviewOutput>(StartLifecyclePolicyPreviewOutput.httpOutput(from:), StartLifecyclePolicyPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLifecyclePolicyPreviewOutput>())
@@ -3489,9 +3445,9 @@ extension ECRClient {
     ///
     /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3527,7 +3483,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3562,9 +3517,9 @@ extension ECRClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3600,7 +3555,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3635,9 +3589,9 @@ extension ECRClient {
     ///
     /// Updates an existing pull through cache rule.
     ///
-    /// - Parameter UpdatePullThroughCacheRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePullThroughCacheRuleInput`)
     ///
-    /// - Returns: `UpdatePullThroughCacheRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePullThroughCacheRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,7 +3629,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePullThroughCacheRuleOutput>(UpdatePullThroughCacheRuleOutput.httpOutput(from:), UpdatePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePullThroughCacheRuleOutput>())
@@ -3710,9 +3663,9 @@ extension ECRClient {
     ///
     /// Updates an existing repository creation template.
     ///
-    /// - Parameter UpdateRepositoryCreationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRepositoryCreationTemplateInput`)
     ///
-    /// - Returns: `UpdateRepositoryCreationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRepositoryCreationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3747,7 +3700,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRepositoryCreationTemplateOutput>(UpdateRepositoryCreationTemplateOutput.httpOutput(from:), UpdateRepositoryCreationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRepositoryCreationTemplateOutput>())
@@ -3782,9 +3734,9 @@ extension ECRClient {
     ///
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API is called once per each new image layer part. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter UploadLayerPartInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadLayerPartInput`)
     ///
-    /// - Returns: `UploadLayerPartOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadLayerPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3822,7 +3774,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadLayerPartInput, UploadLayerPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadLayerPartOutput>(UploadLayerPartOutput.httpOutput(from:), UploadLayerPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadLayerPartOutput>())
@@ -3857,9 +3808,9 @@ extension ECRClient {
     ///
     /// Validates an existing pull through cache rule for an upstream registry that requires authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager secret, verify the syntax, and then validate that authentication to the upstream registry is successful.
     ///
-    /// - Parameter ValidatePullThroughCacheRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidatePullThroughCacheRuleInput`)
     ///
-    /// - Returns: `ValidatePullThroughCacheRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidatePullThroughCacheRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3894,7 +3845,6 @@ extension ECRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePullThroughCacheRuleOutput>(ValidatePullThroughCacheRuleOutput.httpOutput(from:), ValidatePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidatePullThroughCacheRuleOutput>())

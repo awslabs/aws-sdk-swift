@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamInfluxDBClient: ClientRuntime.Client {
     public static let clientName = "TimestreamInfluxDBClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
     let serviceName = "Timestream InfluxDB"
@@ -373,9 +372,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Creates a new Timestream for InfluxDB cluster.
     ///
-    /// - Parameter CreateDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDbClusterInput`)
     ///
-    /// - Returns: `CreateDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +412,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDbClusterInput, CreateDbClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDbClusterOutput>(CreateDbClusterOutput.httpOutput(from:), CreateDbClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDbClusterInput, CreateDbClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDbClusterOutput>())
@@ -448,9 +446,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Creates a new Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter CreateDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDbInstanceInput`)
     ///
-    /// - Returns: `CreateDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,7 +486,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDbInstanceOutput>(CreateDbInstanceOutput.httpOutput(from:), CreateDbInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDbInstanceInput, CreateDbInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDbInstanceOutput>())
@@ -523,9 +520,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
     ///
-    /// - Parameter CreateDbParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDbParameterGroupInput`)
     ///
-    /// - Returns: `CreateDbParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDbParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,7 +560,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDbParameterGroupOutput>(CreateDbParameterGroupOutput.httpOutput(from:), CreateDbParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDbParameterGroupInput, CreateDbParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDbParameterGroupOutput>())
@@ -598,9 +594,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Deletes a Timestream for InfluxDB cluster.
     ///
-    /// - Parameter DeleteDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDbClusterInput`)
     ///
-    /// - Returns: `DeleteDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -637,7 +633,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDbClusterInput, DeleteDbClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDbClusterOutput>(DeleteDbClusterOutput.httpOutput(from:), DeleteDbClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDbClusterInput, DeleteDbClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDbClusterOutput>())
@@ -672,9 +667,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Deletes a Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter DeleteDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDbInstanceInput`)
     ///
-    /// - Returns: `DeleteDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,7 +706,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDbInstanceOutput>(DeleteDbInstanceOutput.httpOutput(from:), DeleteDbInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDbInstanceInput, DeleteDbInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDbInstanceOutput>())
@@ -746,9 +740,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Retrieves information about a Timestream for InfluxDB cluster.
     ///
-    /// - Parameter GetDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbClusterInput`)
     ///
-    /// - Returns: `GetDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,7 +778,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbClusterInput, GetDbClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDbClusterOutput>(GetDbClusterOutput.httpOutput(from:), GetDbClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbClusterInput, GetDbClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDbClusterOutput>())
@@ -819,9 +812,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter GetDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbInstanceInput`)
     ///
-    /// - Returns: `GetDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -857,7 +850,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbInstanceInput, GetDbInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDbInstanceOutput>(GetDbInstanceOutput.httpOutput(from:), GetDbInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbInstanceInput, GetDbInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDbInstanceOutput>())
@@ -892,9 +884,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a Timestream for InfluxDB DB parameter group.
     ///
-    /// - Parameter GetDbParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbParameterGroupInput`)
     ///
-    /// - Returns: `GetDbParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,7 +922,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDbParameterGroupOutput>(GetDbParameterGroupOutput.httpOutput(from:), GetDbParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbParameterGroupInput, GetDbParameterGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDbParameterGroupOutput>())
@@ -965,9 +956,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB DB clusters.
     ///
-    /// - Parameter ListDbClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbClustersInput`)
     ///
-    /// - Returns: `ListDbClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,7 +994,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbClustersInput, ListDbClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbClustersOutput>(ListDbClustersOutput.httpOutput(from:), ListDbClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbClustersInput, ListDbClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbClustersOutput>())
@@ -1038,9 +1028,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB DB instances.
     ///
-    /// - Parameter ListDbInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbInstancesInput`)
     ///
-    /// - Returns: `ListDbInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,7 +1066,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbInstancesInput, ListDbInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbInstancesOutput>(ListDbInstancesOutput.httpOutput(from:), ListDbInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbInstancesInput, ListDbInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbInstancesOutput>())
@@ -1111,9 +1100,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB clusters.
     ///
-    /// - Parameter ListDbInstancesForClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbInstancesForClusterInput`)
     ///
-    /// - Returns: `ListDbInstancesForClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbInstancesForClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1149,7 +1138,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbInstancesForClusterOutput>(ListDbInstancesForClusterOutput.httpOutput(from:), ListDbInstancesForClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbInstancesForClusterOutput>())
@@ -1184,9 +1172,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB DB parameter groups.
     ///
-    /// - Parameter ListDbParameterGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbParameterGroupsInput`)
     ///
-    /// - Returns: `ListDbParameterGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1222,7 +1210,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbParameterGroupsOutput>(ListDbParameterGroupsOutput.httpOutput(from:), ListDbParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbParameterGroupsInput, ListDbParameterGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbParameterGroupsOutput>())
@@ -1257,9 +1244,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// A list of tags applied to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,7 +1278,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1326,9 +1312,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,7 +1347,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1396,9 +1381,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Removes the tag from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1430,7 +1415,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1465,9 +1449,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Updates a Timestream for InfluxDB cluster.
     ///
-    /// - Parameter UpdateDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDbClusterInput`)
     ///
-    /// - Returns: `UpdateDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,7 +1488,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDbClusterInput, UpdateDbClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDbClusterOutput>(UpdateDbClusterOutput.httpOutput(from:), UpdateDbClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDbClusterInput, UpdateDbClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDbClusterOutput>())
@@ -1539,9 +1522,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Updates a Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter UpdateDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDbInstanceInput`)
     ///
-    /// - Returns: `UpdateDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,7 +1561,6 @@ extension TimestreamInfluxDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDbInstanceOutput>(UpdateDbInstanceOutput.httpOutput(from:), UpdateDbInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDbInstanceInput, UpdateDbInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDbInstanceOutput>())

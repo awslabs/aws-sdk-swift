@@ -4842,9 +4842,9 @@ extension MediaLiveClientTypes {
 
     /// Specifies a particular video stream within an input source. An input may have only a single video selector.
     public struct VideoSelector: Swift.Sendable {
-        /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
+        /// Controls how MediaLive will use the color space metadata from the source. Typically, choose FOLLOW, which means to use the color space metadata without changing it. Or choose another value (a standard). In this case, the handling is controlled by the colorspaceUsage property.
         public var colorSpace: MediaLiveClientTypes.VideoSelectorColorSpace?
-        /// Color space settings
+        /// Choose HDR10 only if the following situation applies. Firstly, you specified HDR10 in ColorSpace. Secondly, the attached input is for AWS Elemental Link. Thirdly, you plan to convert the content to another color space. You need to specify the color space metadata that is missing from the source sent from AWS Elemental Link.
         public var colorSpaceSettings: MediaLiveClientTypes.VideoSelectorColorSpaceSettings?
         /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
         public var colorSpaceUsage: MediaLiveClientTypes.VideoSelectorColorSpaceUsage?
@@ -9768,7 +9768,7 @@ extension MediaLiveClientTypes {
 
     /// Archive Output Settings
     public struct ArchiveOutputSettings: Swift.Sendable {
-        /// Settings specific to the container type of the file.
+        /// Container for this output. Can be auto-detected from extension field.
         /// This member is required.
         public var containerSettings: MediaLiveClientTypes.ArchiveContainerSettings?
         /// Output file extension. If excluded, this will be auto-selected from the container type.
@@ -12526,11 +12526,47 @@ extension MediaLiveClientTypes {
     public struct MediaPackageV2GroupSettings: Swift.Sendable {
         /// Mapping of up to 4 caption channels to caption languages.
         public var captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]?
+        /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
+        public var id3Behavior: MediaLiveClientTypes.CmafId3Behavior?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public var klvBehavior: MediaLiveClientTypes.CmafKLVBehavior?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public var nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior?
+        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        public var scte35Type: MediaLiveClientTypes.Scte35Type?
+        /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
+        public var segmentLength: Swift.Int?
+        /// Time unit for segment length parameter.
+        public var segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits?
+        /// Set to none if you don't want to insert a timecode in the output. Otherwise choose the frame type for the timecode.
+        public var timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame?
+        /// If you set up to insert a timecode in the output, specify the frequency for the frame, in seconds.
+        public var timedMetadataId3Period: Swift.Int?
+        /// Set to enabled to pass through ID3 metadata from the input sources.
+        public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
 
         public init(
-            captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]? = nil
+            captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]? = nil,
+            id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
+            klvBehavior: MediaLiveClientTypes.CmafKLVBehavior? = nil,
+            nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior? = nil,
+            scte35Type: MediaLiveClientTypes.Scte35Type? = nil,
+            segmentLength: Swift.Int? = nil,
+            segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits? = nil,
+            timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame? = nil,
+            timedMetadataId3Period: Swift.Int? = nil,
+            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
         ) {
             self.captionLanguageMappings = captionLanguageMappings
+            self.id3Behavior = id3Behavior
+            self.klvBehavior = klvBehavior
+            self.nielsenId3Behavior = nielsenId3Behavior
+            self.scte35Type = scte35Type
+            self.segmentLength = segmentLength
+            self.segmentLengthUnits = segmentLengthUnits
+            self.timedMetadataId3Frame = timedMetadataId3Frame
+            self.timedMetadataId3Period = timedMetadataId3Period
+            self.timedMetadataPassthrough = timedMetadataPassthrough
         }
     }
 }
@@ -15618,7 +15654,7 @@ extension MediaLiveClientTypes {
         public var bitrate: Swift.Int?
         /// The size of the buffer (HRD buffer model) in bits.
         public var bufSize: Swift.Int?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public var colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings?
         /// Complete this property only if you set the afdSignaling property to FIXED. Choose the AFD value (4 bits) to write on all frames of the video encode.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
@@ -16748,7 +16784,7 @@ extension MediaLiveClientTypes {
         public var bufSize: Swift.Int?
         /// Includes colorspace metadata in the output.
         public var colorMetadata: MediaLiveClientTypes.H264ColorMetadata?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public var colorSpaceSettings: MediaLiveClientTypes.H264ColorSpaceSettings?
         /// Entropy encoding mode. Use cabac (must be in Main or High profile) or cavlc.
         public var entropyEncoding: MediaLiveClientTypes.H264EntropyEncoding?
@@ -17669,7 +17705,7 @@ extension MediaLiveClientTypes {
         public var bufSize: Swift.Int?
         /// Includes colorspace metadata in the output.
         public var colorMetadata: MediaLiveClientTypes.H265ColorMetadata?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public var colorSpaceSettings: MediaLiveClientTypes.H265ColorSpaceSettings?
         /// Enable or disable the deblocking filter for this codec. The filter reduces blocking artifacts at block boundaries, which improves overall video quality. If the filter is disabled, visible block edges might appear in the output, especially at lower bitrates.
         public var deblocking: MediaLiveClientTypes.H265Deblocking?
@@ -36554,12 +36590,30 @@ extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
     static func write(value: MediaLiveClientTypes.MediaPackageV2GroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id3Behavior"].write(value.id3Behavior)
+        try writer["klvBehavior"].write(value.klvBehavior)
+        try writer["nielsenId3Behavior"].write(value.nielsenId3Behavior)
+        try writer["scte35Type"].write(value.scte35Type)
+        try writer["segmentLength"].write(value.segmentLength)
+        try writer["segmentLengthUnits"].write(value.segmentLengthUnits)
+        try writer["timedMetadataId3Frame"].write(value.timedMetadataId3Frame)
+        try writer["timedMetadataId3Period"].write(value.timedMetadataId3Period)
+        try writer["timedMetadataPassthrough"].write(value.timedMetadataPassthrough)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2GroupSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MediaPackageV2GroupSettings()
         value.captionLanguageMappings = try reader["captionLanguageMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CaptionLanguageMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id3Behavior = try reader["id3Behavior"].readIfPresent()
+        value.klvBehavior = try reader["klvBehavior"].readIfPresent()
+        value.nielsenId3Behavior = try reader["nielsenId3Behavior"].readIfPresent()
+        value.scte35Type = try reader["scte35Type"].readIfPresent()
+        value.segmentLength = try reader["segmentLength"].readIfPresent()
+        value.segmentLengthUnits = try reader["segmentLengthUnits"].readIfPresent()
+        value.timedMetadataId3Frame = try reader["timedMetadataId3Frame"].readIfPresent()
+        value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
+        value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
         return value
     }
 }

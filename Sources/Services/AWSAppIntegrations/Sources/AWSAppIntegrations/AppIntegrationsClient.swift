@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppIntegrationsClient: ClientRuntime.Client {
     public static let clientName = "AppIntegrationsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: AppIntegrationsClient.AppIntegrationsClientConfiguration
     let serviceName = "AppIntegrations"
@@ -375,9 +374,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates and persists an Application resource.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,7 +417,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -450,9 +448,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates and persists a DataIntegration resource. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
     ///
-    /// - Parameter CreateDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataIntegrationInput`)
     ///
-    /// - Returns: `CreateDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -492,7 +490,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataIntegrationInput, CreateDataIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataIntegrationOutput>(CreateDataIntegrationOutput.httpOutput(from:), CreateDataIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataIntegrationInput, CreateDataIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataIntegrationOutput>())
@@ -524,9 +521,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates and persists a DataIntegrationAssociation resource.
     ///
-    /// - Parameter CreateDataIntegrationAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataIntegrationAssociationInput`)
     ///
-    /// - Returns: `CreateDataIntegrationAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataIntegrationAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,7 +563,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataIntegrationAssociationInput, CreateDataIntegrationAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataIntegrationAssociationOutput>(CreateDataIntegrationAssociationOutput.httpOutput(from:), CreateDataIntegrationAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataIntegrationAssociationInput, CreateDataIntegrationAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataIntegrationAssociationOutput>())
@@ -598,9 +594,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane.
     ///
-    /// - Parameter CreateEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventIntegrationInput`)
     ///
-    /// - Returns: `CreateEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,7 +636,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventIntegrationInput, CreateEventIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventIntegrationOutput>(CreateEventIntegrationOutput.httpOutput(from:), CreateEventIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventIntegrationInput, CreateEventIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventIntegrationOutput>())
@@ -672,9 +667,9 @@ extension AppIntegrationsClient {
     ///
     /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -709,7 +704,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -741,9 +735,9 @@ extension AppIntegrationsClient {
     ///
     /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter DeleteDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataIntegrationInput`)
     ///
-    /// - Returns: `DeleteDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,7 +772,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataIntegrationInput, DeleteDataIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataIntegrationOutput>(DeleteDataIntegrationOutput.httpOutput(from:), DeleteDataIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataIntegrationInput, DeleteDataIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataIntegrationOutput>())
@@ -810,9 +803,9 @@ extension AppIntegrationsClient {
     ///
     /// Deletes the specified existing event integration. If the event integration is associated with clients, the request is rejected.
     ///
-    /// - Parameter DeleteEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventIntegrationInput`)
     ///
-    /// - Returns: `DeleteEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,7 +840,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventIntegrationInput, DeleteEventIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventIntegrationOutput>(DeleteEventIntegrationOutput.httpOutput(from:), DeleteEventIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventIntegrationInput, DeleteEventIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventIntegrationOutput>())
@@ -879,9 +871,9 @@ extension AppIntegrationsClient {
     ///
     /// Get an Application resource.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -916,7 +908,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
@@ -948,9 +939,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns information about the DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter GetDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataIntegrationInput`)
     ///
-    /// - Returns: `GetDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,7 +976,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataIntegrationInput, GetDataIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataIntegrationOutput>(GetDataIntegrationOutput.httpOutput(from:), GetDataIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataIntegrationInput, GetDataIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataIntegrationOutput>())
@@ -1017,9 +1007,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns information about the event integration.
     ///
-    /// - Parameter GetEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventIntegrationInput`)
     ///
-    /// - Returns: `GetEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,7 +1044,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventIntegrationInput, GetEventIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventIntegrationOutput>(GetEventIntegrationOutput.httpOutput(from:), GetEventIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventIntegrationInput, GetEventIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventIntegrationOutput>())
@@ -1086,9 +1075,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of application associations for an application.
     ///
-    /// - Parameter ListApplicationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAssociationsInput`)
     ///
-    /// - Returns: `ListApplicationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1124,7 +1113,6 @@ extension AppIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationAssociationsInput, ListApplicationAssociationsOutput>(ListApplicationAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationAssociationsOutput>(ListApplicationAssociationsOutput.httpOutput(from:), ListApplicationAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationAssociationsInput, ListApplicationAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationAssociationsOutput>())
@@ -1156,9 +1144,9 @@ extension AppIntegrationsClient {
     ///
     /// Lists applications in the account.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,7 +1181,6 @@ extension AppIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -1225,9 +1212,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of DataIntegration associations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter ListDataIntegrationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataIntegrationAssociationsInput`)
     ///
-    /// - Returns: `ListDataIntegrationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataIntegrationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,7 +1250,6 @@ extension AppIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutput>(ListDataIntegrationAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataIntegrationAssociationsOutput>(ListDataIntegrationAssociationsOutput.httpOutput(from:), ListDataIntegrationAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataIntegrationAssociationsOutput>())
@@ -1295,9 +1281,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of DataIntegrations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter ListDataIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataIntegrationsInput`)
     ///
-    /// - Returns: `ListDataIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,7 +1318,6 @@ extension AppIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataIntegrationsInput, ListDataIntegrationsOutput>(ListDataIntegrationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataIntegrationsOutput>(ListDataIntegrationsOutput.httpOutput(from:), ListDataIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataIntegrationsInput, ListDataIntegrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataIntegrationsOutput>())
@@ -1364,9 +1349,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of event integration associations in the account.
     ///
-    /// - Parameter ListEventIntegrationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventIntegrationAssociationsInput`)
     ///
-    /// - Returns: `ListEventIntegrationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventIntegrationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1402,7 +1387,6 @@ extension AppIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutput>(ListEventIntegrationAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventIntegrationAssociationsOutput>(ListEventIntegrationAssociationsOutput.httpOutput(from:), ListEventIntegrationAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventIntegrationAssociationsOutput>())
@@ -1434,9 +1418,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of event integrations in the account.
     ///
-    /// - Parameter ListEventIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventIntegrationsInput`)
     ///
-    /// - Returns: `ListEventIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1471,7 +1455,6 @@ extension AppIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventIntegrationsInput, ListEventIntegrationsOutput>(ListEventIntegrationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventIntegrationsOutput>(ListEventIntegrationsOutput.httpOutput(from:), ListEventIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventIntegrationsInput, ListEventIntegrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventIntegrationsOutput>())
@@ -1503,9 +1486,9 @@ extension AppIntegrationsClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1539,7 +1522,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1571,9 +1553,9 @@ extension AppIntegrationsClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,7 +1592,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1642,9 +1623,9 @@ extension AppIntegrationsClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1679,7 +1660,6 @@ extension AppIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1711,9 +1691,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates and persists an Application resource.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,7 +1732,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -1784,9 +1763,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates the description of a DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter UpdateDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataIntegrationInput`)
     ///
-    /// - Returns: `UpdateDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1824,7 +1803,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataIntegrationInput, UpdateDataIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataIntegrationOutput>(UpdateDataIntegrationOutput.httpOutput(from:), UpdateDataIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataIntegrationInput, UpdateDataIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataIntegrationOutput>())
@@ -1856,9 +1834,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates and persists a DataIntegrationAssociation resource. Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
     ///
-    /// - Parameter UpdateDataIntegrationAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataIntegrationAssociationInput`)
     ///
-    /// - Returns: `UpdateDataIntegrationAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataIntegrationAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1896,7 +1874,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataIntegrationAssociationInput, UpdateDataIntegrationAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataIntegrationAssociationOutput>(UpdateDataIntegrationAssociationOutput.httpOutput(from:), UpdateDataIntegrationAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataIntegrationAssociationInput, UpdateDataIntegrationAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataIntegrationAssociationOutput>())
@@ -1928,9 +1905,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates the description of an event integration.
     ///
-    /// - Parameter UpdateEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventIntegrationInput`)
     ///
-    /// - Returns: `UpdateEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,7 +1945,6 @@ extension AppIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventIntegrationInput, UpdateEventIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventIntegrationOutput>(UpdateEventIntegrationOutput.httpOutput(from:), UpdateEventIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventIntegrationInput, UpdateEventIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventIntegrationOutput>())

@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaConvertClient: ClientRuntime.Client {
     public static let clientName = "MediaConvertClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConvertClient.MediaConvertClientConfiguration
     let serviceName = "MediaConvert"
@@ -374,9 +373,9 @@ extension MediaConvertClient {
     ///
     /// Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
     ///
-    /// - Parameter AssociateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCertificateInput`)
     ///
-    /// - Returns: `AssociateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCertificateInput, AssociateCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCertificateOutput>(AssociateCertificateOutput.httpOutput(from:), AssociateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCertificateInput, AssociateCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCertificateOutput>())
@@ -447,9 +445,9 @@ extension MediaConvertClient {
     ///
     /// Permanently cancel a job. Once you have canceled a job, you can't start it again.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -517,9 +514,9 @@ extension MediaConvertClient {
     ///
     /// Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,7 +556,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -591,9 +587,9 @@ extension MediaConvertClient {
     ///
     /// Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobTemplateInput`)
     ///
-    /// - Returns: `CreateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -632,7 +628,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobTemplateOutput>(CreateJobTemplateOutput.httpOutput(from:), CreateJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobTemplateOutput>())
@@ -664,9 +659,9 @@ extension MediaConvertClient {
     ///
     /// Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreatePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresetInput`)
     ///
-    /// - Returns: `CreatePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,7 +700,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresetInput, CreatePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresetOutput>(CreatePresetOutput.httpOutput(from:), CreatePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresetInput, CreatePresetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresetOutput>())
@@ -737,9 +731,9 @@ extension MediaConvertClient {
     ///
     /// Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     ///
-    /// - Parameter CreateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
     ///
-    /// - Returns: `CreateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,7 +772,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
@@ -810,9 +803,9 @@ extension MediaConvertClient {
     ///
     /// Create a new resource share request for MediaConvert resources with AWS Support.
     ///
-    /// - Parameter CreateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceShareInput`)
     ///
-    /// - Returns: `CreateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,7 +844,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceShareInput, CreateResourceShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceShareOutput>(CreateResourceShareOutput.httpOutput(from:), CreateResourceShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceShareInput, CreateResourceShareOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceShareOutput>())
@@ -883,9 +875,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a job template you have created.
     ///
-    /// - Parameter DeleteJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobTemplateInput`)
     ///
-    /// - Returns: `DeleteJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,7 +913,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobTemplateOutput>(DeleteJobTemplateOutput.httpOutput(from:), DeleteJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobTemplateOutput>())
@@ -953,9 +944,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a policy that you created.
     ///
-    /// - Parameter DeletePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,7 +982,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(DeletePolicyOutput.httpOutput(from:), DeletePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyInput, DeletePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
@@ -1023,9 +1013,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a preset you have created.
     ///
-    /// - Parameter DeletePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePresetInput`)
     ///
-    /// - Returns: `DeletePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1061,7 +1051,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePresetInput, DeletePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePresetOutput>(DeletePresetOutput.httpOutput(from:), DeletePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePresetInput, DeletePresetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePresetOutput>())
@@ -1093,9 +1082,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a queue you have created.
     ///
-    /// - Parameter DeleteQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
     ///
-    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,7 +1120,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
@@ -1164,9 +1152,9 @@ extension MediaConvertClient {
     /// Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
     @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     ///
-    /// - Parameter DescribeEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointsInput`)
     ///
-    /// - Returns: `DescribeEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1205,7 +1193,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointsOutput>(DescribeEndpointsOutput.httpOutput(from:), DescribeEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointsOutput>())
@@ -1237,9 +1224,9 @@ extension MediaConvertClient {
     ///
     /// Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
     ///
-    /// - Parameter DisassociateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCertificateInput`)
     ///
-    /// - Returns: `DisassociateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,7 +1262,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateCertificateInput, DisassociateCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCertificateOutput>(DisassociateCertificateOutput.httpOutput(from:), DisassociateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCertificateInput, DisassociateCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCertificateOutput>())
@@ -1307,9 +1293,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific transcoding job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1345,7 +1331,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -1377,9 +1362,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific job template.
     ///
-    /// - Parameter GetJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobTemplateInput`)
     ///
-    /// - Returns: `GetJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1415,7 +1400,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobTemplateInput, GetJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobTemplateOutput>(GetJobTemplateOutput.httpOutput(from:), GetJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobTemplateInput, GetJobTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobTemplateOutput>())
@@ -1447,9 +1431,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for your policy.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,7 +1469,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -1517,9 +1500,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific preset.
     ///
-    /// - Parameter GetPresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPresetInput`)
     ///
-    /// - Returns: `GetPresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1555,7 +1538,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPresetInput, GetPresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPresetOutput>(GetPresetOutput.httpOutput(from:), GetPresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPresetInput, GetPresetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPresetOutput>())
@@ -1587,9 +1569,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific queue.
     ///
-    /// - Parameter GetQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: `GetQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,7 +1607,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueueInput, GetQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueOutput>(GetQueueOutput.httpOutput(from:), GetQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueInput, GetQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueOutput>())
@@ -1657,9 +1638,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
     ///
-    /// - Parameter ListJobTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobTemplatesInput`)
     ///
-    /// - Returns: `ListJobTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1696,7 +1677,6 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(ListJobTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobTemplatesOutput>(ListJobTemplatesOutput.httpOutput(from:), ListJobTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobTemplatesOutput>())
@@ -1728,9 +1708,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,7 +1747,6 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -1799,9 +1778,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListPresetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPresetsInput`)
     ///
-    /// - Returns: `ListPresetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPresetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,7 +1817,6 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPresetsInput, ListPresetsOutput>(ListPresetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPresetsOutput>(ListPresetsOutput.httpOutput(from:), ListPresetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPresetsInput, ListPresetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPresetsOutput>())
@@ -1870,9 +1848,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
     ///
-    /// - Returns: `ListQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,7 +1887,6 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueuesInput, ListQueuesOutput>(ListQueuesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
@@ -1941,9 +1918,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the tags for a MediaConvert resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1979,7 +1956,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2011,9 +1987,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of all available Job engine versions and the date they expire.
     ///
-    /// - Parameter ListVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVersionsInput`)
     ///
-    /// - Returns: `ListVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2050,7 +2026,6 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVersionsInput, ListVersionsOutput>(ListVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVersionsOutput>(ListVersionsOutput.httpOutput(from:), ListVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVersionsInput, ListVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVersionsOutput>())
@@ -2082,9 +2057,9 @@ extension MediaConvertClient {
     ///
     /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
     ///
-    /// - Parameter ProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProbeInput`)
     ///
-    /// - Returns: `ProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2123,7 +2098,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProbeInput, ProbeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProbeOutput>(ProbeOutput.httpOutput(from:), ProbeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProbeInput, ProbeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ProbeOutput>())
@@ -2155,9 +2129,9 @@ extension MediaConvertClient {
     ///
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter PutPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPolicyInput`)
     ///
-    /// - Returns: `PutPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2196,7 +2170,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPolicyInput, PutPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPolicyOutput>(PutPolicyOutput.httpOutput(from:), PutPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPolicyInput, PutPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPolicyOutput>())
@@ -2228,9 +2201,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
-    /// - Parameter SearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
     ///
-    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2267,7 +2240,6 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<SearchJobsInput, SearchJobsOutput>(SearchJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchJobsOutput>(SearchJobsOutput.httpOutput(from:), SearchJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchJobsInput, SearchJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchJobsOutput>())
@@ -2299,9 +2271,9 @@ extension MediaConvertClient {
     ///
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2340,7 +2312,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2372,9 +2343,9 @@ extension MediaConvertClient {
     ///
     /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2413,7 +2384,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2445,9 +2415,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing job templates.
     ///
-    /// - Parameter UpdateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobTemplateInput`)
     ///
-    /// - Returns: `UpdateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2486,7 +2456,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobTemplateInput, UpdateJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobTemplateOutput>(UpdateJobTemplateOutput.httpOutput(from:), UpdateJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobTemplateInput, UpdateJobTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobTemplateOutput>())
@@ -2518,9 +2487,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing presets.
     ///
-    /// - Parameter UpdatePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePresetInput`)
     ///
-    /// - Returns: `UpdatePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2559,7 +2528,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePresetInput, UpdatePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePresetOutput>(UpdatePresetOutput.httpOutput(from:), UpdatePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePresetInput, UpdatePresetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePresetOutput>())
@@ -2591,9 +2559,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing queues.
     ///
-    /// - Parameter UpdateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueInput`)
     ///
-    /// - Returns: `UpdateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2632,7 +2600,6 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueInput, UpdateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueOutput>(UpdateQueueOutput.httpOutput(from:), UpdateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueInput, UpdateQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -375,9 +374,9 @@ extension ECSClient {
     ///
     /// Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined FARGATE and FARGATE_SPOT capacity providers.
     ///
-    /// - Parameter CreateCapacityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityProviderInput`)
     ///
-    /// - Returns: `CreateCapacityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCapacityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityProviderOutput>(CreateCapacityProviderOutput.httpOutput(from:), CreateCapacityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityProviderOutput>())
@@ -450,9 +448,9 @@ extension ECSClient {
     ///
     /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name. When you call the [CreateCluster](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCluster.html) API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,7 +485,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -575,9 +572,9 @@ extension ECSClient {
     ///
     /// When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see [Amazon ECS task placement](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html) in the Amazon Elastic Container Service Developer Guide
     ///
-    /// - Parameter CreateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
-    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -617,7 +614,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInput, CreateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceOutput>())
@@ -652,9 +648,9 @@ extension ECSClient {
     ///
     /// Create a task set in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. For information about the maximum number of task sets and other quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter CreateTaskSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTaskSetInput`)
     ///
-    /// - Returns: `CreateTaskSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTaskSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,7 +692,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTaskSetInput, CreateTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskSetOutput>(CreateTaskSetOutput.httpOutput(from:), CreateTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTaskSetOutput>())
@@ -731,9 +726,9 @@ extension ECSClient {
     ///
     /// Disables an account setting for a specified user, role, or the root user for an account.
     ///
-    /// - Parameter DeleteAccountSettingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountSettingInput`)
     ///
-    /// - Returns: `DeleteAccountSettingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountSettingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,7 +762,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountSettingOutput>(DeleteAccountSettingOutput.httpOutput(from:), DeleteAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountSettingOutput>())
@@ -802,9 +796,9 @@ extension ECSClient {
     ///
     /// Deletes one or more custom attributes from an Amazon ECS resource.
     ///
-    /// - Parameter DeleteAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttributesInput`)
     ///
-    /// - Returns: `DeleteAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,7 +832,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAttributesInput, DeleteAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttributesOutput>(DeleteAttributesOutput.httpOutput(from:), DeleteAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttributesOutput>())
@@ -873,9 +866,9 @@ extension ECSClient {
     ///
     /// Deletes the specified capacity provider. The FARGATE and FARGATE_SPOT capacity providers are reserved and can't be deleted. You can disassociate them from a cluster using either [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) or by deleting the cluster. Prior to a capacity provider being deleted, the capacity provider must be removed from the capacity provider strategy from all services. The [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) API can be used to remove a capacity provider from a service's capacity provider strategy. When updating a service, the forceNewDeployment option can be used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity provider are transitioned to use the capacity from the remaining capacity providers. Only capacity providers that aren't associated with a cluster can be deleted. To remove a capacity provider from a cluster, you can either use [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) or delete the cluster.
     ///
-    /// - Parameter DeleteCapacityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCapacityProviderInput`)
     ///
-    /// - Returns: `DeleteCapacityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCapacityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,7 +904,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapacityProviderOutput>(DeleteCapacityProviderOutput.httpOutput(from:), DeleteCapacityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCapacityProviderOutput>())
@@ -946,9 +938,9 @@ extension ECSClient {
     ///
     /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html) and deregister them with [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,7 +980,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -1023,9 +1014,9 @@ extension ECSClient {
     ///
     /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html) API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
     ///
-    /// - Parameter DeleteServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1061,7 +1052,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceInput, DeleteServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceOutput>())
@@ -1096,9 +1086,9 @@ extension ECSClient {
     ///
     /// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information, see [DeregisterTaskDefinition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterTaskDefinition.html). When you delete a task definition revision, it is immediately transitions from the INACTIVE to DELETE_IN_PROGRESS. Existing tasks and services that reference a DELETE_IN_PROGRESS task definition revision continue to run without disruption. Existing services that reference a DELETE_IN_PROGRESS task definition revision can still scale up or down by modifying the service's desired count. You can't use a DELETE_IN_PROGRESS task definition revision to run new tasks or create new services. You also can't update an existing service to reference a DELETE_IN_PROGRESS task definition revision. A task definition revision will stay in DELETE_IN_PROGRESS status until all the associated tasks and services have been terminated. When you delete all INACTIVE task definition revisions, the task definition name is not displayed in the console and not returned in the API. If a task definition revisions are in the DELETE_IN_PROGRESS state, the task definition name is displayed in the console and returned in the API. The task definition name is retained by Amazon ECS and the revision is incremented the next time you create a task definition with that name.
     ///
-    /// - Parameter DeleteTaskDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTaskDefinitionsInput`)
     ///
-    /// - Returns: `DeleteTaskDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTaskDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,7 +1123,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskDefinitionsOutput>(DeleteTaskDefinitionsOutput.httpOutput(from:), DeleteTaskDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaskDefinitionsOutput>())
@@ -1168,9 +1157,9 @@ extension ECSClient {
     ///
     /// Deletes a specified task set within a service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter DeleteTaskSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTaskSetInput`)
     ///
-    /// - Returns: `DeleteTaskSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTaskSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,7 +1199,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskSetOutput>(DeleteTaskSetOutput.httpOutput(from:), DeleteTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaskSetOutput>())
@@ -1245,9 +1233,9 @@ extension ECSClient {
     ///
     /// Deregisters an Amazon ECS container instance from the specified cluster. This instance is no longer available to run tasks. If you intend to use the container instance for some other purpose after deregistration, we recommend that you stop all of the tasks running on the container instance before deregistration. That prevents any orphaned tasks from consuming resources. Deregistering a container instance removes the instance from a cluster, but it doesn't terminate the EC2 instance. If you are finished using the instance, be sure to terminate it in the Amazon EC2 console to stop billing. If you terminate a running container instance, Amazon ECS automatically deregisters the instance from your cluster (stopped container instances or instances with disconnected agents aren't automatically deregistered when terminated).
     ///
-    /// - Parameter DeregisterContainerInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterContainerInstanceInput`)
     ///
-    /// - Returns: `DeregisterContainerInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterContainerInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1282,7 +1270,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterContainerInstanceOutput>(DeregisterContainerInstanceOutput.httpOutput(from:), DeregisterContainerInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterContainerInstanceOutput>())
@@ -1317,9 +1304,9 @@ extension ECSClient {
     ///
     /// Deregisters the specified task definition by family and revision. Upon deregistration, the task definition is marked as INACTIVE. Existing tasks and services that reference an INACTIVE task definition continue to run without disruption. Existing services that reference an INACTIVE task definition can still scale up or down by modifying the service's desired count. If you want to delete a task definition revision, you must first deregister the task definition revision. You can't use an INACTIVE task definition to run new tasks or create new services, and you can't update an existing service to reference an INACTIVE task definition. However, there may be up to a 10-minute window following deregistration where these restrictions have not yet taken effect. At this time, INACTIVE task definitions remain discoverable in your account indefinitely. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE task definitions persisting beyond the lifecycle of any associated tasks and services. You must deregister a task definition revision before you delete it. For more information, see [DeleteTaskDefinitions](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteTaskDefinitions.html).
     ///
-    /// - Parameter DeregisterTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTaskDefinitionInput`)
     ///
-    /// - Returns: `DeregisterTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1353,7 +1340,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTaskDefinitionOutput>(DeregisterTaskDefinitionOutput.httpOutput(from:), DeregisterTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTaskDefinitionOutput>())
@@ -1388,9 +1374,9 @@ extension ECSClient {
     ///
     /// Describes one or more of your capacity providers.
     ///
-    /// - Parameter DescribeCapacityProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityProvidersInput`)
     ///
-    /// - Returns: `DescribeCapacityProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1426,7 +1412,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityProvidersOutput>(DescribeCapacityProvidersOutput.httpOutput(from:), DescribeCapacityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityProvidersOutput>())
@@ -1461,9 +1446,9 @@ extension ECSClient {
     ///
     /// Describes one or more of your clusters. For CLI examples, see [describe-clusters.rst](https://github.com/aws/aws-cli/blob/develop/awscli/examples/ecs/describe-clusters.rst) on GitHub.
     ///
-    /// - Parameter DescribeClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: `DescribeClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1497,7 +1482,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClustersInput, DescribeClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClustersOutput>(DescribeClustersOutput.httpOutput(from:), DescribeClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClustersOutput>())
@@ -1532,9 +1516,9 @@ extension ECSClient {
     ///
     /// Describes one or more container instances. Returns metadata about each container instance requested.
     ///
-    /// - Parameter DescribeContainerInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContainerInstancesInput`)
     ///
-    /// - Returns: `DescribeContainerInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContainerInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,7 +1553,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerInstancesOutput>(DescribeContainerInstancesOutput.httpOutput(from:), DescribeContainerInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerInstancesOutput>())
@@ -1604,9 +1587,9 @@ extension ECSClient {
     ///
     /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see [View service history using Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-deployment.html).
     ///
-    /// - Parameter DescribeServiceDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceDeploymentsInput`)
     ///
-    /// - Returns: `DescribeServiceDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1644,7 +1627,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceDeploymentsInput, DescribeServiceDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceDeploymentsOutput>(DescribeServiceDeploymentsOutput.httpOutput(from:), DescribeServiceDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceDeploymentsInput, DescribeServiceDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServiceDeploymentsOutput>())
@@ -1679,9 +1661,9 @@ extension ECSClient {
     ///
     /// Describes one or more service revisions. A service revision is a version of the service that includes the values for the Amazon ECS resources (for example, task definition) and the environment resources (for example, load balancers, subnets, and security groups). For more information, see [Amazon ECS service revisions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-revision.html). You can't describe a service revision that was created before October 25, 2024.
     ///
-    /// - Parameter DescribeServiceRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceRevisionsInput`)
     ///
-    /// - Returns: `DescribeServiceRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1719,7 +1701,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceRevisionsInput, DescribeServiceRevisionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceRevisionsOutput>(DescribeServiceRevisionsOutput.httpOutput(from:), DescribeServiceRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceRevisionsInput, DescribeServiceRevisionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServiceRevisionsOutput>())
@@ -1754,9 +1735,9 @@ extension ECSClient {
     ///
     /// Describes the specified services running in your cluster.
     ///
-    /// - Parameter DescribeServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServicesInput`)
     ///
-    /// - Returns: `DescribeServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1791,7 +1772,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServicesInput, DescribeServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServicesOutput>(DescribeServicesOutput.httpOutput(from:), DescribeServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServicesInput, DescribeServicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServicesOutput>())
@@ -1826,9 +1806,9 @@ extension ECSClient {
     ///
     /// Describes a task definition. You can specify a family and revision to find information about a specific task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. You can only describe INACTIVE task definitions while an active task or service references them.
     ///
-    /// - Parameter DescribeTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTaskDefinitionInput`)
     ///
-    /// - Returns: `DescribeTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1862,7 +1842,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskDefinitionOutput>(DescribeTaskDefinitionOutput.httpOutput(from:), DescribeTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskDefinitionOutput>())
@@ -1897,9 +1876,9 @@ extension ECSClient {
     ///
     /// Describes the task sets in the specified cluster and service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS Deployment Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter DescribeTaskSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTaskSetsInput`)
     ///
-    /// - Returns: `DescribeTaskSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTaskSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1938,7 +1917,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskSetsOutput>(DescribeTaskSetsOutput.httpOutput(from:), DescribeTaskSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskSetsOutput>())
@@ -1973,9 +1951,9 @@ extension ECSClient {
     ///
     /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour. If you have tasks with tags, and then delete the cluster, the tagged tasks are returned in the response. If you create a new cluster with the same name as the deleted cluster, the tagged tasks are not included in the response.
     ///
-    /// - Parameter DescribeTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTasksInput`)
     ///
-    /// - Returns: `DescribeTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,7 +1988,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTasksInput, DescribeTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTasksOutput>(DescribeTasksOutput.httpOutput(from:), DescribeTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTasksInput, DescribeTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTasksOutput>())
@@ -2045,9 +2022,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Returns an endpoint for the Amazon ECS agent to poll for updates.
     ///
-    /// - Parameter DiscoverPollEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DiscoverPollEndpointInput`)
     ///
-    /// - Returns: `DiscoverPollEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DiscoverPollEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,7 +2057,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DiscoverPollEndpointOutput>(DiscoverPollEndpointOutput.httpOutput(from:), DiscoverPollEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DiscoverPollEndpointOutput>())
@@ -2115,9 +2091,9 @@ extension ECSClient {
     ///
     /// Runs a command remotely on a container within a task. If you use a condition key in your IAM policy to refine the conditions for the policy statement, for example limit the actions to a specific cluster, you receive an AccessDeniedException when there is a mismatch between the condition key value and the corresponding parameter value. For information about required permissions and considerations, see [Using Amazon ECS Exec for debugging](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) in the Amazon ECS Developer Guide.
     ///
-    /// - Parameter ExecuteCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteCommandInput`)
     ///
-    /// - Returns: `ExecuteCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2163,7 +2139,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteCommandInput, ExecuteCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteCommandOutput>(ExecuteCommandOutput.httpOutput(from:), ExecuteCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteCommandOutput>())
@@ -2198,9 +2173,9 @@ extension ECSClient {
     ///
     /// Retrieves the protection status of tasks in an Amazon ECS service.
     ///
-    /// - Parameter GetTaskProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaskProtectionInput`)
     ///
-    /// - Returns: `GetTaskProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaskProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2238,7 +2213,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaskProtectionOutput>(GetTaskProtectionOutput.httpOutput(from:), GetTaskProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaskProtectionOutput>())
@@ -2273,9 +2247,9 @@ extension ECSClient {
     ///
     /// Lists the account settings for a specified principal.
     ///
-    /// - Parameter ListAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountSettingsInput`)
     ///
-    /// - Returns: `ListAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2309,7 +2283,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountSettingsOutput>(ListAccountSettingsOutput.httpOutput(from:), ListAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountSettingsOutput>())
@@ -2344,9 +2317,9 @@ extension ECSClient {
     ///
     /// Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, ListAttributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value. You can do this, for example, to see which container instances in a cluster are running a Linux AMI (ecs.os-type=linux).
     ///
-    /// - Parameter ListAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttributesInput`)
     ///
-    /// - Returns: `ListAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2379,7 +2352,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttributesInput, ListAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttributesOutput>(ListAttributesOutput.httpOutput(from:), ListAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttributesInput, ListAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttributesOutput>())
@@ -2414,9 +2386,9 @@ extension ECSClient {
     ///
     /// Returns a list of existing clusters.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2450,7 +2422,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClustersInput, ListClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -2485,9 +2456,9 @@ extension ECSClient {
     ///
     /// Returns a list of container instances in a specified cluster. You can filter the results of a ListContainerInstances operation with cluster query language statements inside the filter parameter. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter ListContainerInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContainerInstancesInput`)
     ///
-    /// - Returns: `ListContainerInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContainerInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2522,7 +2493,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainerInstancesOutput>(ListContainerInstancesOutput.httpOutput(from:), ListContainerInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerInstancesOutput>())
@@ -2557,9 +2527,9 @@ extension ECSClient {
     ///
     /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in [DescribeServiceRevisions](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceRevisions.html).
     ///
-    /// - Parameter ListServiceDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceDeploymentsInput`)
     ///
-    /// - Returns: `ListServiceDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2596,7 +2566,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceDeploymentsInput, ListServiceDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceDeploymentsOutput>(ListServiceDeploymentsOutput.httpOutput(from:), ListServiceDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceDeploymentsInput, ListServiceDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceDeploymentsOutput>())
@@ -2631,9 +2600,9 @@ extension ECSClient {
     ///
     /// Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2668,7 +2637,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesInput, ListServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
@@ -2703,9 +2671,9 @@ extension ECSClient {
     ///
     /// This operation lists all of the services that are associated with a Cloud Map namespace. This list might include services in different clusters. In contrast, ListServices can only list services in one cluster at a time. If you need to filter the list of services in a single cluster by various parameters, use ListServices. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter ListServicesByNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesByNamespaceInput`)
     ///
-    /// - Returns: `ListServicesByNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesByNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2740,7 +2708,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesByNamespaceOutput>(ListServicesByNamespaceOutput.httpOutput(from:), ListServicesByNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesByNamespaceOutput>())
@@ -2775,9 +2742,9 @@ extension ECSClient {
     ///
     /// List the tags for an Amazon ECS resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2812,7 +2779,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2847,9 +2813,9 @@ extension ECSClient {
     ///
     /// Returns a list of task definition families that are registered to your account. This list includes task definition families that no longer have any ACTIVE task definition revisions. You can filter out task definition families that don't contain any ACTIVE task definition revisions by setting the status parameter to ACTIVE. You can also filter the results with the familyPrefix parameter.
     ///
-    /// - Parameter ListTaskDefinitionFamiliesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTaskDefinitionFamiliesInput`)
     ///
-    /// - Returns: `ListTaskDefinitionFamiliesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTaskDefinitionFamiliesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2883,7 +2849,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionFamiliesOutput>(ListTaskDefinitionFamiliesOutput.httpOutput(from:), ListTaskDefinitionFamiliesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaskDefinitionFamiliesOutput>())
@@ -2918,9 +2883,9 @@ extension ECSClient {
     ///
     /// Returns a list of task definitions that are registered to your account. You can filter the results by family name with the familyPrefix parameter or by status with the status parameter.
     ///
-    /// - Parameter ListTaskDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTaskDefinitionsInput`)
     ///
-    /// - Returns: `ListTaskDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTaskDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2954,7 +2919,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionsOutput>(ListTaskDefinitionsOutput.httpOutput(from:), ListTaskDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaskDefinitionsOutput>())
@@ -2989,9 +2953,9 @@ extension ECSClient {
     ///
     /// Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results.
     ///
-    /// - Parameter ListTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTasksInput`)
     ///
-    /// - Returns: `ListTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3027,7 +2991,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTasksInput, ListTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTasksOutput>())
@@ -3062,9 +3025,9 @@ extension ECSClient {
     ///
     /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the root user account setting, the default settings are reset for users and roles that do not have specified individual account settings. For more information, see [Account Settings](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter PutAccountSettingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountSettingInput`)
     ///
-    /// - Returns: `PutAccountSettingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountSettingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3098,7 +3061,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingOutput>(PutAccountSettingOutput.httpOutput(from:), PutAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingOutput>())
@@ -3133,9 +3095,9 @@ extension ECSClient {
     ///
     /// Modifies an account setting for all users on an account for whom no individual account setting has been specified. Account settings are set on a per-Region basis.
     ///
-    /// - Parameter PutAccountSettingDefaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountSettingDefaultInput`)
     ///
-    /// - Returns: `PutAccountSettingDefaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountSettingDefaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3169,7 +3131,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingDefaultOutput>(PutAccountSettingDefaultOutput.httpOutput(from:), PutAccountSettingDefaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingDefaultOutput>())
@@ -3204,9 +3165,9 @@ extension ECSClient {
     ///
     /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html). For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter PutAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAttributesInput`)
     ///
-    /// - Returns: `PutAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3241,7 +3202,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAttributesInput, PutAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAttributesOutput>(PutAttributesOutput.httpOutput(from:), PutAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAttributesInput, PutAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAttributesOutput>())
@@ -3276,9 +3236,9 @@ extension ECSClient {
     ///
     /// Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers that are associated with a cluster that are omitted from a [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API call will be disassociated with the cluster. You can only disassociate an existing capacity provider from a cluster if it's not being used by any existing tasks. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified, then the cluster's default capacity provider strategy is used. We recommend that you define a default capacity provider strategy for your cluster. However, you must specify an empty array ([]) to bypass defining a default strategy. Amazon ECS Managed Instances doesn't support this, because when you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
     ///
-    /// - Parameter PutClusterCapacityProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutClusterCapacityProvidersInput`)
     ///
-    /// - Returns: `PutClusterCapacityProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutClusterCapacityProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3315,7 +3275,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutClusterCapacityProvidersOutput>(PutClusterCapacityProvidersOutput.httpOutput(from:), PutClusterCapacityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutClusterCapacityProvidersOutput>())
@@ -3350,9 +3309,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.
     ///
-    /// - Parameter RegisterContainerInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterContainerInstanceInput`)
     ///
-    /// - Returns: `RegisterContainerInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterContainerInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3386,7 +3345,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterContainerInstanceOutput>(RegisterContainerInstanceOutput.httpOutput(from:), RegisterContainerInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterContainerInstanceOutput>())
@@ -3421,9 +3379,9 @@ extension ECSClient {
     ///
     /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter RegisterTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTaskDefinitionInput`)
     ///
-    /// - Returns: `RegisterTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3457,7 +3415,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTaskDefinitionOutput>(RegisterTaskDefinitionOutput.httpOutput(from:), RegisterTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTaskDefinitionOutput>())
@@ -3506,9 +3463,9 @@ extension ECSClient {
     ///
     /// If you get a ClientExceptionerror, the RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     ///
-    /// - Parameter RunTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RunTaskInput`)
     ///
-    /// - Returns: `RunTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RunTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3550,7 +3507,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RunTaskInput, RunTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunTaskOutput>(RunTaskOutput.httpOutput(from:), RunTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunTaskInput, RunTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RunTaskOutput>())
@@ -3585,9 +3541,9 @@ extension ECSClient {
     ///
     /// Starts a new task from the specified task definition on the specified container instance or instances. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. Amazon Elastic Inference (EI) is no longer available to customers. Alternatively, you can useRunTask to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more information, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter StartTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTaskInput`)
     ///
-    /// - Returns: `StartTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3623,7 +3579,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTaskInput, StartTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTaskOutput>(StartTaskOutput.httpOutput(from:), StartTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTaskInput, StartTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTaskOutput>())
@@ -3663,9 +3618,9 @@ extension ECSClient {
     ///
     /// For more information, see [Stopping Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/stop-service-deployment.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter StopServiceDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopServiceDeploymentInput`)
     ///
-    /// - Returns: `StopServiceDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopServiceDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3703,7 +3658,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopServiceDeploymentOutput>(StopServiceDeploymentOutput.httpOutput(from:), StopServiceDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopServiceDeploymentOutput>())
@@ -3738,9 +3692,9 @@ extension ECSClient {
     ///
     /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending a CTRL_SHUTDOWN_EVENT. For more information, see [Unable to react to graceful shutdown of (Windows) container #25982](https://github.com/moby/moby/issues/25982) on GitHub. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter StopTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTaskInput`)
     ///
-    /// - Returns: `StopTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3775,7 +3729,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTaskInput, StopTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTaskOutput>(StopTaskOutput.httpOutput(from:), StopTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTaskInput, StopTaskOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTaskOutput>())
@@ -3810,9 +3763,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that an attachment changed states.
     ///
-    /// - Parameter SubmitAttachmentStateChangesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitAttachmentStateChangesInput`)
     ///
-    /// - Returns: `SubmitAttachmentStateChangesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitAttachmentStateChangesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3847,7 +3800,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitAttachmentStateChangesOutput>(SubmitAttachmentStateChangesOutput.httpOutput(from:), SubmitAttachmentStateChangesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitAttachmentStateChangesOutput>())
@@ -3882,9 +3834,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a container changed states.
     ///
-    /// - Parameter SubmitContainerStateChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitContainerStateChangeInput`)
     ///
-    /// - Returns: `SubmitContainerStateChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitContainerStateChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3918,7 +3870,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitContainerStateChangeOutput>(SubmitContainerStateChangeOutput.httpOutput(from:), SubmitContainerStateChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitContainerStateChangeOutput>())
@@ -3953,9 +3904,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a task changed states.
     ///
-    /// - Parameter SubmitTaskStateChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitTaskStateChangeInput`)
     ///
-    /// - Returns: `SubmitTaskStateChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitTaskStateChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3990,7 +3941,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitTaskStateChangeOutput>(SubmitTaskStateChangeOutput.httpOutput(from:), SubmitTaskStateChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitTaskStateChangeOutput>())
@@ -4025,9 +3975,9 @@ extension ECSClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4063,7 +4013,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4098,9 +4047,9 @@ extension ECSClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4136,7 +4085,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4171,9 +4119,9 @@ extension ECSClient {
     ///
     /// Modifies the parameters for a capacity provider. These changes only apply to new Amazon ECS Managed Instances, or EC2 instances, not existing ones.
     ///
-    /// - Parameter UpdateCapacityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCapacityProviderInput`)
     ///
-    /// - Returns: `UpdateCapacityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCapacityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4209,7 +4157,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapacityProviderOutput>(UpdateCapacityProviderOutput.httpOutput(from:), UpdateCapacityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCapacityProviderOutput>())
@@ -4244,9 +4191,9 @@ extension ECSClient {
     ///
     /// Updates the cluster.
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4282,7 +4229,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
@@ -4317,9 +4263,9 @@ extension ECSClient {
     ///
     /// Modifies the settings to use for a cluster.
     ///
-    /// - Parameter UpdateClusterSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterSettingsInput`)
     ///
-    /// - Returns: `UpdateClusterSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4354,7 +4300,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterSettingsOutput>(UpdateClusterSettingsOutput.httpOutput(from:), UpdateClusterSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterSettingsOutput>())
@@ -4389,9 +4334,9 @@ extension ECSClient {
     ///
     /// Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent doesn't interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container agent, you can update the ecs-init package. This updates the agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/agent-update-ecs-ami.html) in the Amazon Elastic Container Service Developer Guide. Agent updates with the UpdateContainerAgent API operation do not apply to Windows container instances. We recommend that you launch new container instances to update the agent version in your Windows clusters. The UpdateContainerAgent API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the ecs-init service installed and running. For help updating the Amazon ECS container agent on other operating systems, see [Manually updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html#manually_update_agent) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter UpdateContainerAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContainerAgentInput`)
     ///
-    /// - Returns: `UpdateContainerAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContainerAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4429,7 +4374,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerAgentOutput>(UpdateContainerAgentOutput.httpOutput(from:), UpdateContainerAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerAgentOutput>())
@@ -4471,9 +4415,9 @@ extension ECSClient {
     ///
     /// Any PENDING or RUNNING tasks that do not belong to a service aren't affected. You must wait for them to finish or stop them manually. A container instance has completed draining when it has no more RUNNING tasks. You can verify this using [ListTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html). When a container instance has been drained, you can set a container instance to ACTIVE status and once it has reached that status the Amazon ECS scheduler can begin scheduling tasks on the instance again.
     ///
-    /// - Parameter UpdateContainerInstancesStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContainerInstancesStateInput`)
     ///
-    /// - Returns: `UpdateContainerInstancesStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContainerInstancesStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4508,7 +4452,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerInstancesStateOutput>(UpdateContainerInstancesStateOutput.httpOutput(from:), UpdateContainerInstancesStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerInstancesStateOutput>())
@@ -4568,9 +4511,9 @@ extension ECSClient {
     ///
     /// * Stop the task on a container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the largest number of running tasks for this service.
     ///
-    /// - Parameter UpdateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4612,7 +4555,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInput, UpdateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceOutput>())
@@ -4647,9 +4589,9 @@ extension ECSClient {
     ///
     /// Modifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS Deployment Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter UpdateServicePrimaryTaskSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServicePrimaryTaskSetInput`)
     ///
-    /// - Returns: `UpdateServicePrimaryTaskSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServicePrimaryTaskSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4689,7 +4631,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServicePrimaryTaskSetOutput>(UpdateServicePrimaryTaskSetOutput.httpOutput(from:), UpdateServicePrimaryTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServicePrimaryTaskSetOutput>())
@@ -4724,9 +4665,9 @@ extension ECSClient {
     ///
     /// Updates the protection status of a task. You can set protectionEnabled to true to protect your task from termination during scale-in events from [Service Autoscaling](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html) or [deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html). Task-protection, by default, expires after 2 hours at which point Amazon ECS clears the protectionEnabled property making the task eligible for termination by a subsequent scale-in event. You can specify a custom expiration period for task protection from 1 minute to up to 2,880 minutes (48 hours). To specify the custom expiration period, set the expiresInMinutes property. The expiresInMinutes property is always reset when you invoke this operation for a task that already has protectionEnabled set to true. You can keep extending the protection expiration period of a task by invoking this operation repeatedly. To learn more about Amazon ECS task protection, see [Task scale-in protection](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-scale-in-protection.html) in the Amazon Elastic Container Service Developer Guide . This operation is only supported for tasks belonging to an Amazon ECS service. Invoking this operation for a standalone task will result in an TASK_NOT_VALID failure. For more information, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html). If you prefer to set task protection from within the container, we recommend using the [Task scale-in protection endpoint](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-scale-in-protection-endpoint.html).
     ///
-    /// - Parameter UpdateTaskProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTaskProtectionInput`)
     ///
-    /// - Returns: `UpdateTaskProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTaskProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4764,7 +4705,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskProtectionOutput>(UpdateTaskProtectionOutput.httpOutput(from:), UpdateTaskProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskProtectionOutput>())
@@ -4799,9 +4739,9 @@ extension ECSClient {
     ///
     /// Modifies a task set. This is used when a service uses the EXTERNAL deployment controller type. For more information, see [Amazon ECS Deployment Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter UpdateTaskSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTaskSetInput`)
     ///
-    /// - Returns: `UpdateTaskSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTaskSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4841,7 +4781,6 @@ extension ECSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskSetOutput>(UpdateTaskSetOutput.httpOutput(from:), UpdateTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskSetOutput>())

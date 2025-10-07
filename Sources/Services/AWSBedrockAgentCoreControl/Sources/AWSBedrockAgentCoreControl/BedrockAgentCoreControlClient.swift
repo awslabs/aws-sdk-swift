@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreControlClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreControlClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreControlClient.BedrockAgentCoreControlClientConfiguration
     let serviceName = "Bedrock AgentCore Control"
@@ -375,9 +374,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates an Amazon Bedrock AgentCore Runtime.
     ///
-    /// - Parameter CreateAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentRuntimeInput`)
     ///
-    /// - Returns: `CreateAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,7 +416,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgentRuntimeInput, CreateAgentRuntimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentRuntimeOutput>(CreateAgentRuntimeOutput.httpOutput(from:), CreateAgentRuntimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentRuntimeInput, CreateAgentRuntimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgentRuntimeOutput>())
@@ -449,9 +447,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates an AgentCore Runtime endpoint.
     ///
-    /// - Parameter CreateAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `CreateAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -492,7 +490,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgentRuntimeEndpointInput, CreateAgentRuntimeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentRuntimeEndpointOutput>(CreateAgentRuntimeEndpointOutput.httpOutput(from:), CreateAgentRuntimeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentRuntimeEndpointInput, CreateAgentRuntimeEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgentRuntimeEndpointOutput>())
@@ -524,9 +521,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new API key credential provider.
     ///
-    /// - Parameter CreateApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `CreateApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -570,7 +567,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiKeyCredentialProviderInput, CreateApiKeyCredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiKeyCredentialProviderOutput>(CreateApiKeyCredentialProviderOutput.httpOutput(from:), CreateApiKeyCredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiKeyCredentialProviderInput, CreateApiKeyCredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiKeyCredentialProviderOutput>())
@@ -602,9 +598,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a custom browser.
     ///
-    /// - Parameter CreateBrowserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBrowserInput`)
     ///
-    /// - Returns: `CreateBrowserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrowserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -644,7 +640,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBrowserInput, CreateBrowserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBrowserOutput>(CreateBrowserOutput.httpOutput(from:), CreateBrowserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBrowserInput, CreateBrowserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBrowserOutput>())
@@ -676,9 +671,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a custom code interpreter.
     ///
-    /// - Parameter CreateCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCodeInterpreterInput`)
     ///
-    /// - Returns: `CreateCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,7 +713,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCodeInterpreterInput, CreateCodeInterpreterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCodeInterpreterOutput>(CreateCodeInterpreterOutput.httpOutput(from:), CreateCodeInterpreterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCodeInterpreterInput, CreateCodeInterpreterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCodeInterpreterOutput>())
@@ -750,9 +744,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. To create a gateway, you must specify a name, protocol type, and IAM role. The role grants the gateway permission to access Amazon Web Services services and resources.
     ///
-    /// - Parameter CreateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
-    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,7 +786,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGatewayOutput>(CreateGatewayOutput.httpOutput(from:), CreateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayInput, CreateGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayOutput>())
@@ -824,9 +817,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
     ///
-    /// - Parameter CreateGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayTargetInput`)
     ///
-    /// - Returns: `CreateGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -867,7 +860,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayTargetInput, CreateGatewayTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGatewayTargetOutput>(CreateGatewayTargetOutput.httpOutput(from:), CreateGatewayTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayTargetInput, CreateGatewayTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayTargetOutput>())
@@ -899,9 +891,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new Amazon Bedrock AgentCore Memory resource.
     ///
-    /// - Parameter CreateMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMemoryInput`)
     ///
-    /// - Returns: `CreateMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,7 +934,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMemoryInput, CreateMemoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMemoryOutput>(CreateMemoryOutput.httpOutput(from:), CreateMemoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMemoryInput, CreateMemoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMemoryOutput>())
@@ -974,9 +965,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new OAuth2 credential provider.
     ///
-    /// - Parameter CreateOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `CreateOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1020,7 +1011,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOauth2CredentialProviderInput, CreateOauth2CredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOauth2CredentialProviderOutput>(CreateOauth2CredentialProviderOutput.httpOutput(from:), CreateOauth2CredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOauth2CredentialProviderInput, CreateOauth2CredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOauth2CredentialProviderOutput>())
@@ -1052,9 +1042,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new workload identity.
     ///
-    /// - Parameter CreateWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkloadIdentityInput`)
     ///
-    /// - Returns: `CreateWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,7 +1083,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkloadIdentityInput, CreateWorkloadIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkloadIdentityOutput>(CreateWorkloadIdentityOutput.httpOutput(from:), CreateWorkloadIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkloadIdentityInput, CreateWorkloadIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkloadIdentityOutput>())
@@ -1125,9 +1114,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an Amazon Bedrock AgentCore Runtime.
     ///
-    /// - Parameter DeleteAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentRuntimeInput`)
     ///
-    /// - Returns: `DeleteAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1162,7 +1151,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAgentRuntimeInput, DeleteAgentRuntimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentRuntimeOutput>(DeleteAgentRuntimeOutput.httpOutput(from:), DeleteAgentRuntimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentRuntimeInput, DeleteAgentRuntimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgentRuntimeOutput>())
@@ -1194,9 +1182,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an AAgentCore Runtime endpoint.
     ///
-    /// - Parameter DeleteAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `DeleteAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1233,7 +1221,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAgentRuntimeEndpointInput, DeleteAgentRuntimeEndpointOutput>(DeleteAgentRuntimeEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentRuntimeEndpointOutput>(DeleteAgentRuntimeEndpointOutput.httpOutput(from:), DeleteAgentRuntimeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentRuntimeEndpointInput, DeleteAgentRuntimeEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgentRuntimeEndpointOutput>())
@@ -1265,9 +1252,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an API key credential provider.
     ///
-    /// - Parameter DeleteApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `DeleteApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1306,7 +1293,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApiKeyCredentialProviderInput, DeleteApiKeyCredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiKeyCredentialProviderOutput>(DeleteApiKeyCredentialProviderOutput.httpOutput(from:), DeleteApiKeyCredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiKeyCredentialProviderInput, DeleteApiKeyCredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiKeyCredentialProviderOutput>())
@@ -1338,9 +1324,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a custom browser.
     ///
-    /// - Parameter DeleteBrowserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrowserInput`)
     ///
-    /// - Returns: `DeleteBrowserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrowserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,7 +1365,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBrowserInput, DeleteBrowserOutput>(DeleteBrowserInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBrowserOutput>(DeleteBrowserOutput.httpOutput(from:), DeleteBrowserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBrowserInput, DeleteBrowserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBrowserOutput>())
@@ -1411,9 +1396,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a custom code interpreter.
     ///
-    /// - Parameter DeleteCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCodeInterpreterInput`)
     ///
-    /// - Returns: `DeleteCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1452,7 +1437,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteCodeInterpreterInput, DeleteCodeInterpreterOutput>(DeleteCodeInterpreterInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCodeInterpreterOutput>(DeleteCodeInterpreterOutput.httpOutput(from:), DeleteCodeInterpreterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCodeInterpreterInput, DeleteCodeInterpreterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCodeInterpreterOutput>())
@@ -1484,9 +1468,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a gateway.
     ///
-    /// - Parameter DeleteGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayInput`)
     ///
-    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1522,7 +1506,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayOutput>(DeleteGatewayOutput.httpOutput(from:), DeleteGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayOutput>())
@@ -1554,9 +1537,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a gateway target.
     ///
-    /// - Parameter DeleteGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayTargetInput`)
     ///
-    /// - Returns: `DeleteGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,7 +1575,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayTargetInput, DeleteGatewayTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayTargetOutput>(DeleteGatewayTargetOutput.httpOutput(from:), DeleteGatewayTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayTargetInput, DeleteGatewayTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayTargetOutput>())
@@ -1624,9 +1606,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an Amazon Bedrock AgentCore Memory resource.
     ///
-    /// - Parameter DeleteMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemoryInput`)
     ///
-    /// - Returns: `DeleteMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1663,7 +1645,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteMemoryInput, DeleteMemoryOutput>(DeleteMemoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMemoryOutput>(DeleteMemoryOutput.httpOutput(from:), DeleteMemoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMemoryInput, DeleteMemoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMemoryOutput>())
@@ -1695,9 +1676,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an OAuth2 credential provider.
     ///
-    /// - Parameter DeleteOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `DeleteOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1736,7 +1717,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOauth2CredentialProviderInput, DeleteOauth2CredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOauth2CredentialProviderOutput>(DeleteOauth2CredentialProviderOutput.httpOutput(from:), DeleteOauth2CredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOauth2CredentialProviderInput, DeleteOauth2CredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOauth2CredentialProviderOutput>())
@@ -1768,9 +1748,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a workload identity.
     ///
-    /// - Parameter DeleteWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkloadIdentityInput`)
     ///
-    /// - Returns: `DeleteWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1809,7 +1789,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkloadIdentityInput, DeleteWorkloadIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkloadIdentityOutput>(DeleteWorkloadIdentityOutput.httpOutput(from:), DeleteWorkloadIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkloadIdentityInput, DeleteWorkloadIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkloadIdentityOutput>())
@@ -1841,9 +1820,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets an Amazon Bedrock AgentCore Runtime.
     ///
-    /// - Parameter GetAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgentRuntimeInput`)
     ///
-    /// - Returns: `GetAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1879,7 +1858,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAgentRuntimeInput, GetAgentRuntimeOutput>(GetAgentRuntimeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentRuntimeOutput>(GetAgentRuntimeOutput.httpOutput(from:), GetAgentRuntimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentRuntimeInput, GetAgentRuntimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentRuntimeOutput>())
@@ -1911,9 +1889,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets information about an Amazon Secure AgentEndpoint.
     ///
-    /// - Parameter GetAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `GetAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1948,7 +1926,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentRuntimeEndpointInput, GetAgentRuntimeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentRuntimeEndpointOutput>(GetAgentRuntimeEndpointOutput.httpOutput(from:), GetAgentRuntimeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentRuntimeEndpointInput, GetAgentRuntimeEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentRuntimeEndpointOutput>())
@@ -1980,9 +1957,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about an API key credential provider.
     ///
-    /// - Parameter GetApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `GetApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2022,7 +1999,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApiKeyCredentialProviderInput, GetApiKeyCredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiKeyCredentialProviderOutput>(GetApiKeyCredentialProviderOutput.httpOutput(from:), GetApiKeyCredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiKeyCredentialProviderInput, GetApiKeyCredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiKeyCredentialProviderOutput>())
@@ -2054,9 +2030,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets information about a custom browser.
     ///
-    /// - Parameter GetBrowserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBrowserInput`)
     ///
-    /// - Returns: `GetBrowserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBrowserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2091,7 +2067,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBrowserInput, GetBrowserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBrowserOutput>(GetBrowserOutput.httpOutput(from:), GetBrowserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBrowserInput, GetBrowserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBrowserOutput>())
@@ -2123,9 +2098,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets information about a custom code interpreter.
     ///
-    /// - Parameter GetCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeInterpreterInput`)
     ///
-    /// - Returns: `GetCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2160,7 +2135,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCodeInterpreterInput, GetCodeInterpreterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCodeInterpreterOutput>(GetCodeInterpreterOutput.httpOutput(from:), GetCodeInterpreterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCodeInterpreterInput, GetCodeInterpreterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCodeInterpreterOutput>())
@@ -2192,9 +2166,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a specific Gateway.
     ///
-    /// - Parameter GetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGatewayInput`)
     ///
-    /// - Returns: `GetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,7 +2203,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGatewayOutput>(GetGatewayOutput.httpOutput(from:), GetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGatewayInput, GetGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGatewayOutput>())
@@ -2261,9 +2234,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a specific gateway target.
     ///
-    /// - Parameter GetGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGatewayTargetInput`)
     ///
-    /// - Returns: `GetGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,7 +2271,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGatewayTargetInput, GetGatewayTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGatewayTargetOutput>(GetGatewayTargetOutput.httpOutput(from:), GetGatewayTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGatewayTargetInput, GetGatewayTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGatewayTargetOutput>())
@@ -2330,9 +2302,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieve an existing Amazon Bedrock AgentCore Memory resource.
     ///
-    /// - Parameter GetMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemoryInput`)
     ///
-    /// - Returns: `GetMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2367,7 +2339,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMemoryInput, GetMemoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemoryOutput>(GetMemoryOutput.httpOutput(from:), GetMemoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemoryInput, GetMemoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemoryOutput>())
@@ -2399,9 +2370,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about an OAuth2 credential provider.
     ///
-    /// - Parameter GetOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `GetOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2441,7 +2412,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOauth2CredentialProviderInput, GetOauth2CredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOauth2CredentialProviderOutput>(GetOauth2CredentialProviderOutput.httpOutput(from:), GetOauth2CredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOauth2CredentialProviderInput, GetOauth2CredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOauth2CredentialProviderOutput>())
@@ -2473,9 +2443,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a token vault.
     ///
-    /// - Parameter GetTokenVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTokenVaultInput`)
     ///
-    /// - Returns: `GetTokenVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTokenVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2514,7 +2484,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTokenVaultInput, GetTokenVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTokenVaultOutput>(GetTokenVaultOutput.httpOutput(from:), GetTokenVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTokenVaultInput, GetTokenVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTokenVaultOutput>())
@@ -2546,9 +2515,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a workload identity.
     ///
-    /// - Parameter GetWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadIdentityInput`)
     ///
-    /// - Returns: `GetWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2587,7 +2556,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadIdentityInput, GetWorkloadIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkloadIdentityOutput>(GetWorkloadIdentityOutput.httpOutput(from:), GetWorkloadIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkloadIdentityInput, GetWorkloadIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadIdentityOutput>())
@@ -2619,9 +2587,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all endpoints for a specific Amazon Secure Agent.
     ///
-    /// - Parameter ListAgentRuntimeEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgentRuntimeEndpointsInput`)
     ///
-    /// - Returns: `ListAgentRuntimeEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgentRuntimeEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2656,7 +2624,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAgentRuntimeEndpointsInput, ListAgentRuntimeEndpointsOutput>(ListAgentRuntimeEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentRuntimeEndpointsOutput>(ListAgentRuntimeEndpointsOutput.httpOutput(from:), ListAgentRuntimeEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentRuntimeEndpointsInput, ListAgentRuntimeEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgentRuntimeEndpointsOutput>())
@@ -2688,9 +2655,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all versions of a specific Amazon Secure Agent.
     ///
-    /// - Parameter ListAgentRuntimeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgentRuntimeVersionsInput`)
     ///
-    /// - Returns: `ListAgentRuntimeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgentRuntimeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2726,7 +2693,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAgentRuntimeVersionsInput, ListAgentRuntimeVersionsOutput>(ListAgentRuntimeVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentRuntimeVersionsOutput>(ListAgentRuntimeVersionsOutput.httpOutput(from:), ListAgentRuntimeVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentRuntimeVersionsInput, ListAgentRuntimeVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgentRuntimeVersionsOutput>())
@@ -2758,9 +2724,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all Amazon Secure Agents in your account.
     ///
-    /// - Parameter ListAgentRuntimesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgentRuntimesInput`)
     ///
-    /// - Returns: `ListAgentRuntimesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgentRuntimesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2795,7 +2761,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAgentRuntimesInput, ListAgentRuntimesOutput>(ListAgentRuntimesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentRuntimesOutput>(ListAgentRuntimesOutput.httpOutput(from:), ListAgentRuntimesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentRuntimesInput, ListAgentRuntimesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgentRuntimesOutput>())
@@ -2827,9 +2792,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all API key credential providers in your account.
     ///
-    /// - Parameter ListApiKeyCredentialProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApiKeyCredentialProvidersInput`)
     ///
-    /// - Returns: `ListApiKeyCredentialProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApiKeyCredentialProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2868,7 +2833,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApiKeyCredentialProvidersInput, ListApiKeyCredentialProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApiKeyCredentialProvidersOutput>(ListApiKeyCredentialProvidersOutput.httpOutput(from:), ListApiKeyCredentialProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApiKeyCredentialProvidersInput, ListApiKeyCredentialProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApiKeyCredentialProvidersOutput>())
@@ -2900,9 +2864,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all custom browsers in your account.
     ///
-    /// - Parameter ListBrowsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrowsersInput`)
     ///
-    /// - Returns: `ListBrowsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrowsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2937,7 +2901,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBrowsersInput, ListBrowsersOutput>(ListBrowsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBrowsersOutput>(ListBrowsersOutput.httpOutput(from:), ListBrowsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBrowsersInput, ListBrowsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBrowsersOutput>())
@@ -2969,9 +2932,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all custom code interpreters in your account.
     ///
-    /// - Parameter ListCodeInterpretersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeInterpretersInput`)
     ///
-    /// - Returns: `ListCodeInterpretersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeInterpretersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3006,7 +2969,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCodeInterpretersInput, ListCodeInterpretersOutput>(ListCodeInterpretersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeInterpretersOutput>(ListCodeInterpretersOutput.httpOutput(from:), ListCodeInterpretersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeInterpretersInput, ListCodeInterpretersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeInterpretersOutput>())
@@ -3038,9 +3000,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all targets for a specific gateway.
     ///
-    /// - Parameter ListGatewayTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewayTargetsInput`)
     ///
-    /// - Returns: `ListGatewayTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewayTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3075,7 +3037,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewayTargetsInput, ListGatewayTargetsOutput>(ListGatewayTargetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewayTargetsOutput>(ListGatewayTargetsOutput.httpOutput(from:), ListGatewayTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewayTargetsInput, ListGatewayTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewayTargetsOutput>())
@@ -3107,9 +3068,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all gateways in the account.
     ///
-    /// - Parameter ListGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewaysInput`)
     ///
-    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3144,7 +3105,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewaysInput, ListGatewaysOutput>(ListGatewaysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewaysOutput>(ListGatewaysOutput.httpOutput(from:), ListGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewaysOutput>())
@@ -3176,9 +3136,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
     ///
-    /// - Parameter ListMemoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMemoriesInput`)
     ///
-    /// - Returns: `ListMemoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMemoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3216,7 +3176,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMemoriesInput, ListMemoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMemoriesOutput>(ListMemoriesOutput.httpOutput(from:), ListMemoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMemoriesInput, ListMemoriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMemoriesOutput>())
@@ -3248,9 +3207,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all OAuth2 credential providers in your account.
     ///
-    /// - Parameter ListOauth2CredentialProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOauth2CredentialProvidersInput`)
     ///
-    /// - Returns: `ListOauth2CredentialProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOauth2CredentialProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3289,7 +3248,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOauth2CredentialProvidersInput, ListOauth2CredentialProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOauth2CredentialProvidersOutput>(ListOauth2CredentialProvidersOutput.httpOutput(from:), ListOauth2CredentialProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOauth2CredentialProvidersInput, ListOauth2CredentialProvidersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOauth2CredentialProvidersOutput>())
@@ -3321,9 +3279,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists the tags associated with the specified resource. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3358,7 +3316,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3390,9 +3347,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all workload identities in your account.
     ///
-    /// - Parameter ListWorkloadIdentitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadIdentitiesInput`)
     ///
-    /// - Returns: `ListWorkloadIdentitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3431,7 +3388,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkloadIdentitiesInput, ListWorkloadIdentitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkloadIdentitiesOutput>(ListWorkloadIdentitiesOutput.httpOutput(from:), ListWorkloadIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkloadIdentitiesInput, ListWorkloadIdentitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkloadIdentitiesOutput>())
@@ -3463,9 +3419,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Sets the customer master key (CMK) for a token vault.
     ///
-    /// - Parameter SetTokenVaultCMKInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetTokenVaultCMKInput`)
     ///
-    /// - Returns: `SetTokenVaultCMKOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetTokenVaultCMKOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3505,7 +3461,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTokenVaultCMKInput, SetTokenVaultCMKOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTokenVaultCMKOutput>(SetTokenVaultCMKOutput.httpOutput(from:), SetTokenVaultCMKOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTokenVaultCMKInput, SetTokenVaultCMKOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetTokenVaultCMKOutput>())
@@ -3537,9 +3492,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3578,7 +3533,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3610,9 +3564,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Removes the specified tags from the specified resource. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3648,7 +3602,6 @@ extension BedrockAgentCoreControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3680,9 +3633,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing Amazon Secure Agent.
     ///
-    /// - Parameter UpdateAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentRuntimeInput`)
     ///
-    /// - Returns: `UpdateAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3723,7 +3676,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgentRuntimeInput, UpdateAgentRuntimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentRuntimeOutput>(UpdateAgentRuntimeOutput.httpOutput(from:), UpdateAgentRuntimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentRuntimeInput, UpdateAgentRuntimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgentRuntimeOutput>())
@@ -3755,9 +3707,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
     ///
-    /// - Parameter UpdateAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `UpdateAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3798,7 +3750,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgentRuntimeEndpointInput, UpdateAgentRuntimeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentRuntimeEndpointOutput>(UpdateAgentRuntimeEndpointOutput.httpOutput(from:), UpdateAgentRuntimeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentRuntimeEndpointInput, UpdateAgentRuntimeEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgentRuntimeEndpointOutput>())
@@ -3830,9 +3781,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing API key credential provider.
     ///
-    /// - Parameter UpdateApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `UpdateApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3875,7 +3826,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiKeyCredentialProviderInput, UpdateApiKeyCredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiKeyCredentialProviderOutput>(UpdateApiKeyCredentialProviderOutput.httpOutput(from:), UpdateApiKeyCredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiKeyCredentialProviderInput, UpdateApiKeyCredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiKeyCredentialProviderOutput>())
@@ -3907,9 +3857,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing gateway.
     ///
-    /// - Parameter UpdateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInput`)
     ///
-    /// - Returns: `UpdateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3949,7 +3899,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInput, UpdateGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayOutput>(UpdateGatewayOutput.httpOutput(from:), UpdateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInput, UpdateGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayOutput>())
@@ -3981,9 +3930,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing gateway target.
     ///
-    /// - Parameter UpdateGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayTargetInput`)
     ///
-    /// - Returns: `UpdateGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4023,7 +3972,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayTargetInput, UpdateGatewayTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayTargetOutput>(UpdateGatewayTargetOutput.httpOutput(from:), UpdateGatewayTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayTargetInput, UpdateGatewayTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayTargetOutput>())
@@ -4055,9 +4003,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Update an Amazon Bedrock AgentCore Memory resource memory.
     ///
-    /// - Parameter UpdateMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMemoryInput`)
     ///
-    /// - Returns: `UpdateMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4098,7 +4046,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMemoryInput, UpdateMemoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMemoryOutput>(UpdateMemoryOutput.httpOutput(from:), UpdateMemoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMemoryInput, UpdateMemoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMemoryOutput>())
@@ -4130,9 +4077,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing OAuth2 credential provider.
     ///
-    /// - Parameter UpdateOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `UpdateOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4175,7 +4122,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOauth2CredentialProviderInput, UpdateOauth2CredentialProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOauth2CredentialProviderOutput>(UpdateOauth2CredentialProviderOutput.httpOutput(from:), UpdateOauth2CredentialProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOauth2CredentialProviderInput, UpdateOauth2CredentialProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOauth2CredentialProviderOutput>())
@@ -4207,9 +4153,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing workload identity.
     ///
-    /// - Parameter UpdateWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkloadIdentityInput`)
     ///
-    /// - Returns: `UpdateWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4248,7 +4194,6 @@ extension BedrockAgentCoreControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkloadIdentityInput, UpdateWorkloadIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkloadIdentityOutput>(UpdateWorkloadIdentityOutput.httpOutput(from:), UpdateWorkloadIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkloadIdentityInput, UpdateWorkloadIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkloadIdentityOutput>())

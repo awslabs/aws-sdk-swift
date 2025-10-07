@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DeviceFarmClient: ClientRuntime.Client {
     public static let clientName = "DeviceFarmClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: DeviceFarmClient.DeviceFarmClientConfiguration
     let serviceName = "Device Farm"
@@ -374,9 +373,9 @@ extension DeviceFarmClient {
     ///
     /// Creates a device pool.
     ///
-    /// - Parameter CreateDevicePoolInput : Represents a request to the create device pool operation.
+    /// - Parameter input: Represents a request to the create device pool operation. (Type: `CreateDevicePoolInput`)
     ///
-    /// - Returns: `CreateDevicePoolOutput` : Represents the result of a create device pool request.
+    /// - Returns: Represents the result of a create device pool request. (Type: `CreateDevicePoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDevicePoolInput, CreateDevicePoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDevicePoolOutput>(CreateDevicePoolOutput.httpOutput(from:), CreateDevicePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDevicePoolInput, CreateDevicePoolOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDevicePoolOutput>())
@@ -446,9 +444,9 @@ extension DeviceFarmClient {
     ///
     /// Creates a profile that can be applied to one or more private fleet device instances.
     ///
-    /// - Parameter CreateInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceProfileInput`)
     ///
-    /// - Returns: `CreateInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +481,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput>(CreateInstanceProfileOutput.httpOutput(from:), CreateInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceProfileOutput>())
@@ -518,9 +515,9 @@ extension DeviceFarmClient {
     ///
     /// Creates a network profile.
     ///
-    /// - Parameter CreateNetworkProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkProfileInput`)
     ///
-    /// - Returns: `CreateNetworkProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,7 +552,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkProfileOutput>(CreateNetworkProfileOutput.httpOutput(from:), CreateNetworkProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkProfileOutput>())
@@ -590,9 +586,9 @@ extension DeviceFarmClient {
     ///
     /// Creates a project.
     ///
-    /// - Parameter CreateProjectInput : Represents a request to the create project operation.
+    /// - Parameter input: Represents a request to the create project operation. (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : Represents the result of a create project request.
+    /// - Returns: Represents the result of a create project request. (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,7 +624,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -663,9 +658,9 @@ extension DeviceFarmClient {
     ///
     /// Specifies and starts a remote access session.
     ///
-    /// - Parameter CreateRemoteAccessSessionInput : Creates and submits a request to start a remote access session.
+    /// - Parameter input: Creates and submits a request to start a remote access session. (Type: `CreateRemoteAccessSessionInput`)
     ///
-    /// - Returns: `CreateRemoteAccessSessionOutput` : Represents the server response from a request to create a remote access session.
+    /// - Returns: Represents the server response from a request to create a remote access session. (Type: `CreateRemoteAccessSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,7 +695,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRemoteAccessSessionOutput>(CreateRemoteAccessSessionOutput.httpOutput(from:), CreateRemoteAccessSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRemoteAccessSessionOutput>())
@@ -735,9 +729,9 @@ extension DeviceFarmClient {
     ///
     /// Creates a Selenium testing project. Projects are used to track [TestGridSession] instances.
     ///
-    /// - Parameter CreateTestGridProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTestGridProjectInput`)
     ///
-    /// - Returns: `CreateTestGridProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTestGridProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,7 +765,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTestGridProjectOutput>(CreateTestGridProjectOutput.httpOutput(from:), CreateTestGridProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTestGridProjectOutput>())
@@ -806,9 +799,9 @@ extension DeviceFarmClient {
     ///
     /// Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
     ///
-    /// - Parameter CreateTestGridUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTestGridUrlInput`)
     ///
-    /// - Returns: `CreateTestGridUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTestGridUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,7 +835,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTestGridUrlOutput>(CreateTestGridUrlOutput.httpOutput(from:), CreateTestGridUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTestGridUrlOutput>())
@@ -877,9 +869,9 @@ extension DeviceFarmClient {
     ///
     /// Uploads an app or test scripts.
     ///
-    /// - Parameter CreateUploadInput : Represents a request to the create upload operation.
+    /// - Parameter input: Represents a request to the create upload operation. (Type: `CreateUploadInput`)
     ///
-    /// - Returns: `CreateUploadOutput` : Represents the result of a create upload request.
+    /// - Returns: Represents the result of a create upload request. (Type: `CreateUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,7 +906,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUploadInput, CreateUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUploadOutput>(CreateUploadOutput.httpOutput(from:), CreateUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUploadInput, CreateUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUploadOutput>())
@@ -949,9 +940,9 @@ extension DeviceFarmClient {
     ///
     /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
-    /// - Parameter CreateVPCEConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVPCEConfigurationInput`)
     ///
-    /// - Returns: `CreateVPCEConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVPCEConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,7 +976,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVPCEConfigurationOutput>(CreateVPCEConfigurationOutput.httpOutput(from:), CreateVPCEConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVPCEConfigurationOutput>())
@@ -1020,9 +1010,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
     ///
-    /// - Parameter DeleteDevicePoolInput : Represents a request to the delete device pool operation.
+    /// - Parameter input: Represents a request to the delete device pool operation. (Type: `DeleteDevicePoolInput`)
     ///
-    /// - Returns: `DeleteDevicePoolOutput` : Represents the result of a delete device pool request.
+    /// - Returns: Represents the result of a delete device pool request. (Type: `DeleteDevicePoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,7 +1047,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDevicePoolOutput>(DeleteDevicePoolOutput.httpOutput(from:), DeleteDevicePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDevicePoolOutput>())
@@ -1092,9 +1081,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes a profile that can be applied to one or more private device instances.
     ///
-    /// - Parameter DeleteInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceProfileInput`)
     ///
-    /// - Returns: `DeleteInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1129,7 +1118,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput>(DeleteInstanceProfileOutput.httpOutput(from:), DeleteInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceProfileOutput>())
@@ -1164,9 +1152,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes a network profile.
     ///
-    /// - Parameter DeleteNetworkProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkProfileInput`)
     ///
-    /// - Returns: `DeleteNetworkProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1201,7 +1189,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkProfileOutput>(DeleteNetworkProfileOutput.httpOutput(from:), DeleteNetworkProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkProfileOutput>())
@@ -1236,9 +1223,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
     ///
-    /// - Parameter DeleteProjectInput : Represents a request to the delete project operation.
+    /// - Parameter input: Represents a request to the delete project operation. (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : Represents the result of a delete project request.
+    /// - Returns: Represents the result of a delete project request. (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,7 +1260,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -1308,9 +1294,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes a completed remote access session and its results.
     ///
-    /// - Parameter DeleteRemoteAccessSessionInput : Represents the request to delete the specified remote access session.
+    /// - Parameter input: Represents the request to delete the specified remote access session. (Type: `DeleteRemoteAccessSessionInput`)
     ///
-    /// - Returns: `DeleteRemoteAccessSessionOutput` : The response from the server when a request is made to delete the remote access session.
+    /// - Returns: The response from the server when a request is made to delete the remote access session. (Type: `DeleteRemoteAccessSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1345,7 +1331,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRemoteAccessSessionOutput>(DeleteRemoteAccessSessionOutput.httpOutput(from:), DeleteRemoteAccessSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemoteAccessSessionOutput>())
@@ -1380,9 +1365,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
     ///
-    /// - Parameter DeleteRunInput : Represents a request to the delete run operation.
+    /// - Parameter input: Represents a request to the delete run operation. (Type: `DeleteRunInput`)
     ///
-    /// - Returns: `DeleteRunOutput` : Represents the result of a delete run request.
+    /// - Returns: Represents the result of a delete run request. (Type: `DeleteRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,7 +1402,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRunInput, DeleteRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRunOutput>(DeleteRunOutput.httpOutput(from:), DeleteRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRunInput, DeleteRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRunOutput>())
@@ -1452,9 +1436,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes a Selenium testing project and all content generated under it. You cannot undo this operation. You cannot delete a project if it has active sessions.
     ///
-    /// - Parameter DeleteTestGridProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTestGridProjectInput`)
     ///
-    /// - Returns: `DeleteTestGridProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTestGridProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1489,7 +1473,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTestGridProjectOutput>(DeleteTestGridProjectOutput.httpOutput(from:), DeleteTestGridProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTestGridProjectOutput>())
@@ -1524,9 +1507,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes an upload given the upload ARN.
     ///
-    /// - Parameter DeleteUploadInput : Represents a request to the delete upload operation.
+    /// - Parameter input: Represents a request to the delete upload operation. (Type: `DeleteUploadInput`)
     ///
-    /// - Returns: `DeleteUploadOutput` : Represents the result of a delete upload request.
+    /// - Returns: Represents the result of a delete upload request. (Type: `DeleteUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1561,7 +1544,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUploadInput, DeleteUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUploadOutput>(DeleteUploadOutput.httpOutput(from:), DeleteUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUploadInput, DeleteUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUploadOutput>())
@@ -1596,9 +1578,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
-    /// - Parameter DeleteVPCEConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVPCEConfigurationInput`)
     ///
-    /// - Returns: `DeleteVPCEConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVPCEConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1633,7 +1615,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVPCEConfigurationOutput>(DeleteVPCEConfigurationOutput.httpOutput(from:), DeleteVPCEConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVPCEConfigurationOutput>())
@@ -1668,9 +1649,9 @@ extension DeviceFarmClient {
     ///
     /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
     ///
-    /// - Parameter GetAccountSettingsInput : Represents the request sent to retrieve the account settings.
+    /// - Parameter input: Represents the request sent to retrieve the account settings. (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : Represents the account settings return values from the GetAccountSettings request.
+    /// - Returns: Represents the account settings return values from the GetAccountSettings request. (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1705,7 +1686,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -1740,9 +1720,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about a unique device type.
     ///
-    /// - Parameter GetDeviceInput : Represents a request to the get device request.
+    /// - Parameter input: Represents a request to the get device request. (Type: `GetDeviceInput`)
     ///
-    /// - Returns: `GetDeviceOutput` : Represents the result of a get device request.
+    /// - Returns: Represents the result of a get device request. (Type: `GetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1777,7 +1757,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeviceInput, GetDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceOutput>(GetDeviceOutput.httpOutput(from:), GetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceInput, GetDeviceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceOutput>())
@@ -1812,9 +1791,9 @@ extension DeviceFarmClient {
     ///
     /// Returns information about a device instance that belongs to a private device fleet.
     ///
-    /// - Parameter GetDeviceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceInstanceInput`)
     ///
-    /// - Returns: `GetDeviceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1849,7 +1828,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceInstanceOutput>(GetDeviceInstanceOutput.httpOutput(from:), GetDeviceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceInstanceOutput>())
@@ -1884,9 +1862,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about a device pool.
     ///
-    /// - Parameter GetDevicePoolInput : Represents a request to the get device pool operation.
+    /// - Parameter input: Represents a request to the get device pool operation. (Type: `GetDevicePoolInput`)
     ///
-    /// - Returns: `GetDevicePoolOutput` : Represents the result of a get device pool request.
+    /// - Returns: Represents the result of a get device pool request. (Type: `GetDevicePoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1921,7 +1899,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDevicePoolInput, GetDevicePoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDevicePoolOutput>(GetDevicePoolOutput.httpOutput(from:), GetDevicePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevicePoolInput, GetDevicePoolOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevicePoolOutput>())
@@ -1956,9 +1933,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about compatibility with a device pool.
     ///
-    /// - Parameter GetDevicePoolCompatibilityInput : Represents a request to the get device pool compatibility operation.
+    /// - Parameter input: Represents a request to the get device pool compatibility operation. (Type: `GetDevicePoolCompatibilityInput`)
     ///
-    /// - Returns: `GetDevicePoolCompatibilityOutput` : Represents the result of describe device pool compatibility request.
+    /// - Returns: Represents the result of describe device pool compatibility request. (Type: `GetDevicePoolCompatibilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1993,7 +1970,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDevicePoolCompatibilityOutput>(GetDevicePoolCompatibilityOutput.httpOutput(from:), GetDevicePoolCompatibilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevicePoolCompatibilityOutput>())
@@ -2028,9 +2004,9 @@ extension DeviceFarmClient {
     ///
     /// Returns information about the specified instance profile.
     ///
-    /// - Parameter GetInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceProfileInput`)
     ///
-    /// - Returns: `GetInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2065,7 +2041,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutput>(GetInstanceProfileOutput.httpOutput(from:), GetInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceProfileOutput>())
@@ -2100,9 +2075,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about a job.
     ///
-    /// - Parameter GetJobInput : Represents a request to the get job operation.
+    /// - Parameter input: Represents a request to the get job operation. (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : Represents the result of a get job request.
+    /// - Returns: Represents the result of a get job request. (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2137,7 +2112,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobInput, GetJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -2172,9 +2146,9 @@ extension DeviceFarmClient {
     ///
     /// Returns information about a network profile.
     ///
-    /// - Parameter GetNetworkProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkProfileInput`)
     ///
-    /// - Returns: `GetNetworkProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2209,7 +2183,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkProfileOutput>(GetNetworkProfileOutput.httpOutput(from:), GetNetworkProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkProfileOutput>())
@@ -2244,9 +2217,9 @@ extension DeviceFarmClient {
     ///
     /// Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
-    /// - Parameter GetOfferingStatusInput : Represents the request to retrieve the offering status for the specified customer or account.
+    /// - Parameter input: Represents the request to retrieve the offering status for the specified customer or account. (Type: `GetOfferingStatusInput`)
     ///
-    /// - Returns: `GetOfferingStatusOutput` : Returns the status result for a device offering.
+    /// - Returns: Returns the status result for a device offering. (Type: `GetOfferingStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,7 +2255,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOfferingStatusInput, GetOfferingStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOfferingStatusOutput>(GetOfferingStatusOutput.httpOutput(from:), GetOfferingStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOfferingStatusInput, GetOfferingStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOfferingStatusOutput>())
@@ -2317,9 +2289,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about a project.
     ///
-    /// - Parameter GetProjectInput : Represents a request to the get project operation.
+    /// - Parameter input: Represents a request to the get project operation. (Type: `GetProjectInput`)
     ///
-    /// - Returns: `GetProjectOutput` : Represents the result of a get project request.
+    /// - Returns: Represents the result of a get project request. (Type: `GetProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2354,7 +2326,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetProjectInput, GetProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProjectOutput>(GetProjectOutput.httpOutput(from:), GetProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProjectInput, GetProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProjectOutput>())
@@ -2389,9 +2360,9 @@ extension DeviceFarmClient {
     ///
     /// Returns a link to a currently running remote access session.
     ///
-    /// - Parameter GetRemoteAccessSessionInput : Represents the request to get information about the specified remote access session.
+    /// - Parameter input: Represents the request to get information about the specified remote access session. (Type: `GetRemoteAccessSessionInput`)
     ///
-    /// - Returns: `GetRemoteAccessSessionOutput` : Represents the response from the server that lists detailed information about the remote access session.
+    /// - Returns: Represents the response from the server that lists detailed information about the remote access session. (Type: `GetRemoteAccessSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2426,7 +2397,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRemoteAccessSessionOutput>(GetRemoteAccessSessionOutput.httpOutput(from:), GetRemoteAccessSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRemoteAccessSessionOutput>())
@@ -2461,9 +2431,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about a run.
     ///
-    /// - Parameter GetRunInput : Represents a request to the get run operation.
+    /// - Parameter input: Represents a request to the get run operation. (Type: `GetRunInput`)
     ///
-    /// - Returns: `GetRunOutput` : Represents the result of a get run request.
+    /// - Returns: Represents the result of a get run request. (Type: `GetRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2498,7 +2468,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRunInput, GetRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRunOutput>(GetRunOutput.httpOutput(from:), GetRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRunInput, GetRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRunOutput>())
@@ -2533,9 +2502,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about a suite.
     ///
-    /// - Parameter GetSuiteInput : Represents a request to the get suite operation.
+    /// - Parameter input: Represents a request to the get suite operation. (Type: `GetSuiteInput`)
     ///
-    /// - Returns: `GetSuiteOutput` : Represents the result of a get suite request.
+    /// - Returns: Represents the result of a get suite request. (Type: `GetSuiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2570,7 +2539,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSuiteInput, GetSuiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSuiteOutput>(GetSuiteOutput.httpOutput(from:), GetSuiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSuiteInput, GetSuiteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSuiteOutput>())
@@ -2605,9 +2573,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about a test.
     ///
-    /// - Parameter GetTestInput : Represents a request to the get test operation.
+    /// - Parameter input: Represents a request to the get test operation. (Type: `GetTestInput`)
     ///
-    /// - Returns: `GetTestOutput` : Represents the result of a get test request.
+    /// - Returns: Represents the result of a get test request. (Type: `GetTestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,7 +2610,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTestInput, GetTestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestOutput>(GetTestOutput.httpOutput(from:), GetTestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestInput, GetTestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestOutput>())
@@ -2677,9 +2644,9 @@ extension DeviceFarmClient {
     ///
     /// Retrieves information about a Selenium testing project.
     ///
-    /// - Parameter GetTestGridProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTestGridProjectInput`)
     ///
-    /// - Returns: `GetTestGridProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTestGridProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2713,7 +2680,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTestGridProjectInput, GetTestGridProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestGridProjectOutput>(GetTestGridProjectOutput.httpOutput(from:), GetTestGridProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestGridProjectInput, GetTestGridProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestGridProjectOutput>())
@@ -2752,9 +2718,9 @@ extension DeviceFarmClient {
     ///
     /// * The project ARN and a session ID ([GetTestGridSessionRequest$projectArn] and [GetTestGridSessionRequest$sessionId]).
     ///
-    /// - Parameter GetTestGridSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTestGridSessionInput`)
     ///
-    /// - Returns: `GetTestGridSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTestGridSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2788,7 +2754,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTestGridSessionInput, GetTestGridSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestGridSessionOutput>(GetTestGridSessionOutput.httpOutput(from:), GetTestGridSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestGridSessionInput, GetTestGridSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestGridSessionOutput>())
@@ -2823,9 +2788,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about an upload.
     ///
-    /// - Parameter GetUploadInput : Represents a request to the get upload operation.
+    /// - Parameter input: Represents a request to the get upload operation. (Type: `GetUploadInput`)
     ///
-    /// - Returns: `GetUploadOutput` : Represents the result of a get upload request.
+    /// - Returns: Represents the result of a get upload request. (Type: `GetUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2860,7 +2825,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUploadInput, GetUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUploadOutput>(GetUploadOutput.httpOutput(from:), GetUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUploadInput, GetUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUploadOutput>())
@@ -2895,9 +2859,9 @@ extension DeviceFarmClient {
     ///
     /// Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
-    /// - Parameter GetVPCEConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVPCEConfigurationInput`)
     ///
-    /// - Returns: `GetVPCEConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVPCEConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2931,7 +2895,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVPCEConfigurationOutput>(GetVPCEConfigurationOutput.httpOutput(from:), GetVPCEConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVPCEConfigurationOutput>())
@@ -2966,9 +2929,9 @@ extension DeviceFarmClient {
     ///
     /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
     ///
-    /// - Parameter InstallToRemoteAccessSessionInput : Represents the request to install an Android application (in .apk format) or an iOS application (in .ipa format) as part of a remote access session.
+    /// - Parameter input: Represents the request to install an Android application (in .apk format) or an iOS application (in .ipa format) as part of a remote access session. (Type: `InstallToRemoteAccessSessionInput`)
     ///
-    /// - Returns: `InstallToRemoteAccessSessionOutput` : Represents the response from the server after AWS Device Farm makes a request to install to a remote access session.
+    /// - Returns: Represents the response from the server after AWS Device Farm makes a request to install to a remote access session. (Type: `InstallToRemoteAccessSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3003,7 +2966,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InstallToRemoteAccessSessionOutput>(InstallToRemoteAccessSessionOutput.httpOutput(from:), InstallToRemoteAccessSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InstallToRemoteAccessSessionOutput>())
@@ -3038,9 +3000,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about artifacts.
     ///
-    /// - Parameter ListArtifactsInput : Represents a request to the list artifacts operation.
+    /// - Parameter input: Represents a request to the list artifacts operation. (Type: `ListArtifactsInput`)
     ///
-    /// - Returns: `ListArtifactsOutput` : Represents the result of a list artifacts operation.
+    /// - Returns: Represents the result of a list artifacts operation. (Type: `ListArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3075,7 +3037,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArtifactsInput, ListArtifactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArtifactsOutput>(ListArtifactsOutput.httpOutput(from:), ListArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArtifactsInput, ListArtifactsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArtifactsOutput>())
@@ -3110,9 +3071,9 @@ extension DeviceFarmClient {
     ///
     /// Returns information about the private device instances associated with one or more AWS accounts.
     ///
-    /// - Parameter ListDeviceInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceInstancesInput`)
     ///
-    /// - Returns: `ListDeviceInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3147,7 +3108,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceInstancesOutput>(ListDeviceInstancesOutput.httpOutput(from:), ListDeviceInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceInstancesOutput>())
@@ -3182,9 +3142,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about device pools.
     ///
-    /// - Parameter ListDevicePoolsInput : Represents the result of a list device pools request.
+    /// - Parameter input: Represents the result of a list device pools request. (Type: `ListDevicePoolsInput`)
     ///
-    /// - Returns: `ListDevicePoolsOutput` : Represents the result of a list device pools request.
+    /// - Returns: Represents the result of a list device pools request. (Type: `ListDevicePoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3219,7 +3179,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevicePoolsInput, ListDevicePoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicePoolsOutput>(ListDevicePoolsOutput.httpOutput(from:), ListDevicePoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicePoolsInput, ListDevicePoolsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicePoolsOutput>())
@@ -3254,9 +3213,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about unique device types.
     ///
-    /// - Parameter ListDevicesInput : Represents the result of a list devices request.
+    /// - Parameter input: Represents the result of a list devices request. (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : Represents the result of a list devices operation.
+    /// - Returns: Represents the result of a list devices operation. (Type: `ListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3291,7 +3250,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevicesInput, ListDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesOutput>(ListDevicesOutput.httpOutput(from:), ListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
@@ -3326,9 +3284,9 @@ extension DeviceFarmClient {
     ///
     /// Returns information about all the instance profiles in an AWS account.
     ///
-    /// - Parameter ListInstanceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceProfilesInput`)
     ///
-    /// - Returns: `ListInstanceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstanceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3363,7 +3321,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutput>(ListInstanceProfilesOutput.httpOutput(from:), ListInstanceProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceProfilesOutput>())
@@ -3398,9 +3355,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about jobs for a given test run.
     ///
-    /// - Parameter ListJobsInput : Represents a request to the list jobs operation.
+    /// - Parameter input: Represents a request to the list jobs operation. (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : Represents the result of a list jobs request.
+    /// - Returns: Represents the result of a list jobs request. (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3435,7 +3392,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListJobsInput, ListJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -3470,9 +3426,9 @@ extension DeviceFarmClient {
     ///
     /// Returns the list of available network profiles.
     ///
-    /// - Parameter ListNetworkProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNetworkProfilesInput`)
     ///
-    /// - Returns: `ListNetworkProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNetworkProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3507,7 +3463,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNetworkProfilesOutput>(ListNetworkProfilesOutput.httpOutput(from:), ListNetworkProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNetworkProfilesOutput>())
@@ -3542,9 +3497,9 @@ extension DeviceFarmClient {
     ///
     /// Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you must be able to invoke this operation.
     ///
-    /// - Parameter ListOfferingPromotionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOfferingPromotionsInput`)
     ///
-    /// - Returns: `ListOfferingPromotionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOfferingPromotionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3580,7 +3535,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOfferingPromotionsOutput>(ListOfferingPromotionsOutput.httpOutput(from:), ListOfferingPromotionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOfferingPromotionsOutput>())
@@ -3615,9 +3569,9 @@ extension DeviceFarmClient {
     ///
     /// Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
-    /// - Parameter ListOfferingTransactionsInput : Represents the request to list the offering transaction history.
+    /// - Parameter input: Represents the request to list the offering transaction history. (Type: `ListOfferingTransactionsInput`)
     ///
-    /// - Returns: `ListOfferingTransactionsOutput` : Returns the transaction log of the specified offerings.
+    /// - Returns: Returns the transaction log of the specified offerings. (Type: `ListOfferingTransactionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3653,7 +3607,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOfferingTransactionsOutput>(ListOfferingTransactionsOutput.httpOutput(from:), ListOfferingTransactionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOfferingTransactionsOutput>())
@@ -3688,9 +3641,9 @@ extension DeviceFarmClient {
     ///
     /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
-    /// - Parameter ListOfferingsInput : Represents the request to list all offerings.
+    /// - Parameter input: Represents the request to list all offerings. (Type: `ListOfferingsInput`)
     ///
-    /// - Returns: `ListOfferingsOutput` : Represents the return values of the list of offerings.
+    /// - Returns: Represents the return values of the list of offerings. (Type: `ListOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3726,7 +3679,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOfferingsInput, ListOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOfferingsOutput>(ListOfferingsOutput.httpOutput(from:), ListOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOfferingsInput, ListOfferingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOfferingsOutput>())
@@ -3761,9 +3713,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about projects.
     ///
-    /// - Parameter ListProjectsInput : Represents a request to the list projects operation.
+    /// - Parameter input: Represents a request to the list projects operation. (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : Represents the result of a list projects request.
+    /// - Returns: Represents the result of a list projects request. (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3798,7 +3750,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -3833,9 +3784,9 @@ extension DeviceFarmClient {
     ///
     /// Returns a list of all currently running remote access sessions.
     ///
-    /// - Parameter ListRemoteAccessSessionsInput : Represents the request to return information about the remote access session.
+    /// - Parameter input: Represents the request to return information about the remote access session. (Type: `ListRemoteAccessSessionsInput`)
     ///
-    /// - Returns: `ListRemoteAccessSessionsOutput` : Represents the response from the server after AWS Device Farm makes a request to return information about the remote access session.
+    /// - Returns: Represents the response from the server after AWS Device Farm makes a request to return information about the remote access session. (Type: `ListRemoteAccessSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3870,7 +3821,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRemoteAccessSessionsOutput>(ListRemoteAccessSessionsOutput.httpOutput(from:), ListRemoteAccessSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRemoteAccessSessionsOutput>())
@@ -3905,9 +3855,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about runs, given an AWS Device Farm project ARN.
     ///
-    /// - Parameter ListRunsInput : Represents a request to the list runs operation.
+    /// - Parameter input: Represents a request to the list runs operation. (Type: `ListRunsInput`)
     ///
-    /// - Returns: `ListRunsOutput` : Represents the result of a list runs request.
+    /// - Returns: Represents the result of a list runs request. (Type: `ListRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3942,7 +3892,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRunsInput, ListRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRunsOutput>(ListRunsOutput.httpOutput(from:), ListRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRunsInput, ListRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRunsOutput>())
@@ -3977,9 +3926,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about samples, given an AWS Device Farm job ARN.
     ///
-    /// - Parameter ListSamplesInput : Represents a request to the list samples operation.
+    /// - Parameter input: Represents a request to the list samples operation. (Type: `ListSamplesInput`)
     ///
-    /// - Returns: `ListSamplesOutput` : Represents the result of a list samples request.
+    /// - Returns: Represents the result of a list samples request. (Type: `ListSamplesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4014,7 +3963,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSamplesInput, ListSamplesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSamplesOutput>(ListSamplesOutput.httpOutput(from:), ListSamplesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSamplesInput, ListSamplesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSamplesOutput>())
@@ -4049,9 +3997,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about test suites for a given job.
     ///
-    /// - Parameter ListSuitesInput : Represents a request to the list suites operation.
+    /// - Parameter input: Represents a request to the list suites operation. (Type: `ListSuitesInput`)
     ///
-    /// - Returns: `ListSuitesOutput` : Represents the result of a list suites request.
+    /// - Returns: Represents the result of a list suites request. (Type: `ListSuitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4086,7 +4034,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSuitesInput, ListSuitesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSuitesOutput>(ListSuitesOutput.httpOutput(from:), ListSuitesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSuitesInput, ListSuitesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSuitesOutput>())
@@ -4121,9 +4068,9 @@ extension DeviceFarmClient {
     ///
     /// List the tags for an AWS Device Farm resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4157,7 +4104,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4192,9 +4138,9 @@ extension DeviceFarmClient {
     ///
     /// Gets a list of all Selenium testing projects in your account.
     ///
-    /// - Parameter ListTestGridProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestGridProjectsInput`)
     ///
-    /// - Returns: `ListTestGridProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestGridProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4227,7 +4173,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestGridProjectsOutput>(ListTestGridProjectsOutput.httpOutput(from:), ListTestGridProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestGridProjectsOutput>())
@@ -4262,9 +4207,9 @@ extension DeviceFarmClient {
     ///
     /// Returns a list of the actions taken in a [TestGridSession].
     ///
-    /// - Parameter ListTestGridSessionActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestGridSessionActionsInput`)
     ///
-    /// - Returns: `ListTestGridSessionActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestGridSessionActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4298,7 +4243,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestGridSessionActionsOutput>(ListTestGridSessionActionsOutput.httpOutput(from:), ListTestGridSessionActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestGridSessionActionsOutput>())
@@ -4333,9 +4277,9 @@ extension DeviceFarmClient {
     ///
     /// Retrieves a list of artifacts created during the session.
     ///
-    /// - Parameter ListTestGridSessionArtifactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestGridSessionArtifactsInput`)
     ///
-    /// - Returns: `ListTestGridSessionArtifactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestGridSessionArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4369,7 +4313,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestGridSessionArtifactsOutput>(ListTestGridSessionArtifactsOutput.httpOutput(from:), ListTestGridSessionArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestGridSessionArtifactsOutput>())
@@ -4404,9 +4347,9 @@ extension DeviceFarmClient {
     ///
     /// Retrieves a list of sessions for a [TestGridProject].
     ///
-    /// - Parameter ListTestGridSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestGridSessionsInput`)
     ///
-    /// - Returns: `ListTestGridSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestGridSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4440,7 +4383,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestGridSessionsOutput>(ListTestGridSessionsOutput.httpOutput(from:), ListTestGridSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestGridSessionsOutput>())
@@ -4475,9 +4417,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about tests in a given test suite.
     ///
-    /// - Parameter ListTestsInput : Represents a request to the list tests operation.
+    /// - Parameter input: Represents a request to the list tests operation. (Type: `ListTestsInput`)
     ///
-    /// - Returns: `ListTestsOutput` : Represents the result of a list tests request.
+    /// - Returns: Represents the result of a list tests request. (Type: `ListTestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4512,7 +4454,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestsInput, ListTestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestsOutput>(ListTestsOutput.httpOutput(from:), ListTestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestsInput, ListTestsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestsOutput>())
@@ -4547,9 +4488,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
     ///
-    /// - Parameter ListUniqueProblemsInput : Represents a request to the list unique problems operation.
+    /// - Parameter input: Represents a request to the list unique problems operation. (Type: `ListUniqueProblemsInput`)
     ///
-    /// - Returns: `ListUniqueProblemsOutput` : Represents the result of a list unique problems request.
+    /// - Returns: Represents the result of a list unique problems request. (Type: `ListUniqueProblemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4584,7 +4525,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUniqueProblemsOutput>(ListUniqueProblemsOutput.httpOutput(from:), ListUniqueProblemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUniqueProblemsOutput>())
@@ -4619,9 +4559,9 @@ extension DeviceFarmClient {
     ///
     /// Gets information about uploads, given an AWS Device Farm project ARN.
     ///
-    /// - Parameter ListUploadsInput : Represents a request to the list uploads operation.
+    /// - Parameter input: Represents a request to the list uploads operation. (Type: `ListUploadsInput`)
     ///
-    /// - Returns: `ListUploadsOutput` : Represents the result of a list uploads request.
+    /// - Returns: Represents the result of a list uploads request. (Type: `ListUploadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4656,7 +4596,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUploadsInput, ListUploadsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUploadsOutput>(ListUploadsOutput.httpOutput(from:), ListUploadsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUploadsInput, ListUploadsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUploadsOutput>())
@@ -4691,9 +4630,9 @@ extension DeviceFarmClient {
     ///
     /// Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
     ///
-    /// - Parameter ListVPCEConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVPCEConfigurationsInput`)
     ///
-    /// - Returns: `ListVPCEConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVPCEConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4726,7 +4665,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVPCEConfigurationsOutput>(ListVPCEConfigurationsOutput.httpOutput(from:), ListVPCEConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVPCEConfigurationsOutput>())
@@ -4761,9 +4699,9 @@ extension DeviceFarmClient {
     ///
     /// Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
-    /// - Parameter PurchaseOfferingInput : Represents a request for a purchase offering.
+    /// - Parameter input: Represents a request for a purchase offering. (Type: `PurchaseOfferingInput`)
     ///
-    /// - Returns: `PurchaseOfferingOutput` : The result of the purchase offering (for example, success or failure).
+    /// - Returns: The result of the purchase offering (for example, success or failure). (Type: `PurchaseOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4799,7 +4737,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutput>(PurchaseOfferingOutput.httpOutput(from:), PurchaseOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseOfferingOutput>())
@@ -4834,9 +4771,9 @@ extension DeviceFarmClient {
     ///
     /// Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
-    /// - Parameter RenewOfferingInput : A request that represents an offering renewal.
+    /// - Parameter input: A request that represents an offering renewal. (Type: `RenewOfferingInput`)
     ///
-    /// - Returns: `RenewOfferingOutput` : The result of a renewal offering.
+    /// - Returns: The result of a renewal offering. (Type: `RenewOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4872,7 +4809,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenewOfferingInput, RenewOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RenewOfferingOutput>(RenewOfferingOutput.httpOutput(from:), RenewOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenewOfferingInput, RenewOfferingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RenewOfferingOutput>())
@@ -4907,9 +4843,9 @@ extension DeviceFarmClient {
     ///
     /// Schedules a run.
     ///
-    /// - Parameter ScheduleRunInput : Represents a request to the schedule run operation.
+    /// - Parameter input: Represents a request to the schedule run operation. (Type: `ScheduleRunInput`)
     ///
-    /// - Returns: `ScheduleRunOutput` : Represents the result of a schedule run request.
+    /// - Returns: Represents the result of a schedule run request. (Type: `ScheduleRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4945,7 +4881,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ScheduleRunInput, ScheduleRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ScheduleRunOutput>(ScheduleRunOutput.httpOutput(from:), ScheduleRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ScheduleRunInput, ScheduleRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ScheduleRunOutput>())
@@ -4980,9 +4915,9 @@ extension DeviceFarmClient {
     ///
     /// Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
     ///
-    /// - Parameter StopJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopJobInput`)
     ///
-    /// - Returns: `StopJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5017,7 +4952,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopJobInput, StopJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopJobOutput>(StopJobOutput.httpOutput(from:), StopJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopJobInput, StopJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopJobOutput>())
@@ -5052,9 +4986,9 @@ extension DeviceFarmClient {
     ///
     /// Ends a specified remote access session.
     ///
-    /// - Parameter StopRemoteAccessSessionInput : Represents the request to stop the remote access session.
+    /// - Parameter input: Represents the request to stop the remote access session. (Type: `StopRemoteAccessSessionInput`)
     ///
-    /// - Returns: `StopRemoteAccessSessionOutput` : Represents the response from the server that describes the remote access session when AWS Device Farm stops the session.
+    /// - Returns: Represents the response from the server that describes the remote access session when AWS Device Farm stops the session. (Type: `StopRemoteAccessSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5089,7 +5023,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRemoteAccessSessionOutput>(StopRemoteAccessSessionOutput.httpOutput(from:), StopRemoteAccessSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRemoteAccessSessionOutput>())
@@ -5124,9 +5057,9 @@ extension DeviceFarmClient {
     ///
     /// Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
     ///
-    /// - Parameter StopRunInput : Represents the request to stop a specific run.
+    /// - Parameter input: Represents the request to stop a specific run. (Type: `StopRunInput`)
     ///
-    /// - Returns: `StopRunOutput` : Represents the results of your stop run attempt.
+    /// - Returns: Represents the results of your stop run attempt. (Type: `StopRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5161,7 +5094,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRunInput, StopRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRunOutput>(StopRunOutput.httpOutput(from:), StopRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRunInput, StopRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRunOutput>())
@@ -5196,9 +5128,9 @@ extension DeviceFarmClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5234,7 +5166,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5269,9 +5200,9 @@ extension DeviceFarmClient {
     ///
     /// Deletes the specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5305,7 +5236,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5340,9 +5270,9 @@ extension DeviceFarmClient {
     ///
     /// Updates information about a private device instance.
     ///
-    /// - Parameter UpdateDeviceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceInstanceInput`)
     ///
-    /// - Returns: `UpdateDeviceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5377,7 +5307,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeviceInstanceOutput>(UpdateDeviceInstanceOutput.httpOutput(from:), UpdateDeviceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceInstanceOutput>())
@@ -5412,9 +5341,9 @@ extension DeviceFarmClient {
     ///
     /// Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
     ///
-    /// - Parameter UpdateDevicePoolInput : Represents a request to the update device pool operation.
+    /// - Parameter input: Represents a request to the update device pool operation. (Type: `UpdateDevicePoolInput`)
     ///
-    /// - Returns: `UpdateDevicePoolOutput` : Represents the result of an update device pool request.
+    /// - Returns: Represents the result of an update device pool request. (Type: `UpdateDevicePoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5449,7 +5378,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDevicePoolOutput>(UpdateDevicePoolOutput.httpOutput(from:), UpdateDevicePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDevicePoolOutput>())
@@ -5484,9 +5412,9 @@ extension DeviceFarmClient {
     ///
     /// Updates information about an existing private device instance profile.
     ///
-    /// - Parameter UpdateInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceProfileInput`)
     ///
-    /// - Returns: `UpdateInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5521,7 +5449,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceProfileOutput>(UpdateInstanceProfileOutput.httpOutput(from:), UpdateInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceProfileOutput>())
@@ -5556,9 +5483,9 @@ extension DeviceFarmClient {
     ///
     /// Updates the network profile.
     ///
-    /// - Parameter UpdateNetworkProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNetworkProfileInput`)
     ///
-    /// - Returns: `UpdateNetworkProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNetworkProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5593,7 +5520,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNetworkProfileOutput>(UpdateNetworkProfileOutput.httpOutput(from:), UpdateNetworkProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNetworkProfileOutput>())
@@ -5628,9 +5554,9 @@ extension DeviceFarmClient {
     ///
     /// Modifies the specified project name, given the project ARN and a new name.
     ///
-    /// - Parameter UpdateProjectInput : Represents a request to the update project operation.
+    /// - Parameter input: Represents a request to the update project operation. (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : Represents the result of an update project request.
+    /// - Returns: Represents the result of an update project request. (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5665,7 +5591,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
@@ -5700,9 +5625,9 @@ extension DeviceFarmClient {
     ///
     /// Change details of a project.
     ///
-    /// - Parameter UpdateTestGridProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTestGridProjectInput`)
     ///
-    /// - Returns: `UpdateTestGridProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTestGridProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5737,7 +5662,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTestGridProjectOutput>(UpdateTestGridProjectOutput.httpOutput(from:), UpdateTestGridProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTestGridProjectOutput>())
@@ -5772,9 +5696,9 @@ extension DeviceFarmClient {
     ///
     /// Updates an uploaded test spec.
     ///
-    /// - Parameter UpdateUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUploadInput`)
     ///
-    /// - Returns: `UpdateUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5809,7 +5733,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUploadInput, UpdateUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUploadOutput>(UpdateUploadOutput.httpOutput(from:), UpdateUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUploadInput, UpdateUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUploadOutput>())
@@ -5844,9 +5767,9 @@ extension DeviceFarmClient {
     ///
     /// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
     ///
-    /// - Parameter UpdateVPCEConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVPCEConfigurationInput`)
     ///
-    /// - Returns: `UpdateVPCEConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVPCEConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5881,7 +5804,6 @@ extension DeviceFarmClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVPCEConfigurationOutput>(UpdateVPCEConfigurationOutput.httpOutput(from:), UpdateVPCEConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVPCEConfigurationOutput>())

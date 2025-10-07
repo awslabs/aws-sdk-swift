@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -71,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppConfigClient: ClientRuntime.Client {
     public static let clientName = "AppConfigClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: AppConfigClient.AppConfigClientConfiguration
     let serviceName = "AppConfig"
@@ -377,9 +376,9 @@ extension AppConfigClient {
     ///
     /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -471,9 +469,9 @@ extension AppConfigClient {
     ///
     /// For more information, see [Create a Configuration and a Configuration Profile](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile.html) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationProfileInput`)
     ///
-    /// - Returns: `CreateConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,7 +508,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationProfileInput, CreateConfigurationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationProfileOutput>(CreateConfigurationProfileOutput.httpOutput(from:), CreateConfigurationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationProfileInput, CreateConfigurationProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationProfileOutput>())
@@ -542,9 +539,9 @@ extension AppConfigClient {
     ///
     /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     ///
-    /// - Parameter CreateDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentStrategyInput`)
     ///
-    /// - Returns: `CreateDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -580,7 +577,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentStrategyInput, CreateDeploymentStrategyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentStrategyOutput>(CreateDeploymentStrategyOutput.httpOutput(from:), CreateDeploymentStrategyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentStrategyInput, CreateDeploymentStrategyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentStrategyOutput>())
@@ -612,9 +608,9 @@ extension AppConfigClient {
     ///
     /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web, Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,7 +647,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -692,9 +687,9 @@ extension AppConfigClient {
     ///
     /// For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExtensionInput`)
     ///
-    /// - Returns: `CreateExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,7 +727,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExtensionInput, CreateExtensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExtensionOutput>(CreateExtensionOutput.httpOutput(from:), CreateExtensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExtensionInput, CreateExtensionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExtensionOutput>())
@@ -764,9 +758,9 @@ extension AppConfigClient {
     ///
     /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called an extension association. An extension association is a specified relationship between an extension and an AppConfig resource, such as an application or a configuration profile. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExtensionAssociationInput`)
     ///
-    /// - Returns: `CreateExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,7 +797,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExtensionAssociationInput, CreateExtensionAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExtensionAssociationOutput>(CreateExtensionAssociationOutput.httpOutput(from:), CreateExtensionAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExtensionAssociationInput, CreateExtensionAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExtensionAssociationOutput>())
@@ -835,9 +828,9 @@ extension AppConfigClient {
     ///
     /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more information, see [Type reference for AWS.AppConfig.FeatureFlags](https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile-feature-flags.html#appconfig-type-reference-feature-flags) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateHostedConfigurationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHostedConfigurationVersionInput`)
     ///
-    /// - Returns: `CreateHostedConfigurationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHostedConfigurationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,7 +870,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHostedConfigurationVersionInput, CreateHostedConfigurationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHostedConfigurationVersionOutput>(CreateHostedConfigurationVersionOutput.httpOutput(from:), CreateHostedConfigurationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHostedConfigurationVersionInput, CreateHostedConfigurationVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHostedConfigurationVersionOutput>())
@@ -909,9 +901,9 @@ extension AppConfigClient {
     ///
     /// Deletes an application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,7 +936,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -976,9 +967,9 @@ extension AppConfigClient {
     ///
     /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configuration profiles, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
     ///
-    /// - Parameter DeleteConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationProfileInput`)
     ///
-    /// - Returns: `DeleteConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,7 +1004,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteConfigurationProfileInput, DeleteConfigurationProfileOutput>(DeleteConfigurationProfileInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationProfileOutput>(DeleteConfigurationProfileOutput.httpOutput(from:), DeleteConfigurationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationProfileInput, DeleteConfigurationProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationProfileOutput>())
@@ -1045,9 +1035,9 @@ extension AppConfigClient {
     ///
     /// Deletes a deployment strategy.
     ///
-    /// - Parameter DeleteDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentStrategyInput`)
     ///
-    /// - Returns: `DeleteDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,7 +1070,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeploymentStrategyInput, DeleteDeploymentStrategyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeploymentStrategyOutput>(DeleteDeploymentStrategyOutput.httpOutput(from:), DeleteDeploymentStrategyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentStrategyInput, DeleteDeploymentStrategyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentStrategyOutput>())
@@ -1112,9 +1101,9 @@ extension AppConfigClient {
     ///
     /// Deletes an environment. To prevent users from unintentionally deleting actively-used environments, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1149,7 +1138,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(DeleteEnvironmentInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -1181,9 +1169,9 @@ extension AppConfigClient {
     ///
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension.
     ///
-    /// - Parameter DeleteExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExtensionInput`)
     ///
-    /// - Returns: `DeleteExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,7 +1205,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteExtensionInput, DeleteExtensionOutput>(DeleteExtensionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExtensionOutput>(DeleteExtensionOutput.httpOutput(from:), DeleteExtensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExtensionInput, DeleteExtensionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExtensionOutput>())
@@ -1249,9 +1236,9 @@ extension AppConfigClient {
     ///
     /// Deletes an extension association. This action doesn't delete extensions defined in the association.
     ///
-    /// - Parameter DeleteExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExtensionAssociationInput`)
     ///
-    /// - Returns: `DeleteExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,7 +1271,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExtensionAssociationInput, DeleteExtensionAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExtensionAssociationOutput>(DeleteExtensionAssociationOutput.httpOutput(from:), DeleteExtensionAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExtensionAssociationInput, DeleteExtensionAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExtensionAssociationOutput>())
@@ -1316,9 +1302,9 @@ extension AppConfigClient {
     ///
     /// Deletes a version of a configuration from the AppConfig hosted configuration store.
     ///
-    /// - Parameter DeleteHostedConfigurationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHostedConfigurationVersionInput`)
     ///
-    /// - Returns: `DeleteHostedConfigurationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHostedConfigurationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1351,7 +1337,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHostedConfigurationVersionInput, DeleteHostedConfigurationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHostedConfigurationVersionOutput>(DeleteHostedConfigurationVersionOutput.httpOutput(from:), DeleteHostedConfigurationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHostedConfigurationVersionInput, DeleteHostedConfigurationVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHostedConfigurationVersionOutput>())
@@ -1383,9 +1368,9 @@ extension AppConfigClient {
     ///
     /// Returns information about the status of the DeletionProtection parameter.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,7 +1402,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -1449,9 +1433,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about an application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1484,7 +1468,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
@@ -1521,9 +1504,9 @@ extension AppConfigClient {
     /// * [GetConfiguration] is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
     @available(*, deprecated, message: "This API has been deprecated in favor of the GetLatestConfiguration API used in conjunction with StartConfigurationSession.")
     ///
-    /// - Parameter GetConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
     ///
-    /// - Returns: `GetConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1557,7 +1540,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConfigurationInput, GetConfigurationOutput>(GetConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationOutput>(GetConfigurationOutput.httpOutput(from:), GetConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationInput, GetConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationOutput>())
@@ -1589,9 +1571,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a configuration profile.
     ///
-    /// - Parameter GetConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationProfileInput`)
     ///
-    /// - Returns: `GetConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1624,7 +1606,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationProfileInput, GetConfigurationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationProfileOutput>(GetConfigurationProfileOutput.httpOutput(from:), GetConfigurationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationProfileInput, GetConfigurationProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationProfileOutput>())
@@ -1656,9 +1637,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a configuration deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,7 +1672,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentOutput>(GetDeploymentOutput.httpOutput(from:), GetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentOutput>())
@@ -1723,9 +1703,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     ///
-    /// - Parameter GetDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentStrategyInput`)
     ///
-    /// - Returns: `GetDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1758,7 +1738,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentStrategyInput, GetDeploymentStrategyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentStrategyOutput>(GetDeploymentStrategyOutput.httpOutput(from:), GetDeploymentStrategyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentStrategyInput, GetDeploymentStrategyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentStrategyOutput>())
@@ -1790,9 +1769,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about an environment. An environment is a deployment group of AppConfig applications, such as applications in a Production environment or in an EU_Region environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1825,7 +1804,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentOutput>())
@@ -1857,9 +1835,9 @@ extension AppConfigClient {
     ///
     /// Returns information about an AppConfig extension.
     ///
-    /// - Parameter GetExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExtensionInput`)
     ///
-    /// - Returns: `GetExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1893,7 +1871,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetExtensionInput, GetExtensionOutput>(GetExtensionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExtensionOutput>(GetExtensionOutput.httpOutput(from:), GetExtensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExtensionInput, GetExtensionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExtensionOutput>())
@@ -1925,9 +1902,9 @@ extension AppConfigClient {
     ///
     /// Returns information about an AppConfig extension association. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter GetExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExtensionAssociationInput`)
     ///
-    /// - Returns: `GetExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1960,7 +1937,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExtensionAssociationInput, GetExtensionAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExtensionAssociationOutput>(GetExtensionAssociationOutput.httpOutput(from:), GetExtensionAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExtensionAssociationInput, GetExtensionAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExtensionAssociationOutput>())
@@ -1992,9 +1968,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a specific configuration version.
     ///
-    /// - Parameter GetHostedConfigurationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHostedConfigurationVersionInput`)
     ///
-    /// - Returns: `GetHostedConfigurationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHostedConfigurationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2027,7 +2003,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedConfigurationVersionInput, GetHostedConfigurationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedConfigurationVersionOutput>(GetHostedConfigurationVersionOutput.httpOutput(from:), GetHostedConfigurationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedConfigurationVersionInput, GetHostedConfigurationVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedConfigurationVersionOutput>())
@@ -2059,9 +2034,9 @@ extension AppConfigClient {
     ///
     /// Lists all applications in your Amazon Web Services account.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2094,7 +2069,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -2126,9 +2100,9 @@ extension AppConfigClient {
     ///
     /// Lists the configuration profiles for an application.
     ///
-    /// - Parameter ListConfigurationProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationProfilesInput`)
     ///
-    /// - Returns: `ListConfigurationProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2162,7 +2136,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationProfilesInput, ListConfigurationProfilesOutput>(ListConfigurationProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationProfilesOutput>(ListConfigurationProfilesOutput.httpOutput(from:), ListConfigurationProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationProfilesInput, ListConfigurationProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationProfilesOutput>())
@@ -2194,9 +2167,9 @@ extension AppConfigClient {
     ///
     /// Lists deployment strategies.
     ///
-    /// - Parameter ListDeploymentStrategiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentStrategiesInput`)
     ///
-    /// - Returns: `ListDeploymentStrategiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentStrategiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,7 +2202,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutput>(ListDeploymentStrategiesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentStrategiesOutput>(ListDeploymentStrategiesOutput.httpOutput(from:), ListDeploymentStrategiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentStrategiesInput, ListDeploymentStrategiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentStrategiesOutput>())
@@ -2261,9 +2233,9 @@ extension AppConfigClient {
     ///
     /// Lists the deployments for an environment in descending deployment number order.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2297,7 +2269,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(ListDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput>(ListDeploymentsOutput.httpOutput(from:), ListDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentsOutput>())
@@ -2329,9 +2300,9 @@ extension AppConfigClient {
     ///
     /// Lists the environments for an application.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2365,7 +2336,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(ListEnvironmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -2397,9 +2367,9 @@ extension AppConfigClient {
     ///
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter ListExtensionAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExtensionAssociationsInput`)
     ///
-    /// - Returns: `ListExtensionAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExtensionAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2432,7 +2402,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExtensionAssociationsInput, ListExtensionAssociationsOutput>(ListExtensionAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExtensionAssociationsOutput>(ListExtensionAssociationsOutput.httpOutput(from:), ListExtensionAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExtensionAssociationsInput, ListExtensionAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExtensionAssociationsOutput>())
@@ -2464,9 +2433,9 @@ extension AppConfigClient {
     ///
     /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter ListExtensionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExtensionsInput`)
     ///
-    /// - Returns: `ListExtensionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExtensionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,7 +2468,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExtensionsInput, ListExtensionsOutput>(ListExtensionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExtensionsOutput>(ListExtensionsOutput.httpOutput(from:), ListExtensionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExtensionsInput, ListExtensionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExtensionsOutput>())
@@ -2531,9 +2499,9 @@ extension AppConfigClient {
     ///
     /// Lists configurations stored in the AppConfig hosted configuration store by version.
     ///
-    /// - Parameter ListHostedConfigurationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHostedConfigurationVersionsInput`)
     ///
-    /// - Returns: `ListHostedConfigurationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHostedConfigurationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2567,7 +2535,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutput>(ListHostedConfigurationVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedConfigurationVersionsOutput>(ListHostedConfigurationVersionsOutput.httpOutput(from:), ListHostedConfigurationVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedConfigurationVersionsInput, ListHostedConfigurationVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedConfigurationVersionsOutput>())
@@ -2599,9 +2566,9 @@ extension AppConfigClient {
     ///
     /// Retrieves the list of key-value tags assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2634,7 +2601,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2666,9 +2632,9 @@ extension AppConfigClient {
     ///
     /// Starts a deployment.
     ///
-    /// - Parameter StartDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDeploymentInput`)
     ///
-    /// - Returns: `StartDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2705,7 +2671,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeploymentInput, StartDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeploymentOutput>(StartDeploymentOutput.httpOutput(from:), StartDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeploymentInput, StartDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDeploymentOutput>())
@@ -2737,9 +2702,9 @@ extension AppConfigClient {
     ///
     /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING, unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress deployment will be ROLLED_BACK. The status of a completed deployment will be REVERTED. AppConfig only allows a revert within 72 hours of deployment completion.
     ///
-    /// - Parameter StopDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDeploymentInput`)
     ///
-    /// - Returns: `StopDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2773,7 +2738,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<StopDeploymentInput, StopDeploymentOutput>(StopDeploymentInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDeploymentOutput>(StopDeploymentOutput.httpOutput(from:), StopDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDeploymentInput, StopDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDeploymentOutput>())
@@ -2805,9 +2769,9 @@ extension AppConfigClient {
     ///
     /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2843,7 +2807,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2875,9 +2838,9 @@ extension AppConfigClient {
     ///
     /// Deletes a tag key and value from an AppConfig resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2911,7 +2874,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2943,9 +2905,9 @@ extension AppConfigClient {
     ///
     /// Updates the value of the DeletionProtection parameter.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2980,7 +2942,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
@@ -3012,9 +2973,9 @@ extension AppConfigClient {
     ///
     /// Updates an application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3050,7 +3011,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -3082,9 +3042,9 @@ extension AppConfigClient {
     ///
     /// Updates a configuration profile.
     ///
-    /// - Parameter UpdateConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationProfileInput`)
     ///
-    /// - Returns: `UpdateConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3120,7 +3080,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationProfileInput, UpdateConfigurationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationProfileOutput>(UpdateConfigurationProfileOutput.httpOutput(from:), UpdateConfigurationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationProfileInput, UpdateConfigurationProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationProfileOutput>())
@@ -3152,9 +3111,9 @@ extension AppConfigClient {
     ///
     /// Updates a deployment strategy.
     ///
-    /// - Parameter UpdateDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeploymentStrategyInput`)
     ///
-    /// - Returns: `UpdateDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3190,7 +3149,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeploymentStrategyInput, UpdateDeploymentStrategyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeploymentStrategyOutput>(UpdateDeploymentStrategyOutput.httpOutput(from:), UpdateDeploymentStrategyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeploymentStrategyInput, UpdateDeploymentStrategyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeploymentStrategyOutput>())
@@ -3222,9 +3180,9 @@ extension AppConfigClient {
     ///
     /// Updates an environment.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3260,7 +3218,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -3292,9 +3249,9 @@ extension AppConfigClient {
     ///
     /// Updates an AppConfig extension. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter UpdateExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExtensionInput`)
     ///
-    /// - Returns: `UpdateExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3331,7 +3288,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExtensionInput, UpdateExtensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExtensionOutput>(UpdateExtensionOutput.httpOutput(from:), UpdateExtensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExtensionInput, UpdateExtensionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExtensionOutput>())
@@ -3363,9 +3319,9 @@ extension AppConfigClient {
     ///
     /// Updates an association. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter UpdateExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExtensionAssociationInput`)
     ///
-    /// - Returns: `UpdateExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3401,7 +3357,6 @@ extension AppConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExtensionAssociationInput, UpdateExtensionAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExtensionAssociationOutput>(UpdateExtensionAssociationOutput.httpOutput(from:), UpdateExtensionAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExtensionAssociationInput, UpdateExtensionAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExtensionAssociationOutput>())
@@ -3433,9 +3388,9 @@ extension AppConfigClient {
     ///
     /// Uses the validators in a configuration profile to validate a configuration.
     ///
-    /// - Parameter ValidateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateConfigurationInput`)
     ///
-    /// - Returns: `ValidateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3469,7 +3424,6 @@ extension AppConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ValidateConfigurationInput, ValidateConfigurationOutput>(ValidateConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateConfigurationOutput>(ValidateConfigurationOutput.httpOutput(from:), ValidateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateConfigurationInput, ValidateConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateConfigurationOutput>())

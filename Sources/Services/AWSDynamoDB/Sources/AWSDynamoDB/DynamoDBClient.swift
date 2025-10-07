@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSClientRuntime.AccountIDEndpointMode
@@ -70,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DynamoDBClient: ClientRuntime.Client {
     public static let clientName = "DynamoDBClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: DynamoDBClient.DynamoDBClientConfiguration
     let serviceName = "DynamoDB"
@@ -385,9 +384,9 @@ extension DynamoDBClient {
     ///
     /// This operation allows you to perform batch reads or writes on data stored in DynamoDB, using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality condition on all key attributes. This enforces that each SELECT statement in a batch returns at most a single item. For more information, see [Running batch operations with PartiQL for DynamoDB ](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.multiplestatements.batching.html). The entire batch must consist of either read statements or write statements, you cannot mix both in one batch. A HTTP 200 response does not mean that all statements in the BatchExecuteStatement succeeded. Error details for individual statements can be found under the [Error](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchStatementResponse.html#DDB-Type-BatchStatementResponse-Error) field of the BatchStatementResponse for each statement.
     ///
-    /// - Parameter BatchExecuteStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchExecuteStatementInput`)
     ///
-    /// - Returns: `BatchExecuteStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchExecuteStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -422,7 +421,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchExecuteStatementOutput>(BatchExecuteStatementOutput.httpOutput(from:), BatchExecuteStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchExecuteStatementOutput>())
@@ -457,9 +455,9 @@ extension DynamoDBClient {
     ///
     /// The BatchGetItem operation returns the attributes of one or more items from one or more tables. You identify requested items by primary key. A single operation can retrieve up to 16 MB of data, which can contain as many as 100 items. BatchGetItem returns a partial result if the response size limit is exceeded, the table's provisioned throughput is exceeded, more than 1MB per partition is requested, or an internal processing failure occurs. If a partial result is returned, the operation returns a value for UnprocessedKeys. You can use this value to retry the operation starting with the next item to get. If you request more than 100 items, BatchGetItem returns a ValidationException with the message "Too many items requested for the BatchGetItem call." For example, if you ask to retrieve 100 items, but each individual item is 300 KB in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also returns an appropriate UnprocessedKeys value so you can get the next page of results. If desired, your application can include its own logic to assemble the pages of results into one dataset. If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchGetItem returns a ProvisionedThroughputExceededException. If at least one of the items is successfully processed, then BatchGetItem completes successfully, while returning the keys of the unread items in UnprocessedKeys. If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see [Batch Operations and Error Handling](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations) in the Amazon DynamoDB Developer Guide. By default, BatchGetItem performs eventually consistent reads on every table in the request. If you want strongly consistent reads instead, you can set ConsistentRead to true for any or all tables. In order to minimize response latency, BatchGetItem may retrieve items in parallel. When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the ProjectionExpression parameter. If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum read capacity units according to the type of read. For more information, see [Working with Tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations) in the Amazon DynamoDB Developer Guide. BatchGetItem will result in a ValidationException if the same key is specified multiple times.
     ///
-    /// - Parameter BatchGetItemInput : Represents the input of a BatchGetItem operation.
+    /// - Parameter input: Represents the input of a BatchGetItem operation. (Type: `BatchGetItemInput`)
     ///
-    /// - Returns: `BatchGetItemOutput` : Represents the output of a BatchGetItem operation.
+    /// - Returns: Represents the output of a BatchGetItem operation. (Type: `BatchGetItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,7 +495,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetItemInput, BatchGetItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetItemOutput>(BatchGetItemOutput.httpOutput(from:), BatchGetItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetItemInput, BatchGetItemOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetItemOutput>())
@@ -551,9 +548,9 @@ extension DynamoDBClient {
     ///
     /// * Any individual items with keys exceeding the key length limits. For a partition key, the limit is 2048 bytes and for a sort key, the limit is 1024 bytes.
     ///
-    /// - Parameter BatchWriteItemInput : Represents the input of a BatchWriteItem operation.
+    /// - Parameter input: Represents the input of a BatchWriteItem operation. (Type: `BatchWriteItemInput`)
     ///
-    /// - Returns: `BatchWriteItemOutput` : Represents the output of a BatchWriteItem operation.
+    /// - Returns: Represents the output of a BatchWriteItem operation. (Type: `BatchWriteItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,7 +590,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchWriteItemInput, BatchWriteItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchWriteItemOutput>(BatchWriteItemOutput.httpOutput(from:), BatchWriteItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchWriteItemInput, BatchWriteItemOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchWriteItemOutput>())
@@ -639,9 +635,9 @@ extension DynamoDBClient {
     ///
     /// * Provisioned read and write capacity
     ///
-    /// - Parameter CreateBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBackupInput`)
     ///
-    /// - Returns: `CreateBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -680,7 +676,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackupInput, CreateBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackupOutput>(CreateBackupOutput.httpOutput(from:), CreateBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackupInput, CreateBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackupOutput>())
@@ -740,9 +735,9 @@ extension DynamoDBClient {
     ///
     /// Write capacity settings should be set consistently across your replica tables and secondary indexes. DynamoDB strongly recommends enabling auto scaling to manage the write capacity settings for all of your global tables replicas and indexes. If you prefer to manage write capacity settings manually, you should provision equal replicated write capacity units to your replica tables. You should also provision equal replicated write capacity units to matching secondary indexes across your global table.
     ///
-    /// - Parameter CreateGlobalTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGlobalTableInput`)
     ///
-    /// - Returns: `CreateGlobalTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlobalTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,7 +774,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlobalTableOutput>(CreateGlobalTableOutput.httpOutput(from:), CreateGlobalTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlobalTableOutput>())
@@ -814,9 +808,9 @@ extension DynamoDBClient {
     ///
     /// The CreateTable operation adds a new table to your account. In an Amazon Web Services account, table names must be unique within each Region. That is, you can have two tables with same name if you create the tables in different Regions. CreateTable is an asynchronous operation. Upon receiving a CreateTable request, DynamoDB immediately returns a response with a TableStatus of CREATING. After the table is created, DynamoDB sets the TableStatus to ACTIVE. You can perform read and write operations only on an ACTIVE table. You can optionally define secondary indexes on the new table, as part of the CreateTable operation. If you want to create multiple tables with secondary indexes on them, you must create the tables sequentially. Only one table with secondary indexes can be in the CREATING state at any given time. You can use the DescribeTable action to check the table status.
     ///
-    /// - Parameter CreateTableInput : Represents the input of a CreateTable operation.
+    /// - Parameter input: Represents the input of a CreateTable operation. (Type: `CreateTableInput`)
     ///
-    /// - Returns: `CreateTableOutput` : Represents the output of a CreateTable operation.
+    /// - Returns: Represents the output of a CreateTable operation. (Type: `CreateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,7 +855,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableInput, CreateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableOutput>(CreateTableOutput.httpOutput(from:), CreateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableInput, CreateTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
@@ -896,9 +889,9 @@ extension DynamoDBClient {
     ///
     /// Deletes an existing backup of a table. You can call DeleteBackup at a maximum rate of 10 times per second.
     ///
-    /// - Parameter DeleteBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupInput`)
     ///
-    /// - Returns: `DeleteBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -935,7 +928,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackupInput, DeleteBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupOutput>(DeleteBackupOutput.httpOutput(from:), DeleteBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupInput, DeleteBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupOutput>())
@@ -970,9 +962,9 @@ extension DynamoDBClient {
     ///
     /// Deletes a single item in a table by primary key. You can perform a conditional delete operation that deletes the item if it exists, or if it has an expected attribute value. In addition to deleting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter. Unless you specify conditions, the DeleteItem is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response. Conditional deletes are useful for deleting items only if specific conditions are met. If those conditions are met, DynamoDB performs the delete. Otherwise, the item is not deleted.
     ///
-    /// - Parameter DeleteItemInput : Represents the input of a DeleteItem operation.
+    /// - Parameter input: Represents the input of a DeleteItem operation. (Type: `DeleteItemInput`)
     ///
-    /// - Returns: `DeleteItemOutput` : Represents the output of a DeleteItem operation.
+    /// - Returns: Represents the output of a DeleteItem operation. (Type: `DeleteItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,7 +1006,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteItemInput, DeleteItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteItemOutput>(DeleteItemOutput.httpOutput(from:), DeleteItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteItemInput, DeleteItemOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteItemOutput>())
@@ -1049,9 +1040,9 @@ extension DynamoDBClient {
     ///
     /// Deletes the resource-based policy attached to the resource, which can be a table or stream. DeleteResourcePolicy is an idempotent operation; running it multiple times on the same resource doesn't result in an error response, unless you specify an ExpectedRevisionId, which will then return a PolicyNotFoundException. To make sure that you don't inadvertently lock yourself out of your own resources, the root principal in your Amazon Web Services account can perform DeleteResourcePolicy requests, even if your resource-based policy explicitly denies the root principal's access. DeleteResourcePolicy is an asynchronous operation. If you issue a GetResourcePolicy request immediately after running the DeleteResourcePolicy request, DynamoDB might still return the deleted policy. This is because the policy for your resource might not have been deleted yet. Wait for a few seconds, and then try the GetResourcePolicy request again.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1098,7 +1089,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1133,9 +1123,9 @@ extension DynamoDBClient {
     ///
     /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see [TableStatus](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus). When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
     ///
-    /// - Parameter DeleteTableInput : Represents the input of a DeleteTable operation.
+    /// - Parameter input: Represents the input of a DeleteTable operation. (Type: `DeleteTableInput`)
     ///
-    /// - Returns: `DeleteTableOutput` : Represents the output of a DeleteTable operation.
+    /// - Returns: Represents the output of a DeleteTable operation. (Type: `DeleteTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1181,7 +1171,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableOutput>(DeleteTableOutput.httpOutput(from:), DeleteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableInput, DeleteTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
@@ -1216,9 +1205,9 @@ extension DynamoDBClient {
     ///
     /// Describes an existing backup of a table. You can call DescribeBackup at a maximum rate of 10 times per second.
     ///
-    /// - Parameter DescribeBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBackupInput`)
     ///
-    /// - Returns: `DescribeBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,7 +1242,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBackupInput, DescribeBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBackupOutput>(DescribeBackupOutput.httpOutput(from:), DescribeBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBackupInput, DescribeBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBackupOutput>())
@@ -1288,9 +1276,9 @@ extension DynamoDBClient {
     ///
     /// Checks the status of continuous backups and point in time recovery on the specified table. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. After continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime. LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days. You can call DescribeContinuousBackups at a maximum rate of 10 times per second.
     ///
-    /// - Parameter DescribeContinuousBackupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContinuousBackupsInput`)
     ///
-    /// - Returns: `DescribeContinuousBackupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContinuousBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1325,7 +1313,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContinuousBackupsOutput>(DescribeContinuousBackupsOutput.httpOutput(from:), DescribeContinuousBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContinuousBackupsOutput>())
@@ -1360,9 +1347,9 @@ extension DynamoDBClient {
     ///
     /// Returns information about contributor insights for a given table or global secondary index.
     ///
-    /// - Parameter DescribeContributorInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContributorInsightsInput`)
     ///
-    /// - Returns: `DescribeContributorInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContributorInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,7 +1383,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContributorInsightsOutput>(DescribeContributorInsightsOutput.httpOutput(from:), DescribeContributorInsightsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContributorInsightsOutput>())
@@ -1431,9 +1417,9 @@ extension DynamoDBClient {
     ///
     /// Returns the regional endpoint information. For more information on policy permissions, please see [Internetwork traffic privacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/inter-network-traffic-privacy.html#inter-network-traffic-DescribeEndpoints).
     ///
-    /// - Parameter DescribeEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointsInput`)
     ///
-    /// - Returns: `DescribeEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointsOutput`)
     public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1461,7 +1447,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointsOutput>(DescribeEndpointsOutput.httpOutput(from:), DescribeEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointsOutput>())
@@ -1496,9 +1481,9 @@ extension DynamoDBClient {
     ///
     /// Describes an existing table export.
     ///
-    /// - Parameter DescribeExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportInput`)
     ///
-    /// - Returns: `DescribeExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1533,7 +1518,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExportInput, DescribeExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportOutput>(DescribeExportOutput.httpOutput(from:), DescribeExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportInput, DescribeExportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportOutput>())
@@ -1568,9 +1552,9 @@ extension DynamoDBClient {
     ///
     /// Returns information about the specified global table. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
-    /// - Parameter DescribeGlobalTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalTableInput`)
     ///
-    /// - Returns: `DescribeGlobalTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1605,7 +1589,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGlobalTableOutput>(DescribeGlobalTableOutput.httpOutput(from:), DescribeGlobalTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalTableOutput>())
@@ -1640,9 +1623,9 @@ extension DynamoDBClient {
     ///
     /// Describes Region-specific settings for a global table. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
-    /// - Parameter DescribeGlobalTableSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalTableSettingsInput`)
     ///
-    /// - Returns: `DescribeGlobalTableSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalTableSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1677,7 +1660,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGlobalTableSettingsOutput>(DescribeGlobalTableSettingsOutput.httpOutput(from:), DescribeGlobalTableSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalTableSettingsOutput>())
@@ -1712,9 +1694,9 @@ extension DynamoDBClient {
     ///
     /// Represents the properties of the import.
     ///
-    /// - Parameter DescribeImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportInput`)
     ///
-    /// - Returns: `DescribeImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1747,7 +1729,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImportInput, DescribeImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImportOutput>(DescribeImportOutput.httpOutput(from:), DescribeImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportInput, DescribeImportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportOutput>())
@@ -1782,9 +1763,9 @@ extension DynamoDBClient {
     ///
     /// Returns information about the status of Kinesis streaming.
     ///
-    /// - Parameter DescribeKinesisStreamingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKinesisStreamingDestinationInput`)
     ///
-    /// - Returns: `DescribeKinesisStreamingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKinesisStreamingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1819,7 +1800,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKinesisStreamingDestinationOutput>(DescribeKinesisStreamingDestinationOutput.httpOutput(from:), DescribeKinesisStreamingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKinesisStreamingDestinationOutput>())
@@ -1876,9 +1856,9 @@ extension DynamoDBClient {
     ///
     /// This will let you see whether you are getting close to your account-level quotas. The per-table quotas apply only when you are creating a new table. They restrict the sum of the provisioned capacity of the new table itself and all its global secondary indexes. For existing tables and their GSIs, DynamoDB doesn't let you increase provisioned capacity extremely rapidly, but the only quota that applies is that the aggregate provisioned capacity over all your tables and GSIs cannot exceed either of the per-account quotas. DescribeLimits should only be called periodically. You can expect throttling errors if you call it more than once in a minute. The DescribeLimits Request element has no content.
     ///
-    /// - Parameter DescribeLimitsInput : Represents the input of a DescribeLimits operation. Has no content.
+    /// - Parameter input: Represents the input of a DescribeLimits operation. Has no content. (Type: `DescribeLimitsInput`)
     ///
-    /// - Returns: `DescribeLimitsOutput` : Represents the output of a DescribeLimits operation.
+    /// - Returns: Represents the output of a DescribeLimits operation. (Type: `DescribeLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1912,7 +1892,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLimitsInput, DescribeLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLimitsOutput>(DescribeLimitsOutput.httpOutput(from:), DescribeLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLimitsOutput>())
@@ -1947,9 +1926,9 @@ extension DynamoDBClient {
     ///
     /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table. If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
     ///
-    /// - Parameter DescribeTableInput : Represents the input of a DescribeTable operation.
+    /// - Parameter input: Represents the input of a DescribeTable operation. (Type: `DescribeTableInput`)
     ///
-    /// - Returns: `DescribeTableOutput` : Represents the output of a DescribeTable operation.
+    /// - Returns: Represents the output of a DescribeTable operation. (Type: `DescribeTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,7 +1963,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTableInput, DescribeTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTableOutput>(DescribeTableOutput.httpOutput(from:), DescribeTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTableInput, DescribeTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableOutput>())
@@ -2019,9 +1997,9 @@ extension DynamoDBClient {
     ///
     /// Describes auto scaling settings across replicas of the global table at once.
     ///
-    /// - Parameter DescribeTableReplicaAutoScalingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTableReplicaAutoScalingInput`)
     ///
-    /// - Returns: `DescribeTableReplicaAutoScalingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTableReplicaAutoScalingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,7 +2033,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTableReplicaAutoScalingOutput>(DescribeTableReplicaAutoScalingOutput.httpOutput(from:), DescribeTableReplicaAutoScalingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableReplicaAutoScalingOutput>())
@@ -2090,9 +2067,9 @@ extension DynamoDBClient {
     ///
     /// Gives a description of the Time to Live (TTL) status on the specified table.
     ///
-    /// - Parameter DescribeTimeToLiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTimeToLiveInput`)
     ///
-    /// - Returns: `DescribeTimeToLiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTimeToLiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2127,7 +2104,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTimeToLiveOutput>(DescribeTimeToLiveOutput.httpOutput(from:), DescribeTimeToLiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTimeToLiveOutput>())
@@ -2162,9 +2138,9 @@ extension DynamoDBClient {
     ///
     /// Stops replication from the DynamoDB table to the Kinesis data stream. This is done without deleting either of the resources.
     ///
-    /// - Parameter DisableKinesisStreamingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableKinesisStreamingDestinationInput`)
     ///
-    /// - Returns: `DisableKinesisStreamingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableKinesisStreamingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2210,7 +2186,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableKinesisStreamingDestinationOutput>(DisableKinesisStreamingDestinationOutput.httpOutput(from:), DisableKinesisStreamingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableKinesisStreamingDestinationOutput>())
@@ -2245,9 +2220,9 @@ extension DynamoDBClient {
     ///
     /// Starts table data replication to the specified Kinesis data stream at a timestamp chosen during the enable workflow. If this operation doesn't return results immediately, use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream is ACTIVE.
     ///
-    /// - Parameter EnableKinesisStreamingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableKinesisStreamingDestinationInput`)
     ///
-    /// - Returns: `EnableKinesisStreamingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableKinesisStreamingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2293,7 +2268,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableKinesisStreamingDestinationOutput>(EnableKinesisStreamingDestinationOutput.httpOutput(from:), EnableKinesisStreamingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableKinesisStreamingDestinationOutput>())
@@ -2328,9 +2302,9 @@ extension DynamoDBClient {
     ///
     /// This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the filter criteria in WHERE clause does not match any data, the read will return an empty result set. A single SELECT statement response can return up to the maximum number of items (if using the Limit parameter) or a maximum of 1 MB of data (and then apply any filtering to the results using WHERE clause). If LastEvaluatedKey is present in the response, you need to paginate the result set. If NextToken is present, you need to paginate the result set and include NextToken.
     ///
-    /// - Parameter ExecuteStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteStatementInput`)
     ///
-    /// - Returns: `ExecuteStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2371,7 +2345,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteStatementInput, ExecuteStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteStatementOutput>(ExecuteStatementOutput.httpOutput(from:), ExecuteStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteStatementOutput>())
@@ -2406,9 +2379,9 @@ extension DynamoDBClient {
     ///
     /// This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL. The entire transaction must consist of either read statements or write statements, you cannot mix both in one transaction. The EXISTS function is an exception and can be used to check the condition of specific attributes of the item in a similar manner to ConditionCheck in the [TransactWriteItems](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html#transaction-apis-txwriteitems) API.
     ///
-    /// - Parameter ExecuteTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteTransactionInput`)
     ///
-    /// - Returns: `ExecuteTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2596,7 +2569,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteTransactionOutput>(ExecuteTransactionOutput.httpOutput(from:), ExecuteTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteTransactionOutput>())
@@ -2631,9 +2603,9 @@ extension DynamoDBClient {
     ///
     /// Exports table data to an S3 bucket. The table must have point in time recovery enabled, and you can export data from any time within the point in time recovery window.
     ///
-    /// - Parameter ExportTableToPointInTimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportTableToPointInTimeInput`)
     ///
-    /// - Returns: `ExportTableToPointInTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportTableToPointInTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2672,7 +2644,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportTableToPointInTimeOutput>(ExportTableToPointInTimeOutput.httpOutput(from:), ExportTableToPointInTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportTableToPointInTimeOutput>())
@@ -2707,9 +2678,9 @@ extension DynamoDBClient {
     ///
     /// The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data and there will be no Item element in the response. GetItem provides an eventually consistent read by default. If your application requires a strongly consistent read, set ConsistentRead to true. Although a strongly consistent read might take more time than an eventually consistent read, it always returns the last updated value.
     ///
-    /// - Parameter GetItemInput : Represents the input of a GetItem operation.
+    /// - Parameter input: Represents the input of a GetItem operation. (Type: `GetItemInput`)
     ///
-    /// - Returns: `GetItemOutput` : Represents the output of a GetItem operation.
+    /// - Returns: Represents the output of a GetItem operation. (Type: `GetItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2747,7 +2718,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetItemInput, GetItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetItemOutput>(GetItemOutput.httpOutput(from:), GetItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetItemInput, GetItemOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetItemOutput>())
@@ -2791,9 +2761,9 @@ extension DynamoDBClient {
     ///
     /// Because GetResourcePolicy uses an eventually consistent query, the metadata for your policy or table might not be available at that moment. Wait for a few seconds, and then retry the GetResourcePolicy request. After a GetResourcePolicy request returns a policy created using the PutResourcePolicy request, the policy will be applied in the authorization of requests to the resource. Because this process is eventually consistent, it will take some time to apply the policy to all requests to a resource. Policies that you attach while creating a table using the CreateTable request will always be applied to all requests for that table.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2829,7 +2799,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -2864,9 +2833,9 @@ extension DynamoDBClient {
     ///
     /// Imports table data from an S3 bucket.
     ///
-    /// - Parameter ImportTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportTableInput`)
     ///
-    /// - Returns: `ImportTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2911,7 +2880,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportTableInput, ImportTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportTableOutput>(ImportTableOutput.httpOutput(from:), ImportTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportTableInput, ImportTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportTableOutput>())
@@ -2949,9 +2917,9 @@ extension DynamoDBClient {
     ///
     /// List DynamoDB backups that are associated with an Amazon Web Services account and weren't made with Amazon Web Services Backup. To list these backups for a given table, specify TableName. ListBackups returns a paginated list of results with at most 1 MB worth of items in a page. You can also specify a maximum number of entries to be returned in a page. In the request, start time is inclusive, but end time is exclusive. Note that these boundaries are for the time at which the original backup was requested. You can call ListBackups a maximum of five times per second. If you want to retrieve the complete list of backups made with Amazon Web Services Backup, use the [Amazon Web Services Backup list API.](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_ListBackupJobs.html)
     ///
-    /// - Parameter ListBackupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBackupsInput`)
     ///
-    /// - Returns: `ListBackupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2985,7 +2953,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBackupsInput, ListBackupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackupsOutput>(ListBackupsOutput.httpOutput(from:), ListBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackupsInput, ListBackupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupsOutput>())
@@ -3020,9 +2987,9 @@ extension DynamoDBClient {
     ///
     /// Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
     ///
-    /// - Parameter ListContributorInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContributorInsightsInput`)
     ///
-    /// - Returns: `ListContributorInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContributorInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3056,7 +3023,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContributorInsightsOutput>(ListContributorInsightsOutput.httpOutput(from:), ListContributorInsightsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContributorInsightsOutput>())
@@ -3091,9 +3057,9 @@ extension DynamoDBClient {
     ///
     /// Lists completed exports within the past 90 days.
     ///
-    /// - Parameter ListExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExportsInput`)
     ///
-    /// - Returns: `ListExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3127,7 +3093,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportsInput, ListExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportsOutput>(ListExportsOutput.httpOutput(from:), ListExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportsInput, ListExportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportsOutput>())
@@ -3162,9 +3127,9 @@ extension DynamoDBClient {
     ///
     /// Lists all global tables that have a replica in the specified Region. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
-    /// - Parameter ListGlobalTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGlobalTablesInput`)
     ///
-    /// - Returns: `ListGlobalTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGlobalTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3198,7 +3163,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGlobalTablesOutput>(ListGlobalTablesOutput.httpOutput(from:), ListGlobalTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGlobalTablesOutput>())
@@ -3233,9 +3197,9 @@ extension DynamoDBClient {
     ///
     /// Lists completed imports within the past 90 days.
     ///
-    /// - Parameter ListImportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportsInput`)
     ///
-    /// - Returns: `ListImportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3268,7 +3232,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImportsInput, ListImportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportsOutput>(ListImportsOutput.httpOutput(from:), ListImportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportsInput, ListImportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportsOutput>())
@@ -3303,9 +3266,9 @@ extension DynamoDBClient {
     ///
     /// Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
     ///
-    /// - Parameter ListTablesInput : Represents the input of a ListTables operation.
+    /// - Parameter input: Represents the input of a ListTables operation. (Type: `ListTablesInput`)
     ///
-    /// - Returns: `ListTablesOutput` : Represents the output of a ListTables operation.
+    /// - Returns: Represents the output of a ListTables operation. (Type: `ListTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3339,7 +3302,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTablesInput, ListTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTablesOutput>(ListTablesOutput.httpOutput(from:), ListTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTablesInput, ListTablesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
@@ -3374,9 +3336,9 @@ extension DynamoDBClient {
     ///
     /// List all tags on an Amazon DynamoDB resource. You can call ListTagsOfResource up to 10 times per second, per account. For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
     ///
-    /// - Parameter ListTagsOfResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsOfResourceInput`)
     ///
-    /// - Returns: `ListTagsOfResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOfResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3411,7 +3373,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOfResourceOutput>(ListTagsOfResourceOutput.httpOutput(from:), ListTagsOfResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOfResourceOutput>())
@@ -3446,9 +3407,9 @@ extension DynamoDBClient {
     ///
     /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter. When you add an item, the primary key attributes are the only required attributes. Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty. Invalid Requests with empty values will be rejected with a ValidationException exception. To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists. For more information about PutItem, see [Working with Items](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html) in the Amazon DynamoDB Developer Guide.
     ///
-    /// - Parameter PutItemInput : Represents the input of a PutItem operation.
+    /// - Parameter input: Represents the input of a PutItem operation. (Type: `PutItemInput`)
     ///
-    /// - Returns: `PutItemOutput` : Represents the output of a PutItem operation.
+    /// - Returns: Represents the output of a PutItem operation. (Type: `PutItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3490,7 +3451,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutItemInput, PutItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutItemOutput>(PutItemOutput.httpOutput(from:), PutItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutItemInput, PutItemOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutItemOutput>())
@@ -3525,9 +3485,9 @@ extension DynamoDBClient {
     ///
     /// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is [ eventually consistent ](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html). PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will return the same revision ID. If you specify an ExpectedRevisionId that doesn't match the current policy's RevisionId, the PolicyNotFoundException will be returned. PutResourcePolicy is an asynchronous operation. If you issue a GetResourcePolicy request immediately after a PutResourcePolicy request, DynamoDB might return your previous policy, if there was one, or return the PolicyNotFoundException. This is because GetResourcePolicy uses an eventually consistent query, and the metadata for your policy or table might not be available at that moment. Wait for a few seconds, and then try the GetResourcePolicy request again.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3574,7 +3534,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -3609,9 +3568,9 @@ extension DynamoDBClient {
     ///
     /// You must provide the name of the partition key attribute and a single value for that attribute. Query returns all items with that partition key value. Optionally, you can provide a sort key attribute and use a comparison operator to refine the search results. Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression. To further refine the Query results, you can optionally provide a FilterExpression. A FilterExpression determines which items within the results should be returned to you. All of the other results are discarded. A Query operation always returns a result set. If no matching items are found, the result set will be empty. Queries that do not return results consume the minimum number of read capacity units for that type of read operation. DynamoDB calculates the number of read capacity units consumed based on item size, not on the amount of data that is returned to an application. The number of capacity units consumed will be the same whether you request all of the attributes (the default behavior) or just some of them (using a projection expression). The number will also be the same whether or not you use a FilterExpression. Query results are always sorted by the sort key value. If the data type of the sort key is Number, the results are returned in numeric order; otherwise, the results are returned in order of UTF-8 bytes. By default, the sort order is ascending. To reverse the order, set the ScanIndexForward parameter to false. A single Query operation will read up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you will need to paginate the result set. For more information, see [Paginating the Results](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.Pagination) in the Amazon DynamoDB Developer Guide. FilterExpression is applied after a Query finishes, but before the results are returned. A FilterExpression cannot contain partition key or sort key attributes. You need to specify those attributes in the KeyConditionExpression. A Query operation can return an empty result set and a LastEvaluatedKey if all the items read for the page of results are filtered out. You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
     ///
-    /// - Parameter QueryInput : Represents the input of a Query operation.
+    /// - Parameter input: Represents the input of a Query operation. (Type: `QueryInput`)
     ///
-    /// - Returns: `QueryOutput` : Represents the output of a Query operation.
+    /// - Returns: Represents the output of a Query operation. (Type: `QueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3649,7 +3608,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryInput, QueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryOutput>(QueryOutput.httpOutput(from:), QueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryInput, QueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryOutput>())
@@ -3696,9 +3654,9 @@ extension DynamoDBClient {
     ///
     /// * Time to Live (TTL) settings
     ///
-    /// - Parameter RestoreTableFromBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreTableFromBackupInput`)
     ///
-    /// - Returns: `RestoreTableFromBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreTableFromBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3737,7 +3695,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreTableFromBackupOutput>(RestoreTableFromBackupOutput.httpOutput(from:), RestoreTableFromBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableFromBackupOutput>())
@@ -3797,9 +3754,9 @@ extension DynamoDBClient {
     ///
     /// * Point in time recovery settings
     ///
-    /// - Parameter RestoreTableToPointInTimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreTableToPointInTimeInput`)
     ///
-    /// - Returns: `RestoreTableToPointInTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreTableToPointInTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3839,7 +3796,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreTableToPointInTimeOutput>(RestoreTableToPointInTimeOutput.httpOutput(from:), RestoreTableToPointInTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableToPointInTimeOutput>())
@@ -3874,9 +3830,9 @@ extension DynamoDBClient {
     ///
     /// The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation. If the total size of scanned items exceeds the maximum dataset size limit of 1 MB, the scan completes and results are returned to the user. The LastEvaluatedKey value is also returned and the requestor can use the LastEvaluatedKey to continue the scan in a subsequent operation. Each scan response also includes number of items that were scanned (ScannedCount) as part of the request. If using a FilterExpression, a scan result can result in no items meeting the criteria and the Count will result in zero. If you did not use a FilterExpression in the scan request, then Count is the same as ScannedCount. Count and ScannedCount only return the count of items specific to a single scan request and, unless the table is less than 1MB, do not represent the total number of items in the table. A single Scan operation first reads up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then applies any filtering to the results if a FilterExpression is provided. If LastEvaluatedKey is present in the response, pagination is required to complete the full table scan. For more information, see [Paginating the Results](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination) in the Amazon DynamoDB Developer Guide. Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see [Parallel Scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan) in the Amazon DynamoDB Developer Guide. By default, a Scan uses eventually consistent reads when accessing the items in a table. Therefore, the results from an eventually consistent Scan may not include the latest item changes at the time the scan iterates through each item in the table. If you require a strongly consistent read of each item as the scan iterates through the items in the table, you can set the ConsistentRead parameter to true. Strong consistency only relates to the consistency of the read at the item level. DynamoDB does not provide snapshot isolation for a scan operation when the ConsistentRead parameter is set to true. Thus, a DynamoDB scan operation does not guarantee that all reads in a scan see a consistent snapshot of the table when the scan operation was requested.
     ///
-    /// - Parameter ScanInput : Represents the input of a Scan operation.
+    /// - Parameter input: Represents the input of a Scan operation. (Type: `ScanInput`)
     ///
-    /// - Returns: `ScanOutput` : Represents the output of a Scan operation.
+    /// - Returns: Represents the output of a Scan operation. (Type: `ScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3914,7 +3870,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ScanInput, ScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ScanOutput>(ScanOutput.httpOutput(from:), ScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ScanInput, ScanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ScanOutput>())
@@ -3956,9 +3911,9 @@ extension DynamoDBClient {
     ///
     /// For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4004,7 +3959,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4047,9 +4001,9 @@ extension DynamoDBClient {
     ///
     /// * The aggregate size of the items in the transaction exceeded 4 MB.
     ///
-    /// - Parameter TransactGetItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TransactGetItemsInput`)
     ///
-    /// - Returns: `TransactGetItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TransactGetItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4210,7 +4164,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransactGetItemsInput, TransactGetItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TransactGetItemsOutput>(TransactGetItemsOutput.httpOutput(from:), TransactGetItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransactGetItemsInput, TransactGetItemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TransactGetItemsOutput>())
@@ -4275,9 +4228,9 @@ extension DynamoDBClient {
     ///
     /// * There is a user error, such as an invalid data format.
     ///
-    /// - Parameter TransactWriteItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TransactWriteItemsInput`)
     ///
-    /// - Returns: `TransactWriteItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TransactWriteItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4466,7 +4419,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TransactWriteItemsOutput>(TransactWriteItemsOutput.httpOutput(from:), TransactWriteItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TransactWriteItemsOutput>())
@@ -4515,9 +4467,9 @@ extension DynamoDBClient {
     ///
     /// For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4563,7 +4515,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4598,9 +4549,9 @@ extension DynamoDBClient {
     ///
     /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime. LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time in the last 35 days. You can set the RecoveryPeriodInDays to any value between 1 and 35 days.
     ///
-    /// - Parameter UpdateContinuousBackupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContinuousBackupsInput`)
     ///
-    /// - Returns: `UpdateContinuousBackupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContinuousBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4636,7 +4587,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContinuousBackupsOutput>(UpdateContinuousBackupsOutput.httpOutput(from:), UpdateContinuousBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContinuousBackupsOutput>())
@@ -4671,9 +4621,9 @@ extension DynamoDBClient {
     ///
     /// Updates the status for contributor insights for a specific table or index. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this table’s partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor Insights for DynamoDB for this table.
     ///
-    /// - Parameter UpdateContributorInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContributorInsightsInput`)
     ///
-    /// - Returns: `UpdateContributorInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContributorInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4707,7 +4657,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContributorInsightsOutput>(UpdateContributorInsightsOutput.httpOutput(from:), UpdateContributorInsightsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContributorInsightsOutput>())
@@ -4748,9 +4697,9 @@ extension DynamoDBClient {
     ///
     /// * The global secondary indexes must have the same provisioned and maximum write capacity units.
     ///
-    /// - Parameter UpdateGlobalTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalTableInput`)
     ///
-    /// - Returns: `UpdateGlobalTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4788,7 +4737,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlobalTableOutput>(UpdateGlobalTableOutput.httpOutput(from:), UpdateGlobalTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalTableOutput>())
@@ -4823,9 +4771,9 @@ extension DynamoDBClient {
     ///
     /// Updates settings for a global table. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
-    /// - Parameter UpdateGlobalTableSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalTableSettingsInput`)
     ///
-    /// - Returns: `UpdateGlobalTableSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalTableSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4873,7 +4821,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlobalTableSettingsOutput>(UpdateGlobalTableSettingsOutput.httpOutput(from:), UpdateGlobalTableSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalTableSettingsOutput>())
@@ -4908,9 +4855,9 @@ extension DynamoDBClient {
     ///
     /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values). You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter.
     ///
-    /// - Parameter UpdateItemInput : Represents the input of an UpdateItem operation.
+    /// - Parameter input: Represents the input of an UpdateItem operation. (Type: `UpdateItemInput`)
     ///
-    /// - Returns: `UpdateItemOutput` : Represents the output of an UpdateItem operation.
+    /// - Returns: Represents the output of an UpdateItem operation. (Type: `UpdateItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4952,7 +4899,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateItemInput, UpdateItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateItemOutput>(UpdateItemOutput.httpOutput(from:), UpdateItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateItemInput, UpdateItemOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateItemOutput>())
@@ -4987,9 +4933,9 @@ extension DynamoDBClient {
     ///
     /// The command to update the Kinesis stream destination.
     ///
-    /// - Parameter UpdateKinesisStreamingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKinesisStreamingDestinationInput`)
     ///
-    /// - Returns: `UpdateKinesisStreamingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKinesisStreamingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5035,7 +4981,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKinesisStreamingDestinationOutput>(UpdateKinesisStreamingDestinationOutput.httpOutput(from:), UpdateKinesisStreamingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKinesisStreamingDestinationOutput>())
@@ -5079,9 +5024,9 @@ extension DynamoDBClient {
     ///
     /// UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
     ///
-    /// - Parameter UpdateTableInput : Represents the input of an UpdateTable operation.
+    /// - Parameter input: Represents the input of an UpdateTable operation. (Type: `UpdateTableInput`)
     ///
-    /// - Returns: `UpdateTableOutput` : Represents the output of an UpdateTable operation.
+    /// - Returns: Represents the output of an UpdateTable operation. (Type: `UpdateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5127,7 +5072,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableOutput>(UpdateTableOutput.httpOutput(from:), UpdateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableInput, UpdateTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())
@@ -5162,9 +5106,9 @@ extension DynamoDBClient {
     ///
     /// Updates auto scaling settings on your global tables at once.
     ///
-    /// - Parameter UpdateTableReplicaAutoScalingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableReplicaAutoScalingInput`)
     ///
-    /// - Returns: `UpdateTableReplicaAutoScalingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableReplicaAutoScalingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5209,7 +5153,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableReplicaAutoScalingOutput>(UpdateTableReplicaAutoScalingOutput.httpOutput(from:), UpdateTableReplicaAutoScalingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableReplicaAutoScalingOutput>())
@@ -5244,9 +5187,9 @@ extension DynamoDBClient {
     ///
     /// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification. It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationException. TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the attribute is less than the current time, the item is marked as expired and subsequently deleted. The epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC. DynamoDB deletes expired items on a best-effort basis to ensure availability of throughput for other data operations. DynamoDB typically deletes expired items within two days of expiration. The exact duration within which an item gets deleted after expiration is specific to the nature of the workload. Items that have expired and not been deleted will still show up in reads, queries, and scans. As items are deleted, they are removed from any local secondary index and global secondary index immediately in the same eventually consistent way as a standard delete operation. For more information, see [Time To Live](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html) in the Amazon DynamoDB Developer Guide.
     ///
-    /// - Parameter UpdateTimeToLiveInput : Represents the input of an UpdateTimeToLive operation.
+    /// - Parameter input: Represents the input of an UpdateTimeToLive operation. (Type: `UpdateTimeToLiveInput`)
     ///
-    /// - Returns: `UpdateTimeToLiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTimeToLiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5292,7 +5235,6 @@ extension DynamoDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTimeToLiveOutput>(UpdateTimeToLiveOutput.httpOutput(from:), UpdateTimeToLiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTimeToLiveOutput>())

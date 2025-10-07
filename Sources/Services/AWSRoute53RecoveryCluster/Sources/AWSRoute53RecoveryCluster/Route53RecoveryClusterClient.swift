@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53RecoveryClusterClient: ClientRuntime.Client {
     public static let clientName = "Route53RecoveryClusterClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration
     let serviceName = "Route53 Recovery Cluster"
@@ -377,9 +376,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls in Route 53 ARC](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter GetRoutingControlStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoutingControlStateInput`)
     ///
-    /// - Returns: `GetRoutingControlStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoutingControlStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoutingControlStateOutput>(GetRoutingControlStateOutput.httpOutput(from:), GetRoutingControlStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoutingControlStateOutput>())
@@ -455,9 +453,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls in Route 53 ARC](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter ListRoutingControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingControlsInput`)
     ///
-    /// - Returns: `ListRoutingControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoutingControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,7 +492,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoutingControlsOutput>(ListRoutingControlsOutput.httpOutput(from:), ListRoutingControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingControlsOutput>())
@@ -533,9 +530,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls overall](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter UpdateRoutingControlStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingControlStateInput`)
     ///
-    /// - Returns: `UpdateRoutingControlStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingControlStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -573,7 +570,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingControlStateOutput>(UpdateRoutingControlStateOutput.httpOutput(from:), UpdateRoutingControlStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingControlStateOutput>())
@@ -612,9 +608,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls overall](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter UpdateRoutingControlStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingControlStatesInput`)
     ///
-    /// - Returns: `UpdateRoutingControlStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingControlStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,7 +649,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingControlStatesOutput>(UpdateRoutingControlStatesOutput.httpOutput(from:), UpdateRoutingControlStatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingControlStatesOutput>())

@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class InspectorScanClient: ClientRuntime.Client {
     public static let clientName = "InspectorScanClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: InspectorScanClient.InspectorScanClientConfiguration
     let serviceName = "Inspector Scan"
@@ -373,9 +372,9 @@ extension InspectorScanClient {
     ///
     /// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your resources using the [Amazon Inspector SBOM generator].
     ///
-    /// - Parameter ScanSbomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ScanSbomInput`)
     ///
-    /// - Returns: `ScanSbomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ScanSbomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +411,6 @@ extension InspectorScanClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ScanSbomInput, ScanSbomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ScanSbomOutput>(ScanSbomOutput.httpOutput(from:), ScanSbomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ScanSbomInput, ScanSbomOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ScanSbomOutput>())

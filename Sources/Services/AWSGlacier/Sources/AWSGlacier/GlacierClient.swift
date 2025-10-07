@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -74,7 +73,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlacierClient: ClientRuntime.Client {
     public static let clientName = "GlacierClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: GlacierClient.GlacierClientConfiguration
     let serviceName = "Glacier"
@@ -380,9 +379,9 @@ extension GlacierClient {
     ///
     /// This operation aborts a multipart upload identified by the upload ID. After the Abort Multipart Upload request succeeds, you cannot upload any more parts to the multipart upload or complete the multipart upload. Aborting a completed upload fails. However, aborting an already-aborted upload will succeed, for a short time. For more information about uploading a part and completing a multipart upload, see [UploadMultipartPart] and [CompleteMultipartUpload]. This operation is idempotent. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html) and [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter AbortMultipartUploadInput : Provides options to abort a multipart upload identified by the upload ID. For information about the underlying REST API, see [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+    /// - Parameter input: Provides options to abort a multipart upload identified by the upload ID. For information about the underlying REST API, see [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html). (Type: `AbortMultipartUploadInput`)
     ///
-    /// - Returns: `AbortMultipartUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortMultipartUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -425,7 +424,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(AbortMultipartUploadOutput.httpOutput(from:), AbortMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AbortMultipartUploadOutput>())
@@ -459,9 +457,9 @@ extension GlacierClient {
     ///
     /// This operation aborts the vault locking process if the vault lock is not in the Locked state. If the vault lock is in the Locked state when this operation is requested, the operation returns an AccessDeniedException error. Aborting the vault locking process removes the vault lock policy from the specified vault. A vault lock is put into the InProgress state by calling [InitiateVaultLock]. A vault lock is put into the Locked state by calling [CompleteVaultLock]. You can get the state of a vault lock by calling [GetVaultLock]. For more information about the vault locking process, see [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html). For more information about vault lock policies, see [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html). This operation is idempotent. You can successfully invoke this operation multiple times, if the vault lock is in the InProgress state or if there is no policy associated with the vault.
     ///
-    /// - Parameter AbortVaultLockInput : The input values for AbortVaultLock.
+    /// - Parameter input: The input values for AbortVaultLock. (Type: `AbortVaultLockInput`)
     ///
-    /// - Returns: `AbortVaultLockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortVaultLockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -504,7 +502,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AbortVaultLockInput, AbortVaultLockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortVaultLockOutput>(AbortVaultLockOutput.httpOutput(from:), AbortVaultLockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortVaultLockInput, AbortVaultLockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AbortVaultLockOutput>())
@@ -538,9 +535,9 @@ extension GlacierClient {
     ///
     /// This operation adds the specified tags to a vault. Each tag is composed of a key and a value. Each vault can have up to 10 tags. If your request would cause the tag limit for the vault to be exceeded, the operation throws the LimitExceededException error. If a tag already exists on the vault under a specified key, the existing key value will be overwritten. For more information about tags, see [Tagging Amazon S3 Glacier Resources](https://docs.aws.amazon.com/amazonglacier/latest/dev/tagging.html).
     ///
-    /// - Parameter AddTagsToVaultInput : The input values for AddTagsToVault.
+    /// - Parameter input: The input values for AddTagsToVault. (Type: `AddTagsToVaultInput`)
     ///
-    /// - Returns: `AddTagsToVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,7 +585,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToVaultOutput>(AddTagsToVaultOutput.httpOutput(from:), AddTagsToVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToVaultOutput>())
@@ -622,9 +618,9 @@ extension GlacierClient {
     ///
     /// You call this operation to inform Amazon S3 Glacier (Glacier) that all the archive parts have been uploaded and that Glacier can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. Using the URI path, you can then access the archive. After you upload an archive, you should save the archive ID returned to retrieve the archive at a later point. You can also get the vault inventory to obtain a list of archive IDs in a vault. For more information, see [InitiateJob]. In the request, you must include the computed SHA256 tree hash of the entire archive you have uploaded. For information about computing a SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html). On the server side, Glacier also constructs the SHA256 tree hash of the assembled archive. If the values match, Glacier saves the archive to the vault; otherwise, it returns an error, and the operation fails. The [ListParts] operation returns a list of parts uploaded for a specific multipart upload. It includes checksum information for each uploaded part that can be used to debug a bad checksum issue. Additionally, Glacier also checks for any missing content ranges when assembling the archive, if missing content ranges are found, Glacier returns an error and the operation fails. Complete Multipart Upload is an idempotent operation. After your first successful complete multipart upload, if you call the operation again within a short period, the operation will succeed and return the same archive ID. This is useful in the event you experience a network issue that causes an aborted connection or receive a 500 server error, in which case you can repeat your Complete Multipart Upload request and get the same archive ID without creating duplicate archives. Note, however, that after the multipart upload completes, you cannot call the List Parts operation and the multipart upload will not appear in List Multipart Uploads response, even if idempotent complete is possible. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html) and [Complete Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-complete-upload.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter CompleteMultipartUploadInput : Provides options to complete a multipart upload operation. This informs Amazon Glacier that all the archive parts have been uploaded and Amazon S3 Glacier (Glacier) can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource.
+    /// - Parameter input: Provides options to complete a multipart upload operation. This informs Amazon Glacier that all the archive parts have been uploaded and Amazon S3 Glacier (Glacier) can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. (Type: `CompleteMultipartUploadInput`)
     ///
-    /// - Returns: `CompleteMultipartUploadOutput` : Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html). (Type: `CompleteMultipartUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -668,7 +664,6 @@ extension GlacierClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(CompleteMultipartUploadOutput.httpOutput(from:), CompleteMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteMultipartUploadOutput>())
@@ -702,9 +697,9 @@ extension GlacierClient {
     ///
     /// This operation completes the vault locking process by transitioning the vault lock from the InProgress state to the Locked state, which causes the vault lock policy to become unchangeable. A vault lock is put into the InProgress state by calling [InitiateVaultLock]. You can obtain the state of the vault lock by calling [GetVaultLock]. For more information about the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html). This operation is idempotent. This request is always successful if the vault lock is in the Locked state and the provided lock ID matches the lock ID originally used to lock the vault. If an invalid lock ID is passed in the request when the vault lock is in the Locked state, the operation returns an AccessDeniedException error. If an invalid lock ID is passed in the request when the vault lock is in the InProgress state, the operation throws an InvalidParameter error.
     ///
-    /// - Parameter CompleteVaultLockInput : The input values for CompleteVaultLock.
+    /// - Parameter input: The input values for CompleteVaultLock. (Type: `CompleteVaultLockInput`)
     ///
-    /// - Returns: `CompleteVaultLockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteVaultLockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -747,7 +742,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteVaultLockOutput>(CompleteVaultLockOutput.httpOutput(from:), CompleteVaultLockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteVaultLockOutput>())
@@ -788,9 +782,9 @@ extension GlacierClient {
     ///
     /// This operation is idempotent. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Creating a Vault in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/creating-vaults.html) and [Create Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-put.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter CreateVaultInput : Provides options to create a vault.
+    /// - Parameter input: Provides options to create a vault. (Type: `CreateVaultInput`)
     ///
-    /// - Returns: `CreateVaultOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `CreateVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -833,7 +827,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVaultInput, CreateVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVaultOutput>(CreateVaultOutput.httpOutput(from:), CreateVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVaultInput, CreateVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVaultOutput>())
@@ -874,9 +867,9 @@ extension GlacierClient {
     ///
     /// This operation is idempotent. Attempting to delete an already-deleted archive does not result in an error. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Deleting an Archive in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-an-archive.html) and [Delete Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-delete.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter DeleteArchiveInput : Provides options for deleting an archive from an Amazon S3 Glacier vault.
+    /// - Parameter input: Provides options for deleting an archive from an Amazon S3 Glacier vault. (Type: `DeleteArchiveInput`)
     ///
-    /// - Returns: `DeleteArchiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,7 +912,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteArchiveOutput>(DeleteArchiveOutput.httpOutput(from:), DeleteArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteArchiveOutput>())
@@ -953,9 +945,9 @@ extension GlacierClient {
     ///
     /// This operation deletes a vault. Amazon S3 Glacier will delete a vault only if there are no archives in the vault as of the last inventory and there have been no writes to the vault since the last inventory. If either of these conditions is not satisfied, the vault deletion fails (that is, the vault is not removed) and Amazon S3 Glacier returns an error. You can use [DescribeVault] to return the number of archives in a vault, and you can use [Initiate a Job (POST jobs)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-initiate-job-post.html) to initiate a new inventory retrieval for a vault. The inventory contains the archive IDs you use to delete archives using [Delete Archive (DELETE archive)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-delete.html). This operation is idempotent. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Deleting a Vault in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html) and [Delete Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-delete.html) in the Amazon S3 Glacier Developer Guide.
     ///
-    /// - Parameter DeleteVaultInput : Provides options for deleting a vault from Amazon S3 Glacier.
+    /// - Parameter input: Provides options for deleting a vault from Amazon S3 Glacier. (Type: `DeleteVaultInput`)
     ///
-    /// - Returns: `DeleteVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,7 +990,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVaultInput, DeleteVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVaultOutput>(DeleteVaultOutput.httpOutput(from:), DeleteVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVaultInput, DeleteVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVaultOutput>())
@@ -1032,9 +1023,9 @@ extension GlacierClient {
     ///
     /// This operation deletes the access policy associated with the specified vault. The operation is eventually consistent; that is, it might take some time for Amazon S3 Glacier to completely remove the access policy, and you might still see the effect of the policy for a short time after you send the delete request. This operation is idempotent. You can invoke delete multiple times, even if there is no policy associated with the vault. For more information about vault access policies, see [Amazon Glacier Access Control with Vault Access Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-access-policy.html).
     ///
-    /// - Parameter DeleteVaultAccessPolicyInput : DeleteVaultAccessPolicy input.
+    /// - Parameter input: DeleteVaultAccessPolicy input. (Type: `DeleteVaultAccessPolicyInput`)
     ///
-    /// - Returns: `DeleteVaultAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVaultAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1077,7 +1068,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVaultAccessPolicyOutput>(DeleteVaultAccessPolicyOutput.httpOutput(from:), DeleteVaultAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVaultAccessPolicyOutput>())
@@ -1111,9 +1101,9 @@ extension GlacierClient {
     ///
     /// This operation deletes the notification configuration set for a vault. The operation is eventually consistent; that is, it might take some time for Amazon S3 Glacier to completely disable the notifications and you might still receive some notifications for a short time after you send the delete request. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html) and [Delete Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-delete.html) in the Amazon S3 Glacier Developer Guide.
     ///
-    /// - Parameter DeleteVaultNotificationsInput : Provides options for deleting a vault notification configuration from an Amazon Glacier vault.
+    /// - Parameter input: Provides options for deleting a vault notification configuration from an Amazon Glacier vault. (Type: `DeleteVaultNotificationsInput`)
     ///
-    /// - Returns: `DeleteVaultNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVaultNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,7 +1146,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVaultNotificationsOutput>(DeleteVaultNotificationsOutput.httpOutput(from:), DeleteVaultNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVaultNotificationsOutput>())
@@ -1190,9 +1179,9 @@ extension GlacierClient {
     ///
     /// This operation returns information about a job you previously initiated, including the job initiation date, the user who initiated the job, the job status code/message and the Amazon SNS topic to notify after Amazon S3 Glacier (Glacier) completes the job. For more information about initiating a job, see [InitiateJob]. This operation enables you to check the status of your job. However, it is strongly recommended that you set up an Amazon SNS topic and specify it in your initiate job request so that Glacier can notify the topic after it completes the job. A job ID will not expire for at least 24 hours after Glacier completes the job. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For more information about using this operation, see the documentation for the underlying REST API [Describe Job](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-describe-job-get.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter DescribeJobInput : Provides options for retrieving a job description.
+    /// - Parameter input: Provides options for retrieving a job description. (Type: `DescribeJobInput`)
     ///
-    /// - Returns: `DescribeJobOutput` : Contains the description of an Amazon S3 Glacier job.
+    /// - Returns: Contains the description of an Amazon S3 Glacier job. (Type: `DescribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1235,7 +1224,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobOutput>(DescribeJobOutput.httpOutput(from:), DescribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobInput, DescribeJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobOutput>())
@@ -1269,9 +1257,9 @@ extension GlacierClient {
     ///
     /// This operation returns information about a vault, including the vault's Amazon Resource Name (ARN), the date the vault was created, the number of archives it contains, and the total size of all the archives in the vault. The number of archives and their total size are as of the last inventory generation. This means that if you add or remove an archive from a vault, and then immediately use Describe Vault, the change in contents will not be immediately reflected. If you want to retrieve the latest inventory of the vault, use [InitiateJob]. Amazon S3 Glacier generates vault inventories approximately daily. For more information, see [Downloading a Vault Inventory in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-inventory.html). An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Retrieving Vault Metadata in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/retrieving-vault-info.html) and [Describe Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-get.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter DescribeVaultInput : Provides options for retrieving metadata for a specific vault in Amazon Glacier.
+    /// - Parameter input: Provides options for retrieving metadata for a specific vault in Amazon Glacier. (Type: `DescribeVaultInput`)
     ///
-    /// - Returns: `DescribeVaultOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `DescribeVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1314,7 +1302,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVaultInput, DescribeVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVaultOutput>(DescribeVaultOutput.httpOutput(from:), DescribeVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVaultInput, DescribeVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVaultOutput>())
@@ -1348,9 +1335,9 @@ extension GlacierClient {
     ///
     /// This operation returns the current data retrieval policy for the account and region specified in the GET request. For more information about data retrieval policies, see [Amazon Glacier Data Retrieval Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/data-retrieval-policy.html).
     ///
-    /// - Parameter GetDataRetrievalPolicyInput : Input for GetDataRetrievalPolicy.
+    /// - Parameter input: Input for GetDataRetrievalPolicy. (Type: `GetDataRetrievalPolicyInput`)
     ///
-    /// - Returns: `GetDataRetrievalPolicyOutput` : Contains the Amazon S3 Glacier response to the GetDataRetrievalPolicy request.
+    /// - Returns: Contains the Amazon S3 Glacier response to the GetDataRetrievalPolicy request. (Type: `GetDataRetrievalPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1392,7 +1379,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataRetrievalPolicyOutput>(GetDataRetrievalPolicyOutput.httpOutput(from:), GetDataRetrievalPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataRetrievalPolicyOutput>())
@@ -1426,9 +1412,9 @@ extension GlacierClient {
     ///
     /// This operation downloads the output of the job you initiated using [InitiateJob]. Depending on the job type you specified when you initiated the job, the output will be either the content of an archive or a vault inventory. You can download all the job output or download a portion of the output by specifying a byte range. In the case of an archive retrieval job, depending on the byte range you specify, Amazon S3 Glacier (Glacier) returns the checksum for the portion of the data. You can compute the checksum on the client and verify that the values match to ensure the portion you downloaded is the correct data. A job ID will not expire for at least 24 hours after Glacier completes the job. That a byte range. For both archive and inventory retrieval jobs, you should verify the downloaded size against the size returned in the headers from the Get Job Output response. For archive retrieval jobs, you should also verify that the size is what you expected. If you download a portion of the output, the expected size is based on the range of bytes you specified. For example, if you specify a range of bytes=0-1048575, you should verify your download size is 1,048,576 bytes. If you download an entire archive, the expected size is the size of the archive when you uploaded it to Amazon S3 Glacier The expected size is also returned in the headers from the Get Job Output response. In the case of an archive retrieval job, depending on the byte range you specify, Glacier returns the checksum for the portion of the data. To ensure the portion you downloaded is the correct data, compute the checksum on the client, verify that the values match, and verify that the size is what you expected. A job ID does not expire for at least 24 hours after Glacier completes the job. That is, you can download the job output within the 24 hours period after Amazon Glacier completes the job. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and the underlying REST API, see [Downloading a Vault Inventory](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-inventory.html), [Downloading an Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive.html), and [Get Job Output ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-job-output-get.html)
     ///
-    /// - Parameter GetJobOutputInput : Provides options for downloading output of an Amazon S3 Glacier job.
+    /// - Parameter input: Provides options for downloading output of an Amazon S3 Glacier job. (Type: `GetJobOutputInput`)
     ///
-    /// - Returns: `GetJobOutputOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `GetJobOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,7 +1458,6 @@ extension GlacierClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetJobOutputInput, GetJobOutputOutput>(GetJobOutputInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutputOutput>(GetJobOutputOutput.httpOutput(from:), GetJobOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobOutputInput, GetJobOutputOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutputOutput>())
@@ -1506,9 +1491,9 @@ extension GlacierClient {
     ///
     /// This operation retrieves the access-policy subresource set on the vault; for more information on setting this subresource, see [Set Vault Access Policy (PUT access-policy)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-SetVaultAccessPolicy.html). If there is no access policy set on the vault, the operation returns a 404 Not found error. For more information about vault access policies, see [Amazon Glacier Access Control with Vault Access Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-access-policy.html).
     ///
-    /// - Parameter GetVaultAccessPolicyInput : Input for GetVaultAccessPolicy.
+    /// - Parameter input: Input for GetVaultAccessPolicy. (Type: `GetVaultAccessPolicyInput`)
     ///
-    /// - Returns: `GetVaultAccessPolicyOutput` : Output for GetVaultAccessPolicy.
+    /// - Returns: Output for GetVaultAccessPolicy. (Type: `GetVaultAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,7 +1536,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVaultAccessPolicyOutput>(GetVaultAccessPolicyOutput.httpOutput(from:), GetVaultAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVaultAccessPolicyOutput>())
@@ -1596,9 +1580,9 @@ extension GlacierClient {
     ///
     /// A vault lock is put into the InProgress state by calling [InitiateVaultLock]. A vault lock is put into the Locked state by calling [CompleteVaultLock]. You can abort the vault locking process by calling [AbortVaultLock]. For more information about the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html). If there is no vault lock policy set on the vault, the operation returns a 404 Not found error. For more information about vault lock policies, [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html).
     ///
-    /// - Parameter GetVaultLockInput : The input values for GetVaultLock.
+    /// - Parameter input: The input values for GetVaultLock. (Type: `GetVaultLockInput`)
     ///
-    /// - Returns: `GetVaultLockOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `GetVaultLockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1641,7 +1625,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVaultLockInput, GetVaultLockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVaultLockOutput>(GetVaultLockOutput.httpOutput(from:), GetVaultLockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVaultLockInput, GetVaultLockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVaultLockOutput>())
@@ -1675,9 +1658,9 @@ extension GlacierClient {
     ///
     /// This operation retrieves the notification-configuration subresource of the specified vault. For information about setting a notification configuration on a vault, see [SetVaultNotifications]. If a notification configuration for a vault is not set, the operation returns a 404 Not Found error. For more information about vault notifications, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html). An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html) and [Get Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-get.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter GetVaultNotificationsInput : Provides options for retrieving the notification configuration set on an Amazon Glacier vault.
+    /// - Parameter input: Provides options for retrieving the notification configuration set on an Amazon Glacier vault. (Type: `GetVaultNotificationsInput`)
     ///
-    /// - Returns: `GetVaultNotificationsOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `GetVaultNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1720,7 +1703,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVaultNotificationsOutput>(GetVaultNotificationsOutput.httpOutput(from:), GetVaultNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVaultNotificationsOutput>())
@@ -1754,9 +1736,9 @@ extension GlacierClient {
     ///
     /// This operation initiates a job of the specified type, which can be a select, an archival retrieval, or a vault retrieval. For more information about using this operation, see the documentation for the underlying REST API [Initiate a Job](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-initiate-job-post.html).
     ///
-    /// - Parameter InitiateJobInput : Provides options for initiating an Amazon S3 Glacier job.
+    /// - Parameter input: Provides options for initiating an Amazon S3 Glacier job. (Type: `InitiateJobInput`)
     ///
-    /// - Returns: `InitiateJobOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `InitiateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,7 +1786,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateJobInput, InitiateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateJobOutput>(InitiateJobOutput.httpOutput(from:), InitiateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateJobInput, InitiateJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateJobOutput>())
@@ -1838,9 +1819,9 @@ extension GlacierClient {
     ///
     /// This operation initiates a multipart upload. Amazon S3 Glacier creates a multipart upload resource and returns its ID in the response. The multipart upload ID is used in subsequent requests to upload parts of an archive (see [UploadMultipartPart]). When you initiate a multipart upload, you specify the part size in number of bytes. The part size must be a megabyte (1024 KB) multiplied by a power of 2-for example, 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB. Every part you upload to this resource (see [UploadMultipartPart]), except the last one, must have the same size. The last one can be the same size or smaller. For example, suppose you want to upload a 16.2 MB file. If you initiate the multipart upload with a part size of 4 MB, you will upload four parts of 4 MB each and one part of 0.2 MB. You don't need to know the size of the archive when you start a multipart upload because Amazon S3 Glacier does not require you to specify the overall archive size. After you complete the multipart upload, Amazon S3 Glacier (Glacier) removes the multipart upload resource referenced by the ID. Glacier also removes the multipart upload resource if you cancel the multipart upload or it may be removed if there is no activity for a period of 24 hours. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html) and [Initiate Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-initiate-upload.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter InitiateMultipartUploadInput : Provides options for initiating a multipart upload to an Amazon S3 Glacier vault.
+    /// - Parameter input: Provides options for initiating a multipart upload to an Amazon S3 Glacier vault. (Type: `InitiateMultipartUploadInput`)
     ///
-    /// - Returns: `InitiateMultipartUploadOutput` : The Amazon S3 Glacier response to your request.
+    /// - Returns: The Amazon S3 Glacier response to your request. (Type: `InitiateMultipartUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1884,7 +1865,6 @@ extension GlacierClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>(InitiateMultipartUploadInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateMultipartUploadOutput>(InitiateMultipartUploadOutput.httpOutput(from:), InitiateMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateMultipartUploadOutput>())
@@ -1927,9 +1907,9 @@ extension GlacierClient {
     ///
     /// You can set one vault lock policy for each vault and this policy can be up to 20 KB in size. For more information about vault lock policies, see [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html). You must complete the vault locking process within 24 hours after the vault lock enters the InProgress state. After the 24 hour window ends, the lock ID expires, the vault automatically exits the InProgress state, and the vault lock policy is removed from the vault. You call [CompleteVaultLock] to complete the vault locking process by setting the state of the vault lock to Locked. After a vault lock is in the Locked state, you cannot initiate a new vault lock for the vault. You can abort the vault locking process by calling [AbortVaultLock]. You can get the state of the vault lock by calling [GetVaultLock]. For more information about the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html). If this operation is called when the vault lock is in the InProgress state, the operation returns an AccessDeniedException error. When the vault lock is in the InProgress state you must call [AbortVaultLock] before you can initiate a new vault lock policy.
     ///
-    /// - Parameter InitiateVaultLockInput : The input values for InitiateVaultLock.
+    /// - Parameter input: The input values for InitiateVaultLock. (Type: `InitiateVaultLockInput`)
     ///
-    /// - Returns: `InitiateVaultLockOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `InitiateVaultLockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1975,7 +1955,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateVaultLockOutput>(InitiateVaultLockOutput.httpOutput(from:), InitiateVaultLockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateVaultLockOutput>())
@@ -2009,9 +1988,9 @@ extension GlacierClient {
     ///
     /// This operation lists jobs for a vault, including jobs that are in-progress and jobs that have recently finished. The List Job operation returns a list of these jobs sorted by job initiation time. Amazon Glacier retains recently completed jobs for a period before deleting them; however, it eventually removes completed jobs. The output of completed jobs can be retrieved. Retaining completed jobs for a period of time after they have completed enables you to get a job output in the event you miss the job completion notification or your first attempt to download it fails. For example, suppose you start an archive retrieval job to download an archive. After the job completes, you start to download the archive but encounter a network error. In this scenario, you can retry and download the archive while the job exists. The List Jobs operation supports pagination. You should always check the response Marker field. If there are no more jobs to list, the Marker field is set to null. If there are more jobs to list, the Marker field is set to a non-null value, which you can use to continue the pagination of the list. To return a list of jobs that begins at a specific job, set the marker request parameter to the Marker value for that job that you obtained from a previous List Jobs request. You can set a maximum limit for the number of jobs returned in the response by specifying the limit parameter in the request. The default limit is 50. The number of jobs returned might be fewer than the limit, but the number of returned jobs never exceeds the limit. Additionally, you can filter the jobs list returned by specifying the optional statuscode parameter or completed parameter, or both. Using the statuscode parameter, you can specify to return only jobs that match either the InProgress, Succeeded, or Failed status. Using the completed parameter, you can specify to return only jobs that were completed (true) or jobs that were not completed (false). For more information about using this operation, see the documentation for the underlying REST API [List Jobs](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-jobs-get.html).
     ///
-    /// - Parameter ListJobsInput : Provides options for retrieving a job list for an Amazon S3 Glacier vault.
+    /// - Parameter input: Provides options for retrieving a job list for an Amazon S3 Glacier vault. (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,7 +2034,6 @@ extension GlacierClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -2089,9 +2067,9 @@ extension GlacierClient {
     ///
     /// This operation lists in-progress multipart uploads for the specified vault. An in-progress multipart upload is a multipart upload that has been initiated by an [InitiateMultipartUpload] request, but has not yet been completed or aborted. The list returned in the List Multipart Upload response has no guaranteed order. The List Multipart Uploads operation supports pagination. By default, this operation returns up to 50 multipart uploads in the response. You should always check the response for a marker at which to continue the list; if there are no more items the marker is null. To return a list of multipart uploads that begins at a specific upload, set the marker request parameter to the value you obtained from a previous List Multipart Upload request. You can also limit the number of uploads returned in the response by specifying the limit parameter in the request. Note the difference between this operation and listing parts ([ListParts]). The List Multipart Uploads operation lists all multipart uploads for a vault and does not require a multipart upload ID. The List Parts operation requires a multipart upload ID since parts are associated with a single upload. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and the underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html) and [List Multipart Uploads ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-list-uploads.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter ListMultipartUploadsInput : Provides options for retrieving list of in-progress multipart uploads for an Amazon Glacier vault.
+    /// - Parameter input: Provides options for retrieving list of in-progress multipart uploads for an Amazon Glacier vault. (Type: `ListMultipartUploadsInput`)
     ///
-    /// - Returns: `ListMultipartUploadsOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `ListMultipartUploadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,7 +2113,6 @@ extension GlacierClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(ListMultipartUploadsOutput.httpOutput(from:), ListMultipartUploadsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMultipartUploadsOutput>())
@@ -2169,9 +2146,9 @@ extension GlacierClient {
     ///
     /// This operation lists the parts of an archive that have been uploaded in a specific multipart upload. You can make this request at any time during an in-progress multipart upload before you complete the upload (see [CompleteMultipartUpload]. List Parts returns an error for completed uploads. The list returned in the List Parts response is sorted by part range. The List Parts operation supports pagination. By default, this operation returns up to 50 uploaded parts in the response. You should always check the response for a marker at which to continue the list; if there are no more items the marker is null. To return a list of parts that begins at a specific part, set the marker request parameter to the value you obtained from a previous List Parts request. You can also limit the number of parts returned in the response by specifying the limit parameter in the request. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and the underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html) and [List Parts](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-list-parts.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter ListPartsInput : Provides options for retrieving a list of parts of an archive that have been uploaded in a specific multipart upload.
+    /// - Parameter input: Provides options for retrieving a list of parts of an archive that have been uploaded in a specific multipart upload. (Type: `ListPartsInput`)
     ///
-    /// - Returns: `ListPartsOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `ListPartsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2215,7 +2192,6 @@ extension GlacierClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartsOutput>(ListPartsOutput.httpOutput(from:), ListPartsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartsInput, ListPartsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPartsOutput>())
@@ -2249,9 +2225,9 @@ extension GlacierClient {
     ///
     /// This operation lists the provisioned capacity units for the specified AWS account.
     ///
-    /// - Parameter ListProvisionedCapacityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisionedCapacityInput`)
     ///
-    /// - Returns: `ListProvisionedCapacityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisionedCapacityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2293,7 +2269,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProvisionedCapacityOutput>(ListProvisionedCapacityOutput.httpOutput(from:), ListProvisionedCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProvisionedCapacityOutput>())
@@ -2327,9 +2302,9 @@ extension GlacierClient {
     ///
     /// This operation lists all the tags attached to a vault. The operation returns an empty map if there are no tags. For more information about tags, see [Tagging Amazon S3 Glacier Resources](https://docs.aws.amazon.com/amazonglacier/latest/dev/tagging.html).
     ///
-    /// - Parameter ListTagsForVaultInput : The input value for ListTagsForVaultInput.
+    /// - Parameter input: The input value for ListTagsForVaultInput. (Type: `ListTagsForVaultInput`)
     ///
-    /// - Returns: `ListTagsForVaultOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `ListTagsForVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2372,7 +2347,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForVaultOutput>(ListTagsForVaultOutput.httpOutput(from:), ListTagsForVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForVaultOutput>())
@@ -2406,9 +2380,9 @@ extension GlacierClient {
     ///
     /// This operation lists all vaults owned by the calling user's account. The list returned in the response is ASCII-sorted by vault name. By default, this operation returns up to 10 items. If there are more vaults to list, the response marker field contains the vault Amazon Resource Name (ARN) at which to continue the list with a new List Vaults request; otherwise, the marker field is null. To return a list of vaults that begins at a specific vault, set the marker request parameter to the vault ARN you obtained from a previous List Vaults request. You can also limit the number of vaults returned in the response by specifying the limit parameter in the request. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Retrieving Vault Metadata in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/retrieving-vault-info.html) and [List Vaults ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vaults-get.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter ListVaultsInput : Provides options to retrieve the vault list owned by the calling user's account. The list provides metadata information for each vault.
+    /// - Parameter input: Provides options to retrieve the vault list owned by the calling user's account. The list provides metadata information for each vault. (Type: `ListVaultsInput`)
     ///
-    /// - Returns: `ListVaultsOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `ListVaultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,7 +2426,6 @@ extension GlacierClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVaultsInput, ListVaultsOutput>(ListVaultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVaultsOutput>(ListVaultsOutput.httpOutput(from:), ListVaultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVaultsInput, ListVaultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVaultsOutput>())
@@ -2486,9 +2459,9 @@ extension GlacierClient {
     ///
     /// This operation purchases a provisioned capacity unit for an AWS account.
     ///
-    /// - Parameter PurchaseProvisionedCapacityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseProvisionedCapacityInput`)
     ///
-    /// - Returns: `PurchaseProvisionedCapacityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseProvisionedCapacityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2531,7 +2504,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseProvisionedCapacityOutput>(PurchaseProvisionedCapacityOutput.httpOutput(from:), PurchaseProvisionedCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseProvisionedCapacityOutput>())
@@ -2565,9 +2537,9 @@ extension GlacierClient {
     ///
     /// This operation removes one or more tags from the set of tags attached to a vault. For more information about tags, see [Tagging Amazon S3 Glacier Resources](https://docs.aws.amazon.com/amazonglacier/latest/dev/tagging.html). This operation is idempotent. The operation will be successful, even if there are no tags attached to the vault.
     ///
-    /// - Parameter RemoveTagsFromVaultInput : The input value for RemoveTagsFromVaultInput.
+    /// - Parameter input: The input value for RemoveTagsFromVaultInput. (Type: `RemoveTagsFromVaultInput`)
     ///
-    /// - Returns: `RemoveTagsFromVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2614,7 +2586,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromVaultOutput>(RemoveTagsFromVaultOutput.httpOutput(from:), RemoveTagsFromVaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromVaultOutput>())
@@ -2648,9 +2619,9 @@ extension GlacierClient {
     ///
     /// This operation sets and then enacts a data retrieval policy in the region specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see [Amazon Glacier Data Retrieval Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/data-retrieval-policy.html).
     ///
-    /// - Parameter SetDataRetrievalPolicyInput : SetDataRetrievalPolicy input.
+    /// - Parameter input: SetDataRetrievalPolicy input. (Type: `SetDataRetrievalPolicyInput`)
     ///
-    /// - Returns: `SetDataRetrievalPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDataRetrievalPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2695,7 +2666,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDataRetrievalPolicyOutput>(SetDataRetrievalPolicyOutput.httpOutput(from:), SetDataRetrievalPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetDataRetrievalPolicyOutput>())
@@ -2729,9 +2699,9 @@ extension GlacierClient {
     ///
     /// This operation configures an access policy for a vault and will overwrite an existing policy. To configure a vault access policy, send a PUT request to the access-policy subresource of the vault. An access policy is specific to a vault and is also called a vault subresource. You can set one access policy per vault and the policy can be up to 20 KB in size. For more information about vault access policies, see [Amazon Glacier Access Control with Vault Access Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-access-policy.html).
     ///
-    /// - Parameter SetVaultAccessPolicyInput : SetVaultAccessPolicy input.
+    /// - Parameter input: SetVaultAccessPolicy input. (Type: `SetVaultAccessPolicyInput`)
     ///
-    /// - Returns: `SetVaultAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetVaultAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2777,7 +2747,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetVaultAccessPolicyOutput>(SetVaultAccessPolicyOutput.httpOutput(from:), SetVaultAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetVaultAccessPolicyOutput>())
@@ -2818,9 +2787,9 @@ extension GlacierClient {
     ///
     /// An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html) and [Set Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-put.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter SetVaultNotificationsInput : Provides options to configure notifications that will be sent when specific events happen to a vault.
+    /// - Parameter input: Provides options to configure notifications that will be sent when specific events happen to a vault. (Type: `SetVaultNotificationsInput`)
     ///
-    /// - Returns: `SetVaultNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetVaultNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2866,7 +2835,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetVaultNotificationsOutput>(SetVaultNotificationsOutput.httpOutput(from:), SetVaultNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetVaultNotificationsOutput>())
@@ -2900,9 +2868,9 @@ extension GlacierClient {
     ///
     /// This operation adds an archive to a vault. This is a synchronous operation, and for a successful upload, your data is durably persisted. Amazon S3 Glacier returns the archive ID in the x-amz-archive-id header of the response. You must use the archive ID to access your data in Amazon S3 Glacier. After you upload an archive, you should save the archive ID returned so that you can retrieve or delete the archive later. Besides saving the archive ID, you can also index it and give it a friendly name to allow for better searching. You can also use the optional archive description field to specify how the archive is referred to in an external index of archives, such as you might create in Amazon DynamoDB. You can also get the vault inventory to obtain a list of archive IDs in a vault. For more information, see [InitiateJob]. You must provide a SHA256 tree hash of the data you are uploading. For information about computing a SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html). You can optionally specify an archive description of up to 1,024 printable ASCII characters. You can get the archive description when you either retrieve the archive or get the vault inventory. For more information, see [InitiateJob]. Amazon Glacier does not interpret the description in any way. An archive description does not need to be unique. You cannot use the description to retrieve or sort the archive list. Archives are immutable. After you upload an archive, you cannot edit the archive or its description. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Uploading an Archive in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-an-archive.html) and [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter UploadArchiveInput : Provides options to add an archive to a vault.
+    /// - Parameter input: Provides options to add an archive to a vault. (Type: `UploadArchiveInput`)
     ///
-    /// - Returns: `UploadArchiveOutput` : Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html). (Type: `UploadArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2950,7 +2918,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadArchiveInput, UploadArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadArchiveOutput>(UploadArchiveOutput.httpOutput(from:), UploadArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadArchiveInput, UploadArchiveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadArchiveOutput>())
@@ -2993,9 +2960,9 @@ extension GlacierClient {
     ///
     /// This operation is idempotent. If you upload the same part multiple times, the data included in the most recent request overwrites the previously uploaded data. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html) and [Upload Part ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-upload-part.html) in the Amazon Glacier Developer Guide.
     ///
-    /// - Parameter UploadMultipartPartInput : Provides options to upload a part of an archive in a multipart upload operation.
+    /// - Parameter input: Provides options to upload a part of an archive in a multipart upload operation. (Type: `UploadMultipartPartInput`)
     ///
-    /// - Returns: `UploadMultipartPartOutput` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: Contains the Amazon S3 Glacier response to your request. (Type: `UploadMultipartPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3043,7 +3010,6 @@ extension GlacierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadMultipartPartOutput>(UploadMultipartPartOutput.httpOutput(from:), UploadMultipartPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadMultipartPartOutput>())

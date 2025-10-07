@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlueClient: ClientRuntime.Client {
     public static let clientName = "GlueClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration
     let serviceName = "Glue"
@@ -375,9 +374,9 @@ extension GlueClient {
     ///
     /// Creates one or more partitions in a batch operation.
     ///
-    /// - Parameter BatchCreatePartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreatePartitionInput`)
     ///
-    /// - Returns: `BatchCreatePartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreatePartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +414,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreatePartitionOutput>(BatchCreatePartitionOutput.httpOutput(from:), BatchCreatePartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreatePartitionInput, BatchCreatePartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreatePartitionOutput>())
@@ -450,9 +448,9 @@ extension GlueClient {
     ///
     /// Deletes a list of connection definitions from the Data Catalog.
     ///
-    /// - Parameter BatchDeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteConnectionInput`)
     ///
-    /// - Returns: `BatchDeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteConnectionOutput>(BatchDeleteConnectionOutput.httpOutput(from:), BatchDeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteConnectionInput, BatchDeleteConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteConnectionOutput>())
@@ -520,9 +517,9 @@ extension GlueClient {
     ///
     /// Deletes one or more partitions in a batch operation.
     ///
-    /// - Parameter BatchDeletePartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeletePartitionInput`)
     ///
-    /// - Returns: `BatchDeletePartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeletePartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,7 +554,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeletePartitionOutput>(BatchDeletePartitionOutput.httpOutput(from:), BatchDeletePartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeletePartitionInput, BatchDeletePartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeletePartitionOutput>())
@@ -592,9 +588,9 @@ extension GlueClient {
     ///
     /// Deletes multiple tables at once. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     ///
-    /// - Parameter BatchDeleteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteTableInput`)
     ///
-    /// - Returns: `BatchDeleteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,7 +627,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteTableOutput>(BatchDeleteTableOutput.httpOutput(from:), BatchDeleteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTableInput, BatchDeleteTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTableOutput>())
@@ -666,9 +661,9 @@ extension GlueClient {
     ///
     /// Deletes a specified batch of versions of a table.
     ///
-    /// - Parameter BatchDeleteTableVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteTableVersionInput`)
     ///
-    /// - Returns: `BatchDeleteTableVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteTableVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,7 +698,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteTableVersionOutput>(BatchDeleteTableVersionOutput.httpOutput(from:), BatchDeleteTableVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTableVersionInput, BatchDeleteTableVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTableVersionOutput>())
@@ -738,9 +732,9 @@ extension GlueClient {
     ///
     /// Retrieves information about a list of blueprints.
     ///
-    /// - Parameter BatchGetBlueprintsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetBlueprintsInput`)
     ///
-    /// - Returns: `BatchGetBlueprintsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,7 +768,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetBlueprintsOutput>(BatchGetBlueprintsOutput.httpOutput(from:), BatchGetBlueprintsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBlueprintsInput, BatchGetBlueprintsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetBlueprintsOutput>())
@@ -809,9 +802,9 @@ extension GlueClient {
     ///
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
-    /// - Parameter BatchGetCrawlersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCrawlersInput`)
     ///
-    /// - Returns: `BatchGetCrawlersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCrawlersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,7 +837,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCrawlersOutput>(BatchGetCrawlersOutput.httpOutput(from:), BatchGetCrawlersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCrawlersInput, BatchGetCrawlersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCrawlersOutput>())
@@ -879,9 +871,9 @@ extension GlueClient {
     ///
     /// Retrieves the details for the custom patterns specified by a list of names.
     ///
-    /// - Parameter BatchGetCustomEntityTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCustomEntityTypesInput`)
     ///
-    /// - Returns: `BatchGetCustomEntityTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCustomEntityTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -915,7 +907,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCustomEntityTypesOutput>(BatchGetCustomEntityTypesOutput.httpOutput(from:), BatchGetCustomEntityTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCustomEntityTypesInput, BatchGetCustomEntityTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCustomEntityTypesOutput>())
@@ -950,9 +941,9 @@ extension GlueClient {
     ///
     /// Retrieves a list of data quality results for the specified result IDs.
     ///
-    /// - Parameter BatchGetDataQualityResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetDataQualityResultInput`)
     ///
-    /// - Returns: `BatchGetDataQualityResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetDataQualityResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -986,7 +977,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetDataQualityResultOutput>(BatchGetDataQualityResultOutput.httpOutput(from:), BatchGetDataQualityResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDataQualityResultInput, BatchGetDataQualityResultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDataQualityResultOutput>())
@@ -1021,9 +1011,9 @@ extension GlueClient {
     ///
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
-    /// - Parameter BatchGetDevEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetDevEndpointsInput`)
     ///
-    /// - Returns: `BatchGetDevEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetDevEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1058,7 +1048,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetDevEndpointsOutput>(BatchGetDevEndpointsOutput.httpOutput(from:), BatchGetDevEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDevEndpointsInput, BatchGetDevEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDevEndpointsOutput>())
@@ -1093,9 +1082,9 @@ extension GlueClient {
     ///
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
-    /// - Parameter BatchGetJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetJobsInput`)
     ///
-    /// - Returns: `BatchGetJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1129,7 +1118,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetJobsInput, BatchGetJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetJobsOutput>(BatchGetJobsOutput.httpOutput(from:), BatchGetJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetJobsInput, BatchGetJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetJobsOutput>())
@@ -1164,9 +1152,9 @@ extension GlueClient {
     ///
     /// Retrieves partitions in a batch request.
     ///
-    /// - Parameter BatchGetPartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetPartitionInput`)
     ///
-    /// - Returns: `BatchGetPartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetPartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1205,7 +1193,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetPartitionOutput>(BatchGetPartitionOutput.httpOutput(from:), BatchGetPartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetPartitionInput, BatchGetPartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetPartitionOutput>())
@@ -1240,9 +1227,9 @@ extension GlueClient {
     ///
     /// Returns the configuration for the specified table optimizers.
     ///
-    /// - Parameter BatchGetTableOptimizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetTableOptimizerInput`)
     ///
-    /// - Returns: `BatchGetTableOptimizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetTableOptimizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,7 +1265,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTableOptimizerOutput>(BatchGetTableOptimizerOutput.httpOutput(from:), BatchGetTableOptimizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTableOptimizerInput, BatchGetTableOptimizerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTableOptimizerOutput>())
@@ -1313,9 +1299,9 @@ extension GlueClient {
     ///
     /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
-    /// - Parameter BatchGetTriggersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetTriggersInput`)
     ///
-    /// - Returns: `BatchGetTriggersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1349,7 +1335,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTriggersOutput>(BatchGetTriggersOutput.httpOutput(from:), BatchGetTriggersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTriggersInput, BatchGetTriggersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTriggersOutput>())
@@ -1384,9 +1369,9 @@ extension GlueClient {
     ///
     /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
-    /// - Parameter BatchGetWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetWorkflowsInput`)
     ///
-    /// - Returns: `BatchGetWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1420,7 +1405,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetWorkflowsOutput>(BatchGetWorkflowsOutput.httpOutput(from:), BatchGetWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetWorkflowsInput, BatchGetWorkflowsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetWorkflowsOutput>())
@@ -1455,9 +1439,9 @@ extension GlueClient {
     ///
     /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the InclusionAnnotation input. The API only works for a single statisticId across multiple profiles.
     ///
-    /// - Parameter BatchPutDataQualityStatisticAnnotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutDataQualityStatisticAnnotationInput`)
     ///
-    /// - Returns: `BatchPutDataQualityStatisticAnnotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutDataQualityStatisticAnnotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,7 +1476,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutDataQualityStatisticAnnotationOutput>(BatchPutDataQualityStatisticAnnotationOutput.httpOutput(from:), BatchPutDataQualityStatisticAnnotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutDataQualityStatisticAnnotationInput, BatchPutDataQualityStatisticAnnotationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutDataQualityStatisticAnnotationOutput>())
@@ -1527,9 +1510,9 @@ extension GlueClient {
     ///
     /// Stops one or more job runs for a specified job definition.
     ///
-    /// - Parameter BatchStopJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchStopJobRunInput`)
     ///
-    /// - Returns: `BatchStopJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchStopJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1563,7 +1546,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchStopJobRunOutput>(BatchStopJobRunOutput.httpOutput(from:), BatchStopJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchStopJobRunInput, BatchStopJobRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchStopJobRunOutput>())
@@ -1598,9 +1580,9 @@ extension GlueClient {
     ///
     /// Updates one or more partitions in a batch operation.
     ///
-    /// - Parameter BatchUpdatePartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdatePartitionInput`)
     ///
-    /// - Returns: `BatchUpdatePartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdatePartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1636,7 +1618,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdatePartitionOutput>(BatchUpdatePartitionOutput.httpOutput(from:), BatchUpdatePartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdatePartitionInput, BatchUpdatePartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdatePartitionOutput>())
@@ -1671,9 +1652,9 @@ extension GlueClient {
     ///
     /// Cancels the specified recommendation run that was being used to generate rules.
     ///
-    /// - Parameter CancelDataQualityRuleRecommendationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelDataQualityRuleRecommendationRunInput`)
     ///
-    /// - Returns: `CancelDataQualityRuleRecommendationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDataQualityRuleRecommendationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1708,7 +1689,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDataQualityRuleRecommendationRunOutput>(CancelDataQualityRuleRecommendationRunOutput.httpOutput(from:), CancelDataQualityRuleRecommendationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDataQualityRuleRecommendationRunInput, CancelDataQualityRuleRecommendationRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDataQualityRuleRecommendationRunOutput>())
@@ -1743,9 +1723,9 @@ extension GlueClient {
     ///
     /// Cancels a run where a ruleset is being evaluated against a data source.
     ///
-    /// - Parameter CancelDataQualityRulesetEvaluationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelDataQualityRulesetEvaluationRunInput`)
     ///
-    /// - Returns: `CancelDataQualityRulesetEvaluationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDataQualityRulesetEvaluationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1780,7 +1760,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDataQualityRulesetEvaluationRunOutput>(CancelDataQualityRulesetEvaluationRunOutput.httpOutput(from:), CancelDataQualityRulesetEvaluationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDataQualityRulesetEvaluationRunInput, CancelDataQualityRulesetEvaluationRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDataQualityRulesetEvaluationRunOutput>())
@@ -1815,9 +1794,9 @@ extension GlueClient {
     ///
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
     ///
-    /// - Parameter CancelMLTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMLTaskRunInput`)
     ///
-    /// - Returns: `CancelMLTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMLTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1852,7 +1831,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMLTaskRunOutput>(CancelMLTaskRunOutput.httpOutput(from:), CancelMLTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMLTaskRunInput, CancelMLTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMLTaskRunOutput>())
@@ -1887,9 +1865,9 @@ extension GlueClient {
     ///
     /// Cancels the statement.
     ///
-    /// - Parameter CancelStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelStatementInput`)
     ///
-    /// - Returns: `CancelStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,7 +1904,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelStatementInput, CancelStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelStatementOutput>(CancelStatementOutput.httpOutput(from:), CancelStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelStatementInput, CancelStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelStatementOutput>())
@@ -1961,9 +1938,9 @@ extension GlueClient {
     ///
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
     ///
-    /// - Parameter CheckSchemaVersionValidityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckSchemaVersionValidityInput`)
     ///
-    /// - Returns: `CheckSchemaVersionValidityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckSchemaVersionValidityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1997,7 +1974,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckSchemaVersionValidityOutput>(CheckSchemaVersionValidityOutput.httpOutput(from:), CheckSchemaVersionValidityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckSchemaVersionValidityInput, CheckSchemaVersionValidityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckSchemaVersionValidityOutput>())
@@ -2032,9 +2008,9 @@ extension GlueClient {
     ///
     /// Registers a blueprint with Glue.
     ///
-    /// - Parameter CreateBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBlueprintInput`)
     ///
-    /// - Returns: `CreateBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2070,7 +2046,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBlueprintInput, CreateBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBlueprintOutput>(CreateBlueprintOutput.httpOutput(from:), CreateBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBlueprintOutput>())
@@ -2105,9 +2080,9 @@ extension GlueClient {
     ///
     /// Creates a new catalog in the Glue Data Catalog.
     ///
-    /// - Parameter CreateCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCatalogInput`)
     ///
-    /// - Returns: `CreateCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,7 +2124,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCatalogInput, CreateCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCatalogOutput>(CreateCatalogOutput.httpOutput(from:), CreateCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCatalogInput, CreateCatalogOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCatalogOutput>())
@@ -2184,9 +2158,9 @@ extension GlueClient {
     ///
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
     ///
-    /// - Parameter CreateClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClassifierInput`)
     ///
-    /// - Returns: `CreateClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2220,7 +2194,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClassifierInput, CreateClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClassifierOutput>(CreateClassifierOutput.httpOutput(from:), CreateClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClassifierInput, CreateClassifierOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClassifierOutput>())
@@ -2255,9 +2228,9 @@ extension GlueClient {
     ///
     /// Creates settings for a column statistics task.
     ///
-    /// - Parameter CreateColumnStatisticsTaskSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateColumnStatisticsTaskSettingsInput`)
     ///
-    /// - Returns: `CreateColumnStatisticsTaskSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateColumnStatisticsTaskSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,7 +2268,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateColumnStatisticsTaskSettingsOutput>(CreateColumnStatisticsTaskSettingsOutput.httpOutput(from:), CreateColumnStatisticsTaskSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateColumnStatisticsTaskSettingsInput, CreateColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateColumnStatisticsTaskSettingsOutput>())
@@ -2330,9 +2302,9 @@ extension GlueClient {
     ///
     /// Creates a connection definition in the Data Catalog. Connections used for creating federated resources require the IAM glue:PassConnection permission.
     ///
-    /// - Parameter CreateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionInput`)
     ///
-    /// - Returns: `CreateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,7 +2340,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
@@ -2403,9 +2374,9 @@ extension GlueClient {
     ///
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     ///
-    /// - Parameter CreateCrawlerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCrawlerInput`)
     ///
-    /// - Returns: `CreateCrawlerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCrawlerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2440,7 +2411,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCrawlerInput, CreateCrawlerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCrawlerOutput>(CreateCrawlerOutput.httpOutput(from:), CreateCrawlerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCrawlerInput, CreateCrawlerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCrawlerOutput>())
@@ -2475,9 +2445,9 @@ extension GlueClient {
     ///
     /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data. Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
     ///
-    /// - Parameter CreateCustomEntityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomEntityTypeInput`)
     ///
-    /// - Returns: `CreateCustomEntityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomEntityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2515,7 +2485,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomEntityTypeOutput>(CreateCustomEntityTypeOutput.httpOutput(from:), CreateCustomEntityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomEntityTypeInput, CreateCustomEntityTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomEntityTypeOutput>())
@@ -2550,9 +2519,9 @@ extension GlueClient {
     ///
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
     ///
-    /// - Parameter CreateDataQualityRulesetInput : A request to create a data quality ruleset.
+    /// - Parameter input: A request to create a data quality ruleset. (Type: `CreateDataQualityRulesetInput`)
     ///
-    /// - Returns: `CreateDataQualityRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataQualityRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2588,7 +2557,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataQualityRulesetOutput>(CreateDataQualityRulesetOutput.httpOutput(from:), CreateDataQualityRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataQualityRulesetInput, CreateDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataQualityRulesetOutput>())
@@ -2623,9 +2591,9 @@ extension GlueClient {
     ///
     /// Creates a new database in a Data Catalog.
     ///
-    /// - Parameter CreateDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatabaseInput`)
     ///
-    /// - Returns: `CreateDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2666,7 +2634,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatabaseInput, CreateDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatabaseOutput>(CreateDatabaseOutput.httpOutput(from:), CreateDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatabaseOutput>())
@@ -2701,9 +2668,9 @@ extension GlueClient {
     ///
     /// Creates a new development endpoint.
     ///
-    /// - Parameter CreateDevEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDevEndpointInput`)
     ///
-    /// - Returns: `CreateDevEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDevEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2742,7 +2709,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDevEndpointOutput>(CreateDevEndpointOutput.httpOutput(from:), CreateDevEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDevEndpointInput, CreateDevEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDevEndpointOutput>())
@@ -2777,9 +2743,9 @@ extension GlueClient {
     ///
     /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authentication and authorization.
     ///
-    /// - Parameter CreateGlueIdentityCenterConfigurationInput : Request to create a new Glue Identity Center configuration.
+    /// - Parameter input: Request to create a new Glue Identity Center configuration. (Type: `CreateGlueIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `CreateGlueIdentityCenterConfigurationOutput` : Response from creating a new Glue Identity Center configuration.
+    /// - Returns: Response from creating a new Glue Identity Center configuration. (Type: `CreateGlueIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2816,7 +2782,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlueIdentityCenterConfigurationOutput>(CreateGlueIdentityCenterConfigurationOutput.httpOutput(from:), CreateGlueIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlueIdentityCenterConfigurationOutput>())
@@ -2851,9 +2816,9 @@ extension GlueClient {
     ///
     /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn.
     ///
-    /// - Parameter CreateIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationInput`)
     ///
-    /// - Returns: `CreateIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2896,7 +2861,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationInput, CreateIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationOutput>(CreateIntegrationOutput.httpOutput(from:), CreateIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationOutput>())
@@ -2931,9 +2895,9 @@ extension GlueClient {
     ///
     /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcessingProperties and the Glue database ARN as ResourceArn with TargetProcessingProperties respectively.
     ///
-    /// - Parameter CreateIntegrationResourcePropertyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationResourcePropertyInput`)
     ///
-    /// - Returns: `CreateIntegrationResourcePropertyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationResourcePropertyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2972,7 +2936,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationResourcePropertyOutput>(CreateIntegrationResourcePropertyOutput.httpOutput(from:), CreateIntegrationResourcePropertyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationResourcePropertyInput, CreateIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationResourcePropertyOutput>())
@@ -3007,9 +2970,9 @@ extension GlueClient {
     ///
     /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively.
     ///
-    /// - Parameter CreateIntegrationTablePropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationTablePropertiesInput`)
     ///
-    /// - Returns: `CreateIntegrationTablePropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationTablePropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3047,7 +3010,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationTablePropertiesOutput>(CreateIntegrationTablePropertiesOutput.httpOutput(from:), CreateIntegrationTablePropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationTablePropertiesInput, CreateIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationTablePropertiesOutput>())
@@ -3082,9 +3044,9 @@ extension GlueClient {
     ///
     /// Creates a new job definition.
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3122,7 +3084,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -3157,9 +3118,9 @@ extension GlueClient {
     ///
     /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see [Jobs](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html).
     ///
-    /// - Parameter CreateMLTransformInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMLTransformInput`)
     ///
-    /// - Returns: `CreateMLTransformOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMLTransformOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3197,7 +3158,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMLTransformInput, CreateMLTransformOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMLTransformOutput>(CreateMLTransformOutput.httpOutput(from:), CreateMLTransformOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMLTransformInput, CreateMLTransformOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMLTransformOutput>())
@@ -3232,9 +3192,9 @@ extension GlueClient {
     ///
     /// Creates a new partition.
     ///
-    /// - Parameter CreatePartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePartitionInput`)
     ///
-    /// - Returns: `CreatePartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3272,7 +3232,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartitionInput, CreatePartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartitionOutput>(CreatePartitionOutput.httpOutput(from:), CreatePartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartitionInput, CreatePartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartitionOutput>())
@@ -3307,9 +3266,9 @@ extension GlueClient {
     ///
     /// Creates a specified partition index in an existing table.
     ///
-    /// - Parameter CreatePartitionIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePartitionIndexInput`)
     ///
-    /// - Returns: `CreatePartitionIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePartitionIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3347,7 +3306,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartitionIndexOutput>(CreatePartitionIndexOutput.httpOutput(from:), CreatePartitionIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartitionIndexInput, CreatePartitionIndexOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartitionIndexOutput>())
@@ -3382,9 +3340,9 @@ extension GlueClient {
     ///
     /// Creates a new registry which may be used to hold a collection of schemas.
     ///
-    /// - Parameter CreateRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegistryInput`)
     ///
-    /// - Returns: `CreateRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3421,7 +3379,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegistryInput, CreateRegistryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegistryOutput>(CreateRegistryOutput.httpOutput(from:), CreateRegistryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegistryInput, CreateRegistryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegistryOutput>())
@@ -3456,9 +3413,9 @@ extension GlueClient {
     ///
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the RegisterSchemaVersion API is used. When this API is called without a RegistryId, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
     ///
-    /// - Parameter CreateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSchemaInput`)
     ///
-    /// - Returns: `CreateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3496,7 +3453,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSchemaInput, CreateSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSchemaOutput>(CreateSchemaOutput.httpOutput(from:), CreateSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSchemaInput, CreateSchemaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSchemaOutput>())
@@ -3531,9 +3487,9 @@ extension GlueClient {
     ///
     /// Transforms a directed acyclic graph (DAG) into code.
     ///
-    /// - Parameter CreateScriptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScriptInput`)
     ///
-    /// - Returns: `CreateScriptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScriptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3567,7 +3523,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScriptInput, CreateScriptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScriptOutput>(CreateScriptOutput.httpOutput(from:), CreateScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScriptInput, CreateScriptOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScriptOutput>())
@@ -3602,9 +3557,9 @@ extension GlueClient {
     ///
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see [Encrypting Data Written by Crawlers, Jobs, and Development Endpoints](https://docs.aws.amazon.com/glue/latest/dg/encryption-security-configuration.html).
     ///
-    /// - Parameter CreateSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityConfigurationInput`)
     ///
-    /// - Returns: `CreateSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3640,7 +3595,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityConfigurationOutput>(CreateSecurityConfigurationOutput.httpOutput(from:), CreateSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityConfigurationOutput>())
@@ -3675,9 +3629,9 @@ extension GlueClient {
     ///
     /// Creates a new session.
     ///
-    /// - Parameter CreateSessionInput : Request to create a new session.
+    /// - Parameter input: Request to create a new session. (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3716,7 +3670,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSessionInput, CreateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(CreateSessionOutput.httpOutput(from:), CreateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionInput, CreateSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSessionOutput>())
@@ -3751,9 +3704,9 @@ extension GlueClient {
     ///
     /// Creates a new table definition in the Data Catalog.
     ///
-    /// - Parameter CreateTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTableInput`)
     ///
-    /// - Returns: `CreateTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3795,7 +3748,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableInput, CreateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableOutput>(CreateTableOutput.httpOutput(from:), CreateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableInput, CreateTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
@@ -3830,9 +3782,9 @@ extension GlueClient {
     ///
     /// Creates a new table optimizer for a specific function.
     ///
-    /// - Parameter CreateTableOptimizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTableOptimizerInput`)
     ///
-    /// - Returns: `CreateTableOptimizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTableOptimizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3870,7 +3822,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableOptimizerOutput>(CreateTableOptimizerOutput.httpOutput(from:), CreateTableOptimizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableOptimizerInput, CreateTableOptimizerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOptimizerOutput>())
@@ -3905,9 +3856,9 @@ extension GlueClient {
     ///
     /// Creates a new trigger. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
     ///
-    /// - Parameter CreateTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTriggerInput`)
     ///
-    /// - Returns: `CreateTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3946,7 +3897,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTriggerInput, CreateTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTriggerOutput>(CreateTriggerOutput.httpOutput(from:), CreateTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTriggerInput, CreateTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTriggerOutput>())
@@ -3981,9 +3931,9 @@ extension GlueClient {
     ///
     /// Creates an Glue usage profile.
     ///
-    /// - Parameter CreateUsageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUsageProfileInput`)
     ///
-    /// - Returns: `CreateUsageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUsageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4020,7 +3970,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUsageProfileOutput>(CreateUsageProfileOutput.httpOutput(from:), CreateUsageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsageProfileInput, CreateUsageProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsageProfileOutput>())
@@ -4055,9 +4004,9 @@ extension GlueClient {
     ///
     /// Creates a new function definition in the Data Catalog.
     ///
-    /// - Parameter CreateUserDefinedFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserDefinedFunctionInput`)
     ///
-    /// - Returns: `CreateUserDefinedFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserDefinedFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4095,7 +4044,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserDefinedFunctionOutput>(CreateUserDefinedFunctionOutput.httpOutput(from:), CreateUserDefinedFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserDefinedFunctionInput, CreateUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserDefinedFunctionOutput>())
@@ -4130,9 +4078,9 @@ extension GlueClient {
     ///
     /// Creates a new workflow.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4169,7 +4117,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowOutput>(CreateWorkflowOutput.httpOutput(from:), CreateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowOutput>())
@@ -4204,9 +4151,9 @@ extension GlueClient {
     ///
     /// Deletes an existing blueprint.
     ///
-    /// - Parameter DeleteBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBlueprintInput`)
     ///
-    /// - Returns: `DeleteBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4240,7 +4187,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBlueprintOutput>(DeleteBlueprintOutput.httpOutput(from:), DeleteBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBlueprintOutput>())
@@ -4275,9 +4221,9 @@ extension GlueClient {
     ///
     /// Removes the specified catalog from the Glue Data Catalog. After completing this operation, you no longer have access to the databases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources before calling the DeleteCatalog operation, use DeleteTableVersion (or BatchDeleteTableVersion), DeletePartition (or BatchDeletePartition), DeleteTable (or BatchDeleteTable), DeleteUserDefinedFunction and DeleteDatabase to delete any resources that belong to the catalog.
     ///
-    /// - Parameter DeleteCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCatalogInput`)
     ///
-    /// - Returns: `DeleteCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4316,7 +4262,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCatalogInput, DeleteCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCatalogOutput>(DeleteCatalogOutput.httpOutput(from:), DeleteCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCatalogInput, DeleteCatalogOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCatalogOutput>())
@@ -4351,9 +4296,9 @@ extension GlueClient {
     ///
     /// Removes a classifier from the Data Catalog.
     ///
-    /// - Parameter DeleteClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClassifierInput`)
     ///
-    /// - Returns: `DeleteClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4386,7 +4331,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClassifierInput, DeleteClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClassifierOutput>(DeleteClassifierOutput.httpOutput(from:), DeleteClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClassifierInput, DeleteClassifierOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClassifierOutput>())
@@ -4421,9 +4365,9 @@ extension GlueClient {
     ///
     /// Delete the partition column statistics of a column. The Identity and Access Management (IAM) permission required for this operation is DeletePartition.
     ///
-    /// - Parameter DeleteColumnStatisticsForPartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteColumnStatisticsForPartitionInput`)
     ///
-    /// - Returns: `DeleteColumnStatisticsForPartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteColumnStatisticsForPartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4459,7 +4403,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteColumnStatisticsForPartitionOutput>(DeleteColumnStatisticsForPartitionOutput.httpOutput(from:), DeleteColumnStatisticsForPartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteColumnStatisticsForPartitionInput, DeleteColumnStatisticsForPartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteColumnStatisticsForPartitionOutput>())
@@ -4494,9 +4437,9 @@ extension GlueClient {
     ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is DeleteTable.
     ///
-    /// - Parameter DeleteColumnStatisticsForTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteColumnStatisticsForTableInput`)
     ///
-    /// - Returns: `DeleteColumnStatisticsForTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteColumnStatisticsForTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4532,7 +4475,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteColumnStatisticsForTableOutput>(DeleteColumnStatisticsForTableOutput.httpOutput(from:), DeleteColumnStatisticsForTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteColumnStatisticsForTableInput, DeleteColumnStatisticsForTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteColumnStatisticsForTableOutput>())
@@ -4567,9 +4509,9 @@ extension GlueClient {
     ///
     /// Deletes settings for a column statistics task.
     ///
-    /// - Parameter DeleteColumnStatisticsTaskSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteColumnStatisticsTaskSettingsInput`)
     ///
-    /// - Returns: `DeleteColumnStatisticsTaskSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteColumnStatisticsTaskSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4603,7 +4545,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteColumnStatisticsTaskSettingsOutput>(DeleteColumnStatisticsTaskSettingsOutput.httpOutput(from:), DeleteColumnStatisticsTaskSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteColumnStatisticsTaskSettingsInput, DeleteColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteColumnStatisticsTaskSettingsOutput>())
@@ -4638,9 +4579,9 @@ extension GlueClient {
     ///
     /// Deletes a connection from the Data Catalog.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4673,7 +4614,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
@@ -4708,9 +4648,9 @@ extension GlueClient {
     ///
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
     ///
-    /// - Parameter DeleteCrawlerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCrawlerInput`)
     ///
-    /// - Returns: `DeleteCrawlerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCrawlerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4745,7 +4685,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCrawlerOutput>(DeleteCrawlerOutput.httpOutput(from:), DeleteCrawlerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCrawlerInput, DeleteCrawlerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCrawlerOutput>())
@@ -4780,9 +4719,9 @@ extension GlueClient {
     ///
     /// Deletes a custom pattern by specifying its name.
     ///
-    /// - Parameter DeleteCustomEntityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomEntityTypeInput`)
     ///
-    /// - Returns: `DeleteCustomEntityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomEntityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4818,7 +4757,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomEntityTypeOutput>(DeleteCustomEntityTypeOutput.httpOutput(from:), DeleteCustomEntityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomEntityTypeInput, DeleteCustomEntityTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomEntityTypeOutput>())
@@ -4853,9 +4791,9 @@ extension GlueClient {
     ///
     /// Deletes a data quality ruleset.
     ///
-    /// - Parameter DeleteDataQualityRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataQualityRulesetInput`)
     ///
-    /// - Returns: `DeleteDataQualityRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataQualityRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4890,7 +4828,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataQualityRulesetOutput>(DeleteDataQualityRulesetOutput.httpOutput(from:), DeleteDataQualityRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataQualityRulesetInput, DeleteDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataQualityRulesetOutput>())
@@ -4925,9 +4862,9 @@ extension GlueClient {
     ///
     /// Removes a specified database from a Data Catalog. After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
     ///
-    /// - Parameter DeleteDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatabaseInput`)
     ///
-    /// - Returns: `DeleteDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4965,7 +4902,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatabaseOutput>(DeleteDatabaseOutput.httpOutput(from:), DeleteDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatabaseOutput>())
@@ -5000,9 +4936,9 @@ extension GlueClient {
     ///
     /// Deletes a specified development endpoint.
     ///
-    /// - Parameter DeleteDevEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDevEndpointInput`)
     ///
-    /// - Returns: `DeleteDevEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDevEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5037,7 +4973,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDevEndpointOutput>(DeleteDevEndpointOutput.httpOutput(from:), DeleteDevEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDevEndpointInput, DeleteDevEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDevEndpointOutput>())
@@ -5072,9 +5007,9 @@ extension GlueClient {
     ///
     /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and Amazon Web Services IAM Identity Center.
     ///
-    /// - Parameter DeleteGlueIdentityCenterConfigurationInput : Request to delete the existing Glue Identity Center configuration.
+    /// - Parameter input: Request to delete the existing Glue Identity Center configuration. (Type: `DeleteGlueIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `DeleteGlueIdentityCenterConfigurationOutput` : Response from deleting the Glue Identity Center configuration.
+    /// - Returns: Response from deleting the Glue Identity Center configuration. (Type: `DeleteGlueIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5111,7 +5046,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlueIdentityCenterConfigurationOutput>(DeleteGlueIdentityCenterConfigurationOutput.httpOutput(from:), DeleteGlueIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlueIdentityCenterConfigurationOutput>())
@@ -5146,9 +5080,9 @@ extension GlueClient {
     ///
     /// Deletes the specified Zero-ETL integration.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5190,7 +5124,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
@@ -5225,9 +5158,9 @@ extension GlueClient {
     ///
     /// Deletes the table properties that have been created for the tables that need to be replicated.
     ///
-    /// - Parameter DeleteIntegrationTablePropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationTablePropertiesInput`)
     ///
-    /// - Returns: `DeleteIntegrationTablePropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationTablePropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5265,7 +5198,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationTablePropertiesOutput>(DeleteIntegrationTablePropertiesOutput.httpOutput(from:), DeleteIntegrationTablePropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationTablePropertiesInput, DeleteIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationTablePropertiesOutput>())
@@ -5300,9 +5232,9 @@ extension GlueClient {
     ///
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
     ///
-    /// - Parameter DeleteJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5336,7 +5268,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteJobInput, DeleteJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobOutput>(DeleteJobOutput.httpOutput(from:), DeleteJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobInput, DeleteJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobOutput>())
@@ -5371,9 +5302,9 @@ extension GlueClient {
     ///
     /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any Glue jobs that still reference the deleted transform will no longer succeed.
     ///
-    /// - Parameter DeleteMLTransformInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMLTransformInput`)
     ///
-    /// - Returns: `DeleteMLTransformOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMLTransformOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5408,7 +5339,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMLTransformOutput>(DeleteMLTransformOutput.httpOutput(from:), DeleteMLTransformOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMLTransformInput, DeleteMLTransformOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMLTransformOutput>())
@@ -5443,9 +5373,9 @@ extension GlueClient {
     ///
     /// Deletes a specified partition.
     ///
-    /// - Parameter DeletePartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePartitionInput`)
     ///
-    /// - Returns: `DeletePartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5480,7 +5410,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartitionInput, DeletePartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePartitionOutput>(DeletePartitionOutput.httpOutput(from:), DeletePartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartitionInput, DeletePartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartitionOutput>())
@@ -5515,9 +5444,9 @@ extension GlueClient {
     ///
     /// Deletes a specified partition index from an existing table.
     ///
-    /// - Parameter DeletePartitionIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePartitionIndexInput`)
     ///
-    /// - Returns: `DeletePartitionIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePartitionIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5554,7 +5483,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePartitionIndexOutput>(DeletePartitionIndexOutput.httpOutput(from:), DeletePartitionIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartitionIndexInput, DeletePartitionIndexOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartitionIndexOutput>())
@@ -5589,9 +5517,9 @@ extension GlueClient {
     ///
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
     ///
-    /// - Parameter DeleteRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegistryInput`)
     ///
-    /// - Returns: `DeleteRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5626,7 +5554,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegistryInput, DeleteRegistryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegistryOutput>(DeleteRegistryOutput.httpOutput(from:), DeleteRegistryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistryInput, DeleteRegistryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegistryOutput>())
@@ -5661,9 +5588,9 @@ extension GlueClient {
     ///
     /// Deletes a specified policy.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5699,7 +5626,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -5734,9 +5660,9 @@ extension GlueClient {
     ///
     /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the GetSchemaByDefinition, and RegisterSchemaVersion APIs.
     ///
-    /// - Parameter DeleteSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaInput`)
     ///
-    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5771,7 +5697,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSchemaInput, DeleteSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSchemaOutput>(DeleteSchemaOutput.httpOutput(from:), DeleteSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchemaOutput>())
@@ -5806,9 +5731,9 @@ extension GlueClient {
     ///
     /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteSchemaCheckpoint API before using this API. You cannot use the DeleteSchemaVersions API to delete the first schema version in the schema set. The first schema version can only be deleted by the DeleteSchema API. This operation will also delete the attached SchemaVersionMetadata under the schema versions. Hard deletes will be enforced on the database. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
     ///
-    /// - Parameter DeleteSchemaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaVersionsInput`)
     ///
-    /// - Returns: `DeleteSchemaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5843,7 +5768,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSchemaVersionsOutput>(DeleteSchemaVersionsOutput.httpOutput(from:), DeleteSchemaVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaVersionsInput, DeleteSchemaVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchemaVersionsOutput>())
@@ -5878,9 +5802,9 @@ extension GlueClient {
     ///
     /// Deletes a specified security configuration.
     ///
-    /// - Parameter DeleteSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityConfigurationInput`)
     ///
-    /// - Returns: `DeleteSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5915,7 +5839,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityConfigurationOutput>(DeleteSecurityConfigurationOutput.httpOutput(from:), DeleteSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityConfigurationOutput>())
@@ -5950,9 +5873,9 @@ extension GlueClient {
     ///
     /// Deletes the session.
     ///
-    /// - Parameter DeleteSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSessionInput`)
     ///
-    /// - Returns: `DeleteSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5989,7 +5912,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSessionInput, DeleteSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSessionOutput>(DeleteSessionOutput.httpOutput(from:), DeleteSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSessionInput, DeleteSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSessionOutput>())
@@ -6024,9 +5946,9 @@ extension GlueClient {
     ///
     /// Removes a table definition from the Data Catalog. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     ///
-    /// - Parameter DeleteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableInput`)
     ///
-    /// - Returns: `DeleteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6065,7 +5987,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableOutput>(DeleteTableOutput.httpOutput(from:), DeleteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableInput, DeleteTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
@@ -6100,9 +6021,9 @@ extension GlueClient {
     ///
     /// Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
     ///
-    /// - Parameter DeleteTableOptimizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableOptimizerInput`)
     ///
-    /// - Returns: `DeleteTableOptimizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableOptimizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6138,7 +6059,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableOptimizerOutput>(DeleteTableOptimizerOutput.httpOutput(from:), DeleteTableOptimizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableOptimizerInput, DeleteTableOptimizerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOptimizerOutput>())
@@ -6173,9 +6093,9 @@ extension GlueClient {
     ///
     /// Deletes a specified version of a table.
     ///
-    /// - Parameter DeleteTableVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableVersionInput`)
     ///
-    /// - Returns: `DeleteTableVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6210,7 +6130,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableVersionOutput>(DeleteTableVersionOutput.httpOutput(from:), DeleteTableVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableVersionInput, DeleteTableVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableVersionOutput>())
@@ -6245,9 +6164,9 @@ extension GlueClient {
     ///
     /// Deletes a specified trigger. If the trigger is not found, no exception is thrown.
     ///
-    /// - Parameter DeleteTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTriggerInput`)
     ///
-    /// - Returns: `DeleteTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6282,7 +6201,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTriggerInput, DeleteTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTriggerOutput>(DeleteTriggerOutput.httpOutput(from:), DeleteTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTriggerInput, DeleteTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTriggerOutput>())
@@ -6317,9 +6235,9 @@ extension GlueClient {
     ///
     /// Deletes the Glue specified usage profile.
     ///
-    /// - Parameter DeleteUsageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUsageProfileInput`)
     ///
-    /// - Returns: `DeleteUsageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUsageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6354,7 +6272,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUsageProfileOutput>(DeleteUsageProfileOutput.httpOutput(from:), DeleteUsageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsageProfileInput, DeleteUsageProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsageProfileOutput>())
@@ -6389,9 +6306,9 @@ extension GlueClient {
     ///
     /// Deletes an existing function definition from the Data Catalog.
     ///
-    /// - Parameter DeleteUserDefinedFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserDefinedFunctionInput`)
     ///
-    /// - Returns: `DeleteUserDefinedFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserDefinedFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6426,7 +6343,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserDefinedFunctionOutput>(DeleteUserDefinedFunctionOutput.httpOutput(from:), DeleteUserDefinedFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserDefinedFunctionInput, DeleteUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserDefinedFunctionOutput>())
@@ -6461,9 +6377,9 @@ extension GlueClient {
     ///
     /// Deletes a workflow.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6498,7 +6414,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutput>(DeleteWorkflowOutput.httpOutput(from:), DeleteWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowOutput>())
@@ -6533,9 +6448,9 @@ extension GlueClient {
     ///
     /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue.
     ///
-    /// - Parameter DescribeConnectionTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectionTypeInput`)
     ///
-    /// - Returns: `DescribeConnectionTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectionTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6570,7 +6485,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionTypeOutput>(DescribeConnectionTypeOutput.httpOutput(from:), DescribeConnectionTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionTypeInput, DescribeConnectionTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionTypeOutput>())
@@ -6605,9 +6519,9 @@ extension GlueClient {
     ///
     /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity. The response includes all the fields which make up the entity.
     ///
-    /// - Parameter DescribeEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntityInput`)
     ///
-    /// - Returns: `DescribeEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6645,7 +6559,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntityInput, DescribeEntityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntityOutput>(DescribeEntityOutput.httpOutput(from:), DescribeEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntityInput, DescribeEntityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntityOutput>())
@@ -6680,9 +6593,9 @@ extension GlueClient {
     ///
     /// Returns a list of inbound integrations for the specified integration.
     ///
-    /// - Parameter DescribeInboundIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInboundIntegrationsInput`)
     ///
-    /// - Returns: `DescribeInboundIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInboundIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6722,7 +6635,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInboundIntegrationsOutput>(DescribeInboundIntegrationsOutput.httpOutput(from:), DescribeInboundIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInboundIntegrationsOutput>())
@@ -6757,9 +6669,9 @@ extension GlueClient {
     ///
     /// The API is used to retrieve a list of integrations.
     ///
-    /// - Parameter DescribeIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIntegrationsInput`)
     ///
-    /// - Returns: `DescribeIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6797,7 +6709,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIntegrationsOutput>(DescribeIntegrationsOutput.httpOutput(from:), DescribeIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIntegrationsOutput>())
@@ -6832,9 +6743,9 @@ extension GlueClient {
     ///
     /// Retrieves the details of a blueprint.
     ///
-    /// - Parameter GetBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBlueprintInput`)
     ///
-    /// - Returns: `GetBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6869,7 +6780,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintInput, GetBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlueprintOutput>(GetBlueprintOutput.httpOutput(from:), GetBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintInput, GetBlueprintOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintOutput>())
@@ -6904,9 +6814,9 @@ extension GlueClient {
     ///
     /// Retrieves the details of a blueprint run.
     ///
-    /// - Parameter GetBlueprintRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBlueprintRunInput`)
     ///
-    /// - Returns: `GetBlueprintRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBlueprintRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6940,7 +6850,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlueprintRunOutput>(GetBlueprintRunOutput.httpOutput(from:), GetBlueprintRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintRunInput, GetBlueprintRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintRunOutput>())
@@ -6975,9 +6884,9 @@ extension GlueClient {
     ///
     /// Retrieves the details of blueprint runs for a specified blueprint.
     ///
-    /// - Parameter GetBlueprintRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBlueprintRunsInput`)
     ///
-    /// - Returns: `GetBlueprintRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBlueprintRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7012,7 +6921,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlueprintRunsOutput>(GetBlueprintRunsOutput.httpOutput(from:), GetBlueprintRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintRunsInput, GetBlueprintRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintRunsOutput>())
@@ -7047,9 +6955,9 @@ extension GlueClient {
     ///
     /// The name of the Catalog to retrieve. This should be all lowercase.
     ///
-    /// - Parameter GetCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCatalogInput`)
     ///
-    /// - Returns: `GetCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7088,7 +6996,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCatalogInput, GetCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCatalogOutput>(GetCatalogOutput.httpOutput(from:), GetCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCatalogInput, GetCatalogOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCatalogOutput>())
@@ -7123,9 +7030,9 @@ extension GlueClient {
     ///
     /// Retrieves the status of a migration operation.
     ///
-    /// - Parameter GetCatalogImportStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCatalogImportStatusInput`)
     ///
-    /// - Returns: `GetCatalogImportStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCatalogImportStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7158,7 +7065,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCatalogImportStatusOutput>(GetCatalogImportStatusOutput.httpOutput(from:), GetCatalogImportStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCatalogImportStatusInput, GetCatalogImportStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCatalogImportStatusOutput>())
@@ -7193,9 +7099,9 @@ extension GlueClient {
     ///
     /// Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
     ///
-    /// - Parameter GetCatalogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCatalogsInput`)
     ///
-    /// - Returns: `GetCatalogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCatalogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7234,7 +7140,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCatalogsInput, GetCatalogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCatalogsOutput>(GetCatalogsOutput.httpOutput(from:), GetCatalogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCatalogsInput, GetCatalogsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCatalogsOutput>())
@@ -7269,9 +7174,9 @@ extension GlueClient {
     ///
     /// Retrieve a classifier by name.
     ///
-    /// - Parameter GetClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClassifierInput`)
     ///
-    /// - Returns: `GetClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7304,7 +7209,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClassifierInput, GetClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClassifierOutput>(GetClassifierOutput.httpOutput(from:), GetClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClassifierInput, GetClassifierOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClassifierOutput>())
@@ -7339,9 +7243,9 @@ extension GlueClient {
     ///
     /// Lists all classifier objects in the Data Catalog.
     ///
-    /// - Parameter GetClassifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClassifiersInput`)
     ///
-    /// - Returns: `GetClassifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClassifiersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7373,7 +7277,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClassifiersInput, GetClassifiersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClassifiersOutput>(GetClassifiersOutput.httpOutput(from:), GetClassifiersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClassifiersInput, GetClassifiersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClassifiersOutput>())
@@ -7408,9 +7311,9 @@ extension GlueClient {
     ///
     /// Retrieves partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetPartition.
     ///
-    /// - Parameter GetColumnStatisticsForPartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetColumnStatisticsForPartitionInput`)
     ///
-    /// - Returns: `GetColumnStatisticsForPartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetColumnStatisticsForPartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7446,7 +7349,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetColumnStatisticsForPartitionOutput>(GetColumnStatisticsForPartitionOutput.httpOutput(from:), GetColumnStatisticsForPartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsForPartitionInput, GetColumnStatisticsForPartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsForPartitionOutput>())
@@ -7481,9 +7383,9 @@ extension GlueClient {
     ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetTable.
     ///
-    /// - Parameter GetColumnStatisticsForTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetColumnStatisticsForTableInput`)
     ///
-    /// - Returns: `GetColumnStatisticsForTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetColumnStatisticsForTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7519,7 +7421,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetColumnStatisticsForTableOutput>(GetColumnStatisticsForTableOutput.httpOutput(from:), GetColumnStatisticsForTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsForTableInput, GetColumnStatisticsForTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsForTableOutput>())
@@ -7554,9 +7455,9 @@ extension GlueClient {
     ///
     /// Get the associated metadata/information for a task run, given a task run ID.
     ///
-    /// - Parameter GetColumnStatisticsTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetColumnStatisticsTaskRunInput`)
     ///
-    /// - Returns: `GetColumnStatisticsTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetColumnStatisticsTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7590,7 +7491,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetColumnStatisticsTaskRunOutput>(GetColumnStatisticsTaskRunOutput.httpOutput(from:), GetColumnStatisticsTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsTaskRunInput, GetColumnStatisticsTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsTaskRunOutput>())
@@ -7625,9 +7525,9 @@ extension GlueClient {
     ///
     /// Retrieves information about all runs associated with the specified table.
     ///
-    /// - Parameter GetColumnStatisticsTaskRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetColumnStatisticsTaskRunsInput`)
     ///
-    /// - Returns: `GetColumnStatisticsTaskRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetColumnStatisticsTaskRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7659,7 +7559,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetColumnStatisticsTaskRunsOutput>(GetColumnStatisticsTaskRunsOutput.httpOutput(from:), GetColumnStatisticsTaskRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsTaskRunsInput, GetColumnStatisticsTaskRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsTaskRunsOutput>())
@@ -7694,9 +7593,9 @@ extension GlueClient {
     ///
     /// Gets settings for a column statistics task.
     ///
-    /// - Parameter GetColumnStatisticsTaskSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetColumnStatisticsTaskSettingsInput`)
     ///
-    /// - Returns: `GetColumnStatisticsTaskSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetColumnStatisticsTaskSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7730,7 +7629,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetColumnStatisticsTaskSettingsOutput>(GetColumnStatisticsTaskSettingsOutput.httpOutput(from:), GetColumnStatisticsTaskSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetColumnStatisticsTaskSettingsInput, GetColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetColumnStatisticsTaskSettingsOutput>())
@@ -7765,9 +7663,9 @@ extension GlueClient {
     ///
     /// Retrieves a connection definition from the Data Catalog.
     ///
-    /// - Parameter GetConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionInput`)
     ///
-    /// - Returns: `GetConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7802,7 +7700,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectionInput, GetConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionOutput>(GetConnectionOutput.httpOutput(from:), GetConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionInput, GetConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionOutput>())
@@ -7837,9 +7734,9 @@ extension GlueClient {
     ///
     /// Retrieves a list of connection definitions from the Data Catalog.
     ///
-    /// - Parameter GetConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionsInput`)
     ///
-    /// - Returns: `GetConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7874,7 +7771,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectionsInput, GetConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionsOutput>(GetConnectionsOutput.httpOutput(from:), GetConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionsInput, GetConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionsOutput>())
@@ -7909,9 +7805,9 @@ extension GlueClient {
     ///
     /// Retrieves metadata for a specified crawler.
     ///
-    /// - Parameter GetCrawlerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCrawlerInput`)
     ///
-    /// - Returns: `GetCrawlerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCrawlerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7944,7 +7840,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCrawlerInput, GetCrawlerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCrawlerOutput>(GetCrawlerOutput.httpOutput(from:), GetCrawlerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCrawlerInput, GetCrawlerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCrawlerOutput>())
@@ -7979,9 +7874,9 @@ extension GlueClient {
     ///
     /// Retrieves metrics about specified crawlers.
     ///
-    /// - Parameter GetCrawlerMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCrawlerMetricsInput`)
     ///
-    /// - Returns: `GetCrawlerMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCrawlerMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8013,7 +7908,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCrawlerMetricsOutput>(GetCrawlerMetricsOutput.httpOutput(from:), GetCrawlerMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCrawlerMetricsInput, GetCrawlerMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCrawlerMetricsOutput>())
@@ -8048,9 +7942,9 @@ extension GlueClient {
     ///
     /// Retrieves metadata for all crawlers defined in the customer account.
     ///
-    /// - Parameter GetCrawlersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCrawlersInput`)
     ///
-    /// - Returns: `GetCrawlersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCrawlersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8082,7 +7976,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCrawlersInput, GetCrawlersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCrawlersOutput>(GetCrawlersOutput.httpOutput(from:), GetCrawlersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCrawlersInput, GetCrawlersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCrawlersOutput>())
@@ -8117,9 +8010,9 @@ extension GlueClient {
     ///
     /// Retrieves the details of a custom pattern by specifying its name.
     ///
-    /// - Parameter GetCustomEntityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomEntityTypeInput`)
     ///
-    /// - Returns: `GetCustomEntityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomEntityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8155,7 +8048,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomEntityTypeOutput>(GetCustomEntityTypeOutput.httpOutput(from:), GetCustomEntityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomEntityTypeInput, GetCustomEntityTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomEntityTypeOutput>())
@@ -8190,9 +8082,9 @@ extension GlueClient {
     ///
     /// Retrieves the security configuration for a specified catalog.
     ///
-    /// - Parameter GetDataCatalogEncryptionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataCatalogEncryptionSettingsInput`)
     ///
-    /// - Returns: `GetDataCatalogEncryptionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataCatalogEncryptionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8226,7 +8118,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataCatalogEncryptionSettingsOutput>(GetDataCatalogEncryptionSettingsOutput.httpOutput(from:), GetDataCatalogEncryptionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataCatalogEncryptionSettingsInput, GetDataCatalogEncryptionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataCatalogEncryptionSettingsOutput>())
@@ -8261,9 +8152,9 @@ extension GlueClient {
     ///
     /// Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
     ///
-    /// - Parameter GetDataQualityModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityModelInput`)
     ///
-    /// - Returns: `GetDataQualityModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataQualityModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8298,7 +8189,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityModelOutput>(GetDataQualityModelOutput.httpOutput(from:), GetDataQualityModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityModelInput, GetDataQualityModelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityModelOutput>())
@@ -8333,9 +8223,9 @@ extension GlueClient {
     ///
     /// Retrieve a statistic's predictions for a given Profile ID.
     ///
-    /// - Parameter GetDataQualityModelResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityModelResultInput`)
     ///
-    /// - Returns: `GetDataQualityModelResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataQualityModelResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8370,7 +8260,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityModelResultOutput>(GetDataQualityModelResultOutput.httpOutput(from:), GetDataQualityModelResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityModelResultInput, GetDataQualityModelResultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityModelResultOutput>())
@@ -8405,9 +8294,9 @@ extension GlueClient {
     ///
     /// Retrieves the result of a data quality rule evaluation.
     ///
-    /// - Parameter GetDataQualityResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityResultInput`)
     ///
-    /// - Returns: `GetDataQualityResultOutput` : The response for the data quality result.
+    /// - Returns: The response for the data quality result. (Type: `GetDataQualityResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8442,7 +8331,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityResultOutput>(GetDataQualityResultOutput.httpOutput(from:), GetDataQualityResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityResultInput, GetDataQualityResultOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityResultOutput>())
@@ -8477,9 +8365,9 @@ extension GlueClient {
     ///
     /// Gets the specified recommendation run that was used to generate rules.
     ///
-    /// - Parameter GetDataQualityRuleRecommendationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityRuleRecommendationRunInput`)
     ///
-    /// - Returns: `GetDataQualityRuleRecommendationRunOutput` : The response for the Data Quality rule recommendation run.
+    /// - Returns: The response for the Data Quality rule recommendation run. (Type: `GetDataQualityRuleRecommendationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8514,7 +8402,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityRuleRecommendationRunOutput>(GetDataQualityRuleRecommendationRunOutput.httpOutput(from:), GetDataQualityRuleRecommendationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityRuleRecommendationRunInput, GetDataQualityRuleRecommendationRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityRuleRecommendationRunOutput>())
@@ -8549,9 +8436,9 @@ extension GlueClient {
     ///
     /// Returns an existing ruleset by identifier or name.
     ///
-    /// - Parameter GetDataQualityRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityRulesetInput`)
     ///
-    /// - Returns: `GetDataQualityRulesetOutput` : Returns the data quality ruleset response.
+    /// - Returns: Returns the data quality ruleset response. (Type: `GetDataQualityRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8586,7 +8473,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityRulesetOutput>(GetDataQualityRulesetOutput.httpOutput(from:), GetDataQualityRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityRulesetInput, GetDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityRulesetOutput>())
@@ -8621,9 +8507,9 @@ extension GlueClient {
     ///
     /// Retrieves a specific run where a ruleset is evaluated against a data source.
     ///
-    /// - Parameter GetDataQualityRulesetEvaluationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityRulesetEvaluationRunInput`)
     ///
-    /// - Returns: `GetDataQualityRulesetEvaluationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataQualityRulesetEvaluationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8658,7 +8544,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataQualityRulesetEvaluationRunOutput>(GetDataQualityRulesetEvaluationRunOutput.httpOutput(from:), GetDataQualityRulesetEvaluationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataQualityRulesetEvaluationRunInput, GetDataQualityRulesetEvaluationRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataQualityRulesetEvaluationRunOutput>())
@@ -8693,9 +8578,9 @@ extension GlueClient {
     ///
     /// Retrieves the definition of a specified database.
     ///
-    /// - Parameter GetDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatabaseInput`)
     ///
-    /// - Returns: `GetDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8733,7 +8618,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatabaseInput, GetDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDatabaseOutput>(GetDatabaseOutput.httpOutput(from:), GetDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatabaseInput, GetDatabaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatabaseOutput>())
@@ -8768,9 +8652,9 @@ extension GlueClient {
     ///
     /// Retrieves all databases defined in a given Data Catalog.
     ///
-    /// - Parameter GetDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatabasesInput`)
     ///
-    /// - Returns: `GetDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8808,7 +8692,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatabasesInput, GetDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDatabasesOutput>(GetDatabasesOutput.httpOutput(from:), GetDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatabasesInput, GetDatabasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatabasesOutput>())
@@ -8843,9 +8726,9 @@ extension GlueClient {
     ///
     /// Transforms a Python script into a directed acyclic graph (DAG).
     ///
-    /// - Parameter GetDataflowGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataflowGraphInput`)
     ///
-    /// - Returns: `GetDataflowGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataflowGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8879,7 +8762,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataflowGraphOutput>(GetDataflowGraphOutput.httpOutput(from:), GetDataflowGraphOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataflowGraphInput, GetDataflowGraphOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataflowGraphOutput>())
@@ -8914,9 +8796,9 @@ extension GlueClient {
     ///
     /// Retrieves information about a specified development endpoint. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     ///
-    /// - Parameter GetDevEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDevEndpointInput`)
     ///
-    /// - Returns: `GetDevEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDevEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8951,7 +8833,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDevEndpointInput, GetDevEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDevEndpointOutput>(GetDevEndpointOutput.httpOutput(from:), GetDevEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevEndpointInput, GetDevEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevEndpointOutput>())
@@ -8986,9 +8867,9 @@ extension GlueClient {
     ///
     /// Retrieves all the development endpoints in this Amazon Web Services account. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     ///
-    /// - Parameter GetDevEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDevEndpointsInput`)
     ///
-    /// - Returns: `GetDevEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDevEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9023,7 +8904,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDevEndpointsOutput>(GetDevEndpointsOutput.httpOutput(from:), GetDevEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevEndpointsInput, GetDevEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevEndpointsOutput>())
@@ -9058,9 +8938,9 @@ extension GlueClient {
     ///
     /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the DescribeEntity API. Spark connectors generate schemas according to the same data type mapping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
     ///
-    /// - Parameter GetEntityRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEntityRecordsInput`)
     ///
-    /// - Returns: `GetEntityRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEntityRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9098,7 +8978,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEntityRecordsOutput>(GetEntityRecordsOutput.httpOutput(from:), GetEntityRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntityRecordsInput, GetEntityRecordsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEntityRecordsOutput>())
@@ -9133,9 +9012,9 @@ extension GlueClient {
     ///
     /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and application information.
     ///
-    /// - Parameter GetGlueIdentityCenterConfigurationInput : Request to retrieve the Glue Identity Center configuration.
+    /// - Parameter input: Request to retrieve the Glue Identity Center configuration. (Type: `GetGlueIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `GetGlueIdentityCenterConfigurationOutput` : Response containing the Glue Identity Center configuration details.
+    /// - Returns: Response containing the Glue Identity Center configuration details. (Type: `GetGlueIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9172,7 +9051,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlueIdentityCenterConfigurationOutput>(GetGlueIdentityCenterConfigurationOutput.httpOutput(from:), GetGlueIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlueIdentityCenterConfigurationOutput>())
@@ -9207,9 +9085,9 @@ extension GlueClient {
     ///
     /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target)
     ///
-    /// - Parameter GetIntegrationResourcePropertyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationResourcePropertyInput`)
     ///
-    /// - Returns: `GetIntegrationResourcePropertyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationResourcePropertyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9247,7 +9125,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationResourcePropertyOutput>(GetIntegrationResourcePropertyOutput.httpOutput(from:), GetIntegrationResourcePropertyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationResourcePropertyInput, GetIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationResourcePropertyOutput>())
@@ -9282,9 +9159,9 @@ extension GlueClient {
     ///
     /// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
     ///
-    /// - Parameter GetIntegrationTablePropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationTablePropertiesInput`)
     ///
-    /// - Returns: `GetIntegrationTablePropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationTablePropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9322,7 +9199,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationTablePropertiesOutput>(GetIntegrationTablePropertiesOutput.httpOutput(from:), GetIntegrationTablePropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationTablePropertiesInput, GetIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationTablePropertiesOutput>())
@@ -9357,9 +9233,9 @@ extension GlueClient {
     ///
     /// Retrieves an existing job definition.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9394,7 +9270,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobInput, GetJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -9435,9 +9310,9 @@ extension GlueClient {
     ///
     /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
     ///
-    /// - Parameter GetJobBookmarkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobBookmarkInput`)
     ///
-    /// - Returns: `GetJobBookmarkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobBookmarkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9473,7 +9348,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobBookmarkOutput>(GetJobBookmarkOutput.httpOutput(from:), GetJobBookmarkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobBookmarkInput, GetJobBookmarkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobBookmarkOutput>())
@@ -9508,9 +9382,9 @@ extension GlueClient {
     ///
     /// Retrieves the metadata for a given job run. Job run history is accessible for 365 days for your workflow and job run.
     ///
-    /// - Parameter GetJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobRunInput`)
     ///
-    /// - Returns: `GetJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9545,7 +9419,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobRunInput, GetJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobRunOutput>(GetJobRunOutput.httpOutput(from:), GetJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobRunInput, GetJobRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobRunOutput>())
@@ -9580,9 +9453,9 @@ extension GlueClient {
     ///
     /// Retrieves metadata for all runs of a given job definition. GetJobRuns returns the job runs in chronological order, with the newest jobs returned first.
     ///
-    /// - Parameter GetJobRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobRunsInput`)
     ///
-    /// - Returns: `GetJobRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9617,7 +9490,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobRunsInput, GetJobRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobRunsOutput>(GetJobRunsOutput.httpOutput(from:), GetJobRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobRunsInput, GetJobRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobRunsOutput>())
@@ -9652,9 +9524,9 @@ extension GlueClient {
     ///
     /// Retrieves all current job definitions.
     ///
-    /// - Parameter GetJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobsInput`)
     ///
-    /// - Returns: `GetJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9689,7 +9561,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobsInput, GetJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobsOutput>(GetJobsOutput.httpOutput(from:), GetJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobsInput, GetJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobsOutput>())
@@ -9724,9 +9595,9 @@ extension GlueClient {
     ///
     /// Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
     ///
-    /// - Parameter GetMLTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLTaskRunInput`)
     ///
-    /// - Returns: `GetMLTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9761,7 +9632,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLTaskRunOutput>(GetMLTaskRunOutput.httpOutput(from:), GetMLTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTaskRunInput, GetMLTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTaskRunOutput>())
@@ -9796,9 +9666,9 @@ extension GlueClient {
     ///
     /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
     ///
-    /// - Parameter GetMLTaskRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLTaskRunsInput`)
     ///
-    /// - Returns: `GetMLTaskRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLTaskRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9833,7 +9703,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLTaskRunsOutput>(GetMLTaskRunsOutput.httpOutput(from:), GetMLTaskRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTaskRunsInput, GetMLTaskRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTaskRunsOutput>())
@@ -9868,9 +9737,9 @@ extension GlueClient {
     ///
     /// Gets an Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform.
     ///
-    /// - Parameter GetMLTransformInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLTransformInput`)
     ///
-    /// - Returns: `GetMLTransformOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLTransformOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9905,7 +9774,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTransformInput, GetMLTransformOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLTransformOutput>(GetMLTransformOutput.httpOutput(from:), GetMLTransformOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTransformInput, GetMLTransformOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTransformOutput>())
@@ -9940,9 +9808,9 @@ extension GlueClient {
     ///
     /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
     ///
-    /// - Parameter GetMLTransformsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLTransformsInput`)
     ///
-    /// - Returns: `GetMLTransformsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLTransformsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9977,7 +9845,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMLTransformsInput, GetMLTransformsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLTransformsOutput>(GetMLTransformsOutput.httpOutput(from:), GetMLTransformsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLTransformsInput, GetMLTransformsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLTransformsOutput>())
@@ -10012,9 +9879,9 @@ extension GlueClient {
     ///
     /// Creates mappings.
     ///
-    /// - Parameter GetMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMappingInput`)
     ///
-    /// - Returns: `GetMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10049,7 +9916,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMappingInput, GetMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMappingOutput>(GetMappingOutput.httpOutput(from:), GetMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMappingInput, GetMappingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMappingOutput>())
@@ -10084,9 +9950,9 @@ extension GlueClient {
     ///
     /// Retrieves information about a specified partition.
     ///
-    /// - Parameter GetPartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPartitionInput`)
     ///
-    /// - Returns: `GetPartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10124,7 +9990,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPartitionInput, GetPartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPartitionOutput>(GetPartitionOutput.httpOutput(from:), GetPartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartitionInput, GetPartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartitionOutput>())
@@ -10159,9 +10024,9 @@ extension GlueClient {
     ///
     /// Retrieves the partition indexes associated with a table.
     ///
-    /// - Parameter GetPartitionIndexesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPartitionIndexesInput`)
     ///
-    /// - Returns: `GetPartitionIndexesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPartitionIndexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10197,7 +10062,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPartitionIndexesOutput>(GetPartitionIndexesOutput.httpOutput(from:), GetPartitionIndexesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartitionIndexesInput, GetPartitionIndexesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartitionIndexesOutput>())
@@ -10232,9 +10096,9 @@ extension GlueClient {
     ///
     /// Retrieves information about the partitions in a table.
     ///
-    /// - Parameter GetPartitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPartitionsInput`)
     ///
-    /// - Returns: `GetPartitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPartitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10274,7 +10138,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPartitionsInput, GetPartitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPartitionsOutput>(GetPartitionsOutput.httpOutput(from:), GetPartitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartitionsInput, GetPartitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartitionsOutput>())
@@ -10309,9 +10172,9 @@ extension GlueClient {
     ///
     /// Gets code to perform a specified mapping.
     ///
-    /// - Parameter GetPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanInput`)
     ///
-    /// - Returns: `GetPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10345,7 +10208,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInput, GetPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanOutput>(GetPlanOutput.httpOutput(from:), GetPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInput, GetPlanOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanOutput>())
@@ -10380,9 +10242,9 @@ extension GlueClient {
     ///
     /// Describes the specified registry in detail.
     ///
-    /// - Parameter GetRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegistryInput`)
     ///
-    /// - Returns: `GetRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10417,7 +10279,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegistryInput, GetRegistryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegistryOutput>(GetRegistryOutput.httpOutput(from:), GetRegistryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistryInput, GetRegistryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegistryOutput>())
@@ -10452,9 +10313,9 @@ extension GlueClient {
     ///
     /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
     ///
-    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePoliciesInput`)
     ///
-    /// - Returns: `GetResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10489,7 +10350,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePoliciesOutput>(GetResourcePoliciesOutput.httpOutput(from:), GetResourcePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePoliciesOutput>())
@@ -10524,9 +10384,9 @@ extension GlueClient {
     ///
     /// Retrieves a specified resource policy.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10561,7 +10421,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -10596,9 +10455,9 @@ extension GlueClient {
     ///
     /// Describes the specified schema in detail.
     ///
-    /// - Parameter GetSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaInput`)
     ///
-    /// - Returns: `GetSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10633,7 +10492,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaInput, GetSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaOutput>(GetSchemaOutput.httpOutput(from:), GetSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaInput, GetSchemaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaOutput>())
@@ -10668,9 +10526,9 @@ extension GlueClient {
     ///
     /// Retrieves a schema by the SchemaDefinition. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results.
     ///
-    /// - Parameter GetSchemaByDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaByDefinitionInput`)
     ///
-    /// - Returns: `GetSchemaByDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaByDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10705,7 +10563,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaByDefinitionOutput>(GetSchemaByDefinitionOutput.httpOutput(from:), GetSchemaByDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaByDefinitionInput, GetSchemaByDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaByDefinitionOutput>())
@@ -10740,9 +10597,9 @@ extension GlueClient {
     ///
     /// Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
     ///
-    /// - Parameter GetSchemaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaVersionInput`)
     ///
-    /// - Returns: `GetSchemaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10777,7 +10634,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaVersionOutput>(GetSchemaVersionOutput.httpOutput(from:), GetSchemaVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaVersionOutput>())
@@ -10812,9 +10668,9 @@ extension GlueClient {
     ///
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema.
     ///
-    /// - Parameter GetSchemaVersionsDiffInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaVersionsDiffInput`)
     ///
-    /// - Returns: `GetSchemaVersionsDiffOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaVersionsDiffOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10849,7 +10705,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaVersionsDiffOutput>(GetSchemaVersionsDiffOutput.httpOutput(from:), GetSchemaVersionsDiffOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaVersionsDiffInput, GetSchemaVersionsDiffOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaVersionsDiffOutput>())
@@ -10884,9 +10739,9 @@ extension GlueClient {
     ///
     /// Retrieves a specified security configuration.
     ///
-    /// - Parameter GetSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityConfigurationInput`)
     ///
-    /// - Returns: `GetSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10921,7 +10776,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityConfigurationOutput>(GetSecurityConfigurationOutput.httpOutput(from:), GetSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityConfigurationInput, GetSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityConfigurationOutput>())
@@ -10956,9 +10810,9 @@ extension GlueClient {
     ///
     /// Retrieves a list of all security configurations.
     ///
-    /// - Parameter GetSecurityConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityConfigurationsInput`)
     ///
-    /// - Returns: `GetSecurityConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSecurityConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10993,7 +10847,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityConfigurationsOutput>(GetSecurityConfigurationsOutput.httpOutput(from:), GetSecurityConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityConfigurationsOutput>())
@@ -11028,9 +10881,9 @@ extension GlueClient {
     ///
     /// Retrieves the session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11066,7 +10919,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -11101,9 +10953,9 @@ extension GlueClient {
     ///
     /// Retrieves the statement.
     ///
-    /// - Parameter GetStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStatementInput`)
     ///
-    /// - Returns: `GetStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11140,7 +10992,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStatementInput, GetStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStatementOutput>(GetStatementOutput.httpOutput(from:), GetStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStatementInput, GetStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStatementOutput>())
@@ -11175,9 +11026,9 @@ extension GlueClient {
     ///
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     ///
-    /// - Parameter GetTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableInput`)
     ///
-    /// - Returns: `GetTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11216,7 +11067,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableInput, GetTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableOutput>(GetTableOutput.httpOutput(from:), GetTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableInput, GetTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableOutput>())
@@ -11251,9 +11101,9 @@ extension GlueClient {
     ///
     /// Returns the configuration of all optimizers associated with a specified table.
     ///
-    /// - Parameter GetTableOptimizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableOptimizerInput`)
     ///
-    /// - Returns: `GetTableOptimizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableOptimizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11289,7 +11139,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableOptimizerOutput>(GetTableOptimizerOutput.httpOutput(from:), GetTableOptimizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableOptimizerInput, GetTableOptimizerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableOptimizerOutput>())
@@ -11324,9 +11173,9 @@ extension GlueClient {
     ///
     /// Retrieves a specified version of a table.
     ///
-    /// - Parameter GetTableVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableVersionInput`)
     ///
-    /// - Returns: `GetTableVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11362,7 +11211,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableVersionInput, GetTableVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableVersionOutput>(GetTableVersionOutput.httpOutput(from:), GetTableVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableVersionInput, GetTableVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableVersionOutput>())
@@ -11397,9 +11245,9 @@ extension GlueClient {
     ///
     /// Retrieves a list of strings that identify available versions of a specified table.
     ///
-    /// - Parameter GetTableVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableVersionsInput`)
     ///
-    /// - Returns: `GetTableVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11435,7 +11283,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableVersionsInput, GetTableVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableVersionsOutput>(GetTableVersionsOutput.httpOutput(from:), GetTableVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableVersionsInput, GetTableVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableVersionsOutput>())
@@ -11470,9 +11317,9 @@ extension GlueClient {
     ///
     /// Retrieves the definitions of some or all of the tables in a given Database.
     ///
-    /// - Parameter GetTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTablesInput`)
     ///
-    /// - Returns: `GetTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11510,7 +11357,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTablesInput, GetTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTablesOutput>(GetTablesOutput.httpOutput(from:), GetTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTablesInput, GetTablesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTablesOutput>())
@@ -11545,9 +11391,9 @@ extension GlueClient {
     ///
     /// Retrieves a list of tags associated with a resource.
     ///
-    /// - Parameter GetTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagsInput`)
     ///
-    /// - Returns: `GetTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11582,7 +11428,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagsInput, GetTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagsOutput>(GetTagsOutput.httpOutput(from:), GetTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagsInput, GetTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagsOutput>())
@@ -11617,9 +11462,9 @@ extension GlueClient {
     ///
     /// Retrieves the definition of a trigger.
     ///
-    /// - Parameter GetTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTriggerInput`)
     ///
-    /// - Returns: `GetTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11654,7 +11499,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTriggerInput, GetTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTriggerOutput>(GetTriggerOutput.httpOutput(from:), GetTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTriggerInput, GetTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTriggerOutput>())
@@ -11689,9 +11533,9 @@ extension GlueClient {
     ///
     /// Gets all the triggers associated with a job.
     ///
-    /// - Parameter GetTriggersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTriggersInput`)
     ///
-    /// - Returns: `GetTriggersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11726,7 +11570,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTriggersInput, GetTriggersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTriggersOutput>(GetTriggersOutput.httpOutput(from:), GetTriggersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTriggersInput, GetTriggersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTriggersOutput>())
@@ -11761,9 +11604,9 @@ extension GlueClient {
     ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
     ///
-    /// - Parameter GetUnfilteredPartitionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUnfilteredPartitionMetadataInput`)
     ///
-    /// - Returns: `GetUnfilteredPartitionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUnfilteredPartitionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11802,7 +11645,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUnfilteredPartitionMetadataOutput>(GetUnfilteredPartitionMetadataOutput.httpOutput(from:), GetUnfilteredPartitionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUnfilteredPartitionMetadataInput, GetUnfilteredPartitionMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUnfilteredPartitionMetadataOutput>())
@@ -11837,9 +11679,9 @@ extension GlueClient {
     ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     ///
-    /// - Parameter GetUnfilteredPartitionsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUnfilteredPartitionsMetadataInput`)
     ///
-    /// - Returns: `GetUnfilteredPartitionsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUnfilteredPartitionsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11878,7 +11720,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUnfilteredPartitionsMetadataOutput>(GetUnfilteredPartitionsMetadataOutput.httpOutput(from:), GetUnfilteredPartitionsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUnfilteredPartitionsMetadataOutput>())
@@ -11913,9 +11754,9 @@ extension GlueClient {
     ///
     /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     ///
-    /// - Parameter GetUnfilteredTableMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUnfilteredTableMetadataInput`)
     ///
-    /// - Returns: `GetUnfilteredTableMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUnfilteredTableMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11954,7 +11795,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUnfilteredTableMetadataOutput>(GetUnfilteredTableMetadataOutput.httpOutput(from:), GetUnfilteredTableMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUnfilteredTableMetadataInput, GetUnfilteredTableMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUnfilteredTableMetadataOutput>())
@@ -11989,9 +11829,9 @@ extension GlueClient {
     ///
     /// Retrieves information about the specified Glue usage profile.
     ///
-    /// - Parameter GetUsageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageProfileInput`)
     ///
-    /// - Returns: `GetUsageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12027,7 +11867,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageProfileInput, GetUsageProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageProfileOutput>(GetUsageProfileOutput.httpOutput(from:), GetUsageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageProfileInput, GetUsageProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageProfileOutput>())
@@ -12062,9 +11901,9 @@ extension GlueClient {
     ///
     /// Retrieves a specified function definition from the Data Catalog.
     ///
-    /// - Parameter GetUserDefinedFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserDefinedFunctionInput`)
     ///
-    /// - Returns: `GetUserDefinedFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserDefinedFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12100,7 +11939,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserDefinedFunctionOutput>(GetUserDefinedFunctionOutput.httpOutput(from:), GetUserDefinedFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserDefinedFunctionInput, GetUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserDefinedFunctionOutput>())
@@ -12135,9 +11973,9 @@ extension GlueClient {
     ///
     /// Retrieves multiple function definitions from the Data Catalog.
     ///
-    /// - Parameter GetUserDefinedFunctionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserDefinedFunctionsInput`)
     ///
-    /// - Returns: `GetUserDefinedFunctionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserDefinedFunctionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12173,7 +12011,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserDefinedFunctionsOutput>(GetUserDefinedFunctionsOutput.httpOutput(from:), GetUserDefinedFunctionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserDefinedFunctionsOutput>())
@@ -12208,9 +12045,9 @@ extension GlueClient {
     ///
     /// Retrieves resource metadata for a workflow.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12245,7 +12082,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowInput, GetWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowOutput>(GetWorkflowOutput.httpOutput(from:), GetWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowInput, GetWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowOutput>())
@@ -12280,9 +12116,9 @@ extension GlueClient {
     ///
     /// Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run.
     ///
-    /// - Parameter GetWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowRunInput`)
     ///
-    /// - Returns: `GetWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12317,7 +12153,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowRunOutput>(GetWorkflowRunOutput.httpOutput(from:), GetWorkflowRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowRunOutput>())
@@ -12352,9 +12187,9 @@ extension GlueClient {
     ///
     /// Retrieves the workflow run properties which were set during the run.
     ///
-    /// - Parameter GetWorkflowRunPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowRunPropertiesInput`)
     ///
-    /// - Returns: `GetWorkflowRunPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowRunPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12389,7 +12224,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowRunPropertiesOutput>(GetWorkflowRunPropertiesOutput.httpOutput(from:), GetWorkflowRunPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowRunPropertiesInput, GetWorkflowRunPropertiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowRunPropertiesOutput>())
@@ -12424,9 +12258,9 @@ extension GlueClient {
     ///
     /// Retrieves metadata for all runs of a given workflow.
     ///
-    /// - Parameter GetWorkflowRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowRunsInput`)
     ///
-    /// - Returns: `GetWorkflowRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12461,7 +12295,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowRunsOutput>(GetWorkflowRunsOutput.httpOutput(from:), GetWorkflowRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowRunsInput, GetWorkflowRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowRunsOutput>())
@@ -12496,9 +12329,9 @@ extension GlueClient {
     ///
     /// Imports an existing Amazon Athena Data Catalog to Glue.
     ///
-    /// - Parameter ImportCatalogToGlueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCatalogToGlueInput`)
     ///
-    /// - Returns: `ImportCatalogToGlueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCatalogToGlueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12531,7 +12364,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCatalogToGlueOutput>(ImportCatalogToGlueOutput.httpOutput(from:), ImportCatalogToGlueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCatalogToGlueInput, ImportCatalogToGlueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCatalogToGlueOutput>())
@@ -12566,9 +12398,9 @@ extension GlueClient {
     ///
     /// Lists all the blueprint names in an account.
     ///
-    /// - Parameter ListBlueprintsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBlueprintsInput`)
     ///
-    /// - Returns: `ListBlueprintsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12602,7 +12434,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBlueprintsInput, ListBlueprintsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBlueprintsOutput>(ListBlueprintsOutput.httpOutput(from:), ListBlueprintsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBlueprintsOutput>())
@@ -12637,9 +12468,9 @@ extension GlueClient {
     ///
     /// List all task runs for a particular account.
     ///
-    /// - Parameter ListColumnStatisticsTaskRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListColumnStatisticsTaskRunsInput`)
     ///
-    /// - Returns: `ListColumnStatisticsTaskRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListColumnStatisticsTaskRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12671,7 +12502,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListColumnStatisticsTaskRunsOutput>(ListColumnStatisticsTaskRunsOutput.httpOutput(from:), ListColumnStatisticsTaskRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListColumnStatisticsTaskRunsInput, ListColumnStatisticsTaskRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListColumnStatisticsTaskRunsOutput>())
@@ -12706,9 +12536,9 @@ extension GlueClient {
     ///
     /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API.
     ///
-    /// - Parameter ListConnectionTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectionTypesInput`)
     ///
-    /// - Returns: `ListConnectionTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectionTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12741,7 +12571,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionTypesOutput>(ListConnectionTypesOutput.httpOutput(from:), ListConnectionTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionTypesInput, ListConnectionTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectionTypesOutput>())
@@ -12776,9 +12605,9 @@ extension GlueClient {
     ///
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
-    /// - Parameter ListCrawlersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrawlersInput`)
     ///
-    /// - Returns: `ListCrawlersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrawlersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12810,7 +12639,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCrawlersInput, ListCrawlersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCrawlersOutput>(ListCrawlersOutput.httpOutput(from:), ListCrawlersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrawlersInput, ListCrawlersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrawlersOutput>())
@@ -12853,9 +12681,9 @@ extension GlueClient {
     ///
     /// * Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU hour value.
     ///
-    /// - Parameter ListCrawlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrawlsInput`)
     ///
-    /// - Returns: `ListCrawlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrawlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12889,7 +12717,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCrawlsInput, ListCrawlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCrawlsOutput>(ListCrawlsOutput.httpOutput(from:), ListCrawlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrawlsInput, ListCrawlsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrawlsOutput>())
@@ -12924,9 +12751,9 @@ extension GlueClient {
     ///
     /// Lists all the custom patterns that have been created.
     ///
-    /// - Parameter ListCustomEntityTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomEntityTypesInput`)
     ///
-    /// - Returns: `ListCustomEntityTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomEntityTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12960,7 +12787,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomEntityTypesOutput>(ListCustomEntityTypesOutput.httpOutput(from:), ListCustomEntityTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomEntityTypesInput, ListCustomEntityTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomEntityTypesOutput>())
@@ -12995,9 +12821,9 @@ extension GlueClient {
     ///
     /// Returns all data quality execution results for your account.
     ///
-    /// - Parameter ListDataQualityResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataQualityResultsInput`)
     ///
-    /// - Returns: `ListDataQualityResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataQualityResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13031,7 +12857,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityResultsOutput>(ListDataQualityResultsOutput.httpOutput(from:), ListDataQualityResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityResultsInput, ListDataQualityResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityResultsOutput>())
@@ -13066,9 +12891,9 @@ extension GlueClient {
     ///
     /// Lists the recommendation runs meeting the filter criteria.
     ///
-    /// - Parameter ListDataQualityRuleRecommendationRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataQualityRuleRecommendationRunsInput`)
     ///
-    /// - Returns: `ListDataQualityRuleRecommendationRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataQualityRuleRecommendationRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13102,7 +12927,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityRuleRecommendationRunsOutput>(ListDataQualityRuleRecommendationRunsOutput.httpOutput(from:), ListDataQualityRuleRecommendationRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityRuleRecommendationRunsOutput>())
@@ -13137,9 +12961,9 @@ extension GlueClient {
     ///
     /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
     ///
-    /// - Parameter ListDataQualityRulesetEvaluationRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataQualityRulesetEvaluationRunsInput`)
     ///
-    /// - Returns: `ListDataQualityRulesetEvaluationRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataQualityRulesetEvaluationRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13173,7 +12997,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityRulesetEvaluationRunsOutput>(ListDataQualityRulesetEvaluationRunsOutput.httpOutput(from:), ListDataQualityRulesetEvaluationRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityRulesetEvaluationRunsOutput>())
@@ -13208,9 +13031,9 @@ extension GlueClient {
     ///
     /// Returns a paginated list of rulesets for the specified list of Glue tables.
     ///
-    /// - Parameter ListDataQualityRulesetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataQualityRulesetsInput`)
     ///
-    /// - Returns: `ListDataQualityRulesetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataQualityRulesetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13245,7 +13068,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityRulesetsOutput>(ListDataQualityRulesetsOutput.httpOutput(from:), ListDataQualityRulesetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityRulesetsOutput>())
@@ -13280,9 +13102,9 @@ extension GlueClient {
     ///
     /// Retrieve annotations for a data quality statistic.
     ///
-    /// - Parameter ListDataQualityStatisticAnnotationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataQualityStatisticAnnotationsInput`)
     ///
-    /// - Returns: `ListDataQualityStatisticAnnotationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataQualityStatisticAnnotationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13315,7 +13137,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityStatisticAnnotationsOutput>(ListDataQualityStatisticAnnotationsOutput.httpOutput(from:), ListDataQualityStatisticAnnotationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityStatisticAnnotationsInput, ListDataQualityStatisticAnnotationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityStatisticAnnotationsOutput>())
@@ -13350,9 +13171,9 @@ extension GlueClient {
     ///
     /// Retrieves a list of data quality statistics.
     ///
-    /// - Parameter ListDataQualityStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataQualityStatisticsInput`)
     ///
-    /// - Returns: `ListDataQualityStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataQualityStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13386,7 +13207,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityStatisticsOutput>(ListDataQualityStatisticsOutput.httpOutput(from:), ListDataQualityStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityStatisticsInput, ListDataQualityStatisticsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityStatisticsOutput>())
@@ -13421,9 +13241,9 @@ extension GlueClient {
     ///
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
-    /// - Parameter ListDevEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevEndpointsInput`)
     ///
-    /// - Returns: `ListDevEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13458,7 +13278,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevEndpointsOutput>(ListDevEndpointsOutput.httpOutput(from:), ListDevEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevEndpointsInput, ListDevEndpointsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevEndpointsOutput>())
@@ -13493,9 +13312,9 @@ extension GlueClient {
     ///
     /// Returns the available entities supported by the connection type.
     ///
-    /// - Parameter ListEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesInput`)
     ///
-    /// - Returns: `ListEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13533,7 +13352,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesInput, ListEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitiesOutput>(ListEntitiesOutput.httpOutput(from:), ListEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesInput, ListEntitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesOutput>())
@@ -13568,9 +13386,9 @@ extension GlueClient {
     ///
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13605,7 +13423,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListJobsInput, ListJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -13640,9 +13457,9 @@ extension GlueClient {
     ///
     /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
     ///
-    /// - Parameter ListMLTransformsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMLTransformsInput`)
     ///
-    /// - Returns: `ListMLTransformsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMLTransformsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13677,7 +13494,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMLTransformsInput, ListMLTransformsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMLTransformsOutput>(ListMLTransformsOutput.httpOutput(from:), ListMLTransformsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMLTransformsInput, ListMLTransformsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMLTransformsOutput>())
@@ -13712,9 +13528,9 @@ extension GlueClient {
     ///
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
     ///
-    /// - Parameter ListRegistriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegistriesInput`)
     ///
-    /// - Returns: `ListRegistriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegistriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13748,7 +13564,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegistriesInput, ListRegistriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegistriesOutput>(ListRegistriesOutput.httpOutput(from:), ListRegistriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegistriesInput, ListRegistriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegistriesOutput>())
@@ -13783,9 +13598,9 @@ extension GlueClient {
     ///
     /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
     ///
-    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemaVersionsInput`)
     ///
-    /// - Returns: `ListSchemaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13820,7 +13635,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemaVersionsOutput>(ListSchemaVersionsOutput.httpOutput(from:), ListSchemaVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemaVersionsOutput>())
@@ -13855,9 +13669,9 @@ extension GlueClient {
     ///
     /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
     ///
-    /// - Parameter ListSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemasInput`)
     ///
-    /// - Returns: `ListSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13892,7 +13706,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemasInput, ListSchemasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemasOutput>(ListSchemasOutput.httpOutput(from:), ListSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemasInput, ListSchemasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemasOutput>())
@@ -13927,9 +13740,9 @@ extension GlueClient {
     ///
     /// Retrieve a list of sessions.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13964,7 +13777,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionsInput, ListSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsOutput>(ListSessionsOutput.httpOutput(from:), ListSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
@@ -13999,9 +13811,9 @@ extension GlueClient {
     ///
     /// Lists statements for the session.
     ///
-    /// - Parameter ListStatementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStatementsInput`)
     ///
-    /// - Returns: `ListStatementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStatementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14038,7 +13850,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStatementsInput, ListStatementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStatementsOutput>(ListStatementsOutput.httpOutput(from:), ListStatementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStatementsInput, ListStatementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStatementsOutput>())
@@ -14073,9 +13884,9 @@ extension GlueClient {
     ///
     /// Lists the history of previous optimizer runs for a specific table.
     ///
-    /// - Parameter ListTableOptimizerRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTableOptimizerRunsInput`)
     ///
-    /// - Returns: `ListTableOptimizerRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTableOptimizerRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14112,7 +13923,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTableOptimizerRunsOutput>(ListTableOptimizerRunsOutput.httpOutput(from:), ListTableOptimizerRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTableOptimizerRunsInput, ListTableOptimizerRunsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTableOptimizerRunsOutput>())
@@ -14147,9 +13957,9 @@ extension GlueClient {
     ///
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
-    /// - Parameter ListTriggersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTriggersInput`)
     ///
-    /// - Returns: `ListTriggersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14184,7 +13994,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTriggersInput, ListTriggersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTriggersOutput>(ListTriggersOutput.httpOutput(from:), ListTriggersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTriggersInput, ListTriggersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTriggersOutput>())
@@ -14219,9 +14028,9 @@ extension GlueClient {
     ///
     /// List all the Glue usage profiles.
     ///
-    /// - Parameter ListUsageProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsageProfilesInput`)
     ///
-    /// - Returns: `ListUsageProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsageProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14256,7 +14065,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsageProfilesOutput>(ListUsageProfilesOutput.httpOutput(from:), ListUsageProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsageProfilesInput, ListUsageProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsageProfilesOutput>())
@@ -14291,9 +14099,9 @@ extension GlueClient {
     ///
     /// Lists names of workflows created in the account.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14327,7 +14135,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowsOutput>(ListWorkflowsOutput.httpOutput(from:), ListWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowsOutput>())
@@ -14362,9 +14169,9 @@ extension GlueClient {
     ///
     /// Modifies a Zero-ETL integration in the caller's account.
     ///
-    /// - Parameter ModifyIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIntegrationInput`)
     ///
-    /// - Returns: `ModifyIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14406,7 +14213,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIntegrationOutput>(ModifyIntegrationOutput.httpOutput(from:), ModifyIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIntegrationOutput>())
@@ -14441,9 +14247,9 @@ extension GlueClient {
     ///
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
     ///
-    /// - Parameter PutDataCatalogEncryptionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDataCatalogEncryptionSettingsInput`)
     ///
-    /// - Returns: `PutDataCatalogEncryptionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDataCatalogEncryptionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14477,7 +14283,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDataCatalogEncryptionSettingsOutput>(PutDataCatalogEncryptionSettingsOutput.httpOutput(from:), PutDataCatalogEncryptionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataCatalogEncryptionSettingsInput, PutDataCatalogEncryptionSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataCatalogEncryptionSettingsOutput>())
@@ -14512,9 +14317,9 @@ extension GlueClient {
     ///
     /// Annotate all datapoints for a Profile.
     ///
-    /// - Parameter PutDataQualityProfileAnnotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDataQualityProfileAnnotationInput`)
     ///
-    /// - Returns: `PutDataQualityProfileAnnotationOutput` : Left blank.
+    /// - Returns: Left blank. (Type: `PutDataQualityProfileAnnotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14548,7 +14353,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDataQualityProfileAnnotationOutput>(PutDataQualityProfileAnnotationOutput.httpOutput(from:), PutDataQualityProfileAnnotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataQualityProfileAnnotationInput, PutDataQualityProfileAnnotationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataQualityProfileAnnotationOutput>())
@@ -14583,9 +14387,9 @@ extension GlueClient {
     ///
     /// Sets the Data Catalog resource policy for access control.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14621,7 +14425,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -14656,9 +14459,9 @@ extension GlueClient {
     ///
     /// Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
     ///
-    /// - Parameter PutSchemaVersionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSchemaVersionMetadataInput`)
     ///
-    /// - Returns: `PutSchemaVersionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSchemaVersionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14694,7 +14497,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSchemaVersionMetadataOutput>(PutSchemaVersionMetadataOutput.httpOutput(from:), PutSchemaVersionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSchemaVersionMetadataInput, PutSchemaVersionMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSchemaVersionMetadataOutput>())
@@ -14729,9 +14531,9 @@ extension GlueClient {
     ///
     /// Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
     ///
-    /// - Parameter PutWorkflowRunPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutWorkflowRunPropertiesInput`)
     ///
-    /// - Returns: `PutWorkflowRunPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutWorkflowRunPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14769,7 +14571,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutWorkflowRunPropertiesOutput>(PutWorkflowRunPropertiesOutput.httpOutput(from:), PutWorkflowRunPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutWorkflowRunPropertiesInput, PutWorkflowRunPropertiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutWorkflowRunPropertiesOutput>())
@@ -14804,9 +14605,9 @@ extension GlueClient {
     ///
     /// Queries for the schema version metadata information.
     ///
-    /// - Parameter QuerySchemaVersionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QuerySchemaVersionMetadataInput`)
     ///
-    /// - Returns: `QuerySchemaVersionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QuerySchemaVersionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14840,7 +14641,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QuerySchemaVersionMetadataOutput>(QuerySchemaVersionMetadataOutput.httpOutput(from:), QuerySchemaVersionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QuerySchemaVersionMetadataInput, QuerySchemaVersionMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QuerySchemaVersionMetadataOutput>())
@@ -14875,9 +14675,9 @@ extension GlueClient {
     ///
     /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
     ///
-    /// - Parameter RegisterSchemaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterSchemaVersionInput`)
     ///
-    /// - Returns: `RegisterSchemaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterSchemaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14914,7 +14714,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterSchemaVersionOutput>(RegisterSchemaVersionOutput.httpOutput(from:), RegisterSchemaVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterSchemaVersionInput, RegisterSchemaVersionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterSchemaVersionOutput>())
@@ -14949,9 +14748,9 @@ extension GlueClient {
     ///
     /// Removes a key value pair from the schema version metadata for the specified schema version ID.
     ///
-    /// - Parameter RemoveSchemaVersionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveSchemaVersionMetadataInput`)
     ///
-    /// - Returns: `RemoveSchemaVersionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveSchemaVersionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14985,7 +14784,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveSchemaVersionMetadataOutput>(RemoveSchemaVersionMetadataOutput.httpOutput(from:), RemoveSchemaVersionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveSchemaVersionMetadataInput, RemoveSchemaVersionMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveSchemaVersionMetadataOutput>())
@@ -15026,9 +14824,9 @@ extension GlueClient {
     ///
     /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
     ///
-    /// - Parameter ResetJobBookmarkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetJobBookmarkInput`)
     ///
-    /// - Returns: `ResetJobBookmarkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetJobBookmarkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15063,7 +14861,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetJobBookmarkOutput>(ResetJobBookmarkOutput.httpOutput(from:), ResetJobBookmarkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetJobBookmarkInput, ResetJobBookmarkOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetJobBookmarkOutput>())
@@ -15098,9 +14895,9 @@ extension GlueClient {
     ///
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
     ///
-    /// - Parameter ResumeWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeWorkflowRunInput`)
     ///
-    /// - Returns: `ResumeWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15137,7 +14934,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeWorkflowRunOutput>(ResumeWorkflowRunOutput.httpOutput(from:), ResumeWorkflowRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeWorkflowRunInput, ResumeWorkflowRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeWorkflowRunOutput>())
@@ -15172,9 +14968,9 @@ extension GlueClient {
     ///
     /// Executes the statement.
     ///
-    /// - Parameter RunStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RunStatementInput`)
     ///
-    /// - Returns: `RunStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RunStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15213,7 +15009,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RunStatementInput, RunStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunStatementOutput>(RunStatementOutput.httpOutput(from:), RunStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunStatementInput, RunStatementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RunStatementOutput>())
@@ -15248,9 +15043,9 @@ extension GlueClient {
     ///
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
     ///
-    /// - Parameter SearchTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTablesInput`)
     ///
-    /// - Returns: `SearchTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15284,7 +15079,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTablesInput, SearchTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTablesOutput>(SearchTablesOutput.httpOutput(from:), SearchTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTablesInput, SearchTablesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTablesOutput>())
@@ -15319,9 +15113,9 @@ extension GlueClient {
     ///
     /// Starts a new run of the specified blueprint.
     ///
-    /// - Parameter StartBlueprintRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBlueprintRunInput`)
     ///
-    /// - Returns: `StartBlueprintRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBlueprintRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15358,7 +15152,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBlueprintRunOutput>(StartBlueprintRunOutput.httpOutput(from:), StartBlueprintRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBlueprintRunInput, StartBlueprintRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBlueprintRunOutput>())
@@ -15393,9 +15186,9 @@ extension GlueClient {
     ///
     /// Starts a column statistics task run, for a specified table and columns.
     ///
-    /// - Parameter StartColumnStatisticsTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartColumnStatisticsTaskRunInput`)
     ///
-    /// - Returns: `StartColumnStatisticsTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartColumnStatisticsTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15432,7 +15225,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartColumnStatisticsTaskRunOutput>(StartColumnStatisticsTaskRunOutput.httpOutput(from:), StartColumnStatisticsTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartColumnStatisticsTaskRunInput, StartColumnStatisticsTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartColumnStatisticsTaskRunOutput>())
@@ -15467,9 +15259,9 @@ extension GlueClient {
     ///
     /// Starts a column statistics task run schedule.
     ///
-    /// - Parameter StartColumnStatisticsTaskRunScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartColumnStatisticsTaskRunScheduleInput`)
     ///
-    /// - Returns: `StartColumnStatisticsTaskRunScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartColumnStatisticsTaskRunScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15504,7 +15296,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartColumnStatisticsTaskRunScheduleOutput>(StartColumnStatisticsTaskRunScheduleOutput.httpOutput(from:), StartColumnStatisticsTaskRunScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartColumnStatisticsTaskRunScheduleInput, StartColumnStatisticsTaskRunScheduleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartColumnStatisticsTaskRunScheduleOutput>())
@@ -15539,9 +15330,9 @@ extension GlueClient {
     ///
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a [CrawlerRunningException](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-exceptions.html#aws-glue-api-exceptions-CrawlerRunningException).
     ///
-    /// - Parameter StartCrawlerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCrawlerInput`)
     ///
-    /// - Returns: `StartCrawlerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCrawlerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15575,7 +15366,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCrawlerInput, StartCrawlerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCrawlerOutput>(StartCrawlerOutput.httpOutput(from:), StartCrawlerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCrawlerInput, StartCrawlerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCrawlerOutput>())
@@ -15610,9 +15400,9 @@ extension GlueClient {
     ///
     /// Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
     ///
-    /// - Parameter StartCrawlerScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCrawlerScheduleInput`)
     ///
-    /// - Returns: `StartCrawlerScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCrawlerScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15648,7 +15438,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCrawlerScheduleOutput>(StartCrawlerScheduleOutput.httpOutput(from:), StartCrawlerScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCrawlerScheduleInput, StartCrawlerScheduleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCrawlerScheduleOutput>())
@@ -15683,9 +15472,9 @@ extension GlueClient {
     ///
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days.
     ///
-    /// - Parameter StartDataQualityRuleRecommendationRunInput : The request of the Data Quality rule recommendation request.
+    /// - Parameter input: The request of the Data Quality rule recommendation request. (Type: `StartDataQualityRuleRecommendationRunInput`)
     ///
-    /// - Returns: `StartDataQualityRuleRecommendationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataQualityRuleRecommendationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15720,7 +15509,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataQualityRuleRecommendationRunOutput>(StartDataQualityRuleRecommendationRunOutput.httpOutput(from:), StartDataQualityRuleRecommendationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataQualityRuleRecommendationRunInput, StartDataQualityRuleRecommendationRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataQualityRuleRecommendationRunOutput>())
@@ -15755,9 +15543,9 @@ extension GlueClient {
     ///
     /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API.
     ///
-    /// - Parameter StartDataQualityRulesetEvaluationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataQualityRulesetEvaluationRunInput`)
     ///
-    /// - Returns: `StartDataQualityRulesetEvaluationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataQualityRulesetEvaluationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15793,7 +15581,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataQualityRulesetEvaluationRunOutput>(StartDataQualityRulesetEvaluationRunOutput.httpOutput(from:), StartDataQualityRulesetEvaluationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataQualityRulesetEvaluationRunInput, StartDataQualityRulesetEvaluationRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataQualityRulesetEvaluationRunOutput>())
@@ -15828,9 +15615,9 @@ extension GlueClient {
     ///
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
     ///
-    /// - Parameter StartExportLabelsTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExportLabelsTaskRunInput`)
     ///
-    /// - Returns: `StartExportLabelsTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExportLabelsTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15865,7 +15652,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExportLabelsTaskRunOutput>(StartExportLabelsTaskRunOutput.httpOutput(from:), StartExportLabelsTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExportLabelsTaskRunInput, StartExportLabelsTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExportLabelsTaskRunOutput>())
@@ -15900,9 +15686,9 @@ extension GlueClient {
     ///
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation.
     ///
-    /// - Parameter StartImportLabelsTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportLabelsTaskRunInput`)
     ///
-    /// - Returns: `StartImportLabelsTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportLabelsTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15938,7 +15724,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportLabelsTaskRunOutput>(StartImportLabelsTaskRunOutput.httpOutput(from:), StartImportLabelsTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportLabelsTaskRunInput, StartImportLabelsTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportLabelsTaskRunOutput>())
@@ -15973,9 +15758,9 @@ extension GlueClient {
     ///
     /// Starts a job run using a job definition.
     ///
-    /// - Parameter StartJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartJobRunInput`)
     ///
-    /// - Returns: `StartJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16012,7 +15797,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartJobRunInput, StartJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobRunOutput>(StartJobRunOutput.httpOutput(from:), StartJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobRunInput, StartJobRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobRunOutput>())
@@ -16047,9 +15831,9 @@ extension GlueClient {
     ///
     /// Starts a task to estimate the quality of the transform. When you provide label sets as examples of truth, Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
     ///
-    /// - Parameter StartMLEvaluationTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMLEvaluationTaskRunInput`)
     ///
-    /// - Returns: `StartMLEvaluationTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMLEvaluationTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16086,7 +15870,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMLEvaluationTaskRunOutput>(StartMLEvaluationTaskRunOutput.httpOutput(from:), StartMLEvaluationTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMLEvaluationTaskRunInput, StartMLEvaluationTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMLEvaluationTaskRunOutput>())
@@ -16121,9 +15904,9 @@ extension GlueClient {
     ///
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation. Note: The role used to write the generated labeling set to the OutputS3Path is the role associated with the Machine Learning Transform, specified in the CreateMLTransform API.
     ///
-    /// - Parameter StartMLLabelingSetGenerationTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMLLabelingSetGenerationTaskRunInput`)
     ///
-    /// - Returns: `StartMLLabelingSetGenerationTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMLLabelingSetGenerationTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16159,7 +15942,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMLLabelingSetGenerationTaskRunOutput>(StartMLLabelingSetGenerationTaskRunOutput.httpOutput(from:), StartMLLabelingSetGenerationTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMLLabelingSetGenerationTaskRunInput, StartMLLabelingSetGenerationTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMLLabelingSetGenerationTaskRunOutput>())
@@ -16194,9 +15976,9 @@ extension GlueClient {
     ///
     /// Starts an existing trigger. See [Triggering Jobs](https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html) for information about how different types of trigger are started.
     ///
-    /// - Parameter StartTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTriggerInput`)
     ///
-    /// - Returns: `StartTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16233,7 +16015,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTriggerInput, StartTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTriggerOutput>(StartTriggerOutput.httpOutput(from:), StartTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTriggerInput, StartTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTriggerOutput>())
@@ -16268,9 +16049,9 @@ extension GlueClient {
     ///
     /// Starts a new run of the specified workflow.
     ///
-    /// - Parameter StartWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkflowRunInput`)
     ///
-    /// - Returns: `StartWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16307,7 +16088,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWorkflowRunOutput>(StartWorkflowRunOutput.httpOutput(from:), StartWorkflowRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWorkflowRunOutput>())
@@ -16342,9 +16122,9 @@ extension GlueClient {
     ///
     /// Stops a task run for the specified table.
     ///
-    /// - Parameter StopColumnStatisticsTaskRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopColumnStatisticsTaskRunInput`)
     ///
-    /// - Returns: `StopColumnStatisticsTaskRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopColumnStatisticsTaskRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16379,7 +16159,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopColumnStatisticsTaskRunOutput>(StopColumnStatisticsTaskRunOutput.httpOutput(from:), StopColumnStatisticsTaskRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopColumnStatisticsTaskRunInput, StopColumnStatisticsTaskRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopColumnStatisticsTaskRunOutput>())
@@ -16414,9 +16193,9 @@ extension GlueClient {
     ///
     /// Stops a column statistics task run schedule.
     ///
-    /// - Parameter StopColumnStatisticsTaskRunScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopColumnStatisticsTaskRunScheduleInput`)
     ///
-    /// - Returns: `StopColumnStatisticsTaskRunScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopColumnStatisticsTaskRunScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16450,7 +16229,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopColumnStatisticsTaskRunScheduleOutput>(StopColumnStatisticsTaskRunScheduleOutput.httpOutput(from:), StopColumnStatisticsTaskRunScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopColumnStatisticsTaskRunScheduleInput, StopColumnStatisticsTaskRunScheduleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopColumnStatisticsTaskRunScheduleOutput>())
@@ -16485,9 +16263,9 @@ extension GlueClient {
     ///
     /// If the specified crawler is running, stops the crawl.
     ///
-    /// - Parameter StopCrawlerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCrawlerInput`)
     ///
-    /// - Returns: `StopCrawlerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCrawlerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16522,7 +16300,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCrawlerInput, StopCrawlerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCrawlerOutput>(StopCrawlerOutput.httpOutput(from:), StopCrawlerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCrawlerInput, StopCrawlerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCrawlerOutput>())
@@ -16557,9 +16334,9 @@ extension GlueClient {
     ///
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
     ///
-    /// - Parameter StopCrawlerScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCrawlerScheduleInput`)
     ///
-    /// - Returns: `StopCrawlerScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCrawlerScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16594,7 +16371,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCrawlerScheduleOutput>(StopCrawlerScheduleOutput.httpOutput(from:), StopCrawlerScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCrawlerScheduleInput, StopCrawlerScheduleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCrawlerScheduleOutput>())
@@ -16629,9 +16405,9 @@ extension GlueClient {
     ///
     /// Stops the session.
     ///
-    /// - Parameter StopSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSessionInput`)
     ///
-    /// - Returns: `StopSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16668,7 +16444,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSessionInput, StopSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSessionOutput>(StopSessionOutput.httpOutput(from:), StopSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSessionInput, StopSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSessionOutput>())
@@ -16703,9 +16478,9 @@ extension GlueClient {
     ///
     /// Stops a specified trigger.
     ///
-    /// - Parameter StopTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTriggerInput`)
     ///
-    /// - Returns: `StopTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16741,7 +16516,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTriggerInput, StopTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTriggerOutput>(StopTriggerOutput.httpOutput(from:), StopTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTriggerInput, StopTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTriggerOutput>())
@@ -16776,9 +16550,9 @@ extension GlueClient {
     ///
     /// Stops the execution of the specified workflow run.
     ///
-    /// - Parameter StopWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopWorkflowRunInput`)
     ///
-    /// - Returns: `StopWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16814,7 +16588,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopWorkflowRunOutput>(StopWorkflowRunOutput.httpOutput(from:), StopWorkflowRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopWorkflowRunInput, StopWorkflowRunOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopWorkflowRunOutput>())
@@ -16849,9 +16622,9 @@ extension GlueClient {
     ///
     /// Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource. In Glue, you can tag only certain resources. For information about what resources you can tag, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16886,7 +16659,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -16921,9 +16693,9 @@ extension GlueClient {
     ///
     /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnectionInput for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 response.
     ///
-    /// - Parameter TestConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestConnectionInput`)
     ///
-    /// - Returns: `TestConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16963,7 +16735,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestConnectionInput, TestConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestConnectionOutput>(TestConnectionOutput.httpOutput(from:), TestConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestConnectionInput, TestConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestConnectionOutput>())
@@ -16998,9 +16769,9 @@ extension GlueClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17035,7 +16806,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -17070,9 +16840,9 @@ extension GlueClient {
     ///
     /// Updates a registered blueprint.
     ///
-    /// - Parameter UpdateBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBlueprintInput`)
     ///
-    /// - Returns: `UpdateBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17109,7 +16879,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBlueprintOutput>(UpdateBlueprintOutput.httpOutput(from:), UpdateBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBlueprintOutput>())
@@ -17144,9 +16913,9 @@ extension GlueClient {
     ///
     /// Updates an existing catalog's properties in the Glue Data Catalog.
     ///
-    /// - Parameter UpdateCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCatalogInput`)
     ///
-    /// - Returns: `UpdateCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17185,7 +16954,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCatalogInput, UpdateCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCatalogOutput>(UpdateCatalogOutput.httpOutput(from:), UpdateCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCatalogInput, UpdateCatalogOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCatalogOutput>())
@@ -17220,9 +16988,9 @@ extension GlueClient {
     ///
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
     ///
-    /// - Parameter UpdateClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClassifierInput`)
     ///
-    /// - Returns: `UpdateClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17257,7 +17025,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClassifierInput, UpdateClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClassifierOutput>(UpdateClassifierOutput.httpOutput(from:), UpdateClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClassifierInput, UpdateClassifierOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClassifierOutput>())
@@ -17292,9 +17059,9 @@ extension GlueClient {
     ///
     /// Creates or updates partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdatePartition.
     ///
-    /// - Parameter UpdateColumnStatisticsForPartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateColumnStatisticsForPartitionInput`)
     ///
-    /// - Returns: `UpdateColumnStatisticsForPartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateColumnStatisticsForPartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17330,7 +17097,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateColumnStatisticsForPartitionOutput>(UpdateColumnStatisticsForPartitionOutput.httpOutput(from:), UpdateColumnStatisticsForPartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateColumnStatisticsForPartitionInput, UpdateColumnStatisticsForPartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateColumnStatisticsForPartitionOutput>())
@@ -17365,9 +17131,9 @@ extension GlueClient {
     ///
     /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable.
     ///
-    /// - Parameter UpdateColumnStatisticsForTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateColumnStatisticsForTableInput`)
     ///
-    /// - Returns: `UpdateColumnStatisticsForTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateColumnStatisticsForTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17403,7 +17169,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateColumnStatisticsForTableOutput>(UpdateColumnStatisticsForTableOutput.httpOutput(from:), UpdateColumnStatisticsForTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateColumnStatisticsForTableInput, UpdateColumnStatisticsForTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateColumnStatisticsForTableOutput>())
@@ -17438,9 +17203,9 @@ extension GlueClient {
     ///
     /// Updates settings for a column statistics task.
     ///
-    /// - Parameter UpdateColumnStatisticsTaskSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateColumnStatisticsTaskSettingsInput`)
     ///
-    /// - Returns: `UpdateColumnStatisticsTaskSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateColumnStatisticsTaskSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17476,7 +17241,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateColumnStatisticsTaskSettingsOutput>(UpdateColumnStatisticsTaskSettingsOutput.httpOutput(from:), UpdateColumnStatisticsTaskSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateColumnStatisticsTaskSettingsInput, UpdateColumnStatisticsTaskSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateColumnStatisticsTaskSettingsOutput>())
@@ -17511,9 +17275,9 @@ extension GlueClient {
     ///
     /// Updates a connection definition in the Data Catalog.
     ///
-    /// - Parameter UpdateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionInput`)
     ///
-    /// - Returns: `UpdateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17548,7 +17312,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionOutput>(UpdateConnectionOutput.httpOutput(from:), UpdateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
@@ -17583,9 +17346,9 @@ extension GlueClient {
     ///
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
     ///
-    /// - Parameter UpdateCrawlerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCrawlerInput`)
     ///
-    /// - Returns: `UpdateCrawlerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCrawlerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17621,7 +17384,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCrawlerOutput>(UpdateCrawlerOutput.httpOutput(from:), UpdateCrawlerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCrawlerInput, UpdateCrawlerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCrawlerOutput>())
@@ -17656,9 +17418,9 @@ extension GlueClient {
     ///
     /// Updates the schedule of a crawler using a cron expression.
     ///
-    /// - Parameter UpdateCrawlerScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCrawlerScheduleInput`)
     ///
-    /// - Returns: `UpdateCrawlerScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCrawlerScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17694,7 +17456,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCrawlerScheduleOutput>(UpdateCrawlerScheduleOutput.httpOutput(from:), UpdateCrawlerScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCrawlerScheduleInput, UpdateCrawlerScheduleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCrawlerScheduleOutput>())
@@ -17729,9 +17490,9 @@ extension GlueClient {
     ///
     /// Updates the specified data quality ruleset.
     ///
-    /// - Parameter UpdateDataQualityRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataQualityRulesetInput`)
     ///
-    /// - Returns: `UpdateDataQualityRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataQualityRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17769,7 +17530,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataQualityRulesetOutput>(UpdateDataQualityRulesetOutput.httpOutput(from:), UpdateDataQualityRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataQualityRulesetInput, UpdateDataQualityRulesetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataQualityRulesetOutput>())
@@ -17804,9 +17564,9 @@ extension GlueClient {
     ///
     /// Updates an existing database definition in a Data Catalog.
     ///
-    /// - Parameter UpdateDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatabaseInput`)
     ///
-    /// - Returns: `UpdateDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17846,7 +17606,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatabaseOutput>(UpdateDatabaseOutput.httpOutput(from:), UpdateDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatabaseOutput>())
@@ -17881,9 +17640,9 @@ extension GlueClient {
     ///
     /// Updates a specified development endpoint.
     ///
-    /// - Parameter UpdateDevEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDevEndpointInput`)
     ///
-    /// - Returns: `UpdateDevEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDevEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17919,7 +17678,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDevEndpointOutput>(UpdateDevEndpointOutput.httpOutput(from:), UpdateDevEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDevEndpointInput, UpdateDevEndpointOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDevEndpointOutput>())
@@ -17954,9 +17712,9 @@ extension GlueClient {
     ///
     /// Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
     ///
-    /// - Parameter UpdateGlueIdentityCenterConfigurationInput : Request to update an existing Glue Identity Center configuration.
+    /// - Parameter input: Request to update an existing Glue Identity Center configuration. (Type: `UpdateGlueIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `UpdateGlueIdentityCenterConfigurationOutput` : Response from updating an existing Glue Identity Center configuration.
+    /// - Returns: Response from updating an existing Glue Identity Center configuration. (Type: `UpdateGlueIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17993,7 +17751,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlueIdentityCenterConfigurationOutput>(UpdateGlueIdentityCenterConfigurationOutput.httpOutput(from:), UpdateGlueIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlueIdentityCenterConfigurationOutput>())
@@ -18028,9 +17785,9 @@ extension GlueClient {
     ///
     /// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
     ///
-    /// - Parameter UpdateIntegrationResourcePropertyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIntegrationResourcePropertyInput`)
     ///
-    /// - Returns: `UpdateIntegrationResourcePropertyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntegrationResourcePropertyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18068,7 +17825,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntegrationResourcePropertyOutput>(UpdateIntegrationResourcePropertyOutput.httpOutput(from:), UpdateIntegrationResourcePropertyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationResourcePropertyInput, UpdateIntegrationResourcePropertyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationResourcePropertyOutput>())
@@ -18103,9 +17859,9 @@ extension GlueClient {
     ///
     /// This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively. The override will be reflected across all the integrations using same ResourceArn and source table.
     ///
-    /// - Parameter UpdateIntegrationTablePropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIntegrationTablePropertiesInput`)
     ///
-    /// - Returns: `UpdateIntegrationTablePropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntegrationTablePropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18143,7 +17899,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntegrationTablePropertiesOutput>(UpdateIntegrationTablePropertiesOutput.httpOutput(from:), UpdateIntegrationTablePropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationTablePropertiesInput, UpdateIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationTablePropertiesOutput>())
@@ -18178,9 +17933,9 @@ extension GlueClient {
     ///
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.
     ///
-    /// - Parameter UpdateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobInput`)
     ///
-    /// - Returns: `UpdateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18216,7 +17971,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobInput, UpdateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobOutput>(UpdateJobOutput.httpOutput(from:), UpdateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobInput, UpdateJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobOutput>())
@@ -18251,9 +18005,9 @@ extension GlueClient {
     ///
     /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository information.
     ///
-    /// - Parameter UpdateJobFromSourceControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobFromSourceControlInput`)
     ///
-    /// - Returns: `UpdateJobFromSourceControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobFromSourceControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18291,7 +18045,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobFromSourceControlOutput>(UpdateJobFromSourceControlOutput.httpOutput(from:), UpdateJobFromSourceControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobFromSourceControlInput, UpdateJobFromSourceControlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobFromSourceControlOutput>())
@@ -18326,9 +18079,9 @@ extension GlueClient {
     ///
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
     ///
-    /// - Parameter UpdateMLTransformInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMLTransformInput`)
     ///
-    /// - Returns: `UpdateMLTransformOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMLTransformOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18364,7 +18117,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMLTransformOutput>(UpdateMLTransformOutput.httpOutput(from:), UpdateMLTransformOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMLTransformInput, UpdateMLTransformOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMLTransformOutput>())
@@ -18399,9 +18151,9 @@ extension GlueClient {
     ///
     /// Updates a partition.
     ///
-    /// - Parameter UpdatePartitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePartitionInput`)
     ///
-    /// - Returns: `UpdatePartitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePartitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18437,7 +18189,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePartitionInput, UpdatePartitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePartitionOutput>(UpdatePartitionOutput.httpOutput(from:), UpdatePartitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePartitionInput, UpdatePartitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePartitionOutput>())
@@ -18472,9 +18223,9 @@ extension GlueClient {
     ///
     /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
     ///
-    /// - Parameter UpdateRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRegistryInput`)
     ///
-    /// - Returns: `UpdateRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18510,7 +18261,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRegistryInput, UpdateRegistryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRegistryOutput>(UpdateRegistryOutput.httpOutput(from:), UpdateRegistryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRegistryInput, UpdateRegistryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRegistryOutput>())
@@ -18545,9 +18295,9 @@ extension GlueClient {
     ///
     /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and this can be used to set/reset a checkpoint for the schema. This update will happen only if the schema is in the AVAILABLE state.
     ///
-    /// - Parameter UpdateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSchemaInput`)
     ///
-    /// - Returns: `UpdateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18583,7 +18333,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSchemaInput, UpdateSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSchemaOutput>(UpdateSchemaOutput.httpOutput(from:), UpdateSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSchemaOutput>())
@@ -18618,9 +18367,9 @@ extension GlueClient {
     ///
     /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information.
     ///
-    /// - Parameter UpdateSourceControlFromJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSourceControlFromJobInput`)
     ///
-    /// - Returns: `UpdateSourceControlFromJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSourceControlFromJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18658,7 +18407,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSourceControlFromJobOutput>(UpdateSourceControlFromJobOutput.httpOutput(from:), UpdateSourceControlFromJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSourceControlFromJobInput, UpdateSourceControlFromJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSourceControlFromJobOutput>())
@@ -18693,9 +18441,9 @@ extension GlueClient {
     ///
     /// Updates a metadata table in the Data Catalog.
     ///
-    /// - Parameter UpdateTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableInput`)
     ///
-    /// - Returns: `UpdateTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18737,7 +18485,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableOutput>(UpdateTableOutput.httpOutput(from:), UpdateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableInput, UpdateTableOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())
@@ -18772,9 +18519,9 @@ extension GlueClient {
     ///
     /// Updates the configuration for an existing table optimizer.
     ///
-    /// - Parameter UpdateTableOptimizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableOptimizerInput`)
     ///
-    /// - Returns: `UpdateTableOptimizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableOptimizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18812,7 +18559,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableOptimizerOutput>(UpdateTableOptimizerOutput.httpOutput(from:), UpdateTableOptimizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableOptimizerInput, UpdateTableOptimizerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOptimizerOutput>())
@@ -18847,9 +18593,9 @@ extension GlueClient {
     ///
     /// Updates a trigger definition. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
     ///
-    /// - Parameter UpdateTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTriggerInput`)
     ///
-    /// - Returns: `UpdateTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18885,7 +18631,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTriggerInput, UpdateTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTriggerOutput>(UpdateTriggerOutput.httpOutput(from:), UpdateTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTriggerInput, UpdateTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTriggerOutput>())
@@ -18920,9 +18665,9 @@ extension GlueClient {
     ///
     /// Update an Glue usage profile.
     ///
-    /// - Parameter UpdateUsageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUsageProfileInput`)
     ///
-    /// - Returns: `UpdateUsageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUsageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18959,7 +18704,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUsageProfileOutput>(UpdateUsageProfileOutput.httpOutput(from:), UpdateUsageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUsageProfileInput, UpdateUsageProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUsageProfileOutput>())
@@ -18994,9 +18738,9 @@ extension GlueClient {
     ///
     /// Updates an existing function definition in the Data Catalog.
     ///
-    /// - Parameter UpdateUserDefinedFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserDefinedFunctionInput`)
     ///
-    /// - Returns: `UpdateUserDefinedFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserDefinedFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19032,7 +18776,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserDefinedFunctionOutput>(UpdateUserDefinedFunctionOutput.httpOutput(from:), UpdateUserDefinedFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserDefinedFunctionInput, UpdateUserDefinedFunctionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserDefinedFunctionOutput>())
@@ -19067,9 +18810,9 @@ extension GlueClient {
     ///
     /// Updates an existing workflow.
     ///
-    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowInput`)
     ///
-    /// - Returns: `UpdateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19105,7 +18848,6 @@ extension GlueClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkflowOutput>(UpdateWorkflowOutput.httpOutput(from:), UpdateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkflowOutput>())

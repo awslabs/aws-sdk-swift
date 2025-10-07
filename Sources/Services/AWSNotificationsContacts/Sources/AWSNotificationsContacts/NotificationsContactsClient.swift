@@ -22,7 +22,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NotificationsContactsClient: ClientRuntime.Client {
     public static let clientName = "NotificationsContactsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsContactsClient.NotificationsContactsClientConfiguration
     let serviceName = "NotificationsContacts"
@@ -373,9 +372,9 @@ extension NotificationsContactsClient {
     ///
     /// Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
     ///
-    /// - Parameter ActivateEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateEmailContactInput`)
     ///
-    /// - Returns: `ActivateEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,7 +410,6 @@ extension NotificationsContactsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ActivateEmailContactInput, ActivateEmailContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateEmailContactOutput>(ActivateEmailContactOutput.httpOutput(from:), ActivateEmailContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateEmailContactInput, ActivateEmailContactOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateEmailContactOutput>())
@@ -443,9 +441,9 @@ extension NotificationsContactsClient {
     ///
     /// Creates an email contact for the provided email address.
     ///
-    /// - Parameter CreateEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEmailContactInput`)
     ///
-    /// - Returns: `CreateEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,7 +482,6 @@ extension NotificationsContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEmailContactInput, CreateEmailContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEmailContactOutput>(CreateEmailContactOutput.httpOutput(from:), CreateEmailContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEmailContactInput, CreateEmailContactOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEmailContactOutput>())
@@ -516,9 +513,9 @@ extension NotificationsContactsClient {
     ///
     /// Deletes an email contact. Deleting an email contact removes it from all associated notification configurations.
     ///
-    /// - Parameter DeleteEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailContactInput`)
     ///
-    /// - Returns: `DeleteEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension NotificationsContactsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEmailContactInput, DeleteEmailContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEmailContactOutput>(DeleteEmailContactOutput.httpOutput(from:), DeleteEmailContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEmailContactInput, DeleteEmailContactOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEmailContactOutput>())
@@ -586,9 +582,9 @@ extension NotificationsContactsClient {
     ///
     /// Returns an email contact.
     ///
-    /// - Parameter GetEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEmailContactInput`)
     ///
-    /// - Returns: `GetEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,7 +619,6 @@ extension NotificationsContactsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEmailContactInput, GetEmailContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEmailContactOutput>(GetEmailContactOutput.httpOutput(from:), GetEmailContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEmailContactInput, GetEmailContactOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEmailContactOutput>())
@@ -655,9 +650,9 @@ extension NotificationsContactsClient {
     ///
     /// Lists all email contacts created under the Account.
     ///
-    /// - Parameter ListEmailContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEmailContactsInput`)
     ///
-    /// - Returns: `ListEmailContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEmailContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -692,7 +687,6 @@ extension NotificationsContactsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEmailContactsInput, ListEmailContactsOutput>(ListEmailContactsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEmailContactsOutput>(ListEmailContactsOutput.httpOutput(from:), ListEmailContactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEmailContactsInput, ListEmailContactsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEmailContactsOutput>())
@@ -724,9 +718,9 @@ extension NotificationsContactsClient {
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,7 +755,6 @@ extension NotificationsContactsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -793,9 +786,9 @@ extension NotificationsContactsClient {
     ///
     /// Sends an activation email to the email address associated with the specified email contact. It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
     ///
-    /// - Parameter SendActivationCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendActivationCodeInput`)
     ///
-    /// - Returns: `SendActivationCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendActivationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -831,7 +824,6 @@ extension NotificationsContactsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendActivationCodeInput, SendActivationCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendActivationCodeOutput>(SendActivationCodeOutput.httpOutput(from:), SendActivationCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendActivationCodeInput, SendActivationCodeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendActivationCodeOutput>())
@@ -863,9 +855,9 @@ extension NotificationsContactsClient {
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -903,7 +895,6 @@ extension NotificationsContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -935,9 +926,9 @@ extension NotificationsContactsClient {
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts..
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,7 +964,6 @@ extension NotificationsContactsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

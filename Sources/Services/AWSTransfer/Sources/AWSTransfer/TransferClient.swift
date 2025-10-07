@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TransferClient: ClientRuntime.Client {
     public static let clientName = "TransferClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: TransferClient.TransferClientConfiguration
     let serviceName = "Transfer"
@@ -374,9 +373,9 @@ extension TransferClient {
     ///
     /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability.
     ///
-    /// - Parameter CreateAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessInput`)
     ///
-    /// - Returns: `CreateAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +411,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessInput, CreateAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessOutput>(CreateAccessOutput.httpOutput(from:), CreateAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessInput, CreateAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessOutput>())
@@ -447,9 +445,9 @@ extension TransferClient {
     ///
     /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId. Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail.
     ///
-    /// - Parameter CreateAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAgreementInput`)
     ///
-    /// - Returns: `CreateAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgreementInput, CreateAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgreementOutput>(CreateAgreementOutput.httpOutput(from:), CreateAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgreementInput, CreateAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgreementOutput>())
@@ -521,9 +518,9 @@ extension TransferClient {
     ///
     /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see [Configure AS2 connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-as2-connector.html) and [Create SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-sftp-connector.html). You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,7 +557,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
@@ -595,9 +591,9 @@ extension TransferClient {
     ///
     /// Creates the local or partner profile to use for AS2 transfers.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,7 +629,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProfileInput, CreateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProfileOutput>(CreateProfileOutput.httpOutput(from:), CreateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProfileInput, CreateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProfileOutput>())
@@ -668,9 +663,9 @@ extension TransferClient {
     ///
     /// Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated ServerId property that is assigned to the newly created server.
     ///
-    /// - Parameter CreateServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServerInput`)
     ///
-    /// - Returns: `CreateServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,7 +703,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServerInput, CreateServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServerOutput>(CreateServerOutput.httpOutput(from:), CreateServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServerInput, CreateServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServerOutput>())
@@ -743,9 +737,9 @@ extension TransferClient {
     ///
     /// Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the IdentityProviderType set to SERVICE_MANAGED. Using parameters for CreateUser, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,7 +775,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -816,9 +809,9 @@ extension TransferClient {
     ///
     /// Creates a web app based on specified parameters, and returns the ID for the new web app.
     ///
-    /// - Parameter CreateWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebAppInput`)
     ///
-    /// - Returns: `CreateWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -854,7 +847,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebAppInput, CreateWebAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebAppOutput>(CreateWebAppOutput.httpOutput(from:), CreateWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebAppInput, CreateWebAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWebAppOutput>())
@@ -889,9 +881,9 @@ extension TransferClient {
     ///
     /// Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the workflow-details field in CreateServer and UpdateServer operations.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -928,7 +920,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowOutput>(CreateWorkflowOutput.httpOutput(from:), CreateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowOutput>())
@@ -963,9 +954,9 @@ extension TransferClient {
     ///
     /// Allows you to delete the access specified in the ServerID and ExternalID parameters.
     ///
-    /// - Parameter DeleteAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessInput`)
     ///
-    /// - Returns: `DeleteAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1000,7 +991,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccessInput, DeleteAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessOutput>(DeleteAccessOutput.httpOutput(from:), DeleteAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessInput, DeleteAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessOutput>())
@@ -1035,9 +1025,9 @@ extension TransferClient {
     ///
     /// Delete the agreement that's specified in the provided AgreementId.
     ///
-    /// - Parameter DeleteAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgreementInput`)
     ///
-    /// - Returns: `DeleteAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1072,7 +1062,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAgreementInput, DeleteAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgreementOutput>(DeleteAgreementOutput.httpOutput(from:), DeleteAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgreementInput, DeleteAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgreementOutput>())
@@ -1107,9 +1096,9 @@ extension TransferClient {
     ///
     /// Deletes the certificate that's specified in the CertificateId parameter.
     ///
-    /// - Parameter DeleteCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCertificateInput`)
     ///
-    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1144,7 +1133,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateOutput>(DeleteCertificateOutput.httpOutput(from:), DeleteCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateOutput>())
@@ -1179,9 +1167,9 @@ extension TransferClient {
     ///
     /// Deletes the connector that's specified in the provided ConnectorId.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,7 +1204,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
@@ -1251,9 +1238,9 @@ extension TransferClient {
     ///
     /// Deletes the host key that's specified in the HostKeyId parameter.
     ///
-    /// - Parameter DeleteHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHostKeyInput`)
     ///
-    /// - Returns: `DeleteHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1289,7 +1276,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHostKeyOutput>(DeleteHostKeyOutput.httpOutput(from:), DeleteHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHostKeyOutput>())
@@ -1324,9 +1310,9 @@ extension TransferClient {
     ///
     /// Deletes the profile that's specified in the ProfileId parameter.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,7 +1347,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProfileInput, DeleteProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileOutput>(DeleteProfileOutput.httpOutput(from:), DeleteProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileInput, DeleteProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileOutput>())
@@ -1396,9 +1381,9 @@ extension TransferClient {
     ///
     /// Deletes the file transfer protocol-enabled server that you specify. No response returns from this operation.
     ///
-    /// - Parameter DeleteServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServerInput`)
     ///
-    /// - Returns: `DeleteServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1434,7 +1419,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServerInput, DeleteServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServerOutput>(DeleteServerOutput.httpOutput(from:), DeleteServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServerInput, DeleteServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServerOutput>())
@@ -1469,9 +1453,9 @@ extension TransferClient {
     ///
     /// Deletes a user's Secure Shell (SSH) public key.
     ///
-    /// - Parameter DeleteSshPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSshPublicKeyInput`)
     ///
-    /// - Returns: `DeleteSshPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSshPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,7 +1491,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSshPublicKeyOutput>(DeleteSshPublicKeyOutput.httpOutput(from:), DeleteSshPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSshPublicKeyOutput>())
@@ -1542,9 +1525,9 @@ extension TransferClient {
     ///
     /// Deletes the user belonging to a file transfer protocol-enabled server you specify. No response returns from this operation. When you delete a user from a server, the user's information is lost.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1579,7 +1562,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -1614,9 +1596,9 @@ extension TransferClient {
     ///
     /// Deletes the specified web app.
     ///
-    /// - Parameter DeleteWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebAppInput`)
     ///
-    /// - Returns: `DeleteWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1652,7 +1634,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebAppInput, DeleteWebAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebAppOutput>(DeleteWebAppOutput.httpOutput(from:), DeleteWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebAppInput, DeleteWebAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebAppOutput>())
@@ -1687,9 +1668,9 @@ extension TransferClient {
     ///
     /// Deletes the WebAppCustomization object that corresponds to the web app ID specified.
     ///
-    /// - Parameter DeleteWebAppCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebAppCustomizationInput`)
     ///
-    /// - Returns: `DeleteWebAppCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebAppCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1726,7 +1707,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebAppCustomizationOutput>(DeleteWebAppCustomizationOutput.httpOutput(from:), DeleteWebAppCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebAppCustomizationOutput>())
@@ -1761,9 +1741,9 @@ extension TransferClient {
     ///
     /// Deletes the specified workflow.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,7 +1779,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutput>(DeleteWorkflowOutput.httpOutput(from:), DeleteWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowOutput>())
@@ -1834,9 +1813,9 @@ extension TransferClient {
     ///
     /// Describes the access that is assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property and its ExternalId. The response from this call returns the properties of the access that is associated with the ServerId value that was specified.
     ///
-    /// - Parameter DescribeAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccessInput`)
     ///
-    /// - Returns: `DescribeAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1871,7 +1850,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccessInput, DescribeAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccessOutput>(DescribeAccessOutput.httpOutput(from:), DescribeAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccessInput, DescribeAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccessOutput>())
@@ -1906,9 +1884,9 @@ extension TransferClient {
     ///
     /// Describes the agreement that's identified by the AgreementId.
     ///
-    /// - Parameter DescribeAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgreementInput`)
     ///
-    /// - Returns: `DescribeAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1943,7 +1921,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAgreementOutput>(DescribeAgreementOutput.httpOutput(from:), DescribeAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAgreementOutput>())
@@ -1978,9 +1955,9 @@ extension TransferClient {
     ///
     /// Describes the certificate that's identified by the CertificateId. Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the InactiveDate. The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension.
     ///
-    /// - Parameter DescribeCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificateInput`)
     ///
-    /// - Returns: `DescribeCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,7 +1992,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateOutput>(DescribeCertificateOutput.httpOutput(from:), DescribeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateOutput>())
@@ -2050,9 +2026,9 @@ extension TransferClient {
     ///
     /// Describes the connector that's identified by the ConnectorId.
     ///
-    /// - Parameter DescribeConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorInput`)
     ///
-    /// - Returns: `DescribeConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,7 +2063,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectorInput, DescribeConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectorOutput>(DescribeConnectorOutput.httpOutput(from:), DescribeConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectorInput, DescribeConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectorOutput>())
@@ -2122,9 +2097,9 @@ extension TransferClient {
     ///
     /// You can use DescribeExecution to check the details of the execution of the specified workflow. This API call only returns details for in-progress workflows. If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a ResourceNotFound exception.
     ///
-    /// - Parameter DescribeExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExecutionInput`)
     ///
-    /// - Returns: `DescribeExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2159,7 +2134,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExecutionInput, DescribeExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExecutionOutput>(DescribeExecutionOutput.httpOutput(from:), DescribeExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExecutionOutput>())
@@ -2194,9 +2168,9 @@ extension TransferClient {
     ///
     /// Returns the details of the host key that's specified by the HostKeyId and ServerId.
     ///
-    /// - Parameter DescribeHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHostKeyInput`)
     ///
-    /// - Returns: `DescribeHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2231,7 +2205,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHostKeyOutput>(DescribeHostKeyOutput.httpOutput(from:), DescribeHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHostKeyOutput>())
@@ -2266,9 +2239,9 @@ extension TransferClient {
     ///
     /// Returns the details of the profile that's specified by the ProfileId.
     ///
-    /// - Parameter DescribeProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProfileInput`)
     ///
-    /// - Returns: `DescribeProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2303,7 +2276,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProfileInput, DescribeProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProfileOutput>(DescribeProfileOutput.httpOutput(from:), DescribeProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProfileInput, DescribeProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProfileOutput>())
@@ -2338,9 +2310,9 @@ extension TransferClient {
     ///
     /// Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
-    /// - Parameter DescribeSecurityPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityPolicyInput`)
     ///
-    /// - Returns: `DescribeSecurityPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2375,7 +2347,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityPolicyOutput>(DescribeSecurityPolicyOutput.httpOutput(from:), DescribeSecurityPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityPolicyOutput>())
@@ -2410,9 +2381,9 @@ extension TransferClient {
     ///
     /// Describes a file transfer protocol-enabled server that you specify by passing the ServerId parameter. The response contains a description of a server's properties. When you set EndpointType to VPC, the response will contain the EndpointDetails.
     ///
-    /// - Parameter DescribeServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServerInput`)
     ///
-    /// - Returns: `DescribeServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2447,7 +2418,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServerInput, DescribeServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServerOutput>(DescribeServerOutput.httpOutput(from:), DescribeServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServerInput, DescribeServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServerOutput>())
@@ -2482,9 +2452,9 @@ extension TransferClient {
     ///
     /// Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2519,7 +2489,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserOutput>())
@@ -2554,9 +2523,9 @@ extension TransferClient {
     ///
     /// Describes the web app that's identified by WebAppId.
     ///
-    /// - Parameter DescribeWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWebAppInput`)
     ///
-    /// - Returns: `DescribeWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2592,7 +2561,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWebAppInput, DescribeWebAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWebAppOutput>(DescribeWebAppOutput.httpOutput(from:), DescribeWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWebAppInput, DescribeWebAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWebAppOutput>())
@@ -2627,9 +2595,9 @@ extension TransferClient {
     ///
     /// Describes the web app customization object that's identified by WebAppId.
     ///
-    /// - Parameter DescribeWebAppCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWebAppCustomizationInput`)
     ///
-    /// - Returns: `DescribeWebAppCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWebAppCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2665,7 +2633,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWebAppCustomizationOutput>(DescribeWebAppCustomizationOutput.httpOutput(from:), DescribeWebAppCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWebAppCustomizationOutput>())
@@ -2700,9 +2667,9 @@ extension TransferClient {
     ///
     /// Describes the specified workflow.
     ///
-    /// - Parameter DescribeWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkflowInput`)
     ///
-    /// - Returns: `DescribeWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2737,7 +2704,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkflowOutput>(DescribeWorkflowOutput.httpOutput(from:), DescribeWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkflowOutput>())
@@ -2780,9 +2746,9 @@ extension TransferClient {
     ///
     /// * Frequency: Published daily
     ///
-    /// - Parameter ImportCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCertificateInput`)
     ///
-    /// - Returns: `ImportCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2817,7 +2783,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateInput, ImportCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCertificateOutput>(ImportCertificateOutput.httpOutput(from:), ImportCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateInput, ImportCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCertificateOutput>())
@@ -2852,9 +2817,9 @@ extension TransferClient {
     ///
     /// Adds a host key to the server that's specified by the ServerId parameter.
     ///
-    /// - Parameter ImportHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportHostKeyInput`)
     ///
-    /// - Returns: `ImportHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2891,7 +2856,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportHostKeyInput, ImportHostKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportHostKeyOutput>(ImportHostKeyOutput.httpOutput(from:), ImportHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportHostKeyInput, ImportHostKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportHostKeyOutput>())
@@ -2926,9 +2890,9 @@ extension TransferClient {
     ///
     /// Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId. The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
     ///
-    /// - Parameter ImportSshPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportSshPublicKeyInput`)
     ///
-    /// - Returns: `ImportSshPublicKeyOutput` : Identifies the user, the server they belong to, and the identifier of the SSH public key associated with that user. A user can have more than one key on each server that they are associated with.
+    /// - Returns: Identifies the user, the server they belong to, and the identifier of the SSH public key associated with that user. A user can have more than one key on each server that they are associated with. (Type: `ImportSshPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2965,7 +2929,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportSshPublicKeyOutput>(ImportSshPublicKeyOutput.httpOutput(from:), ImportSshPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportSshPublicKeyOutput>())
@@ -3000,9 +2963,9 @@ extension TransferClient {
     ///
     /// Lists the details for all the accesses you have on your server.
     ///
-    /// - Parameter ListAccessesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessesInput`)
     ///
-    /// - Returns: `ListAccessesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3038,7 +3001,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessesInput, ListAccessesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessesOutput>(ListAccessesOutput.httpOutput(from:), ListAccessesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessesInput, ListAccessesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessesOutput>())
@@ -3073,9 +3035,9 @@ extension TransferClient {
     ///
     /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing agreements from where you left off.
     ///
-    /// - Parameter ListAgreementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgreementsInput`)
     ///
-    /// - Returns: `ListAgreementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgreementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3111,7 +3073,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementsInput, ListAgreementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgreementsOutput>(ListAgreementsOutput.httpOutput(from:), ListAgreementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementsInput, ListAgreementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementsOutput>())
@@ -3146,9 +3107,9 @@ extension TransferClient {
     ///
     /// Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for the NextToken parameter, you can supply that value to continue listing certificates from where you left off.
     ///
-    /// - Parameter ListCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCertificatesInput`)
     ///
-    /// - Returns: `ListCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3184,7 +3145,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificatesOutput>(ListCertificatesOutput.httpOutput(from:), ListCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesInput, ListCertificatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificatesOutput>())
@@ -3219,9 +3179,9 @@ extension TransferClient {
     ///
     /// Lists the connectors for the specified Region.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3257,7 +3217,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectorsInput, ListConnectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
@@ -3292,9 +3251,9 @@ extension TransferClient {
     ///
     /// Lists all in-progress executions for the specified workflow. If the specified workflow ID cannot be found, ListExecutions returns a ResourceNotFound exception.
     ///
-    /// - Parameter ListExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExecutionsInput`)
     ///
-    /// - Returns: `ListExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3330,7 +3289,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExecutionsInput, ListExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExecutionsOutput>(ListExecutionsOutput.httpOutput(from:), ListExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExecutionsInput, ListExecutionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExecutionsOutput>())
@@ -3365,9 +3323,9 @@ extension TransferClient {
     ///
     /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation. You specify the file transfer by providing its ConnectorId and its TransferId. File transfer results are available up to 7 days after an operation has been requested.
     ///
-    /// - Parameter ListFileTransferResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFileTransferResultsInput`)
     ///
-    /// - Returns: `ListFileTransferResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFileTransferResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3402,7 +3360,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFileTransferResultsOutput>(ListFileTransferResultsOutput.httpOutput(from:), ListFileTransferResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFileTransferResultsOutput>())
@@ -3437,9 +3394,9 @@ extension TransferClient {
     ///
     /// Returns a list of host keys for the server that's specified by the ServerId parameter.
     ///
-    /// - Parameter ListHostKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHostKeysInput`)
     ///
-    /// - Returns: `ListHostKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHostKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3475,7 +3432,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHostKeysInput, ListHostKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostKeysOutput>(ListHostKeysOutput.httpOutput(from:), ListHostKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostKeysInput, ListHostKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostKeysOutput>())
@@ -3510,9 +3466,9 @@ extension TransferClient {
     ///
     /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing profiles from where you left off.
     ///
-    /// - Parameter ListProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilesInput`)
     ///
-    /// - Returns: `ListProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3548,7 +3504,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProfilesInput, ListProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfilesOutput>(ListProfilesOutput.httpOutput(from:), ListProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfilesInput, ListProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfilesOutput>())
@@ -3583,9 +3538,9 @@ extension TransferClient {
     ///
     /// Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
-    /// - Parameter ListSecurityPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityPoliciesInput`)
     ///
-    /// - Returns: `ListSecurityPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3620,7 +3575,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityPoliciesOutput>(ListSecurityPoliciesOutput.httpOutput(from:), ListSecurityPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityPoliciesOutput>())
@@ -3655,9 +3609,9 @@ extension TransferClient {
     ///
     /// Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
     ///
-    /// - Parameter ListServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServersInput`)
     ///
-    /// - Returns: `ListServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3692,7 +3646,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServersInput, ListServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServersOutput>(ListServersOutput.httpOutput(from:), ListServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServersInput, ListServersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServersOutput>())
@@ -3727,9 +3680,9 @@ extension TransferClient {
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3764,7 +3717,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3799,9 +3751,9 @@ extension TransferClient {
     ///
     /// Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3837,7 +3789,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -3872,9 +3823,9 @@ extension TransferClient {
     ///
     /// Lists all web apps associated with your Amazon Web Services account for your current region.
     ///
-    /// - Parameter ListWebAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWebAppsInput`)
     ///
-    /// - Returns: `ListWebAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWebAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3909,7 +3860,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWebAppsInput, ListWebAppsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWebAppsOutput>(ListWebAppsOutput.httpOutput(from:), ListWebAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebAppsInput, ListWebAppsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWebAppsOutput>())
@@ -3944,9 +3894,9 @@ extension TransferClient {
     ///
     /// Lists all workflows associated with your Amazon Web Services account for your current region.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3981,7 +3931,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowsOutput>(ListWorkflowsOutput.httpOutput(from:), ListWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowsOutput>())
@@ -4016,9 +3965,9 @@ extension TransferClient {
     ///
     /// Sends a callback for asynchronous custom steps. The ExecutionId, WorkflowId, and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
     ///
-    /// - Parameter SendWorkflowStepStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendWorkflowStepStateInput`)
     ///
-    /// - Returns: `SendWorkflowStepStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendWorkflowStepStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4055,7 +4004,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendWorkflowStepStateOutput>(SendWorkflowStepStateOutput.httpOutput(from:), SendWorkflowStepStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendWorkflowStepStateOutput>())
@@ -4100,9 +4048,9 @@ extension TransferClient {
     ///
     /// * truncated: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your Truncated output value is true, you can increase the value provided in the optional max-items input attribute to be able to list more items (up to the maximum allowed list size of 10,000 items).
     ///
-    /// - Parameter StartDirectoryListingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDirectoryListingInput`)
     ///
-    /// - Returns: `StartDirectoryListingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDirectoryListingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4138,7 +4086,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDirectoryListingOutput>(StartDirectoryListingOutput.httpOutput(from:), StartDirectoryListingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDirectoryListingOutput>())
@@ -4181,9 +4128,9 @@ extension TransferClient {
     ///
     /// * If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more SendFilePaths to identify the files you want to transfer, and a RemoteDirectoryPath to specify the destination folder.
     ///
-    /// - Parameter StartFileTransferInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFileTransferInput`)
     ///
-    /// - Returns: `StartFileTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFileTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4219,7 +4166,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFileTransferInput, StartFileTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFileTransferOutput>(StartFileTransferOutput.httpOutput(from:), StartFileTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFileTransferInput, StartFileTransferOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFileTransferOutput>())
@@ -4254,9 +4200,9 @@ extension TransferClient {
     ///
     /// Deletes a file or directory on the remote SFTP server.
     ///
-    /// - Parameter StartRemoteDeleteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRemoteDeleteInput`)
     ///
-    /// - Returns: `StartRemoteDeleteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRemoteDeleteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4292,7 +4238,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRemoteDeleteOutput>(StartRemoteDeleteOutput.httpOutput(from:), StartRemoteDeleteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRemoteDeleteOutput>())
@@ -4327,9 +4272,9 @@ extension TransferClient {
     ///
     /// Moves or renames a file or directory on the remote SFTP server.
     ///
-    /// - Parameter StartRemoteMoveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRemoteMoveInput`)
     ///
-    /// - Returns: `StartRemoteMoveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRemoteMoveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4365,7 +4310,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRemoteMoveOutput>(StartRemoteMoveOutput.httpOutput(from:), StartRemoteMoveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRemoteMoveOutput>())
@@ -4400,9 +4344,9 @@ extension TransferClient {
     ///
     /// Changes the state of a file transfer protocol-enabled server from OFFLINE to ONLINE. It has no impact on a server that is already ONLINE. An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition. No response is returned from this call.
     ///
-    /// - Parameter StartServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartServerInput`)
     ///
-    /// - Returns: `StartServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4438,7 +4382,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartServerInput, StartServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartServerOutput>(StartServerOutput.httpOutput(from:), StartServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartServerInput, StartServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartServerOutput>())
@@ -4473,9 +4416,9 @@ extension TransferClient {
     ///
     /// Changes the state of a file transfer protocol-enabled server from ONLINE to OFFLINE. An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server, such as server and user properties, are not affected by stopping your server. Stopping the server does not reduce or impact your file transfer protocol endpoint billing; you must delete the server to stop being billed. The state of STOPPING indicates that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of STOP_FAILED can indicate an error condition. No response is returned from this call.
     ///
-    /// - Parameter StopServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopServerInput`)
     ///
-    /// - Returns: `StopServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4511,7 +4454,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopServerInput, StopServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopServerOutput>(StopServerOutput.httpOutput(from:), StopServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopServerInput, StopServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopServerOutput>())
@@ -4546,9 +4488,9 @@ extension TransferClient {
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4583,7 +4525,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4618,9 +4559,9 @@ extension TransferClient {
     ///
     /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
     ///
-    /// - Parameter TestConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestConnectionInput`)
     ///
-    /// - Returns: `TestConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4655,7 +4596,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestConnectionInput, TestConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestConnectionOutput>(TestConnectionOutput.httpOutput(from:), TestConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestConnectionInput, TestConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestConnectionOutput>())
@@ -4702,9 +4642,9 @@ extension TransferClient {
     ///
     /// * If you enter a Server ID for the --server-id parameter that does not identify an actual Transfer server, you receive the following error: An error occurred (ResourceNotFoundException) when calling the TestIdentityProvider operation: Unknown server. It is possible your sever is in a different region. You can specify a region by adding the following: --region region-code, such as --region us-east-2 to specify a server in US East (Ohio).
     ///
-    /// - Parameter TestIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestIdentityProviderInput`)
     ///
-    /// - Returns: `TestIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4739,7 +4679,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestIdentityProviderOutput>(TestIdentityProviderOutput.httpOutput(from:), TestIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestIdentityProviderOutput>())
@@ -4774,9 +4713,9 @@ extension TransferClient {
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4811,7 +4750,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4846,9 +4784,9 @@ extension TransferClient {
     ///
     /// Allows you to update parameters for the access specified in the ServerID and ExternalID parameters.
     ///
-    /// - Parameter UpdateAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessInput`)
     ///
-    /// - Returns: `UpdateAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4885,7 +4823,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessInput, UpdateAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessOutput>(UpdateAccessOutput.httpOutput(from:), UpdateAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessInput, UpdateAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessOutput>())
@@ -4920,9 +4857,9 @@ extension TransferClient {
     ///
     /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
     ///
-    /// - Parameter UpdateAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgreementInput`)
     ///
-    /// - Returns: `UpdateAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4959,7 +4896,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgreementInput, UpdateAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgreementOutput>(UpdateAgreementOutput.httpOutput(from:), UpdateAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgreementInput, UpdateAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgreementOutput>())
@@ -4994,9 +4930,9 @@ extension TransferClient {
     ///
     /// Updates the active and inactive dates for a certificate.
     ///
-    /// - Parameter UpdateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCertificateInput`)
     ///
-    /// - Returns: `UpdateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5032,7 +4968,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateInput, UpdateCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCertificateOutput>(UpdateCertificateOutput.httpOutput(from:), UpdateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateInput, UpdateCertificateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCertificateOutput>())
@@ -5067,9 +5002,9 @@ extension TransferClient {
     ///
     /// Updates some of the parameters for an existing connector. Provide the ConnectorId for the connector that you want to update, along with the new values for the parameters to update.
     ///
-    /// - Parameter UpdateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
     ///
-    /// - Returns: `UpdateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5106,7 +5041,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorOutput>(UpdateConnectorOutput.httpOutput(from:), UpdateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorOutput>())
@@ -5141,9 +5075,9 @@ extension TransferClient {
     ///
     /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
     ///
-    /// - Parameter UpdateHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHostKeyInput`)
     ///
-    /// - Returns: `UpdateHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5179,7 +5113,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostKeyOutput>(UpdateHostKeyOutput.httpOutput(from:), UpdateHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHostKeyOutput>())
@@ -5214,9 +5147,9 @@ extension TransferClient {
     ///
     /// Updates some of the parameters for an existing profile. Provide the ProfileId for the profile that you want to update, along with the new values for the parameters to update.
     ///
-    /// - Parameter UpdateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileInput`)
     ///
-    /// - Returns: `UpdateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5252,7 +5185,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileInput, UpdateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileOutput>(UpdateProfileOutput.httpOutput(from:), UpdateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileInput, UpdateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileOutput>())
@@ -5287,9 +5219,9 @@ extension TransferClient {
     ///
     /// Updates the file transfer protocol-enabled server's properties after that server has been created. The UpdateServer call returns the ServerId of the server you updated.
     ///
-    /// - Parameter UpdateServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServerInput`)
     ///
-    /// - Returns: `UpdateServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5328,7 +5260,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServerInput, UpdateServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServerOutput>(UpdateServerOutput.httpOutput(from:), UpdateServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServerInput, UpdateServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServerOutput>())
@@ -5363,9 +5294,9 @@ extension TransferClient {
     ///
     /// Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user. In the console, you can select Restricted when you create or update a user. This ensures that the user can't access anything outside of their home directory. The programmatic way to configure this behavior is to update the user. Set their HomeDirectoryType to LOGICAL, and specify HomeDirectoryMappings with Entry as root (/) and Target as their home directory. For example, if the user's home directory is /test/admin-user, the following command updates the user so that their configuration in the console shows the Restricted flag as selected.  aws transfer update-user --server-id <server-id> --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : UpdateUserResponse returns the user name and identifier for the request to update a user's properties.
+    /// - Returns: UpdateUserResponse returns the user name and identifier for the request to update a user's properties. (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5401,7 +5332,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())
@@ -5436,9 +5366,9 @@ extension TransferClient {
     ///
     /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
     ///
-    /// - Parameter UpdateWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebAppInput`)
     ///
-    /// - Returns: `UpdateWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5475,7 +5405,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebAppInput, UpdateWebAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebAppOutput>(UpdateWebAppOutput.httpOutput(from:), UpdateWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebAppInput, UpdateWebAppOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebAppOutput>())
@@ -5510,9 +5439,9 @@ extension TransferClient {
     ///
     /// Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
     ///
-    /// - Parameter UpdateWebAppCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebAppCustomizationInput`)
     ///
-    /// - Returns: `UpdateWebAppCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebAppCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5549,7 +5478,6 @@ extension TransferClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebAppCustomizationOutput>(UpdateWebAppCustomizationOutput.httpOutput(from:), UpdateWebAppCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebAppCustomizationOutput>())

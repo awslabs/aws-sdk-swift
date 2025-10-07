@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -71,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontKeyValueStoreClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontKeyValueStoreClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration
     let serviceName = "CloudFront KeyValueStore"
@@ -377,9 +376,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Deletes the key value pair specified by the key.
     ///
-    /// - Parameter DeleteKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyInput`)
     ///
-    /// - Returns: `DeleteKeyOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `DeleteKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,7 +415,6 @@ extension CloudFrontKeyValueStoreClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteKeyInput, DeleteKeyOutput>(DeleteKeyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyOutput>(DeleteKeyOutput.httpOutput(from:), DeleteKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyInput, DeleteKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyOutput>())
@@ -449,9 +447,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Returns metadata information about Key Value Store.
     ///
-    /// - Parameter DescribeKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyValueStoreInput`)
     ///
-    /// - Returns: `DescribeKeyValueStoreOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `DescribeKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,7 +483,6 @@ extension CloudFrontKeyValueStoreClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyValueStoreOutput>(DescribeKeyValueStoreOutput.httpOutput(from:), DescribeKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyValueStoreOutput>())
@@ -518,9 +515,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Returns a key value pair.
     ///
-    /// - Parameter GetKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyInput`)
     ///
-    /// - Returns: `GetKeyOutput` : A key value pair.
+    /// - Returns: A key value pair. (Type: `GetKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,7 +551,6 @@ extension CloudFrontKeyValueStoreClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKeyInput, GetKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyOutput>(GetKeyOutput.httpOutput(from:), GetKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyInput, GetKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyOutput>())
@@ -587,9 +583,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Returns a list of key value pairs.
     ///
-    /// - Parameter ListKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
-    /// - Returns: `ListKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,7 +621,6 @@ extension CloudFrontKeyValueStoreClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKeysInput, ListKeysOutput>(ListKeysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeysOutput>(ListKeysOutput.httpOutput(from:), ListKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeysInput, ListKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeysOutput>())
@@ -658,9 +653,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Creates a new key value pair or replaces the value of an existing key.
     ///
-    /// - Parameter PutKeyInput : A key value pair.
+    /// - Parameter input: A key value pair. (Type: `PutKeyInput`)
     ///
-    /// - Returns: `PutKeyOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `PutKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,7 +695,6 @@ extension CloudFrontKeyValueStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutKeyInput, PutKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutKeyOutput>(PutKeyOutput.httpOutput(from:), PutKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutKeyInput, PutKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutKeyOutput>())
@@ -733,9 +727,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
     ///
-    /// - Parameter UpdateKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeysInput`)
     ///
-    /// - Returns: `UpdateKeysOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `UpdateKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -775,7 +769,6 @@ extension CloudFrontKeyValueStoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeysInput, UpdateKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeysOutput>(UpdateKeysOutput.httpOutput(from:), UpdateKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeysInput, UpdateKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeysOutput>())

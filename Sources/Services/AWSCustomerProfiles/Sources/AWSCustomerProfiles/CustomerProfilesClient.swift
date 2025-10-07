@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CustomerProfilesClient: ClientRuntime.Client {
     public static let clientName = "CustomerProfilesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CustomerProfilesClient.CustomerProfilesClientConfiguration
     let serviceName = "Customer Profiles"
@@ -374,9 +373,9 @@ extension CustomerProfilesClient {
     ///
     /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to.
     ///
-    /// - Parameter AddProfileKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddProfileKeyInput`)
     ///
-    /// - Returns: `AddProfileKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddProfileKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,7 +413,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddProfileKeyInput, AddProfileKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddProfileKeyOutput>(AddProfileKeyOutput.httpOutput(from:), AddProfileKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddProfileKeyInput, AddProfileKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddProfileKeyOutput>())
@@ -446,9 +444,9 @@ extension CustomerProfilesClient {
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
-    /// - Parameter BatchGetCalculatedAttributeForProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCalculatedAttributeForProfileInput`)
     ///
-    /// - Returns: `BatchGetCalculatedAttributeForProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCalculatedAttributeForProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,7 +484,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCalculatedAttributeForProfileInput, BatchGetCalculatedAttributeForProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCalculatedAttributeForProfileOutput>(BatchGetCalculatedAttributeForProfileOutput.httpOutput(from:), BatchGetCalculatedAttributeForProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCalculatedAttributeForProfileInput, BatchGetCalculatedAttributeForProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCalculatedAttributeForProfileOutput>())
@@ -518,9 +515,9 @@ extension CustomerProfilesClient {
     ///
     /// Get a batch of profiles.
     ///
-    /// - Parameter BatchGetProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetProfileInput`)
     ///
-    /// - Returns: `BatchGetProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,7 +555,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetProfileInput, BatchGetProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetProfileOutput>(BatchGetProfileOutput.httpOutput(from:), BatchGetProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetProfileInput, BatchGetProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetProfileOutput>())
@@ -590,9 +586,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html) API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     ///
-    /// - Parameter CreateCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `CreateCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,7 +626,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCalculatedAttributeDefinitionInput, CreateCalculatedAttributeDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCalculatedAttributeDefinitionOutput>(CreateCalculatedAttributeDefinitionOutput.httpOutput(from:), CreateCalculatedAttributeDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCalculatedAttributeDefinitionInput, CreateCalculatedAttributeDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCalculatedAttributeDefinitionOutput>())
@@ -662,9 +657,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see [Enable Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/enable-customer-profiles.html#enable-customer-profiles-step1). Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,7 +697,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -734,9 +728,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter CreateDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainLayoutInput`)
     ///
-    /// - Returns: `CreateDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,7 +768,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainLayoutInput, CreateDomainLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainLayoutOutput>(CreateDomainLayoutOutput.httpOutput(from:), CreateDomainLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainLayoutInput, CreateDomainLayoutOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainLayoutOutput>())
@@ -806,9 +799,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     ///
-    /// - Parameter CreateEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventStreamInput`)
     ///
-    /// - Returns: `CreateEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -846,7 +839,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventStreamInput, CreateEventStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventStreamOutput>(CreateEventStreamOutput.httpOutput(from:), CreateEventStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventStreamInput, CreateEventStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventStreamOutput>())
@@ -878,9 +870,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream.
     ///
-    /// - Parameter CreateEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventTriggerInput`)
     ///
-    /// - Returns: `CreateEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -918,7 +910,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventTriggerInput, CreateEventTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventTriggerOutput>(CreateEventTriggerOutput.httpOutput(from:), CreateEventTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventTriggerInput, CreateEventTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventTriggerOutput>())
@@ -950,9 +941,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     ///
-    /// - Parameter CreateIntegrationWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationWorkflowInput`)
     ///
-    /// - Returns: `CreateIntegrationWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,7 +981,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationWorkflowInput, CreateIntegrationWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationWorkflowOutput>(CreateIntegrationWorkflowOutput.httpOutput(from:), CreateIntegrationWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationWorkflowInput, CreateIntegrationWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationWorkflowOutput>())
@@ -1022,9 +1012,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,7 +1052,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProfileInput, CreateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProfileOutput>(CreateProfileOutput.httpOutput(from:), CreateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProfileInput, CreateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProfileOutput>())
@@ -1094,9 +1083,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a segment definition associated to the given domain.
     ///
-    /// - Parameter CreateSegmentDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentDefinitionInput`)
     ///
-    /// - Returns: `CreateSegmentDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,7 +1123,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSegmentDefinitionInput, CreateSegmentDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSegmentDefinitionOutput>(CreateSegmentDefinitionOutput.httpOutput(from:), CreateSegmentDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSegmentDefinitionInput, CreateSegmentDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSegmentDefinitionOutput>())
@@ -1166,9 +1154,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a segment estimate query.
     ///
-    /// - Parameter CreateSegmentEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentEstimateInput`)
     ///
-    /// - Returns: `CreateSegmentEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1206,7 +1194,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSegmentEstimateInput, CreateSegmentEstimateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSegmentEstimateOutput>(CreateSegmentEstimateOutput.httpOutput(from:), CreateSegmentEstimateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSegmentEstimateInput, CreateSegmentEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSegmentEstimateOutput>())
@@ -1238,9 +1225,9 @@ extension CustomerProfilesClient {
     ///
     /// Triggers a job to export a segment to a specified destination.
     ///
-    /// - Parameter CreateSegmentSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentSnapshotInput`)
     ///
-    /// - Returns: `CreateSegmentSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,7 +1265,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSegmentSnapshotInput, CreateSegmentSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSegmentSnapshotOutput>(CreateSegmentSnapshotOutput.httpOutput(from:), CreateSegmentSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSegmentSnapshotInput, CreateSegmentSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSegmentSnapshotOutput>())
@@ -1310,9 +1296,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an Upload job to ingest data for segment imports. The metadata is created for the job with the provided field mapping and unique key.
     ///
-    /// - Parameter CreateUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUploadJobInput`)
     ///
-    /// - Returns: `CreateUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,7 +1336,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUploadJobInput, CreateUploadJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUploadJobOutput>(CreateUploadJobOutput.httpOutput(from:), CreateUploadJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUploadJobInput, CreateUploadJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUploadJobOutput>())
@@ -1382,9 +1367,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     ///
-    /// - Parameter DeleteCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `DeleteCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,7 +1404,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCalculatedAttributeDefinitionInput, DeleteCalculatedAttributeDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCalculatedAttributeDefinitionOutput>(DeleteCalculatedAttributeDefinitionOutput.httpOutput(from:), DeleteCalculatedAttributeDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCalculatedAttributeDefinitionInput, DeleteCalculatedAttributeDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCalculatedAttributeDefinitionOutput>())
@@ -1451,9 +1435,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1488,7 +1472,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -1520,9 +1503,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter DeleteDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainLayoutInput`)
     ///
-    /// - Returns: `DeleteDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1557,7 +1540,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainLayoutInput, DeleteDomainLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainLayoutOutput>(DeleteDomainLayoutOutput.httpOutput(from:), DeleteDomainLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainLayoutInput, DeleteDomainLayoutOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainLayoutOutput>())
@@ -1589,9 +1571,9 @@ extension CustomerProfilesClient {
     ///
     /// Disables and deletes the specified event stream.
     ///
-    /// - Parameter DeleteEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventStreamInput`)
     ///
-    /// - Returns: `DeleteEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,7 +1608,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventStreamInput, DeleteEventStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventStreamOutput>(DeleteEventStreamOutput.httpOutput(from:), DeleteEventStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventStreamInput, DeleteEventStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventStreamOutput>())
@@ -1658,9 +1639,9 @@ extension CustomerProfilesClient {
     ///
     /// Disable and deletes the Event Trigger. You cannot delete an Event Trigger with an active Integration associated.
     ///
-    /// - Parameter DeleteEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventTriggerInput`)
     ///
-    /// - Returns: `DeleteEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1695,7 +1676,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventTriggerInput, DeleteEventTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventTriggerOutput>(DeleteEventTriggerOutput.httpOutput(from:), DeleteEventTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventTriggerInput, DeleteEventTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventTriggerOutput>())
@@ -1727,9 +1707,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes an integration from a specific domain.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,7 +1747,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
@@ -1799,9 +1778,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes the standard customer profile and all data pertaining to the profile.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1839,7 +1818,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProfileInput, DeleteProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileOutput>(DeleteProfileOutput.httpOutput(from:), DeleteProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileInput, DeleteProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileOutput>())
@@ -1871,9 +1849,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes a searchable key from a customer profile.
     ///
-    /// - Parameter DeleteProfileKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileKeyInput`)
     ///
-    /// - Returns: `DeleteProfileKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1911,7 +1889,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProfileKeyInput, DeleteProfileKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileKeyOutput>(DeleteProfileKeyOutput.httpOutput(from:), DeleteProfileKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileKeyInput, DeleteProfileKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileKeyOutput>())
@@ -1943,9 +1920,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes an object associated with a profile of a given ProfileObjectType.
     ///
-    /// - Parameter DeleteProfileObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileObjectInput`)
     ///
-    /// - Returns: `DeleteProfileObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1983,7 +1960,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProfileObjectInput, DeleteProfileObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileObjectOutput>(DeleteProfileObjectOutput.httpOutput(from:), DeleteProfileObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileObjectInput, DeleteProfileObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileObjectOutput>())
@@ -2015,9 +1991,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileObjectType.
     ///
-    /// - Parameter DeleteProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileObjectTypeInput`)
     ///
-    /// - Returns: `DeleteProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,7 +2028,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProfileObjectTypeInput, DeleteProfileObjectTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileObjectTypeOutput>(DeleteProfileObjectTypeOutput.httpOutput(from:), DeleteProfileObjectTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileObjectTypeInput, DeleteProfileObjectTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileObjectTypeOutput>())
@@ -2084,9 +2059,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes a segment definition from the domain.
     ///
-    /// - Parameter DeleteSegmentDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSegmentDefinitionInput`)
     ///
-    /// - Returns: `DeleteSegmentDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSegmentDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,7 +2096,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSegmentDefinitionInput, DeleteSegmentDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSegmentDefinitionOutput>(DeleteSegmentDefinitionOutput.httpOutput(from:), DeleteSegmentDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSegmentDefinitionInput, DeleteSegmentDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSegmentDefinitionOutput>())
@@ -2153,9 +2127,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes the specified workflow and all its corresponding resources. This is an async process.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2190,7 +2164,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutput>(DeleteWorkflowOutput.httpOutput(from:), DeleteWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowOutput>())
@@ -2222,9 +2195,9 @@ extension CustomerProfilesClient {
     ///
     /// The process of detecting profile object type mapping by using given objects.
     ///
-    /// - Parameter DetectProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectProfileObjectTypeInput`)
     ///
-    /// - Returns: `DetectProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,7 +2235,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectProfileObjectTypeInput, DetectProfileObjectTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectProfileObjectTypeOutput>(DetectProfileObjectTypeOutput.httpOutput(from:), DetectProfileObjectTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectProfileObjectTypeInput, DetectProfileObjectTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectProfileObjectTypeOutput>())
@@ -2294,9 +2266,9 @@ extension CustomerProfilesClient {
     ///
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be merged. We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     ///
-    /// - Parameter GetAutoMergingPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutoMergingPreviewInput`)
     ///
-    /// - Returns: `GetAutoMergingPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutoMergingPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2334,7 +2306,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutoMergingPreviewInput, GetAutoMergingPreviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutoMergingPreviewOutput>(GetAutoMergingPreviewOutput.httpOutput(from:), GetAutoMergingPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutoMergingPreviewInput, GetAutoMergingPreviewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutoMergingPreviewOutput>())
@@ -2366,9 +2337,9 @@ extension CustomerProfilesClient {
     ///
     /// Provides more information on a calculated attribute definition for Customer Profiles.
     ///
-    /// - Parameter GetCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `GetCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2403,7 +2374,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCalculatedAttributeDefinitionInput, GetCalculatedAttributeDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCalculatedAttributeDefinitionOutput>(GetCalculatedAttributeDefinitionOutput.httpOutput(from:), GetCalculatedAttributeDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCalculatedAttributeDefinitionInput, GetCalculatedAttributeDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCalculatedAttributeDefinitionOutput>())
@@ -2435,9 +2405,9 @@ extension CustomerProfilesClient {
     ///
     /// Retrieve a calculated attribute for a customer profile.
     ///
-    /// - Parameter GetCalculatedAttributeForProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalculatedAttributeForProfileInput`)
     ///
-    /// - Returns: `GetCalculatedAttributeForProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalculatedAttributeForProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2472,7 +2442,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCalculatedAttributeForProfileInput, GetCalculatedAttributeForProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCalculatedAttributeForProfileOutput>(GetCalculatedAttributeForProfileOutput.httpOutput(from:), GetCalculatedAttributeForProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCalculatedAttributeForProfileInput, GetCalculatedAttributeForProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCalculatedAttributeForProfileOutput>())
@@ -2504,9 +2473,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns information about a specific domain.
     ///
-    /// - Parameter GetDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainInput`)
     ///
-    /// - Returns: `GetDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2541,7 +2510,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainInput, GetDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainOutput>(GetDomainOutput.httpOutput(from:), GetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainInput, GetDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainOutput>())
@@ -2573,9 +2541,9 @@ extension CustomerProfilesClient {
     ///
     /// Gets the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter GetDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainLayoutInput`)
     ///
-    /// - Returns: `GetDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2610,7 +2578,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainLayoutInput, GetDomainLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainLayoutOutput>(GetDomainLayoutOutput.httpOutput(from:), GetDomainLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainLayoutInput, GetDomainLayoutOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainLayoutOutput>())
@@ -2642,9 +2609,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns information about the specified event stream in a specific domain.
     ///
-    /// - Parameter GetEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventStreamInput`)
     ///
-    /// - Returns: `GetEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2679,7 +2646,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventStreamInput, GetEventStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventStreamOutput>(GetEventStreamOutput.httpOutput(from:), GetEventStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventStreamInput, GetEventStreamOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventStreamOutput>())
@@ -2711,9 +2677,9 @@ extension CustomerProfilesClient {
     ///
     /// Get a specific Event Trigger from the domain.
     ///
-    /// - Parameter GetEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventTriggerInput`)
     ///
-    /// - Returns: `GetEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2748,7 +2714,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventTriggerInput, GetEventTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventTriggerOutput>(GetEventTriggerOutput.httpOutput(from:), GetEventTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventTriggerInput, GetEventTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventTriggerOutput>())
@@ -2780,9 +2745,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see [Use Identity Resolution to consolidate similar profiles](https://docs.aws.amazon.com/connect/latest/adminguide/use-identity-resolution.html).
     ///
-    /// - Parameter GetIdentityResolutionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentityResolutionJobInput`)
     ///
-    /// - Returns: `GetIdentityResolutionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentityResolutionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2817,7 +2782,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityResolutionJobInput, GetIdentityResolutionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityResolutionJobOutput>(GetIdentityResolutionJobOutput.httpOutput(from:), GetIdentityResolutionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityResolutionJobInput, GetIdentityResolutionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityResolutionJobOutput>())
@@ -2849,9 +2813,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns an integration for a domain.
     ///
-    /// - Parameter GetIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationInput`)
     ///
-    /// - Returns: `GetIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2889,7 +2853,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIntegrationInput, GetIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationOutput>(GetIntegrationOutput.httpOutput(from:), GetIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationInput, GetIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationOutput>())
@@ -2940,9 +2903,9 @@ extension CustomerProfilesClient {
     ///
     /// For example, two or more profiles—with spelling mistakes such as John Doe and Jhn Doe, or different casing email addresses such as JOHN_DOE@ANYCOMPANY.COM and johndoe@anycompany.com, or different phone number formats such as 555-010-0000 and +1-555-010-0000—can be detected as belonging to the same customer John Doe and merged into a unified profile.
     ///
-    /// - Parameter GetMatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchesInput`)
     ///
-    /// - Returns: `GetMatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2978,7 +2941,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMatchesInput, GetMatchesOutput>(GetMatchesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMatchesOutput>(GetMatchesOutput.httpOutput(from:), GetMatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMatchesInput, GetMatchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMatchesOutput>())
@@ -3010,9 +2972,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a history record for a specific profile, for a specific domain.
     ///
-    /// - Parameter GetProfileHistoryRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileHistoryRecordInput`)
     ///
-    /// - Returns: `GetProfileHistoryRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileHistoryRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3047,7 +3009,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProfileHistoryRecordInput, GetProfileHistoryRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileHistoryRecordOutput>(GetProfileHistoryRecordOutput.httpOutput(from:), GetProfileHistoryRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileHistoryRecordInput, GetProfileHistoryRecordOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileHistoryRecordOutput>())
@@ -3079,9 +3040,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns the object types for a specific domain.
     ///
-    /// - Parameter GetProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileObjectTypeInput`)
     ///
-    /// - Returns: `GetProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3116,7 +3077,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProfileObjectTypeInput, GetProfileObjectTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileObjectTypeOutput>(GetProfileObjectTypeOutput.httpOutput(from:), GetProfileObjectTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileObjectTypeInput, GetProfileObjectTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileObjectTypeOutput>())
@@ -3148,9 +3108,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template.
     ///
-    /// - Parameter GetProfileObjectTypeTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileObjectTypeTemplateInput`)
     ///
-    /// - Returns: `GetProfileObjectTypeTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileObjectTypeTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3185,7 +3145,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProfileObjectTypeTemplateInput, GetProfileObjectTypeTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileObjectTypeTemplateOutput>(GetProfileObjectTypeTemplateOutput.httpOutput(from:), GetProfileObjectTypeTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileObjectTypeTemplateInput, GetProfileObjectTypeTemplateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileObjectTypeTemplateOutput>())
@@ -3217,9 +3176,9 @@ extension CustomerProfilesClient {
     ///
     /// Gets a segment definition from the domain.
     ///
-    /// - Parameter GetSegmentDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentDefinitionInput`)
     ///
-    /// - Returns: `GetSegmentDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3254,7 +3213,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentDefinitionInput, GetSegmentDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentDefinitionOutput>(GetSegmentDefinitionOutput.httpOutput(from:), GetSegmentDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentDefinitionInput, GetSegmentDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentDefinitionOutput>())
@@ -3286,9 +3244,9 @@ extension CustomerProfilesClient {
     ///
     /// Gets the result of a segment estimate query.
     ///
-    /// - Parameter GetSegmentEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentEstimateInput`)
     ///
-    /// - Returns: `GetSegmentEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3323,7 +3281,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentEstimateInput, GetSegmentEstimateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentEstimateOutput>(GetSegmentEstimateOutput.httpOutput(from:), GetSegmentEstimateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentEstimateInput, GetSegmentEstimateOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentEstimateOutput>())
@@ -3355,9 +3312,9 @@ extension CustomerProfilesClient {
     ///
     /// Determines if the given profiles are within a segment.
     ///
-    /// - Parameter GetSegmentMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentMembershipInput`)
     ///
-    /// - Returns: `GetSegmentMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3395,7 +3352,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSegmentMembershipInput, GetSegmentMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentMembershipOutput>(GetSegmentMembershipOutput.httpOutput(from:), GetSegmentMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentMembershipInput, GetSegmentMembershipOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentMembershipOutput>())
@@ -3427,9 +3383,9 @@ extension CustomerProfilesClient {
     ///
     /// Retrieve the latest status of a segment snapshot.
     ///
-    /// - Parameter GetSegmentSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentSnapshotInput`)
     ///
-    /// - Returns: `GetSegmentSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3464,7 +3420,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentSnapshotInput, GetSegmentSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentSnapshotOutput>(GetSegmentSnapshotOutput.httpOutput(from:), GetSegmentSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentSnapshotInput, GetSegmentSnapshotOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentSnapshotOutput>())
@@ -3496,9 +3451,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
     ///
-    /// - Parameter GetSimilarProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSimilarProfilesInput`)
     ///
-    /// - Returns: `GetSimilarProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSimilarProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3537,7 +3492,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSimilarProfilesInput, GetSimilarProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSimilarProfilesOutput>(GetSimilarProfilesOutput.httpOutput(from:), GetSimilarProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSimilarProfilesInput, GetSimilarProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSimilarProfilesOutput>())
@@ -3569,9 +3523,9 @@ extension CustomerProfilesClient {
     ///
     /// This API retrieves the details of a specific upload job.
     ///
-    /// - Parameter GetUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUploadJobInput`)
     ///
-    /// - Returns: `GetUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3606,7 +3560,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUploadJobInput, GetUploadJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUploadJobOutput>(GetUploadJobOutput.httpOutput(from:), GetUploadJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUploadJobInput, GetUploadJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUploadJobOutput>())
@@ -3638,9 +3591,9 @@ extension CustomerProfilesClient {
     ///
     /// This API retrieves the pre-signed URL and client token for uploading the file associated with the upload job.
     ///
-    /// - Parameter GetUploadJobPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUploadJobPathInput`)
     ///
-    /// - Returns: `GetUploadJobPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUploadJobPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,7 +3628,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUploadJobPathInput, GetUploadJobPathOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUploadJobPathOutput>(GetUploadJobPathOutput.httpOutput(from:), GetUploadJobPathOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUploadJobPathInput, GetUploadJobPathOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUploadJobPathOutput>())
@@ -3707,9 +3659,9 @@ extension CustomerProfilesClient {
     ///
     /// Get details of specified workflow.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3744,7 +3696,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkflowInput, GetWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowOutput>(GetWorkflowOutput.httpOutput(from:), GetWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowInput, GetWorkflowOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowOutput>())
@@ -3776,9 +3727,9 @@ extension CustomerProfilesClient {
     ///
     /// Get granular list of steps in workflow.
     ///
-    /// - Parameter GetWorkflowStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepsInput`)
     ///
-    /// - Returns: `GetWorkflowStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3814,7 +3765,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWorkflowStepsInput, GetWorkflowStepsOutput>(GetWorkflowStepsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowStepsOutput>(GetWorkflowStepsOutput.httpOutput(from:), GetWorkflowStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowStepsInput, GetWorkflowStepsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowStepsOutput>())
@@ -3846,9 +3796,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the integrations associated to a specific URI in the AWS account.
     ///
-    /// - Parameter ListAccountIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountIntegrationsInput`)
     ///
-    /// - Returns: `ListAccountIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3887,7 +3837,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountIntegrationsInput, ListAccountIntegrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountIntegrationsOutput>(ListAccountIntegrationsOutput.httpOutput(from:), ListAccountIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountIntegrationsInput, ListAccountIntegrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountIntegrationsOutput>())
@@ -3919,9 +3868,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists calculated attribute definitions for Customer Profiles
     ///
-    /// - Parameter ListCalculatedAttributeDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCalculatedAttributeDefinitionsInput`)
     ///
-    /// - Returns: `ListCalculatedAttributeDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCalculatedAttributeDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3957,7 +3906,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCalculatedAttributeDefinitionsInput, ListCalculatedAttributeDefinitionsOutput>(ListCalculatedAttributeDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCalculatedAttributeDefinitionsOutput>(ListCalculatedAttributeDefinitionsOutput.httpOutput(from:), ListCalculatedAttributeDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCalculatedAttributeDefinitionsInput, ListCalculatedAttributeDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCalculatedAttributeDefinitionsOutput>())
@@ -3989,9 +3937,9 @@ extension CustomerProfilesClient {
     ///
     /// Retrieve a list of calculated attributes for a customer profile.
     ///
-    /// - Parameter ListCalculatedAttributesForProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCalculatedAttributesForProfileInput`)
     ///
-    /// - Returns: `ListCalculatedAttributesForProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCalculatedAttributesForProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4027,7 +3975,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCalculatedAttributesForProfileInput, ListCalculatedAttributesForProfileOutput>(ListCalculatedAttributesForProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCalculatedAttributesForProfileOutput>(ListCalculatedAttributesForProfileOutput.httpOutput(from:), ListCalculatedAttributesForProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCalculatedAttributesForProfileInput, ListCalculatedAttributesForProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCalculatedAttributesForProfileOutput>())
@@ -4059,9 +4006,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists the existing layouts that can be used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter ListDomainLayoutsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainLayoutsInput`)
     ///
-    /// - Returns: `ListDomainLayoutsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainLayoutsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4097,7 +4044,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainLayoutsInput, ListDomainLayoutsOutput>(ListDomainLayoutsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainLayoutsOutput>(ListDomainLayoutsOutput.httpOutput(from:), ListDomainLayoutsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainLayoutsInput, ListDomainLayoutsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainLayoutsOutput>())
@@ -4129,9 +4075,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of all the domains for an AWS account that have been created.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4167,7 +4113,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainsInput, ListDomainsOutput>(ListDomainsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -4199,9 +4144,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of all the event streams in a specific domain.
     ///
-    /// - Parameter ListEventStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventStreamsInput`)
     ///
-    /// - Returns: `ListEventStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4237,7 +4182,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventStreamsInput, ListEventStreamsOutput>(ListEventStreamsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventStreamsOutput>(ListEventStreamsOutput.httpOutput(from:), ListEventStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventStreamsInput, ListEventStreamsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventStreamsOutput>())
@@ -4269,9 +4213,9 @@ extension CustomerProfilesClient {
     ///
     /// List all Event Triggers under a domain.
     ///
-    /// - Parameter ListEventTriggersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventTriggersInput`)
     ///
-    /// - Returns: `ListEventTriggersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4307,7 +4251,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventTriggersInput, ListEventTriggersOutput>(ListEventTriggersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventTriggersOutput>(ListEventTriggersOutput.httpOutput(from:), ListEventTriggersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventTriggersInput, ListEventTriggersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventTriggersOutput>())
@@ -4339,9 +4282,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
     ///
-    /// - Parameter ListIdentityResolutionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityResolutionJobsInput`)
     ///
-    /// - Returns: `ListIdentityResolutionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityResolutionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4377,7 +4320,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdentityResolutionJobsInput, ListIdentityResolutionJobsOutput>(ListIdentityResolutionJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityResolutionJobsOutput>(ListIdentityResolutionJobsOutput.httpOutput(from:), ListIdentityResolutionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityResolutionJobsInput, ListIdentityResolutionJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityResolutionJobsOutput>())
@@ -4409,9 +4351,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the integrations in your domain.
     ///
-    /// - Parameter ListIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntegrationsInput`)
     ///
-    /// - Returns: `ListIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4447,7 +4389,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(ListIntegrationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntegrationsOutput>(ListIntegrationsOutput.httpOutput(from:), ListIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationsOutput>())
@@ -4479,9 +4420,9 @@ extension CustomerProfilesClient {
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
-    /// - Parameter ListObjectTypeAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectTypeAttributesInput`)
     ///
-    /// - Returns: `ListObjectTypeAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectTypeAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4517,7 +4458,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectTypeAttributesInput, ListObjectTypeAttributesOutput>(ListObjectTypeAttributesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectTypeAttributesOutput>(ListObjectTypeAttributesOutput.httpOutput(from:), ListObjectTypeAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectTypeAttributesInput, ListObjectTypeAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectTypeAttributesOutput>())
@@ -4549,9 +4489,9 @@ extension CustomerProfilesClient {
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
-    /// - Parameter ListProfileAttributeValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileAttributeValuesInput`)
     ///
-    /// - Returns: `ListProfileAttributeValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileAttributeValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4586,7 +4526,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProfileAttributeValuesInput, ListProfileAttributeValuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfileAttributeValuesOutput>(ListProfileAttributeValuesOutput.httpOutput(from:), ListProfileAttributeValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfileAttributeValuesInput, ListProfileAttributeValuesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfileAttributeValuesOutput>())
@@ -4618,9 +4557,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of history records for a specific profile, for a specific domain.
     ///
-    /// - Parameter ListProfileHistoryRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileHistoryRecordsInput`)
     ///
-    /// - Returns: `ListProfileHistoryRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileHistoryRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4659,7 +4598,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProfileHistoryRecordsInput, ListProfileHistoryRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfileHistoryRecordsOutput>(ListProfileHistoryRecordsOutput.httpOutput(from:), ListProfileHistoryRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfileHistoryRecordsInput, ListProfileHistoryRecordsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfileHistoryRecordsOutput>())
@@ -4691,9 +4629,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the template information for object types.
     ///
-    /// - Parameter ListProfileObjectTypeTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileObjectTypeTemplatesInput`)
     ///
-    /// - Returns: `ListProfileObjectTypeTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileObjectTypeTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4729,7 +4667,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfileObjectTypeTemplatesInput, ListProfileObjectTypeTemplatesOutput>(ListProfileObjectTypeTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfileObjectTypeTemplatesOutput>(ListProfileObjectTypeTemplatesOutput.httpOutput(from:), ListProfileObjectTypeTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfileObjectTypeTemplatesInput, ListProfileObjectTypeTemplatesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfileObjectTypeTemplatesOutput>())
@@ -4761,9 +4698,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the templates available within the service.
     ///
-    /// - Parameter ListProfileObjectTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileObjectTypesInput`)
     ///
-    /// - Returns: `ListProfileObjectTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileObjectTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4799,7 +4736,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfileObjectTypesInput, ListProfileObjectTypesOutput>(ListProfileObjectTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfileObjectTypesOutput>(ListProfileObjectTypesOutput.httpOutput(from:), ListProfileObjectTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfileObjectTypesInput, ListProfileObjectTypesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfileObjectTypesOutput>())
@@ -4831,9 +4767,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of objects associated with a profile of a given ProfileObjectType.
     ///
-    /// - Parameter ListProfileObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileObjectsInput`)
     ///
-    /// - Returns: `ListProfileObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4872,7 +4808,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProfileObjectsInput, ListProfileObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfileObjectsOutput>(ListProfileObjectsOutput.httpOutput(from:), ListProfileObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfileObjectsInput, ListProfileObjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfileObjectsOutput>())
@@ -4904,9 +4839,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a set of MatchIds that belong to the given domain.
     ///
-    /// - Parameter ListRuleBasedMatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleBasedMatchesInput`)
     ///
-    /// - Returns: `ListRuleBasedMatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleBasedMatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4942,7 +4877,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRuleBasedMatchesInput, ListRuleBasedMatchesOutput>(ListRuleBasedMatchesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleBasedMatchesOutput>(ListRuleBasedMatchesOutput.httpOutput(from:), ListRuleBasedMatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleBasedMatchesInput, ListRuleBasedMatchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleBasedMatchesOutput>())
@@ -4974,9 +4908,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all segment definitions under a domain.
     ///
-    /// - Parameter ListSegmentDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSegmentDefinitionsInput`)
     ///
-    /// - Returns: `ListSegmentDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSegmentDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5012,7 +4946,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSegmentDefinitionsInput, ListSegmentDefinitionsOutput>(ListSegmentDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSegmentDefinitionsOutput>(ListSegmentDefinitionsOutput.httpOutput(from:), ListSegmentDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSegmentDefinitionsInput, ListSegmentDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSegmentDefinitionsOutput>())
@@ -5044,9 +4977,9 @@ extension CustomerProfilesClient {
     ///
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5079,7 +5012,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5111,9 +5043,9 @@ extension CustomerProfilesClient {
     ///
     /// This API retrieves a list of upload jobs for the specified domain.
     ///
-    /// - Parameter ListUploadJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUploadJobsInput`)
     ///
-    /// - Returns: `ListUploadJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUploadJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5149,7 +5081,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUploadJobsInput, ListUploadJobsOutput>(ListUploadJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUploadJobsOutput>(ListUploadJobsOutput.httpOutput(from:), ListUploadJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUploadJobsInput, ListUploadJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUploadJobsOutput>())
@@ -5181,9 +5112,9 @@ extension CustomerProfilesClient {
     ///
     /// Query to list all workflows.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5222,7 +5153,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowsOutput>(ListWorkflowsOutput.httpOutput(from:), ListWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowsOutput>())
@@ -5281,9 +5211,9 @@ extension CustomerProfilesClient {
     ///
     /// You can use MergeProfiles together with [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html), which returns potentially matching profiles, or use it with the results of another matching system. After profiles have been merged, they cannot be separated (unmerged).
     ///
-    /// - Parameter MergeProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergeProfilesInput`)
     ///
-    /// - Returns: `MergeProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergeProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5320,7 +5250,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MergeProfilesInput, MergeProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MergeProfilesOutput>(MergeProfilesOutput.httpOutput(from:), MergeProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MergeProfilesInput, MergeProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MergeProfilesOutput>())
@@ -5352,9 +5281,9 @@ extension CustomerProfilesClient {
     ///
     /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see [ TagResource ](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[ UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
-    /// - Parameter PutIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutIntegrationInput`)
     ///
-    /// - Returns: `PutIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5392,7 +5321,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIntegrationInput, PutIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutIntegrationOutput>(PutIntegrationOutput.httpOutput(from:), PutIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIntegrationInput, PutIntegrationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIntegrationOutput>())
@@ -5424,9 +5352,9 @@ extension CustomerProfilesClient {
     ///
     /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. PutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
     ///
-    /// - Parameter PutProfileObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProfileObjectInput`)
     ///
-    /// - Returns: `PutProfileObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProfileObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5464,7 +5392,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProfileObjectInput, PutProfileObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProfileObjectOutput>(PutProfileObjectOutput.httpOutput(from:), PutProfileObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProfileObjectInput, PutProfileObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutProfileObjectOutput>())
@@ -5496,9 +5423,9 @@ extension CustomerProfilesClient {
     ///
     /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see [ TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
-    /// - Parameter PutProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProfileObjectTypeInput`)
     ///
-    /// - Returns: `PutProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5536,7 +5463,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProfileObjectTypeInput, PutProfileObjectTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProfileObjectTypeOutput>(PutProfileObjectTypeOutput.httpOutput(from:), PutProfileObjectTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProfileObjectTypeInput, PutProfileObjectTypeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutProfileObjectTypeOutput>())
@@ -5568,9 +5494,9 @@ extension CustomerProfilesClient {
     ///
     /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic.
     ///
-    /// - Parameter SearchProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchProfilesInput`)
     ///
-    /// - Returns: `SearchProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5609,7 +5535,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchProfilesInput, SearchProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchProfilesOutput>(SearchProfilesOutput.httpOutput(from:), SearchProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchProfilesInput, SearchProfilesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchProfilesOutput>())
@@ -5641,9 +5566,9 @@ extension CustomerProfilesClient {
     ///
     /// This API starts the processing of an upload job to ingest profile data.
     ///
-    /// - Parameter StartUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartUploadJobInput`)
     ///
-    /// - Returns: `StartUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5678,7 +5603,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartUploadJobInput, StartUploadJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartUploadJobOutput>(StartUploadJobOutput.httpOutput(from:), StartUploadJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartUploadJobInput, StartUploadJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartUploadJobOutput>())
@@ -5710,9 +5634,9 @@ extension CustomerProfilesClient {
     ///
     /// This API stops the processing of an upload job.
     ///
-    /// - Parameter StopUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopUploadJobInput`)
     ///
-    /// - Returns: `StopUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5747,7 +5671,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopUploadJobInput, StopUploadJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopUploadJobOutput>(StopUploadJobOutput.httpOutput(from:), StopUploadJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopUploadJobInput, StopUploadJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopUploadJobOutput>())
@@ -5779,9 +5702,9 @@ extension CustomerProfilesClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5817,7 +5740,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5849,9 +5771,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5885,7 +5807,6 @@ extension CustomerProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5917,9 +5838,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range.
     ///
-    /// - Parameter UpdateCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `UpdateCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5957,7 +5878,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCalculatedAttributeDefinitionInput, UpdateCalculatedAttributeDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCalculatedAttributeDefinitionOutput>(UpdateCalculatedAttributeDefinitionOutput.httpOutput(from:), UpdateCalculatedAttributeDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCalculatedAttributeDefinitionInput, UpdateCalculatedAttributeDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCalculatedAttributeDefinitionOutput>())
@@ -5989,9 +5909,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. To add or remove tags on an existing Domain, see [TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
-    /// - Parameter UpdateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainInput`)
     ///
-    /// - Returns: `UpdateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6029,7 +5949,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainInput, UpdateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainOutput>(UpdateDomainOutput.httpOutput(from:), UpdateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainInput, UpdateDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainOutput>())
@@ -6061,9 +5980,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter UpdateDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainLayoutInput`)
     ///
-    /// - Returns: `UpdateDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6101,7 +6020,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainLayoutInput, UpdateDomainLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainLayoutOutput>(UpdateDomainLayoutOutput.httpOutput(from:), UpdateDomainLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainLayoutInput, UpdateDomainLayoutOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainLayoutOutput>())
@@ -6133,9 +6051,9 @@ extension CustomerProfilesClient {
     ///
     /// Update the properties of an Event Trigger.
     ///
-    /// - Parameter UpdateEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventTriggerInput`)
     ///
-    /// - Returns: `UpdateEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6173,7 +6091,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventTriggerInput, UpdateEventTriggerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventTriggerOutput>(UpdateEventTriggerOutput.httpOutput(from:), UpdateEventTriggerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventTriggerInput, UpdateEventTriggerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventTriggerOutput>())
@@ -6205,9 +6122,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     ///
-    /// - Parameter UpdateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileInput`)
     ///
-    /// - Returns: `UpdateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6245,7 +6162,6 @@ extension CustomerProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileInput, UpdateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileOutput>(UpdateProfileOutput.httpOutput(from:), UpdateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileInput, UpdateProfileOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileOutput>())

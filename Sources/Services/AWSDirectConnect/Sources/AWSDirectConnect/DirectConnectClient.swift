@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectConnectClient: ClientRuntime.Client {
     public static let clientName = "DirectConnectClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectConnectClient.DirectConnectClientConfiguration
     let serviceName = "Direct Connect"
@@ -374,9 +373,9 @@ extension DirectConnectClient {
     ///
     /// Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway.
     ///
-    /// - Parameter AcceptDirectConnectGatewayAssociationProposalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptDirectConnectGatewayAssociationProposalInput`)
     ///
-    /// - Returns: `AcceptDirectConnectGatewayAssociationProposalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptDirectConnectGatewayAssociationProposalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,7 +408,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput>(AcceptDirectConnectGatewayAssociationProposalOutput.httpOutput(from:), AcceptDirectConnectGatewayAssociationProposalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput>())
@@ -445,9 +443,9 @@ extension DirectConnectClient {
     /// Deprecated. Use [AllocateHostedConnection] instead. Creates a hosted connection on an interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the specified interconnect. Intended for use by Direct Connect Partners only.
     @available(*, deprecated)
     ///
-    /// - Parameter AllocateConnectionOnInterconnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocateConnectionOnInterconnectInput`)
     ///
-    /// - Returns: `AllocateConnectionOnInterconnectOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `AllocateConnectionOnInterconnectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,7 +478,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocateConnectionOnInterconnectOutput>(AllocateConnectionOnInterconnectOutput.httpOutput(from:), AllocateConnectionOnInterconnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateConnectionOnInterconnectOutput>())
@@ -515,9 +512,9 @@ extension DirectConnectClient {
     ///
     /// Creates a hosted connection on the specified interconnect or a link aggregation group (LAG) of interconnects. Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects. Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity. Intended for use by Direct Connect Partners only.
     ///
-    /// - Parameter AllocateHostedConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocateHostedConnectionInput`)
     ///
-    /// - Returns: `AllocateHostedConnectionOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `AllocateHostedConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,7 +549,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocateHostedConnectionOutput>(AllocateHostedConnectionOutput.httpOutput(from:), AllocateHostedConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateHostedConnectionOutput>())
@@ -587,9 +583,9 @@ extension DirectConnectClient {
     ///
     /// Provisions a private virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this action must be confirmed by the owner using [ConfirmPrivateVirtualInterface]. Until then, the virtual interface is in the Confirming state and is not available to handle traffic.
     ///
-    /// - Parameter AllocatePrivateVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocatePrivateVirtualInterfaceInput`)
     ///
-    /// - Returns: `AllocatePrivateVirtualInterfaceOutput` : Information about a virtual interface.
+    /// - Returns: Information about a virtual interface. (Type: `AllocatePrivateVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,7 +620,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocatePrivateVirtualInterfaceOutput>(AllocatePrivateVirtualInterfaceOutput.httpOutput(from:), AllocatePrivateVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocatePrivateVirtualInterfaceOutput>())
@@ -659,9 +654,9 @@ extension DirectConnectClient {
     ///
     /// Provisions a public virtual interface to be owned by the specified Amazon Web Services account. The owner of a connection calls this function to provision a public virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this function must be confirmed by the owner using [ConfirmPublicVirtualInterface]. Until this step has been completed, the virtual interface is in the confirming state and is not available to handle traffic. When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
     ///
-    /// - Parameter AllocatePublicVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocatePublicVirtualInterfaceInput`)
     ///
-    /// - Returns: `AllocatePublicVirtualInterfaceOutput` : Information about a virtual interface.
+    /// - Returns: Information about a virtual interface. (Type: `AllocatePublicVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,7 +691,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocatePublicVirtualInterfaceOutput>(AllocatePublicVirtualInterfaceOutput.httpOutput(from:), AllocatePublicVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocatePublicVirtualInterfaceOutput>())
@@ -731,9 +725,9 @@ extension DirectConnectClient {
     ///
     /// Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway. The owner of a connection provisions a transit virtual interface to be owned by the specified Amazon Web Services account. After you create a transit virtual interface, it must be confirmed by the owner using [ConfirmTransitVirtualInterface]. Until this step has been completed, the transit virtual interface is in the requested state and is not available to handle traffic.
     ///
-    /// - Parameter AllocateTransitVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocateTransitVirtualInterfaceInput`)
     ///
-    /// - Returns: `AllocateTransitVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AllocateTransitVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,7 +762,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocateTransitVirtualInterfaceOutput>(AllocateTransitVirtualInterfaceOutput.httpOutput(from:), AllocateTransitVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateTransitVirtualInterfaceOutput>())
@@ -803,9 +796,9 @@ extension DirectConnectClient {
     ///
     /// Associates an existing connection with a link aggregation group (LAG). The connection is interrupted and re-established as a member of the LAG (connectivity to Amazon Web Services is interrupted). The connection must be hosted on the same Direct Connect endpoint as the LAG, and its bandwidth must match the bandwidth for the LAG. You can re-associate a connection that's currently associated with a different LAG; however, if removing the connection would cause the original LAG to fall below its setting for minimum number of operational connections, the request fails. Any virtual interfaces that are directly associated with the connection are automatically re-associated with the LAG. If the connection was originally associated with a different LAG, the virtual interfaces remain associated with the original LAG. For interconnects, any hosted connections are automatically re-associated with the LAG. If the interconnect was originally associated with a different LAG, the hosted connections remain associated with the original LAG.
     ///
-    /// - Parameter AssociateConnectionWithLagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateConnectionWithLagInput`)
     ///
-    /// - Returns: `AssociateConnectionWithLagOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `AssociateConnectionWithLagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,7 +831,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateConnectionWithLagOutput>(AssociateConnectionWithLagOutput.httpOutput(from:), AssociateConnectionWithLagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateConnectionWithLagOutput>())
@@ -873,9 +865,9 @@ extension DirectConnectClient {
     ///
     /// Associates a hosted connection and its virtual interfaces with a link aggregation group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted connection with a conflicting VLAN number or IP address, the operation fails. This action temporarily interrupts the hosted connection's connectivity to Amazon Web Services as it is being migrated. Intended for use by Direct Connect Partners only.
     ///
-    /// - Parameter AssociateHostedConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateHostedConnectionInput`)
     ///
-    /// - Returns: `AssociateHostedConnectionOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `AssociateHostedConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,7 +900,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateHostedConnectionOutput>(AssociateHostedConnectionOutput.httpOutput(from:), AssociateHostedConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateHostedConnectionOutput>())
@@ -943,9 +934,9 @@ extension DirectConnectClient {
     ///
     /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations ](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration) in the Direct Connect User Guide.
     ///
-    /// - Parameter AssociateMacSecKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMacSecKeyInput`)
     ///
-    /// - Returns: `AssociateMacSecKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMacSecKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,7 +969,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMacSecKeyOutput>(AssociateMacSecKeyOutput.httpOutput(from:), AssociateMacSecKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMacSecKeyOutput>())
@@ -1013,9 +1003,9 @@ extension DirectConnectClient {
     ///
     /// Associates a virtual interface with a specified link aggregation group (LAG) or connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is being migrated. If the target connection or LAG has an associated virtual interface with a conflicting VLAN number or a conflicting IP address, the operation fails. Virtual interfaces associated with a hosted connection cannot be associated with a LAG; hosted connections must be migrated along with their virtual interfaces using [AssociateHostedConnection]. To reassociate a virtual interface to a new connection or LAG, the requester must own either the virtual interface itself or the connection to which the virtual interface is currently associated. Additionally, the requester must own the connection or LAG for the association.
     ///
-    /// - Parameter AssociateVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateVirtualInterfaceInput`)
     ///
-    /// - Returns: `AssociateVirtualInterfaceOutput` : Information about a virtual interface.
+    /// - Returns: Information about a virtual interface. (Type: `AssociateVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1048,7 +1038,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateVirtualInterfaceOutput>(AssociateVirtualInterfaceOutput.httpOutput(from:), AssociateVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVirtualInterfaceOutput>())
@@ -1083,9 +1072,9 @@ extension DirectConnectClient {
     ///
     /// Confirms the creation of the specified hosted connection on an interconnect. Upon creation, the hosted connection is initially in the Ordering state, and remains in this state until the owner confirms creation of the hosted connection.
     ///
-    /// - Parameter ConfirmConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfirmConnectionInput`)
     ///
-    /// - Returns: `ConfirmConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfirmConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1118,7 +1107,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmConnectionOutput>(ConfirmConnectionOutput.httpOutput(from:), ConfirmConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmConnectionOutput>())
@@ -1153,9 +1141,9 @@ extension DirectConnectClient {
     ///
     /// The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG).
     ///
-    /// - Parameter ConfirmCustomerAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfirmCustomerAgreementInput`)
     ///
-    /// - Returns: `ConfirmCustomerAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfirmCustomerAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,7 +1176,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmCustomerAgreementOutput>(ConfirmCustomerAgreementOutput.httpOutput(from:), ConfirmCustomerAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmCustomerAgreementOutput>())
@@ -1223,9 +1210,9 @@ extension DirectConnectClient {
     ///
     /// Accepts ownership of a private virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the virtual interface is created and attached to the specified virtual private gateway or Direct Connect gateway, and is made available to handle traffic.
     ///
-    /// - Parameter ConfirmPrivateVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfirmPrivateVirtualInterfaceInput`)
     ///
-    /// - Returns: `ConfirmPrivateVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfirmPrivateVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1258,7 +1245,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmPrivateVirtualInterfaceOutput>(ConfirmPrivateVirtualInterfaceOutput.httpOutput(from:), ConfirmPrivateVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmPrivateVirtualInterfaceOutput>())
@@ -1293,9 +1279,9 @@ extension DirectConnectClient {
     ///
     /// Accepts ownership of a public virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the specified virtual interface is created and made available to handle traffic.
     ///
-    /// - Parameter ConfirmPublicVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfirmPublicVirtualInterfaceInput`)
     ///
-    /// - Returns: `ConfirmPublicVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfirmPublicVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1328,7 +1314,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmPublicVirtualInterfaceOutput>(ConfirmPublicVirtualInterfaceOutput.httpOutput(from:), ConfirmPublicVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmPublicVirtualInterfaceOutput>())
@@ -1363,9 +1348,9 @@ extension DirectConnectClient {
     ///
     /// Accepts ownership of a transit virtual interface created by another Amazon Web Services account. After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
     ///
-    /// - Parameter ConfirmTransitVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfirmTransitVirtualInterfaceInput`)
     ///
-    /// - Returns: `ConfirmTransitVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfirmTransitVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1398,7 +1383,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmTransitVirtualInterfaceOutput>(ConfirmTransitVirtualInterfaceOutput.httpOutput(from:), ConfirmTransitVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmTransitVirtualInterfaceOutput>())
@@ -1433,9 +1417,9 @@ extension DirectConnectClient {
     ///
     /// Creates a BGP peer on the specified virtual interface. You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to access Amazon Web Services resources that also use that address family. If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer cannot be in the same address family as an existing BGP peer on the virtual interface. When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses. If you let Amazon Web Services auto-assign IPv4 addresses, a /30 CIDR will be allocated from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend to use the customer router peer IP address as the source and destination for traffic. Instead you should use RFC 1918 or other addressing, and specify the address yourself. For more information about RFC 1918 see [ Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918). For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
     ///
-    /// - Parameter CreateBGPPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBGPPeerInput`)
     ///
-    /// - Returns: `CreateBGPPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBGPPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,7 +1452,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBGPPeerOutput>(CreateBGPPeerOutput.httpOutput(from:), CreateBGPPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBGPPeerOutput>())
@@ -1503,9 +1486,9 @@ extension DirectConnectClient {
     ///
     /// Creates a connection between a customer network and a specific Direct Connect location. A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an Direct Connect router. To find the locations for your Region, use [DescribeLocations]. You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new connection is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no connection is created.
     ///
-    /// - Parameter CreateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionInput`)
     ///
-    /// - Returns: `CreateConnectionOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `CreateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1540,7 +1523,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
@@ -1575,9 +1557,9 @@ extension DirectConnectClient {
     ///
     /// Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any Amazon Web Services Region after it is created. The virtual interfaces and virtual private gateways that are connected through a Direct Connect gateway can be in different Amazon Web Services Regions. This enables you to connect to a VPC in any Region, regardless of the Region in which the virtual interfaces are located, and pass traffic between them.
     ///
-    /// - Parameter CreateDirectConnectGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectConnectGatewayInput`)
     ///
-    /// - Returns: `CreateDirectConnectGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectConnectGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,7 +1592,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectConnectGatewayOutput>(CreateDirectConnectGatewayOutput.httpOutput(from:), CreateDirectConnectGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayOutput>())
@@ -1645,9 +1626,9 @@ extension DirectConnectClient {
     ///
     /// Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
     ///
-    /// - Parameter CreateDirectConnectGatewayAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectConnectGatewayAssociationInput`)
     ///
-    /// - Returns: `CreateDirectConnectGatewayAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectConnectGatewayAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1680,7 +1661,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectConnectGatewayAssociationOutput>(CreateDirectConnectGatewayAssociationOutput.httpOutput(from:), CreateDirectConnectGatewayAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayAssociationOutput>())
@@ -1715,9 +1695,9 @@ extension DirectConnectClient {
     ///
     /// Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
     ///
-    /// - Parameter CreateDirectConnectGatewayAssociationProposalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectConnectGatewayAssociationProposalInput`)
     ///
-    /// - Returns: `CreateDirectConnectGatewayAssociationProposalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectConnectGatewayAssociationProposalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1750,7 +1730,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectConnectGatewayAssociationProposalOutput>(CreateDirectConnectGatewayAssociationProposalOutput.httpOutput(from:), CreateDirectConnectGatewayAssociationProposalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayAssociationProposalOutput>())
@@ -1785,9 +1764,9 @@ extension DirectConnectClient {
     ///
     /// Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location. An interconnect is a connection that is capable of hosting other connections. The Direct Connect Partner can use an interconnect to provide Direct Connect hosted connections to customers through their own network services. Like a standard connection, an interconnect links the partner's network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end is connected to the partner's router, the other to an Direct Connect router. You can automatically add the new interconnect to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new interconnect is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no interconnect is created. For each end customer, the Direct Connect Partner provisions a connection on their interconnect by calling [AllocateHostedConnection]. The end customer can then connect to Amazon Web Services resources by creating a virtual interface on their connection, using the VLAN assigned to them by the Direct Connect Partner. Intended for use by Direct Connect Partners only.
     ///
-    /// - Parameter CreateInterconnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInterconnectInput`)
     ///
-    /// - Returns: `CreateInterconnectOutput` : Information about an interconnect.
+    /// - Returns: Information about an interconnect. (Type: `CreateInterconnectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1822,7 +1801,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInterconnectInput, CreateInterconnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInterconnectOutput>(CreateInterconnectOutput.httpOutput(from:), CreateInterconnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInterconnectOutput>())
@@ -1857,9 +1835,9 @@ extension DirectConnectClient {
     ///
     /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per location. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created.. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual interfaces cannot be directly configured.
     ///
-    /// - Parameter CreateLagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLagInput`)
     ///
-    /// - Returns: `CreateLagOutput` : Information about a link aggregation group (LAG).
+    /// - Returns: Information about a link aggregation group (LAG). (Type: `CreateLagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1894,7 +1872,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLagInput, CreateLagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLagOutput>(CreateLagOutput.httpOutput(from:), CreateLagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLagInput, CreateLagOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLagOutput>())
@@ -1929,9 +1906,9 @@ extension DirectConnectClient {
     ///
     /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
-    /// - Parameter CreatePrivateVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrivateVirtualInterfaceInput`)
     ///
-    /// - Returns: `CreatePrivateVirtualInterfaceOutput` : Information about a virtual interface.
+    /// - Returns: Information about a virtual interface. (Type: `CreatePrivateVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1966,7 +1943,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePrivateVirtualInterfaceOutput>(CreatePrivateVirtualInterfaceOutput.httpOutput(from:), CreatePrivateVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrivateVirtualInterfaceOutput>())
@@ -2001,9 +1977,9 @@ extension DirectConnectClient {
     ///
     /// Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3. When creating an IPv6 public virtual interface (addressFamily is ipv6), leave the customer and amazon address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
     ///
-    /// - Parameter CreatePublicVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePublicVirtualInterfaceInput`)
     ///
-    /// - Returns: `CreatePublicVirtualInterfaceOutput` : Information about a virtual interface.
+    /// - Returns: Information about a virtual interface. (Type: `CreatePublicVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2038,7 +2014,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePublicVirtualInterfaceOutput>(CreatePublicVirtualInterfaceOutput.httpOutput(from:), CreatePublicVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublicVirtualInterfaceOutput>())
@@ -2073,9 +2048,9 @@ extension DirectConnectClient {
     ///
     /// Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway. If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
-    /// - Parameter CreateTransitVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitVirtualInterfaceInput`)
     ///
-    /// - Returns: `CreateTransitVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2110,7 +2085,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitVirtualInterfaceOutput>(CreateTransitVirtualInterfaceOutput.httpOutput(from:), CreateTransitVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitVirtualInterfaceOutput>())
@@ -2145,9 +2119,9 @@ extension DirectConnectClient {
     ///
     /// Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
     ///
-    /// - Parameter DeleteBGPPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBGPPeerInput`)
     ///
-    /// - Returns: `DeleteBGPPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBGPPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2180,7 +2154,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBGPPeerOutput>(DeleteBGPPeerOutput.httpOutput(from:), DeleteBGPPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBGPPeerOutput>())
@@ -2215,9 +2188,9 @@ extension DirectConnectClient {
     ///
     /// Deletes the specified connection. Deleting a connection only stops the Direct Connect port hour and data transfer charges. If you are partnering with any third parties to connect with the Direct Connect location, you must cancel your service with them separately.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2250,7 +2223,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
@@ -2285,9 +2257,9 @@ extension DirectConnectClient {
     ///
     /// Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces that are attached to the Direct Connect gateway and disassociate all virtual private gateways associated with the Direct Connect gateway.
     ///
-    /// - Parameter DeleteDirectConnectGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectConnectGatewayInput`)
     ///
-    /// - Returns: `DeleteDirectConnectGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectConnectGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2320,7 +2292,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectConnectGatewayOutput>(DeleteDirectConnectGatewayOutput.httpOutput(from:), DeleteDirectConnectGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayOutput>())
@@ -2355,9 +2326,9 @@ extension DirectConnectClient {
     ///
     /// Deletes the association between the specified Direct Connect gateway and virtual private gateway. We recommend that you specify the associationID to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and directConnectGatewayId to delete an association.
     ///
-    /// - Parameter DeleteDirectConnectGatewayAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectConnectGatewayAssociationInput`)
     ///
-    /// - Returns: `DeleteDirectConnectGatewayAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectConnectGatewayAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2390,7 +2361,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectConnectGatewayAssociationOutput>(DeleteDirectConnectGatewayAssociationOutput.httpOutput(from:), DeleteDirectConnectGatewayAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayAssociationOutput>())
@@ -2425,9 +2395,9 @@ extension DirectConnectClient {
     ///
     /// Deletes the association proposal request between the specified Direct Connect gateway and virtual private gateway or transit gateway.
     ///
-    /// - Parameter DeleteDirectConnectGatewayAssociationProposalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectConnectGatewayAssociationProposalInput`)
     ///
-    /// - Returns: `DeleteDirectConnectGatewayAssociationProposalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectConnectGatewayAssociationProposalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2460,7 +2430,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput>(DeleteDirectConnectGatewayAssociationProposalOutput.httpOutput(from:), DeleteDirectConnectGatewayAssociationProposalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput>())
@@ -2495,9 +2464,9 @@ extension DirectConnectClient {
     ///
     /// Deletes the specified interconnect. Intended for use by Direct Connect Partners only.
     ///
-    /// - Parameter DeleteInterconnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInterconnectInput`)
     ///
-    /// - Returns: `DeleteInterconnectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInterconnectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2530,7 +2499,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInterconnectOutput>(DeleteInterconnectOutput.httpOutput(from:), DeleteInterconnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInterconnectOutput>())
@@ -2565,9 +2533,9 @@ extension DirectConnectClient {
     ///
     /// Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active virtual interfaces or hosted connections.
     ///
-    /// - Parameter DeleteLagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLagInput`)
     ///
-    /// - Returns: `DeleteLagOutput` : Information about a link aggregation group (LAG).
+    /// - Returns: Information about a link aggregation group (LAG). (Type: `DeleteLagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2600,7 +2568,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLagInput, DeleteLagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLagOutput>(DeleteLagOutput.httpOutput(from:), DeleteLagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLagInput, DeleteLagOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLagOutput>())
@@ -2635,9 +2602,9 @@ extension DirectConnectClient {
     ///
     /// Deletes a virtual interface.
     ///
-    /// - Parameter DeleteVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVirtualInterfaceInput`)
     ///
-    /// - Returns: `DeleteVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVirtualInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2670,7 +2637,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualInterfaceOutput>(DeleteVirtualInterfaceOutput.httpOutput(from:), DeleteVirtualInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualInterfaceOutput>())
@@ -2706,9 +2672,9 @@ extension DirectConnectClient {
     /// Deprecated. Use [DescribeLoa] instead. Gets the LOA-CFA for a connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     @available(*, deprecated)
     ///
-    /// - Parameter DescribeConnectionLoaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectionLoaInput`)
     ///
-    /// - Returns: `DescribeConnectionLoaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectionLoaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2741,7 +2707,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionLoaOutput>(DescribeConnectionLoaOutput.httpOutput(from:), DescribeConnectionLoaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionLoaOutput>())
@@ -2776,9 +2741,9 @@ extension DirectConnectClient {
     ///
     /// Displays the specified connection or all connections in this Region.
     ///
-    /// - Parameter DescribeConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectionsInput`)
     ///
-    /// - Returns: `DescribeConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2811,7 +2776,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionsOutput>(DescribeConnectionsOutput.httpOutput(from:), DescribeConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionsOutput>())
@@ -2847,9 +2811,9 @@ extension DirectConnectClient {
     /// Deprecated. Use [DescribeHostedConnections] instead. Lists the connections that have been provisioned on the specified interconnect. Intended for use by Direct Connect Partners only.
     @available(*, deprecated)
     ///
-    /// - Parameter DescribeConnectionsOnInterconnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectionsOnInterconnectInput`)
     ///
-    /// - Returns: `DescribeConnectionsOnInterconnectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectionsOnInterconnectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2882,7 +2846,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionsOnInterconnectOutput>(DescribeConnectionsOnInterconnectOutput.httpOutput(from:), DescribeConnectionsOnInterconnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionsOnInterconnectOutput>())
@@ -2917,9 +2880,9 @@ extension DirectConnectClient {
     ///
     /// Get and view a list of customer agreements, along with their signed status and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
     ///
-    /// - Parameter DescribeCustomerMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomerMetadataInput`)
     ///
-    /// - Returns: `DescribeCustomerMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomerMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2952,7 +2915,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomerMetadataOutput>(DescribeCustomerMetadataOutput.httpOutput(from:), DescribeCustomerMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomerMetadataOutput>())
@@ -2987,9 +2949,9 @@ extension DirectConnectClient {
     ///
     /// Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway.
     ///
-    /// - Parameter DescribeDirectConnectGatewayAssociationProposalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDirectConnectGatewayAssociationProposalsInput`)
     ///
-    /// - Returns: `DescribeDirectConnectGatewayAssociationProposalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDirectConnectGatewayAssociationProposalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3022,7 +2984,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput>(DescribeDirectConnectGatewayAssociationProposalsOutput.httpOutput(from:), DescribeDirectConnectGatewayAssociationProposalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput>())
@@ -3071,9 +3032,9 @@ extension DirectConnectClient {
     ///
     /// * A Direct Connect gateway association to a Cloud WAN core network The response contains the Cloud WAN core network ID that the Direct Connect gateway is associated to.
     ///
-    /// - Parameter DescribeDirectConnectGatewayAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDirectConnectGatewayAssociationsInput`)
     ///
-    /// - Returns: `DescribeDirectConnectGatewayAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDirectConnectGatewayAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3106,7 +3067,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewayAssociationsOutput>(DescribeDirectConnectGatewayAssociationsOutput.httpOutput(from:), DescribeDirectConnectGatewayAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAssociationsOutput>())
@@ -3141,9 +3101,9 @@ extension DirectConnectClient {
     ///
     /// Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains all virtual interfaces attached to the Direct Connect gateway. If you specify a virtual interface, the response contains all Direct Connect gateways attached to the virtual interface. If you specify both, the response contains the attachment between the Direct Connect gateway and the virtual interface.
     ///
-    /// - Parameter DescribeDirectConnectGatewayAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDirectConnectGatewayAttachmentsInput`)
     ///
-    /// - Returns: `DescribeDirectConnectGatewayAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDirectConnectGatewayAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,7 +3136,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewayAttachmentsOutput>(DescribeDirectConnectGatewayAttachmentsOutput.httpOutput(from:), DescribeDirectConnectGatewayAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAttachmentsOutput>())
@@ -3211,9 +3170,9 @@ extension DirectConnectClient {
     ///
     /// Lists all your Direct Connect gateways or only the specified Direct Connect gateway. Deleted Direct Connect gateways are not returned.
     ///
-    /// - Parameter DescribeDirectConnectGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDirectConnectGatewaysInput`)
     ///
-    /// - Returns: `DescribeDirectConnectGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDirectConnectGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3246,7 +3205,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewaysOutput>(DescribeDirectConnectGatewaysOutput.httpOutput(from:), DescribeDirectConnectGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewaysOutput>())
@@ -3281,9 +3239,9 @@ extension DirectConnectClient {
     ///
     /// Lists the hosted connections that have been provisioned on the specified interconnect or link aggregation group (LAG). Intended for use by Direct Connect Partners only.
     ///
-    /// - Parameter DescribeHostedConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHostedConnectionsInput`)
     ///
-    /// - Returns: `DescribeHostedConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHostedConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3316,7 +3274,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHostedConnectionsOutput>(DescribeHostedConnectionsOutput.httpOutput(from:), DescribeHostedConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHostedConnectionsOutput>())
@@ -3352,9 +3309,9 @@ extension DirectConnectClient {
     /// Deprecated. Use [DescribeLoa] instead. Gets the LOA-CFA for the specified interconnect. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     @available(*, deprecated)
     ///
-    /// - Parameter DescribeInterconnectLoaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInterconnectLoaInput`)
     ///
-    /// - Returns: `DescribeInterconnectLoaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInterconnectLoaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3387,7 +3344,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInterconnectLoaOutput>(DescribeInterconnectLoaOutput.httpOutput(from:), DescribeInterconnectLoaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInterconnectLoaOutput>())
@@ -3422,9 +3378,9 @@ extension DirectConnectClient {
     ///
     /// Lists the interconnects owned by the Amazon Web Services account or only the specified interconnect.
     ///
-    /// - Parameter DescribeInterconnectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInterconnectsInput`)
     ///
-    /// - Returns: `DescribeInterconnectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInterconnectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3457,7 +3413,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInterconnectsOutput>(DescribeInterconnectsOutput.httpOutput(from:), DescribeInterconnectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInterconnectsOutput>())
@@ -3492,9 +3447,9 @@ extension DirectConnectClient {
     ///
     /// Describes all your link aggregation groups (LAG) or the specified LAG.
     ///
-    /// - Parameter DescribeLagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLagsInput`)
     ///
-    /// - Returns: `DescribeLagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3527,7 +3482,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLagsInput, DescribeLagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLagsOutput>(DescribeLagsOutput.httpOutput(from:), DescribeLagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLagsInput, DescribeLagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLagsOutput>())
@@ -3562,9 +3516,9 @@ extension DirectConnectClient {
     ///
     /// Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG). The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     ///
-    /// - Parameter DescribeLoaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLoaInput`)
     ///
-    /// - Returns: `DescribeLoaOutput` : Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection.
+    /// - Returns: Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection. (Type: `DescribeLoaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3597,7 +3551,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoaInput, DescribeLoaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoaOutput>(DescribeLoaOutput.httpOutput(from:), DescribeLoaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoaInput, DescribeLoaOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoaOutput>())
@@ -3632,9 +3585,9 @@ extension DirectConnectClient {
     ///
     /// Lists the Direct Connect locations in the current Amazon Web Services Region. These are the locations that can be selected when calling [CreateConnection] or [CreateInterconnect].
     ///
-    /// - Parameter DescribeLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocationsInput`)
     ///
-    /// - Returns: `DescribeLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3667,7 +3620,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationsInput, DescribeLocationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationsOutput>(DescribeLocationsOutput.httpOutput(from:), DescribeLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocationsOutput>())
@@ -3702,9 +3654,9 @@ extension DirectConnectClient {
     ///
     /// Details about the router.
     ///
-    /// - Parameter DescribeRouterConfigurationInput : Provides the details about a virtual interface's router.
+    /// - Parameter input: Provides the details about a virtual interface's router. (Type: `DescribeRouterConfigurationInput`)
     ///
-    /// - Returns: `DescribeRouterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRouterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3737,7 +3689,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRouterConfigurationOutput>(DescribeRouterConfigurationOutput.httpOutput(from:), DescribeRouterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRouterConfigurationOutput>())
@@ -3772,9 +3723,9 @@ extension DirectConnectClient {
     ///
     /// Describes the tags associated with the specified Direct Connect resources.
     ///
-    /// - Parameter DescribeTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTagsInput`)
     ///
-    /// - Returns: `DescribeTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3807,7 +3758,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(DescribeTagsOutput.httpOutput(from:), DescribeTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTagsInput, DescribeTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
@@ -3842,9 +3792,9 @@ extension DirectConnectClient {
     ///
     /// Deprecated. Use DescribeVpnGateways instead. See [DescribeVPNGateways](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnGateways.html) in the Amazon Elastic Compute Cloud API Reference. Lists the virtual private gateways owned by the Amazon Web Services account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
     ///
-    /// - Parameter DescribeVirtualGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVirtualGatewaysInput`)
     ///
-    /// - Returns: `DescribeVirtualGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVirtualGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3877,7 +3827,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualGatewaysOutput>(DescribeVirtualGatewaysOutput.httpOutput(from:), DescribeVirtualGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualGatewaysOutput>())
@@ -3916,9 +3865,9 @@ extension DirectConnectClient {
     ///
     /// * If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
     ///
-    /// - Parameter DescribeVirtualInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVirtualInterfacesInput`)
     ///
-    /// - Returns: `DescribeVirtualInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVirtualInterfacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3951,7 +3900,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualInterfacesOutput>(DescribeVirtualInterfacesOutput.httpOutput(from:), DescribeVirtualInterfacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualInterfacesOutput>())
@@ -3986,9 +3934,9 @@ extension DirectConnectClient {
     ///
     /// Disassociates a connection from a link aggregation group (LAG). The connection is interrupted and re-established as a standalone connection (the connection is not deleted; to delete the connection, use the [DeleteConnection] request). If the LAG has associated virtual interfaces or hosted connections, they remain associated with the LAG. A disassociated connection owned by an Direct Connect Partner is automatically converted to an interconnect. If disassociating the connection would cause the LAG to fall below its setting for minimum number of operational connections, the request fails, except when it's the last member of the LAG. If all connections are disassociated, the LAG continues to exist as an empty LAG with no physical connections.
     ///
-    /// - Parameter DisassociateConnectionFromLagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateConnectionFromLagInput`)
     ///
-    /// - Returns: `DisassociateConnectionFromLagOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `DisassociateConnectionFromLagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4021,7 +3969,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateConnectionFromLagOutput>(DisassociateConnectionFromLagOutput.httpOutput(from:), DisassociateConnectionFromLagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateConnectionFromLagOutput>())
@@ -4056,9 +4003,9 @@ extension DirectConnectClient {
     ///
     /// Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
     ///
-    /// - Parameter DisassociateMacSecKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMacSecKeyInput`)
     ///
-    /// - Returns: `DisassociateMacSecKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMacSecKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4091,7 +4038,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMacSecKeyOutput>(DisassociateMacSecKeyOutput.httpOutput(from:), DisassociateMacSecKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMacSecKeyOutput>())
@@ -4126,9 +4072,9 @@ extension DirectConnectClient {
     ///
     /// Lists the virtual interface failover test history.
     ///
-    /// - Parameter ListVirtualInterfaceTestHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVirtualInterfaceTestHistoryInput`)
     ///
-    /// - Returns: `ListVirtualInterfaceTestHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVirtualInterfaceTestHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4161,7 +4107,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualInterfaceTestHistoryOutput>(ListVirtualInterfaceTestHistoryOutput.httpOutput(from:), ListVirtualInterfaceTestHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualInterfaceTestHistoryOutput>())
@@ -4196,9 +4141,9 @@ extension DirectConnectClient {
     ///
     /// Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages. You can run the test on public, private, transit, and hosted virtual interfaces. You can use [ListVirtualInterfaceTestHistory](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_ListVirtualInterfaceTestHistory.html) to view the virtual interface test history. If you need to stop the test before the test interval completes, use [StopBgpFailoverTest](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_StopBgpFailoverTest.html).
     ///
-    /// - Parameter StartBgpFailoverTestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBgpFailoverTestInput`)
     ///
-    /// - Returns: `StartBgpFailoverTestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBgpFailoverTestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4231,7 +4176,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBgpFailoverTestOutput>(StartBgpFailoverTestOutput.httpOutput(from:), StartBgpFailoverTestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBgpFailoverTestOutput>())
@@ -4266,9 +4210,9 @@ extension DirectConnectClient {
     ///
     /// Stops the virtual interface failover test.
     ///
-    /// - Parameter StopBgpFailoverTestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBgpFailoverTestInput`)
     ///
-    /// - Returns: `StopBgpFailoverTestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBgpFailoverTestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4301,7 +4245,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBgpFailoverTestOutput>(StopBgpFailoverTestOutput.httpOutput(from:), StopBgpFailoverTestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBgpFailoverTestOutput>())
@@ -4336,9 +4279,9 @@ extension DirectConnectClient {
     ///
     /// Adds the specified tags to the specified Direct Connect resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4373,7 +4316,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4408,9 +4350,9 @@ extension DirectConnectClient {
     ///
     /// Removes one or more tags from the specified Direct Connect resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4443,7 +4385,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4482,9 +4423,9 @@ extension DirectConnectClient {
     ///
     /// * The connection's MAC Security (MACsec) encryption mode.
     ///
-    /// - Parameter UpdateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionInput`)
     ///
-    /// - Returns: `UpdateConnectionOutput` : Information about an Direct Connect connection.
+    /// - Returns: Information about an Direct Connect connection. (Type: `UpdateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4517,7 +4458,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionOutput>(UpdateConnectionOutput.httpOutput(from:), UpdateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
@@ -4552,9 +4492,9 @@ extension DirectConnectClient {
     ///
     /// Updates the name of a current Direct Connect gateway.
     ///
-    /// - Parameter UpdateDirectConnectGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDirectConnectGatewayInput`)
     ///
-    /// - Returns: `UpdateDirectConnectGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDirectConnectGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4587,7 +4527,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDirectConnectGatewayOutput>(UpdateDirectConnectGatewayOutput.httpOutput(from:), UpdateDirectConnectGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectConnectGatewayOutput>())
@@ -4622,9 +4561,9 @@ extension DirectConnectClient {
     ///
     /// Updates the specified attributes of the Direct Connect gateway association. Add or remove prefixes from the association.
     ///
-    /// - Parameter UpdateDirectConnectGatewayAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDirectConnectGatewayAssociationInput`)
     ///
-    /// - Returns: `UpdateDirectConnectGatewayAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDirectConnectGatewayAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4657,7 +4596,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDirectConnectGatewayAssociationOutput>(UpdateDirectConnectGatewayAssociationOutput.httpOutput(from:), UpdateDirectConnectGatewayAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectConnectGatewayAssociationOutput>())
@@ -4703,9 +4641,9 @@ extension DirectConnectClient {
     ///
     /// If you adjust the threshold value for the minimum number of operational connections, ensure that the new value does not cause the LAG to fall below the threshold and become non-operational.
     ///
-    /// - Parameter UpdateLagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLagInput`)
     ///
-    /// - Returns: `UpdateLagOutput` : Information about a link aggregation group (LAG).
+    /// - Returns: Information about a link aggregation group (LAG). (Type: `UpdateLagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4738,7 +4676,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLagInput, UpdateLagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLagOutput>(UpdateLagOutput.httpOutput(from:), UpdateLagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLagInput, UpdateLagOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLagOutput>())
@@ -4773,9 +4710,9 @@ extension DirectConnectClient {
     ///
     /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
-    /// - Parameter UpdateVirtualInterfaceAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVirtualInterfaceAttributesInput`)
     ///
-    /// - Returns: `UpdateVirtualInterfaceAttributesOutput` : Information about a virtual interface.
+    /// - Returns: Information about a virtual interface. (Type: `UpdateVirtualInterfaceAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4808,7 +4745,6 @@ extension DirectConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVirtualInterfaceAttributesOutput>(UpdateVirtualInterfaceAttributesOutput.httpOutput(from:), UpdateVirtualInterfaceAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVirtualInterfaceAttributesOutput>())

@@ -23,7 +23,6 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudTrailClient: ClientRuntime.Client {
     public static let clientName = "CloudTrailClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudTrailClient.CloudTrailClientConfiguration
     let serviceName = "CloudTrail"
@@ -374,9 +373,9 @@ extension CloudTrailClient {
     ///
     /// Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
     ///
-    /// - Parameter AddTagsInput : Specifies the tags to add to a trail, event data store, dashboard, or channel.
+    /// - Parameter input: Specifies the tags to add to a trail, event data store, dashboard, or channel. (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : Returns the objects or data if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data if successful. Otherwise, returns an error. (Type: `AddTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -433,7 +432,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -468,9 +466,9 @@ extension CloudTrailClient {
     ///
     /// Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED, TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you want to cancel is also required. When you run CancelQuery, the query status might show as CANCELLED even if the operation is not yet finished.
     ///
-    /// - Parameter CancelQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelQueryInput`)
     ///
-    /// - Returns: `CancelQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,7 +509,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelQueryInput, CancelQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelQueryOutput>(CancelQueryOutput.httpOutput(from:), CancelQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelQueryInput, CancelQueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelQueryOutput>())
@@ -546,9 +543,9 @@ extension CloudTrailClient {
     ///
     /// Creates a channel for CloudTrail to ingest events from a partner or external source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,7 +588,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -633,9 +629,9 @@ extension CloudTrailClient {
     ///
     /// CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information, see [ Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards) in the CloudTrail User Guide. For more information about dashboards, see [CloudTrail Lake dashboards](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-dashboard.html) in the CloudTrail User Guide.
     ///
-    /// - Parameter CreateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDashboardInput`)
     ///
-    /// - Returns: `CreateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -674,7 +670,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDashboardInput, CreateDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDashboardOutput>(CreateDashboardOutput.httpOutput(from:), CreateDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDashboardInput, CreateDashboardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDashboardOutput>())
@@ -709,9 +704,9 @@ extension CloudTrailClient {
     ///
     /// Creates a new event data store.
     ///
-    /// - Parameter CreateEventDataStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventDataStoreInput`)
     ///
-    /// - Returns: `CreateEventDataStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventDataStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,7 +763,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventDataStoreOutput>(CreateEventDataStoreOutput.httpOutput(from:), CreateEventDataStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventDataStoreOutput>())
@@ -803,9 +797,9 @@ extension CloudTrailClient {
     ///
     /// Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.
     ///
-    /// - Parameter CreateTrailInput : Specifies the settings for each trail.
+    /// - Parameter input: Specifies the settings for each trail. (Type: `CreateTrailInput`)
     ///
-    /// - Returns: `CreateTrailOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `CreateTrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -879,7 +873,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrailInput, CreateTrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrailOutput>(CreateTrailOutput.httpOutput(from:), CreateTrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrailInput, CreateTrailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrailOutput>())
@@ -914,9 +907,9 @@ extension CloudTrailClient {
     ///
     /// Deletes a channel.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,7 +944,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -986,9 +978,9 @@ extension CloudTrailClient {
     ///
     /// Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
     ///
-    /// - Parameter DeleteDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDashboardInput`)
     ///
-    /// - Returns: `DeleteDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,7 +1014,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDashboardInput, DeleteDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDashboardOutput>(DeleteDashboardOutput.httpOutput(from:), DeleteDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDashboardOutput>())
@@ -1057,9 +1048,9 @@ extension CloudTrailClient {
     ///
     /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store and the FederationStatus must be DISABLED. You cannot delete an event data store if TerminationProtectionEnabled is True or the FederationStatus is ENABLED. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
     ///
-    /// - Parameter DeleteEventDataStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventDataStoreInput`)
     ///
-    /// - Returns: `DeleteEventDataStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventDataStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1104,7 +1095,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventDataStoreOutput>(DeleteEventDataStoreOutput.httpOutput(from:), DeleteEventDataStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventDataStoreOutput>())
@@ -1139,9 +1129,9 @@ extension CloudTrailClient {
     ///
     /// Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1179,7 +1169,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1214,9 +1203,9 @@ extension CloudTrailClient {
     ///
     /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     ///
-    /// - Parameter DeleteTrailInput : The request that specifies the name of a trail to delete.
+    /// - Parameter input: The request that specifies the name of a trail to delete. (Type: `DeleteTrailInput`)
     ///
-    /// - Returns: `DeleteTrailOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `DeleteTrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,7 +1257,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrailInput, DeleteTrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrailOutput>(DeleteTrailOutput.httpOutput(from:), DeleteTrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrailInput, DeleteTrailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrailOutput>())
@@ -1303,9 +1291,9 @@ extension CloudTrailClient {
     ///
     /// Removes CloudTrail delegated administrator permissions from a member account in an organization.
     ///
-    /// - Parameter DeregisterOrganizationDelegatedAdminInput : Removes CloudTrail delegated administrator permissions from a specified member account in an organization that is currently designated as a delegated administrator.
+    /// - Parameter input: Removes CloudTrail delegated administrator permissions from a specified member account in an organization that is currently designated as a delegated administrator. (Type: `DeregisterOrganizationDelegatedAdminInput`)
     ///
-    /// - Returns: `DeregisterOrganizationDelegatedAdminOutput` : Returns the following response if successful. Otherwise, returns an error.
+    /// - Returns: Returns the following response if successful. Otherwise, returns an error. (Type: `DeregisterOrganizationDelegatedAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1347,7 +1335,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterOrganizationDelegatedAdminOutput>(DeregisterOrganizationDelegatedAdminOutput.httpOutput(from:), DeregisterOrganizationDelegatedAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterOrganizationDelegatedAdminOutput>())
@@ -1382,9 +1369,9 @@ extension CloudTrailClient {
     ///
     /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also provides the S3 URI and the delivery status. You must specify either QueryId or QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias. You can provide RefreshId along with QueryAlias to view the query results of a dashboard query for the specified RefreshId.
     ///
-    /// - Parameter DescribeQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQueryInput`)
     ///
-    /// - Returns: `DescribeQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,7 +1410,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQueryInput, DescribeQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQueryOutput>(DescribeQueryOutput.httpOutput(from:), DescribeQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueryInput, DescribeQueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueryOutput>())
@@ -1458,9 +1444,9 @@ extension CloudTrailClient {
     ///
     /// Retrieves settings for one or more trails associated with the current Region for your account.
     ///
-    /// - Parameter DescribeTrailsInput : Returns information about the trail.
+    /// - Parameter input: Returns information about the trail. (Type: `DescribeTrailsInput`)
     ///
-    /// - Returns: `DescribeTrailsOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `DescribeTrailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1506,7 +1492,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrailsInput, DescribeTrailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrailsOutput>(DescribeTrailsOutput.httpOutput(from:), DescribeTrailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrailsInput, DescribeTrailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrailsOutput>())
@@ -1541,9 +1526,9 @@ extension CloudTrailClient {
     ///
     /// Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables the integration with Glue, Lake Formation, and Amazon Athena. After disabling Lake query federation, you can no longer query your event data in Amazon Athena. No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
     ///
-    /// - Parameter DisableFederationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableFederationInput`)
     ///
-    /// - Returns: `DisableFederationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableFederationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1588,7 +1573,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableFederationInput, DisableFederationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableFederationOutput>(DisableFederationOutput.httpOutput(from:), DisableFederationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableFederationInput, DisableFederationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableFederationOutput>())
@@ -1623,9 +1607,9 @@ extension CloudTrailClient {
     ///
     /// Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue [Data Catalog](https://docs.aws.amazon.com/glue/latest/dg/components-overview.html#data-catalog-intro) and run SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog lets the Athena query engine know how to find, read, and process the data that you want to query. When you enable Lake query federation, CloudTrail creates a managed database named aws:cloudtrail (if the database doesn't already exist) and a managed federated table in the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in [Lake Formation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation-lake-formation.html), the service responsible for allowing fine-grained access control of the federated resources in the Glue Data Catalog. For more information about Lake query federation, see [Federate an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation.html).
     ///
-    /// - Parameter EnableFederationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableFederationInput`)
     ///
-    /// - Returns: `EnableFederationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableFederationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1671,7 +1655,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableFederationInput, EnableFederationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableFederationOutput>(EnableFederationOutput.httpOutput(from:), EnableFederationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableFederationInput, EnableFederationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableFederationOutput>())
@@ -1706,9 +1689,9 @@ extension CloudTrailClient {
     ///
     /// Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt. The prompt can be a question or a statement about the event data in your event data store. For example, you can enter prompts like "What are my top errors in the past month?" and “Give me a list of users that used SNS.” The prompt must be in English. For information about limitations, permissions, and supported Regions, see [Create CloudTrail Lake queries from natural language prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html) in the CloudTrail user guide. Do not include any personally identifying, confidential, or sensitive information in your prompts. This feature uses generative AI large language models (LLMs); we recommend double-checking the LLM response.
     ///
-    /// - Parameter GenerateQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateQueryInput`)
     ///
-    /// - Returns: `GenerateQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1747,7 +1730,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateQueryInput, GenerateQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateQueryOutput>(GenerateQueryOutput.httpOutput(from:), GenerateQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateQueryInput, GenerateQueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateQueryOutput>())
@@ -1782,9 +1764,9 @@ extension CloudTrailClient {
     ///
     /// Returns information about a specific channel.
     ///
-    /// - Parameter GetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelInput`)
     ///
-    /// - Returns: `GetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1819,7 +1801,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetChannelInput, GetChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelOutput>(GetChannelOutput.httpOutput(from:), GetChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelInput, GetChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelOutput>())
@@ -1854,9 +1835,9 @@ extension CloudTrailClient {
     ///
     /// Returns the specified dashboard.
     ///
-    /// - Parameter GetDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDashboardInput`)
     ///
-    /// - Returns: `GetDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1889,7 +1870,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDashboardInput, GetDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDashboardOutput>(GetDashboardOutput.httpOutput(from:), GetDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDashboardInput, GetDashboardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardOutput>())
@@ -1924,9 +1904,9 @@ extension CloudTrailClient {
     ///
     /// Retrieves the current event configuration settings for the specified event data store, including details about maximum event size and context key selectors configured for the event data store.
     ///
-    /// - Parameter GetEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventConfigurationInput`)
     ///
-    /// - Returns: `GetEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,7 +1947,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventConfigurationOutput>(GetEventConfigurationOutput.httpOutput(from:), GetEventConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventConfigurationOutput>())
@@ -2002,9 +1981,9 @@ extension CloudTrailClient {
     ///
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
     ///
-    /// - Parameter GetEventDataStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventDataStoreInput`)
     ///
-    /// - Returns: `GetEventDataStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventDataStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2041,7 +2020,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventDataStoreInput, GetEventDataStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventDataStoreOutput>(GetEventDataStoreOutput.httpOutput(from:), GetEventDataStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventDataStoreInput, GetEventDataStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventDataStoreOutput>())
@@ -2093,9 +2071,9 @@ extension CloudTrailClient {
     ///
     /// * [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html)
     ///
-    /// - Parameter GetEventSelectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventSelectorsInput`)
     ///
-    /// - Returns: `GetEventSelectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventSelectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2142,7 +2120,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventSelectorsInput, GetEventSelectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventSelectorsOutput>(GetEventSelectorsOutput.httpOutput(from:), GetEventSelectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventSelectorsInput, GetEventSelectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventSelectorsOutput>())
@@ -2177,9 +2154,9 @@ extension CloudTrailClient {
     ///
     /// Returns information about a specific import.
     ///
-    /// - Parameter GetImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportInput`)
     ///
-    /// - Returns: `GetImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2214,7 +2191,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetImportInput, GetImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportOutput>(GetImportOutput.httpOutput(from:), GetImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportInput, GetImportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportOutput>())
@@ -2249,9 +2225,9 @@ extension CloudTrailClient {
     ///
     /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail or event data store, and if it is, which Insights types are enabled. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException Specify either the EventDataStore parameter to get Insights event selectors for an event data store, or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide.
     ///
-    /// - Parameter GetInsightSelectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightSelectorsInput`)
     ///
-    /// - Returns: `GetInsightSelectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightSelectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2302,7 +2278,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInsightSelectorsOutput>(GetInsightSelectorsOutput.httpOutput(from:), GetInsightSelectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightSelectorsOutput>())
@@ -2337,9 +2312,9 @@ extension CloudTrailClient {
     ///
     /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     ///
-    /// - Parameter GetQueryResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsInput`)
     ///
-    /// - Returns: `GetQueryResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2381,7 +2356,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryResultsInput, GetQueryResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryResultsOutput>(GetQueryResultsOutput.httpOutput(from:), GetQueryResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsOutput>())
@@ -2416,9 +2390,9 @@ extension CloudTrailClient {
     ///
     /// Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2455,7 +2429,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -2490,9 +2463,9 @@ extension CloudTrailClient {
     ///
     /// Returns settings information for a specified trail.
     ///
-    /// - Parameter GetTrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrailInput`)
     ///
-    /// - Returns: `GetTrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2538,7 +2511,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTrailInput, GetTrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrailOutput>(GetTrailOutput.httpOutput(from:), GetTrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrailInput, GetTrailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrailOutput>())
@@ -2573,9 +2545,9 @@ extension CloudTrailClient {
     ///
     /// Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single Region. To return trail status from all Regions, you must call the operation on each Region.
     ///
-    /// - Parameter GetTrailStatusInput : The name of a trail about which you want the current status.
+    /// - Parameter input: The name of a trail about which you want the current status. (Type: `GetTrailStatusInput`)
     ///
-    /// - Returns: `GetTrailStatusOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `GetTrailStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2621,7 +2593,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTrailStatusInput, GetTrailStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrailStatusOutput>(GetTrailStatusOutput.httpOutput(from:), GetTrailStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrailStatusInput, GetTrailStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrailStatusOutput>())
@@ -2656,9 +2627,9 @@ extension CloudTrailClient {
     ///
     /// Lists the channels in the current account, and their source names.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2692,7 +2663,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListChannelsInput, ListChannelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -2727,9 +2697,9 @@ extension CloudTrailClient {
     ///
     /// Returns information about all dashboards in the account, in the current Region.
     ///
-    /// - Parameter ListDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDashboardsInput`)
     ///
-    /// - Returns: `ListDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2761,7 +2731,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDashboardsInput, ListDashboardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDashboardsOutput>(ListDashboardsOutput.httpOutput(from:), ListDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardsInput, ListDashboardsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardsOutput>())
@@ -2796,9 +2765,9 @@ extension CloudTrailClient {
     ///
     /// Returns information about all event data stores in the account, in the current Region.
     ///
-    /// - Parameter ListEventDataStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventDataStoresInput`)
     ///
-    /// - Returns: `ListEventDataStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventDataStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2834,7 +2803,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventDataStoresInput, ListEventDataStoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventDataStoresOutput>(ListEventDataStoresOutput.httpOutput(from:), ListEventDataStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventDataStoresInput, ListEventDataStoresOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventDataStoresOutput>())
@@ -2869,9 +2837,9 @@ extension CloudTrailClient {
     ///
     /// Returns a list of failures for the specified import.
     ///
-    /// - Parameter ListImportFailuresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportFailuresInput`)
     ///
-    /// - Returns: `ListImportFailuresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportFailuresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2906,7 +2874,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImportFailuresInput, ListImportFailuresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportFailuresOutput>(ListImportFailuresOutput.httpOutput(from:), ListImportFailuresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportFailuresInput, ListImportFailuresOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportFailuresOutput>())
@@ -2941,9 +2908,9 @@ extension CloudTrailClient {
     ///
     /// Returns information on all imports, or a select set of imports by ImportStatus or Destination.
     ///
-    /// - Parameter ListImportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportsInput`)
     ///
-    /// - Returns: `ListImportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2979,7 +2946,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImportsInput, ListImportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportsOutput>(ListImportsOutput.httpOutput(from:), ListImportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportsInput, ListImportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportsOutput>())
@@ -3023,9 +2989,9 @@ extension CloudTrailClient {
     ///
     /// Access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To use this operation, you must have permissions to perform the cloudtrail:LookupEvents action.
     ///
-    /// - Parameter ListInsightsMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInsightsMetricDataInput`)
     ///
-    /// - Returns: `ListInsightsMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInsightsMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3059,7 +3025,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInsightsMetricDataInput, ListInsightsMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInsightsMetricDataOutput>(ListInsightsMetricDataOutput.httpOutput(from:), ListInsightsMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInsightsMetricDataInput, ListInsightsMetricDataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInsightsMetricDataOutput>())
@@ -3094,9 +3059,9 @@ extension CloudTrailClient {
     ///
     /// Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key. CloudTrail uses different private and public key pairs per Region. Each digest file is signed with a private key unique to its Region. When you validate a digest file from a specific Region, you must look in the same Region for its corresponding public key.
     ///
-    /// - Parameter ListPublicKeysInput : Requests the public keys for a specified time range.
+    /// - Parameter input: Requests the public keys for a specified time range. (Type: `ListPublicKeysInput`)
     ///
-    /// - Returns: `ListPublicKeysOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `ListPublicKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3131,7 +3096,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPublicKeysInput, ListPublicKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublicKeysOutput>(ListPublicKeysOutput.httpOutput(from:), ListPublicKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPublicKeysOutput>())
@@ -3166,9 +3130,9 @@ extension CloudTrailClient {
     ///
     /// Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
     ///
-    /// - Parameter ListQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueriesInput`)
     ///
-    /// - Returns: `ListQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3210,7 +3174,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueriesInput, ListQueriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueriesOutput>(ListQueriesOutput.httpOutput(from:), ListQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueriesInput, ListQueriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueriesOutput>())
@@ -3245,9 +3208,9 @@ extension CloudTrailClient {
     ///
     /// Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
     ///
-    /// - Parameter ListTagsInput : Specifies a list of tags to return.
+    /// - Parameter input: Specifies a list of tags to return. (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3300,7 +3263,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -3335,9 +3297,9 @@ extension CloudTrailClient {
     ///
     /// Lists trails that are in the current account.
     ///
-    /// - Parameter ListTrailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrailsInput`)
     ///
-    /// - Returns: `ListTrailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3370,7 +3332,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrailsInput, ListTrailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrailsOutput>(ListTrailsOutput.httpOutput(from:), ListTrailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrailsInput, ListTrailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrailsOutput>())
@@ -3433,9 +3394,9 @@ extension CloudTrailClient {
     ///
     /// All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of lookup requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
     ///
-    /// - Parameter LookupEventsInput : Contains a request for LookupEvents.
+    /// - Parameter input: Contains a request for LookupEvents. (Type: `LookupEventsInput`)
     ///
-    /// - Returns: `LookupEventsOutput` : Contains a response to a LookupEvents action.
+    /// - Returns: Contains a response to a LookupEvents action. (Type: `LookupEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3473,7 +3434,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<LookupEventsInput, LookupEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<LookupEventsOutput>(LookupEventsOutput.httpOutput(from:), LookupEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LookupEventsInput, LookupEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LookupEventsOutput>())
@@ -3508,9 +3468,9 @@ extension CloudTrailClient {
     ///
     /// Updates the event configuration settings for the specified event data store. You can update the maximum event size and context key selectors.
     ///
-    /// - Parameter PutEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventConfigurationInput`)
     ///
-    /// - Returns: `PutEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3557,7 +3517,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventConfigurationOutput>(PutEventConfigurationOutput.httpOutput(from:), PutEventConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventConfigurationOutput>())
@@ -3614,9 +3573,9 @@ extension CloudTrailClient {
     ///
     /// The PutEventSelectors operation must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException exception is thrown. You can configure up to five event selectors for each trail. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. For more information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html), [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html), and [Quotas in CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html) in the CloudTrail User Guide.
     ///
-    /// - Parameter PutEventSelectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventSelectorsInput`)
     ///
-    /// - Returns: `PutEventSelectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventSelectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3677,7 +3636,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventSelectorsInput, PutEventSelectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventSelectorsOutput>(PutEventSelectorsOutput.httpOutput(from:), PutEventSelectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventSelectorsInput, PutEventSelectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventSelectorsOutput>())
@@ -3712,9 +3670,9 @@ extension CloudTrailClient {
     ///
     /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight. To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights. The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors. To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail to check whether the trail logs management events. You can call GetEventDataStore on an event data store to check whether the event data store logs management events. For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html) in the CloudTrail User Guide.
     ///
-    /// - Parameter PutInsightSelectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInsightSelectorsInput`)
     ///
-    /// - Returns: `PutInsightSelectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInsightSelectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3771,7 +3729,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInsightSelectorsOutput>(PutInsightSelectorsOutput.httpOutput(from:), PutInsightSelectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInsightSelectorsOutput>())
@@ -3806,9 +3763,9 @@ extension CloudTrailClient {
     ///
     /// Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html) in the CloudTrail User Guide.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3846,7 +3803,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -3881,9 +3837,9 @@ extension CloudTrailClient {
     ///
     /// Registers an organization’s member account as the CloudTrail [delegated administrator](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-delegated-administrator.html).
     ///
-    /// - Parameter RegisterOrganizationDelegatedAdminInput : Specifies an organization member account ID as a CloudTrail delegated administrator.
+    /// - Parameter input: Specifies an organization member account ID as a CloudTrail delegated administrator. (Type: `RegisterOrganizationDelegatedAdminInput`)
     ///
-    /// - Returns: `RegisterOrganizationDelegatedAdminOutput` : Returns the following response if successful. Otherwise, returns an error.
+    /// - Returns: Returns the following response if successful. Otherwise, returns an error. (Type: `RegisterOrganizationDelegatedAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3928,7 +3884,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterOrganizationDelegatedAdminOutput>(RegisterOrganizationDelegatedAdminOutput.httpOutput(from:), RegisterOrganizationDelegatedAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterOrganizationDelegatedAdminOutput>())
@@ -3963,9 +3918,9 @@ extension CloudTrailClient {
     ///
     /// Removes the specified tags from a trail, event data store, dashboard, or channel.
     ///
-    /// - Parameter RemoveTagsInput : Specifies the tags to remove from a trail, event data store, dashboard, or channel.
+    /// - Parameter input: Specifies the tags to remove from a trail, event data store, dashboard, or channel. (Type: `RemoveTagsInput`)
     ///
-    /// - Returns: `RemoveTagsOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `RemoveTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4021,7 +3976,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsOutput>())
@@ -4056,9 +4010,9 @@ extension CloudTrailClient {
     ///
     /// Restores a deleted event data store specified by EventDataStore, which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an event data store can take several minutes, depending on the size of the event data store.
     ///
-    /// - Parameter RestoreEventDataStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreEventDataStoreInput`)
     ///
-    /// - Returns: `RestoreEventDataStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreEventDataStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4102,7 +4056,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreEventDataStoreOutput>(RestoreEventDataStoreOutput.httpOutput(from:), RestoreEventDataStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreEventDataStoreOutput>())
@@ -4137,9 +4090,9 @@ extension CloudTrailClient {
     ///
     /// Searches sample queries and returns a list of sample queries that are sorted by relevance. To search for sample queries, provide a natural language SearchPhrase in English.
     ///
-    /// - Parameter SearchSampleQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSampleQueriesInput`)
     ///
-    /// - Returns: `SearchSampleQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSampleQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4173,7 +4126,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchSampleQueriesInput, SearchSampleQueriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchSampleQueriesOutput>(SearchSampleQueriesOutput.httpOutput(from:), SearchSampleQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchSampleQueriesInput, SearchSampleQueriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchSampleQueriesOutput>())
@@ -4208,9 +4160,9 @@ extension CloudTrailClient {
     ///
     /// Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
     ///
-    /// - Parameter StartDashboardRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDashboardRefreshInput`)
     ///
-    /// - Returns: `StartDashboardRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDashboardRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4246,7 +4198,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDashboardRefreshOutput>(StartDashboardRefreshOutput.httpOutput(from:), StartDashboardRefreshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDashboardRefreshOutput>())
@@ -4281,9 +4232,9 @@ extension CloudTrailClient {
     ///
     /// Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
     ///
-    /// - Parameter StartEventDataStoreIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEventDataStoreIngestionInput`)
     ///
-    /// - Returns: `StartEventDataStoreIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEventDataStoreIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4325,7 +4276,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEventDataStoreIngestionOutput>(StartEventDataStoreIngestionOutput.httpOutput(from:), StartEventDataStoreIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEventDataStoreIngestionOutput>())
@@ -4360,9 +4310,9 @@ extension CloudTrailClient {
     ///
     /// Starts an import of logged trail events from a source S3 bucket to a destination event data store. By default, CloudTrail only imports events contained in the S3 bucket's CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check prefixes for other Amazon Web Services services. If you want to import CloudTrail events contained in another prefix, you must include the prefix in the S3LocationUri. For more considerations about importing trail events, see [Considerations for copying trail events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-copy-trail-to-lake.html#cloudtrail-trail-copy-considerations) in the CloudTrail User Guide. When you start a new import, the Destinations and ImportSource parameters are required. Before starting a new import, disable any access control lists (ACLs) attached to the source S3 bucket. For more information about disabling ACLs, see [Controlling ownership of objects and disabling ACLs for your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html). When you retry an import, the ImportID parameter is required. If the destination event data store is for an organization, you must use the management account to import trail events. You cannot use the delegated administrator account for the organization.
     ///
-    /// - Parameter StartImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportInput`)
     ///
-    /// - Returns: `StartImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4405,7 +4355,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportInput, StartImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportOutput>(StartImportOutput.httpOutput(from:), StartImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportInput, StartImportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportOutput>())
@@ -4440,9 +4389,9 @@ extension CloudTrailClient {
     ///
     /// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     ///
-    /// - Parameter StartLoggingInput : The request to CloudTrail to start logging Amazon Web Services API calls for an account.
+    /// - Parameter input: The request to CloudTrail to start logging Amazon Web Services API calls for an account. (Type: `StartLoggingInput`)
     ///
-    /// - Returns: `StartLoggingOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `StartLoggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4494,7 +4443,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLoggingInput, StartLoggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLoggingOutput>(StartLoggingOutput.httpOutput(from:), StartLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLoggingInput, StartLoggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLoggingOutput>())
@@ -4529,9 +4477,9 @@ extension CloudTrailClient {
     ///
     /// Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket. StartQuery requires you specify either the QueryStatement parameter, or a QueryAlias and any QueryParameters. In the current release, the QueryAlias and QueryParameters parameters are used only for the queries that populate the CloudTrail Lake dashboards.
     ///
-    /// - Parameter StartQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryInput`)
     ///
-    /// - Returns: `StartQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4576,7 +4524,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryInput, StartQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryOutput>(StartQueryOutput.httpOutput(from:), StartQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryInput, StartQueryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryOutput>())
@@ -4611,9 +4558,9 @@ extension CloudTrailClient {
     ///
     /// Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store Status must be ENABLED and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
     ///
-    /// - Parameter StopEventDataStoreIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEventDataStoreIngestionInput`)
     ///
-    /// - Returns: `StopEventDataStoreIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEventDataStoreIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4655,7 +4602,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEventDataStoreIngestionOutput>(StopEventDataStoreIngestionOutput.httpOutput(from:), StopEventDataStoreIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEventDataStoreIngestionOutput>())
@@ -4690,9 +4636,9 @@ extension CloudTrailClient {
     ///
     /// Stops a specified import.
     ///
-    /// - Parameter StopImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopImportInput`)
     ///
-    /// - Returns: `StopImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4727,7 +4673,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopImportInput, StopImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopImportOutput>(StopImportOutput.httpOutput(from:), StopImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopImportInput, StopImportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopImportOutput>())
@@ -4762,9 +4707,9 @@ extension CloudTrailClient {
     ///
     /// Suspends the recording of Amazon Web Services API calls and log file delivery for the specified trail. Under most circumstances, there is no need to use this action. You can update a trail without stopping it first. This action is the only way to stop recording. For a trail enabled in all Regions, this operation must be called from the Region in which the trail was created, or an InvalidHomeRegionException will occur. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail enabled in all Regions.
     ///
-    /// - Parameter StopLoggingInput : Passes the request to CloudTrail to stop logging Amazon Web Services API calls for the specified account.
+    /// - Parameter input: Passes the request to CloudTrail to stop logging Amazon Web Services API calls for the specified account. (Type: `StopLoggingInput`)
     ///
-    /// - Returns: `StopLoggingOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `StopLoggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4816,7 +4761,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopLoggingInput, StopLoggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopLoggingOutput>(StopLoggingOutput.httpOutput(from:), StopLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopLoggingInput, StopLoggingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopLoggingOutput>())
@@ -4851,9 +4795,9 @@ extension CloudTrailClient {
     ///
     /// Updates a channel specified by a required channel ARN or UUID.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4894,7 +4838,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -4929,9 +4872,9 @@ extension CloudTrailClient {
     ///
     /// Updates the specified dashboard. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information, see [ Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards) in the CloudTrail User Guide. CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
     ///
-    /// - Parameter UpdateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardInput`)
     ///
-    /// - Returns: `UpdateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4970,7 +4913,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDashboardInput, UpdateDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardOutput>(UpdateDashboardOutput.httpOutput(from:), UpdateDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardOutput>())
@@ -5005,9 +4947,9 @@ extension CloudTrailClient {
     ///
     /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management, data, or network activity events in your event data store. For more information about AdvancedEventSelectors, see [AdvancedEventSelectors](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html). For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
     ///
-    /// - Parameter UpdateEventDataStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventDataStoreInput`)
     ///
-    /// - Returns: `UpdateEventDataStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventDataStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5066,7 +5008,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventDataStoreOutput>(UpdateEventDataStoreOutput.httpOutput(from:), UpdateEventDataStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventDataStoreOutput>())
@@ -5101,9 +5042,9 @@ extension CloudTrailClient {
     ///
     /// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
     ///
-    /// - Parameter UpdateTrailInput : Specifies settings to update for the trail.
+    /// - Parameter input: Specifies settings to update for the trail. (Type: `UpdateTrailInput`)
     ///
-    /// - Returns: `UpdateTrailOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
+    /// - Returns: Returns the objects or data listed below if successful. Otherwise, returns an error. (Type: `UpdateTrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5185,7 +5126,6 @@ extension CloudTrailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrailInput, UpdateTrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrailOutput>(UpdateTrailOutput.httpOutput(from:), UpdateTrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrailInput, UpdateTrailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrailOutput>())
