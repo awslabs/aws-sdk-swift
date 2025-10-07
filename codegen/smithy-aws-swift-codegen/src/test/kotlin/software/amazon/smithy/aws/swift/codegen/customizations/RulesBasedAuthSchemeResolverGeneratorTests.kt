@@ -40,28 +40,28 @@ private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
         }
         switch serviceParams.operation {
             case "onlyHttpApiKeyAuth":
-                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                let httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
                 validAuthOptions.append(httpApiKeyAuthOption)
             case "onlyHttpApiKeyAuthOptional":
-                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                let httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
                 validAuthOptions.append(httpApiKeyAuthOption)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "onlyHttpBearerAuth":
-                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                let httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
                 validAuthOptions.append(httpBearerAuthOption)
             case "onlyHttpBearerAuthOptional":
-                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                let httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
                 validAuthOptions.append(httpBearerAuthOption)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "onlyHttpApiKeyAndBearerAuth":
-                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                let httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
                 validAuthOptions.append(httpApiKeyAuthOption)
-                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                let httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
                 validAuthOptions.append(httpBearerAuthOption)
             case "onlyHttpApiKeyAndBearerAuthReversed":
-                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                let httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
                 validAuthOptions.append(httpBearerAuthOption)
-                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                let httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
                 validAuthOptions.append(httpApiKeyAuthOption)
             case "onlySigv4Auth":
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
@@ -81,10 +81,10 @@ private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
                 validAuthOptions.append(sigv4Option)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "onlyCustomAuth":
-                var customAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth")
+                let customAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth")
                 validAuthOptions.append(customAuthOption)
             case "onlyCustomAuthOptional":
-                var customAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth")
+                let customAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth")
                 validAuthOptions.append(customAuthOption)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             default:

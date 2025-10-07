@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 package class SSOOIDCClient: ClientRuntime.Client {
     public static let clientName = "SSOOIDCClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOOIDCClient.SSOOIDCClientConfiguration
     let serviceName = "SSO OIDC"
@@ -372,9 +372,9 @@ extension SSOOIDCClient {
     ///
     /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
     ///
-    /// - Parameter CreateTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenInput`)
     ///
-    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
