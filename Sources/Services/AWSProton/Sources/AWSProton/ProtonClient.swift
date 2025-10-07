@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ProtonClient: ClientRuntime.Client {
     public static let clientName = "ProtonClient"
-    public static let version = "1.5.57"
+    public static let version = "1.5.58"
     let client: ClientRuntime.SdkHttpClient
     let config: ProtonClient.ProtonClientConfiguration
     let serviceName = "Proton"
@@ -372,6 +372,7 @@ extension ProtonClient {
     /// Performs the `AcceptEnvironmentAccountConnection` operation on the `Proton` service.
     ///
     /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptEnvironmentAccountConnectionInput`)
     ///
@@ -445,6 +446,7 @@ extension ProtonClient {
     /// Performs the `CancelComponentDeployment` operation on the `Proton` service.
     ///
     /// Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS deployment status). For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelComponentDeploymentInput`)
     ///
@@ -524,6 +526,7 @@ extension ProtonClient {
     /// * If the cancellation attempt fails, the resulting deployment state is FAILED.
     ///
     /// * If the current [UpdateEnvironment] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelEnvironmentDeploymentInput`)
     ///
@@ -603,6 +606,7 @@ extension ProtonClient {
     /// * If the cancellation attempt fails, the resulting deployment state is FAILED.
     ///
     /// * If the current [UpdateServiceInstance] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelServiceInstanceDeploymentInput`)
     ///
@@ -682,6 +686,7 @@ extension ProtonClient {
     /// * If the cancellation attempt fails, the resulting deployment state is FAILED.
     ///
     /// * If the current [UpdateServicePipeline] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelServicePipelineDeploymentInput`)
     ///
@@ -755,6 +760,7 @@ extension ProtonClient {
     /// Performs the `CreateComponent` operation on the `Proton` service.
     ///
     /// Create an Proton component. A component is an infrastructure extension for a service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateComponentInput`)
     ///
@@ -837,6 +843,7 @@ extension ProtonClient {
     ///
     ///
     /// For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
@@ -911,6 +918,7 @@ extension ProtonClient {
     /// Performs the `CreateEnvironmentAccountConnection` operation on the `Proton` service.
     ///
     /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentAccountConnectionInput`)
     ///
@@ -989,6 +997,7 @@ extension ProtonClient {
     /// * Register and publish a standard environment template that instructs Proton to deploy and manage environment infrastructure.
     ///
     /// * Register and publish a customer managed environment template that connects Proton to your existing provisioned infrastructure that you manage. Proton doesn't manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED. For more information, see [Register and publish an environment template](https://docs.aws.amazon.com/proton/latest/userguide/template-create.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentTemplateInput`)
     ///
@@ -1062,6 +1071,7 @@ extension ProtonClient {
     /// Performs the `CreateEnvironmentTemplateVersion` operation on the `Proton` service.
     ///
     /// Create a new major or minor version of an environment template. A major version of an environment template is a version that isn't backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentTemplateVersionInput`)
     ///
@@ -1137,6 +1147,7 @@ extension ProtonClient {
     /// Performs the `CreateRepository` operation on the `Proton` service.
     ///
     /// Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed provisioning, or synced templates). When you create a repository link, Proton creates a [service-linked role](https://docs.aws.amazon.com/proton/latest/userguide/using-service-linked-roles.html) for you. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self), [Template bundles](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-authoring.html#ag-template-bundles), and [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateRepositoryInput`)
     ///
@@ -1210,6 +1221,7 @@ extension ProtonClient {
     /// Performs the `CreateService` operation on the `Proton` service.
     ///
     /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see [Services](https://docs.aws.amazon.com/proton/latest/userguide/ag-services.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
@@ -1284,6 +1296,7 @@ extension ProtonClient {
     /// Performs the `CreateServiceInstance` operation on the `Proton` service.
     ///
     /// Create a service instance.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateServiceInstanceInput`)
     ///
@@ -1358,6 +1371,7 @@ extension ProtonClient {
     /// Performs the `CreateServiceSyncConfig` operation on the `Proton` service.
     ///
     /// Create the Proton Ops configuration file.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateServiceSyncConfigInput`)
     ///
@@ -1431,6 +1445,7 @@ extension ProtonClient {
     /// Performs the `CreateServiceTemplate` operation on the `Proton` service.
     ///
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see [Proton templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateServiceTemplateInput`)
     ///
@@ -1504,6 +1519,7 @@ extension ProtonClient {
     /// Performs the `CreateServiceTemplateVersion` operation on the `Proton` service.
     ///
     /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateServiceTemplateVersionInput`)
     ///
@@ -1579,6 +1595,7 @@ extension ProtonClient {
     /// Performs the `CreateTemplateSyncConfig` operation on the `Proton` service.
     ///
     /// Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository]. When a commit is pushed to your linked repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateTemplateSyncConfigInput`)
     ///
@@ -1652,6 +1669,7 @@ extension ProtonClient {
     /// Performs the `DeleteComponent` operation on the `Proton` service.
     ///
     /// Delete an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
@@ -1725,6 +1743,7 @@ extension ProtonClient {
     /// Performs the `DeleteDeployment` operation on the `Proton` service.
     ///
     /// Delete the deployment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
@@ -1797,6 +1816,7 @@ extension ProtonClient {
     /// Performs the `DeleteEnvironment` operation on the `Proton` service.
     ///
     /// Delete an environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
@@ -1870,6 +1890,7 @@ extension ProtonClient {
     /// Performs the `DeleteEnvironmentAccountConnection` operation on the `Proton` service.
     ///
     /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentAccountConnectionInput`)
     ///
@@ -1943,6 +1964,7 @@ extension ProtonClient {
     /// Performs the `DeleteEnvironmentTemplate` operation on the `Proton` service.
     ///
     /// If no other major or minor versions of an environment template exist, delete the environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentTemplateInput`)
     ///
@@ -2016,6 +2038,7 @@ extension ProtonClient {
     /// Performs the `DeleteEnvironmentTemplateVersion` operation on the `Proton` service.
     ///
     /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentTemplateVersionInput`)
     ///
@@ -2089,6 +2112,7 @@ extension ProtonClient {
     /// Performs the `DeleteRepository` operation on the `Proton` service.
     ///
     /// De-register and unlink your repository.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryInput`)
     ///
@@ -2162,6 +2186,7 @@ extension ProtonClient {
     /// Performs the `DeleteService` operation on the `Proton` service.
     ///
     /// Delete a service, with its instances and pipeline. You can't delete a service if it has any service instances that have components attached to them. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
@@ -2235,6 +2260,7 @@ extension ProtonClient {
     /// Performs the `DeleteServiceSyncConfig` operation on the `Proton` service.
     ///
     /// Delete the Proton Ops file.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteServiceSyncConfigInput`)
     ///
@@ -2308,6 +2334,7 @@ extension ProtonClient {
     /// Performs the `DeleteServiceTemplate` operation on the `Proton` service.
     ///
     /// If no other major or minor versions of the service template exist, delete the service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteServiceTemplateInput`)
     ///
@@ -2381,6 +2408,7 @@ extension ProtonClient {
     /// Performs the `DeleteServiceTemplateVersion` operation on the `Proton` service.
     ///
     /// If no other minor versions of a service template exist, delete a major version of the service template if it's not the Recommended version. Delete the Recommended version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that isn't backwards compatible. Delete a minor version of a service template if it's not the Recommended version. Delete a Recommended minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteServiceTemplateVersionInput`)
     ///
@@ -2454,6 +2482,7 @@ extension ProtonClient {
     /// Performs the `DeleteTemplateSyncConfig` operation on the `Proton` service.
     ///
     /// Delete a template sync configuration.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteTemplateSyncConfigInput`)
     ///
@@ -2527,6 +2556,7 @@ extension ProtonClient {
     /// Performs the `GetAccountSettings` operation on the `Proton` service.
     ///
     /// Get detail data for Proton account-wide settings.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
@@ -2599,6 +2629,7 @@ extension ProtonClient {
     /// Performs the `GetComponent` operation on the `Proton` service.
     ///
     /// Get detailed data for a component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
@@ -2671,6 +2702,7 @@ extension ProtonClient {
     /// Performs the `GetDeployment` operation on the `Proton` service.
     ///
     /// Get detailed data for a deployment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
@@ -2743,6 +2775,7 @@ extension ProtonClient {
     /// Performs the `GetEnvironment` operation on the `Proton` service.
     ///
     /// Get detailed data for an environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
@@ -2815,6 +2848,7 @@ extension ProtonClient {
     /// Performs the `GetEnvironmentAccountConnection` operation on the `Proton` service.
     ///
     /// In an environment account, get the detailed data for an environment account connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetEnvironmentAccountConnectionInput`)
     ///
@@ -2887,6 +2921,7 @@ extension ProtonClient {
     /// Performs the `GetEnvironmentTemplate` operation on the `Proton` service.
     ///
     /// Get detailed data for an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetEnvironmentTemplateInput`)
     ///
@@ -2959,6 +2994,7 @@ extension ProtonClient {
     /// Performs the `GetEnvironmentTemplateVersion` operation on the `Proton` service.
     ///
     /// Get detailed data for a major or minor version of an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetEnvironmentTemplateVersionInput`)
     ///
@@ -3031,6 +3067,7 @@ extension ProtonClient {
     /// Performs the `GetRepository` operation on the `Proton` service.
     ///
     /// Get detail data for a linked repository.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRepositoryInput`)
     ///
@@ -3103,6 +3140,7 @@ extension ProtonClient {
     /// Performs the `GetRepositorySyncStatus` operation on the `Proton` service.
     ///
     /// Get the sync status of a repository used for Proton template sync. For more information about template sync, see . A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC). For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRepositorySyncStatusInput`)
     ///
@@ -3175,6 +3213,7 @@ extension ProtonClient {
     /// Performs the `GetResourcesSummary` operation on the `Proton` service.
     ///
     /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesSummaryInput`)
     ///
@@ -3246,6 +3285,7 @@ extension ProtonClient {
     /// Performs the `GetService` operation on the `Proton` service.
     ///
     /// Get detailed data for a service.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
@@ -3318,6 +3358,7 @@ extension ProtonClient {
     /// Performs the `GetServiceInstance` operation on the `Proton` service.
     ///
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetServiceInstanceInput`)
     ///
@@ -3390,6 +3431,7 @@ extension ProtonClient {
     /// Performs the `GetServiceInstanceSyncStatus` operation on the `Proton` service.
     ///
     /// Get the status of the synced service instance.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetServiceInstanceSyncStatusInput`)
     ///
@@ -3462,6 +3504,7 @@ extension ProtonClient {
     /// Performs the `GetServiceSyncBlockerSummary` operation on the `Proton` service.
     ///
     /// Get detailed data for the service sync blocker summary.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetServiceSyncBlockerSummaryInput`)
     ///
@@ -3534,6 +3577,7 @@ extension ProtonClient {
     /// Performs the `GetServiceSyncConfig` operation on the `Proton` service.
     ///
     /// Get detailed information for the service sync configuration.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetServiceSyncConfigInput`)
     ///
@@ -3606,6 +3650,7 @@ extension ProtonClient {
     /// Performs the `GetServiceTemplate` operation on the `Proton` service.
     ///
     /// Get detailed data for a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetServiceTemplateInput`)
     ///
@@ -3678,6 +3723,7 @@ extension ProtonClient {
     /// Performs the `GetServiceTemplateVersion` operation on the `Proton` service.
     ///
     /// Get detailed data for a major or minor version of a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetServiceTemplateVersionInput`)
     ///
@@ -3750,6 +3796,7 @@ extension ProtonClient {
     /// Performs the `GetTemplateSyncConfig` operation on the `Proton` service.
     ///
     /// Get detail data for a template sync configuration.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetTemplateSyncConfigInput`)
     ///
@@ -3822,6 +3869,7 @@ extension ProtonClient {
     /// Performs the `GetTemplateSyncStatus` operation on the `Proton` service.
     ///
     /// Get the status of a template sync.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetTemplateSyncStatusInput`)
     ///
@@ -3894,6 +3942,7 @@ extension ProtonClient {
     /// Performs the `ListComponentOutputs` operation on the `Proton` service.
     ///
     /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListComponentOutputsInput`)
     ///
@@ -3966,6 +4015,7 @@ extension ProtonClient {
     /// Performs the `ListComponentProvisionedResources` operation on the `Proton` service.
     ///
     /// List provisioned resources for a component with details. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListComponentProvisionedResourcesInput`)
     ///
@@ -4038,6 +4088,7 @@ extension ProtonClient {
     /// Performs the `ListComponents` operation on the `Proton` service.
     ///
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
@@ -4109,6 +4160,7 @@ extension ProtonClient {
     /// Performs the `ListDeployments` operation on the `Proton` service.
     ///
     /// List deployments. You can filter the result list by environment, service, or a single service instance.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
@@ -4181,6 +4233,7 @@ extension ProtonClient {
     /// Performs the `ListEnvironmentAccountConnections` operation on the `Proton` service.
     ///
     /// View a list of environment account connections. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEnvironmentAccountConnectionsInput`)
     ///
@@ -4252,6 +4305,7 @@ extension ProtonClient {
     /// Performs the `ListEnvironmentOutputs` operation on the `Proton` service.
     ///
     /// List the infrastructure as code outputs for your environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEnvironmentOutputsInput`)
     ///
@@ -4324,6 +4378,7 @@ extension ProtonClient {
     /// Performs the `ListEnvironmentProvisionedResources` operation on the `Proton` service.
     ///
     /// List the provisioned resources for your environment.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEnvironmentProvisionedResourcesInput`)
     ///
@@ -4396,6 +4451,7 @@ extension ProtonClient {
     /// Performs the `ListEnvironmentTemplateVersions` operation on the `Proton` service.
     ///
     /// List major or minor versions of an environment template with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEnvironmentTemplateVersionsInput`)
     ///
@@ -4468,6 +4524,7 @@ extension ProtonClient {
     /// Performs the `ListEnvironmentTemplates` operation on the `Proton` service.
     ///
     /// List environment templates.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEnvironmentTemplatesInput`)
     ///
@@ -4539,6 +4596,7 @@ extension ProtonClient {
     /// Performs the `ListEnvironments` operation on the `Proton` service.
     ///
     /// List environments with detail data summaries.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
@@ -4611,6 +4669,7 @@ extension ProtonClient {
     /// Performs the `ListRepositories` operation on the `Proton` service.
     ///
     /// List linked repositories with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRepositoriesInput`)
     ///
@@ -4683,6 +4742,7 @@ extension ProtonClient {
     /// Performs the `ListRepositorySyncDefinitions` operation on the `Proton` service.
     ///
     /// List repository sync definitions with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRepositorySyncDefinitionsInput`)
     ///
@@ -4754,6 +4814,7 @@ extension ProtonClient {
     /// Performs the `ListServiceInstanceOutputs` operation on the `Proton` service.
     ///
     /// Get a list service of instance Infrastructure as Code (IaC) outputs.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceInstanceOutputsInput`)
     ///
@@ -4826,6 +4887,7 @@ extension ProtonClient {
     /// Performs the `ListServiceInstanceProvisionedResources` operation on the `Proton` service.
     ///
     /// List provisioned resources for a service instance with details.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceInstanceProvisionedResourcesInput`)
     ///
@@ -4898,6 +4960,7 @@ extension ProtonClient {
     /// Performs the `ListServiceInstances` operation on the `Proton` service.
     ///
     /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceInstancesInput`)
     ///
@@ -4970,6 +5033,7 @@ extension ProtonClient {
     /// Performs the `ListServicePipelineOutputs` operation on the `Proton` service.
     ///
     /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServicePipelineOutputsInput`)
     ///
@@ -5042,6 +5106,7 @@ extension ProtonClient {
     /// Performs the `ListServicePipelineProvisionedResources` operation on the `Proton` service.
     ///
     /// List provisioned resources for a service and pipeline with details.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServicePipelineProvisionedResourcesInput`)
     ///
@@ -5114,6 +5179,7 @@ extension ProtonClient {
     /// Performs the `ListServiceTemplateVersions` operation on the `Proton` service.
     ///
     /// List major or minor versions of a service template with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceTemplateVersionsInput`)
     ///
@@ -5186,6 +5252,7 @@ extension ProtonClient {
     /// Performs the `ListServiceTemplates` operation on the `Proton` service.
     ///
     /// List service templates with detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceTemplatesInput`)
     ///
@@ -5257,6 +5324,7 @@ extension ProtonClient {
     /// Performs the `ListServices` operation on the `Proton` service.
     ///
     /// List services with summaries of detail data.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
@@ -5328,6 +5396,7 @@ extension ProtonClient {
     /// Performs the `ListTagsForResource` operation on the `Proton` service.
     ///
     /// List tags for a resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -5400,6 +5469,7 @@ extension ProtonClient {
     /// Performs the `NotifyResourceDeploymentStatusChange` operation on the `Proton` service.
     ///
     /// Notify Proton of status changes to a provisioned resource when you use self-managed provisioning. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `NotifyResourceDeploymentStatusChangeInput`)
     ///
@@ -5474,6 +5544,7 @@ extension ProtonClient {
     /// Performs the `RejectEnvironmentAccountConnection` operation on the `Proton` service.
     ///
     /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you can't accept or use the rejected environment account connection. You can’t reject an environment account connection that's connected to an environment. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `RejectEnvironmentAccountConnectionInput`)
     ///
@@ -5547,6 +5618,7 @@ extension ProtonClient {
     /// Performs the `TagResource` operation on the `Proton` service.
     ///
     /// Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -5620,6 +5692,7 @@ extension ProtonClient {
     /// Performs the `UntagResource` operation on the `Proton` service.
     ///
     /// Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
@@ -5693,6 +5766,7 @@ extension ProtonClient {
     /// Performs the `UpdateAccountSettings` operation on the `Proton` service.
     ///
     /// Update Proton settings that are used for multiple services in the Amazon Web Services account.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
@@ -5765,6 +5839,7 @@ extension ProtonClient {
     /// Performs the `UpdateComponent` operation on the `Proton` service.
     ///
     /// Update a component. There are a few modes for updating a component. The deploymentType field defines the mode. You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateComponentInput`)
     ///
@@ -5840,6 +5915,7 @@ extension ProtonClient {
     /// Performs the `UpdateEnvironment` operation on the `Proton` service.
     ///
     /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter. You can't update or connect the environment to an environment account connection if it isn't already associated with an environment connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was configured for Amazon Web Services-managed provisioning, omit the provisioningRepository parameter. If the environment was configured for self-managed provisioning, specify the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide. There are four modes for updating an environment. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type. MINOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
@@ -5913,6 +5989,7 @@ extension ProtonClient {
     /// Performs the `UpdateEnvironmentAccountConnection` operation on the `Proton` service.
     ///
     /// In an environment account, update an environment account connection to use a new IAM role. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentAccountConnectionInput`)
     ///
@@ -5986,6 +6063,7 @@ extension ProtonClient {
     /// Performs the `UpdateEnvironmentTemplate` operation on the `Proton` service.
     ///
     /// Update an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentTemplateInput`)
     ///
@@ -6059,6 +6137,7 @@ extension ProtonClient {
     /// Performs the `UpdateEnvironmentTemplateVersion` operation on the `Proton` service.
     ///
     /// Update a major or minor version of an environment template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentTemplateVersionInput`)
     ///
@@ -6132,6 +6211,7 @@ extension ProtonClient {
     /// Performs the `UpdateService` operation on the `Proton` service.
     ///
     /// Edit a service description or use a spec to add and delete service instances. Existing service instances and the service pipeline can't be edited using this API. They can only be deleted. Use the description parameter to modify the description. Edit the spec parameter to add or delete instances. You can't delete a service instance (remove it from the spec) if it has an attached component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
@@ -6206,6 +6286,7 @@ extension ProtonClient {
     /// Performs the `UpdateServiceInstance` operation on the `Proton` service.
     ///
     /// Update a service instance. There are a few modes for updating a service instance. The deploymentType field defines the mode. You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateServiceInstanceInput`)
     ///
@@ -6280,6 +6361,7 @@ extension ProtonClient {
     /// Performs the `UpdateServicePipeline` operation on the `Proton` service.
     ///
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateServicePipelineInput`)
     ///
@@ -6353,6 +6435,7 @@ extension ProtonClient {
     /// Performs the `UpdateServiceSyncBlocker` operation on the `Proton` service.
     ///
     /// Update the service sync blocker by resolving it.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateServiceSyncBlockerInput`)
     ///
@@ -6426,6 +6509,7 @@ extension ProtonClient {
     /// Performs the `UpdateServiceSyncConfig` operation on the `Proton` service.
     ///
     /// Update the Proton Ops config file.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateServiceSyncConfigInput`)
     ///
@@ -6499,6 +6583,7 @@ extension ProtonClient {
     /// Performs the `UpdateServiceTemplate` operation on the `Proton` service.
     ///
     /// Update a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateServiceTemplateInput`)
     ///
@@ -6572,6 +6657,7 @@ extension ProtonClient {
     /// Performs the `UpdateServiceTemplateVersion` operation on the `Proton` service.
     ///
     /// Update a major or minor version of a service template.
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateServiceTemplateVersionInput`)
     ///
@@ -6645,6 +6731,7 @@ extension ProtonClient {
     /// Performs the `UpdateTemplateSyncConfig` operation on the `Proton` service.
     ///
     /// Update template sync configuration parameters, except for the templateName and templateType. Repository details (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers. API deprecated since 10/07/2025")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateTemplateSyncConfigInput`)
     ///
