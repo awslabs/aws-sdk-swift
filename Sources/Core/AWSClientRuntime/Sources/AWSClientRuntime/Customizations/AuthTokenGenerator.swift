@@ -65,6 +65,8 @@ public class AuthTokenGenerator {
         requestBuilder.withQueryItem(URIQueryItem(name: "Action", value: "connect"))
         requestBuilder.withQueryItem(URIQueryItem(name: "DBUser", value: username))
 
+        let signedAt = Date()
+
         let signingConfig = AWSSigningConfig(
             credentials: self.awsCredentialIdentity,
             expiration: expiration,
@@ -74,7 +76,7 @@ public class AuthTokenGenerator {
                 shouldNormalizeURIPath: true,
                 omitSessionToken: false
             ),
-            date: Date(),
+            date: signedAt,
             service: "rds-db",
             region: region,
             signatureType: .requestQueryParams,
@@ -83,7 +85,8 @@ public class AuthTokenGenerator {
 
         let signedRequest = await AWSSigV4Signer().sigV4SignedRequest(
             requestBuilder: requestBuilder,
-            signingConfig: signingConfig
+            signingConfig: signingConfig,
+            signedAt: signedAt
         )
 
         guard let presignedURL = signedRequest?.destination.url else {
@@ -119,6 +122,8 @@ public class AuthTokenGenerator {
         let actionQueryItemValue = isForAdmin ? "DbConnectAdmin" : "DbConnect"
         requestBuilder.withQueryItem(URIQueryItem(name: "Action", value: actionQueryItemValue))
 
+        let signedAt = Date()
+
         let signingConfig = AWSSigningConfig(
             credentials: self.awsCredentialIdentity,
             expiration: expiration,
@@ -128,7 +133,7 @@ public class AuthTokenGenerator {
                 shouldNormalizeURIPath: true,
                 omitSessionToken: false
             ),
-            date: Date(),
+            date: signedAt,
             service: "dsql",
             region: region,
             signatureType: .requestQueryParams,
@@ -137,7 +142,8 @@ public class AuthTokenGenerator {
 
         let signedRequest = await AWSSigV4Signer().sigV4SignedRequest(
             requestBuilder: requestBuilder,
-            signingConfig: signingConfig
+            signingConfig: signingConfig,
+            signedAt: signedAt
         )
 
         guard let presignedURL = signedRequest?.destination.url else {
