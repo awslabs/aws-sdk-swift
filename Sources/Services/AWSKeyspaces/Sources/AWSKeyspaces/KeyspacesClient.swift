@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KeyspacesClient: ClientRuntime.Client {
     public static let clientName = "KeyspacesClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: KeyspacesClient.KeyspacesClientConfiguration
     let serviceName = "Keyspaces"
@@ -411,6 +412,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyspaceInput, CreateKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyspaceOutput>(CreateKeyspaceOutput.httpOutput(from:), CreateKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyspaceInput, CreateKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeyspaceOutput>())
@@ -484,6 +486,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableInput, CreateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableOutput>(CreateTableOutput.httpOutput(from:), CreateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableInput, CreateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
@@ -557,6 +560,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTypeInput, CreateTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTypeOutput>(CreateTypeOutput.httpOutput(from:), CreateTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTypeInput, CreateTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTypeOutput>())
@@ -630,6 +634,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteKeyspaceInput, DeleteKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyspaceOutput>(DeleteKeyspaceOutput.httpOutput(from:), DeleteKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyspaceInput, DeleteKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyspaceOutput>())
@@ -703,6 +708,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableOutput>(DeleteTableOutput.httpOutput(from:), DeleteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableInput, DeleteTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
@@ -776,6 +782,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTypeInput, DeleteTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTypeOutput>(DeleteTypeOutput.httpOutput(from:), DeleteTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTypeInput, DeleteTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTypeOutput>())
@@ -848,6 +855,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKeyspaceInput, GetKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyspaceOutput>(GetKeyspaceOutput.httpOutput(from:), GetKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyspaceInput, GetKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyspaceOutput>())
@@ -920,6 +928,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableInput, GetTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableOutput>(GetTableOutput.httpOutput(from:), GetTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableInput, GetTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableOutput>())
@@ -996,6 +1005,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableAutoScalingSettingsOutput>(GetTableAutoScalingSettingsOutput.httpOutput(from:), GetTableAutoScalingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableAutoScalingSettingsOutput>())
@@ -1068,6 +1078,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTypeInput, GetTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTypeOutput>(GetTypeOutput.httpOutput(from:), GetTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTypeInput, GetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTypeOutput>())
@@ -1140,6 +1151,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKeyspacesInput, ListKeyspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyspacesOutput>(ListKeyspacesOutput.httpOutput(from:), ListKeyspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyspacesInput, ListKeyspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeyspacesOutput>())
@@ -1212,6 +1224,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTablesInput, ListTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTablesOutput>(ListTablesOutput.httpOutput(from:), ListTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTablesInput, ListTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
@@ -1284,6 +1297,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1356,6 +1370,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTypesInput, ListTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypesOutput>(ListTypesOutput.httpOutput(from:), ListTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypesInput, ListTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypesOutput>())
@@ -1446,6 +1461,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreTableInput, RestoreTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreTableOutput>(RestoreTableOutput.httpOutput(from:), RestoreTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreTableInput, RestoreTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableOutput>())
@@ -1519,6 +1535,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1592,6 +1609,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1706,6 +1724,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyspaceInput, UpdateKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyspaceOutput>(UpdateKeyspaceOutput.httpOutput(from:), UpdateKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyspaceInput, UpdateKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeyspaceOutput>())
@@ -1779,6 +1798,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableOutput>(UpdateTableOutput.httpOutput(from:), UpdateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableInput, UpdateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -71,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexRuntimeV2Client: ClientRuntime.Client {
     public static let clientName = "LexRuntimeV2Client"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: LexRuntimeV2Client.LexRuntimeV2ClientConfiguration
     let serviceName = "Lex Runtime V2"
@@ -415,6 +416,7 @@ extension LexRuntimeV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSessionInput, DeleteSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSessionOutput>(DeleteSessionOutput.httpOutput(from:), DeleteSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSessionInput, DeleteSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSessionOutput>())
@@ -483,6 +485,7 @@ extension LexRuntimeV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -558,6 +561,7 @@ extension LexRuntimeV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSessionInput, PutSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSessionOutput>(PutSessionOutput.httpOutput(from:), PutSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSessionInput, PutSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSessionOutput>())
@@ -641,6 +645,7 @@ extension LexRuntimeV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecognizeTextInput, RecognizeTextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RecognizeTextOutput>(RecognizeTextOutput.httpOutput(from:), RecognizeTextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecognizeTextInput, RecognizeTextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RecognizeTextOutput>())
@@ -745,6 +750,7 @@ extension LexRuntimeV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecognizeUtteranceInput, RecognizeUtteranceOutput>(requiresLength: false, unsignedPayload: true))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RecognizeUtteranceOutput>(RecognizeUtteranceOutput.httpOutput(from:), RecognizeUtteranceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecognizeUtteranceInput, RecognizeUtteranceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RecognizeUtteranceOutput>())
@@ -832,6 +838,7 @@ extension LexRuntimeV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConversationInput, StartConversationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConversationOutput>(StartConversationOutput.httpOutput(from:), StartConversationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConversationInput, StartConversationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConversationOutput>())

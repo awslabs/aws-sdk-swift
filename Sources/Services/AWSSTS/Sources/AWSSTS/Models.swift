@@ -19,6 +19,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Reader
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -1468,6 +1469,7 @@ extension GetCallerIdentityInput {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(GetCallerIdentityOutput.httpOutput(from:), GetCallerIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())

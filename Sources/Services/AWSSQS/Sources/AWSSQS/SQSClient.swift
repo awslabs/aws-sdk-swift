@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SQSClient: ClientRuntime.Client {
     public static let clientName = "SQSClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SQSClient.SQSClientConfiguration
     let serviceName = "SQS"
@@ -427,6 +428,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddPermissionInput, AddPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddPermissionOutput>(AddPermissionOutput.httpOutput(from:), AddPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddPermissionInput, AddPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPermissionOutput>())
@@ -508,6 +510,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMessageMoveTaskOutput>(CancelMessageMoveTaskOutput.httpOutput(from:), CancelMessageMoveTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMessageMoveTaskOutput>())
@@ -596,6 +599,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityOutput>(ChangeMessageVisibilityOutput.httpOutput(from:), ChangeMessageVisibilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityOutput>())
@@ -677,6 +681,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityBatchOutput>(ChangeMessageVisibilityBatchOutput.httpOutput(from:), ChangeMessageVisibilityBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityBatchOutput>())
@@ -773,6 +778,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
@@ -852,6 +858,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMessageInput, DeleteMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageOutput>(DeleteMessageOutput.httpOutput(from:), DeleteMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageInput, DeleteMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageOutput>())
@@ -933,6 +940,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageBatchOutput>(DeleteMessageBatchOutput.httpOutput(from:), DeleteMessageBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageBatchOutput>())
@@ -1010,6 +1018,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
@@ -1088,6 +1097,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueAttributesOutput>(GetQueueAttributesOutput.httpOutput(from:), GetQueueAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueAttributesOutput>())
@@ -1165,6 +1175,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueUrlInput, GetQueueUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueUrlOutput>(GetQueueUrlOutput.httpOutput(from:), GetQueueUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueUrlOutput>())
@@ -1242,6 +1253,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeadLetterSourceQueuesOutput>(ListDeadLetterSourceQueuesOutput.httpOutput(from:), ListDeadLetterSourceQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeadLetterSourceQueuesOutput>())
@@ -1323,6 +1335,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMessageMoveTasksOutput>(ListMessageMoveTasksOutput.httpOutput(from:), ListMessageMoveTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessageMoveTasksOutput>())
@@ -1400,6 +1413,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueueTagsInput, ListQueueTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueTagsOutput>(ListQueueTagsOutput.httpOutput(from:), ListQueueTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueTagsOutput>())
@@ -1476,6 +1490,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueuesInput, ListQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
@@ -1554,6 +1569,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurgeQueueInput, PurgeQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurgeQueueOutput>(PurgeQueueOutput.httpOutput(from:), PurgeQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurgeQueueInput, PurgeQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurgeQueueOutput>())
@@ -1658,6 +1674,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReceiveMessageInput, ReceiveMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReceiveMessageOutput>(ReceiveMessageOutput.httpOutput(from:), ReceiveMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReceiveMessageOutput>())
@@ -1741,6 +1758,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemovePermissionOutput>(RemovePermissionOutput.httpOutput(from:), RemovePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemovePermissionInput, RemovePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePermissionOutput>())
@@ -1830,6 +1848,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageInput, SendMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageOutput>(SendMessageOutput.httpOutput(from:), SendMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageInput, SendMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageOutput>())
@@ -1923,6 +1942,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageBatchInput, SendMessageBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageBatchOutput>(SendMessageBatchOutput.httpOutput(from:), SendMessageBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageBatchOutput>())
@@ -2009,6 +2029,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetQueueAttributesOutput>(SetQueueAttributesOutput.httpOutput(from:), SetQueueAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetQueueAttributesOutput>())
@@ -2092,6 +2113,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMessageMoveTaskOutput>(StartMessageMoveTaskOutput.httpOutput(from:), StartMessageMoveTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMessageMoveTaskOutput>())
@@ -2180,6 +2202,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagQueueInput, TagQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagQueueOutput>(TagQueueOutput.httpOutput(from:), TagQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagQueueInput, TagQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagQueueOutput>())
@@ -2257,6 +2280,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagQueueInput, UntagQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagQueueOutput>(UntagQueueOutput.httpOutput(from:), UntagQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagQueueInput, UntagQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagQueueOutput>())

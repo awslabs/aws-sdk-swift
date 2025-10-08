@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerMetricsClient: ClientRuntime.Client {
     public static let clientName = "SageMakerMetricsClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerMetricsClient.SageMakerMetricsClientConfiguration
     let serviceName = "SageMaker Metrics"
@@ -402,6 +403,7 @@ extension SageMakerMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetMetricsOutput>(BatchGetMetricsOutput.httpOutput(from:), BatchGetMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetMetricsOutput>())
@@ -464,6 +466,7 @@ extension SageMakerMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutMetricsInput, BatchPutMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutMetricsOutput>(BatchPutMetricsOutput.httpOutput(from:), BatchPutMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutMetricsInput, BatchPutMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutMetricsOutput>())

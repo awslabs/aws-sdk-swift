@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PricingClient: ClientRuntime.Client {
     public static let clientName = "PricingClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: PricingClient.PricingClientConfiguration
     let serviceName = "Pricing"
@@ -412,6 +413,7 @@ extension PricingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServicesInput, DescribeServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServicesOutput>(DescribeServicesOutput.httpOutput(from:), DescribeServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServicesInput, DescribeServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServicesOutput>())
@@ -485,6 +487,7 @@ extension PricingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAttributeValuesInput, GetAttributeValuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAttributeValuesOutput>(GetAttributeValuesOutput.httpOutput(from:), GetAttributeValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAttributeValuesInput, GetAttributeValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAttributeValuesOutput>())
@@ -558,6 +561,7 @@ extension PricingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPriceListFileUrlOutput>(GetPriceListFileUrlOutput.httpOutput(from:), GetPriceListFileUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPriceListFileUrlInput, GetPriceListFileUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPriceListFileUrlOutput>())
@@ -631,6 +635,7 @@ extension PricingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetProductsInput, GetProductsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProductsOutput>(GetProductsOutput.httpOutput(from:), GetProductsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProductsInput, GetProductsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProductsOutput>())
@@ -706,6 +711,7 @@ extension PricingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPriceListsInput, ListPriceListsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPriceListsOutput>(ListPriceListsOutput.httpOutput(from:), ListPriceListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPriceListsInput, ListPriceListsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPriceListsOutput>())

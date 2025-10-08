@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoMediaClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoMediaClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration
     let serviceName = "Kinesis Video Media"
@@ -427,6 +428,7 @@ extension KinesisVideoMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMediaInput, GetMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaOutput>(GetMediaOutput.httpOutput(from:), GetMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaInput, GetMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMediaOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerA2IRuntimeClient: ClientRuntime.Client {
     public static let clientName = "SageMakerA2IRuntimeClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerA2IRuntimeClient.SageMakerA2IRuntimeClientConfiguration
     let serviceName = "SageMaker A2I Runtime"
@@ -409,6 +410,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHumanLoopInput, DeleteHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHumanLoopOutput>(DeleteHumanLoopOutput.httpOutput(from:), DeleteHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHumanLoopInput, DeleteHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHumanLoopOutput>())
@@ -476,6 +478,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHumanLoopInput, DescribeHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHumanLoopOutput>(DescribeHumanLoopOutput.httpOutput(from:), DescribeHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHumanLoopInput, DescribeHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHumanLoopOutput>())
@@ -544,6 +547,7 @@ extension SageMakerA2IRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHumanLoopsInput, ListHumanLoopsOutput>(ListHumanLoopsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHumanLoopsOutput>(ListHumanLoopsOutput.httpOutput(from:), ListHumanLoopsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHumanLoopsInput, ListHumanLoopsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHumanLoopsOutput>())
@@ -615,6 +619,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartHumanLoopInput, StartHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartHumanLoopOutput>(StartHumanLoopOutput.httpOutput(from:), StartHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartHumanLoopInput, StartHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartHumanLoopOutput>())
@@ -685,6 +690,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopHumanLoopInput, StopHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopHumanLoopOutput>(StopHumanLoopOutput.httpOutput(from:), StopHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopHumanLoopInput, StopHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopHumanLoopOutput>())

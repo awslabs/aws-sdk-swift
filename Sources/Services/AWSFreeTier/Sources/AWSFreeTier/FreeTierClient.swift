@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FreeTierClient: ClientRuntime.Client {
     public static let clientName = "FreeTierClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: FreeTierClient.FreeTierClientConfiguration
     let serviceName = "FreeTier"
@@ -410,6 +411,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountActivityInput, GetAccountActivityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountActivityOutput>(GetAccountActivityOutput.httpOutput(from:), GetAccountActivityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountActivityInput, GetAccountActivityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountActivityOutput>())
@@ -482,6 +484,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountPlanStateOutput>(GetAccountPlanStateOutput.httpOutput(from:), GetAccountPlanStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountPlanStateOutput>())
@@ -552,6 +555,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFreeTierUsageOutput>(GetFreeTierUsageOutput.httpOutput(from:), GetFreeTierUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFreeTierUsageOutput>())
@@ -622,6 +626,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountActivitiesOutput>(ListAccountActivitiesOutput.httpOutput(from:), ListAccountActivitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountActivitiesOutput>())
@@ -694,6 +699,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpgradeAccountPlanOutput>(UpgradeAccountPlanOutput.httpOutput(from:), UpgradeAccountPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpgradeAccountPlanOutput>())

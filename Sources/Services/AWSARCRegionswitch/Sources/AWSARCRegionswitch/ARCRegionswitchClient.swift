@@ -26,6 +26,7 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ARCRegionswitchClient: ClientRuntime.Client {
     public static let clientName = "ARCRegionswitchClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCRegionswitchClient.ARCRegionswitchClientConfiguration
     let serviceName = "ARC Region switch"
@@ -410,6 +411,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApprovePlanExecutionStepOutput>(ApprovePlanExecutionStepOutput.httpOutput(from:), ApprovePlanExecutionStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApprovePlanExecutionStepOutput>())
@@ -482,6 +484,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelPlanExecutionOutput>(CancelPlanExecutionOutput.httpOutput(from:), CancelPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelPlanExecutionOutput>())
@@ -548,6 +551,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlanInput, CreatePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlanOutput>(CreatePlanOutput.httpOutput(from:), CreatePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlanInput, CreatePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlanOutput>())
@@ -620,6 +624,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePlanInput, DeletePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlanOutput>(DeletePlanOutput.httpOutput(from:), DeletePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlanInput, DeletePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlanOutput>())
@@ -691,6 +696,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInput, GetPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanOutput>(GetPlanOutput.httpOutput(from:), GetPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInput, GetPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanOutput>())
@@ -763,6 +769,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanEvaluationStatusOutput>(GetPlanEvaluationStatusOutput.httpOutput(from:), GetPlanEvaluationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanEvaluationStatusOutput>())
@@ -835,6 +842,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanExecutionOutput>(GetPlanExecutionOutput.httpOutput(from:), GetPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanExecutionOutput>())
@@ -907,6 +915,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanInRegionOutput>(GetPlanInRegionOutput.httpOutput(from:), GetPlanInRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanInRegionOutput>())
@@ -979,6 +988,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlanExecutionEventsOutput>(ListPlanExecutionEventsOutput.httpOutput(from:), ListPlanExecutionEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlanExecutionEventsOutput>())
@@ -1051,6 +1061,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlanExecutionsOutput>(ListPlanExecutionsOutput.httpOutput(from:), ListPlanExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlanExecutionsOutput>())
@@ -1117,6 +1128,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlansInput, ListPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlansOutput>(ListPlansOutput.httpOutput(from:), ListPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlansInput, ListPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlansOutput>())
@@ -1188,6 +1200,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlansInRegionOutput>(ListPlansInRegionOutput.httpOutput(from:), ListPlansInRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlansInRegionOutput>())
@@ -1261,6 +1274,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoute53HealthChecksOutput>(ListRoute53HealthChecksOutput.httpOutput(from:), ListRoute53HealthChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoute53HealthChecksOutput>())
@@ -1333,6 +1347,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1407,6 +1422,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPlanExecutionOutput>(StartPlanExecutionOutput.httpOutput(from:), StartPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPlanExecutionOutput>())
@@ -1479,6 +1495,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1551,6 +1568,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1622,6 +1640,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanInput, UpdatePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanOutput>(UpdatePlanOutput.httpOutput(from:), UpdatePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanInput, UpdatePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePlanOutput>())
@@ -1695,6 +1714,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanExecutionOutput>(UpdatePlanExecutionOutput.httpOutput(from:), UpdatePlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePlanExecutionOutput>())
@@ -1767,6 +1787,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanExecutionStepOutput>(UpdatePlanExecutionStepOutput.httpOutput(from:), UpdatePlanExecutionStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePlanExecutionStepOutput>())

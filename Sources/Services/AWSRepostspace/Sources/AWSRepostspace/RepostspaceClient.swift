@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RepostspaceClient: ClientRuntime.Client {
     public static let clientName = "RepostspaceClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: RepostspaceClient.RepostspaceClientConfiguration
     let serviceName = "repostspace"
@@ -413,6 +414,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAddChannelRoleToAccessorsInput, BatchAddChannelRoleToAccessorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAddChannelRoleToAccessorsOutput>(BatchAddChannelRoleToAccessorsOutput.httpOutput(from:), BatchAddChannelRoleToAccessorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAddChannelRoleToAccessorsInput, BatchAddChannelRoleToAccessorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAddChannelRoleToAccessorsOutput>())
@@ -484,6 +486,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAddRoleInput, BatchAddRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAddRoleOutput>(BatchAddRoleOutput.httpOutput(from:), BatchAddRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAddRoleInput, BatchAddRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAddRoleOutput>())
@@ -555,6 +558,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchRemoveChannelRoleFromAccessorsInput, BatchRemoveChannelRoleFromAccessorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchRemoveChannelRoleFromAccessorsOutput>(BatchRemoveChannelRoleFromAccessorsOutput.httpOutput(from:), BatchRemoveChannelRoleFromAccessorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchRemoveChannelRoleFromAccessorsInput, BatchRemoveChannelRoleFromAccessorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchRemoveChannelRoleFromAccessorsOutput>())
@@ -626,6 +630,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchRemoveRoleInput, BatchRemoveRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchRemoveRoleOutput>(BatchRemoveRoleOutput.httpOutput(from:), BatchRemoveRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchRemoveRoleInput, BatchRemoveRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchRemoveRoleOutput>())
@@ -699,6 +704,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -772,6 +778,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSpaceInput, CreateSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSpaceOutput>(CreateSpaceOutput.httpOutput(from:), CreateSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSpaceInput, CreateSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSpaceOutput>())
@@ -840,6 +847,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSpaceInput, DeleteSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput>(DeleteSpaceOutput.httpOutput(from:), DeleteSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpaceInput, DeleteSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSpaceOutput>())
@@ -908,6 +916,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterAdminInput, DeregisterAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterAdminOutput>(DeregisterAdminOutput.httpOutput(from:), DeregisterAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterAdminInput, DeregisterAdminOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterAdminOutput>())
@@ -976,6 +985,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelOutput>(GetChannelOutput.httpOutput(from:), GetChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelInput, GetChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelOutput>())
@@ -1044,6 +1054,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSpaceInput, GetSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpaceOutput>(GetSpaceOutput.httpOutput(from:), GetSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpaceInput, GetSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpaceOutput>())
@@ -1112,6 +1123,7 @@ extension RepostspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1180,6 +1192,7 @@ extension RepostspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSpacesInput, ListSpacesOutput>(ListSpacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpacesOutput>(ListSpacesOutput.httpOutput(from:), ListSpacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpacesInput, ListSpacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSpacesOutput>())
@@ -1248,6 +1261,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1316,6 +1330,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterAdminInput, RegisterAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterAdminOutput>(RegisterAdminOutput.httpOutput(from:), RegisterAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterAdminInput, RegisterAdminOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterAdminOutput>())
@@ -1387,6 +1402,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendInvitesInput, SendInvitesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendInvitesOutput>(SendInvitesOutput.httpOutput(from:), SendInvitesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendInvitesInput, SendInvitesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendInvitesOutput>())
@@ -1458,6 +1474,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1527,6 +1544,7 @@ extension RepostspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1599,6 +1617,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -1671,6 +1690,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSpaceInput, UpdateSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput>(UpdateSpaceOutput.httpOutput(from:), UpdateSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSpaceOutput>())

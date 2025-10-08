@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranslateClient: ClientRuntime.Client {
     public static let clientName = "TranslateClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: TranslateClient.TranslateClientConfiguration
     let serviceName = "Translate"
@@ -416,6 +417,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateParallelDataInput, CreateParallelDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateParallelDataOutput>(CreateParallelDataOutput.httpOutput(from:), CreateParallelDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateParallelDataInput, CreateParallelDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateParallelDataOutput>())
@@ -487,6 +489,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteParallelDataOutput>(DeleteParallelDataOutput.httpOutput(from:), DeleteParallelDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteParallelDataOutput>())
@@ -558,6 +561,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTerminologyOutput>(DeleteTerminologyOutput.httpOutput(from:), DeleteTerminologyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTerminologyOutput>())
@@ -628,6 +632,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTextTranslationJobOutput>(DescribeTextTranslationJobOutput.httpOutput(from:), DescribeTextTranslationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTextTranslationJobOutput>())
@@ -699,6 +704,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParallelDataInput, GetParallelDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParallelDataOutput>(GetParallelDataOutput.httpOutput(from:), GetParallelDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParallelDataInput, GetParallelDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParallelDataOutput>())
@@ -770,6 +776,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTerminologyInput, GetTerminologyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTerminologyOutput>(GetTerminologyOutput.httpOutput(from:), GetTerminologyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTerminologyInput, GetTerminologyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTerminologyOutput>())
@@ -843,6 +850,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportTerminologyInput, ImportTerminologyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportTerminologyOutput>(ImportTerminologyOutput.httpOutput(from:), ImportTerminologyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportTerminologyInput, ImportTerminologyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportTerminologyOutput>())
@@ -914,6 +922,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLanguagesInput, ListLanguagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLanguagesOutput>(ListLanguagesOutput.httpOutput(from:), ListLanguagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLanguagesInput, ListLanguagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLanguagesOutput>())
@@ -984,6 +993,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListParallelDataInput, ListParallelDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListParallelDataOutput>(ListParallelDataOutput.httpOutput(from:), ListParallelDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListParallelDataInput, ListParallelDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListParallelDataOutput>())
@@ -1054,6 +1064,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1124,6 +1135,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTerminologiesInput, ListTerminologiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTerminologiesOutput>(ListTerminologiesOutput.httpOutput(from:), ListTerminologiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTerminologiesInput, ListTerminologiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTerminologiesOutput>())
@@ -1195,6 +1207,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTextTranslationJobsOutput>(ListTextTranslationJobsOutput.httpOutput(from:), ListTextTranslationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTextTranslationJobsOutput>())
@@ -1269,6 +1282,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTextTranslationJobOutput>(StartTextTranslationJobOutput.httpOutput(from:), StartTextTranslationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTextTranslationJobOutput>())
@@ -1339,6 +1353,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTextTranslationJobOutput>(StopTextTranslationJobOutput.httpOutput(from:), StopTextTranslationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTextTranslationJobOutput>())
@@ -1411,6 +1426,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1485,6 +1501,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranslateDocumentInput, TranslateDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslateDocumentOutput>(TranslateDocumentOutput.httpOutput(from:), TranslateDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslateDocumentInput, TranslateDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TranslateDocumentOutput>())
@@ -1560,6 +1577,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranslateTextInput, TranslateTextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslateTextOutput>(TranslateTextOutput.httpOutput(from:), TranslateTextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslateTextInput, TranslateTextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TranslateTextOutput>())
@@ -1631,6 +1649,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1707,6 +1726,7 @@ extension TranslateClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateParallelDataOutput>(UpdateParallelDataOutput.httpOutput(from:), UpdateParallelDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateParallelDataOutput>())

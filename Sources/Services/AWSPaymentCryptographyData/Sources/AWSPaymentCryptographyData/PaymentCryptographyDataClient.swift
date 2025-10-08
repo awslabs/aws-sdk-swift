@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PaymentCryptographyDataClient: ClientRuntime.Client {
     public static let clientName = "PaymentCryptographyDataClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration
     let serviceName = "Payment Cryptography Data"
@@ -417,6 +418,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DecryptDataInput, DecryptDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecryptDataOutput>(DecryptDataOutput.httpOutput(from:), DecryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecryptDataInput, DecryptDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecryptDataOutput>())
@@ -496,6 +498,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EncryptDataInput, EncryptDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EncryptDataOutput>(EncryptDataOutput.httpOutput(from:), EncryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EncryptDataInput, EncryptDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EncryptDataOutput>())
@@ -571,6 +574,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateCardValidationDataOutput>(GenerateCardValidationDataOutput.httpOutput(from:), GenerateCardValidationDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateCardValidationDataInput, GenerateCardValidationDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateCardValidationDataOutput>())
@@ -644,6 +648,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMacInput, GenerateMacOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMacOutput>(GenerateMacOutput.httpOutput(from:), GenerateMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMacInput, GenerateMacOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMacOutput>())
@@ -719,6 +724,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMacEmvPinChangeOutput>(GenerateMacEmvPinChangeOutput.httpOutput(from:), GenerateMacEmvPinChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMacEmvPinChangeInput, GenerateMacEmvPinChangeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMacEmvPinChangeOutput>())
@@ -796,6 +802,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GeneratePinDataInput, GeneratePinDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GeneratePinDataOutput>(GeneratePinDataOutput.httpOutput(from:), GeneratePinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GeneratePinDataInput, GeneratePinDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GeneratePinDataOutput>())
@@ -875,6 +882,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReEncryptDataInput, ReEncryptDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReEncryptDataOutput>(ReEncryptDataOutput.httpOutput(from:), ReEncryptDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReEncryptDataInput, ReEncryptDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReEncryptDataOutput>())
@@ -952,6 +960,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslateKeyMaterialOutput>(TranslateKeyMaterialOutput.httpOutput(from:), TranslateKeyMaterialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslateKeyMaterialInput, TranslateKeyMaterialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TranslateKeyMaterialOutput>())
@@ -1027,6 +1036,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TranslatePinDataInput, TranslatePinDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TranslatePinDataOutput>(TranslatePinDataOutput.httpOutput(from:), TranslatePinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TranslatePinDataInput, TranslatePinDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TranslatePinDataOutput>())
@@ -1103,6 +1113,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyAuthRequestCryptogramOutput>(VerifyAuthRequestCryptogramOutput.httpOutput(from:), VerifyAuthRequestCryptogramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyAuthRequestCryptogramInput, VerifyAuthRequestCryptogramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyAuthRequestCryptogramOutput>())
@@ -1181,6 +1192,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyCardValidationDataOutput>(VerifyCardValidationDataOutput.httpOutput(from:), VerifyCardValidationDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyCardValidationDataInput, VerifyCardValidationDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyCardValidationDataOutput>())
@@ -1255,6 +1267,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyMacInput, VerifyMacOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyMacOutput>(VerifyMacOutput.httpOutput(from:), VerifyMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyMacInput, VerifyMacOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyMacOutput>())
@@ -1331,6 +1344,7 @@ extension PaymentCryptographyDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyPinDataInput, VerifyPinDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyPinDataOutput>(VerifyPinDataOutput.httpOutput(from:), VerifyPinDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyPinDataInput, VerifyPinDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyPinDataOutput>())

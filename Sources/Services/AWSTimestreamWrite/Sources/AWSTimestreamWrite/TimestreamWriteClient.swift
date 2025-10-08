@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamWriteClient: ClientRuntime.Client {
     public static let clientName = "TimestreamWriteClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamWriteClient.TimestreamWriteClientConfiguration
     let serviceName = "Timestream Write"
@@ -415,6 +416,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchLoadTaskOutput>(CreateBatchLoadTaskOutput.httpOutput(from:), CreateBatchLoadTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchLoadTaskInput, CreateBatchLoadTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBatchLoadTaskOutput>())
@@ -489,6 +491,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatabaseInput, CreateDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatabaseOutput>(CreateDatabaseOutput.httpOutput(from:), CreateDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatabaseInput, CreateDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatabaseOutput>())
@@ -564,6 +567,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableInput, CreateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableOutput>(CreateTableOutput.httpOutput(from:), CreateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableInput, CreateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
@@ -637,6 +641,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatabaseOutput>(DeleteDatabaseOutput.httpOutput(from:), DeleteDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatabaseInput, DeleteDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatabaseOutput>())
@@ -710,6 +715,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableOutput>(DeleteTableOutput.httpOutput(from:), DeleteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableInput, DeleteTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
@@ -782,6 +788,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBatchLoadTaskOutput>(DescribeBatchLoadTaskOutput.httpOutput(from:), DescribeBatchLoadTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBatchLoadTaskInput, DescribeBatchLoadTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBatchLoadTaskOutput>())
@@ -855,6 +862,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatabaseOutput>(DescribeDatabaseOutput.httpOutput(from:), DescribeDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatabaseInput, DescribeDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatabaseOutput>())
@@ -934,6 +942,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointsOutput>(DescribeEndpointsOutput.httpOutput(from:), DescribeEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointsOutput>())
@@ -1007,6 +1016,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTableInput, DescribeTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTableOutput>(DescribeTableOutput.httpOutput(from:), DescribeTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTableInput, DescribeTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableOutput>())
@@ -1079,6 +1089,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBatchLoadTasksOutput>(ListBatchLoadTasksOutput.httpOutput(from:), ListBatchLoadTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBatchLoadTasksInput, ListBatchLoadTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBatchLoadTasksOutput>())
@@ -1151,6 +1162,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatabasesInput, ListDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatabasesOutput>(ListDatabasesOutput.httpOutput(from:), ListDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatabasesInput, ListDatabasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatabasesOutput>())
@@ -1224,6 +1236,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTablesInput, ListTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTablesOutput>(ListTablesOutput.httpOutput(from:), ListTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTablesInput, ListTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
@@ -1295,6 +1308,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1368,6 +1382,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeBatchLoadTaskOutput>(ResumeBatchLoadTaskOutput.httpOutput(from:), ResumeBatchLoadTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeBatchLoadTaskInput, ResumeBatchLoadTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeBatchLoadTaskOutput>())
@@ -1440,6 +1455,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1512,6 +1528,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1586,6 +1603,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatabaseOutput>(UpdateDatabaseOutput.httpOutput(from:), UpdateDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatabaseInput, UpdateDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatabaseOutput>())
@@ -1659,6 +1677,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableOutput>(UpdateTableOutput.httpOutput(from:), UpdateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableInput, UpdateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())
@@ -1749,6 +1768,7 @@ extension TimestreamWriteClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<WriteRecordsInput, WriteRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<WriteRecordsOutput>(WriteRecordsOutput.httpOutput(from:), WriteRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<WriteRecordsInput, WriteRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<WriteRecordsOutput>())

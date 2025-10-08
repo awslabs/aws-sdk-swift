@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KafkaConnectClient: ClientRuntime.Client {
     public static let clientName = "KafkaConnectClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: KafkaConnectClient.KafkaConnectClientConfiguration
     let serviceName = "KafkaConnect"
@@ -416,6 +417,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
@@ -490,6 +492,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomPluginInput, CreateCustomPluginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomPluginOutput>(CreateCustomPluginOutput.httpOutput(from:), CreateCustomPluginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomPluginInput, CreateCustomPluginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomPluginOutput>())
@@ -564,6 +567,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkerConfigurationInput, CreateWorkerConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkerConfigurationOutput>(CreateWorkerConfigurationOutput.httpOutput(from:), CreateWorkerConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkerConfigurationInput, CreateWorkerConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkerConfigurationOutput>())
@@ -635,6 +639,7 @@ extension KafkaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(DeleteConnectorInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
@@ -705,6 +710,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomPluginInput, DeleteCustomPluginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomPluginOutput>(DeleteCustomPluginOutput.httpOutput(from:), DeleteCustomPluginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomPluginInput, DeleteCustomPluginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomPluginOutput>())
@@ -775,6 +781,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkerConfigurationInput, DeleteWorkerConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkerConfigurationOutput>(DeleteWorkerConfigurationOutput.httpOutput(from:), DeleteWorkerConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkerConfigurationInput, DeleteWorkerConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkerConfigurationOutput>())
@@ -845,6 +852,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConnectorInput, DescribeConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectorOutput>(DescribeConnectorOutput.httpOutput(from:), DescribeConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectorInput, DescribeConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectorOutput>())
@@ -915,6 +923,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConnectorOperationInput, DescribeConnectorOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectorOperationOutput>(DescribeConnectorOperationOutput.httpOutput(from:), DescribeConnectorOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectorOperationInput, DescribeConnectorOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectorOperationOutput>())
@@ -985,6 +994,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCustomPluginInput, DescribeCustomPluginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomPluginOutput>(DescribeCustomPluginOutput.httpOutput(from:), DescribeCustomPluginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomPluginInput, DescribeCustomPluginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomPluginOutput>())
@@ -1055,6 +1065,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkerConfigurationInput, DescribeWorkerConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkerConfigurationOutput>(DescribeWorkerConfigurationOutput.httpOutput(from:), DescribeWorkerConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkerConfigurationInput, DescribeWorkerConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkerConfigurationOutput>())
@@ -1126,6 +1137,7 @@ extension KafkaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorOperationsInput, ListConnectorOperationsOutput>(ListConnectorOperationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorOperationsOutput>(ListConnectorOperationsOutput.httpOutput(from:), ListConnectorOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorOperationsInput, ListConnectorOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorOperationsOutput>())
@@ -1197,6 +1209,7 @@ extension KafkaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
@@ -1268,6 +1281,7 @@ extension KafkaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomPluginsInput, ListCustomPluginsOutput>(ListCustomPluginsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomPluginsOutput>(ListCustomPluginsOutput.httpOutput(from:), ListCustomPluginsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomPluginsInput, ListCustomPluginsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomPluginsOutput>())
@@ -1338,6 +1352,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1409,6 +1424,7 @@ extension KafkaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutput>(ListWorkerConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkerConfigurationsOutput>(ListWorkerConfigurationsOutput.httpOutput(from:), ListWorkerConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkerConfigurationsOutput>())
@@ -1483,6 +1499,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1554,6 +1571,7 @@ extension KafkaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1628,6 +1646,7 @@ extension KafkaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorOutput>(UpdateConnectorOutput.httpOutput(from:), UpdateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorOutput>())

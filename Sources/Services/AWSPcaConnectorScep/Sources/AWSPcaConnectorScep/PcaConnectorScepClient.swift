@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PcaConnectorScepClient: ClientRuntime.Client {
     public static let clientName = "PcaConnectorScepClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorScepClient.PcaConnectorScepClientConfiguration
     let serviceName = "Pca Connector Scep"
@@ -417,6 +418,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChallengeInput, CreateChallengeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChallengeOutput>(CreateChallengeOutput.httpOutput(from:), CreateChallengeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChallengeInput, CreateChallengeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChallengeOutput>())
@@ -491,6 +493,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
@@ -560,6 +563,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChallengeInput, DeleteChallengeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChallengeOutput>(DeleteChallengeOutput.httpOutput(from:), DeleteChallengeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChallengeInput, DeleteChallengeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChallengeOutput>())
@@ -629,6 +633,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
@@ -697,6 +702,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChallengeMetadataInput, GetChallengeMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChallengeMetadataOutput>(GetChallengeMetadataOutput.httpOutput(from:), GetChallengeMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChallengeMetadataInput, GetChallengeMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChallengeMetadataOutput>())
@@ -765,6 +771,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChallengePasswordInput, GetChallengePasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChallengePasswordOutput>(GetChallengePasswordOutput.httpOutput(from:), GetChallengePasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChallengePasswordInput, GetChallengePasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChallengePasswordOutput>())
@@ -833,6 +840,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorInput, GetConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorOutput>(GetConnectorOutput.httpOutput(from:), GetConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorInput, GetConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorOutput>())
@@ -902,6 +910,7 @@ extension PcaConnectorScepClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChallengeMetadataInput, ListChallengeMetadataOutput>(ListChallengeMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChallengeMetadataOutput>(ListChallengeMetadataOutput.httpOutput(from:), ListChallengeMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChallengeMetadataInput, ListChallengeMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChallengeMetadataOutput>())
@@ -970,6 +979,7 @@ extension PcaConnectorScepClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
@@ -1038,6 +1048,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1109,6 +1120,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1178,6 +1190,7 @@ extension PcaConnectorScepClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

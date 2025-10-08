@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerFeatureStoreRuntimeClient: ClientRuntime.Client {
     public static let clientName = "SageMakerFeatureStoreRuntimeClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfiguration
     let serviceName = "SageMaker FeatureStore Runtime"
@@ -411,6 +412,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetRecordInput, BatchGetRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetRecordOutput>(BatchGetRecordOutput.httpOutput(from:), BatchGetRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetRecordInput, BatchGetRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetRecordOutput>())
@@ -486,6 +488,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRecordInput, DeleteRecordOutput>(DeleteRecordInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecordOutput>(DeleteRecordOutput.httpOutput(from:), DeleteRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecordInput, DeleteRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecordOutput>())
@@ -555,6 +558,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecordInput, GetRecordOutput>(GetRecordInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordOutput>(GetRecordOutput.httpOutput(from:), GetRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordInput, GetRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordOutput>())
@@ -625,6 +629,7 @@ extension SageMakerFeatureStoreRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordInput, PutRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordOutput>(PutRecordOutput.httpOutput(from:), PutRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordInput, PutRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordOutput>())

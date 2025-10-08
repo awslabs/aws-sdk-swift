@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ControlCatalogClient: ClientRuntime.Client {
     public static let clientName = "ControlCatalogClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ControlCatalogClient.ControlCatalogClientConfiguration
     let serviceName = "ControlCatalog"
@@ -413,6 +414,7 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetControlInput, GetControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetControlOutput>(GetControlOutput.httpOutput(from:), GetControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetControlInput, GetControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetControlOutput>())
@@ -484,6 +486,7 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommonControlsInput, ListCommonControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommonControlsOutput>(ListCommonControlsOutput.httpOutput(from:), ListCommonControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommonControlsInput, ListCommonControlsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommonControlsOutput>())
@@ -555,6 +558,7 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListControlMappingsInput, ListControlMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListControlMappingsOutput>(ListControlMappingsOutput.httpOutput(from:), ListControlMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListControlMappingsInput, ListControlMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListControlMappingsOutput>())
@@ -626,6 +630,7 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListControlsInput, ListControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListControlsOutput>(ListControlsOutput.httpOutput(from:), ListControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListControlsInput, ListControlsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListControlsOutput>())
@@ -694,6 +699,7 @@ extension ControlCatalogClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainsInput, ListDomainsOutput>(ListDomainsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -765,6 +771,7 @@ extension ControlCatalogClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObjectivesInput, ListObjectivesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectivesOutput>(ListObjectivesOutput.httpOutput(from:), ListObjectivesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectivesInput, ListObjectivesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectivesOutput>())

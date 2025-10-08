@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3OutpostsClient: ClientRuntime.Client {
     public static let clientName = "S3OutpostsClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: S3OutpostsClient.S3OutpostsClientConfiguration
     let serviceName = "S3Outposts"
@@ -418,6 +419,7 @@ extension S3OutpostsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointInput, CreateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointOutput>(CreateEndpointOutput.httpOutput(from:), CreateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointInput, CreateEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointOutput>())
@@ -492,6 +494,7 @@ extension S3OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(DeleteEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput>(DeleteEndpointOutput.httpOutput(from:), DeleteEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointOutput>())
@@ -565,6 +568,7 @@ extension S3OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEndpointsInput, ListEndpointsOutput>(ListEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointsOutput>(ListEndpointsOutput.httpOutput(from:), ListEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointsInput, ListEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEndpointsOutput>())
@@ -633,6 +637,7 @@ extension S3OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOutpostsWithS3Input, ListOutpostsWithS3Output>(ListOutpostsWithS3Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOutpostsWithS3Output>(ListOutpostsWithS3Output.httpOutput(from:), ListOutpostsWithS3OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutpostsWithS3Input, ListOutpostsWithS3Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOutpostsWithS3Output>())
@@ -706,6 +711,7 @@ extension S3OutpostsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSharedEndpointsInput, ListSharedEndpointsOutput>(ListSharedEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSharedEndpointsOutput>(ListSharedEndpointsOutput.httpOutput(from:), ListSharedEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharedEndpointsInput, ListSharedEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSharedEndpointsOutput>())

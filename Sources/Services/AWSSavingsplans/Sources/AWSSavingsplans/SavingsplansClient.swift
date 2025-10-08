@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SavingsplansClient: ClientRuntime.Client {
     public static let clientName = "SavingsplansClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SavingsplansClient.SavingsplansClientConfiguration
     let serviceName = "savingsplans"
@@ -413,6 +414,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSavingsPlanInput, CreateSavingsPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSavingsPlanOutput>(CreateSavingsPlanOutput.httpOutput(from:), CreateSavingsPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSavingsPlanInput, CreateSavingsPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSavingsPlanOutput>())
@@ -483,6 +485,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueuedSavingsPlanInput, DeleteQueuedSavingsPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueuedSavingsPlanOutput>(DeleteQueuedSavingsPlanOutput.httpOutput(from:), DeleteQueuedSavingsPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueuedSavingsPlanInput, DeleteQueuedSavingsPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueuedSavingsPlanOutput>())
@@ -551,6 +554,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlanRatesInput, DescribeSavingsPlanRatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlanRatesOutput>(DescribeSavingsPlanRatesOutput.httpOutput(from:), DescribeSavingsPlanRatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlanRatesInput, DescribeSavingsPlanRatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlanRatesOutput>())
@@ -619,6 +623,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlansInput, DescribeSavingsPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlansOutput>(DescribeSavingsPlansOutput.httpOutput(from:), DescribeSavingsPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlansInput, DescribeSavingsPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlansOutput>())
@@ -687,6 +692,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlansOfferingRatesInput, DescribeSavingsPlansOfferingRatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlansOfferingRatesOutput>(DescribeSavingsPlansOfferingRatesOutput.httpOutput(from:), DescribeSavingsPlansOfferingRatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlansOfferingRatesInput, DescribeSavingsPlansOfferingRatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlansOfferingRatesOutput>())
@@ -755,6 +761,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlansOfferingsInput, DescribeSavingsPlansOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlansOfferingsOutput>(DescribeSavingsPlansOfferingsOutput.httpOutput(from:), DescribeSavingsPlansOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlansOfferingsInput, DescribeSavingsPlansOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlansOfferingsOutput>())
@@ -824,6 +831,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -895,6 +903,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReturnSavingsPlanOutput>(ReturnSavingsPlanOutput.httpOutput(from:), ReturnSavingsPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReturnSavingsPlanOutput>())
@@ -965,6 +974,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1034,6 +1044,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

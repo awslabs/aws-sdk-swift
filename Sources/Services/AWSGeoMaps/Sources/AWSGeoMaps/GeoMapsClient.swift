@@ -22,6 +22,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -62,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoMapsClient: ClientRuntime.Client {
     public static let clientName = "GeoMapsClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoMapsClient.GeoMapsClientConfiguration
     let serviceName = "Geo Maps"
@@ -396,6 +397,7 @@ extension GeoMapsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlyphsInput, GetGlyphsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlyphsOutput>(GetGlyphsOutput.httpOutput(from:), GetGlyphsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlyphsInput, GetGlyphsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlyphsOutput>())
@@ -455,6 +457,7 @@ extension GeoMapsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSpritesInput, GetSpritesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpritesOutput>(GetSpritesOutput.httpOutput(from:), GetSpritesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpritesInput, GetSpritesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpritesOutput>())
@@ -523,6 +526,7 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStaticMapInput, GetStaticMapOutput>(GetStaticMapInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStaticMapOutput>(GetStaticMapOutput.httpOutput(from:), GetStaticMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStaticMapInput, GetStaticMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStaticMapOutput>())
@@ -583,6 +587,7 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStyleDescriptorInput, GetStyleDescriptorOutput>(GetStyleDescriptorInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStyleDescriptorOutput>(GetStyleDescriptorOutput.httpOutput(from:), GetStyleDescriptorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStyleDescriptorInput, GetStyleDescriptorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStyleDescriptorOutput>())
@@ -652,6 +657,7 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTileInput, GetTileOutput>(GetTileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTileOutput>(GetTileOutput.httpOutput(from:), GetTileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTileInput, GetTileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTileOutput>())

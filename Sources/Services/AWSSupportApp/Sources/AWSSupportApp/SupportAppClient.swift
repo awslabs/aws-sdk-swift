@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupportAppClient: ClientRuntime.Client {
     public static let clientName = "SupportAppClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SupportAppClient.SupportAppClientConfiguration
     let serviceName = "Support App"
@@ -430,6 +431,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSlackChannelConfigurationOutput>(CreateSlackChannelConfigurationOutput.httpOutput(from:), CreateSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSlackChannelConfigurationOutput>())
@@ -496,6 +498,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutput>(DeleteAccountAliasOutput.httpOutput(from:), DeleteAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountAliasOutput>())
@@ -579,6 +582,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlackChannelConfigurationOutput>(DeleteSlackChannelConfigurationOutput.httpOutput(from:), DeleteSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackChannelConfigurationOutput>())
@@ -662,6 +666,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlackWorkspaceConfigurationOutput>(DeleteSlackWorkspaceConfigurationOutput.httpOutput(from:), DeleteSlackWorkspaceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackWorkspaceConfigurationOutput>())
@@ -726,6 +731,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountAliasInput, GetAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountAliasOutput>(GetAccountAliasOutput.httpOutput(from:), GetAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountAliasInput, GetAccountAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountAliasOutput>())
@@ -794,6 +800,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSlackChannelConfigurationsOutput>(ListSlackChannelConfigurationsOutput.httpOutput(from:), ListSlackChannelConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSlackChannelConfigurationsOutput>())
@@ -862,6 +869,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSlackWorkspaceConfigurationsOutput>(ListSlackWorkspaceConfigurationsOutput.httpOutput(from:), ListSlackWorkspaceConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSlackWorkspaceConfigurationsOutput>())
@@ -931,6 +939,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountAliasInput, PutAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountAliasOutput>(PutAccountAliasOutput.httpOutput(from:), PutAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountAliasInput, PutAccountAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountAliasOutput>())
@@ -1025,6 +1034,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterSlackWorkspaceForOrganizationOutput>(RegisterSlackWorkspaceForOrganizationOutput.httpOutput(from:), RegisterSlackWorkspaceForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterSlackWorkspaceForOrganizationOutput>())
@@ -1108,6 +1118,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSlackChannelConfigurationOutput>(UpdateSlackChannelConfigurationOutput.httpOutput(from:), UpdateSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSlackChannelConfigurationOutput>())

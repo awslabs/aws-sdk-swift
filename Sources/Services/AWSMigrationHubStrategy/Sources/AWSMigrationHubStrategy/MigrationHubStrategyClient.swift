@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubStrategyClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubStrategyClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubStrategyClient.MigrationHubStrategyClientConfiguration
     let serviceName = "MigrationHubStrategy"
@@ -408,6 +409,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationComponentDetailsOutput>(GetApplicationComponentDetailsOutput.httpOutput(from:), GetApplicationComponentDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationComponentDetailsOutput>())
@@ -474,6 +476,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationComponentStrategiesOutput>(GetApplicationComponentStrategiesOutput.httpOutput(from:), GetApplicationComponentStrategiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationComponentStrategiesOutput>())
@@ -541,6 +544,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssessmentInput, GetAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssessmentOutput>(GetAssessmentOutput.httpOutput(from:), GetAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssessmentInput, GetAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssessmentOutput>())
@@ -609,6 +613,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportFileTaskInput, GetImportFileTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportFileTaskOutput>(GetImportFileTaskOutput.httpOutput(from:), GetImportFileTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportFileTaskInput, GetImportFileTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportFileTaskOutput>())
@@ -676,6 +681,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLatestAssessmentIdOutput>(GetLatestAssessmentIdOutput.httpOutput(from:), GetLatestAssessmentIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLatestAssessmentIdOutput>())
@@ -743,6 +749,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortfolioPreferencesOutput>(GetPortfolioPreferencesOutput.httpOutput(from:), GetPortfolioPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPortfolioPreferencesOutput>())
@@ -809,6 +816,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortfolioSummaryOutput>(GetPortfolioSummaryOutput.httpOutput(from:), GetPortfolioSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPortfolioSummaryOutput>())
@@ -877,6 +885,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationReportDetailsOutput>(GetRecommendationReportDetailsOutput.httpOutput(from:), GetRecommendationReportDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationReportDetailsOutput>())
@@ -946,6 +955,7 @@ extension MigrationHubStrategyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetServerDetailsInput, GetServerDetailsOutput>(GetServerDetailsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServerDetailsOutput>(GetServerDetailsOutput.httpOutput(from:), GetServerDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServerDetailsInput, GetServerDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServerDetailsOutput>())
@@ -1014,6 +1024,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServerStrategiesInput, GetServerStrategiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServerStrategiesOutput>(GetServerStrategiesOutput.httpOutput(from:), GetServerStrategiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServerStrategiesInput, GetServerStrategiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServerStrategiesOutput>())
@@ -1084,6 +1095,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalyzableServersOutput>(ListAnalyzableServersOutput.httpOutput(from:), ListAnalyzableServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalyzableServersOutput>())
@@ -1154,6 +1166,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationComponentsOutput>(ListApplicationComponentsOutput.httpOutput(from:), ListApplicationComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationComponentsOutput>())
@@ -1222,6 +1235,7 @@ extension MigrationHubStrategyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollectorsInput, ListCollectorsOutput>(ListCollectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollectorsOutput>(ListCollectorsOutput.httpOutput(from:), ListCollectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollectorsInput, ListCollectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollectorsOutput>())
@@ -1290,6 +1304,7 @@ extension MigrationHubStrategyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListImportFileTaskInput, ListImportFileTaskOutput>(ListImportFileTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportFileTaskOutput>(ListImportFileTaskOutput.httpOutput(from:), ListImportFileTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportFileTaskInput, ListImportFileTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportFileTaskOutput>())
@@ -1360,6 +1375,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServersInput, ListServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServersOutput>(ListServersOutput.httpOutput(from:), ListServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServersInput, ListServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServersOutput>())
@@ -1431,6 +1447,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPortfolioPreferencesOutput>(PutPortfolioPreferencesOutput.httpOutput(from:), PutPortfolioPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPortfolioPreferencesOutput>())
@@ -1501,6 +1518,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAssessmentInput, StartAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAssessmentOutput>(StartAssessmentOutput.httpOutput(from:), StartAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAssessmentInput, StartAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAssessmentOutput>())
@@ -1572,6 +1590,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportFileTaskOutput>(StartImportFileTaskOutput.httpOutput(from:), StartImportFileTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportFileTaskOutput>())
@@ -1643,6 +1662,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRecommendationReportGenerationOutput>(StartRecommendationReportGenerationOutput.httpOutput(from:), StartRecommendationReportGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRecommendationReportGenerationOutput>())
@@ -1713,6 +1733,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAssessmentInput, StopAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAssessmentOutput>(StopAssessmentOutput.httpOutput(from:), StopAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAssessmentInput, StopAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAssessmentOutput>())
@@ -1783,6 +1804,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationComponentConfigOutput>(UpdateApplicationComponentConfigOutput.httpOutput(from:), UpdateApplicationComponentConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationComponentConfigOutput>())
@@ -1853,6 +1875,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServerConfigOutput>(UpdateServerConfigOutput.httpOutput(from:), UpdateServerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServerConfigOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SyntheticsClient: ClientRuntime.Client {
     public static let clientName = "SyntheticsClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SyntheticsClient.SyntheticsClientConfiguration
     let serviceName = "synthetics"
@@ -412,6 +413,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceInput, AssociateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResourceOutput>(AssociateResourceOutput.httpOutput(from:), AssociateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceInput, AssociateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceOutput>())
@@ -481,6 +483,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCanaryInput, CreateCanaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCanaryOutput>(CreateCanaryOutput.httpOutput(from:), CreateCanaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCanaryInput, CreateCanaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCanaryOutput>())
@@ -551,6 +554,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -630,6 +634,7 @@ extension SyntheticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteCanaryInput, DeleteCanaryOutput>(DeleteCanaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCanaryOutput>(DeleteCanaryOutput.httpOutput(from:), DeleteCanaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCanaryInput, DeleteCanaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCanaryOutput>())
@@ -697,6 +702,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -765,6 +771,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCanariesInput, DescribeCanariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCanariesOutput>(DescribeCanariesOutput.httpOutput(from:), DescribeCanariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCanariesInput, DescribeCanariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCanariesOutput>())
@@ -833,6 +840,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCanariesLastRunInput, DescribeCanariesLastRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCanariesLastRunOutput>(DescribeCanariesLastRunOutput.httpOutput(from:), DescribeCanariesLastRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCanariesLastRunInput, DescribeCanariesLastRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCanariesLastRunOutput>())
@@ -901,6 +909,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuntimeVersionsInput, DescribeRuntimeVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuntimeVersionsOutput>(DescribeRuntimeVersionsOutput.httpOutput(from:), DescribeRuntimeVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuntimeVersionsInput, DescribeRuntimeVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuntimeVersionsOutput>())
@@ -971,6 +980,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResourceInput, DisassociateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResourceOutput>(DisassociateResourceOutput.httpOutput(from:), DisassociateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceInput, DisassociateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceOutput>())
@@ -1037,6 +1047,7 @@ extension SyntheticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCanaryInput, GetCanaryOutput>(GetCanaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCanaryOutput>(GetCanaryOutput.httpOutput(from:), GetCanaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCanaryInput, GetCanaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCanaryOutput>())
@@ -1106,6 +1117,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCanaryRunsInput, GetCanaryRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCanaryRunsOutput>(GetCanaryRunsOutput.httpOutput(from:), GetCanaryRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCanaryRunsInput, GetCanaryRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCanaryRunsOutput>())
@@ -1173,6 +1185,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupOutput>(GetGroupOutput.httpOutput(from:), GetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupInput, GetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupOutput>())
@@ -1242,6 +1255,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociatedGroupsInput, ListAssociatedGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedGroupsOutput>(ListAssociatedGroupsOutput.httpOutput(from:), ListAssociatedGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedGroupsInput, ListAssociatedGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedGroupsOutput>())
@@ -1312,6 +1326,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupResourcesInput, ListGroupResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupResourcesOutput>(ListGroupResourcesOutput.httpOutput(from:), ListGroupResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupResourcesInput, ListGroupResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupResourcesOutput>())
@@ -1380,6 +1395,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -1448,6 +1464,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1515,6 +1532,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCanaryInput, StartCanaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCanaryOutput>(StartCanaryOutput.httpOutput(from:), StartCanaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCanaryInput, StartCanaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCanaryOutput>())
@@ -1586,6 +1604,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCanaryDryRunOutput>(StartCanaryDryRunOutput.httpOutput(from:), StartCanaryDryRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCanaryDryRunOutput>())
@@ -1653,6 +1672,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopCanaryInput, StopCanaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCanaryOutput>(StopCanaryOutput.httpOutput(from:), StopCanaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCanaryInput, StopCanaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCanaryOutput>())
@@ -1724,6 +1744,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1793,6 +1814,7 @@ extension SyntheticsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1872,6 +1894,7 @@ extension SyntheticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCanaryInput, UpdateCanaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCanaryOutput>(UpdateCanaryOutput.httpOutput(from:), UpdateCanaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCanaryInput, UpdateCanaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCanaryOutput>())

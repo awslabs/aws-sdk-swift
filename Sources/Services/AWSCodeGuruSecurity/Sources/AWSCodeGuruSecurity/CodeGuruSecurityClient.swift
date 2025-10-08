@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeGuruSecurityClient: ClientRuntime.Client {
     public static let clientName = "CodeGuruSecurityClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruSecurityClient.CodeGuruSecurityClientConfiguration
     let serviceName = "CodeGuru Security"
@@ -413,6 +414,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFindingsOutput>(BatchGetFindingsOutput.httpOutput(from:), BatchGetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFindingsOutput>())
@@ -486,6 +488,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScanInput, CreateScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScanOutput>(CreateScanOutput.httpOutput(from:), CreateScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScanInput, CreateScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScanOutput>())
@@ -556,6 +559,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUploadUrlInput, CreateUploadUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUploadUrlOutput>(CreateUploadUrlOutput.httpOutput(from:), CreateUploadUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUploadUrlInput, CreateUploadUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUploadUrlOutput>())
@@ -623,6 +627,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountConfigurationOutput>(GetAccountConfigurationOutput.httpOutput(from:), GetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountConfigurationOutput>())
@@ -693,6 +698,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFindingsInput, GetFindingsOutput>(GetFindingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(GetFindingsOutput.httpOutput(from:), GetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsInput, GetFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsOutput>())
@@ -761,6 +767,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMetricsSummaryInput, GetMetricsSummaryOutput>(GetMetricsSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricsSummaryOutput>(GetMetricsSummaryOutput.httpOutput(from:), GetMetricsSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricsSummaryInput, GetMetricsSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricsSummaryOutput>())
@@ -830,6 +837,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetScanInput, GetScanOutput>(GetScanInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScanOutput>(GetScanOutput.httpOutput(from:), GetScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScanInput, GetScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScanOutput>())
@@ -898,6 +906,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFindingsMetricsInput, ListFindingsMetricsOutput>(ListFindingsMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsMetricsOutput>(ListFindingsMetricsOutput.httpOutput(from:), ListFindingsMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsMetricsInput, ListFindingsMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsMetricsOutput>())
@@ -966,6 +975,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListScansInput, ListScansOutput>(ListScansInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScansOutput>(ListScansOutput.httpOutput(from:), ListScansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScansInput, ListScansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScansOutput>())
@@ -1035,6 +1045,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1107,6 +1118,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1177,6 +1189,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1248,6 +1261,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountConfigurationOutput>(UpdateAccountConfigurationOutput.httpOutput(from:), UpdateAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountConfigurationOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRcontainersClient: ClientRuntime.Client {
     public static let clientName = "EMRcontainersClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRcontainersClient.EMRcontainersClientConfiguration
     let serviceName = "EMR containers"
@@ -408,6 +409,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobRunInput, CancelJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobRunOutput>(CancelJobRunOutput.httpOutput(from:), CancelJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobRunInput, CancelJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobRunOutput>())
@@ -478,6 +480,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobTemplateOutput>(CreateJobTemplateOutput.httpOutput(from:), CreateJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobTemplateOutput>())
@@ -548,6 +551,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateManagedEndpointInput, CreateManagedEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateManagedEndpointOutput>(CreateManagedEndpointOutput.httpOutput(from:), CreateManagedEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateManagedEndpointInput, CreateManagedEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateManagedEndpointOutput>())
@@ -617,6 +621,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityConfigurationOutput>(CreateSecurityConfigurationOutput.httpOutput(from:), CreateSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityConfigurationOutput>())
@@ -688,6 +693,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVirtualClusterInput, CreateVirtualClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVirtualClusterOutput>(CreateVirtualClusterOutput.httpOutput(from:), CreateVirtualClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVirtualClusterInput, CreateVirtualClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVirtualClusterOutput>())
@@ -753,6 +759,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobTemplateOutput>(DeleteJobTemplateOutput.httpOutput(from:), DeleteJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobTemplateOutput>())
@@ -818,6 +825,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteManagedEndpointInput, DeleteManagedEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteManagedEndpointOutput>(DeleteManagedEndpointOutput.httpOutput(from:), DeleteManagedEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteManagedEndpointInput, DeleteManagedEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteManagedEndpointOutput>())
@@ -883,6 +891,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVirtualClusterInput, DeleteVirtualClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualClusterOutput>(DeleteVirtualClusterOutput.httpOutput(from:), DeleteVirtualClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualClusterInput, DeleteVirtualClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualClusterOutput>())
@@ -949,6 +958,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobRunInput, DescribeJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobRunOutput>(DescribeJobRunOutput.httpOutput(from:), DescribeJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobRunInput, DescribeJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobRunOutput>())
@@ -1015,6 +1025,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobTemplateInput, DescribeJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobTemplateOutput>(DescribeJobTemplateOutput.httpOutput(from:), DescribeJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobTemplateInput, DescribeJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobTemplateOutput>())
@@ -1081,6 +1092,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeManagedEndpointInput, DescribeManagedEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedEndpointOutput>(DescribeManagedEndpointOutput.httpOutput(from:), DescribeManagedEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedEndpointInput, DescribeManagedEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedEndpointOutput>())
@@ -1147,6 +1159,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityConfigurationOutput>(DescribeSecurityConfigurationOutput.httpOutput(from:), DescribeSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityConfigurationOutput>())
@@ -1213,6 +1226,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVirtualClusterInput, DescribeVirtualClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualClusterOutput>(DescribeVirtualClusterOutput.httpOutput(from:), DescribeVirtualClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualClusterInput, DescribeVirtualClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualClusterOutput>())
@@ -1284,6 +1298,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetManagedEndpointSessionCredentialsInput, GetManagedEndpointSessionCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedEndpointSessionCredentialsOutput>(GetManagedEndpointSessionCredentialsOutput.httpOutput(from:), GetManagedEndpointSessionCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedEndpointSessionCredentialsInput, GetManagedEndpointSessionCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedEndpointSessionCredentialsOutput>())
@@ -1350,6 +1365,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobRunsInput, ListJobRunsOutput>(ListJobRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobRunsOutput>(ListJobRunsOutput.httpOutput(from:), ListJobRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobRunsInput, ListJobRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobRunsOutput>())
@@ -1416,6 +1432,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(ListJobTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobTemplatesOutput>(ListJobTemplatesOutput.httpOutput(from:), ListJobTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobTemplatesOutput>())
@@ -1482,6 +1499,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedEndpointsInput, ListManagedEndpointsOutput>(ListManagedEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedEndpointsOutput>(ListManagedEndpointsOutput.httpOutput(from:), ListManagedEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedEndpointsInput, ListManagedEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedEndpointsOutput>())
@@ -1548,6 +1566,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(ListSecurityConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityConfigurationsOutput>(ListSecurityConfigurationsOutput.httpOutput(from:), ListSecurityConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityConfigurationsOutput>())
@@ -1614,6 +1633,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1680,6 +1700,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVirtualClustersInput, ListVirtualClustersOutput>(ListVirtualClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualClustersOutput>(ListVirtualClustersOutput.httpOutput(from:), ListVirtualClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualClustersInput, ListVirtualClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualClustersOutput>())
@@ -1750,6 +1771,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartJobRunInput, StartJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobRunOutput>(StartJobRunOutput.httpOutput(from:), StartJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobRunInput, StartJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobRunOutput>())
@@ -1819,6 +1841,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1886,6 +1909,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PIClient: ClientRuntime.Client {
     public static let clientName = "PIClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: PIClient.PIClientConfiguration
     let serviceName = "PI"
@@ -409,6 +410,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePerformanceAnalysisReportOutput>(CreatePerformanceAnalysisReportOutput.httpOutput(from:), CreatePerformanceAnalysisReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePerformanceAnalysisReportInput, CreatePerformanceAnalysisReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePerformanceAnalysisReportOutput>())
@@ -479,6 +481,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePerformanceAnalysisReportOutput>(DeletePerformanceAnalysisReportOutput.httpOutput(from:), DeletePerformanceAnalysisReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePerformanceAnalysisReportInput, DeletePerformanceAnalysisReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePerformanceAnalysisReportOutput>())
@@ -549,6 +552,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDimensionKeysOutput>(DescribeDimensionKeysOutput.httpOutput(from:), DescribeDimensionKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDimensionKeysOutput>())
@@ -619,6 +623,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDimensionKeyDetailsOutput>(GetDimensionKeyDetailsOutput.httpOutput(from:), GetDimensionKeyDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDimensionKeyDetailsOutput>())
@@ -689,6 +694,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPerformanceAnalysisReportOutput>(GetPerformanceAnalysisReportOutput.httpOutput(from:), GetPerformanceAnalysisReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPerformanceAnalysisReportInput, GetPerformanceAnalysisReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPerformanceAnalysisReportOutput>())
@@ -759,6 +765,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceMetadataInput, GetResourceMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceMetadataOutput>(GetResourceMetadataOutput.httpOutput(from:), GetResourceMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceMetadataInput, GetResourceMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceMetadataOutput>())
@@ -829,6 +836,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceMetricsInput, GetResourceMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceMetricsOutput>(GetResourceMetricsOutput.httpOutput(from:), GetResourceMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceMetricsInput, GetResourceMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceMetricsOutput>())
@@ -899,6 +907,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableResourceDimensionsOutput>(ListAvailableResourceDimensionsOutput.httpOutput(from:), ListAvailableResourceDimensionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableResourceDimensionsOutput>())
@@ -969,6 +978,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableResourceMetricsOutput>(ListAvailableResourceMetricsOutput.httpOutput(from:), ListAvailableResourceMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableResourceMetricsOutput>())
@@ -1039,6 +1049,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPerformanceAnalysisReportsOutput>(ListPerformanceAnalysisReportsOutput.httpOutput(from:), ListPerformanceAnalysisReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPerformanceAnalysisReportsOutput>())
@@ -1109,6 +1120,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1179,6 +1191,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1249,6 +1262,7 @@ extension PIClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

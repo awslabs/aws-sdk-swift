@@ -434,6 +434,50 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes {
 
+    public enum BlockingResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2Instance
+        case lgwRouteTable
+        case lgwRoutingDomain
+        case lgwVirtualInterfaceGroup
+        case outpostOrderCancellable
+        case outpostOrderInterventionRequired
+        case outpostRamShare
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockingResourceType] {
+            return [
+                .ec2Instance,
+                .lgwRouteTable,
+                .lgwRoutingDomain,
+                .lgwVirtualInterfaceGroup,
+                .outpostOrderCancellable,
+                .outpostOrderInterventionRequired,
+                .outpostRamShare
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2Instance: return "EC2_INSTANCE"
+            case .lgwRouteTable: return "LGW_ROUTE_TABLE"
+            case .lgwRoutingDomain: return "LGW_ROUTING_DOMAIN"
+            case .lgwVirtualInterfaceGroup: return "LGW_VIRTUAL_INTERFACE_GROUP"
+            case .outpostOrderCancellable: return "OUTPOST_ORDER_CANCELLABLE"
+            case .outpostOrderInterventionRequired: return "OUTPOST_ORDER_INTERVENTION_REQUIRED"
+            case .outpostRamShare: return "OUTPOST_RAM_SHARE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case order
         case outpost
@@ -1037,7 +1081,6 @@ extension OutpostsClientTypes {
 
 public struct CreateOrderInput: Swift.Sendable {
     /// The line items that make up the order.
-    /// This member is required.
     public var lineItems: [OutpostsClientTypes.LineItemRequest]?
     /// The ID or the Amazon Resource Name (ARN) of the Outpost.
     /// This member is required.
@@ -2018,6 +2061,38 @@ public struct CreateSiteOutput: Swift.Sendable {
         site: OutpostsClientTypes.Site? = nil
     ) {
         self.site = site
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum DecommissionRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case requested
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DecommissionRequestStatus] {
+            return [
+                .blocked,
+                .requested,
+                .skipped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "BLOCKED"
+            case .requested: return "REQUESTED"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -3192,6 +3267,37 @@ public struct StartConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct StartOutpostDecommissionInput: Swift.Sendable {
+    /// The ID or ARN of the Outpost that you want to decommission.
+    /// This member is required.
+    public var outpostIdentifier: Swift.String?
+    /// Validates the request without starting the decommission process.
+    public var validateOnly: Swift.Bool?
+
+    public init(
+        outpostIdentifier: Swift.String? = nil,
+        validateOnly: Swift.Bool? = false
+    ) {
+        self.outpostIdentifier = outpostIdentifier
+        self.validateOnly = validateOnly
+    }
+}
+
+public struct StartOutpostDecommissionOutput: Swift.Sendable {
+    /// The resources still associated with the Outpost that you are decommissioning.
+    public var blockingResourceTypes: [OutpostsClientTypes.BlockingResourceType]?
+    /// The status of the decommission request.
+    public var status: OutpostsClientTypes.DecommissionRequestStatus?
+
+    public init(
+        blockingResourceTypes: [OutpostsClientTypes.BlockingResourceType]? = nil,
+        status: OutpostsClientTypes.DecommissionRequestStatus? = nil
+    ) {
+        self.blockingResourceTypes = blockingResourceTypes
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -4019,6 +4125,16 @@ extension StartConnectionInput {
     }
 }
 
+extension StartOutpostDecommissionInput {
+
+    static func urlPathProvider(_ value: StartOutpostDecommissionInput) -> Swift.String? {
+        guard let outpostIdentifier = value.outpostIdentifier else {
+            return nil
+        }
+        return "/outposts/\(outpostIdentifier.urlPercentEncoding())/decommission"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -4155,6 +4271,14 @@ extension StartConnectionInput {
         try writer["ClientPublicKey"].write(value.clientPublicKey)
         try writer["DeviceSerialNumber"].write(value.deviceSerialNumber)
         try writer["NetworkInterfaceDeviceIndex"].write(value.networkInterfaceDeviceIndex)
+    }
+}
+
+extension StartOutpostDecommissionInput {
+
+    static func write(value: StartOutpostDecommissionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValidateOnly"].write(value.validateOnly)
     }
 }
 
@@ -4565,6 +4689,19 @@ extension StartConnectionOutput {
         var value = StartConnectionOutput()
         value.connectionId = try reader["ConnectionId"].readIfPresent()
         value.underlayIpAddress = try reader["UnderlayIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension StartOutpostDecommissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartOutpostDecommissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartOutpostDecommissionOutput()
+        value.blockingResourceTypes = try reader["BlockingResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<OutpostsClientTypes.BlockingResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -5105,6 +5242,24 @@ enum StartConnectionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartOutpostDecommissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)

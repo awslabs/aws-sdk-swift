@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KeyspacesStreamsClient: ClientRuntime.Client {
     public static let clientName = "KeyspacesStreamsClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: KeyspacesStreamsClient.KeyspacesStreamsClientConfiguration
     let serviceName = "KeyspacesStreams"
@@ -411,6 +412,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecordsInput, GetRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordsOutput>(GetRecordsOutput.httpOutput(from:), GetRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordsInput, GetRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordsOutput>())
@@ -483,6 +485,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetShardIteratorInput, GetShardIteratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShardIteratorOutput>(GetShardIteratorOutput.httpOutput(from:), GetShardIteratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShardIteratorOutput>())
@@ -555,6 +558,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStreamInput, GetStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamOutput>(GetStreamOutput.httpOutput(from:), GetStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamInput, GetStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamOutput>())
@@ -627,6 +631,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamsInput, ListStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())

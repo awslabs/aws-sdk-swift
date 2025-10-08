@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageClient: ClientRuntime.Client {
     public static let clientName = "MediaPackageClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageClient.MediaPackageClientConfiguration
     let serviceName = "MediaPackage"
@@ -413,6 +414,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfigureLogsInput, ConfigureLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfigureLogsOutput>(ConfigureLogsOutput.httpOutput(from:), ConfigureLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfigureLogsInput, ConfigureLogsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfigureLogsOutput>())
@@ -485,6 +487,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -557,6 +560,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHarvestJobInput, CreateHarvestJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHarvestJobOutput>(CreateHarvestJobOutput.httpOutput(from:), CreateHarvestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHarvestJobInput, CreateHarvestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHarvestJobOutput>())
@@ -629,6 +633,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOriginEndpointOutput>(CreateOriginEndpointOutput.httpOutput(from:), CreateOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOriginEndpointOutput>())
@@ -698,6 +703,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -767,6 +773,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointOutput>(DeleteOriginEndpointOutput.httpOutput(from:), DeleteOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOriginEndpointOutput>())
@@ -836,6 +843,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChannelOutput>(DescribeChannelOutput.httpOutput(from:), DescribeChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChannelInput, DescribeChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChannelOutput>())
@@ -905,6 +913,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHarvestJobInput, DescribeHarvestJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHarvestJobOutput>(DescribeHarvestJobOutput.httpOutput(from:), DescribeHarvestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHarvestJobInput, DescribeHarvestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHarvestJobOutput>())
@@ -974,6 +983,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOriginEndpointInput, DescribeOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOriginEndpointOutput>(DescribeOriginEndpointOutput.httpOutput(from:), DescribeOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOriginEndpointInput, DescribeOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOriginEndpointOutput>())
@@ -1044,6 +1054,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1114,6 +1125,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHarvestJobsInput, ListHarvestJobsOutput>(ListHarvestJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHarvestJobsOutput>(ListHarvestJobsOutput.httpOutput(from:), ListHarvestJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHarvestJobsInput, ListHarvestJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHarvestJobsOutput>())
@@ -1184,6 +1196,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>(ListOriginEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOriginEndpointsOutput>(ListOriginEndpointsOutput.httpOutput(from:), ListOriginEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOriginEndpointsOutput>())
@@ -1242,6 +1255,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1312,6 +1326,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotateChannelCredentialsInput, RotateChannelCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateChannelCredentialsOutput>(RotateChannelCredentialsOutput.httpOutput(from:), RotateChannelCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateChannelCredentialsInput, RotateChannelCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateChannelCredentialsOutput>())
@@ -1381,6 +1396,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotateIngestEndpointCredentialsInput, RotateIngestEndpointCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateIngestEndpointCredentialsOutput>(RotateIngestEndpointCredentialsOutput.httpOutput(from:), RotateIngestEndpointCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateIngestEndpointCredentialsInput, RotateIngestEndpointCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateIngestEndpointCredentialsOutput>())
@@ -1442,6 +1458,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1501,6 +1518,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1573,6 +1591,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -1645,6 +1664,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOriginEndpointOutput>(UpdateOriginEndpointOutput.httpOutput(from:), UpdateOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOriginEndpointOutput>())

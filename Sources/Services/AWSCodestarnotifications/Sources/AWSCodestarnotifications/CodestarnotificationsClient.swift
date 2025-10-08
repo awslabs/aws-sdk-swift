@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodestarnotificationsClient: ClientRuntime.Client {
     public static let clientName = "CodestarnotificationsClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CodestarnotificationsClient.CodestarnotificationsClientConfiguration
     let serviceName = "codestar notifications"
@@ -416,6 +417,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotificationRuleOutput>(CreateNotificationRuleOutput.httpOutput(from:), CreateNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotificationRuleOutput>())
@@ -485,6 +487,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotificationRuleOutput>(DeleteNotificationRuleOutput.httpOutput(from:), DeleteNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotificationRuleOutput>())
@@ -552,6 +555,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTargetInput, DeleteTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTargetOutput>(DeleteTargetOutput.httpOutput(from:), DeleteTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTargetInput, DeleteTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTargetOutput>())
@@ -620,6 +624,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotificationRuleOutput>(DescribeNotificationRuleOutput.httpOutput(from:), DescribeNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNotificationRuleOutput>())
@@ -688,6 +693,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventTypesInput, ListEventTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventTypesOutput>(ListEventTypesOutput.httpOutput(from:), ListEventTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventTypesInput, ListEventTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventTypesOutput>())
@@ -756,6 +762,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotificationRulesOutput>(ListNotificationRulesOutput.httpOutput(from:), ListNotificationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotificationRulesOutput>())
@@ -824,6 +831,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -892,6 +900,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTargetsInput, ListTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetsOutput>(ListTargetsOutput.httpOutput(from:), ListTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsInput, ListTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsOutput>())
@@ -961,6 +970,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubscribeInput, SubscribeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubscribeOutput>(SubscribeOutput.httpOutput(from:), SubscribeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubscribeInput, SubscribeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubscribeOutput>())
@@ -1031,6 +1041,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1098,6 +1109,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnsubscribeInput, UnsubscribeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnsubscribeOutput>(UnsubscribeOutput.httpOutput(from:), UnsubscribeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnsubscribeInput, UnsubscribeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnsubscribeOutput>())
@@ -1166,6 +1178,7 @@ extension CodestarnotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1235,6 +1248,7 @@ extension CodestarnotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotificationRuleOutput>(UpdateNotificationRuleOutput.httpOutput(from:), UpdateNotificationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotificationRuleOutput>())

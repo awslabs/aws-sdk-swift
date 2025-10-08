@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ManagedBlockchainQueryClient: ClientRuntime.Client {
     public static let clientName = "ManagedBlockchainQueryClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfiguration
     let serviceName = "ManagedBlockchain Query"
@@ -412,6 +413,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTokenBalanceInput, BatchGetTokenBalanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTokenBalanceOutput>(BatchGetTokenBalanceOutput.httpOutput(from:), BatchGetTokenBalanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTokenBalanceInput, BatchGetTokenBalanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTokenBalanceOutput>())
@@ -488,6 +490,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAssetContractInput, GetAssetContractOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetContractOutput>(GetAssetContractOutput.httpOutput(from:), GetAssetContractOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetContractInput, GetAssetContractOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetContractOutput>())
@@ -560,6 +563,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTokenBalanceInput, GetTokenBalanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTokenBalanceOutput>(GetTokenBalanceOutput.httpOutput(from:), GetTokenBalanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTokenBalanceInput, GetTokenBalanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTokenBalanceOutput>())
@@ -632,6 +636,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTransactionInput, GetTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransactionOutput>(GetTransactionOutput.httpOutput(from:), GetTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransactionInput, GetTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransactionOutput>())
@@ -703,6 +708,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssetContractsInput, ListAssetContractsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetContractsOutput>(ListAssetContractsOutput.httpOutput(from:), ListAssetContractsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetContractsInput, ListAssetContractsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetContractsOutput>())
@@ -774,6 +780,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFilteredTransactionEventsOutput>(ListFilteredTransactionEventsOutput.httpOutput(from:), ListFilteredTransactionEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFilteredTransactionEventsOutput>())
@@ -854,6 +861,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTokenBalancesInput, ListTokenBalancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTokenBalancesOutput>(ListTokenBalancesOutput.httpOutput(from:), ListTokenBalancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTokenBalancesInput, ListTokenBalancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTokenBalancesOutput>())
@@ -925,6 +933,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTransactionEventsInput, ListTransactionEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTransactionEventsOutput>(ListTransactionEventsOutput.httpOutput(from:), ListTransactionEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTransactionEventsInput, ListTransactionEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTransactionEventsOutput>())
@@ -996,6 +1005,7 @@ extension ManagedBlockchainQueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTransactionsInput, ListTransactionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTransactionsOutput>(ListTransactionsOutput.httpOutput(from:), ListTransactionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTransactionsInput, ListTransactionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTransactionsOutput>())

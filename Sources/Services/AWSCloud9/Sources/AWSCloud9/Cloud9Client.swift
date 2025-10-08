@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Cloud9Client: ClientRuntime.Client {
     public static let clientName = "Cloud9Client"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: Cloud9Client.Cloud9ClientConfiguration
     let serviceName = "Cloud9"
@@ -412,6 +413,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentEC2Input, CreateEnvironmentEC2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentEC2Output>(CreateEnvironmentEC2Output.httpOutput(from:), CreateEnvironmentEC2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentEC2Input, CreateEnvironmentEC2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentEC2Output>())
@@ -486,6 +488,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentMembershipInput, CreateEnvironmentMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentMembershipOutput>(CreateEnvironmentMembershipOutput.httpOutput(from:), CreateEnvironmentMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentMembershipInput, CreateEnvironmentMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentMembershipOutput>())
@@ -560,6 +563,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -634,6 +638,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentMembershipInput, DeleteEnvironmentMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentMembershipOutput>(DeleteEnvironmentMembershipOutput.httpOutput(from:), DeleteEnvironmentMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentMembershipInput, DeleteEnvironmentMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentMembershipOutput>())
@@ -708,6 +713,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentMembershipsOutput>(DescribeEnvironmentMembershipsOutput.httpOutput(from:), DescribeEnvironmentMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentMembershipsOutput>())
@@ -782,6 +788,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentStatusInput, DescribeEnvironmentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentStatusOutput>(DescribeEnvironmentStatusOutput.httpOutput(from:), DescribeEnvironmentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentStatusInput, DescribeEnvironmentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentStatusOutput>())
@@ -856,6 +863,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentsOutput>(DescribeEnvironmentsOutput.httpOutput(from:), DescribeEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentsOutput>())
@@ -930,6 +938,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -1000,6 +1009,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1071,6 +1081,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1142,6 +1153,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1216,6 +1228,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -1290,6 +1303,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentMembershipInput, UpdateEnvironmentMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentMembershipOutput>(UpdateEnvironmentMembershipOutput.httpOutput(from:), UpdateEnvironmentMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentMembershipInput, UpdateEnvironmentMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentMembershipOutput>())

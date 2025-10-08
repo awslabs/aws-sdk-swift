@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DocDBElasticClient: ClientRuntime.Client {
     public static let clientName = "DocDBElasticClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBElasticClient.DocDBElasticClientConfiguration
     let serviceName = "DocDB Elastic"
@@ -414,6 +415,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutput>(ApplyPendingMaintenanceActionOutput.httpOutput(from:), ApplyPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyPendingMaintenanceActionOutput>())
@@ -487,6 +489,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyClusterSnapshotOutput>(CopyClusterSnapshotOutput.httpOutput(from:), CopyClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyClusterSnapshotOutput>())
@@ -560,6 +563,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -633,6 +637,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterSnapshotOutput>(CreateClusterSnapshotOutput.httpOutput(from:), CreateClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterSnapshotOutput>())
@@ -702,6 +707,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -771,6 +777,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterSnapshotOutput>(DeleteClusterSnapshotOutput.httpOutput(from:), DeleteClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterSnapshotOutput>())
@@ -839,6 +846,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClusterInput, GetClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterOutput>(GetClusterOutput.httpOutput(from:), GetClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterInput, GetClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterOutput>())
@@ -907,6 +915,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterSnapshotOutput>(GetClusterSnapshotOutput.httpOutput(from:), GetClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterSnapshotOutput>())
@@ -976,6 +985,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPendingMaintenanceActionOutput>(GetPendingMaintenanceActionOutput.httpOutput(from:), GetPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPendingMaintenanceActionOutput>())
@@ -1044,6 +1054,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(ListClusterSnapshotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterSnapshotsOutput>(ListClusterSnapshotsOutput.httpOutput(from:), ListClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterSnapshotsOutput>())
@@ -1112,6 +1123,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -1180,6 +1192,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>(ListPendingMaintenanceActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPendingMaintenanceActionsOutput>(ListPendingMaintenanceActionsOutput.httpOutput(from:), ListPendingMaintenanceActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPendingMaintenanceActionsOutput>())
@@ -1247,6 +1260,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1320,6 +1334,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreClusterFromSnapshotOutput>(RestoreClusterFromSnapshotOutput.httpOutput(from:), RestoreClusterFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreClusterFromSnapshotOutput>())
@@ -1388,6 +1403,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartClusterInput, StartClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartClusterOutput>(StartClusterOutput.httpOutput(from:), StartClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartClusterInput, StartClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartClusterOutput>())
@@ -1456,6 +1472,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopClusterInput, StopClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopClusterOutput>(StopClusterOutput.httpOutput(from:), StopClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopClusterInput, StopClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopClusterOutput>())
@@ -1526,6 +1543,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1594,6 +1612,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1667,6 +1686,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())

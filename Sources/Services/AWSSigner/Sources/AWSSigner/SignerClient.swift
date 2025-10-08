@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SignerClient: ClientRuntime.Client {
     public static let clientName = "SignerClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SignerClient.SignerClientConfiguration
     let serviceName = "signer"
@@ -416,6 +417,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddProfilePermissionOutput>(AddProfilePermissionOutput.httpOutput(from:), AddProfilePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddProfilePermissionInput, AddProfilePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddProfilePermissionOutput>())
@@ -483,6 +485,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelSigningProfileInput, CancelSigningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSigningProfileOutput>(CancelSigningProfileOutput.httpOutput(from:), CancelSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSigningProfileInput, CancelSigningProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSigningProfileOutput>())
@@ -550,6 +553,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSigningJobInput, DescribeSigningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSigningJobOutput>(DescribeSigningJobOutput.httpOutput(from:), DescribeSigningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSigningJobInput, DescribeSigningJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSigningJobOutput>())
@@ -618,6 +622,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(GetRevocationStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRevocationStatusOutput>(GetRevocationStatusOutput.httpOutput(from:), GetRevocationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevocationStatusInput, GetRevocationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRevocationStatusOutput>())
@@ -685,6 +690,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSigningPlatformInput, GetSigningPlatformOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSigningPlatformOutput>(GetSigningPlatformOutput.httpOutput(from:), GetSigningPlatformOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSigningPlatformInput, GetSigningPlatformOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSigningPlatformOutput>())
@@ -753,6 +759,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSigningProfileInput, GetSigningProfileOutput>(GetSigningProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSigningProfileOutput>(GetSigningProfileOutput.httpOutput(from:), GetSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSigningProfileInput, GetSigningProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSigningProfileOutput>())
@@ -822,6 +829,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutput>(ListProfilePermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfilePermissionsOutput>(ListProfilePermissionsOutput.httpOutput(from:), ListProfilePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfilePermissionsOutput>())
@@ -890,6 +898,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSigningJobsInput, ListSigningJobsOutput>(ListSigningJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSigningJobsOutput>(ListSigningJobsOutput.httpOutput(from:), ListSigningJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSigningJobsInput, ListSigningJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSigningJobsOutput>())
@@ -958,6 +967,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutput>(ListSigningPlatformsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSigningPlatformsOutput>(ListSigningPlatformsOutput.httpOutput(from:), ListSigningPlatformsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSigningPlatformsOutput>())
@@ -1025,6 +1035,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSigningProfilesInput, ListSigningProfilesOutput>(ListSigningProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSigningProfilesOutput>(ListSigningProfilesOutput.httpOutput(from:), ListSigningProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSigningProfilesInput, ListSigningProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSigningProfilesOutput>())
@@ -1092,6 +1103,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1163,6 +1175,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSigningProfileInput, PutSigningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSigningProfileOutput>(PutSigningProfileOutput.httpOutput(from:), PutSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSigningProfileInput, PutSigningProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSigningProfileOutput>())
@@ -1233,6 +1246,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutput>(RemoveProfilePermissionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveProfilePermissionOutput>(RemoveProfilePermissionOutput.httpOutput(from:), RemoveProfilePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveProfilePermissionOutput>())
@@ -1304,6 +1318,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeSignatureInput, RevokeSignatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSignatureOutput>(RevokeSignatureOutput.httpOutput(from:), RevokeSignatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSignatureInput, RevokeSignatureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSignatureOutput>())
@@ -1375,6 +1390,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSigningProfileOutput>(RevokeSigningProfileOutput.httpOutput(from:), RevokeSigningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSigningProfileOutput>())
@@ -1446,6 +1462,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignPayloadInput, SignPayloadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SignPayloadOutput>(SignPayloadOutput.httpOutput(from:), SignPayloadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignPayloadInput, SignPayloadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignPayloadOutput>())
@@ -1534,6 +1551,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSigningJobInput, StartSigningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSigningJobOutput>(StartSigningJobOutput.httpOutput(from:), StartSigningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSigningJobInput, StartSigningJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSigningJobOutput>())
@@ -1604,6 +1622,7 @@ extension SignerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1672,6 +1691,7 @@ extension SignerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

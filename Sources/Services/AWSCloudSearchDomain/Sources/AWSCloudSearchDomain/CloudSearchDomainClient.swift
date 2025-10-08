@@ -21,6 +21,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudSearchDomainClient: ClientRuntime.Client {
     public static let clientName = "CloudSearchDomainClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudSearchDomainClient.CloudSearchDomainClientConfiguration
     let serviceName = "CloudSearch Domain"
@@ -418,6 +419,7 @@ extension CloudSearchDomainClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<SearchInput, SearchOutput>(SearchInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchOutput>(SearchOutput.httpOutput(from:), SearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchInput, SearchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchOutput>())
@@ -483,6 +485,7 @@ extension CloudSearchDomainClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<SuggestInput, SuggestOutput>(SuggestInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SuggestOutput>(SuggestOutput.httpOutput(from:), SuggestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SuggestInput, SuggestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SuggestOutput>())
@@ -552,6 +555,7 @@ extension CloudSearchDomainClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadDocumentsInput, UploadDocumentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadDocumentsOutput>(UploadDocumentsOutput.httpOutput(from:), UploadDocumentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadDocumentsInput, UploadDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadDocumentsOutput>())

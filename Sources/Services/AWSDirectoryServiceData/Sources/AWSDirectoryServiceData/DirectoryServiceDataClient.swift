@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryServiceDataClient: ClientRuntime.Client {
     public static let clientName = "DirectoryServiceDataClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryServiceDataClient.DirectoryServiceDataClientConfiguration
     let serviceName = "Directory Service Data"
@@ -417,6 +418,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddGroupMemberInput, AddGroupMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddGroupMemberOutput>(AddGroupMemberOutput.httpOutput(from:), AddGroupMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddGroupMemberInput, AddGroupMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddGroupMemberOutput>())
@@ -491,6 +493,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -565,6 +568,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -640,6 +644,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -715,6 +720,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -788,6 +794,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGroupInput, DescribeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGroupOutput>(DescribeGroupOutput.httpOutput(from:), DescribeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGroupInput, DescribeGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGroupOutput>())
@@ -861,6 +868,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserOutput>())
@@ -936,6 +944,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableUserInput, DisableUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableUserOutput>(DisableUserOutput.httpOutput(from:), DisableUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableUserInput, DisableUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableUserOutput>())
@@ -1009,6 +1018,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupMembersInput, ListGroupMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupMembersOutput>(ListGroupMembersOutput.httpOutput(from:), ListGroupMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupMembersInput, ListGroupMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupMembersOutput>())
@@ -1081,6 +1091,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -1154,6 +1165,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsForMemberInput, ListGroupsForMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsForMemberOutput>(ListGroupsForMemberOutput.httpOutput(from:), ListGroupsForMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsForMemberInput, ListGroupsForMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsForMemberOutput>())
@@ -1226,6 +1238,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -1301,6 +1314,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveGroupMemberInput, RemoveGroupMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveGroupMemberOutput>(RemoveGroupMemberOutput.httpOutput(from:), RemoveGroupMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveGroupMemberInput, RemoveGroupMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveGroupMemberOutput>())
@@ -1373,6 +1387,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchGroupsInput, SearchGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchGroupsOutput>(SearchGroupsOutput.httpOutput(from:), SearchGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchGroupsInput, SearchGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchGroupsOutput>())
@@ -1445,6 +1460,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersInput, SearchUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersOutput>(SearchUsersOutput.httpOutput(from:), SearchUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersInput, SearchUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchUsersOutput>())
@@ -1520,6 +1536,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -1595,6 +1612,7 @@ extension DirectoryServiceDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())

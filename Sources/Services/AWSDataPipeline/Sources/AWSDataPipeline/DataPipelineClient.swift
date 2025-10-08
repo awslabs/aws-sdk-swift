@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataPipelineClient: ClientRuntime.Client {
     public static let clientName = "DataPipelineClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DataPipelineClient.DataPipelineClientConfiguration
     let serviceName = "Data Pipeline"
@@ -410,6 +411,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivatePipelineInput, ActivatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivatePipelineOutput>(ActivatePipelineOutput.httpOutput(from:), ActivatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivatePipelineInput, ActivatePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivatePipelineOutput>())
@@ -481,6 +483,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -550,6 +553,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(CreatePipelineOutput.httpOutput(from:), CreatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineInput, CreatePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipelineOutput>())
@@ -621,6 +625,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivatePipelineOutput>(DeactivatePipelineOutput.httpOutput(from:), DeactivatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivatePipelineOutput>())
@@ -691,6 +696,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(DeletePipelineOutput.httpOutput(from:), DeletePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineInput, DeletePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipelineOutput>())
@@ -762,6 +768,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeObjectsInput, DescribeObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeObjectsOutput>(DescribeObjectsOutput.httpOutput(from:), DescribeObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeObjectsInput, DescribeObjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeObjectsOutput>())
@@ -833,6 +840,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePipelinesInput, DescribePipelinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipelinesOutput>(DescribePipelinesOutput.httpOutput(from:), DescribePipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipelinesInput, DescribePipelinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePipelinesOutput>())
@@ -905,6 +913,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateExpressionOutput>(EvaluateExpressionOutput.httpOutput(from:), EvaluateExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateExpressionOutput>())
@@ -976,6 +985,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPipelineDefinitionOutput>(GetPipelineDefinitionOutput.httpOutput(from:), GetPipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPipelineDefinitionOutput>())
@@ -1045,6 +1055,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelinesInput, ListPipelinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(ListPipelinesOutput.httpOutput(from:), ListPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelinesInput, ListPipelinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelinesOutput>())
@@ -1115,6 +1126,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PollForTaskInput, PollForTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PollForTaskOutput>(PollForTaskOutput.httpOutput(from:), PollForTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PollForTaskInput, PollForTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PollForTaskOutput>())
@@ -1197,6 +1209,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPipelineDefinitionOutput>(PutPipelineDefinitionOutput.httpOutput(from:), PutPipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPipelineDefinitionOutput>())
@@ -1268,6 +1281,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryObjectsInput, QueryObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryObjectsOutput>(QueryObjectsOutput.httpOutput(from:), QueryObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryObjectsInput, QueryObjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryObjectsOutput>())
@@ -1339,6 +1353,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsOutput>())
@@ -1411,6 +1426,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReportTaskProgressOutput>(ReportTaskProgressOutput.httpOutput(from:), ReportTaskProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReportTaskProgressOutput>())
@@ -1480,6 +1496,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReportTaskRunnerHeartbeatOutput>(ReportTaskRunnerHeartbeatOutput.httpOutput(from:), ReportTaskRunnerHeartbeatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReportTaskRunnerHeartbeatOutput>())
@@ -1551,6 +1568,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetStatusInput, SetStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetStatusOutput>(SetStatusOutput.httpOutput(from:), SetStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetStatusInput, SetStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetStatusOutput>())
@@ -1623,6 +1641,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTaskStatusInput, SetTaskStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTaskStatusOutput>(SetTaskStatusOutput.httpOutput(from:), SetTaskStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTaskStatusInput, SetTaskStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetTaskStatusOutput>())
@@ -1694,6 +1713,7 @@ extension DataPipelineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePipelineDefinitionOutput>(ValidatePipelineDefinitionOutput.httpOutput(from:), ValidatePipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidatePipelineDefinitionOutput>())

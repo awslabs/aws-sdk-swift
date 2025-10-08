@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TaxSettingsClient: ClientRuntime.Client {
     public static let clientName = "TaxSettingsClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration
     let serviceName = "TaxSettings"
@@ -409,6 +410,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteTaxRegistrationOutput>(BatchDeleteTaxRegistrationOutput.httpOutput(from:), BatchDeleteTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTaxRegistrationOutput>())
@@ -478,6 +480,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTaxExemptionsOutput>(BatchGetTaxExemptionsOutput.httpOutput(from:), BatchGetTaxExemptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTaxExemptionsOutput>())
@@ -653,6 +656,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutTaxRegistrationOutput>(BatchPutTaxRegistrationOutput.httpOutput(from:), BatchPutTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutTaxRegistrationOutput>())
@@ -723,6 +727,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSupplementalTaxRegistrationOutput>(DeleteSupplementalTaxRegistrationOutput.httpOutput(from:), DeleteSupplementalTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSupplementalTaxRegistrationOutput>())
@@ -793,6 +798,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaxRegistrationOutput>(DeleteTaxRegistrationOutput.httpOutput(from:), DeleteTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaxRegistrationOutput>())
@@ -859,6 +865,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxExemptionTypesOutput>(GetTaxExemptionTypesOutput.httpOutput(from:), GetTaxExemptionTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxExemptionTypesOutput>())
@@ -925,6 +932,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxInheritanceOutput>(GetTaxInheritanceOutput.httpOutput(from:), GetTaxInheritanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxInheritanceOutput>())
@@ -994,6 +1002,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxRegistrationOutput>(GetTaxRegistrationOutput.httpOutput(from:), GetTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxRegistrationOutput>())
@@ -1062,6 +1071,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxRegistrationDocumentOutput>(GetTaxRegistrationDocumentOutput.httpOutput(from:), GetTaxRegistrationDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxRegistrationDocumentOutput>())
@@ -1131,6 +1141,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSupplementalTaxRegistrationsOutput>(ListSupplementalTaxRegistrationsOutput.httpOutput(from:), ListSupplementalTaxRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSupplementalTaxRegistrationsOutput>())
@@ -1200,6 +1211,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaxExemptionsOutput>(ListTaxExemptionsOutput.httpOutput(from:), ListTaxExemptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaxExemptionsOutput>())
@@ -1269,6 +1281,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaxRegistrationsOutput>(ListTaxRegistrationsOutput.httpOutput(from:), ListTaxRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaxRegistrationsOutput>())
@@ -1338,6 +1351,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSupplementalTaxRegistrationOutput>(PutSupplementalTaxRegistrationOutput.httpOutput(from:), PutSupplementalTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSupplementalTaxRegistrationOutput>())
@@ -1410,6 +1424,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxExemptionOutput>(PutTaxExemptionOutput.httpOutput(from:), PutTaxExemptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxExemptionOutput>())
@@ -1480,6 +1495,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxInheritanceOutput>(PutTaxInheritanceOutput.httpOutput(from:), PutTaxInheritanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxInheritanceOutput>())
@@ -1655,6 +1671,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxRegistrationOutput>(PutTaxRegistrationOutput.httpOutput(from:), PutTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxRegistrationOutput>())
