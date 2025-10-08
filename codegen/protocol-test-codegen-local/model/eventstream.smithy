@@ -1,3 +1,4 @@
+$version: "2"
 namespace aws.protocoltests.eventstream
 
 use aws.protocols#restJson1
@@ -37,6 +38,18 @@ structure TestStruct {
     someInt: Integer,
 }
 
+enum TestEnum {
+    A
+    B
+    C
+}
+
+intEnum TestIntEnum {
+    A = 0
+    B = 1
+    C = 2
+}
+
 structure MessageWithBlob { @eventPayload data: Blob }
 
 structure MessageWithString { @eventPayload data: String }
@@ -50,9 +63,11 @@ structure MessageWithHeaders {
     @eventHeader boolean: Boolean,
     @eventHeader byte: Byte,
     @eventHeader int: Integer,
+    @eventHeader intEnum: TestIntEnum,
     @eventHeader long: Long,
     @eventHeader short: Short,
     @eventHeader string: String,
+    @eventHeader enum: TestEnum,
     @eventHeader timestamp: Timestamp,
 }
 structure MessageWithHeaderAndPayload {
