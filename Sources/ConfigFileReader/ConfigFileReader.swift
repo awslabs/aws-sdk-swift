@@ -36,6 +36,8 @@ public struct ConfigFileReader {
         var sections = ["default": currentSection]
         var currentSubsectionName: String? // Keep track of current subsection name
         let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
+        let sessionSection = try! NSRegularExpression(pattern: "\\[sso-session\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern to match any line containing "sso-session"
+        let servicesSection = try! NSRegularExpression(pattern: "\\[services\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern to match any line containing "services"
         
         for line in arrayConfigData{
             if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") {
@@ -46,8 +48,8 @@ public struct ConfigFileReader {
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
                 // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[profile\\s(.+?)\\]", options: .regularExpression),
-                   let profileNameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
-                    let sectionName = String(line[profileNameRange].dropFirst().dropLast()) // Remove space and ']'
+                   let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
+                    let sectionName = String(line[NameRange].dropFirst().dropLast()) // Remove space and ']'
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSection = section
@@ -57,6 +59,26 @@ public struct ConfigFileReader {
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSection = section
+                }
+            case _ where sessionSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
+                // Extract the profile name using another regex or string manipulation
+                if let range = line.range(of: "\\[sso-session\\s(.+?)\\]", options: .regularExpression),
+                   let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
+                    let sectionName = String(line[NameRange].dropFirst().dropLast()) // Remove space and ']'
+                    let section = ConfigFileSection(name: sectionName)
+                    sections[sectionName] = section
+                    currentSection = section
+                    print("Found new session: \(sectionName)") // For demonstration
+                }
+            case _ where servicesSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
+                // Extract the profile name using another regex or string manipulation
+                if let range = line.range(of: "\\[services\\s(.+?)\\]", options: .regularExpression),
+                   let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
+                    let sectionName = String(line[NameRange].dropFirst().dropLast()) // Remove space and ']'
+                    let section = ConfigFileSection(name: sectionName)
+                    sections[sectionName] = section
+                    currentSection = section
+                    print("Found new service: \(sectionName)") // For demonstration
                 }
             case _ where line.contains("="):
                 //Identify properties under section
@@ -89,8 +111,6 @@ public struct ConfigFileReader {
                         print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection))")
                     }
                 }
-//            case _ where line.trimmingCharacters(in: .whitespaces).hasPrefix("#"):
-//                // this is a comment line
                 break
             default:
                 print("Unrecognized line: \"\(line)\"")

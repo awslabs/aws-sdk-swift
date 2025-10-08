@@ -42,11 +42,13 @@ final class ConfigFileReaderTests: XCTestCase {
         // act
         let sections = [
             subject?.section(for: "default"),
-            subject?.section(for: "business-casual")
+            subject?.section(for: "business-casual"),
+            subject?.section(for: "my-session"),
+            subject?.section(for: "my-services-config")
         ].compactMap { $0 }
 
         // assert
-        XCTAssertTrue(sections.count == 2)
+        XCTAssertTrue(sections.count == 4)
     }
 
 
@@ -70,5 +72,27 @@ final class ConfigFileReaderTests: XCTestCase {
 
         // assert
         XCTAssertEqual(region, "ap-southeast-2")
+    }
+    
+    func test_readsSessionSection() async throws {
+        // arrange
+        let subject = try await TestSubject.constructor(exampleConfigFilePath, nil)
+
+        // act
+        let region = subject?.section(for: "my-session")?.string(for: "region")
+
+        // assert
+        XCTAssertEqual(region, "us-west-3")
+    }
+
+    func test_readsServicesSection() async throws {
+        // arrange
+        let subject = try await TestSubject.constructor(exampleConfigFilePath, nil)
+
+        // act
+        let region = subject?.section(for: "my-services-config")?.string(for: "region")
+
+        // assert
+        XCTAssertEqual(region, "ap-southwest-4")
     }
 }

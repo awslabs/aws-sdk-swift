@@ -5,3 +5,9 @@ region = us-east-1
 
 [profile business-casual]
 region = ap-southeast-2
+
+[sso-session my-session]
+region = us-west-3
+
+[services my-services-config]
+region = ap-southwest-4
