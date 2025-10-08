@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoRoutesClient: ClientRuntime.Client {
     public static let clientName = "GeoRoutesClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoRoutesClient.GeoRoutesClientConfiguration
     let serviceName = "Geo Routes"
@@ -412,6 +413,7 @@ extension GeoRoutesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CalculateIsolinesInput, CalculateIsolinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CalculateIsolinesOutput>(CalculateIsolinesOutput.httpOutput(from:), CalculateIsolinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CalculateIsolinesInput, CalculateIsolinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CalculateIsolinesOutput>())
@@ -483,6 +485,7 @@ extension GeoRoutesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CalculateRouteMatrixInput, CalculateRouteMatrixOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CalculateRouteMatrixOutput>(CalculateRouteMatrixOutput.httpOutput(from:), CalculateRouteMatrixOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CalculateRouteMatrixInput, CalculateRouteMatrixOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CalculateRouteMatrixOutput>())
@@ -554,6 +557,7 @@ extension GeoRoutesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CalculateRoutesInput, CalculateRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CalculateRoutesOutput>(CalculateRoutesOutput.httpOutput(from:), CalculateRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CalculateRoutesInput, CalculateRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CalculateRoutesOutput>())
@@ -625,6 +629,7 @@ extension GeoRoutesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<OptimizeWaypointsInput, OptimizeWaypointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<OptimizeWaypointsOutput>(OptimizeWaypointsOutput.httpOutput(from:), OptimizeWaypointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<OptimizeWaypointsInput, OptimizeWaypointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<OptimizeWaypointsOutput>())
@@ -696,6 +701,7 @@ extension GeoRoutesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SnapToRoadsInput, SnapToRoadsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SnapToRoadsOutput>(SnapToRoadsOutput.httpOutput(from:), SnapToRoadsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SnapToRoadsInput, SnapToRoadsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SnapToRoadsOutput>())

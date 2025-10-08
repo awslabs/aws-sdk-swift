@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ARCZonalShiftClient: ClientRuntime.Client {
     public static let clientName = "ARCZonalShiftClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCZonalShiftClient.ARCZonalShiftClientConfiguration
     let serviceName = "ARC Zonal Shift"
@@ -411,6 +412,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelPracticeRunInput, CancelPracticeRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelPracticeRunOutput>(CancelPracticeRunOutput.httpOutput(from:), CancelPracticeRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelPracticeRunInput, CancelPracticeRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelPracticeRunOutput>())
@@ -480,6 +482,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelZonalShiftInput, CancelZonalShiftOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelZonalShiftOutput>(CancelZonalShiftOutput.httpOutput(from:), CancelZonalShiftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelZonalShiftInput, CancelZonalShiftOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelZonalShiftOutput>())
@@ -552,6 +555,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePracticeRunConfigurationInput, CreatePracticeRunConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePracticeRunConfigurationOutput>(CreatePracticeRunConfigurationOutput.httpOutput(from:), CreatePracticeRunConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePracticeRunConfigurationInput, CreatePracticeRunConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePracticeRunConfigurationOutput>())
@@ -621,6 +625,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePracticeRunConfigurationInput, DeletePracticeRunConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePracticeRunConfigurationOutput>(DeletePracticeRunConfigurationOutput.httpOutput(from:), DeletePracticeRunConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePracticeRunConfigurationInput, DeletePracticeRunConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePracticeRunConfigurationOutput>())
@@ -687,6 +692,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutoshiftObserverNotificationStatusOutput>(GetAutoshiftObserverNotificationStatusOutput.httpOutput(from:), GetAutoshiftObserverNotificationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutoshiftObserverNotificationStatusInput, GetAutoshiftObserverNotificationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutoshiftObserverNotificationStatusOutput>())
@@ -755,6 +761,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedResourceInput, GetManagedResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedResourceOutput>(GetManagedResourceOutput.httpOutput(from:), GetManagedResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedResourceInput, GetManagedResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedResourceOutput>())
@@ -823,6 +830,7 @@ extension ARCZonalShiftClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutoshiftsInput, ListAutoshiftsOutput>(ListAutoshiftsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutoshiftsOutput>(ListAutoshiftsOutput.httpOutput(from:), ListAutoshiftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutoshiftsInput, ListAutoshiftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutoshiftsOutput>())
@@ -891,6 +899,7 @@ extension ARCZonalShiftClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedResourcesInput, ListManagedResourcesOutput>(ListManagedResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedResourcesOutput>(ListManagedResourcesOutput.httpOutput(from:), ListManagedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedResourcesInput, ListManagedResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedResourcesOutput>())
@@ -959,6 +968,7 @@ extension ARCZonalShiftClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListZonalShiftsInput, ListZonalShiftsOutput>(ListZonalShiftsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListZonalShiftsOutput>(ListZonalShiftsOutput.httpOutput(from:), ListZonalShiftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListZonalShiftsInput, ListZonalShiftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListZonalShiftsOutput>())
@@ -1031,6 +1041,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPracticeRunInput, StartPracticeRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPracticeRunOutput>(StartPracticeRunOutput.httpOutput(from:), StartPracticeRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPracticeRunInput, StartPracticeRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPracticeRunOutput>())
@@ -1114,6 +1125,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartZonalShiftInput, StartZonalShiftOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartZonalShiftOutput>(StartZonalShiftOutput.httpOutput(from:), StartZonalShiftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartZonalShiftInput, StartZonalShiftOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartZonalShiftOutput>())
@@ -1184,6 +1196,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>(UpdateAutoshiftObserverNotificationStatusOutput.httpOutput(from:), UpdateAutoshiftObserverNotificationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutoshiftObserverNotificationStatusInput, UpdateAutoshiftObserverNotificationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutoshiftObserverNotificationStatusOutput>())
@@ -1256,6 +1269,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePracticeRunConfigurationInput, UpdatePracticeRunConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePracticeRunConfigurationOutput>(UpdatePracticeRunConfigurationOutput.httpOutput(from:), UpdatePracticeRunConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePracticeRunConfigurationInput, UpdatePracticeRunConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePracticeRunConfigurationOutput>())
@@ -1328,6 +1342,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateZonalAutoshiftConfigurationInput, UpdateZonalAutoshiftConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateZonalAutoshiftConfigurationOutput>(UpdateZonalAutoshiftConfigurationOutput.httpOutput(from:), UpdateZonalAutoshiftConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateZonalAutoshiftConfigurationInput, UpdateZonalAutoshiftConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateZonalAutoshiftConfigurationOutput>())
@@ -1400,6 +1415,7 @@ extension ARCZonalShiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateZonalShiftInput, UpdateZonalShiftOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateZonalShiftOutput>(UpdateZonalShiftOutput.httpOutput(from:), UpdateZonalShiftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateZonalShiftInput, UpdateZonalShiftOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateZonalShiftOutput>())

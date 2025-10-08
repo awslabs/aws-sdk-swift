@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubClient.MigrationHubClientConfiguration
     let serviceName = "Migration Hub"
@@ -421,6 +422,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCreatedArtifactOutput>(AssociateCreatedArtifactOutput.httpOutput(from:), AssociateCreatedArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCreatedArtifactOutput>())
@@ -498,6 +500,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDiscoveredResourceOutput>(AssociateDiscoveredResourceOutput.httpOutput(from:), AssociateDiscoveredResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDiscoveredResourceOutput>())
@@ -573,6 +576,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceResourceOutput>(AssociateSourceResourceOutput.httpOutput(from:), AssociateSourceResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceResourceOutput>())
@@ -648,6 +652,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProgressUpdateStreamOutput>(CreateProgressUpdateStreamOutput.httpOutput(from:), CreateProgressUpdateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProgressUpdateStreamOutput>())
@@ -734,6 +739,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProgressUpdateStreamOutput>(DeleteProgressUpdateStreamOutput.httpOutput(from:), DeleteProgressUpdateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProgressUpdateStreamOutput>())
@@ -809,6 +815,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationStateOutput>(DescribeApplicationStateOutput.httpOutput(from:), DescribeApplicationStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationStateOutput>())
@@ -883,6 +890,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMigrationTaskOutput>(DescribeMigrationTaskOutput.httpOutput(from:), DescribeMigrationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMigrationTaskOutput>())
@@ -965,6 +973,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCreatedArtifactOutput>(DisassociateCreatedArtifactOutput.httpOutput(from:), DisassociateCreatedArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCreatedArtifactOutput>())
@@ -1041,6 +1050,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDiscoveredResourceOutput>(DisassociateDiscoveredResourceOutput.httpOutput(from:), DisassociateDiscoveredResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDiscoveredResourceOutput>())
@@ -1116,6 +1126,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceResourceOutput>(DisassociateSourceResourceOutput.httpOutput(from:), DisassociateSourceResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceResourceOutput>())
@@ -1192,6 +1203,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportMigrationTaskOutput>(ImportMigrationTaskOutput.httpOutput(from:), ImportMigrationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportMigrationTaskOutput>())
@@ -1265,6 +1277,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationStatesOutput>(ListApplicationStatesOutput.httpOutput(from:), ListApplicationStatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationStatesOutput>())
@@ -1345,6 +1358,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCreatedArtifactsOutput>(ListCreatedArtifactsOutput.httpOutput(from:), ListCreatedArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCreatedArtifactsOutput>())
@@ -1419,6 +1433,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDiscoveredResourcesOutput>(ListDiscoveredResourcesOutput.httpOutput(from:), ListDiscoveredResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredResourcesOutput>())
@@ -1492,6 +1507,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMigrationTaskUpdatesOutput>(ListMigrationTaskUpdatesOutput.httpOutput(from:), ListMigrationTaskUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMigrationTaskUpdatesOutput>())
@@ -1573,6 +1589,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMigrationTasksOutput>(ListMigrationTasksOutput.httpOutput(from:), ListMigrationTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMigrationTasksOutput>())
@@ -1646,6 +1663,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProgressUpdateStreamsOutput>(ListProgressUpdateStreamsOutput.httpOutput(from:), ListProgressUpdateStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProgressUpdateStreamsOutput>())
@@ -1719,6 +1737,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceResourcesOutput>(ListSourceResourcesOutput.httpOutput(from:), ListSourceResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceResourcesOutput>())
@@ -1796,6 +1815,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyApplicationStateOutput>(NotifyApplicationStateOutput.httpOutput(from:), NotifyApplicationStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyApplicationStateOutput>())
@@ -1878,6 +1898,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyMigrationTaskStateOutput>(NotifyMigrationTaskStateOutput.httpOutput(from:), NotifyMigrationTaskStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyMigrationTaskStateOutput>())
@@ -1961,6 +1982,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourceAttributesOutput>(PutResourceAttributesOutput.httpOutput(from:), PutResourceAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourceAttributesOutput>())

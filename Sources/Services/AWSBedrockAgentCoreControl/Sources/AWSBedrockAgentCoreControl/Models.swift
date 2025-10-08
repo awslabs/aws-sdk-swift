@@ -2485,11 +2485,13 @@ public struct ListCodeInterpretersOutput: Swift.Sendable {
 extension BedrockAgentCoreControlClientTypes {
 
     public enum AuthorizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsIam
         case customJwt
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthorizerType] {
             return [
+                .awsIam,
                 .customJwt
             ]
         }
@@ -2501,6 +2503,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsIam: return "AWS_IAM"
             case .customJwt: return "CUSTOM_JWT"
             case let .sdkUnknown(s): return s
             }
@@ -2621,7 +2624,6 @@ extension BedrockAgentCoreControlClientTypes {
 
 public struct CreateGatewayInput: Swift.Sendable {
     /// The authorizer configuration for the gateway.
-    /// This member is required.
     public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
     /// The type of authorizer to use for the gateway.
     /// This member is required.
@@ -3042,7 +3044,6 @@ public struct ListGatewaysOutput: Swift.Sendable {
 
 public struct UpdateGatewayInput: Swift.Sendable {
     /// The updated authorizer configuration for the gateway.
-    /// This member is required.
     public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
     /// The updated authorizer type for the gateway.
     /// This member is required.

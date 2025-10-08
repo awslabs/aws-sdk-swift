@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SocialMessagingClient: ClientRuntime.Client {
     public static let clientName = "SocialMessagingClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SocialMessagingClient.SocialMessagingClientConfiguration
     let serviceName = "SocialMessaging"
@@ -414,6 +415,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWhatsAppBusinessAccountInput, AssociateWhatsAppBusinessAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWhatsAppBusinessAccountOutput>(AssociateWhatsAppBusinessAccountOutput.httpOutput(from:), AssociateWhatsAppBusinessAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWhatsAppBusinessAccountInput, AssociateWhatsAppBusinessAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWhatsAppBusinessAccountOutput>())
@@ -487,6 +489,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateOutput>(CreateWhatsAppMessageTemplateOutput.httpOutput(from:), CreateWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateOutput>())
@@ -560,6 +563,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput>(CreateWhatsAppMessageTemplateFromLibraryOutput.httpOutput(from:), CreateWhatsAppMessageTemplateFromLibraryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput>())
@@ -633,6 +637,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateMediaOutput>(CreateWhatsAppMessageTemplateMediaOutput.httpOutput(from:), CreateWhatsAppMessageTemplateMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateMediaOutput>())
@@ -705,6 +710,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWhatsAppMessageMediaInput, DeleteWhatsAppMessageMediaOutput>(DeleteWhatsAppMessageMediaInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatsAppMessageMediaOutput>(DeleteWhatsAppMessageMediaOutput.httpOutput(from:), DeleteWhatsAppMessageMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatsAppMessageMediaInput, DeleteWhatsAppMessageMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatsAppMessageMediaOutput>())
@@ -776,6 +782,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(DeleteWhatsAppMessageTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatsAppMessageTemplateOutput>(DeleteWhatsAppMessageTemplateOutput.httpOutput(from:), DeleteWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatsAppMessageTemplateOutput>())
@@ -846,6 +853,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateWhatsAppBusinessAccountInput, DisassociateWhatsAppBusinessAccountOutput>(DisassociateWhatsAppBusinessAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWhatsAppBusinessAccountOutput>(DisassociateWhatsAppBusinessAccountOutput.httpOutput(from:), DisassociateWhatsAppBusinessAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWhatsAppBusinessAccountInput, DisassociateWhatsAppBusinessAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWhatsAppBusinessAccountOutput>())
@@ -917,6 +925,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLinkedWhatsAppBusinessAccountInput, GetLinkedWhatsAppBusinessAccountOutput>(GetLinkedWhatsAppBusinessAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinkedWhatsAppBusinessAccountOutput>(GetLinkedWhatsAppBusinessAccountOutput.httpOutput(from:), GetLinkedWhatsAppBusinessAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinkedWhatsAppBusinessAccountInput, GetLinkedWhatsAppBusinessAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinkedWhatsAppBusinessAccountOutput>())
@@ -988,6 +997,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberInput, GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>(GetLinkedWhatsAppBusinessAccountPhoneNumberInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>(GetLinkedWhatsAppBusinessAccountPhoneNumberOutput.httpOutput(from:), GetLinkedWhatsAppBusinessAccountPhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberInput, GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>())
@@ -1062,6 +1072,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWhatsAppMessageMediaInput, GetWhatsAppMessageMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWhatsAppMessageMediaOutput>(GetWhatsAppMessageMediaOutput.httpOutput(from:), GetWhatsAppMessageMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWhatsAppMessageMediaInput, GetWhatsAppMessageMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWhatsAppMessageMediaOutput>())
@@ -1133,6 +1144,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(GetWhatsAppMessageTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWhatsAppMessageTemplateOutput>(GetWhatsAppMessageTemplateOutput.httpOutput(from:), GetWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWhatsAppMessageTemplateOutput>())
@@ -1203,6 +1215,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLinkedWhatsAppBusinessAccountsInput, ListLinkedWhatsAppBusinessAccountsOutput>(ListLinkedWhatsAppBusinessAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLinkedWhatsAppBusinessAccountsOutput>(ListLinkedWhatsAppBusinessAccountsOutput.httpOutput(from:), ListLinkedWhatsAppBusinessAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLinkedWhatsAppBusinessAccountsInput, ListLinkedWhatsAppBusinessAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLinkedWhatsAppBusinessAccountsOutput>())
@@ -1272,6 +1285,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1343,6 +1357,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(ListWhatsAppMessageTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatsAppMessageTemplatesOutput>(ListWhatsAppMessageTemplatesOutput.httpOutput(from:), ListWhatsAppMessageTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatsAppMessageTemplatesOutput>())
@@ -1417,6 +1432,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatsAppTemplateLibraryOutput>(ListWhatsAppTemplateLibraryOutput.httpOutput(from:), ListWhatsAppTemplateLibraryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatsAppTemplateLibraryOutput>())
@@ -1491,6 +1507,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostWhatsAppMessageMediaInput, PostWhatsAppMessageMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PostWhatsAppMessageMediaOutput>(PostWhatsAppMessageMediaOutput.httpOutput(from:), PostWhatsAppMessageMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostWhatsAppMessageMediaInput, PostWhatsAppMessageMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostWhatsAppMessageMediaOutput>())
@@ -1562,6 +1579,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutWhatsAppBusinessAccountEventDestinationsInput, PutWhatsAppBusinessAccountEventDestinationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutWhatsAppBusinessAccountEventDestinationsOutput>(PutWhatsAppBusinessAccountEventDestinationsOutput.httpOutput(from:), PutWhatsAppBusinessAccountEventDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutWhatsAppBusinessAccountEventDestinationsInput, PutWhatsAppBusinessAccountEventDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutWhatsAppBusinessAccountEventDestinationsOutput>())
@@ -1635,6 +1653,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendWhatsAppMessageInput, SendWhatsAppMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendWhatsAppMessageOutput>(SendWhatsAppMessageOutput.httpOutput(from:), SendWhatsAppMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendWhatsAppMessageInput, SendWhatsAppMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendWhatsAppMessageOutput>())
@@ -1706,6 +1725,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1777,6 +1797,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1850,6 +1871,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWhatsAppMessageTemplateOutput>(UpdateWhatsAppMessageTemplateOutput.httpOutput(from:), UpdateWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWhatsAppMessageTemplateOutput>())

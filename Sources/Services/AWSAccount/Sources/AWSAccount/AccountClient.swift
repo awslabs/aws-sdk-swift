@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AccountClient: ClientRuntime.Client {
     public static let clientName = "AccountClient"
-    public static let version = "1.5.58"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: AccountClient.AccountClientConfiguration
     let serviceName = "Account"
@@ -413,6 +414,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptPrimaryEmailUpdateOutput>(AcceptPrimaryEmailUpdateOutput.httpOutput(from:), AcceptPrimaryEmailUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptPrimaryEmailUpdateOutput>())
@@ -484,6 +486,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlternateContactOutput>(DeleteAlternateContactOutput.httpOutput(from:), DeleteAlternateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlternateContactOutput>())
@@ -555,6 +558,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableRegionInput, DisableRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableRegionOutput>(DisableRegionOutput.httpOutput(from:), DisableRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableRegionInput, DisableRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableRegionOutput>())
@@ -626,6 +630,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableRegionInput, EnableRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableRegionOutput>(EnableRegionOutput.httpOutput(from:), EnableRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableRegionInput, EnableRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableRegionOutput>())
@@ -696,6 +701,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountInformationInput, GetAccountInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountInformationOutput>(GetAccountInformationOutput.httpOutput(from:), GetAccountInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountInformationInput, GetAccountInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountInformationOutput>())
@@ -767,6 +773,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAlternateContactInput, GetAlternateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAlternateContactOutput>(GetAlternateContactOutput.httpOutput(from:), GetAlternateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAlternateContactInput, GetAlternateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAlternateContactOutput>())
@@ -838,6 +845,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactInformationInput, GetContactInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactInformationOutput>(GetContactInformationOutput.httpOutput(from:), GetContactInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactInformationInput, GetContactInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactInformationOutput>())
@@ -909,6 +917,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrimaryEmailOutput>(GetPrimaryEmailOutput.httpOutput(from:), GetPrimaryEmailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPrimaryEmailOutput>())
@@ -979,6 +988,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegionOptStatusInput, GetRegionOptStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegionOptStatusOutput>(GetRegionOptStatusOutput.httpOutput(from:), GetRegionOptStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegionOptStatusInput, GetRegionOptStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegionOptStatusOutput>())
@@ -1049,6 +1059,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegionsInput, ListRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegionsOutput>(ListRegionsOutput.httpOutput(from:), ListRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegionsInput, ListRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegionsOutput>())
@@ -1119,6 +1130,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountNameInput, PutAccountNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountNameOutput>(PutAccountNameOutput.httpOutput(from:), PutAccountNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountNameInput, PutAccountNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountNameOutput>())
@@ -1189,6 +1201,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAlternateContactInput, PutAlternateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAlternateContactOutput>(PutAlternateContactOutput.httpOutput(from:), PutAlternateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAlternateContactInput, PutAlternateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAlternateContactOutput>())
@@ -1259,6 +1272,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutContactInformationInput, PutContactInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutContactInformationOutput>(PutContactInformationOutput.httpOutput(from:), PutContactInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutContactInformationInput, PutContactInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutContactInformationOutput>())
@@ -1331,6 +1345,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPrimaryEmailUpdateOutput>(StartPrimaryEmailUpdateOutput.httpOutput(from:), StartPrimaryEmailUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPrimaryEmailUpdateOutput>())
